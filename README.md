@@ -19,6 +19,6 @@ git lfs pull
 
 训练时只把历史 `prompt`、当前 `completion` 和 `tools` 送入相应训练适配器；语义审核、分组与来源等外部元数据不是历史输入。只对当前 completion 计算损失，工具结果与历史上下文不作为监督目标。需先按实际目标 tokenizer 检查长度和工具模板，不静默截断程序或上下文。
 
-完整原始证据、历史修订、费用、隔离数据和全部校验将在同一私有仓库的 [`codex/wrd-training-data-20261025`](https://github.com/jiaotangbuding177/WRD_dataset/tree/codex/wrd-training-data-20261025) 分支交付。该完整上传仍在进行时，快速入口不代表全量证据已经上传完成。
+完整证据包现已上传并核验完成：12 个 LFS 分片，共 3,018,378,417 字节。完整原始证据、历史修订、费用、隔离数据和全部校验位于同一私有仓库的 [`codex/wrd-training-data-20261025`](https://github.com/jiaotangbuding177/WRD_dataset/tree/codex/wrd-training-data-20261025) 分支；请查看[完整包说明](https://github.com/jiaotangbuding177/WRD_dataset/blob/codex/wrd-training-data-20261025/README.md)和[分片清单](https://github.com/jiaotangbuding177/WRD_dataset/blob/codex/wrd-training-data-20261025/package_manifest.json)。快速入口与完整包使用相同的 core7 候选数据。
 
 本仓库包含企业领域材料，应保持私有。
