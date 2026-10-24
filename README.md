@@ -1,0 +1,37 @@
+# WRD 全链路训练数据包
+
+面向 7B—9B 技能构建模型。完整企业语义材料，仅限用户指定私有仓库使用。数据由已有记录离线整理；没有重新生成技能、调用教师或启动训练。
+
+首先阅读 `DATA_CARD.md`、`PLAN.md` 和 `summary.json`。本包的目标是学习路线发现、技能与资源制作以及反馈修订；业务 Actor 记录单独保留。
+
+7B—9B 后续训练优先读取 `datasets/native_actions_core7.train.jsonl.gz`：6774条已校验动作采用统一的固定镜像7核心工具定义，避免按每条目标工具裁剪可选集合。它与 `native_actions.train.jsonl.gz` 是同一批样本的两种表示，不重复计数或拼接。实际loss mask和token长度需在选定模型后编译。
+
+- `archive/`：内容寻址归档。`file_index.jsonl` 把原来源、全部尝试、初始输入、资源版本、产物和费用映射到 `objects/`，同字节内容只存一份；`source_sha256` 与 `sha256` 区分原件和经过凭据清理的打包字节。
+- `catalog/`：作业、路线、episode、来源附件和原状态表，保留失败、引用、未知及历史条件。
+- `canonical/`：原生会话过程；隐藏思考不作为监督答案。
+- `datasets/`：真实历史前缀与下一动作候选、最终答复候选及辅助记录，具体名称和数量见 `summary.json`。候选证据等级与适用范围按每行字段读取，不能把所有文件混成同一正例集。
+- `training_audit/`：过滤理由、动作定位与待语义审核记录；`TRAINING_VALIDATION.json` 是全量历史前缀、目标和文件匹配的一致性核验结果。
+- `quarantine/late_skill_versions/`：后续12类部署库、8份轻修和4份接口修正版，作为版本证据保留；这些版本可能接触正式评测反馈，已从主要训练与独立测试隔离。
+- `splits/`：连通组与正式评测隔离说明。现有全链路存在跨来源、跨路线传播，严格分组后不能据随机动作切分声称独立验证。
+- `skills/retained29/`：最终保留技能的原样副本，与原 154 文件清单核对；不是把全部历史制作都批准为训练 gold。
+
+分片包的恢复和完整性检查：
+
+```text
+git lfs install
+git clone --branch codex/wrd-training-data-20261025 https://github.com/jiaotangbuding177/WRD_dataset
+cd WRD_dataset
+git lfs pull
+python tools/delivery.py unpack --release . --output ./unpacked
+python tools/delivery.py validate --bundle ./unpacked
+```
+
+将某条原生会话的工作区恢复到新目录：
+
+```text
+python tools/materialize.py --bundle ./unpacked --prefix episodes/ep_ID/workspace --output ./workspace
+```
+
+用 `catalog/episodes.jsonl` 查询真实 `episode_id`。恢复只读取包内对象，不依赖原来的 D/E 盘；原目录字符串作为历史证据保留。运行历史脚本不属于解包步骤。
+
+后续先选择具体学生和 tokenizer，对拟用候选做语义复核、实际长度与训练模板编译，再开展有界 SFT。完整保留上下文；不能静默截断程序、工具结果或依赖前文。教师历史不是当前小模型的在线 GRPO 样本，跨修订不同前缀也不是现成 DPO 配对。
