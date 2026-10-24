@@ -1,5 +1,27 @@
 # WRD 全链路训练数据包
 
+直接训练入口另放在 `training/native_actions_core7.train.jsonl.gz`（约200MB），与完整包的推荐core7数据逐字节一致。`QUICK_TRAINING_MANIFEST.json` 绑定SHA和样本数，`TRAINING_VALIDATION.json`、`UNIFORM_TOOLS_VALIDATION.json` 可直接在仓库审阅。完整证据包保留在 `dist/`。
+
+仅下载训练入口时，可跳过完整证据分片。PowerShell：
+
+```powershell
+$env:GIT_LFS_SKIP_SMUDGE='1'
+git clone --branch codex/wrd-training-data-20261025 https://github.com/jiaotangbuding177/WRD_dataset
+$env:GIT_LFS_SKIP_SMUDGE=$null
+cd WRD_dataset
+git lfs pull --include="training/native_actions_core7.train.jsonl.gz" --exclude="dist/*"
+```
+
+Linux：
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone --branch codex/wrd-training-data-20261025 https://github.com/jiaotangbuding177/WRD_dataset
+cd WRD_dataset
+git lfs pull --include="training/native_actions_core7.train.jsonl.gz" --exclude="dist/*"
+```
+
+需要复现输入、资源版本或完整过程时，再拉取 `dist/*` 并按下文解包。训练文件的额外远端回执见 `QUICK_UPLOAD_RECEIPT.json`；它与完整包中的同源动作不重复计数。
+
 面向 7B—9B 技能构建模型。完整企业语义材料，仅限用户指定私有仓库使用。数据由已有记录离线整理；没有重新生成技能、调用教师或启动训练。
 
 首先阅读 `DATA_CARD.md`、`PLAN.md` 和 `summary.json`。本包的目标是学习路线发现、技能与资源制作以及反馈修订；业务 Actor 记录单独保留。
