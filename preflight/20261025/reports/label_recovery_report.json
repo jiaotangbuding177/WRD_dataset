@@ -1,0 +1,113 @@
+{
+  "schema_version": "wrd-label-recovery-report-v1",
+  "status": "PASS",
+  "scope": "offline exact provenance, schema adaptation and recorded decision extraction only; not semantic gold approval",
+  "contains_restricted_working_text": true,
+  "safe_to_publish_as_is": false,
+  "counts": {
+    "terminal_exact_verified": 347,
+    "terminal_standard_core7": 343,
+    "terminal_standard_core7_make": 278,
+    "terminal_standard_core7_screen": 65,
+    "terminal_noncore_schema_quarantine": 4,
+    "screen_target_call_read": 200,
+    "screen_target_call_exec": 337,
+    "screen_target_call_write": 36,
+    "screen_route_write_parent_actions": 36,
+    "screen_write_decision_subtargets": 546,
+    "screen_target_call_ls": 1,
+    "screen_write_distinct_source_ids": 546,
+    "screen_final_route_artifacts": 63,
+    "screen_final_artifact_decisions": 1292,
+    "screen_final_artifact_routes": 661,
+    "screen_final_routes_artifact_missing": 2
+  },
+  "terminal_native_counts_by_kind": {
+    "make": 282,
+    "screen": 65
+  },
+  "screen_write_target_decision_actions": {
+    "reuse": 470,
+    "new": 48,
+    "defer": 13,
+    "no_value": 15
+  },
+  "screen_final_artifact_decision_actions": {
+    "new": 195,
+    "defer": 105,
+    "no_value": 32,
+    "reuse": 951,
+    "skip": 9
+  },
+  "failures": [],
+  "outputs": [
+    {
+      "path": "terminal_candidates.core7.jsonl.gz",
+      "rows": 343,
+      "bytes": 14474938,
+      "sha256": "dd9d822ab3a3fa234da3ee39a63dbf67bdfbd30fdd31aa7d5ce11d800046873a"
+    },
+    {
+      "path": "terminal_candidates.quarantine.jsonl.gz",
+      "rows": 4,
+      "bytes": 162499,
+      "sha256": "e42f40713a2df637ddcfb9109592a46605f21b0769250d5769badc86c4ee1560"
+    },
+    {
+      "path": "terminal_audit.jsonl",
+      "rows": 347,
+      "bytes": 275078,
+      "sha256": "1c4ffaf80b57538853f6aba05751a8e8b1bf8969bf0e2062be3a1eec4ea0635c"
+    },
+    {
+      "path": "screen_write_decisions.jsonl",
+      "rows": 546,
+      "bytes": 603888,
+      "sha256": "4e678ef141e9b0ae53d1ad2aa9b2d7b89fbed02784d11f0ff62edfb78f8fcc02"
+    },
+    {
+      "path": "screen_artifact_decisions.jsonl",
+      "rows": 1292,
+      "bytes": 1269619,
+      "sha256": "a8201e0e6dce96ed38caf85c437355c7fe2168421871e03d6ccd8c57d0dc1fc1"
+    },
+    {
+      "path": "screen_artifact_routes.jsonl",
+      "rows": 661,
+      "bytes": 1139191,
+      "sha256": "80e5795288356a56df8244272c1b8b75cc10bb24b07479820666bf09a2ca98bf"
+    },
+    {
+      "path": "screen_artifacts_index.jsonl",
+      "rows": 65,
+      "bytes": 40304,
+      "sha256": "7c896a768f446bbbf39845f2e9c20c87260910ed1bf202b390b0878a3c82ad0d"
+    },
+    {
+      "path": "screen_action_review_packets.jsonl",
+      "rows": 100,
+      "bytes": 2948146,
+      "sha256": "6d89adae64730a9daf48360bb94a1213776ed81b97db6dfc97fbfb27fadd6a7a"
+    }
+  ],
+  "input_sha256_before": {
+    "D:/skillloop/output/20261025_wrd_training_dataset/bundle/datasets/final_candidates.train.jsonl.gz": "d486b3c93efadc63714d0024f77b9c29b3e01c8d143d17cbb2627763cd5f3568",
+    "D:/skillloop/output/20261025_wrd_training_dataset/bundle/datasets/native_actions_core7.train.jsonl.gz": "bf940e8a84be187b6da3288b3d13fff59ee61c10cd2849ddf126bec3ba95e885",
+    "D:/skillloop/output/20261025_wrd_training_dataset/bundle/canonical/native_episodes.jsonl.gz": "5226a87a411ef3c8c2cff6ec7e01563e4fbfef7ef690f5a7caa458653fe15b92",
+    "D:/skillloop/output/20261025_wrd_training_dataset/bundle/archive/file_index.jsonl": "5dd07262cb4252bf3a818648eebb72edb89bc964ecc11b48316a94eef8bb162a",
+    "D:/skillloop/research/data_prep/wrd_training/resources/native_coding_tools_97a0.json": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+  },
+  "input_sources_unchanged": true,
+  "labels_py_sha256": "60dcdcc4a6225493b0ddab08c68e88966cd83c213f1ff514ad2216b61847f535",
+  "old_openai_converter_py_sha256": "ae82cddc55ef7e4c5df609b6db5d12a803e804db7449f9287454e32d5b9005bb",
+  "gold_semantic_approved": 0,
+  "new_models_invoked": 0,
+  "weights_trained": false,
+  "limits": [
+    "Terminal messages are exact actual last assistant targets; natural stop does not prove delivery or semantic quality.",
+    "Screen write decisions are subtarget annotations, not independent training records.",
+    "Final workspace artifacts are side evidence and must never be backfilled into historical prompts.",
+    "Four noncore terminal histories require real tool schemas and are preserved in quarantine.",
+    "All textual work outputs require privacy review before any public release."
+  ]
+}

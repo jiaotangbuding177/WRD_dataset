@@ -1,0 +1,147 @@
+{
+  "schema_version": "wrd-publication-wiring-review-v1",
+  "reviewer": "codex_privacy_inventory",
+  "date": "2026-10-25",
+  "review_method": "independent_read_only_source_wiring_review_plus_bounded_review_record_scan",
+  "reviewed_prepare_sha256": "c4ee95b5055857a3da7ac7d153f11007fb8b9d25837bbc043cf62eced4752318",
+  "fingerprints_at_report_creation": {
+    "prepare.py": "c4ee95b5055857a3da7ac7d153f11007fb8b9d25837bbc043cf62eced4752318",
+    "privacy.py": "2f6ae7688dbe5b46f962d53248fc974eb6ff23070d957859c3eb07de24748ad3",
+    "publication_gate.py": "e886efc4e4e4438b93c3791c796757766bc6f3f120ea3c2450ea598309415658",
+    "support.py": "2153ee21a03d35a309828945031e4dceed1afe42fd4688d34b06b3efa3003800"
+  },
+  "wiring_findings": {
+    "preheld_support_content_removed_in_discovery_and_transform": true,
+    "removed_field_is_actual_support_emit_body_field": "content",
+    "controlled_references_preserved": [
+      "support_id",
+      "logical_path",
+      "source_sha256",
+      "extraction_input_sha256",
+      "format",
+      "derivation_scope"
+    ],
+    "other_stream_records_still_use_full_clean_row": true,
+    "preassess_runs_on_all_main_streams": true,
+    "postassess_runs_on_cleaned_nonpreheld_records": true,
+    "preheld_flags_cannot_be_overridden_by_later_clear": true,
+    "private_salt_and_raw_mapping_destination": "output/local_restricted only; no public export call",
+    "public_hold_manifests_are_field_whitelists_without_body_or_private_mapping": true,
+    "public_candidate_hold_fields": [
+      "id",
+      "kind",
+      "target_kind",
+      "privacy_flags",
+      "publication_approved",
+      "training_eligible",
+      "original_retained_locally"
+    ],
+    "public_support_hold_fields": [
+      "support_id",
+      "kind",
+      "source_sha256",
+      "privacy_flags",
+      "publication_approved",
+      "original_retained_locally"
+    ]
+  },
+  "bounded_review_scan": {
+    "rows": 489,
+    "known_pattern_scan_clear": 489,
+    "gate_no_sensitive_tabular_header_detected": 489,
+    "pattern_risk_flags": {},
+    "gate_risk_flags": {},
+    "files": [
+      {
+        "file": "screen_reviews.jsonl",
+        "prior_bounded_scan_rows": 100,
+        "prior_pattern_scan_clear": 100,
+        "prior_gate_no_sensitive_header": 100,
+        "sha256_at_report_creation": "d068de0886749be12b34048cb4769c078b8445f93c2bfa76f503a0baeff2bccf",
+        "bytes_at_report_creation": 84112
+      },
+      {
+        "file": "make_a_reviews.jsonl",
+        "prior_bounded_scan_rows": 100,
+        "prior_pattern_scan_clear": 100,
+        "prior_gate_no_sensitive_header": 100,
+        "sha256_at_report_creation": "05af5f82b172941ff00fcd9905e9ae9e7efc4a530e6c9deeff966945c331969a",
+        "bytes_at_report_creation": 55065
+      },
+      {
+        "file": "make_b_reviews.jsonl",
+        "prior_bounded_scan_rows": 100,
+        "prior_pattern_scan_clear": 100,
+        "prior_gate_no_sensitive_header": 100,
+        "sha256_at_report_creation": "f85c3761bf57bd9b15d8d32371e32464614865189525c479c37d6c0d29e11d9d",
+        "bytes_at_report_creation": 88689
+      },
+      {
+        "file": "screen_terminal_reviews.jsonl",
+        "prior_bounded_scan_rows": 65,
+        "prior_pattern_scan_clear": 65,
+        "prior_gate_no_sensitive_header": 65,
+        "sha256_at_report_creation": "106cc013a00b3f65a57007edcb46ddbb6795a0acc42f9642f17192db1d722d17",
+        "bytes_at_report_creation": 98362
+      },
+      {
+        "file": "make_terminal_reviews.jsonl",
+        "prior_bounded_scan_rows": 60,
+        "prior_pattern_scan_clear": 60,
+        "prior_gate_no_sensitive_header": 60,
+        "sha256_at_report_creation": "9a82a370ba09bb1e434517b3d1825f2441f69363cf13f3be241fde0d87facb98",
+        "bytes_at_report_creation": 61761
+      },
+      {
+        "file": "screen_second_reviews.jsonl",
+        "prior_bounded_scan_rows": 20,
+        "prior_pattern_scan_clear": 20,
+        "prior_gate_no_sensitive_header": 20,
+        "sha256_at_report_creation": "0048d8f69ade6bfc8674c846b6a3b5dd2c42524e766661553ddcc7af3b15ad8e",
+        "bytes_at_report_creation": 20590
+      },
+      {
+        "file": "make_a_second_reviews.jsonl",
+        "prior_bounded_scan_rows": 20,
+        "prior_pattern_scan_clear": 20,
+        "prior_gate_no_sensitive_header": 20,
+        "sha256_at_report_creation": "d4817ba77dc4c222af7f2ced04e579a9f7904e3c4dd6160b53c47b57af5fd40a",
+        "bytes_at_report_creation": 13984
+      },
+      {
+        "file": "make_b_second_reviews.jsonl",
+        "prior_bounded_scan_rows": 20,
+        "prior_pattern_scan_clear": 20,
+        "prior_gate_no_sensitive_header": 20,
+        "sha256_at_report_creation": "2a4c2cce17fd3099e745cbe757326970678883e98183ba3adcd62ca9ea74291c",
+        "bytes_at_report_creation": 10513
+      },
+      {
+        "file": "adjudication.jsonl",
+        "prior_bounded_scan_rows": 4,
+        "prior_pattern_scan_clear": 4,
+        "prior_gate_no_sensitive_header": 4,
+        "sha256_at_report_creation": "5f4242c59f8b536d6e7254b38179868765f1e949281f76600ab4f9608432f285",
+        "bytes_at_report_creation": 1204
+      }
+    ],
+    "scan_scope": "Existing review/adjudication JSON only; raw review records checked with postscan and publication gate, no full corpus scan. Fingerprints were recorded afterward at report creation; no repeat pattern scan was performed for this report."
+  },
+  "specific_nonblocking_interface_exception": {
+    "interface": "prepare.py final semantic_reviews export",
+    "observation_at_reviewed_sha": "Uses sanitizer.clean_value(review) without postscan/publication_gate on the final review export path.",
+    "current_actual_result": "All 489 existing reviewed records passed bounded independent pattern and gate checks; no current blocking finding.",
+    "minimum_future_action": "If new source-bearing review records are appended, apply clean_row and assess or rerun a bounded review-only check before export."
+  },
+  "fixed_boundaries": [
+    "Pattern clear is not complete semantic anonymization.",
+    "Unlinked table columns require the separate gate; arbitrary column labels or unusual whitespace table rendering are not exhaustive coverage.",
+    "Binary originals, layout/OCR, and unknown sensitive combinations remain controlled with explicit gaps.",
+    "GB-scale performance was not remeasured; no full data rescan or hot edit was performed.",
+    "No source commands, external model calls, GPU or training were launched."
+  ],
+  "source_code_modified": false,
+  "full_corpus_rescanned_for_this_report": false,
+  "training_started": false,
+  "status": "READ_ONLY_WIRING_CHECK_PASSED_WITH_STATED_BOUNDARIES"
+}

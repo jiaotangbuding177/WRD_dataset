@@ -1,0 +1,125 @@
+{
+  "schema_version": "wrd-controlled-all-safe-summary-v1",
+  "status": "PASS_AGGREGATES_AND_PUBLIC_SUBSET_CONSISTENCY",
+  "scope": "CPU tokenizer and current-completion loss-mask verification over all local candidates; no model weights, GPU or training. Restricted row text and token arrays are not included in this safe summary.",
+  "public_reproducibility": {
+    "public_domain": "work_compiled_full",
+    "all_domain": "work_compiled_controlled_all",
+    "public_rows_seen": 4116,
+    "public_successful_id_sets_equal": true,
+    "successful_public_rows_compared": 4109,
+    "all_compared_token_mask_hashes_and_length_fields_identical": true,
+    "compared_fields": [
+      "input_ids_sha256_u32le",
+      "completion_mask_sha256_u8",
+      "total_tokens",
+      "prompt_tokens",
+      "target_tokens",
+      "training_eligible",
+      "length_bucket"
+    ],
+    "public_failed_id_failure_code_maps_equal": true,
+    "public_failure_rows_compared": 7,
+    "held_contents_publicly_reproducible": false,
+    "held_content_and_unapproved_token_arrays_must_not_be_published": true
+  },
+  "all_candidate_coverage": {
+    "denominator": 7117,
+    "compiled_denominator": 7100,
+    "compile_failures": 17,
+    "complete_le_16k": 1998,
+    "complete_le_32k": 4874,
+    "over_32k_without_truncation": 2226,
+    "fraction_le_16k": 0.28073626528031476,
+    "fraction_le_32k": 0.6848391176057328
+  },
+  "controlled_hold_counts": {
+    "held_total": 3001,
+    "held_successfully_compiled": 2991,
+    "held_prefix_failures": 10,
+    "held_complete_le_16k": 394,
+    "held_complete_le_32k": 1638
+  },
+  "coverage_public_candidates": {
+    "denominator": 4116,
+    "compiled_denominator": 4109,
+    "complete_le_16k": 1604,
+    "complete_le_32k": 3236,
+    "fraction_le_16k": 0.38969873663751214,
+    "fraction_le_32k": 0.7862001943634597
+  },
+  "coverage_training_eligible": {
+    "denominator": 134,
+    "compiled_denominator": 134,
+    "complete_le_16k": 32,
+    "complete_le_32k": 93,
+    "fraction_le_16k": 0.23880597014925373,
+    "fraction_le_32k": 0.6940298507462687
+  },
+  "all_candidate_token_quantiles": {
+    "count": 7100,
+    "sum": 190198763,
+    "min": 3514,
+    "median": 24426,
+    "p95": 58877,
+    "p99": 78751,
+    "max": 90868
+  },
+  "all_candidate_supervised_token_quantiles": {
+    "count": 7100,
+    "sum": 2236527,
+    "min": 19,
+    "median": 125,
+    "p95": 1283,
+    "p99": 2522,
+    "max": 12722
+  },
+  "by_kind": {
+    "make": {
+      "rows_seen": 6478,
+      "training_eligible_seen": 85,
+      "compiled": 6464,
+      "training_eligible_compiled": 85,
+      "common16k": 1919,
+      "common32k_long": 2742,
+      "over32k": 1803,
+      "common32k_long_training_eligible": 46,
+      "common16k_training_eligible": 24,
+      "over32k_training_eligible": 15
+    },
+    "screen": {
+      "rows_seen": 639,
+      "training_eligible_seen": 49,
+      "compiled": 636,
+      "training_eligible_compiled": 49,
+      "common16k": 79,
+      "common32k_long": 134,
+      "over32k": 423,
+      "over32k_training_eligible": 26,
+      "common32k_long_training_eligible": 15,
+      "common16k_training_eligible": 8
+    }
+  },
+  "failure_counts": {
+    "official_character_prefix_not_stable": 17
+  },
+  "source_reports": {
+    "public_report_sha256": "76df4cbfd38735294056c37111b4ed827374fc23b5b1042238201b861438559f",
+    "controlled_all_report_sha256": "416066db979b89e69feef2378164cd463ad9bf93e029803c64588037fa1e8e4a",
+    "controlled_all_reported_files_verified": 38
+  },
+  "safe_length_table": {
+    "path": "work_compiled_controlled_all/row_lengths.jsonl",
+    "rows": 7100,
+    "sha256": "5a738d89fdb181a0010ed9302e90b838dfe399c30121c3a981e4ea4f4e5425b1",
+    "bytes": 3152687,
+    "contains_text_or_token_arrays": false
+  },
+  "compiler_sha256": "c244d4dd17005dbe9f7f6a9f8b98d6146a517f099884680925bfbf09a55c4a81",
+  "plan_sha256": "3b65c0f304f8d6f2783788fbe4b9c404427fb7d8fc3242bb9b9d976fa491e99b",
+  "elapsed_seconds": 785.157,
+  "weights_loaded": false,
+  "gpu_used": false,
+  "training_started": false,
+  "no_truncation": true
+}

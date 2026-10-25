@@ -1,0 +1,150 @@
+{
+  "schema_version": "wrd-final-admission-v1",
+  "status": "PASS",
+  "release_ready": true,
+  "finished_utc": "2026-10-25T08:48:21.283344+00:00",
+  "expected_candidate_population": 7117,
+  "counts": {
+    "candidates": 7117,
+    "publication_approved": 4116,
+    "compiler_input_public": 4116,
+    "compiler_success_reported": 4109,
+    "structural_clear": 7004,
+    "dual_model_protocol_mask_valid": 4109,
+    "validated_public_le16k": 1604,
+    "validated_public_le32k": 3236,
+    "not_admitted": 7024,
+    "publication_held": 3001,
+    "held_not_compiled": 3001,
+    "validated_public_over32k": 873,
+    "semantic_review_pass": 250,
+    "precompile_training_eligible": 134,
+    "final_admitted": 93,
+    "final_common32k_long_only": 61,
+    "final_common16k": 32,
+    "compile_failed": 7,
+    "postcompile_rejected": 0,
+    "public_not_compiled": 0
+  },
+  "by_kind": {
+    "make": {
+      "candidates": 6478,
+      "publication_approved": 3733,
+      "compiler_input_public": 3733,
+      "compiler_success_reported": 3727,
+      "structural_clear": 6387,
+      "dual_model_protocol_mask_valid": 3727,
+      "validated_public_le16k": 1529,
+      "validated_public_le32k": 3073,
+      "not_admitted": 6408,
+      "publication_held": 2745,
+      "held_not_compiled": 2745,
+      "validated_public_over32k": 654,
+      "semantic_review_pass": 167,
+      "precompile_training_eligible": 85,
+      "final_admitted": 70,
+      "final_common32k_long_only": 46,
+      "final_common16k": 24,
+      "compile_failed": 6,
+      "postcompile_rejected": 0,
+      "public_not_compiled": 0
+    },
+    "screen": {
+      "candidates": 639,
+      "publication_approved": 383,
+      "compiler_input_public": 383,
+      "compiler_success_reported": 382,
+      "structural_clear": 617,
+      "dual_model_protocol_mask_valid": 382,
+      "validated_public_le16k": 75,
+      "validated_public_le32k": 163,
+      "not_admitted": 616,
+      "semantic_review_pass": 83,
+      "precompile_training_eligible": 49,
+      "validated_public_over32k": 219,
+      "publication_held": 256,
+      "held_not_compiled": 256,
+      "final_admitted": 23,
+      "final_common32k_long_only": 15,
+      "final_common16k": 8,
+      "compile_failed": 1,
+      "postcompile_rejected": 0,
+      "public_not_compiled": 0
+    }
+  },
+  "denominators": {
+    "all_candidates_including_holds": 7117,
+    "public_candidates": 4116,
+    "precompile_semantic_and_structure_eligible": 134,
+    "compiler_input_public": 4116,
+    "compiler_success_reported": 4109,
+    "dual_model_protocol_mask_valid": 4109
+  },
+  "coverage": {
+    "validated_public_le16k_over_public": 0.38969873663751214,
+    "validated_public_le32k_over_public": 0.7862001943634597,
+    "final_le16k_over_precompile_eligible": 0.23880597014925373,
+    "final_le32k_over_precompile_eligible": 0.6940298507462687
+  },
+  "exclusion_reason_counts_nonexclusive": {
+    "semantic_review_not_pass": 6867,
+    "precompile_training_eligible_false": 6983,
+    "publication_hold": 3001,
+    "structural_errors_or_missing_proof": 113,
+    "complete_example_over32k": 873,
+    "compile:official_character_prefix_not_stable": 7
+  },
+  "global_errors": [],
+  "compiler_status": "COMPLETE_WITH_FAILURES",
+  "compiler_report_sha256": "76df4cbfd38735294056c37111b4ed827374fc23b5b1042238201b861438559f",
+  "eligibility_sha256": "9d2c6403daceaf1681b5770f066f15a81f02af965fc9a27dc60688d68fa05e71",
+  "public_source_inputs": [
+    {
+      "path": "data/candidates.actions.jsonl.gz",
+      "sha256": "9d62a35c07944b929dafd05fb9a27094a5efa94eca71e1ded4f5899020e7e7ac",
+      "bytes": 97204642
+    },
+    {
+      "path": "data/candidates.labels.jsonl.gz",
+      "sha256": "3cc1338c115498f5dff4af2548ad9a68e9bb056a6afc8350df3c5eaaae179cec",
+      "bytes": 6680245
+    }
+  ],
+  "compiler_files_verified": 25,
+  "source_files_checked_unchanged": true,
+  "script_sha256": "3469a78f6d86e682af9a64b1582ea0f006362a5ad75b796bd3c914c96d917289",
+  "human_gold": 0,
+  "training_started": false,
+  "weights_loaded": false,
+  "gpu_used": false,
+  "retokenization_performed": false,
+  "truncation_performed": false,
+  "scope": "Final subset selection and reversible loss-mask integrity proof only; AI silver labels, not human gold or model-quality evaluation.",
+  "entrypoint_rule": "Require report PASS and release_ready, then admission.final_admitted; input training_eligible is precompile only.",
+  "sft_nonempty": true,
+  "mutually_exclusive_sft_buckets": true,
+  "sft_output_ids": 93,
+  "elapsed_seconds": 23.89,
+  "files": [
+    {
+      "path": "admission.jsonl.gz",
+      "sha256": "7551b93284d65876ef4d545f42d9e1a3623a1162bc5b2a34c47371c2540b43ab",
+      "bytes": 857119
+    },
+    {
+      "path": "sft/common16k.jsonl.gz",
+      "sha256": "0865a99b34e629ee3df651552cc1af661b4dc4af0b9bf07428813d16dcc38b1d",
+      "bytes": 304195
+    },
+    {
+      "path": "sft/common32k_long_only.jsonl.gz",
+      "sha256": "453fa7e20e252b5d274f381929832e70b7b1cd041bf605a8f2e819e709fae514",
+      "bytes": 1797087
+    },
+    {
+      "path": "sft/README.md",
+      "sha256": "00855cb764db52ddd9c0cfbb74ec8fa1d4d5dec2f5d7f6206ad54ff71e74e084",
+      "bytes": 952
+    }
+  ]
+}

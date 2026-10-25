@@ -1,5 +1,32 @@
 # WRD 全链路训练数据包
 
+**最新：14B／8B 训练前审核与数据包已整理，未启动训练。**
+
+[数据、审核报告与复核方法](preflight/20261025/README.md) · [最终准入](preflight/20261025/FINAL_ADMISSION.json) · [训练就绪状态](preflight/20261025/READINESS.json) · [文件哈希清单](preflight/20261025/MANIFEST.json)
+
+| 统计对象 | 总数 | 完整≤16K | 完整≤32K（累计） |
+| --- | ---: | ---: | ---: |
+| 全部核心格式候选 | 7,117 | 1,998（28.07%） | 4,874（68.48%） |
+| 可公开正文候选 | 4,116 | 1,604（38.97%） | 3,236（78.62%） |
+| 编译前语义／结构银标 | 134 | 32（23.88%） | 93（69.40%） |
+
+全候选7,100条、公开候选4,109条通过双模型token/mask逐行一致性核查；全候选17条官方模板前缀异常已隔离。当前最终技术银标仅93条：32短样本＋61长样本，两个文件互斥。原6,774条入口是历史候选，不能整包直接训练。人工gold与独立dev/test组仍为0；新建/延后/无价值路线分支还没有准入直接正例，当前不适合按原计划进行完整SFT。
+
+当前入口见 [sft/README](preflight/20261025/sft/README.md)。本轮按用户授权提供处理后的企业候选、标签、数组、源会话/附件文字、完整归档哈希及拒收/受控清单；私盐、映射、疑似个人敏感正文与受控数组留本地。新增包约461MB，旧归档不改、不重传。
+
+仅获取本轮新增资料：
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone --branch codex/wrd-training-data-20261025 https://github.com/jiaotangbuding177/WRD_dataset
+cd WRD_dataset
+git lfs pull --include="preflight/20261025/**" --exclude=""
+```
+
+[14B主模型／8B对照详细训练计划](plans/20261025_14b_spark/README.md) 保留制定时快照；当前数据状态以本次审核为准。训练性能、技能质量和每合格技能总成本尚未实测。
+
+<details>
+<summary>历史交付说明（保留原条件与旧候选入口，不作为当前训练准入）</summary>
+
 **最新训练计划：14B主模型、8B对照（2026-10-25）**
 
 [详细计划](plans/20261025_14b_spark/README.md) · [参数草案](plans/20261025_14b_spark/TRAINING_CONFIG.json) · [质量与每合格技能成本协议](plans/20261025_14b_spark/EVALUATION_PROTOCOL.md)。本次仅新增不含企业内容的公开计划，未启动训练或新评测。下文保留原数据包交付说明，其中初始7B—9B范围与私有交付表述属于当时条件。
@@ -62,3 +89,5 @@ python tools/materialize.py --bundle ./unpacked --prefix episodes/ep_ID/workspac
 用 `catalog/episodes.jsonl` 查询真实 `episode_id`。恢复只读取包内对象，不依赖原来的 D/E 盘；原目录字符串作为历史证据保留。运行历史脚本不属于解包步骤。
 
 后续先选择具体学生和 tokenizer，对拟用候选做语义复核、实际长度与训练模板编译，再开展有界 SFT。完整保留上下文；不能静默截断程序、工具结果或依赖前文。教师历史不是当前小模型的在线 GRPO 样本，跨修订不同前缀也不是现成 DPO 配对。
+
+</details>
