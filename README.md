@@ -1,5 +1,10 @@
 # WRD 全链路训练数据包
 
+**最新训练计划：14B主模型、8B对照（2026-10-25）**
+
+[详细计划](plans/20261025_14b_spark/README.md) · [参数草案](plans/20261025_14b_spark/TRAINING_CONFIG.json) · [质量与每合格技能成本协议](plans/20261025_14b_spark/EVALUATION_PROTOCOL.md)。本次仅新增不含企业内容的公开计划，未启动训练或新评测。下文保留原数据包交付说明，其中初始7B—9B范围与私有交付表述属于当时条件。
+
+
 直接训练入口另放在 `training/native_actions_core7.train.jsonl.gz`（约200MB），与完整包的推荐core7数据逐字节一致。`QUICK_TRAINING_MANIFEST.json` 绑定SHA和样本数，`TRAINING_VALIDATION.json`、`UNIFORM_TOOLS_VALIDATION.json` 可直接在仓库审阅。完整证据包保留在 `dist/`。
 
 仅下载训练入口时，可跳过完整证据分片。PowerShell：
