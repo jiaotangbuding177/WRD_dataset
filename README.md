@@ -4,6 +4,8 @@
 
 [数据、审核报告与复核方法](preflight/20261025/README.md) · [最终准入](preflight/20261025/FINAL_ADMISSION.json) · [训练就绪状态](preflight/20261025/READINESS.json) · [文件哈希清单](preflight/20261025/MANIFEST.json)
 
+[标签更正](preflight/20261025/ANNOTATION_ERRATA.json)：一条受控轮询记录的schema拒绝依据改为待复核；旧审阅保留，93条准入及token/mask不变。
+
 | 统计对象 | 总数 | 完整≤16K | 完整≤32K（累计） |
 | --- | ---: | ---: | ---: |
 | 全部核心格式候选 | 7,117 | 1,998（28.07%） | 4,874（68.48%） |

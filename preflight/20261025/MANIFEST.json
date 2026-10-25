@@ -7,6 +7,11 @@
       "sha256": "7551b93284d65876ef4d545f42d9e1a3623a1162bc5b2a34c47371c2540b43ab"
     },
     {
+      "path": "ANNOTATION_ERRATA.json",
+      "bytes": 1572,
+      "sha256": "16f83aa7af1f728709636fab9df808acf9aa91ff87bf74e1f81153024bca240d"
+    },
+    {
       "path": "audit/all_candidate_compile_failures.jsonl",
       "bytes": 3820,
       "sha256": "8d740c83ffebdb65e5d2f7079b7595ab1c101583feadf243e4f36bb167d0f8b2"
@@ -238,8 +243,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 6325,
-      "sha256": "e60ab63c8a887b7ad5cc31aa427a601154830da97f1562bee8569be29385efca"
+      "bytes": 6623,
+      "sha256": "8d407ec176021cd7f4723679d751f5a8b8f383da5f5afa83defd82372fc68e03"
+    },
+    {
+      "path": "reports/annotation_errata_validation.json",
+      "bytes": 3210,
+      "sha256": "edbe99e960ff83ff09cceb9c44436978b4659b83107ecb688488944776071e6b"
     },
     {
       "path": "reports/archive_coverage.json",
@@ -272,6 +282,11 @@
       "sha256": "554f7e56aec0de59cf55cc08c8dde0a3337dcaeec31b07f7e951627b66a7dd1c"
     },
     {
+      "path": "reports/PAYLOAD_MANIFEST_BEFORE_ANNOTATION_ERRATUM.json",
+      "bytes": 20399,
+      "sha256": "0502388c0437023a9d0c91c4e298938e2fd36d4c8965cc4f89c6d482013b77c6"
+    },
+    {
       "path": "reports/PAYLOAD_MANIFEST_BEFORE_QA.json",
       "bytes": 19968,
       "sha256": "d57e8bd80dbeb4c70f807306b1ed778955e2cfa4ffea6c15214efb341abe231e"
@@ -290,6 +305,11 @@
       "path": "reports/publication_wiring_review.json",
       "bytes": 6764,
       "sha256": "2553daf29c852966dc976cf683f5a9c03dcbbd5dd207167ae8102c97fb786d9c"
+    },
+    {
+      "path": "reports/remote_payload_verification.json",
+      "bytes": 17236,
+      "sha256": "f9ece4ab97186864ceb379dec01331c85852aa0dd2a7ef10f10dbf30dd0053ec"
     },
     {
       "path": "reports/semantic_review_summary.json",
@@ -552,9 +572,12 @@
       "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
     }
   ],
-  "file_count": 110,
-  "total_bytes": 461236419,
+  "file_count": 114,
+  "total_bytes": 461279134,
   "training_started": false,
   "contains_private_salt_or_mapping": false,
-  "independent_QA_target_manifest": "reports/PAYLOAD_MANIFEST_BEFORE_QA.json"
+  "independent_QA_target_manifest": "reports/PAYLOAD_MANIFEST_BEFORE_QA.json",
+  "annotation_overlay_validation": "reports/annotation_errata_validation.json",
+  "remote_base_data_verification": "reports/remote_payload_verification.json",
+  "positive_dataset_unchanged_after_annotation_erratum": true
 }
