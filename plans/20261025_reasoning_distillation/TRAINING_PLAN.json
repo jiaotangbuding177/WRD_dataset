@@ -1,0 +1,158 @@
+{
+  "schema_version": "wrd-reasoning-distillation-plan-v4",
+  "design_revision": "5.0.28",
+  "change_id": "ALG-20261026-01",
+  "execution_authorized": false,
+  "is_launch_config": false,
+  "training_started": false,
+  "goal": "single-business-input autonomous WRD skill distillation in native OpenClaw",
+  "models": [
+    {
+      "role": "primary",
+      "id": "Qwen/Qwen3-14B",
+      "revision": "40c069824f4251a91eefaf281ebe4c544efd3e18"
+    },
+    {
+      "role": "control",
+      "id": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218"
+    }
+  ],
+  "hardware": {
+    "device": "DGX Spark GB10",
+    "architecture": "aarch64",
+    "unified_memory_gib": 121,
+    "source": "user report; no device execution this round",
+    "container_digest": null
+  },
+  "method": "source-verified sequence distillation with original reasoning, segment loss and feedback repair",
+  "sft": {
+    "dtype": "bfloat16",
+    "method": "LoRA",
+    "rank": 32,
+    "alpha": 64,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "repair_learning_rate": 3e-05,
+    "warmup_ratio": 0.03,
+    "lr_schedule": "cosine",
+    "weight_decay": 0.01,
+    "clip_norm": 1.0,
+    "microbatch": 1,
+    "gradient_accumulation": 16,
+    "gradient_checkpointing": true,
+    "use_cache": false,
+    "attention_candidate": "sdpa",
+    "length_buckets": [
+      4096,
+      8192,
+      16384,
+      32768
+    ],
+    "automatic_truncation": false,
+    "train_models_sequentially": true,
+    "initial_normalized_exposure_epochs": 1.0,
+    "extra_feedback_exposure_max_fraction": 0.5,
+    "runtime_compatibility_and_throughput_verified": false
+  },
+  "loss": {
+    "segment_means_before_stage_parent_mean": true,
+    "lambda": {
+      "R_original_reasoning": 0.25,
+      "E_visible_explanation": 0.1,
+      "A_actions_resources": 0.45,
+      "D_decisions": 0.2
+    },
+    "format_loss_auxiliary_lambda": 0.02,
+    "missing_segments_renormalized_not_invented": true,
+    "compiler_span_weights_are_base_masks_not_the_full_training_objective": true,
+    "stage_weights": {
+      "A": 0.2,
+      "B": 0.35,
+      "C": 0.3,
+      "D": 0.15
+    },
+    "actor_auxiliary_loss_max_fraction": 0.1,
+    "derived_control_or_summary_max_fraction_of_main_budget": 0.2,
+    "candidate_original_reasoning_supervision_exposure_fraction": 0.1,
+    "original_reasoning_parent_replay_max_normalized_passes": 2,
+    "reasoning_replay_included_in_total_exposure_budget": true,
+    "rare_decision_sampling_cap": 3,
+    "do_not_double_apply_sampling_and_class_loss_weights": true,
+    "one_native_target_one_loss_owner": true,
+    "ignore_label": -100,
+    "loss_implementation_as_training_runner_completed": false
+  },
+  "curriculum": [
+    "original reasoning and short causal decisions",
+    "native multi-turn resource construction and observations",
+    "actual feedback repairs and provenance-labelled phase control"
+  ],
+  "data_profiles": {
+    "default": "strict226_direct_source_teacher_silver",
+    "protected226_override_authorized": false,
+    "wider_scope_records_are_candidates_not_default_training_rows": true,
+    "never_merge_public_and_controlled_duplicate_projections": true,
+    "full_target_readiness": false
+  },
+  "serialization": {
+    "causal_qwen3_template_variant": true,
+    "claim_unmodified_official_template": false,
+    "same_template_required_in_future_student_api": true,
+    "api_template_integration_verified": false
+  },
+  "conditional_dpo": {
+    "part_of_main_required_training": false,
+    "same_state_verified_pairs": null,
+    "do_not_pair_before_feedback_failure_with_after_feedback_repair": true
+  },
+  "on_policy": {
+    "implemented": false,
+    "execution_authorized": false,
+    "purpose_if_later_authorized": "student-own errors and long-horizon stagnation; fixed native harness"
+  },
+  "evaluation": {
+    "single_input_no_human_stage_prompts_required": true,
+    "fixed_business_actor_for_skill_quality_comparison": true,
+    "quality_metrics": [
+      "TSR",
+      "independent_five_dimension_Q",
+      "K_Q",
+      "K_R",
+      "K_G"
+    ],
+    "proposed_new_independent_groups": 24,
+    "tasks_per_group": 2,
+    "main_arms": [
+      "teacher",
+      "8B_student",
+      "14B_student"
+    ],
+    "base_making_slots": 72,
+    "base_consumption_slots": 192,
+    "proposed_q_noninferiority_margin_points": 5,
+    "proposed_tsr_margin_percentage_points": 5,
+    "proposed_operating_cpqs_reduction": 0.3,
+    "thresholds_calibrated": false,
+    "new_independent_blind_test_ready": false
+  },
+  "cost": {
+    "processed_tokens_including_masked_inputs_counted": true,
+    "count_failures_revisions_assessment_human_fallback_and_training_amortization": true,
+    "actual_spark_training_tokens_per_second": null,
+    "actual_device_hours": null,
+    "actual_whole_machine_kwh": null,
+    "currency_total": null,
+    "assistant_research_and_annotation_service_cost": "not measured; not zero"
+  }
+}

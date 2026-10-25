@@ -1,0 +1,130 @@
+{
+  "schema_version": "wrd-public-reasoning-array-compilation-v4",
+  "bank_role": "actor_auxiliary",
+  "counts": {
+    "source_pairs": 234,
+    "public_source_pairs_with_recorded_reasoning": 33,
+    "public_transformed_reasoning_characters": 167465,
+    "pairs_compiled": 234,
+    "processed_tokens": 1469741,
+    "supervised_tokens_before_length": 242993,
+    "supervised_component_F": 1368,
+    "supervised_component_A": 144785,
+    "common16k.jsonl.gz_records": 221,
+    "positive_complete_le32k": 225,
+    "le32k_supervised_tokens": 242777,
+    "le32k_records_with_reasoning": 33,
+    "le32k_supervised_component_F": 1350,
+    "le32k_supervised_component_A": 144587,
+    "supervised_component_E": 6593,
+    "supervised_component_MIXED": 108,
+    "le32k_supervised_component_E": 6593,
+    "le32k_supervised_component_MIXED": 108,
+    "public_reasoning_decode_source_exact_checks": 33,
+    "supervised_component_R": 69300,
+    "supervised_component_R_BOUNDARY_MIXED": 33,
+    "supervised_component_D": 20806,
+    "le32k_supervised_component_R": 69300,
+    "le32k_supervised_component_R_BOUNDARY_MIXED": 33,
+    "le32k_supervised_component_D": 20806,
+    "common32k_long_only.jsonl.gz_records": 4,
+    "duplicate_exact_render_and_mask": 3
+  },
+  "by_input": {
+    "historical_actor_aux.pairs.jsonl.gz": {
+      "source_pairs": 234,
+      "public_source_pairs_with_recorded_reasoning": 33,
+      "public_transformed_reasoning_characters": 167465,
+      "pairs_compiled": 234,
+      "supervised_component_F": 1368,
+      "supervised_component_A": 144785,
+      "common16k.jsonl.gz_records": 221,
+      "positive_complete_le32k": 225,
+      "le32k_supervised_tokens": 242777,
+      "le32k_records_with_reasoning": 33,
+      "le32k_supervised_component_F": 1350,
+      "le32k_supervised_component_A": 144587,
+      "supervised_component_E": 6593,
+      "supervised_component_MIXED": 108,
+      "le32k_supervised_component_E": 6593,
+      "le32k_supervised_component_MIXED": 108,
+      "public_reasoning_decode_source_exact_checks": 33,
+      "supervised_component_R": 69300,
+      "supervised_component_R_BOUNDARY_MIXED": 33,
+      "supervised_component_D": 20806,
+      "le32k_supervised_component_R": 69300,
+      "le32k_supervised_component_R_BOUNDARY_MIXED": 33,
+      "le32k_supervised_component_D": 20806,
+      "common32k_long_only.jsonl.gz_records": 4
+    }
+  },
+  "mechanical_holds_and_compile_failures": {
+    "current_tool_arguments_schema_invalid": 6
+  },
+  "source_public_pairs": [
+    {
+      "name": "historical_actor_aux.pairs.jsonl.gz",
+      "sha256": "93929d627c1ca2ecd4697c6f1776cdbc9f236ae2e99e41f5c467f784d8222404",
+      "bytes": 725166
+    }
+  ],
+  "source_files_unchanged": true,
+  "every_public_recorded_reasoning_field_decoded_and_exactly_matched": true,
+  "identity_is_to_public_transformed_text_not_original_raw_bytes": true,
+  "tokenizer_equivalence_and_calls": {
+    "official_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "instrumented_template_sha256": "e32feaaf7ea205453c8d7083eaea652aaf53c541071bd453984c09a1e996916a",
+    "variant_is_not_unmodified_official_template": true,
+    "future_inference_api_must_use_same_causal_variant": true,
+    "inference_api_variant_already_integrated": false,
+    "two_tokenizer_asset_sets_byte_identical": true,
+    "asset_sha256": {
+      "primary_14b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "control_8b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      }
+    },
+    "independent_second_tokenizer_calls": 66,
+    "reuse_rule": "identical assets + identical rendered bytes; independent canary then every 97th window"
+  },
+  "script_sha256": "26740636f3d4c3c46de3dfd18ad1286dc31c9dc8b37cd0f32bfe6a3b40b8f618",
+  "causal_compiler_script_sha256": "c0da0931dd698b6ae4ba51ef5b6cde2a6e0ae54cf236b800425b8f4a61f23fb2",
+  "elapsed_seconds": 3.688,
+  "semantic_gold_created": 0,
+  "training_started": false,
+  "model_weights_loaded": false,
+  "gpu_used": false,
+  "outputs": {
+    "all_records.jsonl.gz": {
+      "sha256": "ef78c7bb4235ee39e46277b47df7cd0883496efde95e4cc902cf45c475299bfc",
+      "bytes": 1641273
+    },
+    "common16k.jsonl.gz": {
+      "sha256": "6a6fd2ed2e4f47d39df622a4cefcf68e25496a8ace5cf84bd8afcb624af8faf8",
+      "bytes": 1559398
+    },
+    "common32k_long_only.jsonl.gz": {
+      "sha256": "f703a6073453a7d04769ff95b0d62d32a1449be1d99edc4a6e2ca71e1540cea5",
+      "bytes": 74063
+    },
+    "over32k.jsonl.gz": {
+      "sha256": "ef8fd1202b3838fd506ae9fb355297b0815b04c225f92424c67e09fb347b1878",
+      "bytes": 39
+    },
+    "compile_holds.jsonl.gz": {
+      "sha256": "04df5bce6716f3870a40471e9d23755c07ce56a62d245f1bc6adc9ac8d7685ac",
+      "bytes": 259
+    }
+  }
+}

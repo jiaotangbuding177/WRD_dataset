@@ -1,0 +1,440 @@
+{
+  "schema_version": "wrd-reasoning-data-report-v4",
+  "design_revision": "5.0.28",
+  "change_id": "ALG-20261026-01",
+  "status": "RECOVERED_COMPILED_AUDITED_PROCESS_SILVER_NOT_PROVEN_FULL_AGENT",
+  "archived_original_sse": {
+    "mechanically_usable_pairs": 53,
+    "mechanically_usable_reasoning_characters": 805621,
+    "sse_pairs": 68,
+    "pairs_with_original_reasoning": 67,
+    "original_reasoning_characters": 1301758,
+    "final_content_characters": 230142,
+    "with_done_frame": 63,
+    "stored_response_content_equal": 63,
+    "reasoning_omitted_in_old_response_json": 67,
+    "json_frames": 268466,
+    "reasoning_content_nonempty_deltas": 220466,
+    "reasoning_content_characters": 1301758,
+    "content_nonempty_deltas": 47836,
+    "content_characters": 230142,
+    "finish_reason_frames": 63,
+    "usage_frames": 63,
+    "done_frames": 63
+  },
+  "raw_request_response_recovery": {
+    "historical_business_actor_or_validation_requires_source_audit": {
+      "raw_pairs": 826,
+      "reasoning_pairs": 99,
+      "reasoning_characters": 477608,
+      "mechanically_usable_nonformal_pairs": 826
+    },
+    "historical_development_actor_candidate": {
+      "raw_pairs": 23,
+      "reasoning_pairs": 3,
+      "reasoning_characters": 13213,
+      "mechanically_usable_nonformal_pairs": 23
+    },
+    "formal_evaluation_exclude": {
+      "raw_pairs": 265,
+      "reasoning_pairs": 36,
+      "reasoning_characters": 108447
+    },
+    "historical_skill_generation_candidate": {
+      "raw_pairs": 113,
+      "reasoning_pairs": 2,
+      "reasoning_characters": 50349,
+      "mechanically_usable_nonformal_pairs": 113
+    },
+    "technical_fixture_exclude": {
+      "raw_pairs": 6,
+      "reasoning_pairs": 3,
+      "reasoning_characters": 549
+    }
+  },
+  "original_sse_outcome_gate": {
+    "source_qualified": 45,
+    "observed": 17,
+    "applied": 14,
+    "finished_structural_only": 2,
+    "rejected_masked": 12
+  },
+  "current_native_quality_curated": {
+    "controlled": {
+      "counts": {
+        "compiled_records_seen": 2395,
+        "core32k:windows": 943,
+        "core32k:processed_tokens": 23845244,
+        "core32k:supervised_tokens": 2158671,
+        "core32k:owned_targets": 11665,
+        "core32k:le16k_windows": 109,
+        "core32k:prefix_windows": 517,
+        "overlength_complete_stages_not_selected": 743,
+        "no_positive_targets_after_quality_overlay": 219,
+        "actor_aux32k:windows": 490,
+        "actor_aux32k:processed_tokens": 9416591,
+        "actor_aux32k:supervised_tokens": 2538617,
+        "actor_aux32k:owned_targets": 5916,
+        "actor_aux32k:le16k_windows": 196,
+        "actor_aux32k:prefix_windows": 115,
+        "targets_masked_by_quality_overlay": 69,
+        "tokens_masked_by_quality_overlay": 114520
+      },
+      "by_stage": {
+        "prepare:targets": 2256,
+        "prepare:windows": 258,
+        "prepare:supervised_tokens": 512423,
+        "actor:targets": 5916,
+        "actor:windows": 490,
+        "actor:supervised_tokens": 2538617,
+        "review:targets": 4450,
+        "review:windows": 338,
+        "review:supervised_tokens": 452552,
+        "make:targets": 4736,
+        "make:windows": 282,
+        "make:supervised_tokens": 1154240,
+        "screen:targets": 223,
+        "screen:windows": 65,
+        "screen:supervised_tokens": 39456
+      },
+      "components": {
+        "core32k:F": 69990,
+        "core32k:A": 1796342,
+        "core32k:E": 126851,
+        "core32k:MIXED": 2572,
+        "core32k:D": 162916,
+        "actor_aux32k:F": 35496,
+        "actor_aux32k:A": 2285399,
+        "actor_aux32k:E": 47261,
+        "actor_aux32k:MIXED": 1483,
+        "actor_aux32k:D": 168978
+      },
+      "generated_write_syntax_hold_ids": 75,
+      "source_sessions_sha256": "5226a87a411ef3c8c2cff6ec7e01563e4fbfef7ef690f5a7caa458653fe15b92",
+      "selected_target_owner_ids": 17581,
+      "semantic_gold": 0
+    },
+    "public": {
+      "counts": {
+        "compiled_records_seen": 1298,
+        "overlength_complete_stages_not_selected": 270,
+        "no_positive_targets_after_quality_overlay": 203,
+        "actor_aux32k:windows": 357,
+        "actor_aux32k:processed_tokens": 6673617,
+        "actor_aux32k:supervised_tokens": 2016713,
+        "actor_aux32k:owned_targets": 4417,
+        "actor_aux32k:le16k_windows": 156,
+        "actor_aux32k:prefix_windows": 79,
+        "core32k:windows": 468,
+        "core32k:processed_tokens": 11007378,
+        "core32k:supervised_tokens": 1333855,
+        "core32k:owned_targets": 6006,
+        "core32k:le16k_windows": 89,
+        "core32k:prefix_windows": 168,
+        "targets_masked_by_quality_overlay": 41,
+        "tokens_masked_by_quality_overlay": 69418
+      },
+      "by_stage": {
+        "actor:targets": 4417,
+        "actor:windows": 357,
+        "actor:supervised_tokens": 2016713,
+        "review:targets": 2299,
+        "review:windows": 162,
+        "review:supervised_tokens": 315183,
+        "make:targets": 2429,
+        "make:windows": 157,
+        "make:supervised_tokens": 684046,
+        "prepare:targets": 1195,
+        "prepare:windows": 127,
+        "prepare:supervised_tokens": 314727,
+        "screen:targets": 83,
+        "screen:windows": 22,
+        "screen:supervised_tokens": 19899
+      },
+      "components": {
+        "actor_aux32k:F": 26502,
+        "actor_aux32k:A": 1822800,
+        "actor_aux32k:E": 38848,
+        "actor_aux32k:MIXED": 1129,
+        "actor_aux32k:D": 127434,
+        "core32k:F": 36036,
+        "core32k:A": 1103898,
+        "core32k:E": 77402,
+        "core32k:MIXED": 1569,
+        "core32k:D": 114950
+      },
+      "generated_write_syntax_hold_ids": 39,
+      "source_sessions_sha256": "2daa2932d686333eabf0486ed88929666e82bfd3bc401bfe8a57dc39827cda0c",
+      "selected_target_owner_ids": 10423,
+      "semantic_gold": 0
+    }
+  },
+  "original_reasoning_quality_curated": {
+    "controlled_source_pairs": 158,
+    "controlled_positive_pairs32k": 116,
+    "controlled_processed_tokens": 2115514,
+    "controlled_supervised_tokens": 196294,
+    "controlled_reasoning_positive_pairs": 30,
+    "controlled_reasoning_tokens": 121511,
+    "controlled_reasoning_boundary_tokens": 30,
+    "overlength_or_zero_loss_not_selected": 41,
+    "semantic_boundary_hold_pairs": 1,
+    "public_projection_rows_examined": 1015,
+    "hold:privacy_projection_hold": 695,
+    "hold:original_execution_rejected_positive_action": 12,
+    "public:sse_core:pairs": 9,
+    "public:sse_core:reasoning_pairs": 9,
+    "hold:semantic_data_faithfulness_boundary_pending": 1,
+    "hold:historical_formal_source_or_unmapped": 8,
+    "public:historical_actor_aux:pairs": 234,
+    "public:historical_actor_aux:reasoning_pairs": 33,
+    "hold:source_scope_not_confirmed_nonformal": 23,
+    "public:historical_generation:pairs": 72,
+    "public:historical_generation:reasoning_pairs": 1
+  },
+  "strict_226_and_wider_scope_profiles": {
+    "schema_version": "wrd-source-gated-profiles-v4",
+    "counts": {
+      "controlled:core32k:all_candidate_windows": 943,
+      "controlled:core32k:scope_pending_windows": 667,
+      "controlled:core32k:scope:available_protected_pool_only_requires_visibility_review": 270,
+      "controlled:core32k:strict_windows": 276,
+      "controlled:core32k:strict_processed_tokens": 7635748,
+      "controlled:core32k:strict_supervised_tokens": 478451,
+      "controlled:core32k:strict_targets": 3907,
+      "controlled:core32k:scope:ambiguous_catalog_reference_or_unmapped_source": 192,
+      "controlled:core32k:scope:known_formal_source_dependency": 205,
+      "controlled:actor_aux32k:all_candidate_windows": 490,
+      "controlled:actor_aux32k:scope_pending_windows": 79,
+      "controlled:actor_aux32k:scope:known_formal_source_dependency": 79,
+      "controlled:actor_aux32k:strict_windows": 411,
+      "controlled:actor_aux32k:strict_processed_tokens": 7874226,
+      "controlled:actor_aux32k:strict_supervised_tokens": 2050921,
+      "controlled:actor_aux32k:strict_targets": 5029,
+      "public:core32k:all_candidate_windows": 468,
+      "public:core32k:strict_windows": 85,
+      "public:core32k:strict_processed_tokens": 2312296,
+      "public:core32k:strict_supervised_tokens": 198769,
+      "public:core32k:strict_targets": 1257,
+      "public:core32k:scope_pending_windows": 383,
+      "public:core32k:scope:available_protected_pool_only_requires_visibility_review": 160,
+      "public:core32k:scope:ambiguous_catalog_reference_or_unmapped_source": 142,
+      "public:core32k:scope:known_formal_source_dependency": 81,
+      "public:actor_aux32k:all_candidate_windows": 357,
+      "public:actor_aux32k:scope_pending_windows": 60,
+      "public:actor_aux32k:scope:known_formal_source_dependency": 60,
+      "public:actor_aux32k:strict_windows": 297,
+      "public:actor_aux32k:strict_processed_tokens": 5590623,
+      "public:actor_aux32k:strict_supervised_tokens": 1624017,
+      "public:actor_aux32k:strict_targets": 3823
+    },
+    "by_stage": {
+      "controlled:review:windows": 216,
+      "controlled:review:supervised_tokens": 268502,
+      "controlled:make:windows": 53,
+      "controlled:make:supervised_tokens": 196900,
+      "controlled:prepare:windows": 3,
+      "controlled:prepare:supervised_tokens": 10114,
+      "controlled:screen:windows": 4,
+      "controlled:screen:supervised_tokens": 2935,
+      "controlled:actor:windows": 411,
+      "controlled:actor:supervised_tokens": 2050921,
+      "public:review:windows": 77,
+      "public:review:supervised_tokens": 169844,
+      "public:make:windows": 5,
+      "public:make:supervised_tokens": 20393,
+      "public:prepare:windows": 2,
+      "public:prepare:supervised_tokens": 8037,
+      "public:screen:windows": 1,
+      "public:screen:supervised_tokens": 495,
+      "public:actor:windows": 297,
+      "public:actor:supervised_tokens": 1624017
+    },
+    "source_split_audit_sha256": "1f85400faf6fc2b1621e34b6c05757a0bf9c481e7ac75ada53bf4da55744586a",
+    "source_split_counts": {
+      "available_protected_pool_only_requires_visibility_review": 349,
+      "confirmed_evolution_direct_source_scope": 785,
+      "known_formal_source_dependency": 327,
+      "ambiguous_catalog_reference_or_unmapped_source": 302
+    },
+    "training_started": false,
+    "full_corpus_override_authorized": false,
+    "strict_profile_is_not_complete_end_to_end_readiness": true,
+    "note": "Wider records retained as candidates; source availability alone is not asserted to be actual model exposure."
+  },
+  "public_original_reasoning_compiler_report": {
+    "schema_version": "wrd-public-reasoning-array-compilation-v4",
+    "bank_role": "core",
+    "counts": {
+      "source_pairs": 81,
+      "public_source_pairs_with_recorded_reasoning": 10,
+      "public_transformed_reasoning_characters": 175136,
+      "public_reasoning_decode_source_exact_checks": 10,
+      "pairs_compiled": 81,
+      "processed_tokens": 1312403,
+      "supervised_tokens_before_length": 92516,
+      "supervised_component_F": 486,
+      "supervised_component_R": 49523,
+      "supervised_component_R_BOUNDARY_MIXED": 10,
+      "supervised_component_D": 11624,
+      "common32k_long_only.jsonl.gz_records": 32,
+      "positive_complete_le32k": 76,
+      "le32k_supervised_tokens": 88365,
+      "le32k_records_with_reasoning": 9,
+      "le32k_supervised_component_F": 456,
+      "le32k_supervised_component_R": 49445,
+      "le32k_supervised_component_R_BOUNDARY_MIXED": 9,
+      "le32k_supervised_component_D": 10885,
+      "common16k.jsonl.gz_records": 44,
+      "supervised_component_A": 24941,
+      "le32k_supervised_component_A": 23165,
+      "supervised_component_E": 5898,
+      "supervised_component_MIXED": 34,
+      "le32k_supervised_component_E": 4375,
+      "le32k_supervised_component_MIXED": 30,
+      "over32k.jsonl.gz_records": 5
+    },
+    "by_input": {
+      "sse_core.pairs.jsonl.gz": {
+        "source_pairs": 9,
+        "public_source_pairs_with_recorded_reasoning": 9,
+        "public_transformed_reasoning_characters": 174729,
+        "public_reasoning_decode_source_exact_checks": 9,
+        "pairs_compiled": 9,
+        "supervised_component_F": 54,
+        "supervised_component_R": 49445,
+        "supervised_component_R_BOUNDARY_MIXED": 9,
+        "supervised_component_D": 10885,
+        "common32k_long_only.jsonl.gz_records": 7,
+        "positive_complete_le32k": 9,
+        "le32k_supervised_tokens": 60393,
+        "le32k_records_with_reasoning": 9,
+        "le32k_supervised_component_F": 54,
+        "le32k_supervised_component_R": 49445,
+        "le32k_supervised_component_R_BOUNDARY_MIXED": 9,
+        "le32k_supervised_component_D": 10885,
+        "common16k.jsonl.gz_records": 2
+      },
+      "historical_generation.pairs.jsonl.gz": {
+        "source_pairs": 72,
+        "public_source_pairs_with_recorded_reasoning": 1,
+        "public_transformed_reasoning_characters": 407,
+        "pairs_compiled": 72,
+        "supervised_component_F": 432,
+        "supervised_component_A": 24941,
+        "common16k.jsonl.gz_records": 42,
+        "positive_complete_le32k": 67,
+        "le32k_supervised_tokens": 27972,
+        "le32k_records_with_reasoning": 0,
+        "le32k_supervised_component_F": 402,
+        "le32k_supervised_component_A": 23165,
+        "supervised_component_E": 5898,
+        "supervised_component_MIXED": 34,
+        "le32k_supervised_component_E": 4375,
+        "le32k_supervised_component_MIXED": 30,
+        "common32k_long_only.jsonl.gz_records": 25,
+        "over32k.jsonl.gz_records": 5,
+        "public_reasoning_decode_source_exact_checks": 1,
+        "supervised_component_R": 78,
+        "supervised_component_R_BOUNDARY_MIXED": 1,
+        "supervised_component_D": 739
+      }
+    },
+    "mechanical_holds_and_compile_failures": {},
+    "source_public_pairs": [
+      {
+        "name": "sse_core.pairs.jsonl.gz",
+        "sha256": "f12e47510d3809e8d20fb81cc0e3106c54deddfa46f5c8671119e81ed5e105af",
+        "bytes": 191224
+      },
+      {
+        "name": "historical_generation.pairs.jsonl.gz",
+        "sha256": "5679ddce7482dc9322a44e0fe8a519725d839f90798262514772359a1ab8c380",
+        "bytes": 902167
+      }
+    ],
+    "source_files_unchanged": true,
+    "every_public_recorded_reasoning_field_decoded_and_exactly_matched": true,
+    "identity_is_to_public_transformed_text_not_original_raw_bytes": true,
+    "tokenizer_equivalence_and_calls": {
+      "official_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+      "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+      "instrumented_template_sha256": "e32feaaf7ea205453c8d7083eaea652aaf53c541071bd453984c09a1e996916a",
+      "variant_is_not_unmodified_official_template": true,
+      "future_inference_api_must_use_same_causal_variant": true,
+      "inference_api_variant_already_integrated": false,
+      "two_tokenizer_asset_sets_byte_identical": true,
+      "asset_sha256": {
+        "primary_14b": {
+          "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+          "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+          "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+        },
+        "control_8b": {
+          "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+          "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+          "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+        }
+      },
+      "independent_second_tokenizer_calls": 64,
+      "reuse_rule": "identical assets + identical rendered bytes; independent canary then every 97th window"
+    },
+    "script_sha256": "26740636f3d4c3c46de3dfd18ad1286dc31c9dc8b37cd0f32bfe6a3b40b8f618",
+    "causal_compiler_script_sha256": "c0da0931dd698b6ae4ba51ef5b6cde2a6e0ae54cf236b800425b8f4a61f23fb2",
+    "elapsed_seconds": 3.703,
+    "semantic_gold_created": 0,
+    "training_started": false,
+    "model_weights_loaded": false,
+    "gpu_used": false,
+    "outputs": {
+      "all_records.jsonl.gz": {
+        "sha256": "bbdbbb45d55a5570113a290cfc0da33b775e6ce99691bab76de7adc1bca6dcc2",
+        "bytes": 1479172
+      },
+      "common16k.jsonl.gz": {
+        "sha256": "204c1541a7a6a4d6aee2f3cbbf443dc367f597083f537baaf7484aab3b9ccb8f",
+        "bytes": 447621
+      },
+      "common32k_long_only.jsonl.gz": {
+        "sha256": "7da9f8e997f459329a1e57a84cfceb59a2ef2369935fca74341adf590a9f1d37",
+        "bytes": 853978
+      },
+      "over32k.jsonl.gz": {
+        "sha256": "17e4e6dc9382fef695d9a9c1d25bced3a3281bb9b2d9ade8e201c98205af54a0",
+        "bytes": 178745
+      },
+      "compile_holds.jsonl.gz": {
+        "sha256": "b1dd2cbcc903e5e0182d1c5b0fdeeb33801524a5f896708e93a4d42bdd2b3ec3",
+        "bytes": 45
+      }
+    }
+  },
+  "old_rejected_ai_review_ids_masked": 61,
+  "source_reasoning_characters_are_not_tokens": true,
+  "stage_windows_are_not_full_autonomous_runs": true,
+  "raw_response_pairs_are_not_independent_enterprise_tasks": true,
+  "source_scope_decision": "pending user clarification; protected226 retained by default",
+  "training_started": false,
+  "human_semantic_gold": 0,
+  "source_receipt_sha256": {
+    "RAW_RECOVERY_REPORT.json": "1a723c26250b178c57ae3b6ee1d2974c82bff288f7af79e625c5b154fa104ba5",
+    "SSE_REASONING_RECOVERY_REPORT.json": "26d1369c10232702c7cd01eb6b6ec4e49c894d70687525a926a2524bc6b540f2",
+    "RAW_SCOPE_REVIEW.json": "f7c41c0cfca630a0033b7cb8264d63a144f20803fba8aaa54293b6f98f24b622",
+    "SSE_ACTION_OUTCOME_AUDIT.json": "34baa26258d93e859456104b93218315ae717a592b54705e1bbe4e2aaf644545",
+    "SSE_SEMANTIC_SAMPLE_REVIEW.json": "1f73ac0872dd454206da7744fbbe20dc2d50458e84b4ddb33f7b330df10f67dc",
+    "HISTORICAL_NATIVE_RECOVERY_REPORT.json": "0d614ea2c9d6243ded6b94f680156b12066461c0348a9a1d1ea4fa8b2c16a5dd",
+    "NATIVE_SOURCE_SPLIT_AUDIT.json": "1f85400faf6fc2b1621e34b6c05757a0bf9c481e7ac75ada53bf4da55744586a",
+    "FINAL_NATIVE_COMPILATION_REPORT.json": "f80fc61c69662c62868df7c60488985904041b9d0a220c0e4d9acc80e6e63948",
+    "COMPILED_DATA_INDEPENDENT_QA.entrypoints.json": "2650431edfea72f103b71ff98aaabd10584a038a1b566c3767e1f63d435303f1"
+  },
+  "curated_receipt_sha256": {
+    "curated_native/CURATED_NATIVE_REPORT.json": "761ef72e7729aeaeee4584e336ecb04587c01e109fca50a382ccbad1c30593a3",
+    "curated_reasoning/CURATED_REASONING_REPORT.json": "352a0f8af5e714740189d710c876fbb5c5afb49670ad038530deb88408aba2c6",
+    "source_gated_profiles/SOURCE_GATED_PROFILE_REPORT.json": "99ca6f0ba83d0edb1d8514c471cee3869a29ad4b9eab92541ff5d769a69bc727",
+    "public_reasoning_compiled_final/PUBLIC_REASONING_COMPILATION_REPORT.json": "eaa01fcc96fa684251afe43a2e0929681ff715ed4a660e8e0ef5b5f46f51542e"
+  }
+}

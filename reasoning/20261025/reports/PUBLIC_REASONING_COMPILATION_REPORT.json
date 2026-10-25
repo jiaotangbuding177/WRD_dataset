@@ -1,0 +1,151 @@
+{
+  "schema_version": "wrd-public-reasoning-array-compilation-v4",
+  "bank_role": "core",
+  "counts": {
+    "source_pairs": 81,
+    "public_source_pairs_with_recorded_reasoning": 10,
+    "public_transformed_reasoning_characters": 175136,
+    "public_reasoning_decode_source_exact_checks": 10,
+    "pairs_compiled": 81,
+    "processed_tokens": 1312403,
+    "supervised_tokens_before_length": 92516,
+    "supervised_component_F": 486,
+    "supervised_component_R": 49523,
+    "supervised_component_R_BOUNDARY_MIXED": 10,
+    "supervised_component_D": 11624,
+    "common32k_long_only.jsonl.gz_records": 32,
+    "positive_complete_le32k": 76,
+    "le32k_supervised_tokens": 88365,
+    "le32k_records_with_reasoning": 9,
+    "le32k_supervised_component_F": 456,
+    "le32k_supervised_component_R": 49445,
+    "le32k_supervised_component_R_BOUNDARY_MIXED": 9,
+    "le32k_supervised_component_D": 10885,
+    "common16k.jsonl.gz_records": 44,
+    "supervised_component_A": 24941,
+    "le32k_supervised_component_A": 23165,
+    "supervised_component_E": 5898,
+    "supervised_component_MIXED": 34,
+    "le32k_supervised_component_E": 4375,
+    "le32k_supervised_component_MIXED": 30,
+    "over32k.jsonl.gz_records": 5
+  },
+  "by_input": {
+    "sse_core.pairs.jsonl.gz": {
+      "source_pairs": 9,
+      "public_source_pairs_with_recorded_reasoning": 9,
+      "public_transformed_reasoning_characters": 174729,
+      "public_reasoning_decode_source_exact_checks": 9,
+      "pairs_compiled": 9,
+      "supervised_component_F": 54,
+      "supervised_component_R": 49445,
+      "supervised_component_R_BOUNDARY_MIXED": 9,
+      "supervised_component_D": 10885,
+      "common32k_long_only.jsonl.gz_records": 7,
+      "positive_complete_le32k": 9,
+      "le32k_supervised_tokens": 60393,
+      "le32k_records_with_reasoning": 9,
+      "le32k_supervised_component_F": 54,
+      "le32k_supervised_component_R": 49445,
+      "le32k_supervised_component_R_BOUNDARY_MIXED": 9,
+      "le32k_supervised_component_D": 10885,
+      "common16k.jsonl.gz_records": 2
+    },
+    "historical_generation.pairs.jsonl.gz": {
+      "source_pairs": 72,
+      "public_source_pairs_with_recorded_reasoning": 1,
+      "public_transformed_reasoning_characters": 407,
+      "pairs_compiled": 72,
+      "supervised_component_F": 432,
+      "supervised_component_A": 24941,
+      "common16k.jsonl.gz_records": 42,
+      "positive_complete_le32k": 67,
+      "le32k_supervised_tokens": 27972,
+      "le32k_records_with_reasoning": 0,
+      "le32k_supervised_component_F": 402,
+      "le32k_supervised_component_A": 23165,
+      "supervised_component_E": 5898,
+      "supervised_component_MIXED": 34,
+      "le32k_supervised_component_E": 4375,
+      "le32k_supervised_component_MIXED": 30,
+      "common32k_long_only.jsonl.gz_records": 25,
+      "over32k.jsonl.gz_records": 5,
+      "public_reasoning_decode_source_exact_checks": 1,
+      "supervised_component_R": 78,
+      "supervised_component_R_BOUNDARY_MIXED": 1,
+      "supervised_component_D": 739
+    }
+  },
+  "mechanical_holds_and_compile_failures": {},
+  "source_public_pairs": [
+    {
+      "name": "sse_core.pairs.jsonl.gz",
+      "sha256": "f12e47510d3809e8d20fb81cc0e3106c54deddfa46f5c8671119e81ed5e105af",
+      "bytes": 191224
+    },
+    {
+      "name": "historical_generation.pairs.jsonl.gz",
+      "sha256": "5679ddce7482dc9322a44e0fe8a519725d839f90798262514772359a1ab8c380",
+      "bytes": 902167
+    }
+  ],
+  "source_files_unchanged": true,
+  "every_public_recorded_reasoning_field_decoded_and_exactly_matched": true,
+  "identity_is_to_public_transformed_text_not_original_raw_bytes": true,
+  "tokenizer_equivalence_and_calls": {
+    "official_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "instrumented_template_sha256": "e32feaaf7ea205453c8d7083eaea652aaf53c541071bd453984c09a1e996916a",
+    "variant_is_not_unmodified_official_template": true,
+    "future_inference_api_must_use_same_causal_variant": true,
+    "inference_api_variant_already_integrated": false,
+    "two_tokenizer_asset_sets_byte_identical": true,
+    "asset_sha256": {
+      "primary_14b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "control_8b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      }
+    },
+    "independent_second_tokenizer_calls": 64,
+    "reuse_rule": "identical assets + identical rendered bytes; independent canary then every 97th window"
+  },
+  "script_sha256": "26740636f3d4c3c46de3dfd18ad1286dc31c9dc8b37cd0f32bfe6a3b40b8f618",
+  "causal_compiler_script_sha256": "c0da0931dd698b6ae4ba51ef5b6cde2a6e0ae54cf236b800425b8f4a61f23fb2",
+  "elapsed_seconds": 3.703,
+  "semantic_gold_created": 0,
+  "training_started": false,
+  "model_weights_loaded": false,
+  "gpu_used": false,
+  "outputs": {
+    "all_records.jsonl.gz": {
+      "sha256": "bbdbbb45d55a5570113a290cfc0da33b775e6ce99691bab76de7adc1bca6dcc2",
+      "bytes": 1479172
+    },
+    "common16k.jsonl.gz": {
+      "sha256": "204c1541a7a6a4d6aee2f3cbbf443dc367f597083f537baaf7484aab3b9ccb8f",
+      "bytes": 447621
+    },
+    "common32k_long_only.jsonl.gz": {
+      "sha256": "7da9f8e997f459329a1e57a84cfceb59a2ef2369935fca74341adf590a9f1d37",
+      "bytes": 853978
+    },
+    "over32k.jsonl.gz": {
+      "sha256": "17e4e6dc9382fef695d9a9c1d25bced3a3281bb9b2d9ade8e201c98205af54a0",
+      "bytes": 178745
+    },
+    "compile_holds.jsonl.gz": {
+      "sha256": "b1dd2cbcc903e5e0182d1c5b0fdeeb33801524a5f896708e93a4d42bdd2b3ec3",
+      "bytes": 45
+    }
+  }
+}
