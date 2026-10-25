@@ -18,6 +18,8 @@
 
 每行包含实际`input_ids`、`supervision_spans`及target owner。span格式为`[begin,end,component,base_weight]`，end不含，component含R/E/A/D及F/跨边界混合桶。标签构造：
 
+这些component首先是可验证的序列化载体：R为显式reasoning字段，E为同次带工具调用响应的普通可见正文，A为实际工具调用/参数，D为无工具调用响应的正文（可含结构化决定、解释或终态回答），F为格式。**D不等于该段每句话都已被语义标成正确决策，E也不等于全部思考。** write参数中的reason仍可归A；真正的业务决定正确性来自原字段、真实结果和独立审阅，不能从一个component字母推断。损失先利用这些载体分组，后续细粒度语义标注必须另带来源。
+
 ```python
 labels = [-100] * len(row["input_ids"])
 for begin, end, component, base_weight in row["supervision_spans"]:

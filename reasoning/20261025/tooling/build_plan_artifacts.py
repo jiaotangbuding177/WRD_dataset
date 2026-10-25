@@ -82,6 +82,8 @@ def main():
                  'format_loss_auxiliary_lambda': 0.02,
                  'missing_segments_renormalized_not_invented': True,
                  'compiler_span_weights_are_base_masks_not_the_full_training_objective': True,
+                 'component_codes_are_serialization_carriers_not_semantic_gold': True,
+                 'D_carrier_contains_non_tool_body_not_only_correct_decisions': True,
                  'stage_weights': {'A': 0.20, 'B': 0.35, 'C': 0.30, 'D': 0.15},
                  'actor_auxiliary_loss_max_fraction': 0.10,
                  'derived_control_or_summary_max_fraction_of_main_budget': 0.20,
