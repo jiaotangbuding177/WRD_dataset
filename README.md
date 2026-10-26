@@ -1,4 +1,16 @@
-# 最新实际处理：WRD全量过程与训练数据v9
+# v10中间检查点：已验收主子任务，完整WRD仍在补齐
+
+[实际正文／数组与恢复](dataset/20261027_v10_checkpoint01/README.md) · [训练方案](dataset/20261027_v10_checkpoint01/TRAINING_PLAN.md) · [当前活跃清单](dataset/20261027_v10_checkpoint01/TRAINING_MANIFEST.json) · [实际数量](dataset/20261027_v10_checkpoint01/ACTUAL_DATA_STATISTICS.json)
+
+本检查点提供437个真实可加载序列／75,248监督tokens：436个逐当前意图修正后的需求契约目标，以及一段原生A响应中490个获证原R tokens。267个原source、跨银行255个联合组件；420条≤16K、17条16—32K。原R全文、原生工具操作／反馈和错误判断均保全，未审／错误不参与正loss。旧431序列版与645R初版已撤出，不叠加计数。
+
+**这不是最终足量主训练集。** 当前B制作已审核授权，但共享机器资源未通过准入；完整制作→实际消费→反馈修订→合格封装仍缺。本次是可恢复、可核mask的中间数据检查点，不将需求标签当完整自主WRD。没有启动训练。原226、新H、静态dev/test保持隔离。
+
+旧26 Actor的prepare真实任务生产边已全部接通，23证实保护、3具体缺证；v9中受影响36个旧正目标／1260tokens有显式撤销清单，旧包作为历史保留，v10不默认混入v9辅助。旧12个Git分片里的750个原会话／附件对象117.12MB已实际回读，另7份原件550,563B随新包补齐，不把已有CAS索引当作文件已交付。
+
+---
+
+# 历史实际处理：WRD全量过程与训练数据v9
 
 [真实数据与对应训练计划](dataset/20261026_v9/TRAINING_PLAN.md) · [解包与加载](dataset/20261026_v9/README.md) · [实际数量](dataset/20261026_v9/FINAL_DATA_STATISTICS.json) · [文件与mask清单](dataset/20261026_v9/TRAINING_MANIFEST.json)
 
