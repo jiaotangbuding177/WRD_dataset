@@ -1,0 +1,9 @@
+# 模型上下文与序列预算补充（仅元数据核验）
+
+已从冻结14B／8B revision的官方仓库各取728字节config.json，未下载权重或启动训练。两者max_position_embeddings均40960、rope_scaling均null；原件与URL／SHA在output/20261027_wrd_main_v10/model_metadata/VERIFIED_CONFIG_METADATA.json。不能把tokenizer的model_max_length当成实际模型或服务已经支持的上下文。
+
+当前16K／32K SFT桶保持不变。兼容API原53工具首请求的32799诊断已含prompt预算，正式推理还必须给实际R／工具调用／后续观察留空间；单看某个输入能放入40960，不说明整条技能沉淀历史都能放入。32799是官方non-thinking generation prefix下的学生tokenizer测量，不是GLM最终SDK token数。
+
+官方模型卡说明长上下文可用YaRN扩展，并提醒静态缩放可能影响短文本；64K或更长不只取决于Spark内存，还取决于位置编码、服务和attention实现。参见[Qwen3-14B官方模型卡](https://huggingface.co/Qwen/Qwen3-14B?library=transformers)。本轮未启用YaRN、未改模型配置，也不宣称已验证64K可训／128K可用。
+
+未来获准接入时，应先冻结实际服务上下文上限、输入＋输出总预算、RoPE配置、同一causal模板及工具解析；base／SFT同模型对照保持完全一致。短上下文与扩展上下文的质量／成本分别测，不用后者解决窗口后就隐去其性能变化。必要过去历史不能无说明裁掉；可证状态checkpoint、精确未来completion前缀和完整长桶是不同视图，分别报告覆盖。当前数据的437／75248统计不因这次元数据核验变化。

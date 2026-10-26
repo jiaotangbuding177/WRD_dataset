@@ -1,0 +1,109 @@
+{
+  "schema": "wrd-native-capture-scope-clarification-v1",
+  "at": "2026-10-26T17:42:42.783863+00:00",
+  "status": "EVIDENCE_SCOPE_CLARIFIED_NO_NEW_MODEL_EXECUTION",
+  "B_waiter_status": "STOPPED_BEFORE_DISPATCH_FOR_5_0_38_DOCUMENT_REFRESH",
+  "B_authorization_revoked": false,
+  "native_loop_or_tool_returns_changed": false,
+  "source_pins": [
+    {
+      "path": "D:\\skillloop\\research\\workflow\\native.py",
+      "sha256": "a8ccd2ede7bcd546e1054e8418426e3b2a402411d314768c50593670ab863fca",
+      "bytes": 19324
+    },
+    {
+      "path": "D:\\skillloop\\research\\pipelines\\enterprise_sft_collection\\audit_relay.py",
+      "sha256": "1eefd148d3265dbcf93e33bf1b08c34424cb78771301d97d0a7f3f652a56f91b",
+      "bytes": 12652
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\openai-handler.js",
+      "sha256": "21cb2b68a431bbe0840b75cac44ff654ca8ce7a536cd01ed4b8bd69a51f850a8",
+      "bytes": 52469
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\stream-driver.js",
+      "sha256": "eafca5fa5d06e9d77f50e62bd33cc2b06eb2f03bc35931502f1d87eacad36d43",
+      "bytes": 13469
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\sink-factory.js",
+      "sha256": "c95810d8515b5b83b9e3047d66c264190fb19e97ca8f160335e32640b268b9c6",
+      "bytes": 3411
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\acp-client.js",
+      "sha256": "5847c96f956168df3f3de6f5bd0c0062f08b606971c4d3b182f2c31be1ec550f",
+      "bytes": 25210
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\prompt-builder.js",
+      "sha256": "97de40055a20a4432ad0690a44020742799fbffd7b32e03c38fafc5bb4fcf9c1",
+      "bytes": 7331
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\agent-guide.js",
+      "sha256": "bb1b15e74d09d6ff4e7a8bcee8ca6b994a7cef22cb0e7c135c31f03553c05868",
+      "bytes": 3042
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\gateway-discovery.js",
+      "sha256": "fc0bac09b7d2a85d6eb82e4294766f9cb625ed3735007279da3c88e020c7521a",
+      "bytes": 27449
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\runtime_10\\container_runner.py",
+      "sha256": "d6c86d1ca5b45ac51877f36c3f79d59c972f2e5a7f1bafe6fbe8f9433219cb9d",
+      "bytes": 34128
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\runtime_10\\openclaw_config.py",
+      "sha256": "c6f44cc3d3971fc356c6fa55f62b48343b538f9a5466c6c731f96cc48cf8a27e",
+      "bytes": 12575
+    }
+  ],
+  "captured_scope": {
+    "boundary": "OpenClaw model client to existing OpenAI-compatible buddy bridge, with recording-only pass-through HTTP relay",
+    "request_body": "actual full HTTP bytes including OpenClaw system/messages/tools and tool feedback at this boundary",
+    "response_body": "actual JSON/SSE bytes emitted by the existing bridge, including readable reasoning_content and native delegated tool calls",
+    "native_transcripts": "all persisted per-session event_json from the fresh disposable container, read-only after run; hard-failure nonpersisted tail remains unknown",
+    "ultimate_backend_provider_request_bytes": "NOT_CAPTURED_OR_PROVEN_COMPLETE",
+    "provider_internal_system_prompt_and_tools": "UNKNOWN_EXACT_ACTUAL_BYTES; existing bridge selects full native backend when tools present",
+    "unknowns_not_fabricated": true
+  },
+  "source_supported_backend_observation": {
+    "openai_handler_hasTools_needsTools": "existing source selects full backend for tools and comments approximately22.7k versus3.2k native backend prefix; delegate tool registration depends on full backend",
+    "prefix_comment_is_not_measured_exact_prompt": "Do not subtract different tokenizer counts or interpret a code comment as an exact recovered provider request",
+    "pending_native_continuation": "existing _continuePending responds to exact owned toolCallId and consumes its ACP iterator; _suspendForToolCall returns one native delegated tool per compatible HTTP response"
+  },
+  "A_observed": {
+    "first_compatible_request_path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\A_screen_narrative_01\\api_audit\\0001_8ba5d4f34c6c48bfb4b2059f7793cb44\\request.raw.json",
+    "first_compatible_request_sha256": "a6da5c222fd9c71c36c02db02bf986a6b40b9a6475da186a6815c36f35a91922",
+    "first_compatible_request_bytes": 129035,
+    "openclaw_tool_catalog_count": 53,
+    "compatible_http_exchanges": 9,
+    "metered_unique_provider_model_calls": 7,
+    "provider_usage_status": "complete",
+    "provider_input_tokens": 537698,
+    "provider_output_tokens": 33234,
+    "provider_total_tokens": 570932,
+    "compatible_response_original_readable_R_field": "choices[].delta.reasoning_content",
+    "compatible_response_original_readable_R_utf8_bytes": 49697,
+    "compatible_response_original_readable_R_chars": 34473,
+    "all_R_is_positive_loss": false,
+    "api_0002_0003": "owned pending read-tool continuations with0s/0.016s responses and no new native_start; no new metered provider inference during those HTTP exchanges",
+    "all_request_response_sha_receipts_pass": true
+  },
+  "training_and_evaluation_labels": {
+    "recommended_original_ledger_name": "native_compatible_api_responses.original",
+    "source_raw_fields_not_removed": true,
+    "student_core7_view": "declared tool-catalog projection retaining observed original API system/history; is_original_native_request_identical=false",
+    "ultimate_provider_prompt_equivalence_claim_permitted": false,
+    "independent_model_call_count_from": "distinct native meter provider request identities, not compatible HTTP response count",
+    "effect_or_full_autonomy_established": false
+  },
+  "enterprise_body_copied_into_this_clarification": false,
+  "credentials_or_auth_headers_included": false,
+  "new_model_calls": 0,
+  "training_started": false
+}

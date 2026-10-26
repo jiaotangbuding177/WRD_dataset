@@ -2,6 +2,8 @@
 
 [实际正文／数组与恢复](dataset/20261027_v10_checkpoint01/README.md) · [训练方案](dataset/20261027_v10_checkpoint01/TRAINING_PLAN.md) · [当前活跃清单](dataset/20261027_v10_checkpoint01/TRAINING_MANIFEST.json) · [实际数量](dataset/20261027_v10_checkpoint01/ACTUAL_DATA_STATISTICS.json)
 
+**最新5.0.39方案与实际输入增量：** [详细训练方案](plans/20261027_v10_updates/TRAINING_PLAN.md)／[模型输入输出](plans/20261027_v10_updates/MODEL_INPUT_OUTPUT.md)／[58源、23机制的可恢复实际输入](plans/20261027_v10_updates/README.md)／[已上传检查点远端实体核验](plans/20261027_v10_updates/REMOTE_CHECKPOINT01_VERIFICATION.json)。新增输入与SDK原件证据已认证打包；0新增正例，不把81个替代job当81条训练轨迹。原226仍隔离，B/后续质量链仍待共享机器资源，不训练。
+
 本检查点提供437个真实可加载序列／75,248监督tokens：436个逐当前意图修正后的需求契约目标，以及一段原生A响应中490个获证原R tokens。267个原source、跨银行255个联合组件；420条≤16K、17条16—32K。原R全文、原生工具操作／反馈和错误判断均保全，未审／错误不参与正loss。旧431序列版与645R初版已撤出，不叠加计数。
 
 **这不是最终足量主训练集。** 当前B制作已审核授权，但共享机器资源未通过准入；完整制作→实际消费→反馈修订→合格封装仍缺。本次是可恢复、可核mask的中间数据检查点，不将需求标签当完整自主WRD。没有启动训练。原226、新H、静态dev/test保持隔离。
