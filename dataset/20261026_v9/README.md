@@ -11,3 +11,5 @@
 867份原输入会话和112个真实附件绑定已准备；93个不同附件对象已在原仓库dist的12分片逐字节核验，按包内EXISTING_RESOURCE_REUSE引用。需要恢复真实附件时加 `--existing-release-root <仓库根>`；这样无需重复上传同字节418MB。原文/个人资料/可能含凭据的历史记录保持认证加密，密钥留本地。
 
 源代码规则的LF文本hash与原CRLF字节hash分开记录，完整规则源码随包保留。协调规则trace是明确假设状态，不是实际工具反馈/试跑或原教师CoT；不替代原生Agent执行循环。旧v6原R与数组保持历史不同执行条件的引用，不自动混入当前主集。
+
+[远端数据实体回读](DATA_COMMIT_REMOTE_VERIFICATION.json) · [独立实包核验](PACKAGE_INDEPENDENT_QA.json) · [实际解包与loader验证](RESTORE_AND_LOADER_QA.json)。这些收据针对数据提交c13d8e6；后续仅补交校验元数据，数据密文与训练数组未改。
