@@ -1,0 +1,125 @@
+{
+  "schema_version": "wrd-v9-training-manifest",
+  "created_at_utc": "2026-10-26T15:21:41.830712+00:00",
+  "auxiliary_arrays_technically_ready": true,
+  "full_goal_main_training_ready": false,
+  "training_execution_authorized": false,
+  "training_started": false,
+  "original226_and_new_H_isolation_preserved": true,
+  "actual_files_with_messages_input_ids_masks": [
+    {
+      "path": "sft/coordination.dev.16k.jsonl.gz",
+      "bytes": 867729,
+      "sha256": "4d6b6462e117a21ec1d97735e22ee53276da01de69676674b63f0b46751e69b4",
+      "sequences": 70
+    },
+    {
+      "path": "sft/coordination.dev.32k.jsonl.gz",
+      "bytes": 462065,
+      "sha256": "101173d284396241611d34c4146b57c79d6a9fed6307ca21ab8c730ebae7f23b",
+      "sequences": 13
+    },
+    {
+      "path": "sft/coordination.test.16k.jsonl.gz",
+      "bytes": 835274,
+      "sha256": "4b66155bd7fb6850c63a73f7a3c67cebf74b76691fa46657d96fedefffe65b86",
+      "sequences": 73
+    },
+    {
+      "path": "sft/coordination.test.32k.jsonl.gz",
+      "bytes": 249644,
+      "sha256": "ddaf58294a81b22d6a531bc54c32a751f5d736fb5c4381df901b30116cb54d64",
+      "sequences": 5
+    },
+    {
+      "path": "sft/coordination.train.16k.jsonl.gz",
+      "bytes": 7955764,
+      "sha256": "e329db29d3b75868c49b746618966d9f909320251d178c139966aac98bacfbb2",
+      "sequences": 788
+    },
+    {
+      "path": "sft/coordination.train.32k.jsonl.gz",
+      "bytes": 2242879,
+      "sha256": "ef1a1496fb2e8a5f01fc8d93ee38b279d8689e43bc541bbba20c140544696fcb",
+      "sequences": 59
+    },
+    {
+      "path": "sft/native_process.dev.16k.jsonl.gz",
+      "bytes": 748251,
+      "sha256": "40a4cb888bbcc6c5377717073ada649dcbcfc4314bb63b66a94eb6b296a657cf",
+      "sequences": 77
+    },
+    {
+      "path": "sft/native_process.test.16k.jsonl.gz",
+      "bytes": 662017,
+      "sha256": "57126e036ebd6e1e9c453f84a965588535902b471a778c13d76065b9555df027",
+      "sequences": 70
+    },
+    {
+      "path": "sft/native_process.train.16k.jsonl.gz",
+      "bytes": 9616560,
+      "sha256": "78506431593e0dd282a9e1d657abd1d6a3279b463d875311469e294035941bbe",
+      "sequences": 801
+    },
+    {
+      "path": "sft/native_process.train.32k.jsonl.gz",
+      "bytes": 570023,
+      "sha256": "0b968dfd0e6e16d0bb2423229b138ecc57639a984cb652daf1fa3bd952394256",
+      "sequences": 12
+    }
+  ],
+  "profiles": {
+    "wrd_outcome_main": {
+      "admitted_targets": 0,
+      "ready": false
+    },
+    "native_process": {
+      "meaning": "read-only tool protocol auxiliary, not skill quality",
+      "dev_sequences": 77,
+      "dev_targets": 96,
+      "dev_supervised_tokens": 3131,
+      "dev_input_tokens": 301075,
+      "le16k_sequences": 948,
+      "test_sequences": 70,
+      "test_targets": 99,
+      "test_supervised_tokens": 3251,
+      "test_input_tokens": 268521,
+      "train_sequences": 813,
+      "train_targets": 1173,
+      "train_supervised_tokens": 38269,
+      "train_input_tokens": 3913785,
+      "gt16k_le32k_sequences": 12
+    },
+    "coordination": {
+      "meaning": "clean input entrypoint annotation plus source-free hypothetical rule supervision, not real successful autonomous trajectories",
+      "dev_sequences": 83,
+      "dev_targets": 83,
+      "dev_supervised_tokens": 42282,
+      "dev_input_tokens": 636809,
+      "le16k_sequences": 931,
+      "gt16k_le32k_sequences": 77,
+      "test_sequences": 78,
+      "test_targets": 78,
+      "test_supervised_tokens": 37730,
+      "test_input_tokens": 453406,
+      "train_sequences": 847,
+      "train_targets": 917,
+      "train_supervised_tokens": 365519,
+      "train_input_tokens": 4615146
+    }
+  },
+  "source_group_manifest": "SOURCE_GROUP_SPLIT.json",
+  "QA": "COMPILED_QA.json",
+  "statistics": "FINAL_DATA_STATISTICS.json",
+  "plan": "TRAINING_PLAN.json",
+  "raw_evidence_not_default_training_inputs": [
+    "recovery",
+    "outcomes",
+    "processed",
+    "processing_history"
+  ],
+  "explicit_allowlist_required_not_glob_all_jsonl": true,
+  "controlled_data_delivered_in_authenticated_archive": true,
+  "all_model_mask_fields_implemented_by": "tooling/dataset_loader.py",
+  "old_v6_arrays_unchanged_not_automatically_promoted": true
+}

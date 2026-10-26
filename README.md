@@ -1,3 +1,15 @@
+# 最新实际处理：WRD全量过程与训练数据v9
+
+[真实数据与对应训练计划](dataset/20261026_v9/TRAINING_PLAN.md) · [解包与加载](dataset/20261026_v9/README.md) · [实际数量](dataset/20261026_v9/FINAL_DATA_STATISTICS.json) · [文件与mask清单](dataset/20261026_v9/TRAINING_MANIFEST.json)
+
+本次已实际恢复1843原native会话/34239助手响应，连接具体技能版本、试跑与评审，生成messages、共同token数组、loss spans和来源群切分。正文及完整思考/工具/失败反馈/修订保全在认证加密实包，沿用本地既有密钥；不是只交候选清单。
+
+**完整WRD主训练仍未放行。** 原226与新H继续隔离后，145个受测试版本精确文件贡献为144保护/1未闭合；87个证据评审为85保护/2未闭合，不能全转正loss。当前可加载的是只读工具辅助与明确新增的协调标注；1660训练序列/2090助手目标不是1660个完整自主成功任务。原R全部保全，当前新原生主正R0；旧v6原R不同条件历史清单保持。
+
+1968条最终序列已逐条双tokenizer/mask/来源分组独立核验；12完整控制教学trace是明确假设状态，非真实工具/试跑。原真实3771状态决策已整理保全但主准入0。下方v8及更早是历史快照，不能用旧子集数量概括原材料，也不能用辅助数量代替完整主训练量。没有训练、权重加载或新Teacher/Actor调用。
+
+---
+
 # 最新评估：数据质量、数据量与14B目标可达性v8
 
 [完整质量评估与调研](assessment/20261026_quality/QUALITY_ASSESSMENT.md) · [本轮证据包入口](assessment/20261026_quality/README.md) · [独立复核](assessment/20261026_quality/V8_SYNTHESIS_REVIEW.json)

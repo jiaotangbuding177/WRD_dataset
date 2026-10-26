@@ -1,0 +1,373 @@
+{
+  "schema_version": "wrd-v9-independent-final-plan-review-2.0",
+  "reviewed_at_utc": "2026-10-26T15:24:16.457016+00:00",
+  "status": "PASS_WITH_FULL_GOAL_MAIN_TRAINING_BLOCKED",
+  "review_is_training_authorization": false,
+  "training_started": false,
+  "weights_loaded": false,
+  "new_teacher_actor_business_calls": 0,
+  "checks": [
+    {
+      "check": "final_SFT_allowlist_and_QA_exact_path_bytes_SHA",
+      "status": "PASS",
+      "evidence": {
+        "files": 10,
+        "QA_status": "PASS"
+      }
+    },
+    {
+      "check": "source_input_pins_and_actual_dual_tokenizer_assets",
+      "status": "PASS",
+      "evidence": {
+        "input_pins": 6,
+        "coordination_input_pins": 3,
+        "actual_asset_files_rehashed": 10,
+        "bound_dual_tokenizer_reencoded_sequences": 1968
+      }
+    },
+    {
+      "check": "all_actual_SFT_rows_arrays_spans_weights_and_statistics_recounted",
+      "status": "PASS",
+      "evidence": {
+        "rows": 1968,
+        "all_splits": {
+          "dev_sequences": 160,
+          "dev_targets": 179,
+          "dev_input_tokens": 937884,
+          "dev_supervised_tokens": 45413,
+          "dev_weighted_loss_token_mass": 4455.380000000002,
+          "test_sequences": 148,
+          "test_targets": 177,
+          "test_input_tokens": 721927,
+          "test_supervised_tokens": 40981,
+          "test_weighted_loss_token_mass": 4013.1400000000044,
+          "train_sequences": 1660,
+          "train_targets": 2090,
+          "train_input_tokens": 8528931,
+          "train_supervised_tokens": 403788,
+          "train_weighted_loss_token_mass": 37691.50999999931
+        },
+        "by_bank": {
+          "coordination": {
+            "dev_sequences": 83,
+            "dev_targets": 83,
+            "dev_input_tokens": 636809,
+            "dev_supervised_tokens": 42282,
+            "le16k_sequences": 931,
+            "gt16k_le32k_sequences": 77,
+            "test_sequences": 78,
+            "test_targets": 78,
+            "test_input_tokens": 453406,
+            "test_supervised_tokens": 37730,
+            "train_sequences": 847,
+            "train_targets": 917,
+            "train_input_tokens": 4615146,
+            "train_supervised_tokens": 365519
+          },
+          "native_process": {
+            "dev_sequences": 77,
+            "dev_targets": 96,
+            "dev_input_tokens": 301075,
+            "dev_supervised_tokens": 3131,
+            "le16k_sequences": 948,
+            "test_sequences": 70,
+            "test_targets": 99,
+            "test_input_tokens": 268521,
+            "test_supervised_tokens": 3251,
+            "train_sequences": 813,
+            "train_targets": 1173,
+            "train_input_tokens": 3913785,
+            "train_supervised_tokens": 38269,
+            "gt16k_le32k_sequences": 12
+          }
+        },
+        "component_tokens": {
+          "F": 14676,
+          "D": 439063,
+          "A": 36443
+        },
+        "annotation_origins": {
+          "INDEPENDENT_ANNOTATION_FROM_CLEAN_SOURCE_INPUT_sequences": 834,
+          "INDEPENDENT_ANNOTATION_FROM_CLEAN_SOURCE_INPUT_targets": 834,
+          "synthetic_exhaustive_program_rule_boundary_state_sequences": 162,
+          "synthetic_exhaustive_program_rule_boundary_state_targets": 162,
+          "SYNTHETIC_HYPOTHETICAL_FULL_CONTROLLER_RULE_TRACE_sequences": 12,
+          "SYNTHETIC_HYPOTHETICAL_FULL_CONTROLLER_RULE_TRACE_targets": 82
+        }
+      }
+    },
+    {
+      "check": "source_route_lineage_split_and_protected_source_separation",
+      "status": "PASS",
+      "evidence": {
+        "source_ids": 852,
+        "components": 856,
+        "protected_source_intersections": 0,
+        "new_holdout_registry_source_ids_checked": 12,
+        "static_holdout_is_not_closed_loop_evaluation": true
+      }
+    },
+    {
+      "check": "failed_read_erratum_exact_loss_removal_preserves_native_inputs_and_coordination",
+      "status": "PASS",
+      "evidence": {
+        "removed_owners": 10,
+        "removed_supervised_tokens": 353,
+        "components": {
+          "F": 60,
+          "A": 293
+        },
+        "compiled_native_rows_independently_compared": 960,
+        "coordination_pins_rehashed": 10,
+        "full_trace_preservation_bound_to_independent_QA": 1843,
+        "errata_pending_status_is_historical_application_time": true
+      }
+    },
+    {
+      "check": "plan_preserves_full_WRD_goal_and_blocks_training_without_empirical_main_supervision",
+      "status": "PASS",
+      "evidence": {
+        "current_complete_main_targets": 0,
+        "original_R_positive_tokens": 0,
+        "historical_v6_preserved_not_merged": {
+          "main_responses": 106,
+          "R_responses": 30,
+          "R_tokens": 121511
+        },
+        "hypothetical_full_controller_traces": 12,
+        "hypothetical_decisions": 82,
+        "models": {
+          "primary_14b": {
+            "id": "Qwen/Qwen3-14B",
+            "revision": "40c069824f4251a91eefaf281ebe4c544efd3e18",
+            "parameters": 14768307200,
+            "layers": 40,
+            "bf16_weight_bytes_arithmetic_only": 29536614400,
+            "estimated_r32_trainable_parameters": 128450560,
+            "actual_trainable_parameters": null
+          },
+          "control_8b": {
+            "id": "Qwen/Qwen3-8B",
+            "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+            "parameters": 8190735360,
+            "layers": 36,
+            "bf16_weight_bytes_arithmetic_only": 16381470720,
+            "estimated_r32_trainable_parameters": 87293952,
+            "actual_trainable_parameters": null
+          }
+        },
+        "native_integration_complete": false,
+        "recollection_plan_only_maximum_sessions": 120,
+        "no_effect_or_cost_guarantee": true
+      }
+    }
+  ],
+  "reviewed_final_artifact_pins": [
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\TRAINING_PLAN.json",
+      "bytes": 9155,
+      "sha256": "b27c4fcc5c7f611a0a28a64010e095170a12ff5a03afe79df7670d118f6d2b0b"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\TRAINING_PLAN.md",
+      "bytes": 6977,
+      "sha256": "9652e31f17fdda4b59ea3ab8e6c9d2956a8ff3a559f149f320c8c9bdec4fbc8d"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\TRAINING_MANIFEST.json",
+      "bytes": 4275,
+      "sha256": "0043157993190b9bc3e3d2108cca563f4deff75e61a5ff8dc4f7f4ff11776555"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\FINAL_DATA_STATISTICS.json",
+      "bytes": 8026,
+      "sha256": "d715d3ed13ce770b06f91c380209fa792064f732e3d23d6ced9463be4b3d7299"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\COMPILATION_REPORT.json",
+      "bytes": 11130,
+      "sha256": "14b07ac9861de50233e060af11e81cf79f0aa7cd25a65de74b87a2271115b7af"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\COMPILED_QA.json",
+      "bytes": 6255,
+      "sha256": "876d3e6de6903cbccde57d261fb2b438cb1cd5b60cebf7023ec85f17d85a753b"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\SOURCE_GROUP_SPLIT.json",
+      "bytes": 208065,
+      "sha256": "b4b047925af35dcf04419edf0478b853d2420e16fa7d262b84b8b2bf772a88a1"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\TARGET_QUALITY_ERRATA.json",
+      "bytes": 26066,
+      "sha256": "07a3102e63deefa2a8707d6127fdf49d469e48455ca1d64d32f89264b971713e"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\FAILED_READ_ERRATUM_INDEPENDENT_QA.json",
+      "bytes": 1167,
+      "sha256": "2c6d06e40da578f53dd928a453008587ec650987e6c837bcf530978dbfd26329"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\CLEAN_RECOLLECTION_PLAN.json",
+      "bytes": 26068,
+      "sha256": "e497a4cbe216ab131ae86c0d0caebd618db76d935d750aaa8a00b279bd605504"
+    }
+  ],
+  "verified_SFT_files": [
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\coordination.dev.16k.jsonl.gz",
+      "bytes": 867729,
+      "sha256": "4d6b6462e117a21ec1d97735e22ee53276da01de69676674b63f0b46751e69b4"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\coordination.dev.32k.jsonl.gz",
+      "bytes": 462065,
+      "sha256": "101173d284396241611d34c4146b57c79d6a9fed6307ca21ab8c730ebae7f23b"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\coordination.test.16k.jsonl.gz",
+      "bytes": 835274,
+      "sha256": "4b66155bd7fb6850c63a73f7a3c67cebf74b76691fa46657d96fedefffe65b86"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\coordination.test.32k.jsonl.gz",
+      "bytes": 249644,
+      "sha256": "ddaf58294a81b22d6a531bc54c32a751f5d736fb5c4381df901b30116cb54d64"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\coordination.train.16k.jsonl.gz",
+      "bytes": 7955764,
+      "sha256": "e329db29d3b75868c49b746618966d9f909320251d178c139966aac98bacfbb2"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\coordination.train.32k.jsonl.gz",
+      "bytes": 2242879,
+      "sha256": "ef1a1496fb2e8a5f01fc8d93ee38b279d8689e43bc541bbba20c140544696fcb"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\native_process.dev.16k.jsonl.gz",
+      "bytes": 748251,
+      "sha256": "40a4cb888bbcc6c5377717073ada649dcbcfc4314bb63b66a94eb6b296a657cf"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\native_process.test.16k.jsonl.gz",
+      "bytes": 662017,
+      "sha256": "57126e036ebd6e1e9c453f84a965588535902b471a778c13d76065b9555df027"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\native_process.train.16k.jsonl.gz",
+      "bytes": 9616560,
+      "sha256": "78506431593e0dd282a9e1d657abd1d6a3279b463d875311469e294035941bbe"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\sft\\native_process.train.32k.jsonl.gz",
+      "bytes": 570023,
+      "sha256": "0b968dfd0e6e16d0bb2423229b138ecc57639a984cb652daf1fa3bd952394256"
+    }
+  ],
+  "verified_immutable_source_inputs": [
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\recovery\\episodes.contexts.jsonl.gz",
+      "bytes": 73792528,
+      "sha256": "ad6d00bd248e36dfc115e35724b905374fbce0db550e276c61f3a38ccc759b0a"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\outcomes\\target_outcome_labels.jsonl.gz",
+      "bytes": 6529084,
+      "sha256": "85a430cbb12acedeafaa26ebb346746b5b93260dd371ee712ca35b8d4ea0850c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\native_targets.quality.jsonl.gz",
+      "bytes": 18333579,
+      "sha256": "bd11001699a9953294f5b1dcea4c7100812467a354789d6b9c009c25415b37f4"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\coordination\\entrypoint_controller.native_paths.source_closed.jsonl.gz",
+      "bytes": 6770491,
+      "sha256": "687816dbe024e85aed41c4a74957074134100f564fc68fb3c993967140dda5c2"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\coordination\\rule_boundary_augmentation.jsonl.gz",
+      "bytes": 8275,
+      "sha256": "31500022761ec4a954402a91cb4767a662b4939f5a04ce44d751adfac97e6cd1"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\coordination\\full_controller_rule_traces.synthetic.v2.jsonl.gz",
+      "bytes": 6414,
+      "sha256": "3b0ecd691e4782ca4ecb1b4c44d5115375c002046179f883915a8961dd52be33"
+    }
+  ],
+  "verified_actual_tokenizer_assets": [
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\primary_14b\\tokenizer_config.json",
+      "bytes": 9732,
+      "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\primary_14b\\tokenizer.json",
+      "bytes": 11422654,
+      "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\primary_14b\\vocab.json",
+      "bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\primary_14b\\merges.txt",
+      "bytes": 1671853,
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\primary_14b\\generation_config.json",
+      "bytes": 239,
+      "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\control_8b\\tokenizer_config.json",
+      "bytes": 9732,
+      "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\control_8b\\tokenizer.json",
+      "bytes": 11422654,
+      "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\control_8b\\vocab.json",
+      "bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\control_8b\\merges.txt",
+      "bytes": 1671853,
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_preflight\\tokenizer_assets\\control_8b\\generation_config.json",
+      "bytes": 239,
+      "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+    }
+  ],
+  "reviewer_script": {
+    "path": "D:\\skillloop\\research\\data_prep\\wrd_dataset_v9\\independent_final_plan_review.py",
+    "bytes": 19831,
+    "sha256": "8cc7a5e7345b9fa166c89e51a9c3bf5d8d9124302e86d2e5112d19670931d9d9"
+  },
+  "static_guard_review": {
+    "current_guard_matches_final_receipt": true,
+    "nonblocking_limits": [
+      "build_plan compares tokenizer proofs; this review additionally hashes all ten actual assets",
+      "build_plan writes some outputs before late assertions; final successful output set is independently pinned here"
+    ]
+  },
+  "scope_limits": [
+    "technical arrays/statistics/pins and plan consistency; not semantic gold or empirical effectiveness",
+    "dual-tokenizer re-encoding is the separate pinned COMPILED_QA result; this script independently rechecks arrays/spans/pins",
+    "source static dev/test do not substitute for native student closed-loop evaluation",
+    "full native integration, Spark kernels/throughput, model quality and cost reduction are unverified",
+    "authenticated delivery archive and remote publication are outside this plan review"
+  ],
+  "supersedes_old_PLAN_REVIEW": "prior receipt preserved in publication_history; current receipt binds the 10-owner/353-token erratum"
+}

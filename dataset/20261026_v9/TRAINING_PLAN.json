@@ -1,0 +1,236 @@
+{
+  "schema_version": "wrd-v9-outcome-conditioned-training-plan",
+  "design_revision": "5.0.35",
+  "change_id": "ALG-20261026-08",
+  "status": "AUXILIARY_DATA_COMPILED_FULL_WRD_MAIN_SFT_BLOCKED",
+  "execution_authorized": false,
+  "is_launch_config": false,
+  "training_started": false,
+  "models": {
+    "primary_14b": {
+      "id": "Qwen/Qwen3-14B",
+      "revision": "40c069824f4251a91eefaf281ebe4c544efd3e18",
+      "parameters": 14768307200,
+      "layers": 40,
+      "bf16_weight_bytes_arithmetic_only": 29536614400,
+      "estimated_r32_trainable_parameters": 128450560,
+      "actual_trainable_parameters": null
+    },
+    "control_8b": {
+      "id": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "parameters": 8190735360,
+      "layers": 36,
+      "bf16_weight_bytes_arithmetic_only": 16381470720,
+      "estimated_r32_trainable_parameters": 87293952,
+      "actual_trainable_parameters": null
+    }
+  },
+  "hardware_report": {
+    "source": "user_report_not_remote_measurement",
+    "device": "DGX Spark GB10",
+    "architecture": "aarch64",
+    "os": "Ubuntu 24.04.4",
+    "unified_memory_gib": 121,
+    "reported_available_memory_gib": 115,
+    "driver": "580.159.03",
+    "host_cuda": "13.0",
+    "reported_available_disk_tb": 3.1
+  },
+  "environment_candidate": {
+    "container_tag": "nvcr.io/nvidia/pytorch:25.11-py3",
+    "platform": "linux/arm64",
+    "container_digest": null,
+    "torch_build": "2.10.0a0+b558c986e8 NVIDIA container build",
+    "container_cuda": "13.0.2",
+    "transformers": "4.57.1",
+    "peft": "0.18.0",
+    "trl": "0.25.1",
+    "complete_dependency_lock": null,
+    "preserve_nvidia_torch_and_pip_constraints": true,
+    "on_device_training_verified": false,
+    "attn_implementation_candidate": "sdpa",
+    "effective_attention_backend": null,
+    "training_processes": 1,
+    "train_models_sequentially": true,
+    "training_and_inference_not_concurrent": true,
+    "dataloader_workers_candidate": 2,
+    "tokenizer_preprocessing_threads_candidate": [
+      4,
+      8
+    ],
+    "minimum_system_available_memory_target_gib": 20
+  },
+  "shared_lora_candidate": {
+    "task_type": "CAUSAL_LM",
+    "r": 32,
+    "lora_alpha": 64,
+    "lora_dropout": 0.05,
+    "bias": "none",
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "freeze_embedding_and_lm_head": true,
+    "equal_rank_is_not_equal_trainable_parameter_count": true
+  },
+  "shared_sft_candidate": {
+    "dtype": "bfloat16",
+    "bf16": true,
+    "fp16": false,
+    "enable_thinking": false,
+    "trust_remote_code": false,
+    "loss_type": "weighted_masked_causal_NLL",
+    "completion_only_loss": false,
+    "assistant_only_loss": false,
+    "loss_scope": "explicit approved assistant span ownership, including multi-turn synthetic rule trace targets; all original history/unknown/error/feedback masked",
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "world_size": 1,
+    "learning_rate": 0.0001,
+    "optional_equal_lr_candidate_set": [
+      0.0001,
+      5e-05
+    ],
+    "maximum_lr_candidates_per_model": 2,
+    "optional_lr_sweep_automatic": false,
+    "optimizer": "adamw_torch",
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_epsilon": 1e-08,
+    "weight_decay": 0.01,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.03,
+    "max_grad_norm": 1.0,
+    "gradient_checkpointing": true,
+    "gradient_checkpointing_kwargs": {
+      "use_reentrant": false
+    },
+    "use_cache": false,
+    "packing": false,
+    "torch_compile": false,
+    "initial_common_max_length": 16384,
+    "long_context_candidate_max_length": 32768,
+    "truncation_allowed": false,
+    "minimum_16k_coverage_planning_fraction": 0.7,
+    "long_only_continuation_learning_rate": 5e-05,
+    "short_rows_not_duplicated_in_long_phase": true,
+    "initial_passes": 1,
+    "maximum_passes_before_new_decision": 1,
+    "seed": 42,
+    "logging_steps": 5,
+    "checkpoint_policy": "quarter-pass and phase ends; model selection only with independent development data",
+    "full_parameter_training": false,
+    "rl_training": false,
+    "qlora_if_only_primary_switches_is_separate_configuration_comparison": true
+  },
+  "actual_data_statistics": "FINAL_DATA_STATISTICS.json",
+  "actual_data_manifest": "TRAINING_MANIFEST.json",
+  "phase_policy": [
+    {
+      "phase": "offline_data",
+      "status": "completed",
+      "outputs": [
+        "recovery",
+        "outcomes",
+        "coordination",
+        "processed",
+        "sft"
+      ],
+      "new_teacher_actor_calls": 0
+    },
+    {
+      "phase": "auxiliary_protocol_and_coordination",
+      "status": "data_compiled_not_recommended_as_standalone_full_goal_training",
+      "banks": [
+        "native_process",
+        "coordination"
+      ],
+      "native_read_only_weight": 0.1,
+      "clean_entrypoint_annotation_weight": 0.1,
+      "source_free_boundary_and_trace_weight": 0.05,
+      "maximum_source_parent_exposures": 1
+    },
+    {
+      "phase": "outcome_backed_native_process_SFT",
+      "status": "blocked",
+      "reason": "No skill write/revision or semantic review targets satisfy both source/label ancestry isolation and outcome-evidence requirements.",
+      "requires": [
+        "clean_source_actual_native_make_and_revision_actions",
+        "matched_skill_tree_and_real_trial_observations",
+        "evidence_based_review_with_closed_label_ancestry",
+        "all_required_phase_and_branch_coverage"
+      ]
+    },
+    {
+      "phase": "student_closed_loop_validation",
+      "status": "not_started_not_authorized",
+      "runtime": "same_fixed_native_OpenClaw",
+      "never_reset_to_gold_history": true
+    }
+  ],
+  "loss_contract": {
+    "implementation": "tooling/dataset_loader.py",
+    "labels": "input_ids in explicit approved spans only; all other tokens -100",
+    "loss_weights": "span fourth field, causal shift once; sum(weight*CE)/count(active_labels), not division by sum(weights)",
+    "old_wrong_or_unknown_steps": "preserved context with zero positive loss",
+    "single_file_outcome_credit": "does not approve adjacent explanation, R or other actions",
+    "original_readable_R": "preserved in recovered mother and same-ID overlay; no admitted positive R in this final SFT subset",
+    "annotated_rule_rationale": "not original teacher CoT or empirical tool/trial feedback",
+    "metadata_never_model_input": true
+  },
+  "inference_contract": {
+    "input": "complete conversation, real materials, current library and actual budget/state",
+    "runtime": "native OpenClaw tool discovery/read/tools and persistent session",
+    "desired_output": "actual tool actions and qualified versioned skill package, or justified stop/defer",
+    "coordination_JSON_is_auxiliary_planning_not_a_new_agent_loop": true,
+    "current_data_do_not_prove_complete_autonomous_execution": true,
+    "future_native_deployment_integration_completed": false
+  },
+  "evaluation": {
+    "primary": [
+      "full delivery TSR",
+      "independent five-dimensional Q",
+      "total cost per independently qualified skill"
+    ],
+    "secondary": [
+      "correct defer/reject/stop",
+      "version-specific reuse and repair",
+      "external model calls",
+      "human/teacher fallback",
+      "worst phase and branch"
+    ],
+    "compare": [
+      "base14B",
+      "SFT14B",
+      "base8B",
+      "SFT8B",
+      "original_teacher_under_same_clean_conditions"
+    ],
+    "current_dev_test": "source-group static auxiliary holdouts, not native closed-loop task benchmarks",
+    "original226_and_new_H": "isolated from training, label creation and model/threshold selection"
+  },
+  "cost_formula": "(new data/annotation + training + validation + all inference/tools/external-model/retries/human/teacher fallback in the same accounting period) / independently qualified skills in that period; amortize each one-time cost once; historic sunk distillation separate",
+  "no_throughput_or_effect_claim_without_Spark_measurement": true,
+  "historical_optional_reference_not_automatically_joined": {
+    "path_in_existing_git": "reasoning/20261026_lineage_v6/TRAINING_MANIFEST.json",
+    "historical_main_responses": 106,
+    "historical_readable_R_responses": 30,
+    "historical_R_tokens": 121511,
+    "historical_execution_conditions_and_quality_standard_preserved": true,
+    "not_counted_as_current_native_outcome_main": true,
+    "requires_new_H_and_new_outcome_criteria_revalidation_before_any_new_profile_merge": true
+  },
+  "causal_template_policy": {
+    "variant_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "not_unmodified_official_template": true,
+    "explicit_recorded_R_preserved": "yes_in_evidence_mother_not_positive_main_loss",
+    "same_variant_required_for_future_inference": true,
+    "future_api_integration_not_yet_done": true
+  }
+}
