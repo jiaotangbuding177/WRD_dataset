@@ -1,7 +1,7 @@
 {
   "schema_version": "wrd-reasoning-distillation-plan-v4",
-  "design_revision": "5.0.28",
-  "change_id": "ALG-20261026-01",
+  "design_revision": "5.0.29",
+  "change_id": "ALG-20261026-02",
   "execution_authorized": false,
   "is_launch_config": false,
   "training_started": false,
@@ -101,11 +101,20 @@
     "actual feedback repairs and provenance-labelled phase control"
   ],
   "data_profiles": {
-    "default": "strict226_direct_source_teacher_silver",
+    "default": null,
+    "source_review_candidate_profile": "strict226_direct_source_teacher_silver",
+    "user_confirmed_original226_isolation": true,
+    "scope_question_pending": false,
     "protected226_override_authorized": false,
+    "original226_may_tune_thresholds_or_select_checkpoints": false,
+    "final_training_manifest_admitted_rows": 0,
+    "upstream_training_admitted_is_quality_only_not_final_source_admission": true,
     "wider_scope_records_are_candidates_not_default_training_rows": true,
     "never_merge_public_and_controlled_duplicate_projections": true,
-    "full_target_readiness": false
+    "full_target_readiness": false,
+    "scope_confirmation_date": "2026-10-26",
+    "current_candidate_reconciliation": "../../reasoning/20261026_strict226/DIRECT_SOURCE_CANDIDATE_REPORT.json",
+    "final_training_manifest": "../../reasoning/20261026_strict226/FINAL_TRAINING_MANIFEST.json"
   },
   "serialization": {
     "causal_qwen3_template_variant": true,

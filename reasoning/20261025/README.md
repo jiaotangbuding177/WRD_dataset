@@ -1,3 +1,5 @@
+**2026-10-26当前更正：用户确认原226继续隔离。** [当前来源审计与补充](../20261026_strict226/README.md)；直接来源候选本地275窗、公开85窗，资源传递隔离仍待核，最终训练清单准入0。旧数组/旧数量留作历史证据；当前公开候选正loss全部禁用，不启动训练。
+
 # WRD原始思考与过程数据v4
 
 [训练计划](../../plans/20261025_reasoning_distillation/README.md) · [实际数据报告](../../plans/20261025_reasoning_distillation/DATA_REPORT.json) · [就绪与缺口](../../plans/20261025_reasoning_distillation/READINESS.json) · [解密与加载](../../plans/20261025_reasoning_distillation/DATA_LOADING_AND_DELIVERY.md)

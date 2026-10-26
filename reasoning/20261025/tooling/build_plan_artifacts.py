@@ -32,7 +32,7 @@ def main():
     pub = json.loads((base / 'public_reasoning_compiled_final/PUBLIC_REASONING_COMPILATION_REPORT.json').read_text(encoding='utf-8'))
     data = {
         'schema_version': 'wrd-reasoning-data-report-v4',
-        'design_revision': '5.0.28', 'change_id': 'ALG-20261026-01',
+        'design_revision': '5.0.29', 'change_id': 'ALG-20261026-02',
         'status': 'RECOVERED_COMPILED_AUDITED_PROCESS_SILVER_NOT_PROVEN_FULL_AGENT',
         'archived_original_sse': r['SSE_REASONING_RECOVERY_REPORT.json']['counts'],
         'raw_request_response_recovery': r['RAW_RECOVERY_REPORT.json']['counts_by_scope'],
@@ -46,7 +46,11 @@ def main():
         'source_reasoning_characters_are_not_tokens': True,
         'stage_windows_are_not_full_autonomous_runs': True,
         'raw_response_pairs_are_not_independent_enterprise_tasks': True,
-        'source_scope_decision': 'pending user clarification; protected226 retained by default',
+        'source_scope_decision': 'USER_CONFIRMED_KEEP_ORIGINAL226_ISOLATED_20261026',
+        'protected226_policy': {'user_confirmed': True, 'original_boundary_retained': True,
+                                'may_train': False, 'may_tune_thresholds_or_select_checkpoints': False,
+                                'later_evolution_relabel_does_not_override': True},
+        'historical_direct_source_counts_are_not_final_training_admission': True,
         'training_started': False, 'human_semantic_gold': 0,
         'source_receipt_sha256': {name: sha(base / name) for name in names},
         'curated_receipt_sha256': {path: sha(base / path) for path in
@@ -57,7 +61,7 @@ def main():
     save(plan / 'DATA_REPORT.json', data)
     config = {
         'schema_version': 'wrd-reasoning-distillation-plan-v4',
-        'design_revision': '5.0.28', 'change_id': 'ALG-20261026-01',
+        'design_revision': '5.0.29', 'change_id': 'ALG-20261026-02',
         'execution_authorized': False, 'is_launch_config': False, 'training_started': False,
         'goal': 'single-business-input autonomous WRD skill distillation in native OpenClaw',
         'models': [
@@ -98,8 +102,14 @@ def main():
         'curriculum': ['original reasoning and short causal decisions',
                        'native multi-turn resource construction and observations',
                        'actual feedback repairs and provenance-labelled phase control'],
-        'data_profiles': {'default': 'strict226_direct_source_teacher_silver',
+        'data_profiles': {'default': None,
+                          'source_review_candidate_profile': 'strict226_direct_source_teacher_silver',
+                          'user_confirmed_original226_isolation': True,
+                          'scope_question_pending': False,
                           'protected226_override_authorized': False,
+                          'original226_may_tune_thresholds_or_select_checkpoints': False,
+                          'final_training_manifest_admitted_rows': 0,
+                          'upstream_training_admitted_is_quality_only_not_final_source_admission': True,
                           'wider_scope_records_are_candidates_not_default_training_rows': True,
                           'never_merge_public_and_controlled_duplicate_projections': True,
                           'full_target_readiness': False},
@@ -134,9 +144,12 @@ def main():
         'process_teacher_silver_available': True,
         'full_autonomous_target_training_ready': False, 'deployment_ready': False,
         'training_started': False,
+        'source_scope_decision_confirmed': True,
+        'original226_isolation_retained': True,
+        'final_training_manifest_admitted_rows': 0,
         'open_items': [
-            'protected226 scope clarification pending; strict profile retained by default',
-            'strict profile A-screen4 and C-prepare3 windows cannot support a claim of full-chain sufficiency',
+            'direct-source candidate profiles need the subsequent visibility correction overlay; upstream quality admission is not final source admission',
+            'strict profile A-screen and C-prepare coverage cannot support a claim of full-chain sufficiency',
             'historical original reasoning has limited independent source diversity and a different action protocol',
             'causal template and fixed-Actor child-trial interface need runtime compatibility validation',
             'independent development and single-input full-loop evaluation have not been executed',
@@ -144,8 +157,25 @@ def main():
         'do_not_infer_from_static_pass': ['all reasoning correct', 'enough for guaranteed autonomy', 'training authorized'],
     }
     save(plan / 'READINESS.json', readiness)
+    overlay = ROOT / 'output/20261026_wrd_strict226_expansion'
+    if (overlay / 'DIRECT_SOURCE_CANDIDATE_REPORT.json').is_file():
+        current = json.loads((overlay / 'DIRECT_SOURCE_CANDIDATE_REPORT.json').read_text(encoding='utf-8'))
+        data['v5_current_direct_source_candidate_reconciliation'] = current
+        data['strict226_scope_confirmation'] = json.loads((overlay / 'SCOPE_CONFIRMATION.json').read_text(encoding='utf-8'))
+        data['current_source_visibility_review'] = json.loads((overlay / 'VISIBILITY_REVIEW.json').read_text(encoding='utf-8'))
+        config['data_profiles']['scope_confirmation_date'] = '2026-10-26'
+        config['data_profiles']['current_candidate_reconciliation'] = '../../reasoning/20261026_strict226/DIRECT_SOURCE_CANDIDATE_REPORT.json'
+        config['data_profiles']['final_training_manifest'] = '../../reasoning/20261026_strict226/FINAL_TRAINING_MANIFEST.json'
+        readiness['current_candidate_core_windows_controlled_public'] = [
+            current['counts'][s + ':core32k']['current_direct_source_candidate_windows'] for s in ('controlled', 'public')]
+        readiness['current_candidate_core_supervised_tokens_before_disabled_loss_controlled_public'] = [
+            current['counts'][s + ':core32k']['candidate_supervised_tokens_before_disabled_loss'] for s in ('controlled', 'public')]
+        readiness['new_generic_discovery_prefixes_do_not_solve_domain_coverage'] = 9
+        readiness['source_scope_confirmation'] = '../../reasoning/20261026_strict226/SCOPE_CONFIRMATION.json'
+        for name, value in (('DATA_REPORT.json', data), ('TRAINING_PLAN.json', config), ('READINESS.json', readiness)):
+            save(plan / name, value)
     print(json.dumps({'plan_files_written': 3, 'full_target_training_ready': False,
-                      'source_scope': 'pending clarification; strict default'}, ensure_ascii=False))
+                      'source_scope': 'user confirmed: retain original226 isolation'}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

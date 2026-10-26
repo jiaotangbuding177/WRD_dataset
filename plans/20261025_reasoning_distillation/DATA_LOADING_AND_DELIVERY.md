@@ -1,10 +1,12 @@
 # 数据入口、解密与复用
 
-本计划与数据在2026-10-25开始整理，2026-10-26收口交付。没有启动训练。仓库同时提供可公开的去标识数据与AES-256-GCM受控原件包；解密密钥只保存在用户本机，不上传Git或写入报告正文。
+本计划与数据在2026-10-25开始整理，2026-10-26补充原226隔离确认和可见性更正。没有启动训练。仓库同时提供可公开的去标识数据与AES-256-GCM受控原件包；解密密钥只保存在用户本机，不上传Git或写入报告正文。
+
+**当前先读`reasoning/20261026_strict226/FINAL_TRAINING_MANIFEST.json`，准入0，不回退加载旧positive span。** 同目录提供固定边界、正文漏判override及最新零loss候选；下面v4数组是历史过程候选，不能以旧`training_admitted=true`绕过最新来源审查。`controlled/wrd-strict226-evidence-v5.tar.gz.aesgcm`增量包使用原本机密钥及独立新nonce，保存本轮细粒度证据和9个受控通用前缀，不需要重下载旧约739MB原件。
 
 ## 目录含义
 
-- `reasoning/20261025/data/strict226_core32k.jsonl.gz`：公开直接来源严格层的阶段过程silver，当前仅85窗；不能作为已足量的完整自主训练主集。
+- `reasoning/20261025/data/strict226_core32k.jsonl.gz`：历史公开直接来源候选85窗；需要最新overlay，不能直接作为训练清单。新目录的零loss投影保留相同input_ids及候选原span。
 - `data/original_reasoning16k.jsonl.gz`、`data/original_reasoning32k_long_only.jsonl.gz`：公开源可证、经过真实结局/语义边界覆盖的原思考/历史制作补充，44短＋32长互斥，9条≤32K含原思考的去标识版本。
 - `data/strict226_actor_aux32k.jsonl.gz`、`data/historical_actor_aux*.jsonl.gz`：可选辅助，训练预算合计最多10%，不计为沉淀主体。
 - `candidates/`：宽来源候选。它们未获严格来源准入，发布时所有正loss禁用，原候选span另存，不能误当训练分片。
@@ -16,7 +18,7 @@
 
 ## 把真实数组交给训练器
 
-每行包含实际`input_ids`、`supervision_spans`及target owner。span格式为`[begin,end,component,base_weight]`，end不含，component含R/E/A/D及F/跨边界混合桶。标签构造：
+每行包含实际`input_ids`、`supervision_spans`及target owner。只有最终manifest明确准入后才可构造正loss；当前准入0，不能从`candidate_original_*`字段恢复正loss启动训练。span格式为`[begin,end,component,base_weight]`，end不含，component含R/E/A/D及F/跨边界混合桶。未来获准入后的标签构造示意：
 
 这些component首先是可验证的序列化载体：R为显式reasoning字段，E为同次带工具调用响应的普通可见正文，A为实际工具调用/参数，D为无工具调用响应的正文（可含结构化决定、解释或终态回答），F为格式。**D不等于该段每句话都已被语义标成正确决策，E也不等于全部思考。** write参数中的reason仍可归A；真正的业务决定正确性来自原字段、真实结果和独立审阅，不能从一个component字母推断。损失先利用这些载体分组，后续细粒度语义标注必须另带来源。
 

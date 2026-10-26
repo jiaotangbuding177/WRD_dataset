@@ -123,8 +123,11 @@ def main():
         'schema_version': 'wrd-reasoning-data-entrypoint-v4',
         'full_target_training_ready': False, 'training_execution_authorized': False, 'training_started': False,
         'recommended_full_agent_training_dataset': None,
-        'scope_question_pending': 'retain original226, or use all legacy sources and build entirely new independent evaluation',
-        'strict_phase_warmup_only': ['data/strict226_core32k.jsonl.gz', 'data/original_reasoning16k.jsonl.gz',
+        'scope_question_pending': False,
+        'scope_confirmation': {'date': '2026-10-26', 'decision': 'KEEP_ORIGINAL226_ISOLATED',
+                               'original_evaluation_boundary_retained': True},
+        'final_training_manifest_admitted_rows': 0,
+        'strict_phase_candidates_require_current_source_overlay': ['data/strict226_core32k.jsonl.gz', 'data/original_reasoning16k.jsonl.gz',
                                    'data/original_reasoning32k_long_only.jsonl.gz'],
         'strict_profile_not_claimed_sufficient_for_full_goal': True,
         'optional_actor_loss_budget_max_fraction': 0.1,
@@ -144,7 +147,7 @@ def main():
         '找回67份原SSE思考1301758字符；完整原请求/响应/工具/修订证据同时保全。'
         '受控原件与原始source_objects用AES256GCM交付，随机钥匙只留用户本机；'
         '不再只有受控数据的SHA或索引。公开另有去标识来源与实际input_ids/监督span。\n\n'
-        '本包是可核验过程silver与原件，完整自主训练尚未就绪：原226范围待确认、'
+        '本包是可核验过程silver候选与原件，用户已确认保留原226评测隔离。完整自主训练尚未就绪：'
         '严格层A/取题覆盖不足、原生高层闭环/模板接线与新独立评测未验证。'
         '候选目录全部正loss禁用；正式/失败/未决原件不因归档而获训练许可。'
         '未训练、未加载权重、未跑GPU。\n', encoding='utf-8')

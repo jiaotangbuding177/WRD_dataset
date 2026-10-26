@@ -36,6 +36,9 @@ def main():
     out = base / 'source_gated_profiles'
     out.mkdir(exist_ok=False)
     labels = {r['episode_id']: r for r in rows(base / 'controlled/native_source_split.labels.jsonl.gz')}
+    correction_path = ROOT / 'output/20261026_wrd_strict226_expansion/STRICT_SOURCE_VISIBILITY_OVERRIDES.json'
+    correction = json.loads(correction_path.read_text(encoding='utf-8')) if correction_path.is_file() else {'items': []}
+    known_protected_body = {r['episode_id'] for r in correction['items']}
     counts, by_stage = Counter(), Counter()
     for scope in ('controlled', 'public'):
         for role in ('core32k', 'actor_aux32k'):
@@ -45,7 +48,7 @@ def main():
                  gzip.open(out / (scope + '.' + role + '.selection.jsonl.gz'), 'wt', encoding='utf-8', newline='\n') as select:
                 for r in rows(source):
                     gate = labels[r['episode_id']]
-                    eligible = gate.get('primary_source_scope_eligible') is True
+                    eligible = gate.get('primary_source_scope_eligible') is True and r['episode_id'] not in known_protected_body
                     prefix = scope + ':' + role + ':'
                     counts[prefix + 'all_candidate_windows'] += 1
                     r['source_scope_gate'] = {
@@ -55,6 +58,10 @@ def main():
                         'complete_transitive_dependency_independence_proven': False,
                     }
                     if eligible:
+                        r['process_quality_silver'] = r.get('training_admitted') is True
+                        r['training_manifest_admitted'] = False
+                        r['training_admitted'] = False
+                        r['training_admission_level'] = 'DIRECT_SOURCE_CANDIDATE_REQUIRES_VISIBILITY_OVERLAY_AND_RESOURCE_LINEAGE_REVIEW'
                         strict.write(js(r) + '\n')
                         counts[prefix + 'strict_windows'] += 1
                         counts[prefix + 'strict_processed_tokens'] += r['total_tokens']
@@ -75,6 +82,8 @@ def main():
               'source_split_audit_sha256': digest(base / 'NATIVE_SOURCE_SPLIT_AUDIT.json'),
               'source_split_counts': json.loads((base / 'NATIVE_SOURCE_SPLIT_AUDIT.json').read_text(encoding='utf-8'))['counts'],
               'training_started': False, 'full_corpus_override_authorized': False,
+              'user_confirmed_original226_isolation': True,
+              'final_training_manifest_admitted_rows': 0,
               'strict_profile_is_not_complete_end_to_end_readiness': True,
               'note': 'Wider records retained as candidates; source availability alone is not asserted to be actual model exposure.'}
     (out / 'SOURCE_GATED_PROFILE_REPORT.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
