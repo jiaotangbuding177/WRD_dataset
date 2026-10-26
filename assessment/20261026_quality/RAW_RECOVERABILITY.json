@@ -1,0 +1,394 @@
+{
+  "schema_version": "wrd-original-raw-recoverability-quality-v8",
+  "measured_utc": "2026-10-26T12:30:14.133373+00:00",
+  "scope": "Full supplemental v7 carrier inventory (119 roots + final5 + assisted root) and exactly one authorized Codex file; no generalization to all 175 directories or all training suitability.",
+  "sampling": {
+    "carrier_format_counts": "full enumeration of selected carrier filename classes in closed v7 ledgers",
+    "native_statistics": "all byte-unique native event files, then identity-group representative snapshots",
+    "provider_statistics": "all recognizable JSON/SSE provider responses selected from supplemental ledgers",
+    "semantic_success_or_business_quality": "not assessed by this script"
+  },
+  "old_baseline": {
+    "canonical_episode_ids": 1763,
+    "native_session_ids_from_v7_old_parsed_index": 1763,
+    "native_sha256_from_v7_old_parsed_index": 1763,
+    "v4_native_inventory_ids": 230,
+    "v4_provider_response_ids": 1301,
+    "v4_unique_reasoning_contents": 210
+  },
+  "carrier_files": {
+    "selected_paths": 5613,
+    "successfully_read_paths": 5613,
+    "unique_raw_file_sha256": 4232,
+    "by_format": {
+      "provider_json_response": 1463,
+      "other_response_artifact_or_unrecognized_raw": 1691,
+      "tool_stdout_stderr_raw_not_provider_response": 2148,
+      "provider_sse_response": 219,
+      "native_session_jsonl": 92
+    }
+  },
+  "native": {
+    "selected_paths": 92,
+    "unique_file_sha256_snapshots": 87,
+    "totals": {
+      "unique_native_session_ids": 80,
+      "same_as_old1763": 0,
+      "outside_old1763": 80,
+      "outside_old1763_and_v4_native_inventory": 13,
+      "already_in_v4_historical_inventory": 67,
+      "assistant_responses": 1897,
+      "readable_separate_reasoning_fields": 0,
+      "readable_separate_reasoning_characters": 0,
+      "sessions_missing_outer_request_packet": 6,
+      "sessions_missing_user_prompt": 0,
+      "sessions_called_tool_without_original_schema": 80,
+      "sessions_with_same_episode_original_API_contexts": 6,
+      "sessions_called_tool_without_original_or_same_episode_API_schema": 74,
+      "sessions_called_tool_without_original_or_matching_pinned_factory_schema": 74,
+      "calls_without_feedback": 0,
+      "feedback_without_call": 0,
+      "sessions_with_parse_errors": 0
+    },
+    "recorded_stages": {
+      "evaluation": 29,
+      "None": 6,
+      "single_workflow_stage_diagnostic": 3,
+      "neutral_case_comparison": 5,
+      "technical": 3,
+      "generation": 34
+    },
+    "recorded_statuses": {
+      "None": 23,
+      "COMPLETED": 51,
+      "HELD": 6
+    },
+    "source_ids_original226_labels_preserved_without_new_admission": true,
+    "native_named_artifacts_without_session_header": [
+      {
+        "source_path": "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\live145\\20261021T094933Z\\jd-resume-screening\\openclaw_transport\\session_events.jsonl",
+        "bytes": 0,
+        "alias_paths": [
+          "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\live145\\20261021T094933Z\\jd-resume-screening\\openclaw_transport\\session_events.jsonl",
+          "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\live145\\20261021T094933Z\\meeting-minutes-formatting\\openclaw_transport\\session_events.jsonl",
+          "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\live145\\20261021T094933Z\\project-material-integration\\openclaw_transport\\session_events.jsonl",
+          "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\live145\\20261021T094933Z\\project-review-qa-prep\\openclaw_transport\\session_events.jsonl"
+        ],
+        "excluded_from_independent_native_session_counts": true
+      },
+      {
+        "source_path": "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\source-evidence-fl66pt9y\\openclaw_transport\\session_events.jsonl",
+        "bytes": 2516,
+        "alias_paths": [
+          "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\source-evidence-fl66pt9y\\openclaw_transport\\session_events.jsonl"
+        ],
+        "excluded_from_independent_native_session_counts": true
+      },
+      {
+        "source_path": "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\source-v4-m96oaof2\\episode\\openclaw_transport\\session_events.jsonl",
+        "bytes": 1542,
+        "alias_paths": [
+          "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\source-v4-m96oaof2\\episode\\openclaw_transport\\session_events.jsonl",
+          "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\source-v4-v5au1xxj\\episode\\openclaw_transport\\session_events.jsonl"
+        ],
+        "excluded_from_independent_native_session_counts": true
+      },
+      {
+        "source_path": "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\source-v4-x4fowyps\\episode\\openclaw_transport\\session_events.jsonl",
+        "bytes": 1834,
+        "alias_paths": [
+          "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\source-v4-x4fowyps\\episode\\openclaw_transport\\session_events.jsonl"
+        ],
+        "excluded_from_independent_native_session_counts": true
+      }
+    ],
+    "outside_old1763_and_v4_by_recorded_stage": {
+      "neutral_case_comparison": 5,
+      "generation": 3,
+      "evaluation": 5
+    },
+    "preserved_v4_role_labels": {
+      "formal_task_identity_exclude": 24,
+      "historical_screen_candidate": 1,
+      "historical_role_unknown_requires_source_audit": 12,
+      "historical_review_candidate": 2,
+      "not_previously_labeled": 13,
+      "technical_exclude": 3,
+      "historical_make_candidate_requires_source_audit": 25
+    },
+    "source_context_restoration_limits": "Original exported tools.json, complete same-episode native API capture, and image-pinned schema recovery are separately reported. A schema missing from the truncated export is not assumed unrecoverable."
+  },
+  "provider_responses": {
+    "totals": {
+      "distinct_provider_id_or_response_content_groups": 1536,
+      "with_original_readable_reasoning": 257,
+      "reasoning_characters": 1418717,
+      "request_present": 1536,
+      "request_missing": 0,
+      "already_v4_provider_id": 1045,
+      "same_response_message_as_v4": 1045,
+      "outside_v4_provider_id_and_message_content_references": 491,
+      "terminal_stop_or_tool_calls": 1533,
+      "request_without_valid_tool_schema": 45,
+      "request_with_unmatched_history_feedback": 0,
+      "response_tool_calls_missing_original_request_schema": 0,
+      "response_tool_argument_json_parse_errors": 0,
+      "response_ids_with_multiple_saved_message_variants": 0,
+      "sse_readable_reasoning_missing_from_adjacent_saved_response": 0
+    },
+    "unique_readable_reasoning_content_sha256": 257,
+    "reasoning_contents_outside_v4_reference": 141,
+    "identified_run_container_paths": 131,
+    "native_session_independence_not_inferred_from_response_count": true,
+    "preserved_prior_v4_run_scope_labels": {
+      "source_proven_learning_development_candidate": 751,
+      "technical_capture_path_marker_not_a_business_maker_claim": 6,
+      "unassessed_original_role": 485,
+      "unknown_requires_source_review": 23,
+      "formal_evaluation_exclude": 265,
+      "technical_fixture_exclude": 6
+    },
+    "responses_outside_v4_by_prior_scope": {
+      "technical_capture_path_marker_not_a_business_maker_claim": 6,
+      "unassessed_original_role": 485
+    },
+    "recorded_historical_conditions_from_v4": {
+      "historical_selfbuilt_executor_before_native_only_correction_not_current_native_training_equivalence": 1045,
+      "not_yet_pinned_for_this_response": 491
+    },
+    "observed_request_thinking_parameters": {
+      "{\"type\":\"disabled\"}": 1196,
+      "\"absent\"": 340
+    },
+    "observed_request_stream_flags": {
+      "False": 1463,
+      "True": 73
+    },
+    "no_tools_schema_is_not_a_defect_when_no_tools_are_used": true
+  },
+  "exact_codex_session": {
+    "source_path": "C:\\Users\\22142\\.codex\\sessions\\2026\\10\\23\\rollout-2026-10-23T01-11-23-01a16469-7614-7e01-ba76-1ad2d9707177_01a16498-9504-7342-80c4-b714199ce710.jsonl",
+    "source_sha256": "607e02c2943822e4beca1ac199bc5abd5c237066a798cc3dac72515dd4f8fee2",
+    "bytes": 75555936,
+    "source_stat_stable_during_read": true,
+    "session_metadata_identity": {
+      "id": "01a16469-7614-7e01-ba76-1ad2d9707177",
+      "session_id": "01a16469-7614-7e01-ba76-1ad2d9707177",
+      "forked_from_id": "01a1578a-b20a-7ab1-8755-7e4440609e18",
+      "history_mode": "paginated",
+      "model_provider": "openai",
+      "cli_version": "0.163.0-alpha.11.1"
+    },
+    "counts": {
+      "json_lines": 17016,
+      "assistant_message_items": 371,
+      "event_command_execution_items": 1630,
+      "event_command_nonzero_exit_items": 74,
+      "event_reasoning_items": 2296,
+      "event_reasoning_nonempty_raw_content": 0,
+      "reasoning_items": 2296,
+      "encrypted_reasoning_items": 2296,
+      "readable_summary_items": 29,
+      "readable_summary_characters": 7643
+    },
+    "response_item_types": {
+      "message": 643,
+      "additional_tools": 1,
+      "custom_tool_call": 1618,
+      "custom_tool_call_output": 1618,
+      "reasoning": 2296,
+      "function_call": 275,
+      "function_call_output": 275,
+      "agent_message": 295,
+      "configuration_update": 10
+    },
+    "event_types": {
+      "thread_settings_applied": 146,
+      "task_started": 95,
+      "item_completed": 4963,
+      "token_count": 2175,
+      "task_complete": 93,
+      "turn_aborted": 2
+    },
+    "call_ids": 1893,
+    "output_ids": 1893,
+    "calls_without_output": 0,
+    "outputs_without_call": 0,
+    "readable_summary_unique_contents": 29,
+    "exact_repair_path_marker_line_count": 54,
+    "exact_repair_path_marker_lines": [
+      5914,
+      5916,
+      5917,
+      5941,
+      5943,
+      5948,
+      5950,
+      5951,
+      5955,
+      5957,
+      5974,
+      5976,
+      5997,
+      5999,
+      6000,
+      6004,
+      6006,
+      6032,
+      6034,
+      6039,
+      6041,
+      6053,
+      6054,
+      6072,
+      6075,
+      6077,
+      6082,
+      6084,
+      6089,
+      6090,
+      6093,
+      6104,
+      6106,
+      6190,
+      6198,
+      6199,
+      6207,
+      6642,
+      6643,
+      6648,
+      6670,
+      6671,
+      6781,
+      6782,
+      6833,
+      6834,
+      6915,
+      6916,
+      7183,
+      7184,
+      7485,
+      7486,
+      7979,
+      7980
+    ],
+    "repair_marker_turn_ids": [
+      "01a16861-2b9b-7301-83da-b8b55560e387",
+      "01a1686f-d7fc-7ed2-a5a3-e20c19ae5515",
+      "01a1688d-258f-7210-a481-ed996a0f660c",
+      "01a168a2-3586-7f01-8f33-3954ad677e31",
+      "01a168bd-3957-7c02-bfa1-8123c29ef0cd",
+      "01a168d9-3c89-74b2-be1b-38fabd130f3e",
+      "01a168f4-b530-7553-8375-bb2080513135",
+      "01a1693e-41b3-7de3-816f-745c780bd67f"
+    ],
+    "full_session_is_not_one_repair_episode": true,
+    "historical_execution_condition": "Codex historical auxiliary resource-repair conversation, including inherited/multiple task turns and subagent activity; not native OpenClaw maker equivalence.",
+    "original_full_model_requests_and_complete_initial_tool_schemas_verified": false,
+    "no_training_admission_performed": true,
+    "encrypted_reasoning_is_not_plaintext_recovery": true
+  },
+  "reasoning_visibility_diagnosis": {
+    "observed_native_field_absence_does_not_prove_model_did_not_think": true,
+    "provider_thinking_disabled_or_unpublished_for_all_old1763": "unknown; not inferred from empty exported fields",
+    "static_original_service_code_evidence": [
+      {
+        "source_path": "E:\\skillloop_runs\\20261021_T0012_native_two_arm\\observed_service\\src\\response-builder.js",
+        "sha256": "7632ad0cc88bd1f329b30379a3a4e2756574d9c16e1415ced74f9d22e50614c3"
+      },
+      {
+        "source_path": "E:\\skillloop_runs\\20261021_T0012_native_two_arm\\observed_service\\src\\sink-factory.js",
+        "sha256": "c95810d8515b5b83b9e3047d66c264190fb19e97ca8f160335e32640b268b9c6"
+      },
+      {
+        "source_path": "E:\\skillloop_runs\\20261021_T0012_native_two_arm\\observed_service\\src\\stream-driver.js",
+        "sha256": "eafca5fa5d06e9d77f50e62bd33cc2b06eb2f03bc35931502f1d87eacad36d43"
+      },
+      {
+        "source_path": "E:\\skillloop_runs\\20261021_T0012_native_two_arm\\observed_service\\native_observer.cjs",
+        "sha256": "81c94bd811decfbe2de539332d46aebe4c8cbfbd21c4bcfee7e85108d34d4282"
+      }
+    ],
+    "code_observation": [
+      "Streaming onReasoning accumulates state.reasoning and writes reasoning_content.",
+      "Streaming onProgress also writes reasoning_content but does not enter state.reasoning, so progress and model thought need separation.",
+      "Nonstreaming final response copies state.reasoning; the separate tool-call response branch omits state.reasoning.",
+      "native_observer records usage/finish metadata rather than provider response bodies."
+    ],
+    "actual_episode_loaded_code_identity_and_provider_R_for_every_old_session": "not established by this static inspection",
+    "native_visible_explanation_structured_reason_and_tool_feedback_are_distinct_process_targets": true,
+    "actual_same_response_id_wire_native_comparison": {
+      "matched_responses": 73,
+      "wire_readable_reasoning_field_nonempty_but_native_separate_field_empty": 56,
+      "evidence": "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\wire_native_response_identity_links.metadata.jsonl.gz",
+      "interpretation": "These original wire field values existed and were not present as separate readable native export fields. This does not establish that every value is model-internal reasoning rather than progress, nor identify the exact persistence/parser mechanism for all old1763."
+    },
+    "readable_R_definition": "Counts named reasoning fields/blocks in original records; not a claim of complete internal chain-of-thought. Streaming progress can share reasoning_content."
+  },
+  "read_or_parse_issues": [],
+  "outputs": [
+    "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\carrier_files.metadata.jsonl.gz",
+    "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\native_sessions.metadata.jsonl.gz",
+    "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\provider_responses.metadata.jsonl.gz",
+    "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\codex_exact_session.items.metadata.jsonl.gz",
+    "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\wire_native_response_identity_links.metadata.jsonl.gz"
+  ],
+  "training_admission_performed": false,
+  "model_calls_started": 0,
+  "training_started": false,
+  "limitations": [
+    "Native event snapshots and API response copies are deduplicated separately; they are not summed as independent workflows.",
+    "A provider response missing a complete next-request or tool schema is a recoverability gap, not automatically a bad skill or unusable training record.",
+    "Inherited/multi-turn Codex history and encrypted reasoning are not converted into native-maker or plaintext-R claims.",
+    "Existing original226 labels are preserved; unassessed new resources remain pending lineage audit, without blanket admission or rejection.",
+    "No sensitive body text is included in these metadata outputs."
+  ],
+  "method_corrections_before_publication": [
+    "Empty files and headerless tool-result fixtures named session_events.jsonl are carrier artifacts, not independent native conversations.",
+    "Ordinal-prefixed request filenames are matched to ordinal-prefixed responses; absence of generic request.json is not labeled a missing request.",
+    "Byte-identical event aliases may differ in adjacent context availability; the richest actual recorded alias is selected without synthesizing a model request.",
+    "JSONL/SSE lines are split on LF only; legal Unicode U+2028/U+2029 inside JSON strings must not become fake malformed lines or missing output records."
+  ],
+  "script_sha256": "f935e69c154edddc4e0e7b6d3181960382a050cc91f5180fbd83c7cf2d7c9cb6",
+  "frozen_v7_input_ledgers": [
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_raw_census_v7\\controlled\\ADDITIONAL_ORIGINAL_FILES.jsonl.gz",
+      "sha256": "d8d6146f4d049b31cffca5cf3782b5bad8d88410a294b30a29acd88e591374a1"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_raw_census_v7\\controlled\\FINAL_DISCOVERY_FILES.jsonl.gz",
+      "sha256": "fdfb6334977cc92c0793c42566d853946e8f4e336e1218a9c1aa71734eba7162"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_raw_census_v7\\controlled\\ASSISTED_REPAIR_DIRECTORY_FILES.jsonl.gz",
+      "sha256": "e7fd32e3effec5097306576aad58055d1a79bc7337cd36e328dcd1ab6a1b5060"
+    }
+  ],
+  "output_metadata_file_receipts": [
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\carrier_files.metadata.jsonl.gz",
+      "sha256": "c2c1649eca93b8f8952b3947e534dac0a31668a58a641f77c523e86bea6ec175",
+      "bytes": 290436
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\native_sessions.metadata.jsonl.gz",
+      "sha256": "054002431f34fcd63694b1b293b344ba2de6427674936f9899f23ff55e28cb67",
+      "bytes": 49569
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\provider_responses.metadata.jsonl.gz",
+      "sha256": "9903b2c91911fb5c899e80040c63481b2635b48c5df15f5987d1b0119f3af140",
+      "bytes": 346641
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\codex_exact_session.items.metadata.jsonl.gz",
+      "sha256": "fc86c3727c1b218c3f8cfab79dc810c64479f85d8b1528015c574ac07dd67067",
+      "bytes": 481972
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261026_wrd_quality_v8\\controlled\\wire_native_response_identity_links.metadata.jsonl.gz",
+      "sha256": "88e87577d39d6873faf60706ab2d6814957c1f9567892ca8b7268abc094fc134",
+      "bytes": 6366
+    }
+  ]
+}

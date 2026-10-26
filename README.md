@@ -1,3 +1,13 @@
+# 最新评估：数据质量、数据量与14B目标可达性v8
+
+[完整质量评估与调研](assessment/20261026_quality/QUALITY_ASSESSMENT.md) · [本轮证据包入口](assessment/20261026_quality/README.md) · [独立复核](assessment/20261026_quality/V8_SYNTHESIS_REVIEW.json)
+
+全旧1763会话、32342助手位置与30438工具块已查，32014非空目标约1067万目标tokens；29最终技能都有过程档案，113条原反馈后实际读取连接。原规模值得领域SFT准备；输入/schema保真、监督正确性、独立来源与完整自主协调仍有明确缺口，不能承诺教师等效或降本。原226继续隔离，未启动训练。
+
+本次是完成的质量评估，不是新全量SFT正文、mask或最终准入交付；旧数组与manifest保持。报告分别披露全量可计算检查、局部语义评估和文献结论，不以32342步骤或磁盘GB充作独立工作流数量。
+
+---
+
 # 最新核查：原始制作数据入口与旧导出范围更正v7
 
 [原始过程地址、阶段统计与问题证据](census/20261026/RAW_DATA_LOCATIONS.md) · [结构化普查汇总](census/20261026/SUMMARY.json) · [29技能原制作资源图](census/20261026/SKILL29_LINEAGE_MAP.json)

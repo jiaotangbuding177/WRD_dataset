@@ -1,0 +1,97 @@
+{
+  "schema_version": "wrd-v8-primary-literature-evidence",
+  "checked_on": "2026-10-26",
+  "primary_sources_only_in_conclusions": true,
+  "studies": [
+    {
+      "id": "fireact",
+      "title": "FireAct: Toward Language Agent Fine-tuning",
+      "url": "https://arxiv.org/html/2310.05915v1",
+      "published": "2023-10-09",
+      "evidence_locations": "Sections 4, 5.1; Table 2",
+      "reported_data": "默认500条GPT-4成功轨迹，主要为单工具多跳QA。",
+      "reported_result": "Llama2-7B HotpotQA EM 14.8→26.2；同设置GPT-4 ReAct为42.0。",
+      "implication": "几百条完整成功轨迹可能明显改善窄任务；这不等于复制教师水平或完整WRD探索/制作能力。",
+      "unit": "successful task trajectories, not assistant messages"
+    },
+    {
+      "id": "agenttuning",
+      "title": "AgentTuning: Enabling Generalized Agent Abilities for LLMs",
+      "url": "https://arxiv.org/html/2310.12823v2",
+      "published": "2023-10-22",
+      "evidence_locations": "Sections 1, 2.1, 2.2; Table 1; Appendix A",
+      "reported_data": "1866条经筛选的六类任务交互轨迹，含逐决策CoT；另混合57096条GPT-3.5及3670条GPT-4通用对话，Agent采样比0.2。",
+      "reported_result": "训练7B/13B/70B；论文对接近GPT-3.5的泛化表述主要针对70B，不能移植给14B。",
+      "implication": "保留完整推理/动作/观测，并与基座通用能力平衡；不能把我们的1763个分阶段会话等同1866个独立完整WRD任务。",
+      "unit": "filtered interaction trajectories plus separate general conversations"
+    },
+    {
+      "id": "agentrefine",
+      "title": "AgentRefine: Enhancing Agent Generalization through Refinement Tuning",
+      "url": "https://arxiv.org/html/2501.01702v2",
+      "published": "2025-02-24",
+      "evidence_locations": "Section 4.3; Table 2; Appendix D, E",
+      "reported_data": "默认32000条；另有8000条消融。轨迹保留错误与修订，错误回合不承受正向SFT loss。",
+      "reported_result": "移除修订监督或学习所有错误回合均损害所测泛化表现。",
+      "implication": "我们应保留失败上下文及观察后的正确修订，不能仅取最终retain，也不能把全部历史动作同权当正确答案。",
+      "unit": "agent training trajectories; not proof that WRD needs exactly 32000"
+    },
+    {
+      "id": "swesmith",
+      "title": "SWE-smith: Scaling Data for Software Engineering Agents",
+      "url": "https://arxiv.org/html/2504.21798v2",
+      "published": "2025-05-21",
+      "evidence_locations": "Sections 3, 4; Table 3; Section F.3",
+      "reported_data": "50k任务池/128仓库；32B最终5016条训练轨迹；Table 3的7B训练规模列为约2k，不能将50k任务池说成全部SFT训练量。",
+      "reported_result": "SWE-bench Verified：7B 15.2%，32B 40.2%；同表Claude3.7+SWE-agent为58.2%。",
+      "implication": "几千条已验证可执行轨迹能训练有价值的Agent，仍不能保证教师等效；独立任务与执行验证比磁盘大小重要。",
+      "unit": "task pool, attempts, and accepted training trajectories are distinct"
+    },
+    {
+      "id": "srft2026",
+      "title": "Step Rejection Fine-Tuning: A Practical Distillation Recipe",
+      "url": "https://arxiv.org/html/2605.10674v1",
+      "published": "2026-05-11",
+      "evidence_locations": "Sections 3, 4; extended results",
+      "reported_data": "采用SWE-smith成功/失败轨迹池做step级批评与loss masking；错误步骤留在上下文。",
+      "reported_result": "SWE-bench Verified报告SRFT 32.2%，对比仅成功轨迹RFT 30.9%；论文中各实验设置分别比较，未在WRD复现。",
+      "implication": "给全部中间记录找有证据的监督角色，而不是整条失败轨迹丢弃；step mask需可靠审核，模型批评本身不自动正确。",
+      "unit": "step-labelled task trajectories"
+    },
+    {
+      "id": "nextturn_gap2026",
+      "title": "When Better Turns Do Not Make Better Agents: Diagnosing the Gap Between Next-Turn Metrics and Workflow Success",
+      "url": "https://arxiv.org/html/2609.21187v1",
+      "published": "2026-09-18",
+      "evidence_locations": "Sections 3, 4; Table 1; Limitations",
+      "reported_data": "130个客服workflow，1027条双评审通过对话；训练5834个下一动作样本，另664验证；84条评测对话中77需工具。",
+      "reported_result": "Qwen3-14B逐步总成功37.1%→54.6%，但严格闭环仅8/77，整体评审0/77。",
+      "implication": "单步正确率、loss、格式提升不能证明自主全链成功。该研究为单一客服域且严格参考调用匹配会误拒有效替代，不能据它断言WRD或SFT必然失败。",
+      "unit": "validated conversations and derived next-action samples separately"
+    },
+    {
+      "id": "agentark2026",
+      "title": "AgentArk: Distilling Multi-Agent Intelligence into a Single LLM Agent",
+      "url": "https://arxiv.org/html/2602.03955v1",
+      "published": "2026-02-03",
+      "evidence_locations": "Sections 1, 3, 4; Appendix A",
+      "reported_data": "研究多Agent讨论/批评/修订过程到单模型的蒸馏；工具使用与记忆管理明确留待后续。",
+      "reported_result": "过程监督可改善所测推理和纠错，单纯增加推理链条数不保证增益。",
+      "implication": "支持保留过程动力学的设计方向；不构成WRD工具执行、资源构建或部署质量已能复制的实证。",
+      "unit": "reasoning questions/trajectories; not executable WRD pipelines"
+    },
+    {
+      "id": "r1",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "url": "https://arxiv.org/html/2501.12948v1",
+      "published": "2025-01-22",
+      "evidence_locations": "Sections 2.3.3, 2.4",
+      "reported_data": "约800k筛选样本用于Qwen/Llama学生SFT，包括14B及8B；该蒸馏学生未另做RL。",
+      "reported_result": "证明推理轨迹可传递到小模型，评测主要为数学/代码/知识推理。",
+      "implication": "原始推理值得保留，但不能由推理题蒸馏推出真实工具环境中的完整WRD能力，也不把800k定为本项目最低需求。",
+      "unit": "reasoning/general SFT samples, not WRD trajectories"
+    }
+  ],
+  "assessment_rule": "No universal sample-count cutoff is inferred. Evaluate independent full tasks, stage/branch coverage, correctness, causal visibility, and native closed-loop TSR/Q/cost under the target scope.",
+  "new_training_or_model_experiments_performed": false
+}
