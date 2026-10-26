@@ -1,0 +1,250 @@
+{
+  "schema_version": "wrd-v6-resource-closed-process-sft-manifest",
+  "status": "POSITIVE_PROCESS_DATA_NOT_PROVEN_COMPLETE_AUTONOMY",
+  "training_execution_authorized": false,
+  "training_started": false,
+  "complete_autonomous_training_or_deployment_ready": false,
+  "resource_closed_quality_covered_process_data_ready": true,
+  "native_lineage_review_pending": false,
+  "profiles": {
+    "controlled": {
+      "native_core": {
+        "path": null,
+        "sha256": "ed9977dc29f0b1104e455c9a109f29f02b4867a7dfe478b3e8fe4a63ed43f277",
+        "bytes": 55,
+        "counts": {
+          "windows": 0,
+          "original_parent_targets": 0,
+          "input_tokens": 0,
+          "supervised_tokens": 0,
+          "supervised_tokens_by_component": {},
+          "le16k_windows": 0,
+          "le32k_windows": 0,
+          "target_causal_end_le16k": 0,
+          "target_causal_end_le32k": 0,
+          "complete_native_stage_windows": 0,
+          "explicit_native_stage_prefix_windows": 0,
+          "complete_original_request_current_response_windows": 0,
+          "original_R_positive_windows": 0,
+          "exact_historical_resource_execution_versions_proven": 0,
+          "by_original_stage": {}
+        },
+        "archive_member": "sequences/controlled/admitted.native_core32k.jsonl.gz"
+      },
+      "actor_aux": {
+        "path": null,
+        "sha256": "27011650f6785995d2d403ee32386adb01fe2c1217d23760ecdbbe7bd53fc0d2",
+        "bytes": 877616,
+        "counts": {
+          "windows": 43,
+          "original_parent_targets": 178,
+          "input_tokens": 522443,
+          "supervised_tokens": 128269,
+          "supervised_tokens_by_component": {
+            "F": 1068,
+            "A": 107999,
+            "E": 1498,
+            "MIXED": 40,
+            "D": 17664
+          },
+          "le16k_windows": 31,
+          "le32k_windows": 43,
+          "target_causal_end_le16k": 147,
+          "target_causal_end_le32k": 178,
+          "complete_native_stage_windows": 41,
+          "explicit_native_stage_prefix_windows": 2,
+          "complete_original_request_current_response_windows": 0,
+          "original_R_positive_windows": 0,
+          "exact_historical_resource_execution_versions_proven": 0,
+          "by_original_stage": {
+            "actor": 43
+          }
+        },
+        "archive_member": "sequences/controlled/admitted.actor_aux32k.jsonl.gz"
+      },
+      "reasoning": {
+        "path": null,
+        "sha256": "5fcbd281822d2fc0a33da11a39345e7f481a0380fa4c15f95f22ef29669c90e9",
+        "bytes": 2175257,
+        "counts": {
+          "windows": 106,
+          "original_parent_targets": 106,
+          "input_tokens": 1857272,
+          "supervised_tokens": 182659,
+          "supervised_tokens_by_component": {
+            "F": 636,
+            "R": 121511,
+            "R_BOUNDARY_MIXED": 30,
+            "D": 36891,
+            "A": 18588,
+            "E": 4963,
+            "MIXED": 40
+          },
+          "le16k_windows": 44,
+          "le32k_windows": 106,
+          "target_causal_end_le16k": 44,
+          "target_causal_end_le32k": 106,
+          "complete_native_stage_windows": 0,
+          "explicit_native_stage_prefix_windows": 0,
+          "complete_original_request_current_response_windows": 106,
+          "original_R_positive_windows": 30,
+          "exact_historical_resource_execution_versions_proven": 1,
+          "by_original_stage": {
+            "historical_ewi_model_decision_teacher": 30,
+            "historical_skill_generation_candidate": 76
+          }
+        },
+        "archive_member": "sequences/controlled/admitted.reasoning32k.jsonl.gz"
+      }
+    },
+    "public": {
+      "native_core": {
+        "path": "data/public.admitted.native_core32k.jsonl.gz",
+        "sha256": "b64a6ec1aa52928282657e420ef149acd32fd0da32e3914e01a32277130a37ec",
+        "bytes": 55,
+        "counts": {
+          "windows": 0,
+          "original_parent_targets": 0,
+          "input_tokens": 0,
+          "supervised_tokens": 0,
+          "supervised_tokens_by_component": {},
+          "le16k_windows": 0,
+          "le32k_windows": 0,
+          "target_causal_end_le16k": 0,
+          "target_causal_end_le32k": 0,
+          "complete_native_stage_windows": 0,
+          "explicit_native_stage_prefix_windows": 0,
+          "complete_original_request_current_response_windows": 0,
+          "original_R_positive_windows": 0,
+          "exact_historical_resource_execution_versions_proven": 0,
+          "by_original_stage": {}
+        }
+      },
+      "actor_aux": {
+        "path": "data/public.admitted.actor_aux32k.jsonl.gz",
+        "sha256": "9e07f3e60a9513fd4ed710940e865a030aa34d844ed82e64a7e54feb062410c1",
+        "bytes": 626551,
+        "counts": {
+          "windows": 34,
+          "original_parent_targets": 138,
+          "input_tokens": 384636,
+          "supervised_tokens": 105789,
+          "supervised_tokens_by_component": {
+            "F": 828,
+            "A": 90626,
+            "E": 1203,
+            "MIXED": 31,
+            "D": 13101
+          },
+          "le16k_windows": 27,
+          "le32k_windows": 34,
+          "target_causal_end_le16k": 118,
+          "target_causal_end_le32k": 138,
+          "complete_native_stage_windows": 33,
+          "explicit_native_stage_prefix_windows": 1,
+          "complete_original_request_current_response_windows": 0,
+          "original_R_positive_windows": 0,
+          "exact_historical_resource_execution_versions_proven": 0,
+          "by_original_stage": {
+            "actor": 34
+          }
+        }
+      },
+      "reasoning": {
+        "path": "data/public.admitted.reasoning32k.jsonl.gz",
+        "sha256": "b5a3ee384498dc57a71bf9fbf00fddada87ff555168d1eeeec5d7ba4769d87da",
+        "bytes": 1069727,
+        "counts": {
+          "windows": 72,
+          "original_parent_targets": 72,
+          "input_tokens": 1060497,
+          "supervised_tokens": 80147,
+          "supervised_tokens_by_component": {
+            "F": 432,
+            "R": 49445,
+            "R_BOUNDARY_MIXED": 9,
+            "D": 10885,
+            "A": 15746,
+            "E": 3603,
+            "MIXED": 27
+          },
+          "le16k_windows": 43,
+          "le32k_windows": 72,
+          "target_causal_end_le16k": 43,
+          "target_causal_end_le32k": 72,
+          "complete_native_stage_windows": 0,
+          "explicit_native_stage_prefix_windows": 0,
+          "complete_original_request_current_response_windows": 72,
+          "original_R_positive_windows": 9,
+          "exact_historical_resource_execution_versions_proven": 1,
+          "by_original_stage": {
+            "historical_ewi_model_decision_teacher": 9,
+            "historical_skill_generation_candidate": 63
+          }
+        }
+      }
+    }
+  },
+  "projection_rule": "Choose controlled OR public; never concatenate both projections.",
+  "actor_auxiliary_max_loss_fraction": 0.1,
+  "historical_reasoning_native_ABI_equivalence_claimed": false,
+  "all_final_positive_target_owners_unique_within_selected_projection": true,
+  "generic_v5_discovery_prefixes_not_used_to_inflate_full_domain_chains": true,
+  "source_sha256": {
+    "output\\20261026_wrd_sequences_v6\\controlled\\decision_snapshots\\reasoning_pair_lineage_decisions.cd40426d68f1f6f5.jsonl.gz": "cd40426d68f1f6f520938104e7dd4e7290c252d90cf7bb7a439de837fc68c816",
+    "output\\20261026_wrd_sequences_v6\\controlled\\decision_snapshots\\reasoning_resource_nodes.e9b378d243766884.jsonl.gz": "e9b378d243766884085ca00187c1251ccd538c2105b7f8ee92be6cd280ac2c43",
+    "output\\20261026_wrd_sequences_v6\\FROZEN_NATIVE91_SET.json": "1469f6bbe72759d4553f67393304f2f89fa7b9799c2b3073326f3e53c13439e0",
+    "output\\20261026_wrd_sequences_v6\\NATIVE91_PREPARATION_REPORT.json": "e464a7390ad9fcfd548f4889c90caa4b54ca508e110d7b4f9e87b4d32d5b5f5a",
+    "output\\20261026_wrd_sequences_v6\\REASONING_PREPARATION_REPORT.json": "9be2de6dd29e82520c1b2c753b569024805e9068a5cf29f80b7989340986e3c6",
+    "output\\20261026_wrd_sequences_v6\\HISTORICAL_RAW_QUALITY_REPORT.json": "28cc1216b56159ffa32b21c4a5d0f1ec8be401147b911c2d466d5652bfb3e134",
+    "output\\20261026_wrd_lineage_v6\\INDEPENDENT_REASONING_REVIEW.json": "9deb703915291afb7cf0b39737a44a2af0a07013c84cad09b5f740aceac9b91c",
+    "output\\20261026_wrd_sequences_v6\\INDEPENDENT_RAW_QUALITY_QA.json": "52f60a2e2bbb69536c91c96934a601039cf72d6b7d63a9e8a45db4e4b7dcd462",
+    "output\\20261026_wrd_sequences_v6\\controlled\\decision_snapshots\\lineage_episode_decisions.9a39c5c1fa46d358.jsonl.gz": "9a39c5c1fa46d3580a5ad755ba8b85dc76af27a936c4c7b37661c24947835150",
+    "output\\20261026_wrd_sequences_v6\\controlled\\decision_snapshots\\lineage_resources.30a206c49387990b.jsonl.gz": "30a206c49387990b51e15a53f4491a18782707212ae8d24d00426ff32bc91373",
+    "output\\20261026_wrd_sequences_v6\\controlled\\decision_snapshots\\lineage_producer_prefix_decisions.000052ab97122174.jsonl.gz": "000052ab9712217431c7e5354b3d09bff8656d8d1eb0f55c4171df1b63b742af",
+    "output\\20261025_wrd_training_dataset\\bundle\\canonical\\native_episodes.jsonl.gz": "5226a87a411ef3c8c2cff6ec7e01563e4fbfef7ef690f5a7caa458653fe15b92",
+    "output\\20261025_wrd_fullchain_reaudit\\public_projection\\fullchain.native_sessions.jsonl.gz": "2daa2932d686333eabf0486ed88929666e82bfd3bc401bfe8a57dc39827cda0c",
+    "output\\20261025_wrd_reasoning_recovery_v4\\curated_native\\controlled.core32k.jsonl.gz": "ac78616e16d1923b72d16b547d39aaec1c3f3e1193b113415e4c373917749726",
+    "output\\20261025_wrd_reasoning_recovery_v4\\curated_native\\controlled.actor_aux32k.jsonl.gz": "a2a3041f25f965e80ff5712d29a65effc57818c5fc1c92f0257fc7c65449c46d",
+    "output\\20261025_wrd_reasoning_recovery_v4\\curated_native\\public.core32k.jsonl.gz": "15c8711dfb09ce4b3debe1885b55e8813c6bbccd3c3173d5ea2ba19d063ba8b2",
+    "output\\20261025_wrd_reasoning_recovery_v4\\curated_native\\public.actor_aux32k.jsonl.gz": "69cbc022da733bb19305d32303d5ccc116db69aa045dd16ae90491deab03c3a4",
+    "output\\20261025_wrd_reasoning_recovery_v4\\curated_reasoning\\controlled.original_reasoning32k.jsonl.gz": "4a469e88e1ff6dc19f5a98791df31ef2f8252e8d166878111da6ae9938d2500b",
+    "output\\20261025_wrd_reasoning_recovery_v4\\public_reasoning_compiled_final\\all_records.jsonl.gz": "bbdbbb45d55a5570113a290cfc0da33b775e6ce99691bab76de7adc1bca6dcc2",
+    "output\\20261026_wrd_sequences_v6\\controlled\\reasoning_pair_lineage_inputs.jsonl.gz": "bca9c843e7d83e7c32b7a7d86e7ca85681cb974d9e494bd3e0a88eb0f822e53b",
+    "output\\20261026_wrd_sequences_v6\\controlled\\reasoning_public_to_original.index.jsonl.gz": "54532201929dc335cc7b83b12ea8806ac985ca845156ea7c54baeeaaf35f58fa",
+    "output\\20261026_wrd_sequences_v6\\controlled\\historical_raw_quality_overlay.jsonl.gz": "610b656ac01077910aff8d521cee387491580f73f7cf37cc18d372a49dbed93e",
+    "output\\20261025_wrd_reasoning_recovery_v4\\CAUSAL_TEMPLATE.json": "6a231f1a4e8d71aa0f402d7a32d90fad37dd4b4ca2c8fef375ff54ad6a194768"
+  },
+  "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+  "immutable_lineage_decision_inputs": {
+    "reasoning_decisions": {
+      "original_path": "output\\20261026_wrd_lineage_v6\\controlled\\reasoning_pair_lineage_decisions.jsonl.gz",
+      "sha256": "cd40426d68f1f6f520938104e7dd4e7290c252d90cf7bb7a439de837fc68c816",
+      "immutable_snapshot": "controlled\\decision_snapshots\\reasoning_pair_lineage_decisions.cd40426d68f1f6f5.jsonl.gz"
+    },
+    "reasoning_resources": {
+      "original_path": "D:\\skillloop\\output\\20261026_wrd_lineage_v6\\controlled\\reasoning_resource_nodes.jsonl.gz",
+      "sha256": "e9b378d243766884085ca00187c1251ccd538c2105b7f8ee92be6cd280ac2c43",
+      "immutable_snapshot": "controlled\\decision_snapshots\\reasoning_resource_nodes.e9b378d243766884.jsonl.gz"
+    },
+    "native_decisions": {
+      "original_path": "D:\\skillloop\\output\\20261026_wrd_lineage_v6\\controlled\\lineage_episode_decisions.jsonl.gz",
+      "sha256": "9a39c5c1fa46d3580a5ad755ba8b85dc76af27a936c4c7b37661c24947835150",
+      "immutable_snapshot": "controlled\\decision_snapshots\\lineage_episode_decisions.9a39c5c1fa46d358.jsonl.gz"
+    },
+    "resource_nodes": {
+      "original_path": "D:\\skillloop\\output\\20261026_wrd_lineage_v6\\controlled\\lineage_resources.jsonl.gz",
+      "sha256": "30a206c49387990b51e15a53f4491a18782707212ae8d24d00426ff32bc91373",
+      "immutable_snapshot": "controlled\\decision_snapshots\\lineage_resources.30a206c49387990b.jsonl.gz"
+    },
+    "producer_prefix_decisions": {
+      "original_path": "D:\\skillloop\\output\\20261026_wrd_lineage_v6\\controlled\\lineage_producer_prefix_decisions.jsonl.gz",
+      "sha256": "000052ab9712217431c7e5354b3d09bff8656d8d1eb0f55c4171df1b63b742af",
+      "immutable_snapshot": "controlled\\decision_snapshots\\lineage_producer_prefix_decisions.000052ab97122174.jsonl.gz"
+    }
+  },
+  "controlled_archive": "controlled/wrd-lineage-process-v6.tar.gz.aesgcm",
+  "controlled_archive_requires_local_private_key": true,
+  "process_data_readiness_is_not_training_execution_authorization": true,
+  "standalone_data_does_not_execute_any_historical_runtime": true
+}

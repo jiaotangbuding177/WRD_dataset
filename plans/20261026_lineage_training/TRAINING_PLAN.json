@@ -1,0 +1,206 @@
+{
+  "models": [
+    {
+      "role": "primary",
+      "id": "Qwen/Qwen3-14B",
+      "revision": "40c069824f4251a91eefaf281ebe4c544efd3e18"
+    },
+    {
+      "role": "control",
+      "id": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218"
+    }
+  ],
+  "hardware": {
+    "device": "DGX Spark GB10",
+    "architecture": "aarch64",
+    "unified_memory_gib": 121,
+    "source": "user report; no device execution this round",
+    "container_digest": null
+  },
+  "sft": {
+    "dtype": "bfloat16",
+    "method": "LoRA",
+    "rank": 32,
+    "alpha": 64,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "repair_learning_rate": 3e-05,
+    "warmup_ratio": 0.03,
+    "lr_schedule": "cosine",
+    "weight_decay": 0.01,
+    "clip_norm": 1.0,
+    "microbatch": 1,
+    "gradient_accumulation": 16,
+    "gradient_checkpointing": true,
+    "use_cache": false,
+    "attention_candidate": "sdpa",
+    "length_buckets": [
+      4096,
+      8192,
+      16384,
+      32768
+    ],
+    "automatic_truncation": false,
+    "train_models_sequentially": true,
+    "initial_normalized_exposure_epochs": null,
+    "extra_feedback_exposure_max_fraction": 0.5,
+    "runtime_compatibility_and_throughput_verified": false,
+    "exposure_selection_status": "Not frozen: actual main-pass update count is small and independent development is not prepared.",
+    "future_total_normalized_parent_exposure_cap": 3.0,
+    "extra_feedback_exposure_included_in_total_cap": true
+  },
+  "loss": {
+    "segment_means_before_stage_parent_mean": true,
+    "lambda": {
+      "R_original_reasoning": 0.25,
+      "E_visible_explanation": 0.1,
+      "A_actions_resources": 0.45,
+      "D_decisions": 0.2
+    },
+    "format_loss_auxiliary_lambda": 0.02,
+    "missing_segments_renormalized_not_invented": true,
+    "compiler_span_weights_are_base_masks_not_the_full_training_objective": true,
+    "component_codes_are_serialization_carriers_not_semantic_gold": true,
+    "D_carrier_contains_non_tool_body_not_only_correct_decisions": true,
+    "stage_weights": {
+      "A": 0.2,
+      "B": 0.35,
+      "C": 0.3,
+      "D": 0.15
+    },
+    "actor_auxiliary_loss_max_fraction": 0.1,
+    "derived_control_or_summary_max_fraction_of_main_budget": 0.2,
+    "candidate_original_reasoning_supervision_exposure_fraction": null,
+    "original_reasoning_parent_replay_max_normalized_passes": 3,
+    "reasoning_replay_included_in_total_exposure_budget": true,
+    "rare_decision_sampling_cap": 3,
+    "do_not_double_apply_sampling_and_class_loss_weights": true,
+    "one_native_target_one_loss_owner": true,
+    "ignore_label": -100,
+    "loss_implementation_as_training_runner_completed": false,
+    "sparse_missing_native_stages_are_not_synthetically_filled": true,
+    "stage_weights_apply_only_when_original_stage_is_evidenced": true,
+    "historical_banks_not_relabelled_as_complete_native_stages": true,
+    "parent_normalization_unit": "original business source/task; five raw versions of the same source share the parent budget",
+    "R_exposure_target_status": "Old v4 10% replay target is inapplicable: use actual final data composition and segment/parent loss budgets.",
+    "actual_main_pure_R_supervised_token_fraction": 0.6652341247899091,
+    "boundary_component_assignment_once_only": {
+      "R_BOUNDARY_MIXED": "R_original_reasoning",
+      "F": "format_auxiliary",
+      "MIXED": "format_auxiliary"
+    },
+    "base_span_weights_applied_within_each_component_weighted_mean": true,
+    "actor_aux_optional_default_disabled_to_focus_on_distillation_maker": true
+  },
+  "conditional_dpo": {
+    "part_of_main_required_training": false,
+    "same_state_verified_pairs": null,
+    "do_not_pair_before_feedback_failure_with_after_feedback_repair": true
+  },
+  "on_policy": {
+    "implemented": false,
+    "execution_authorized": false,
+    "purpose_if_later_authorized": "student-own errors and long-horizon stagnation; fixed native harness"
+  },
+  "evaluation": {
+    "single_input_no_human_stage_prompts_required": true,
+    "fixed_business_actor_for_skill_quality_comparison": true,
+    "quality_metrics": [
+      "TSR",
+      "independent_five_dimension_Q",
+      "K_Q",
+      "K_R",
+      "K_G"
+    ],
+    "proposed_new_independent_groups": 24,
+    "tasks_per_group": 2,
+    "main_arms": [
+      "teacher",
+      "8B_student",
+      "14B_student"
+    ],
+    "base_making_slots": 72,
+    "base_consumption_slots": 192,
+    "proposed_q_noninferiority_margin_points": 5,
+    "proposed_tsr_margin_percentage_points": 5,
+    "proposed_operating_cpqs_reduction": 0.3,
+    "thresholds_calibrated": false,
+    "new_independent_blind_test_ready": false
+  },
+  "cost": {
+    "processed_tokens_including_masked_inputs_counted": true,
+    "count_failures_revisions_assessment_human_fallback_and_training_amortization": true,
+    "actual_spark_training_tokens_per_second": null,
+    "actual_device_hours": null,
+    "actual_whole_machine_kwh": null,
+    "currency_total": null,
+    "assistant_research_and_annotation_service_cost": "not measured; not zero",
+    "current_preparation_business_model_calls": 0,
+    "current_assistant_review_service_currency_cost": null
+  },
+  "schema_version": "wrd-resource-closed-training-plan-v6",
+  "design_revision": "5.0.31",
+  "change_id": "ALG-20261026-04",
+  "execution_authorized": false,
+  "is_launch_config": false,
+  "training_started": false,
+  "full_goal": "single-input autonomous WRD A/B/C/D in fixed native OpenClaw",
+  "current_data_support": "source-closed historical domain reasoning/resource/feedback adaptation; optional native business Actor process",
+  "original226_kept_isolated": true,
+  "current_formal250_kept_isolated": true,
+  "evaluation_or_derived_feedback_may_tune_thresholds_or_checkpoints": false,
+  "final_training_manifest": "../../reasoning/20261026_lineage_v6/TRAINING_MANIFEST.json",
+  "actual_exposure_arithmetic": {
+    "main_process_windows": 106,
+    "main_owned_targets": 106,
+    "main_supervised_tokens_one_pass": 182659,
+    "main_processed_input_tokens_one_pass": 1857272,
+    "microbatch": 1,
+    "gradient_accumulation": 16,
+    "optimizer_updates_one_main_pass_ceiling": 7,
+    "optimizer_updates_if_all_optional_actor_loaded_ceiling": 10,
+    "tiny_update_count_not_claimed_sufficient": true,
+    "future_exposure_grid_if_independent_development_sources_ready": [
+      1.0,
+      2.0,
+      3.0
+    ],
+    "replay_is_not_new_independent_data": true,
+    "grid_execution_authorized": false
+  },
+  "data_profiles": {
+    "choose_one_projection": [
+      "controlled_original",
+      "public_deidentified"
+    ],
+    "main": [
+      "native_core_if_nonempty",
+      "historical_reasoning_domain_process"
+    ],
+    "optional_actor_aux_enabled_by_default": false,
+    "optional_actor_aux_max_loss_fraction": 0.1,
+    "source_closed_known_quality_process_sft_data_ready": true,
+    "full_autonomous_target_data_sufficiency_proven": false,
+    "historical_protocol_is_not_native_ABI": true,
+    "old_BCD_effect_conclusions_are_not_quality_gold": true
+  },
+  "serialization": {
+    "causal_qwen3_template_variant": true,
+    "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "same_variant_required_in_future_student_API": true,
+    "thinking_mode_intended_for_exploration_repair": true,
+    "inference_template_or_thinking_switch_integration_verified": false,
+    "context_and_output_share_32768_total_candidate_budget": true
+  }
+}

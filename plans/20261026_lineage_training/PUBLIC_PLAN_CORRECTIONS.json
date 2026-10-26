@@ -1,0 +1,23 @@
+{
+  "schema_version": "wrd-v6-prepublication-plan-clarifications",
+  "scope": "Training proposal metadata only; no compiled arrays, source admission or masks changed.",
+  "archive_embedded_plan_is_packaging_time_snapshot": true,
+  "authoritative_current_plan": "plans/20261026_lineage_training/TRAINING_PLAN.json",
+  "corrections": [
+    {
+      "field": "loss.candidate_original_reasoning_supervision_exposure_fraction",
+      "packaging_snapshot_inherited_v4_candidate": 0.1,
+      "current_value": null,
+      "reason": "Pure original R already accounts for about 66.5% of main supervision. Do not replay to target an obsolete 10% fraction. Segment and parent budgets apply."
+    },
+    {
+      "field": "loss.boundary_component_assignment_once_only",
+      "R_BOUNDARY_MIXED": "R_original_reasoning",
+      "F_and_other_MIXED": "format_auxiliary",
+      "reason": "Explicit future loss implementation for existing boundary carriers; keep every original mask/token unchanged and assign once."
+    }
+  ],
+  "frozen_compilation_manifest_sha256": "00cf9a2091ddf623c6136bf25e8a61579181d307575c9b938506a5147f4c443c",
+  "training_started": false,
+  "requires_reencrypting_unchanged_evidence_archive": false
+}
