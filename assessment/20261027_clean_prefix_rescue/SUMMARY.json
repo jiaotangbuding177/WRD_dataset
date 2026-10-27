@@ -1,0 +1,909 @@
+{
+  "schema": "wrd-v10-original-clean-prefix-rescue-01",
+  "status": "COMPLETE_SCOPED_REAUDIT_NO_NEW_WRD_MAIN_APPROVED",
+  "counts": {
+    "old_clean_targets": 3149,
+    "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 1278,
+    "targets_with_content": 357,
+    "targets_with_explicit_R": 0,
+    "explicit_R_chars": 0,
+    "targets_with_no_content_and_no_call": 242,
+    "CLEAN_SOURCE_PREFIX_SEMANTICS_NOT_YET_CERTIFIED": 1142,
+    "HOLD_STATIC_NATIVE_DEV_TEST": 85,
+    "HOLD_CURRENT_SOURCE_SCOPE": 423,
+    "HOLD_PROTECTED_PRODUCER": 207,
+    "HOLD_MISSING_PRODUCER_EVIDENCE": 14
+  },
+  "by_stage": {
+    "prepare": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 331,
+      "total": 349,
+      "with_content": 0,
+      "with_explicit_R": 0,
+      "HOLD_STATIC_NATIVE_DEV_TEST": 17,
+      "HOLD_CURRENT_SOURCE_SCOPE": 1
+    },
+    "actor": {
+      "CLEAN_SOURCE_PREFIX_SEMANTICS_NOT_YET_CERTIFIED": 1100,
+      "total": 1739,
+      "with_content": 333,
+      "with_explicit_R": 0,
+      "HOLD_CURRENT_SOURCE_SCOPE": 418,
+      "HOLD_PROTECTED_PRODUCER": 207,
+      "HOLD_MISSING_PRODUCER_EVIDENCE": 14
+    },
+    "review": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 342,
+      "total": 393,
+      "with_content": 0,
+      "with_explicit_R": 0,
+      "HOLD_STATIC_NATIVE_DEV_TEST": 51
+    },
+    "legacy_blind_judge": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 10,
+      "total": 10,
+      "with_content": 0,
+      "with_explicit_R": 0
+    },
+    "screen": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 94,
+      "total": 101,
+      "with_content": 0,
+      "with_explicit_R": 0,
+      "HOLD_STATIC_NATIVE_DEV_TEST": 7
+    },
+    "make": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 353,
+      "total": 365,
+      "with_content": 2,
+      "with_explicit_R": 0,
+      "CLEAN_SOURCE_PREFIX_SEMANTICS_NOT_YET_CERTIFIED": 2,
+      "HOLD_STATIC_NATIVE_DEV_TEST": 10
+    },
+    "legacy_business_actor": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 44,
+      "total": 88,
+      "with_content": 22,
+      "with_explicit_R": 0,
+      "CLEAN_SOURCE_PREFIX_SEMANTICS_NOT_YET_CERTIFIED": 40,
+      "HOLD_CURRENT_SOURCE_SCOPE": 4
+    },
+    "legacy_devprep": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 15,
+      "total": 15,
+      "with_content": 0,
+      "with_explicit_R": 0
+    },
+    "legacy_skill_make": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 40,
+      "total": 40,
+      "with_content": 0,
+      "with_explicit_R": 0
+    },
+    "legacy_WRD_screen": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 48,
+      "total": 48,
+      "with_content": 0,
+      "with_explicit_R": 0
+    },
+    "legacy_route_merge": {
+      "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 1,
+      "total": 1,
+      "with_content": 0,
+      "with_explicit_R": 0
+    }
+  },
+  "tool_call_counts": {
+    "exec": 856,
+    "read": 1275,
+    "ls": 259,
+    "process": 22,
+    "web_search": 49,
+    "web_fetch": 174,
+    "write": 94,
+    "edit": 2,
+    "secrets": 6,
+    "conversations_list": 1,
+    "automations": 4,
+    "browser": 105,
+    "ask_user": 4,
+    "create_goal": 1,
+    "progress_card": 5,
+    "memory_search": 2,
+    "session_status": 1
+  },
+  "shapes": [
+    {
+      "stage": "actor",
+      "tool_names": [],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 16
+    },
+    {
+      "stage": "actor",
+      "tool_names": [],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 43
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "ask_user"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "ask_user"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 3
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "automations"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "automations"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "browser"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 87
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "browser"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 18
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "conversations_list"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "create_goal"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "edit"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "edit"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 283
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 114
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 7
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 224
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 3
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "memory_search"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 2
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "process"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 20
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "process"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "progress_card"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "progress_card"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 4
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 5
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 565
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 23
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "secrets"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 4
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "secrets"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 2
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "session_status"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "web_fetch"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 117
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "web_fetch"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 57
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "web_search"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 40
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "web_search"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 9
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "write"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 30
+    },
+    {
+      "stage": "actor",
+      "tool_names": [
+        "write"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 53
+    },
+    {
+      "stage": "legacy_WRD_screen",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_WRD_screen",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 47
+    },
+    {
+      "stage": "legacy_blind_judge",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 2
+    },
+    {
+      "stage": "legacy_blind_judge",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 2
+    },
+    {
+      "stage": "legacy_blind_judge",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 6
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 4
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "automations"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "automations"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 25
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 9
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 5
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "process"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 29
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "write"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 4
+    },
+    {
+      "stage": "legacy_business_actor",
+      "tool_names": [
+        "write"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 7
+    },
+    {
+      "stage": "legacy_devprep",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 5
+    },
+    {
+      "stage": "legacy_devprep",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_devprep",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 9
+    },
+    {
+      "stage": "legacy_route_merge",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 1
+    },
+    {
+      "stage": "legacy_skill_make",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 15
+    },
+    {
+      "stage": "legacy_skill_make",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 2
+    },
+    {
+      "stage": "legacy_skill_make",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 23
+    },
+    {
+      "stage": "make",
+      "tool_names": [],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 57
+    },
+    {
+      "stage": "make",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 203
+    },
+    {
+      "stage": "make",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": true,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 2
+    },
+    {
+      "stage": "make",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 14
+    },
+    {
+      "stage": "make",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 89
+    },
+    {
+      "stage": "prepare",
+      "tool_names": [],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 85
+    },
+    {
+      "stage": "prepare",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 157
+    },
+    {
+      "stage": "prepare",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 107
+    },
+    {
+      "stage": "review",
+      "tool_names": [],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 48
+    },
+    {
+      "stage": "review",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 19
+    },
+    {
+      "stage": "review",
+      "tool_names": [
+        "ls"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 1
+    },
+    {
+      "stage": "review",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 325
+    },
+    {
+      "stage": "screen",
+      "tool_names": [],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 35
+    },
+    {
+      "stage": "screen",
+      "tool_names": [
+        "exec"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "none",
+      "targets": 21
+    },
+    {
+      "stage": "screen",
+      "tool_names": [
+        "read"
+      ],
+      "has_content": false,
+      "has_R": false,
+      "old_tier": "read_only_protocol_auxiliary",
+      "targets": 45
+    }
+  ],
+  "original_native_content_hash_checks": 3149,
+  "original_native_block_type_counts": {
+    "toolCall": 2860,
+    "text": 359
+  },
+  "original_native_thinking_block_inventory": [],
+  "noninitial_WRD_stage_target_count_after_26_Actor_exclusion": 25,
+  "business_Actor_write_count": 94,
+  "new_WRD_main_sequences": 0,
+  "new_positive_loss_tokens": 0,
+  "future_protected_read_did_not_retroactively_revoke_an_earlier_clean_prefix": true,
+  "later_26_producer_evidence_overrides_earlier_direct_only_actor_labels": true,
+  "static_dev_test_and_current_source_scope_not_reassigned": true,
+  "source_scope_admit_is_not_quality_admit": true,
+  "no_private_target_bodies_in_report_or_ledger": true,
+  "weights_loaded": false,
+  "training_started": false,
+  "new_model_calls": 0,
+  "AI_curation_cost": "UNKNOWN_NOT_ZERO",
+  "inputs": [
+    {
+      "path": "output/20261026_wrd_dataset_v9/outcomes/recomputed_scope_overlay/target_outcome_labels.jsonl.gz",
+      "sha256": "93fb5a7cfc2d9f707ae60bd4093a15b296d1c0ae296644f89a292b2b0b06fe74",
+      "bytes": 6548556
+    },
+    {
+      "path": "output/20261026_wrd_dataset_v9/processed/targets.processing.jsonl.gz",
+      "sha256": "15c9904a4ea56e34f423d4b3eb439f4ac02b7dbf3b0b803e51cbcddc3b91d0fe",
+      "bytes": 8067444
+    },
+    {
+      "path": "output/20261026_wrd_dataset_v9/processed/native.student_traces.all.jsonl.gz",
+      "sha256": "77e07ee990e5b7862f3aac90ed2f41836ba1b3098ca250556ba59fe3c85f6465",
+      "bytes": 68902385
+    },
+    {
+      "path": "output/20261026_wrd_dataset_v9/recovery/episodes.contexts.jsonl.gz",
+      "sha256": "ad6d00bd248e36dfc115e35724b905374fbce0db550e276c61f3a38ccc759b0a",
+      "bytes": 73792528
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/prepare_ancestry_audit/actor_prepare_case_evidence.json",
+      "sha256": "dbab2a97f8f823387995ef48695c2d07ff9c5be59b3a33dec035cc55c808ddd7",
+      "bytes": 278518
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/clean_inputs/source_scope.metadata.jsonl.gz",
+      "sha256": "b96d265f99ca95aa0f0cab06583cb0e534bd01535373f20d896f374b1afe5477",
+      "bytes": 23076
+    },
+    {
+      "path": "output/20261026_wrd_dataset_v9/SOURCE_GROUP_SPLIT.json",
+      "sha256": "b4b047925af35dcf04419edf0478b853d2420e16fa7d262b84b8b2bf772a88a1",
+      "bytes": 208065
+    }
+  ],
+  "script_sha256": "d0836756859fa181cbb56ca9c26c029826f6e03da2216262dbee812db3fd0a75",
+  "business_actor_write_counts_by_current_rescue_status": {
+    "CLEAN_SOURCE_PREFIX_SEMANTICS_NOT_YET_CERTIFIED": 57,
+    "HOLD_PROTECTED_PRODUCER": 17,
+    "HOLD_CURRENT_SOURCE_SCOPE": 16,
+    "HOLD_MISSING_PRODUCER_EVIDENCE": 3,
+    "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 1
+  },
+  "content_target_counts_by_current_rescue_status": {
+    "CLEAN_SOURCE_PREFIX_SEMANTICS_NOT_YET_CERTIFIED": 184,
+    "HOLD_CURRENT_SOURCE_SCOPE": 90,
+    "PROTOCOL_ONLY_NOT_BUSINESS_QUALITY": 8,
+    "HOLD_PROTECTED_PRODUCER": 70,
+    "HOLD_MISSING_PRODUCER_EVIDENCE": 5
+  },
+  "noninitial_WRD_not_already_admitted_as_protocol_auxiliary": 8,
+  "limitations": [
+    "Only the exact formerly ADMIT prefix set is audited; remaining missing-resource lineages are not claimed impossible to recover.",
+    "Old protocol-only labels are historical classifications, not a newly proven certificate that every free-text initial task prompt has no business dependency.",
+    "The 57 source-eligible business write targets are not automatically correct, reusable resources, or WRD making/evaluation demonstrations.",
+    "Original visible reasoning being absent in these 3149 positions does not mean original reasoning is absent in other recorded API or protected trajectories."
+  ]
+}
