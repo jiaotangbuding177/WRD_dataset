@@ -1,3 +1,17 @@
+# v10检查点04：已恢复原始思考、动作与因果版本的实际数据
+
+[实际数据与恢复](dataset/20261027_v10_checkpoint04/README.md) · [14B／8B训练计划](dataset/20261027_v10_checkpoint04/TRAINING_PLAN.md) · [唯一主清单](dataset/20261027_v10_checkpoint04/TRAINING_MANIFEST.json) · [实际统计](dataset/20261027_v10_checkpoint04/ACTUAL_DATA_STATISTICS.json) · [数据QA](dataset/20261027_v10_checkpoint04/CHECKPOINT_QA.json)
+
+04交付495个真实可加载目标／124,452监督tokens／2,636,716输入tokens，437条≤16K、58条16—32K，271个原来源／258联合来源组件。其中436个需求契约目标占74,758监督tokens；59个过程目标占49,694，不能把总行数当完整沉淀示范。原生原思考10,577与六来源历史原思考33,153 tokens分账，新理由490、原实际动作4,373、新动作投影943及新STOP158分别标记。
+
+原始思考／完整工具操作／失败／反馈／资源版本与正文、数组、mask一同提供：3,779个认证成员，真实106.42MB加密载荷，沿用本地既有密钥。26段历史原R全文396,231字符保全；原生边界255 HTTP／384,215原R字符保全（含一个完整传输但length响应，以及一个单独视觉helper；均不冒称训练目标）。默认清单明确选择，全文／32K／64K同owner不能重复授loss，旧12历史R已被26替换。Git中的密文是真实数据，凭据／本地密钥未上传。
+
+**完整自主沉淀主集仍不足，未启动训练。** 当前有真实制作—局修—消费—评审—STOP链，合格保留0、单原生自主A—D示范0；仍缺更多已验证的程序构建、跨机制消费结果、正向封包与全局调度。当前正在沿旧被整writer暂扣的原响应恢复长程序创建，不把候选、GB、更多窗口或epoch当足量证明。原226、新H、静态dev/test继续隔离；旧v9辅助不默认混入。04冻结成本范围为14 outer／15 native、16,197,610已知tokens／206请求／2unknown，后续在途／新终态另列；AI标注／CPU／现金未知非零。合格分母0时每合格技能总成本未定义。
+
+以下均为不变历史快照，不覆盖04当前入口。
+
+---
+
 # v10检查点03：实际训练数据与全链原件，完整主集仍在扩充
 
 [正文／数组与实际恢复](dataset/20261027_v10_checkpoint03/README.md) · [训练方案](dataset/20261027_v10_checkpoint03/TRAINING_PLAN.md) · [明确活跃清单](dataset/20261027_v10_checkpoint03/TRAINING_MANIFEST.json) · [各阶段实际数量](dataset/20261027_v10_checkpoint03/ACTUAL_DATA_STATISTICS.json) · [首条真实链报告](dataset/20261027_v10_checkpoint03/FIRST_CHAIN_REPORT.md)
