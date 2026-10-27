@@ -1,0 +1,992 @@
+{
+  "schema": "wrd-v10-combined-old-v9-auxiliary-import-errata",
+  "status": "PASS_SCOPED_COMBINATION_ONLY",
+  "statistical_universe": {
+    "bank": "native_process",
+    "actual_shards": [
+      {
+        "path": "sft/native_process.dev.16k.jsonl.gz",
+        "sha256": "40a4cb888bbcc6c5377717073ada649dcbcfc4314bb63b66a94eb6b296a657cf",
+        "bytes": 748251
+      },
+      {
+        "path": "sft/native_process.test.16k.jsonl.gz",
+        "sha256": "57126e036ebd6e1e9c453f84a965588535902b471a778c13d76065b9555df027",
+        "bytes": 662017
+      },
+      {
+        "path": "sft/native_process.train.16k.jsonl.gz",
+        "sha256": "78506431593e0dd282a9e1d657abd1d6a3279b463d875311469e294035941bbe",
+        "bytes": 9616560
+      },
+      {
+        "path": "sft/native_process.train.32k.jsonl.gz",
+        "sha256": "0b968dfd0e6e16d0bb2423229b138ecc57639a984cb652daf1fa3bd952394256",
+        "bytes": 570023
+      }
+    ],
+    "old_and_new_audits_bound_to_same_shard_bytes": true,
+    "shards_read_and_positive_owners_verified": 4,
+    "all_audit_record_owners_disjoint": true,
+    "all_audit_target_ids_disjoint": true,
+    "all_audit_episode_ids_disjoint": true,
+    "confirmed_and_pending_actions_not_interchangeable": true
+  },
+  "by_audit": {
+    "previous26": {
+      "confirmed_revoke": {
+        "by_split": {
+          "train": {
+            "sequences": 21,
+            "targets": 36,
+            "supervised_tokens": 1260,
+            "weighted_token_mass": 108.72000000000001
+          },
+          "dev": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          },
+          "test": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          }
+        },
+        "all_splits": {
+          "sequences": 21,
+          "targets": 36,
+          "supervised_tokens": 1260,
+          "weighted_token_mass": 108.72000000000001
+        }
+      },
+      "pending_hold": {
+        "by_split": {
+          "train": {
+            "sequences": 3,
+            "targets": 4,
+            "supervised_tokens": 151,
+            "weighted_token_mass": 13.18
+          },
+          "dev": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          },
+          "test": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          }
+        },
+        "all_splits": {
+          "sequences": 3,
+          "targets": 4,
+          "supervised_tokens": 151,
+          "weighted_token_mass": 13.18
+        }
+      }
+    },
+    "new39": {
+      "confirmed_revoke": {
+        "by_split": {
+          "train": {
+            "sequences": 16,
+            "targets": 24,
+            "supervised_tokens": 938,
+            "weighted_token_mass": 82.28
+          },
+          "dev": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          },
+          "test": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          }
+        },
+        "all_splits": {
+          "sequences": 16,
+          "targets": 24,
+          "supervised_tokens": 938,
+          "weighted_token_mass": 82.28
+        }
+      },
+      "pending_hold": {
+        "by_split": {
+          "train": {
+            "sequences": 12,
+            "targets": 21,
+            "supervised_tokens": 737,
+            "weighted_token_mass": 63.620000000000005
+          },
+          "dev": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          },
+          "test": {
+            "sequences": 0,
+            "targets": 0,
+            "supervised_tokens": 0,
+            "weighted_token_mass": 0.0
+          }
+        },
+        "all_splits": {
+          "sequences": 12,
+          "targets": 21,
+          "supervised_tokens": 737,
+          "weighted_token_mass": 63.620000000000005
+        }
+      }
+    }
+  },
+  "combined": {
+    "confirmed_revoke": {
+      "by_split": {
+        "train": {
+          "sequences": 37,
+          "targets": 60,
+          "supervised_tokens": 2198,
+          "weighted_token_mass": 191.0
+        },
+        "dev": {
+          "sequences": 0,
+          "targets": 0,
+          "supervised_tokens": 0,
+          "weighted_token_mass": 0.0
+        },
+        "test": {
+          "sequences": 0,
+          "targets": 0,
+          "supervised_tokens": 0,
+          "weighted_token_mass": 0.0
+        }
+      },
+      "all_splits": {
+        "sequences": 37,
+        "targets": 60,
+        "supervised_tokens": 2198,
+        "weighted_token_mass": 191.0
+      }
+    },
+    "pending_hold": {
+      "by_split": {
+        "train": {
+          "sequences": 15,
+          "targets": 25,
+          "supervised_tokens": 888,
+          "weighted_token_mass": 76.80000000000001
+        },
+        "dev": {
+          "sequences": 0,
+          "targets": 0,
+          "supervised_tokens": 0,
+          "weighted_token_mass": 0.0
+        },
+        "test": {
+          "sequences": 0,
+          "targets": 0,
+          "supervised_tokens": 0,
+          "weighted_token_mass": 0.0
+        }
+      },
+      "all_splits": {
+        "sequences": 15,
+        "targets": 25,
+        "supervised_tokens": 888,
+        "weighted_token_mass": 76.80000000000001
+      }
+    }
+  },
+  "all_affected_old_rows_are_train": true,
+  "affected_dev_and_test_positive_tokens": 0,
+  "frozen_v9_train_sequences": 1660,
+  "frozen_v9_train_supervised_tokens": 403788,
+  "frozen_v9_totals_not_overwritten_or_reclassified_by_this_sidecar": true,
+  "is_a_complete_quality_or_lineage_certificate_for_the_rest_of_v9": false,
+  "v10_active_banks_import_these_rows": false,
+  "v10_new_positive_loss_tokens": 0,
+  "records": [
+    {
+      "episode_id": "ep_1844f486b4c612b81019",
+      "record_id": "native_ep_1844f486b4c612b81019",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "a52f61e91232fdf527d91829",
+        "ba30a79befae3b61ad9ea851",
+        "fde59d7dff6fbd1c7edab5df"
+      ],
+      "supervised_tokens": 93,
+      "input_sha256": "e102c7affc794856f6c07918f4b29d4be836878b50bd6734d5218c8c4ec6acfa",
+      "spans_sha256": "6c267aed61280846adb555aca81fda4bbc6c8aeedd9b67691eb63d0eda8483df",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_28c80e451808f58613bb",
+      "record_id": "native_ep_28c80e451808f58613bb",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "e681b7420a68ae682bed0767"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "d813c96eb281c621971fa0ba5df7f32d124344d45f365fe5fbaf31742676f35e",
+      "spans_sha256": "6e398a0f318102062e82be834dde99cbc45aced0ee33d117fad88174488efb78",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_2b7463a9ee84fa993307",
+      "record_id": "native_ep_2b7463a9ee84fa993307",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "eb5e74f14f98a4d2ae0060ad"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "5b3be69479f8fd857886ad439507d4aacd8d7aa819823682fd218b3e4f4964f2",
+      "spans_sha256": "01f6d896f31e66daa8200a469f057807b5c7fab3cf9a5f17eb346f6bfcbe42f1",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_2c99a73da169543b2866",
+      "record_id": "native_ep_2c99a73da169543b2866",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "23305c6096fafdd753a711a1"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "e4fc087fd409dde9969108016f0eee5603cec48ea3aa0f522ab8735e070e4575",
+      "spans_sha256": "d2dbbb5e113f01bb7bfa8a206d9e26370fe0dcf3de1d5c1031d3c13f0fa8aab2",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_2f0aa5970879ef01aa67",
+      "record_id": "native_ep_2f0aa5970879ef01aa67",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "9c9dcbcb03aa55eadb95eef2",
+        "102e7ed1742246f0d26595f7",
+        "052c9a39dac393b2d0cea532",
+        "b1efeec14bf0e112bfb09624"
+      ],
+      "supervised_tokens": 111,
+      "input_sha256": "3832549fee490599c05531726bdc13fba757d80b7307cc7f788c2dbf47963f49",
+      "spans_sha256": "ba738532b6aab8d83149caa75c23fbb146d44775b7bcff37205771c52f0fba66",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_33cb512cc0a04c68f90e",
+      "record_id": "native_ep_33cb512cc0a04c68f90e",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "8b7c62bffabebae9cdd649b1",
+        "e7316210b9b70db4f91e2da8"
+      ],
+      "supervised_tokens": 69,
+      "input_sha256": "11a2656c0c5bd37984321a5aa0511eb4c7759335dab6a941f83cd7fffa6fd7cc",
+      "spans_sha256": "d56f73070e684b6d00e0bf64bd79049d1afe8a273457cb58687406494d50d5cf",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_4de37b90eeb155335e26",
+      "record_id": "native_ep_4de37b90eeb155335e26",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "edbdc65642d59a61b5a424b1"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "70dc2567a32f576cb2c891868b388e70fd6d2cfd6dc3678642863b5e140f9cd8",
+      "spans_sha256": "32ca407bfe4917bcd3f38f6b7898607979c7c286fc9f03b821e062cf241036a3",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_616a5769c48778145f1b",
+      "record_id": "native_ep_616a5769c48778145f1b",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "b0d127aede8bcc566710e020"
+      ],
+      "supervised_tokens": 45,
+      "input_sha256": "bc780f599eadc879ead76bdf59022f06bb55493e9f6b7dc6d7343f1d63926881",
+      "spans_sha256": "734d03fe1aa9a37a84aa699ae95ed895dab67ce08b00b52ba7f13c91aba267a1",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_621cbcf08e1ddf233624",
+      "record_id": "native_ep_621cbcf08e1ddf233624",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "9145d12104a393f5c170c860",
+        "919f1abef78622105856483b"
+      ],
+      "supervised_tokens": 66,
+      "input_sha256": "5945278cc3f6725a23345e5d7c6d27e8034c0cb85b6df7c2b972c5b89098ca24",
+      "spans_sha256": "0dde44779677d365b485bfc3ff85a2dc446901d19d16949b53b67ab01d6a3c13",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_6b062f37cd7d6ca9865f",
+      "record_id": "native_ep_6b062f37cd7d6ca9865f",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "1a76aa91d02490ba961fd28c",
+        "a4a012cb61da099adea37940",
+        "4258196474a0520a5b70fec2",
+        "9089e27382bb9eb89f98eeb7",
+        "6d399cdf17f48bb0d398392c"
+      ],
+      "supervised_tokens": 141,
+      "input_sha256": "1718c0d6bcdcfd18f3ac44991bc34a2e569712b3dc0af68274c0e9fa75e7b484",
+      "spans_sha256": "29437f219078718d6db691c1c4c9c171e86ea15f82774ca68f885ef1d5b97677",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_71f31aa6ac5fb123ecaa",
+      "record_id": "native_ep_71f31aa6ac5fb123ecaa",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "712c8d080695862fdbdffca2"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "54e037585f57972a003355058e15c4f48e8754d1f0a3d3b12fab857c99d4b911",
+      "spans_sha256": "b10bcb7197c9e593abf0a361b865663221e668eb9f4319f1d2bd0509c2522bbc",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_78706591fae4b4937627",
+      "record_id": "native_ep_78706591fae4b4937627",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "7c2f971e072ad2edac66a164"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "2321d322802f2d42dbfcddf25f728c00b9783fe82449b7159951c7a21cef460e",
+      "spans_sha256": "a569f87c06c1f2bb13afbf201e1f3e1549cb6d386fcd3e5ecb62d4299a404678",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_7ecf3bd104f70339ed8d",
+      "record_id": "native_ep_7ecf3bd104f70339ed8d",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "f83e704381fd496302d6f16b",
+        "c6e4a3a3265853df9b6b8ced"
+      ],
+      "supervised_tokens": 71,
+      "input_sha256": "e29cddb37ce2e268ff5fcbf4e8c1335cd9791eb8962bde4d596da2ae11f5e7f7",
+      "spans_sha256": "ce89cc99037d1ec4d3ebf83e8f7e3bebe48d3f889b3bcb3990413325b83bde58",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_871d4a96b6610d55399b",
+      "record_id": "native_ep_871d4a96b6610d55399b",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "f2682fcb7d7d1f39e32cc63d"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "678a9580d038c332b7cd0160fe5345b4f9db0246803d21bfc485cbc2067b944b",
+      "spans_sha256": "9c11aaad5e83a5d212bb4347f0e9d50814475f2990b66261aa77b5c1b0bec7cc",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_a1c917f26040c03f84ec",
+      "record_id": "native_ep_a1c917f26040c03f84ec",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "f9faebbc29cfcc204128eab9"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "669f27b1549ff4e7d379672ec2dae71e169164342254e5a5e8665391c40ee39f",
+      "spans_sha256": "67aaca038d6703aebed31ae52607c1ca3cc58d2a77f21aa58460c3e34da75e5c",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_a9ecc8e1ba220666c3a3",
+      "record_id": "native_ep_a9ecc8e1ba220666c3a3",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "34be7b1b9a47df3a9fb67fdf"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "3c5c9f866ae523c201526502821e183c795bade35a4b97875a2f07fc612bc852",
+      "spans_sha256": "eeb4d426df3bf1b76f37842188ee653e653ec31571f89cb89fd70d2cbf5b2366",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_c4174e990a7753849355",
+      "record_id": "native_ep_c4174e990a7753849355",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "1ad09e9811f7c0fb071fb80d"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "3cf324eb9b946295c14fac537bb192f8191d9103cf2d2e7e30197ec47422b006",
+      "spans_sha256": "703a489b5805382096fa92eb7e7e0511389aabfbdc49616f0c539ee24d842d84",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_f7eb8287bec8b3a86919",
+      "record_id": "native_ep_f7eb8287bec8b3a86919",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "7e7a606e00274b5d550cdfaa"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "5c273b074dcaad7a4e245b7f0f2df850ffa8598c388749e07c323b39dfb282bd",
+      "spans_sha256": "cce3909325413475efe3966b2e3d22696031b3ed2b49f4739b109306181bb894",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_fbe37b893cf1d1a84627",
+      "record_id": "native_ep_fbe37b893cf1d1a84627",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "39148b75b1b489915e23a31f",
+        "553312a3f84b8423cd1cb526"
+      ],
+      "supervised_tokens": 68,
+      "input_sha256": "f9c128972f3750c24b7dd4fb13a6fa0888f96da6583a4f19a6337e30e3dd8743",
+      "spans_sha256": "ea14e25c4eb54798bfa5f320fff270b2a0368e1e490bb5f854a823ca714a8452",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_60ea56bdf26015bd2e92",
+      "record_id": "native_ep_60ea56bdf26015bd2e92",
+      "split": "train",
+      "shard": "native_process.train.32k.jsonl.gz",
+      "targets": [
+        "cc7c53ba40de44b54410310d",
+        "c2424031d1da97c7787d78ee"
+      ],
+      "supervised_tokens": 69,
+      "input_sha256": "ae8b518ed67536c48ef8e5d9372b69e52834606181ba7b5783e1d7eb4c9d5f6b",
+      "spans_sha256": "eea8038d87adc781abbc62f9149ad7823b29549819a377da995976a7c35d3af8",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_de133ee74473771e00cd",
+      "record_id": "native_ep_de133ee74473771e00cd",
+      "split": "train",
+      "shard": "native_process.train.32k.jsonl.gz",
+      "targets": [
+        "7ba94fd01931be26479f56e2",
+        "b5a3a3ca187ea06d41b83198"
+      ],
+      "supervised_tokens": 66,
+      "input_sha256": "c544d9cc3573dbe71bbf94a5e4bb97b61f3a464dffe88f429e3e93f3a6791283",
+      "spans_sha256": "cb642b1331d42c008ef4cebb7765b12da00990b793cbed1e8b6bb12e0e2a5a02",
+      "action": "confirmed_revoke",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_5634a5d01fca1a80d309",
+      "record_id": "native_ep_5634a5d01fca1a80d309",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "8af269a2b1024f1e023f7ef9"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "d516dab23133a6914a3716ae644da4a36bf2ae1a440194453846fdd3ade16b43",
+      "spans_sha256": "a04b17784a99565c3afbb3c881f41e68498c85198ad6e98bc141fde45cee254c",
+      "action": "pending_hold",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_9e77e4b41f58aeeca811",
+      "record_id": "native_ep_9e77e4b41f58aeeca811",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "f892a01d9a46e63fea73014d"
+      ],
+      "supervised_tokens": 40,
+      "input_sha256": "04668323d30ee7ba76d718aba935acf0f0db3cdbdb6ef93b05cd65a27fc636a8",
+      "spans_sha256": "77b5e9afbd1d8813401068c321c169653b12957f54b79532cd7328a923da6af3",
+      "action": "pending_hold",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_d4be7f7b30f36c38b3b9",
+      "record_id": "native_ep_d4be7f7b30f36c38b3b9",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "7ccbae14096a62162a12ba8d",
+        "6d7bf00695a9443e71efc250"
+      ],
+      "supervised_tokens": 70,
+      "input_sha256": "d7f66106b98bb52fe40c6cc8cec03f11afc204bed8251fdd0163cd7423ba256f",
+      "spans_sha256": "c58940f903f094db2438fb4ca095b282d8f2f52441c485e612e98b9cca4f527b",
+      "action": "pending_hold",
+      "audit": "previous26"
+    },
+    {
+      "episode_id": "ep_039423747b5b51f0e804",
+      "record_id": "native_ep_039423747b5b51f0e804",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "8669469524229b2bab7036c2",
+        "2b72c52045d60fe356b1fdc4",
+        "75e09016539b8cc0dcb16b9d",
+        "0c93868d82936b8750acef14",
+        "81b493e6f6a662d472c13154"
+      ],
+      "supervised_tokens": 141,
+      "input_sha256": "3624e6cc78808e12f288475149dc0bea6998dc4c8aa7bc3814065bfb49b3327c",
+      "spans_sha256": "25dcd23160eb38612955576005849a74b5d1e96a53c3af16afb3f38497f26e59",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_051febff7ab47225abe8",
+      "record_id": "native_ep_051febff7ab47225abe8",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "42438ea2c114fb52e6a45cfd",
+        "7e0bd7c3101fc2108e022d88"
+      ],
+      "supervised_tokens": 77,
+      "input_sha256": "76d55e51484c3dff4641a8c72a9531217062753a96cd3024d65696cd3b73548d",
+      "spans_sha256": "53c1e2cfc8e8f8ee98d3564713539bb21fefe056e6e61a83e67de4fa182eefa2",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_0e5f39ebe742fbcfff1b",
+      "record_id": "native_ep_0e5f39ebe742fbcfff1b",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "7772cf9f3614e3192f392d45"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "0e05b89a9448ca3efa723a936a312611fffff8c3e6ed8972f75369dde5e9f4b5",
+      "spans_sha256": "68fa698efe8debec2084f428e8e969e217067abf3ef90e2d4b7ec4e2430c3b36",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_13db0415403c12c60e2b",
+      "record_id": "native_ep_13db0415403c12c60e2b",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "9cfe00c56cd8377ef3355e90"
+      ],
+      "supervised_tokens": 44,
+      "input_sha256": "d7b7dc2ec1f499481289777bc9a147d3c088d6d3822c2d78ade94f364263bfdd",
+      "spans_sha256": "f9ac242e61c423c8ba6840d6736d2547992ba0f269807c4ce5a022c8d5bbc2bc",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_2493f463fdf84d1ba740",
+      "record_id": "native_ep_2493f463fdf84d1ba740",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "5083cda7fbdd1bce531f7858",
+        "dc14e64b66acc35d26e670fe"
+      ],
+      "supervised_tokens": 78,
+      "input_sha256": "22916afbed84e287764525affe2ccc307d18989106af2ab33cec32c9f594cfa0",
+      "spans_sha256": "6738b3b8cb65a2d85f8338cb25be62596d142e414aeb4d843b8b46c852aef34b",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_29dc559a8c3eebb13e94",
+      "record_id": "native_ep_29dc559a8c3eebb13e94",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "894aa428057f9f79772784bd"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "c65b9693558b28a1b4fe19943dab53c42b0f42291441706d284483bb7acfbfd0",
+      "spans_sha256": "d92d1942de7ad623462061ccedc8dcb65e3cbc0ba6486be72f666f3d25808b45",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_345dc5ea86f2a11ef9b4",
+      "record_id": "native_ep_345dc5ea86f2a11ef9b4",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "00d4c28f55f7e8410be5aeef"
+      ],
+      "supervised_tokens": 45,
+      "input_sha256": "6093ab5dba2d63d1146be79d1fa55a8c526e7afe21cf4c1c90b70479454cf598",
+      "spans_sha256": "5376cc625b9c990101734b9c4e53cca930098ef6307d8e38870e026c4e759f95",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_42d23f25933caada98b1",
+      "record_id": "native_ep_42d23f25933caada98b1",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "d4b309e272747095879b96c0",
+        "45f54cefc5412bb2ecd2a266"
+      ],
+      "supervised_tokens": 92,
+      "input_sha256": "5cdb8908a5b8368ad65bce999bc4e2db978b063389c7f5b3872a413d0d4b39ae",
+      "spans_sha256": "62ecde5f0e61bfa49689ed1d07d645f318ff7cfc795684cee46b3d2ddc4499db",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_49730f0b4f5b874853c5",
+      "record_id": "native_ep_49730f0b4f5b874853c5",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "30ea18527fbd638dda65eada",
+        "44fbc3209aa83d4cec3948ac"
+      ],
+      "supervised_tokens": 68,
+      "input_sha256": "a78d744e7406fcacaf768a759117a6476c9feacea61a72cf60ea0c2d795b567f",
+      "spans_sha256": "94c3278f1803e834e1854a42e0d073b9100d6c99c9c446b9df89aa825e06d801",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_4d412dca2c57480536e7",
+      "record_id": "native_ep_4d412dca2c57480536e7",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "3212882f8f85c069d6015d8e"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "47b76905b8a330cfdf341c5e292c679dd8618bfd53240c6d3915ef1989931098",
+      "spans_sha256": "309f8d20b4cf29a500ad519a8a3ab8c3f62761c30bb74b97246e77ffd1da6e52",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_530653bde445b02636f4",
+      "record_id": "native_ep_530653bde445b02636f4",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "67e6b160152a02438efad077"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "f7f5a957299c8a10516d3d9f0f0475299e223b56cd27a04744970dad85324ee4",
+      "spans_sha256": "c45ed012b789702fd6b7746ea8d4b84960c36d2a1eaff23122cabdabd300e233",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_5a8790368a2bb86a606b",
+      "record_id": "native_ep_5a8790368a2bb86a606b",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "da73d82994bb2de5a8df1a10"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "90c1a235117aee7285eae998f3f04250fc009d8c9cfaa8fd9e6dc736d9b50384",
+      "spans_sha256": "31ad681327254792da175edeccecc9bd7cdd27175373fd664088d8c18ed893dd",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_5aec7d0cfffd70815b7d",
+      "record_id": "native_ep_5aec7d0cfffd70815b7d",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "fc69731f169ce7f5e53e5858",
+        "cda3ebb3876cf4911dc4175e"
+      ],
+      "supervised_tokens": 67,
+      "input_sha256": "9b01bdc92fbdcea39b3d94ba3183c5cd5ec7d1b0c531c596dd3533cb3a7389c2",
+      "spans_sha256": "87c85778ec938e8a842ddf7918329ff78e236f24a7603b14e8a0ff12a0c11045",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_675d2b1e9cc09fac4b83",
+      "record_id": "native_ep_675d2b1e9cc09fac4b83",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "241355e648cb63951fbbd079",
+        "0228a84aa29a3a700b37b886"
+      ],
+      "supervised_tokens": 67,
+      "input_sha256": "879aab7835aa1df4964e69023e67104a7b0d23c53da9acfb58911b5e582c8658",
+      "spans_sha256": "e4cf428db83c6b41f727cb19fa1c1c7ccc10b806e11256d4838220897c85ce31",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_7016a6cc331a90778bac",
+      "record_id": "native_ep_7016a6cc331a90778bac",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "faab342468f92e720f484f95"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "53a2adc9ade02219ea423e590556ef35b8bcb1612019b04729ec40a71518b51a",
+      "spans_sha256": "52325c3153191d72196a2d4266718313175cb0d65a5cb6927acd8c5a09f4ae47",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_80b284de9e0befed5604",
+      "record_id": "native_ep_80b284de9e0befed5604",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "a253478b6a8bf7ef3003d171"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "e5c254d1a3ba3d0151a4fd4087787c5871513fbd420bcf11f3bdd5c5d75206f1",
+      "spans_sha256": "d8a084bced5fe59b3e75e174887229b227e261ef66c1d095e44fe948104c4bb0",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_a39814591e98823b0e3b",
+      "record_id": "native_ep_a39814591e98823b0e3b",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "1beb68f69f67f21eec9794f4",
+        "287e6dc843fd4ed01133681f",
+        "5f20329bd8c431fe2b408bbd"
+      ],
+      "supervised_tokens": 113,
+      "input_sha256": "8a122b8dc8aeb27d07eb70938686c7d55b9fee2e024323416ab77275505abc6b",
+      "spans_sha256": "45310daa81eed47b20c968520e0563406dc8b367a1163e93e8936e8aac1aca3d",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_a673d55612cc394e3716",
+      "record_id": "native_ep_a673d55612cc394e3716",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "1781444de8456173daf3001b"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "99a1aae4904973eb1d840569e5e0e7d386b69add91413ede6e93b7ba10bf083f",
+      "spans_sha256": "9b13cb7860b81c7a2d04f4647e9d1004ca3322841ade4482e6225ec12ca17c7c",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_ad791f361a6272e19c42",
+      "record_id": "native_ep_ad791f361a6272e19c42",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "2a3159c65d3c001386df8ecb",
+        "62960edff95f5930c7d30ad4"
+      ],
+      "supervised_tokens": 68,
+      "input_sha256": "a58f29468b0845a5bff427b52df26651f39d0ae5e9e92c90c44b94e11baaf614",
+      "spans_sha256": "63dd56415eb169dd12f06d77b4cec66ad45ee3e2fed093ab04a08516945c38a2",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_b0f34befd53346889932",
+      "record_id": "native_ep_b0f34befd53346889932",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "e92422934f252fb15993b02e",
+        "40b5dbf1fd3cda69827a2797"
+      ],
+      "supervised_tokens": 68,
+      "input_sha256": "9899be329c40dad5cec319b77df95438f80656e6402539eea040f18700f165c1",
+      "spans_sha256": "73e82dad414214f150bd9a788f61b56eaefc303cca70fc61f83af4193857b488",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_baa61273c606f941181c",
+      "record_id": "native_ep_baa61273c606f941181c",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "ead86305d568b30a01a2d618"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "735a6c2ff03591e92d2d4eecf0d68dcc699d8a7a79bed494f73c3090133ca89c",
+      "spans_sha256": "b47a77e0a05a0cb523b657719d8c973992ab5b6dc9aa449fff687c5bc27541a3",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_c6feee653dbd0bc8b346",
+      "record_id": "native_ep_c6feee653dbd0bc8b346",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "86ceef8514454ab356b963f1",
+        "cd0cda1b143b0a81bf98851e",
+        "d2f246bba0565e94e857a8f5",
+        "3a66f02ab0b167f387ee6174"
+      ],
+      "supervised_tokens": 117,
+      "input_sha256": "600c6b236102e7109f4e2e916ef21a6f110758b5e9069a377b17f59d7a3f8c29",
+      "spans_sha256": "26df91af8c6589f234a566c9644d3fc0c46c4e081de99690ba3b734de291737e",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_db261c3f3f419e65ba86",
+      "record_id": "native_ep_db261c3f3f419e65ba86",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "7d87afda902785813817d9be"
+      ],
+      "supervised_tokens": 42,
+      "input_sha256": "306aa9785bee0798496a1af440fc001983e49f30effd9d24de6ac52c11e9e826",
+      "spans_sha256": "0af6b19a91bdd300c24015b3032f32752632a56b73baed27e0f80a1b6b38b391",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_e61b79c426a01a9a6f92",
+      "record_id": "native_ep_e61b79c426a01a9a6f92",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "bd06733370b9b7e6f4c1baba"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "12b969cdf30ffd0eddc1c40b24189c83731f6b13b000c8598eab34c7fbd46018",
+      "spans_sha256": "31eb207ad92597a89ab6f5d52928b3af3e55e305b00e99e89a360e42ae770ba5",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_ede570274081036b9ab2",
+      "record_id": "native_ep_ede570274081036b9ab2",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "0035c3f158f3eb3efffbcfab"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "3b05d293605174ecf3e68bb423b9697d342134d1143d2602df13a4331ea0bca9",
+      "spans_sha256": "46a8f315fd8a3791a705e30321768cb00b96d57cb9f3111fc32c2afa69746e7c",
+      "action": "pending_hold",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_f7b1bccdff29e76522e3",
+      "record_id": "native_ep_f7b1bccdff29e76522e3",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "c758379edaf11304c14ccecb"
+      ],
+      "supervised_tokens": 41,
+      "input_sha256": "7ce7d40360eba56a60693e3b0ddf937a456a30955db8ca45a5c615dd53d2306d",
+      "spans_sha256": "9f45212a94b017cdd105ce401273bc8c12b751559ca631c6804ea213810a84e2",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_f9b5511c69c7ab78e8b5",
+      "record_id": "native_ep_f9b5511c69c7ab78e8b5",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "66752d42b44708942af7bfb1"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "99a1aae4904973eb1d840569e5e0e7d386b69add91413ede6e93b7ba10bf083f",
+      "spans_sha256": "9b13cb7860b81c7a2d04f4647e9d1004ca3322841ade4482e6225ec12ca17c7c",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    },
+    {
+      "episode_id": "ep_fafc316d09ddfcce0b34",
+      "record_id": "native_ep_fafc316d09ddfcce0b34",
+      "split": "train",
+      "shard": "native_process.train.16k.jsonl.gz",
+      "targets": [
+        "5c7f1ded504932594e72eda3"
+      ],
+      "supervised_tokens": 43,
+      "input_sha256": "ad8ec1bebe82c0d80c72496d5923371865b2e39582ea1e2e4147dd055463f9f3",
+      "spans_sha256": "6a3ec1657771992aae5e8e674a3631bce6fd7a9da94db23c021a4dabb3a86108",
+      "action": "confirmed_revoke",
+      "audit": "new39"
+    }
+  ],
+  "old_summary_pin": {
+    "path": "output/20261027_wrd_main_v10/prepare_ancestry_audit/V9_POSITIVE_LOSS_ERRATUM.json",
+    "bytes": 2860,
+    "sha256": "a36b674a94d592c8bd056be779b829c5a1020a117261bc80f29c293c10a9c209"
+  },
+  "new_erratum_pin": {
+    "path": "output/20261027_wrd_main_v10/execution_rescue_01/V9_AUX_FUTURE_IMPORT_ERRATUM.json",
+    "bytes": 23257,
+    "sha256": "c1ed25a0262de8594529b18e2de7a1cdd6bafb6670d81bc515782edb30eea54a"
+  }
+}

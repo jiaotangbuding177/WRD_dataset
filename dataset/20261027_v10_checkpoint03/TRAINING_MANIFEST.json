@@ -1,0 +1,311 @@
+{
+  "schema_version": "wrd-verified-main-v10-actual-manifest",
+  "status": "PARTIAL_MAIN_SUBTASKS_ONLY_FULL_WRD_NOT_READY",
+  "design_revision": "5.0.40",
+  "change_id": "ALG-20261027-04",
+  "workflow_schema_version": "workflow-pipeline-v1",
+  "actual_train_files": [
+    {
+      "path": "compiled/source_events_02/source_contract_main.train.16k.jsonl.gz",
+      "bytes": 3308628,
+      "sha256": "33f049d80b2d5b576e4e43db790e4ed8497db96beefbe6df88f6da64f0ceba45"
+    },
+    {
+      "path": "compiled/source_events_02/source_contract_main.train.32k.jsonl.gz",
+      "bytes": 889312,
+      "sha256": "bc1084249eba0ef8e36ab99a0c2ec4cb32267af429e3297efa9e02b3101e0dfb"
+    },
+    {
+      "path": "compiled/native_A_partial_03/native_wrd_main.train.32k.jsonl.gz",
+      "bytes": 81073,
+      "sha256": "07db8ab6f0a03e5d6d0b459449313a602c0b145be20117ba07071308b62b35eb"
+    },
+    {
+      "path": "compiled/native_B_partial_01/native_wrd_main.train.32k.jsonl.gz",
+      "bytes": 97409,
+      "sha256": "216bf6c81a21f0b80dea43a5ed3e6770502b8844f70a82bc254c964d8d4d7074"
+    },
+    {
+      "path": "compiled/real_state_repair_02/real_state_repair_main.train.16k.jsonl.gz",
+      "bytes": 105930,
+      "sha256": "dc0a35a99120d0778a390ae41e6dc13d12a89372e9399ce6b0238712ca985fe1"
+    },
+    {
+      "path": "compiled/c_review_dataset_02/native_C_execution_local_02.train.32k.jsonl.gz",
+      "bytes": 137811,
+      "sha256": "8cdfa4a0f9fc6b33c23cd3ca8f0b30a07f1fa43deddce044d56496960abdf36a"
+    },
+    {
+      "path": "compiled/c_review_dataset_02/native_C_review_partial_02.train.16k.jsonl.gz",
+      "bytes": 51048,
+      "sha256": "2405462789841dc3760c089f5134b7e8f1f6045c5b85572832edce42049501b9"
+    },
+    {
+      "path": "compiled/c_review_dataset_02/new_real_state_cost_stop_02.train.16k.jsonl.gz",
+      "bytes": 22769,
+      "sha256": "d333c74e708082a73299338a1cde7f4389084a151aee8503a9d221413bd9076f"
+    }
+  ],
+  "active_compilation_reports": [
+    {
+      "path": "compiled/source_events_02/COMPILATION_REPORT.json",
+      "sha256": "d96c3f5269b45b70a011ea61c50088b9bd574ed87a5cf83014b87e4e0111f27f"
+    },
+    {
+      "path": "compiled/native_A_partial_03/COMPILATION_REPORT.json",
+      "sha256": "9505899df3f77f07d54da5e3ac9770f22a338898382bc0748de8e6129c703f4c"
+    },
+    {
+      "path": "compiled/native_B_partial_01/COMPILATION_REPORT.json",
+      "sha256": "bafaee706479ff482398e11425f3fa752c97f6e0bd81310a6df613d479a6cccf"
+    },
+    {
+      "path": "compiled/real_state_repair_02/COMPILATION_REPORT.json",
+      "sha256": "bb32a9ff3e95c455f5a1f1191b13ce6eedd3cb8ccd9f60ee5f87782223d40811"
+    },
+    {
+      "path": "compiled/c_review_dataset_02/COMPILATION_REPORT.json",
+      "sha256": "4be73042b022a3182551130c19522ddb08361afe60679870fe83464b2d388e0d"
+    }
+  ],
+  "actual_counts": {
+    "sequences": 445,
+    "targets": 445,
+    "input_tokens": 1634684,
+    "supervised_tokens": 83732,
+    "le16k_sequences": 425,
+    "le32k_sequences": 445,
+    "component_F": 2616,
+    "component_D": 72300,
+    "component_R": 5924,
+    "component_A": 2892
+  },
+  "by_stage": {
+    "A_source_contract_management": {
+      "sequences": 429,
+      "targets": 429,
+      "input_tokens": 1451895,
+      "supervised_tokens": 73295,
+      "le16k_sequences": 413,
+      "le32k_sequences": 429,
+      "component_F": 2574,
+      "component_D": 70721
+    },
+    "A_current_user_delta_checkpoint": {
+      "sequences": 7,
+      "targets": 7,
+      "input_tokens": 2387,
+      "supervised_tokens": 1463,
+      "le16k_sequences": 7,
+      "le32k_sequences": 7,
+      "component_F": 42,
+      "component_D": 1421
+    },
+    "A_screen": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 31091,
+      "supervised_tokens": 2742,
+      "le16k_sequences": 0,
+      "le32k_sequences": 1,
+      "component_R": 2742
+    },
+    "B_make": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 30296,
+      "supervised_tokens": 2460,
+      "le16k_sequences": 0,
+      "le32k_sequences": 1,
+      "component_R": 2460
+    },
+    "B_revision_real_state_reproduce": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 13317,
+      "supervised_tokens": 332,
+      "le16k_sequences": 1,
+      "le32k_sequences": 1,
+      "component_R": 54,
+      "component_A": 278
+    },
+    "B_revision_real_state_repair": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 15330,
+      "supervised_tokens": 1676,
+      "le16k_sequences": 1,
+      "le32k_sequences": 1,
+      "component_R": 87,
+      "component_A": 1589
+    },
+    "B_revision_real_state_retest": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 14079,
+      "supervised_tokens": 306,
+      "le16k_sequences": 1,
+      "le32k_sequences": 1,
+      "component_R": 62,
+      "component_A": 244
+    },
+    "C_trial_skill": {
+      "sequences": 2,
+      "targets": 2,
+      "input_tokens": 53017,
+      "supervised_tokens": 781,
+      "le16k_sequences": 0,
+      "le32k_sequences": 2,
+      "component_A": 781
+    },
+    "C_review": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 15277,
+      "supervised_tokens": 387,
+      "le16k_sequences": 1,
+      "le32k_sequences": 1,
+      "component_R": 387
+    },
+    "D_new_post_terminal_state": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 7995,
+      "supervised_tokens": 290,
+      "le16k_sequences": 1,
+      "le32k_sequences": 1,
+      "component_R": 132,
+      "component_D": 158
+    }
+  },
+  "by_bank": {
+    "source_contract_main": {
+      "sequences": 436,
+      "targets": 436,
+      "input_tokens": 1454282,
+      "supervised_tokens": 74758,
+      "le16k_sequences": 420,
+      "le32k_sequences": 436,
+      "component_F": 2616,
+      "component_D": 72142
+    },
+    "native_wrd_main": {
+      "sequences": 2,
+      "targets": 2,
+      "input_tokens": 61387,
+      "supervised_tokens": 5202,
+      "le16k_sequences": 0,
+      "le32k_sequences": 2,
+      "component_R": 5202
+    },
+    "real_state_repair_main": {
+      "sequences": 3,
+      "targets": 3,
+      "input_tokens": 42726,
+      "supervised_tokens": 2314,
+      "le16k_sequences": 3,
+      "le32k_sequences": 3,
+      "component_R": 203,
+      "component_A": 2111
+    },
+    "native_C_execution_local_02": {
+      "sequences": 2,
+      "targets": 2,
+      "input_tokens": 53017,
+      "supervised_tokens": 781,
+      "le16k_sequences": 0,
+      "le32k_sequences": 2,
+      "component_A": 781
+    },
+    "native_C_review_partial_02": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 15277,
+      "supervised_tokens": 387,
+      "le16k_sequences": 1,
+      "le32k_sequences": 1,
+      "component_R": 387
+    },
+    "new_real_state_cost_stop_02": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 7995,
+      "supervised_tokens": 290,
+      "le16k_sequences": 1,
+      "le32k_sequences": 1,
+      "component_R": 132,
+      "component_D": 158
+    }
+  },
+  "supervision_origin_tokens": {
+    "new_source_contract_annotation_tokens": 74758,
+    "original_native_R_tokens": 5589,
+    "new_authored_R_tokens": 335,
+    "revalidated_original_action_A_tokens": 2111,
+    "original_native_execution_A_tokens": 781,
+    "new_authored_cost_stop_D_tokens": 158
+  },
+  "external_root_admission_receipts": [
+    {
+      "path": "real_state_reconstruction_02/ROOT_SEMANTIC_ADMISSION.json",
+      "sha256": "40739b4fbbff3ce049592d5225d2a912ee7a389e29419201d037f88d18402167",
+      "compiled_bank": "compiled/real_state_repair_02",
+      "scope": "local_revalidated_real_state_only_not_complete_WRD"
+    },
+    {
+      "path": "c_review_dataset_01/semantic_revision_02/ROOT_SEMANTIC_ADMISSION.json",
+      "sha256": "217d80766ad5fff797bd158922b5f838b231b3233a75ced8525ced245c33204f",
+      "compiled_bank": "compiled/c_review_dataset_02",
+      "scope": "local_revalidated_real_state_only_not_complete_WRD"
+    }
+  ],
+  "actual_action_owners_with_positive_loss": 5,
+  "original_native_R_response_owners": 3,
+  "distinct_source_ids": 268,
+  "source_connected_components_across_banks": 255,
+  "original_source_group_and_teacher_batch_component_are_different_units": true,
+  "all_windows_share_frozen_train_ancestry": true,
+  "original226_and_newH_and_static_dev_test_excluded": true,
+  "main_means_approved_semantic_subtask_not_completed_autonomous_pipeline": true,
+  "full_native_53tool_request_coverage_is_not_core7_student_view_coverage": true,
+  "observed_stage_linked_chains": 1,
+  "positive_qualified_retained_skill_chains": 0,
+  "single_native_session_autonomous_A_through_D_demonstrations": 0,
+  "observed_chain_is_separately_dispatched_native_stages_ending_STOP": true,
+  "conditional_native64_profile": {
+    "path": "native_context_64k_01/FINAL_MANIFEST.json",
+    "sha256": "b32933eab92b3b6e58f432dcd0381a2c32a2cd09a2556172266351327d0e0f6d",
+    "not_in_default_active_counts": true,
+    "must_replace_overlapping_core32_owners_not_add_them": true,
+    "Spark_position_attention_memory_and_serving_budget_not_validated": true
+  },
+  "missing_main_stages": [
+    "B_multimechanism_verified_resource_construction",
+    "multimechanism_C_outcome_supervision",
+    "positive_retained_packaging_chains",
+    "native_autonomous_controller"
+  ],
+  "engineering_targets": {
+    "nontrivial_main_targets": 2000,
+    "main_supervised_tokens": 1000000,
+    "clean_original_source_groups": 50,
+    "mechanism_families": 12,
+    "real_make_trial_feedback_chain_required": true
+  },
+  "full_WRD_main_training_ready": false,
+  "default_full_pipeline_training_entrypoint": null,
+  "model_weights_loaded": false,
+  "training_started": false,
+  "is_training_launch_configuration": false,
+  "withdrawn_local_banks": [
+    "compiled/source_events_01",
+    "clean_inputs/source_event_release_01",
+    "compiled/native_A_partial_01",
+    "compiled/native_A_partial_02",
+    "compiled/real_state_repair_01",
+    "compiled/c_review_dataset_01"
+  ],
+  "withdrawn_banks_are_not_to_be_added_to_this_manifest": true,
+  "v9_aux_not_implicitly_imported_prepare_producer_erratum_pending": true,
+  "script_sha256": "d77ffadf60d5b4aa6e6172552e3e9a4d6b20a69a29d5f6ebb08b7ffdcf5723dd"
+}

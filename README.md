@@ -1,4 +1,18 @@
-# v10中间检查点：已验收主子任务，完整WRD仍在补齐
+# v10检查点03：实际训练数据与全链原件，完整主集仍在扩充
+
+[正文／数组与实际恢复](dataset/20261027_v10_checkpoint03/README.md) · [训练方案](dataset/20261027_v10_checkpoint03/TRAINING_PLAN.md) · [明确活跃清单](dataset/20261027_v10_checkpoint03/TRAINING_MANIFEST.json) · [各阶段实际数量](dataset/20261027_v10_checkpoint03/ACTUAL_DATA_STATISTICS.json) · [首条真实链报告](dataset/20261027_v10_checkpoint03/FIRST_CHAIN_REPORT.md)
+
+检查点03实际提供445序列／83,732监督tokens／1,634,684输入tokens，425条≤16K、20条16—32K，268个原source／255联合来源组件。监督来源为74,758契约标注、5,589原思考、335新作者理由、2,892原实际动作和158新成本停止正文。原R与新理由不混称，错误／未批准内容保全而不授正loss。三个真实状态修复任务和C语义二版有外置独立准入回执，不按成功状态整段批准。
+
+实际原件包括11 outer／12 native sessions、158兼容HTTP（156完整／2部分）、272,486原R字符、工具操作与反馈、精确文件版本、21＋8局修复测、两例独立NS/Skill消费、盲Q和STOP证据。首链技能消费约为无技能5.35倍tokens，实际STOP；0个合格保留技能，不能报告每个合格技能成本为0。第二A批存在引文身份和路线错误，只在audit_only，未冒充新正例。已知采集9,794,895 tokens／121请求身份／1未知usage，现金与AI整理成本UNKNOWN_NOT_ZERO。
+
+认证数据实包52,650,097字节／1,561成员，包含真实messages、token数组、mask、source与owner映射，已实际独立恢复及加载；密钥沿用本地v4密钥，未上传凭据。条件64K的6序列／5,980原R tokens另列，与同owner core32视图互斥，不能加入默认445重复计量。完整53工具的窗口覆盖与core7投影分别报告；Spark未验机、未加载权重或启动训练。
+
+**当前数据足以支持这些局部子任务，不足以支持“完整自主沉淀模型已可训练就绪”。** 尚缺多机制制作与质量反馈、正向合格保留和单原生全局自主链；不能以重复切窗或原件GB补足。原226、新H、静态dev/test隔离，v9辅助不默认导入。[57个旧业务write的真实producer审计与旧loss撤销](assessment/20261027_actor_write_producers/PUBLIC_MANIFEST.json)随此交付：34保护、23缺证、0准入，旧包不静默覆盖。后续数据扩充按真实来源／版本／结果授信用，不启动训练。
+
+---
+
+# 历史检查点02：以下保留该次冻结口径
 
 [实际正文／数组与恢复](dataset/20261027_v10_checkpoint02/README.md) · [训练方案](dataset/20261027_v10_checkpoint02/TRAINING_PLAN.md) · [当前活跃清单](dataset/20261027_v10_checkpoint02/TRAINING_MANIFEST.json) · [实际数量](dataset/20261027_v10_checkpoint02/ACTUAL_DATA_STATISTICS.json)
 
