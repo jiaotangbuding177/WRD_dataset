@@ -1,12 +1,12 @@
 # v10中间检查点：已验收主子任务，完整WRD仍在补齐
 
-[实际正文／数组与恢复](dataset/20261027_v10_checkpoint01/README.md) · [训练方案](dataset/20261027_v10_checkpoint01/TRAINING_PLAN.md) · [当前活跃清单](dataset/20261027_v10_checkpoint01/TRAINING_MANIFEST.json) · [实际数量](dataset/20261027_v10_checkpoint01/ACTUAL_DATA_STATISTICS.json)
+[实际正文／数组与恢复](dataset/20261027_v10_checkpoint02/README.md) · [训练方案](dataset/20261027_v10_checkpoint02/TRAINING_PLAN.md) · [当前活跃清单](dataset/20261027_v10_checkpoint02/TRAINING_MANIFEST.json) · [实际数量](dataset/20261027_v10_checkpoint02/ACTUAL_DATA_STATISTICS.json)
 
-**最新5.0.39方案与实际输入增量：** [详细训练方案](plans/20261027_v10_updates/TRAINING_PLAN.md)／[模型输入输出](plans/20261027_v10_updates/MODEL_INPUT_OUTPUT.md)／[58源、23机制的可恢复实际输入](plans/20261027_v10_updates/README.md)／[已上传检查点远端实体核验](plans/20261027_v10_updates/REMOTE_CHECKPOINT01_VERIFICATION.json)。新增输入与SDK原件证据已认证打包；0新增正例，不把81个替代job当81条训练轨迹。原226仍隔离，B/后续质量链仍待共享机器资源，不训练。
+**5.0.39方案与实际输入增量：** [模型输入输出](plans/20261027_v10_updates/MODEL_INPUT_OUTPUT.md)／[58源、23机制的可恢复实际输入](plans/20261027_v10_updates/README.md)／[该次上传的远端实体核验](dataset/20261027_v10_checkpoint02/REMOTE_PLAN_UPDATES_VERIFICATION.json)。新增输入与SDK原件证据已认证打包；输入准备自身为0新增正例，不把81个替代job当81条训练轨迹。原226仍隔离，不训练。
 
-本检查点提供437个真实可加载序列／75,248监督tokens：436个逐当前意图修正后的需求契约目标，以及一段原生A响应中490个获证原R tokens。267个原source、跨银行255个联合组件；420条≤16K、17条16—32K。原R全文、原生工具操作／反馈和错误判断均保全，未审／错误不参与正loss。旧431序列版与645R初版已撤出，不叠加计数。
+检查点02提供437个真实可加载序列／77,500监督tokens：436个逐当前意图修正后的需求契约目标，以及一段原生A响应中2,742个获证原R tokens。267个原source、跨银行255个联合组件；420条≤16K、17条16—32K。原R全文、原生工具操作／反馈和错误判断均保全，未审／错误不参与正loss。R03替代旧490-token银行，新增2,252个原R监督token，未增加独立任务或来源；旧431序列版与645R初版仍撤出，不叠加计数。
 
-**这不是最终足量主训练集。** 当前B制作已审核授权，但共享机器资源未通过准入；完整制作→实际消费→反馈修订→合格封装仍缺。本次是可恢复、可核mask的中间数据检查点，不将需求标签当完整自主WRD。没有启动训练。原226、新H、静态dev/test保持隔离。
+**完整WRD主集仍未足量。** B01曾实际派发，宿主Docker停止导致中断，其原R、工具事件、完整及部分HTTP响应和已知／未知费用随02保存在audit_only；不会参与正loss。B02以同环境独立attempt恢复，尚未验收，其持续写入数据未放入本冻结包。完整制作→实际消费→反馈修订→合格封装仍缺，本次可恢复子任务数据不证明完整自主WRD。没有启动训练。原226、新H、静态dev/test保持隔离。原[检查点01](dataset/20261027_v10_checkpoint01/README.md)作为不变历史证据保留。
 
 旧26 Actor的prepare真实任务生产边已全部接通，23证实保护、3具体缺证；v9中受影响36个旧正目标／1260tokens有显式撤销清单，旧包作为历史保留，v10不默认混入v9辅助。旧12个Git分片里的750个原会话／附件对象117.12MB已实际回读，另7份原件550,563B随新包补齐，不把已有CAS索引当作文件已交付。
 
