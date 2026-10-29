@@ -19,3 +19,5 @@ loader仅按主manifest读取19个实际分片，构建input_ids／attention_mas
 已实际认证还原、529行两tokenizer／mask／loader及339原响应重解析PASS，详见CHECKPOINT_QA和ROOT_RESTORED_*收据。费用范围20outer／21native、22156371known tokens／286身份／3unknown，不是全项目成本；AI／CPU／现金UNKNOWN_NOT_ZERO，合格分母0则单位成本未定义。处理源码缺失与原数据缺失分账；5.0.43双设计及精确恢复记录在包中。
 
 [母体与差额对账](RAW_POPULATION_RECONCILIATION.md)中的405前缀已在本包冻结后完成逐字节普查，追加实体、脚本和报告见`../../assessment/20261029_maker405_audit/README.md`。结果只说明这405个早期前缀未创建程序，不外推1763会话或29技能。9096缺证目标和其它跨机制恢复仍继续，未审不说无价值。
+
+远端已完成实际冷实体核验：[收据](REMOTE_CHECKPOINT05_VERIFICATION.json)。核验数据commit为bb3d3c08，439普通文件与3个真实LFS实体共189677119B全部SHA／size一致；后续仅追加公开核验收据和工具，训练载荷不变。
