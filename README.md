@@ -1,3 +1,13 @@
+# 当前数据：WRD检查点05（2026-10-29）
+
+[实际数据包与恢复方法](dataset/20261029_v10_checkpoint05/README.md) · [14B／8B具体训练方案](dataset/20261029_v10_checkpoint05/TRAINING_PLAN.md) · [实际主清单](dataset/20261029_v10_checkpoint05/TRAINING_MANIFEST.json) · [质量核验](dataset/20261029_v10_checkpoint05/CHECKPOINT_QA.json)
+
+已交付529目标／146069监督tokens，436契约与93过程分报；449≤16K、80长桶。189578320B密文含7250真实认证成员，已独立还原、每条双分词器／mask／loader及339原响应重解析通过。完整原思考、资源、工具、反馈、错误与修订保全。原226／新H／静态dev-test隔离，历史累计R不冒称逐turn新思考。
+
+[母体差额对账](dataset/20261029_v10_checkpoint05/RAW_POPULATION_RECONCILIATION.md)及[405允许前缀的真实字节普查](assessment/20261029_maker405_audit/README.md)区分保护、缺祖先证据、已审与未审。过程仅12来源／9联合component；合格保留和单原生自主A—D仍0。完整训练入口保持null，52／最多100更新只是组件试验计划，没有启动训练。其余缺证材料继续恢复，当前检查点不能冒称完整目标已经足量。
+
+以下保留前次全部交付记录，当前选取以TRAINING_ENTRYPOINT指向05为准。
+
 # v10检查点04：已恢复原始思考、动作与因果版本的实际数据
 
 [实际数据与恢复](dataset/20261027_v10_checkpoint04/README.md) · [14B／8B训练计划](dataset/20261027_v10_checkpoint04/TRAINING_PLAN.md) · [唯一主清单](dataset/20261027_v10_checkpoint04/TRAINING_MANIFEST.json) · [实际统计](dataset/20261027_v10_checkpoint04/ACTUAL_DATA_STATISTICS.json) · [数据QA](dataset/20261027_v10_checkpoint04/CHECKPOINT_QA.json)

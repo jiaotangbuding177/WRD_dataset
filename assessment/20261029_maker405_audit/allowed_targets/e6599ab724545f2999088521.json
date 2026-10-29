@@ -1,0 +1,87 @@
+{
+  "provenance": {
+    "target_id": "e6599ab724545f2999088521",
+    "episode_id": "ep_fedbace0be7ad5513752",
+    "route_id": "article-rewrite-publishing",
+    "stage": "make",
+    "scope_status": "CLEAN_PROTOCOL_ONLY_PREFIX",
+    "source_ids_visible_prefix": [],
+    "current_visible_source_statuses": [],
+    "source_event_line": 6,
+    "source_message_index": 1,
+    "canonical_message_sha256": "1b21f908dbb2fb536a2f7dd8f544a1b319d2b4a8e4963f68c581a66287e228ec",
+    "original_native_file_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\2f\\2f1e1608bc8dae5e5aa6e7c23001050f2815e1ff2728a7a6992d71aa39551d86",
+    "original_native_file_sha256": "2f1e1608bc8dae5e5aa6e7c23001050f2815e1ff2728a7a6992d71aa39551d86",
+    "original_event_sha256": "5ceaf7fe14228f8c96b72161cec2ac99e79ea2e68d9b63a3d2f68f15873e6c11",
+    "native_content_equal_old_canonical": true,
+    "native_tool_features": [
+      {
+        "tool_call_id": "call4c2b05a35b304bc083069c6b3faa662d",
+        "name": "exec",
+        "argument_sha256": "dbc3c81af9da4c7a0073449a4f9f3a28d730c79e048a31b88afa877bda854aba",
+        "argument_characters": 263,
+        "static_python_parsers": [],
+        "local_patches": [],
+        "complete_proposed_write_count": 0
+      }
+    ],
+    "old_exact_writeproof_empty": true,
+    "actual_extractions_for_this_target": 0,
+    "training_admitted": false
+  },
+  "actual_original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call4c2b05a35b304bc083069c6b3faa662d",
+        "name": "exec",
+        "arguments": {
+          "command": "find /workspace/inputs -type f | head -50 && echo '---' && cat /workspace/inputs/route.json && echo '---' && cat /workspace/inputs/sources.json && echo '---' && cat /workspace/inputs/previous.json && echo '---' && cat /workspace/inputs/reusable.json"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792698404600,
+    "responseId": "chatcmpl-1792698410610",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "0a30de83-ade5-405b-8951-0589e396ff2c"
+    }
+  },
+  "old_canonical_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call4c2b05a35b304bc083069c6b3faa662d",
+        "name": "exec",
+        "arguments": {
+          "command": "find /workspace/inputs -type f | head -50 && echo '---' && cat /workspace/inputs/route.json && echo '---' && cat /workspace/inputs/sources.json && echo '---' && cat /workspace/inputs/previous.json && echo '---' && cat /workspace/inputs/reusable.json"
+        }
+      }
+    ],
+    "timestamp": 1792698404600,
+    "stopReason": "toolUse"
+  },
+  "no_past_or_future_protected_messages_copied": true
+}

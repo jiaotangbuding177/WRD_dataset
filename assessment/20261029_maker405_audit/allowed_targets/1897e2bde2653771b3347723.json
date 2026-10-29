@@ -1,0 +1,87 @@
+{
+  "provenance": {
+    "target_id": "1897e2bde2653771b3347723",
+    "episode_id": "ep_ccceb8365014c8f8a01a",
+    "route_id": "jd-search-keywords",
+    "stage": "make",
+    "scope_status": "CLEAN_PROTOCOL_ONLY_PREFIX",
+    "source_ids_visible_prefix": [],
+    "current_visible_source_statuses": [],
+    "source_event_line": 6,
+    "source_message_index": 1,
+    "canonical_message_sha256": "90393e593bee781a6636b25ec33baa0ff92d34b1d650cb73a35021555a96f244",
+    "original_native_file_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\00\\00776bd914d206416c3bd01d32f0f2046b3e548dc39e8616d400f256b6657eee",
+    "original_native_file_sha256": "00776bd914d206416c3bd01d32f0f2046b3e548dc39e8616d400f256b6657eee",
+    "original_event_sha256": "736872591b49e3fcbd509388445f01b7a96d23bf1b6bc6d8fc12b5f7d74e327a",
+    "native_content_equal_old_canonical": true,
+    "native_tool_features": [
+      {
+        "tool_call_id": "call89751f5f557c48e3a2186e06d3032c4e",
+        "name": "exec",
+        "argument_sha256": "a555d0dbe6370f09964810838b1b5d4b03929b54c361c00b2bf1702e315d4145",
+        "argument_characters": 103,
+        "static_python_parsers": [],
+        "local_patches": [],
+        "complete_proposed_write_count": 0
+      }
+    ],
+    "old_exact_writeproof_empty": true,
+    "actual_extractions_for_this_target": 0,
+    "training_admitted": false
+  },
+  "actual_original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call89751f5f557c48e3a2186e06d3032c4e",
+        "name": "exec",
+        "arguments": {
+          "command": "find /workspace/inputs -type f | head -50 && echo --- && cat /workspace/inputs/route.json"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792760327303,
+    "responseId": "chatcmpl-1792760335363",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "ca40a5ac-8786-4078-ab43-0619aa64a520"
+    }
+  },
+  "old_canonical_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call89751f5f557c48e3a2186e06d3032c4e",
+        "name": "exec",
+        "arguments": {
+          "command": "find /workspace/inputs -type f | head -50 && echo --- && cat /workspace/inputs/route.json"
+        }
+      }
+    ],
+    "timestamp": 1792760327303,
+    "stopReason": "toolUse"
+  },
+  "no_past_or_future_protected_messages_copied": true
+}

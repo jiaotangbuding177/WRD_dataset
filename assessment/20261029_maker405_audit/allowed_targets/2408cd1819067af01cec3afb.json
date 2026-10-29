@@ -1,0 +1,97 @@
+{
+  "provenance": {
+    "target_id": "2408cd1819067af01cec3afb",
+    "episode_id": "ep_8aaab6e43093839fa2d6",
+    "route_id": "visit-sop-drafting",
+    "stage": "make",
+    "scope_status": "CLEAN_PROTOCOL_ONLY_PREFIX",
+    "source_ids_visible_prefix": [],
+    "current_visible_source_statuses": [],
+    "source_event_line": 6,
+    "source_message_index": 1,
+    "canonical_message_sha256": "4b453d8f68b5e9d59c1ae7d7e660c52430133e7324c34a678bff6aea9ae57ec8",
+    "original_native_file_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\28\\2895a35b5561ad28f8fcb4c3d8cc9e27f039993adb780b4220715c969281ee3f",
+    "original_native_file_sha256": "2895a35b5561ad28f8fcb4c3d8cc9e27f039993adb780b4220715c969281ee3f",
+    "original_event_sha256": "00a99109ea648a9d709807162a4d1ebf9e8369495aa9ab51d586d10331c01e4a",
+    "native_content_equal_old_canonical": true,
+    "native_tool_features": [
+      {
+        "tool_call_id": "calle5369f75b2ae4c268c46c38ceb974c7e",
+        "name": "exec",
+        "argument_sha256": "dd599e50bade53444637756bb615b139d8e98228d99cd1eff782184ede5f5fe9",
+        "argument_characters": 141,
+        "static_python_parsers": [],
+        "local_patches": [],
+        "complete_proposed_write_count": 0
+      }
+    ],
+    "old_exact_writeproof_empty": true,
+    "actual_extractions_for_this_target": 0,
+    "training_admitted": false
+  },
+  "actual_original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I'll start by reading the route and related inputs.",
+        "textSignature": "{\"v\":1,\"id\":\"commentary-0-d8b8b311414947f8895cf720\",\"phase\":\"commentary\"}"
+      },
+      {
+        "type": "toolCall",
+        "id": "calle5369f75b2ae4c268c46c38ceb974c7e",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/reusable.json"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792732861018,
+    "responseId": "chatcmpl-1792732869954",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "fde2e2fe-84de-4faa-be96-68f4a99e86fa"
+    }
+  },
+  "old_canonical_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I'll start by reading the route and related inputs.",
+        "textSignature": "{\"v\":1,\"id\":\"commentary-0-d8b8b311414947f8895cf720\",\"phase\":\"commentary\"}"
+      },
+      {
+        "type": "toolCall",
+        "id": "calle5369f75b2ae4c268c46c38ceb974c7e",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/reusable.json"
+        }
+      }
+    ],
+    "timestamp": 1792732861018,
+    "stopReason": "toolUse"
+  },
+  "no_past_or_future_protected_messages_copied": true
+}

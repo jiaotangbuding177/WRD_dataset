@@ -1,0 +1,87 @@
+{
+  "provenance": {
+    "target_id": "9a6dd9dc3787e36969dd756e",
+    "episode_id": "ep_d20f9833dea8977059ba",
+    "route_id": "salary-review-scheme-design",
+    "stage": "make",
+    "scope_status": "CLEAN_PROTOCOL_ONLY_PREFIX",
+    "source_ids_visible_prefix": [],
+    "current_visible_source_statuses": [],
+    "source_event_line": 6,
+    "source_message_index": 1,
+    "canonical_message_sha256": "1754a117c964778131986398818f381edccd854f03179cd3bbed870db7a34421",
+    "original_native_file_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\98\\98d91f1f4b1d16098419e190fe0f37e15ff58f5ea72b1cece1bb765c18d13f35",
+    "original_native_file_sha256": "98d91f1f4b1d16098419e190fe0f37e15ff58f5ea72b1cece1bb765c18d13f35",
+    "original_event_sha256": "79701072cd0872244778bb4167af2d054c8a6dadbd595ab16bfac2d738e95213",
+    "native_content_equal_old_canonical": true,
+    "native_tool_features": [
+      {
+        "tool_call_id": "calle134b84b7802463492e53e30fdfa9e14",
+        "name": "exec",
+        "argument_sha256": "d041d088514d1a27c54e54bc4d6d25a761037568f1044fa49f54a27e109235e4",
+        "argument_characters": 278,
+        "static_python_parsers": [],
+        "local_patches": [],
+        "complete_proposed_write_count": 0
+      }
+    ],
+    "old_exact_writeproof_empty": true,
+    "actual_extractions_for_this_target": 0,
+    "training_admitted": false
+  },
+  "actual_original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "calle134b84b7802463492e53e30fdfa9e14",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/previous_feedback.json /workspace/inputs/prior_making.json /workspace/inputs/recovered_materials.json /workspace/inputs/reusable.json 2>&1 | head -300"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792815047898,
+    "responseId": "chatcmpl-1792815066375",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "3da6d59d-c9d3-4747-9a4a-2051773cdbf4"
+    }
+  },
+  "old_canonical_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "calle134b84b7802463492e53e30fdfa9e14",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/previous_feedback.json /workspace/inputs/prior_making.json /workspace/inputs/recovered_materials.json /workspace/inputs/reusable.json 2>&1 | head -300"
+        }
+      }
+    ],
+    "timestamp": 1792815047898,
+    "stopReason": "toolUse"
+  },
+  "no_past_or_future_protected_messages_copied": true
+}

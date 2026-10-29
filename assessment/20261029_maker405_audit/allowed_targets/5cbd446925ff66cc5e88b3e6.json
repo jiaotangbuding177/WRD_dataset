@@ -1,0 +1,87 @@
+{
+  "provenance": {
+    "target_id": "5cbd446925ff66cc5e88b3e6",
+    "episode_id": "ep_7df45056e0204bcaf12c",
+    "route_id": "bank-journal-voucher",
+    "stage": "make",
+    "scope_status": "CLEAN_PROTOCOL_ONLY_PREFIX",
+    "source_ids_visible_prefix": [],
+    "current_visible_source_statuses": [],
+    "source_event_line": 6,
+    "source_message_index": 1,
+    "canonical_message_sha256": "f14835afc55b30161827940c5a71c946759c1a238cdc888b219cda2bf6ead0f2",
+    "original_native_file_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\64\\64e7b8b154c1ec555899c058c169f1bc75eba01952a75510e1d56e7c74b818e3",
+    "original_native_file_sha256": "64e7b8b154c1ec555899c058c169f1bc75eba01952a75510e1d56e7c74b818e3",
+    "original_event_sha256": "385f14e2b24a462f66988d22fb418c6ad2fc4200a9c0a28b271c06f3ffa717bd",
+    "native_content_equal_old_canonical": true,
+    "native_tool_features": [
+      {
+        "tool_call_id": "calld113befe035743d2951c8499ff76dd8c",
+        "name": "exec",
+        "argument_sha256": "9fb6885c4f06732ef1fe63cb4776c1f491d4e8394cc7034bb7cb5a7800538923",
+        "argument_characters": 182,
+        "static_python_parsers": [],
+        "local_patches": [],
+        "complete_proposed_write_count": 0
+      }
+    ],
+    "old_exact_writeproof_empty": true,
+    "actual_extractions_for_this_target": 0,
+    "training_admitted": false
+  },
+  "actual_original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "calld113befe035743d2951c8499ff76dd8c",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/reusable.json /workspace/inputs/previous_feedback.json"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792697004314,
+    "responseId": "chatcmpl-1792697014644",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "414d3bef-07df-4113-9e48-db586aaa2e4b"
+    }
+  },
+  "old_canonical_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "calld113befe035743d2951c8499ff76dd8c",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/reusable.json /workspace/inputs/previous_feedback.json"
+        }
+      }
+    ],
+    "timestamp": 1792697004314,
+    "stopReason": "toolUse"
+  },
+  "no_past_or_future_protected_messages_copied": true
+}

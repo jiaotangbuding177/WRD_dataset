@@ -1,0 +1,87 @@
+{
+  "provenance": {
+    "target_id": "792b82856444491739bcd229",
+    "episode_id": "ep_ba73faf6b1bf1bc1da4b",
+    "route_id": "overseas-structure-legal-analysis",
+    "stage": "make",
+    "scope_status": "CLEAN_PROTOCOL_ONLY_PREFIX",
+    "source_ids_visible_prefix": [],
+    "current_visible_source_statuses": [],
+    "source_event_line": 6,
+    "source_message_index": 1,
+    "canonical_message_sha256": "3dc4ab855e9f4df40aaef4bb825360fe7fac77e10fdfbeb735d7cbf8f6c88dc9",
+    "original_native_file_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\9b\\9b129b6cc686684a04a6c6b1178eb261d82f96170ee142a6ffb743e03230e821",
+    "original_native_file_sha256": "9b129b6cc686684a04a6c6b1178eb261d82f96170ee142a6ffb743e03230e821",
+    "original_event_sha256": "7e1132777adf300fb1e6798023776de3ee2db06e25b7b1b3c7b4d168048aa178",
+    "native_content_equal_old_canonical": true,
+    "native_tool_features": [
+      {
+        "tool_call_id": "call75969d5fc6944e67a1cf17968ae625d8",
+        "name": "exec",
+        "argument_sha256": "f24e885a013d30c2637e7b3cafb774fc38b311195e560824ddb169d8b41124b3",
+        "argument_characters": 278,
+        "static_python_parsers": [],
+        "local_patches": [],
+        "complete_proposed_write_count": 0
+      }
+    ],
+    "old_exact_writeproof_empty": true,
+    "actual_extractions_for_this_target": 0,
+    "training_admitted": false
+  },
+  "actual_original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call75969d5fc6944e67a1cf17968ae625d8",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/previous_feedback.json /workspace/inputs/prior_making.json /workspace/inputs/reusable.json /workspace/inputs/recovered_materials.json 2>&1 | head -300"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792814381276,
+    "responseId": "chatcmpl-1792814390595",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "ecf23171-7d74-4cdc-a8fa-ffdbb3bb31ce"
+    }
+  },
+  "old_canonical_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call75969d5fc6944e67a1cf17968ae625d8",
+        "name": "exec",
+        "arguments": {
+          "command": "cat /workspace/inputs/route.json /workspace/inputs/sources.json /workspace/inputs/previous.json /workspace/inputs/previous_feedback.json /workspace/inputs/prior_making.json /workspace/inputs/reusable.json /workspace/inputs/recovered_materials.json 2>&1 | head -300"
+        }
+      }
+    ],
+    "timestamp": 1792814381276,
+    "stopReason": "toolUse"
+  },
+  "no_past_or_future_protected_messages_copied": true
+}

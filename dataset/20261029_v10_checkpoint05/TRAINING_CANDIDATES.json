@@ -1,0 +1,58 @@
+{
+  "status": "NON_LAUNCHING_RESEARCH_CANDIDATE_NOT_TRAINER_IMPLEMENTATION",
+  "models": [
+    {
+      "id": "Qwen/Qwen3-14B",
+      "revision": "40c069824f4251a91eefaf281ebe4c544efd3e18",
+      "role": "primary",
+      "config_shape_LoRA_parameters": 128450560
+    },
+    {
+      "id": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "role": "control",
+      "config_shape_LoRA_parameters": 87293952
+    }
+  ],
+  "seed": 42,
+  "dtype": "BF16_candidate_not_loaded",
+  "lora": {
+    "r": 32,
+    "alpha": 64,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "AdamW": {
+    "lr": 5e-05,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01
+  },
+  "clip": 1.0,
+  "warmup_updates": 3,
+  "after_warmup": "constant_bounded_pilot",
+  "microbatch": 1,
+  "contract_gradient_accumulation": 16,
+  "process_gradient_accumulation": 4,
+  "primary_updates": 52,
+  "maximum_matched_updates": 100,
+  "loss_denominator": "whole_optimizer_step_number_of_valid_shifted_labels_not_weight_sum",
+  "selected_head_training_implementation_verified": false,
+  "Spark_runtime_image_digest": null,
+  "device_forward_or_backward_verified": false,
+  "data_manifest_sha256": "f9752b7a14238f07d0b504f83e93d40f13282c878ab2e8b5dcfae844bdc9a82b",
+  "full_pipeline_training_entrypoint": null,
+  "training_execution_authorized": false,
+  "training_started": false
+}
