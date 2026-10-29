@@ -1,0 +1,46 @@
+{
+  "schema": "wrd-delta06-bounded-static-code-peer-v1",
+  "reviewer": "/root/native_continuation",
+  "status": "BASE_BINDING_AND_EXPLICIT_MERGE_CONFIRMED_STATICALLY_PUBLIC_COPY_PIN_GAP_REMAINS",
+  "script_pins": {
+    "research/data_prep/wrd_main_v10/merge_delta06.py": "516afcbc22b2e1804eae69c9e5b985259cfdd5d7b375ab70cfe18d21329b3135",
+    "research/data_prep/wrd_main_v10/package_delta06.py": "a8afb7b1e38aaddc0ef1941770e023cb69e58d0e0c04c8ed4959b34418f756ed",
+    "restore_checkpoint.py_published_with05": "c128038cecd2b7ca7101a000bc05d2e290b8a191760335f0b8030a4907afa719",
+    "verify_main05.py": "3b42d4848029cd8bc58c2fd6df598d49fb6e3c7dac393deb9b15fa7568179ebf"
+  },
+  "operations": {"scripts_run_or_imported": false, "scripts_modified": false, "private_credentials_read_by_reviewer": false, "frozen_recovery_directory_changed": false, "native_tasks_or_training_started": false},
+  "confirmed": [
+    "merge authenticates delta06 through the published restorer, then requires the supplied base05 PAYLOAD_MANIFEST SHA and base05 TRAINING_MANIFEST SHA to match the authenticated delta declarations.",
+    "The hardcoded base05 training-manifest digest f9752b7a14238f07d0b504f83e93d40f13282c878ab2e8b5dcfae844bdc9a82b matches the actual published checkpoint05 manifest file inspected read-only.",
+    "merge copies only files named in authenticated base/delta manifests, validates size and SHA before copying and SHA after copying, creates new roots, and preserves replaced old bytes beneath history/pre_delta06 with old digest metadata.",
+    "Both authenticated original manifests are saved in merge_evidence; unchanged checkpoint05 source files are read rather than rewritten.",
+    "Audit evidence is copied as data under evidence06. The unchanged loader selects only TRAINING_MANIFEST.actual_train_files. The current manifest contains 20 training files, one named math delta file, and no audit/evidence06/missing_lineage path as training data.",
+    "Current manifest metadata reports 530 targets, 146999 supervised tokens, 3240662 input tokens; these metadata observations are not a fresh per-row tokenizer validation by this reviewer.",
+    "The merger imports the adjacent trusted restore utility to decrypt/copy; it does not import or execute any archived source_tooling, resource code, audit program or model. The package script uses encryption tooling only, not training.",
+    "Source guarding precedes payload reads and rejects symlink/junction ancestors, named private/SDK directories, database/key suffixes and the private model JSON filenames. Known credential values and local encryption-key encodings are checked in both raw and gzip-expanded payload bytes; gzip decoding errors are not swallowed. The encryption key is not an added payload entry."
+  ],
+  "findings": [
+    {
+      "id": "PUBLIC_COPY_NOT_BOUND_TO_DELTA_ENTRY_SHA",
+      "severity": "resolve_or_independently_crosscheck_before_publication",
+      "file": "package_delta06.py",
+      "lines": [48, 50],
+      "observation": "Public manifest, plans, QA and tooling are copied again from live paths after the authenticated payload was assembled, without checking each copy against its already captured entries SHA. A live edit between add() and public copy could leave the public entry disagreeing with the encrypted payload. The 05 restorer public copy also has no explicit cross-check to the existing authenticated 05 tool pin here.",
+      "suggestion": "Use the captured entry path/SHA for public copies and check destination SHA, or make a final independent public-vs-cold-restored SHA comparison an explicit publication requirement. This static review did not find an actual byte divergence."
+    },
+    {
+      "id": "GENERIC_CREDENTIAL_SHAPE_SCAN_NARROWER_THAN05",
+      "severity": "bounded_scan_coverage_note_not_an_observed_key_leak",
+      "file": "package_delta06.py",
+      "lines": [14, 16],
+      "observation": "Known credential needles cover raw plus expanded bytes, but the generic sk- regex only checks expanded bytes, and the earlier 05 generic PEM-body pattern is absent. Source path guarding and known-credential scans remain present. This reviewer did not read credentials or identify a leaked value.",
+      "suggestion": "Reuse the same raw/expanded generic shape checks as 05 or describe the delta scan coverage precisely."
+    }
+  ],
+  "scope_limits": [
+    "Package assembly enumerates only the five named frozen audit directories and the named math bank; tar writes recursive=False per captured entry. It does not tar the workspace/runtime. This is a bounded directory inventory before manifest capture, not reuse of every child audit's own final allowlist.",
+    "No build, decrypt, merge, loader, tokenizer, model or old resource was executed by this reviewer.",
+    "No fresh semantic approval of the math program or the old protected lineage follows from a packaging review.",
+    "The prior 87-target recovery remains 81 protected ancestry plus 6 unresolved and contributes zero new training targets."
+  ]
+}

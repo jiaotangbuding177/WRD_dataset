@@ -1,3 +1,13 @@
+# 当前数据：WRD检查点06（2026-10-29）
+
+[数据恢复与实际增量](dataset/20261029_v10_checkpoint06/README.md) · [14B／8B具体训练方案](dataset/20261029_v10_checkpoint06/TRAINING_PLAN.md) · [各阶段覆盖](dataset/20261029_v10_checkpoint06/COVERAGE_EXPANSION.md) · [缺证血缘复核](dataset/20261029_v10_checkpoint06/LINEAGE_RECOVERY_SUMMARY.md)
+
+实际530目标／146999监督tokens，436契约＋94过程（12来源／9component），450≤16K／80长桶。05的529条原件保持，06新增一份有界数学完整程序930A／0R；149成员2.83MB认证增量与05一起恢复后，530条逐token／mask／loader重验通过，合并7397个实际源文件。正向合格保留和单native自主A—D示范仍0，完整训练NOT_READY，没有启动训练。
+
+9096旧缺证目标已全元数据分桶，2409路径实际重核、两份完整原生write与354来源chunk真正恢复；87重点目标中81查明保护祖先、6仍缺证，新增训练0。原226／新H／静态dev-test隔离不变，不以顶层TRAIN或成功回执洗正后续步骤。52／最多100更新是匹配曝光组件试验计划，模型效果和成本收益尚待验证。
+
+以下保留05和更早完整交付记录。
+
 # 当前数据：WRD检查点05（2026-10-29）
 
 [实际数据包与恢复方法](dataset/20261029_v10_checkpoint05/README.md) · [14B／8B具体训练方案](dataset/20261029_v10_checkpoint05/TRAINING_PLAN.md) · [实际主清单](dataset/20261029_v10_checkpoint05/TRAINING_MANIFEST.json) · [质量核验](dataset/20261029_v10_checkpoint05/CHECKPOINT_QA.json)
