@@ -16,3 +16,5 @@ python3 tooling/checkpoint_loader.py --root /new/path/wrd06 --assets /new/path/w
 [14B主／8B对照具体训练方案](TRAINING_PLAN.md)与[阶段覆盖](COVERAGE_EXPANSION.md)已同步5.0.44。LoRA／损失／52主更新、最多100更新的组件计划仍为待执行；Spark、selected-head梯度等价、原生53工具服务和独立开发未验收。完整单native自主A—D和训练集中正向合格保留仍0，完整训练NOT_READY；本轮没有加载权重、前向／反向或启动训练。
 
 原226／新H／静态dev/test继续隔离。数据量与有效训练标签不等于GB或运行成功；合格技能分母仍0的当前采集范围，其总单位成本未定义。此为实际主子任务资料和审计实物交付，不能据此保证完整自主模型或固定降本。
+
+远端已独立冷核PASS：[22个普通文件与06实际LFS实体收据](REMOTE_CHECKPOINT06_VERIFICATION.json)。数据commit95a3a688；05的439普通文件／3LFS实体先前已独立冷核，两包训练载荷及530行结果均已验证。后续仅追加公开核验收据。
