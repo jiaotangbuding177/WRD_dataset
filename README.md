@@ -1,3 +1,15 @@
+# 当前检查点09：实际数据与保护材料别名更正
+
+实际主集 **595目标／216154正监督tokens**，418契约＋177过程；本轮新增49／53319，纠正撤销旧23／14727，净增26／38592。**旧08的569行入口已被替换，不能单独沿用训练。** 原R54745保持，原代码、工具、失败、反馈和修订保全。
+
+[真实还原入口](dataset/20261031_v10_checkpoint09/README.md) · [实际数量与缺口](dataset/20261031_v10_checkpoint09/ACTUAL_DATA_REPORT.md) · [14B／8B训练策略及因果依据](dataset/20261031_v10_checkpoint09/TRAINING_PLAN.md) · [保护别名更正](dataset/20261031_v10_checkpoint09/ACTIVE_USE_ERRATUM09.md) · [实际恢复QA](dataset/20261031_v10_checkpoint09/CHECKPOINT_QA.json)
+
+595条双tokenizer／mask／标准读取及1785真实数组四features已核，实际AES还原与完整union通过。新增9dev17test仅组件，104套输入数组全零loss。完整原生自主A—D、合格KEEP和完整WRD学生评测仍0，完整主NOT_READY；72／最多162更新仅候选，未加载权重或训练，Spark未验机。远端实体上传状态以09的REMOTE_VERIFICATION.json为准。
+
+以下全部为历史交付与判断记录，由09及其更正覆盖当前入口。
+
+---
+
 **2026-10-31 训练就绪度评估与下一轮整理计划（仅计划，未执行）：** [统筹计划](plans/20261031_readiness/PLAN.md)／[当前就绪状态](plans/20261031_readiness/READINESS_STATUS.json)／[无重叠数据账](plans/20261031_readiness/reviews/corpus_audit.md)／[一手论文核查](plans/20261031_readiness/reviews/research_sources.md)。当前08仍569目标／177562正监督，过程133／23连接组；完整自主、合格KEEP和学生dev/test仍0，不足以启动完整正式训练。先冻结独立评价材料，再31完整writer→706业务过程→615业务辅助批审；387来源／378组只是候选。规划49不改实际数据48，不启动训练或新业务采集。以下为当前实际数据08与历史记录。
 
 # 当前检查点08：实际数据、全库原件和恢复验证
