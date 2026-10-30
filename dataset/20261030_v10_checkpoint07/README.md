@@ -21,3 +21,5 @@ python3 /new/path/wrd07/canonical_arrays07/binary_loader.py --root /new/path/wrd
 07增量实体为30210262字节，3127认证成员；公开校验数、密文和载荷manifest SHA见[认证收据](ENCRYPTED_DELIVERY_REPORT.json)。本地合并根和全部552行的实际还原核验、远端冷LFS实体验证另列回执；仅有LFS指针或Git push不能替代这些检查。
 
 14B主／8B对照的未运行组件预算随实际数据重算为57更新、最多115更新；完整dev/test数组仍0，Spark ARM64／GB10、长窗和梯度实现待验，默认完整训练入口null。原226／H12／静态及资源祖先隔离；AI标注和CPU整理成本已发生、完整用量未知且非零。
+
+远端实物核验已通过：[23个普通Git文件与30.21MB实体的收据](REMOTE_CHECKPOINT07_VERIFICATION.json)。上传由Git LFS完成；其下载客户端多次断连后，校验使用指定commit的GitHub媒体端HTTP206独立取全，完整大小及SHA与远端LFS指针完全一致。没有用本地密文冒充下载结果。补充[各阶段覆盖](STAGE_COVERAGE.md)区分实际执行与新标签。
