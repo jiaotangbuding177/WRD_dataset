@@ -1,3 +1,11 @@
+# 当前检查点07：552条实际组件训练数据
+
+2026-10-30：已整理100个maker会话的969待核位置，原1050中854保护、196具体缺证；原226继续隔离。当前实际552目标／150674监督tokens，436契约与116过程分报。新增22为19新作者决策及3局部读取投影，新增原CoT／完整资源／合格KEEP／自主链均0，不能据此称完整主集足量。
+
+[实际恢复包与还原入口](dataset/20261030_v10_checkpoint07/README.md) · [训练方案与因果链](dataset/20261030_v10_checkpoint07/TRAINING_PLAN.md) · [数据质量与剩余缺口](dataset/20261030_v10_checkpoint07/RECOVERY_REPORT.md)。07真实增量30.21MB／3127认证成员，依次05＋06＋07还原10524源文件；552行双tokenizer／mask／loader与全1656个canonical数组读取均通过。旧binary_arrays源目录字段作legacy，不用于迁移。未启动训练，完整自主WRD仍NOT_READY。
+
+以下为此前检查点和历史说明，当前入口以上方07为准。
+
 # 当前数据：WRD检查点06（2026-10-29）
 
 [数据恢复与实际增量](dataset/20261029_v10_checkpoint06/README.md) · [14B／8B具体训练方案](dataset/20261029_v10_checkpoint06/TRAINING_PLAN.md) · [各阶段覆盖](dataset/20261029_v10_checkpoint06/COVERAGE_EXPANSION.md) · [缺证血缘复核](dataset/20261029_v10_checkpoint06/LINEAGE_RECOVERY_SUMMARY.md)

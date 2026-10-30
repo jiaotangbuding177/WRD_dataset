@@ -1,0 +1,187 @@
+{
+  "schema": "wrd-delta07-independent-merger-peer-v1",
+  "status": "PASS_REVIEWED_MERGE_LAYER",
+  "reviewed_merger": {
+    "path": "D:\\skillloop\\research\\data_prep\\wrd_main_v10\\merge_delta07.py",
+    "bytes": 4883,
+    "sha256": "954fe2d3ff011c7152ad9695db72f46a827e7eb162d0253291a2390ab70cfad8"
+  },
+  "reviewed_restore_protocol": {
+    "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\git_release\\dataset\\20261029_v10_checkpoint06\\tooling\\restore_checkpoint.py",
+    "bytes": 5295,
+    "sha256": "c128038cecd2b7ca7101a000bc05d2e290b8a191760335f0b8030a4907afa719"
+  },
+  "key_free_fixtures": [
+    {
+      "case": "valid_change",
+      "accepted": true,
+      "error": null,
+      "new_root_created": true,
+      "merged_manifest_pin_mismatches": [],
+      "fixture_path": "D:\\skillloop\\output\\20261029_wrd_batch24\\merge_peer\\fixtures\\954fe2d3ff01\\valid_change",
+      "real_key_or_cipher_read": false,
+      "crypto_authentication_tested": false
+    },
+    {
+      "case": "wrong_base",
+      "accepted": false,
+      "error": {
+        "type": "AssertionError",
+        "message": ""
+      },
+      "new_root_created": false,
+      "merged_manifest_pin_mismatches": [],
+      "fixture_path": "D:\\skillloop\\output\\20261029_wrd_batch24\\merge_peer\\fixtures\\954fe2d3ff01\\wrong_base",
+      "real_key_or_cipher_read": false,
+      "crypto_authentication_tested": false
+    },
+    {
+      "case": "duplicate_base_manifest_entries",
+      "accepted": false,
+      "error": {
+        "type": "AssertionError",
+        "message": "DUPLICATE_OR_CASE_ALIAS_MANIFEST_PATH"
+      },
+      "new_root_created": false,
+      "merged_manifest_pin_mismatches": [],
+      "fixture_path": "D:\\skillloop\\output\\20261029_wrd_batch24\\merge_peer\\fixtures\\954fe2d3ff01\\duplicate_base_manifest_entries",
+      "real_key_or_cipher_read": false,
+      "crypto_authentication_tested": false
+    },
+    {
+      "case": "duplicate_delta_manifest_entries",
+      "accepted": false,
+      "error": {
+        "type": "AssertionError",
+        "message": "DUPLICATE_OR_CASE_ALIAS_MANIFEST_PATH"
+      },
+      "new_root_created": false,
+      "merged_manifest_pin_mismatches": [],
+      "fixture_path": "D:\\skillloop\\output\\20261029_wrd_batch24\\merge_peer\\fixtures\\954fe2d3ff01\\duplicate_delta_manifest_entries",
+      "real_key_or_cipher_read": false,
+      "crypto_authentication_tested": false
+    },
+    {
+      "case": "generated_metadata_collision",
+      "accepted": false,
+      "error": {
+        "type": "AssertionError",
+        "message": ""
+      },
+      "new_root_created": false,
+      "merged_manifest_pin_mismatches": [],
+      "fixture_path": "D:\\skillloop\\output\\20261029_wrd_batch24\\merge_peer\\fixtures\\954fe2d3ff01\\generated_metadata_collision",
+      "real_key_or_cipher_read": false,
+      "crypto_authentication_tested": false
+    },
+    {
+      "case": "generated_metadata_case_alias",
+      "accepted": false,
+      "error": {
+        "type": "AssertionError",
+        "message": ""
+      },
+      "new_root_created": false,
+      "merged_manifest_pin_mismatches": [],
+      "fixture_path": "D:\\skillloop\\output\\20261029_wrd_batch24\\merge_peer\\fixtures\\954fe2d3ff01\\generated_metadata_case_alias",
+      "real_key_or_cipher_read": false,
+      "crypto_authentication_tested": false
+    },
+    {
+      "case": "path_traversal",
+      "accepted": false,
+      "error": {
+        "type": "AssertionError",
+        "message": ""
+      },
+      "new_root_created": false,
+      "merged_manifest_pin_mismatches": [],
+      "fixture_path": "D:\\skillloop\\output\\20261029_wrd_batch24\\merge_peer\\fixtures\\954fe2d3ff01\\path_traversal",
+      "real_key_or_cipher_read": false,
+      "crypto_authentication_tested": false
+    }
+  ],
+  "issues": [],
+  "direct_path_validation_canaries": [
+    {
+      "path_repr": "''",
+      "rejected": true
+    },
+    {
+      "path_repr": "'.'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a//b'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a/./b'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a/../b'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a\\\\b'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'D:drive'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a\\nb'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a\\x00b'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a.'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'a '",
+      "rejected": true
+    },
+    {
+      "path_repr": "'merge_result.json'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'MERGE_EVIDENCE/MERGED06_AUTHENTICATED_MANIFEST.JSON'",
+      "rejected": true
+    },
+    {
+      "path_repr": "'HISTORY/PRE_DELTA07/x'",
+      "rejected": true
+    },
+    {
+      "case_insensitive_alias_pair": [
+        "X.txt",
+        "x.txt"
+      ],
+      "rejected": true
+    }
+  ],
+  "static_positive_findings": [
+    "Delta restore authenticates existing WRDENC4 AES-GCM format through the existing trusted restore module.",
+    "Authenticated delta binds exact bytes of base merged06 PAYLOAD_MANIFEST and original TRAINING_MANIFEST before output merge.",
+    "Only manifest-listed ordinary source files are copied, and source size/SHA and copied SHA are checked.",
+    "Output and decrypted delta directories must be absent; no saved payload source is executed.",
+    "Changed old paths are preserved under history/pre_delta07/<oldSHA-prefix>/path.",
+    "Absolute/path-traversal and symlink leaf checks are present; resolve containment protects the chosen root."
+  ],
+  "restore_protocol_observation": "Existing restore verifies cipher/plain/manifest/member SHA and rejects duplicate tar members. Its expected=dict(files) construction alone does not reject duplicate manifest list entries; merge layer must independently reject them.",
+  "remaining_recommendations": [
+    "Keep final real authenticated restore, cold-object verification and independent main-loader QA separate from this key-free review."
+  ],
+  "no_real_key_read": true,
+  "full_merged_dataset_not_reprocessed": true,
+  "training_started": false,
+  "weights_loaded": false,
+  "review_script_sha256": "acac90d6d205684ab0796bc6b392b6659197a5a5712f5d157d79a8aed783cdff"
+}
