@@ -1,3 +1,17 @@
+# 当前检查点08：实际数据、全库原件和恢复验证
+
+2026-10-31：默认主集 **569目标／177562正监督tokens**（436契约＋133过程）；本轮新增17个资源／修订组件、26888监督tokens。完整自主沉淀仍NOT_READY，未加载权重或训练。17是组件视图，不是17个完整技能。
+
+[数据恢复与实际入口](dataset/20261030_v10_checkpoint08/README.md) · [14B／8B具体训练计划与因果依据](dataset/20261030_v10_checkpoint08/TRAINING_PLAN.md) · [实际处理报告与缺口](dataset/20261030_v10_checkpoint08/RECOVERY_REPORT.md) · [真实还原QA](dataset/20261030_v10_checkpoint08/CHECKPOINT_QA.json)
+
+1871原生会话／34616原始响应位置和2990原API载体已实际保全；781旧缺件按原序列化恢复、SHA与旧pin一致。原思考、工具、反馈、失败与修订版本保留在认证加密实体。当前仅从主manifest.actual_train_files读取，不能通配audit或把GB当可训练量。原226／H12／static继续隔离；56条恢复原R属于正式评测，保全且零训练loss。本地AES密钥不入Git。
+
+全569条实际双tokenizer／mask／标准loader、1707个canonical数组四features比对通过。依次还原05＋06＋07＋08。完整自主A—D、合格KEEP和独立学生dev/test数组仍0；组件计划62／最多130更新未运行，Spark训练兼容与吞吐未验机。远端实体状态以QA和REMOTE_VERIFICATION.json为准。
+
+以下保留过往计划和检查点，不覆盖当前08入口。
+
+---
+
 **2026-10-30 下一步补齐方案（仅计划，未执行）：** [完整方案](plans/20261030_gap_completion/PLAN.md)与[只读核查证据](plans/20261030_gap_completion/reviews)已整理。先建全库owner账，继续原R／资源／修订／同版本消费与自主闭环补证；196只是100 maker子集，8242仅旧账条件UNKNOWN。实际数据仍检查点07的552目标／150674正监督tokens，完整主训练NOT_READY；本次没有新增训练行、业务Teacher／Actor或训练。规划设计5.0.47不覆盖实际数据5.0.46。
 
 # 当前检查点07：552条实际组件训练数据

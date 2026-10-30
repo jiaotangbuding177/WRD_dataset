@@ -1,0 +1,166 @@
+{
+  "status": "PASS_FIXED_REMOTE_VERIFIER_SYNTHETIC_CASES",
+  "source_sha256": "29964c707880e340ce5279b01b921b358191dc9ae63f898162e81edd0b1f7cd2",
+  "source_bytes": 7967,
+  "tests": [
+    {
+      "name": "valid_two_range_body_and_exact_inventory",
+      "expected_reject": false,
+      "pass": true,
+      "mock_HTTP_requests": 2,
+      "rejection": null
+    },
+    {
+      "name": "empty",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:PUBLIC_FILES_MUST_BE_NONEMPTY_LIST"
+    },
+    {
+      "name": "incomplete",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:PUBLIC_MANIFEST_MUST_EXACTLY_COVER_CHECKPOINT_EXCEPT_ITSELF"
+    },
+    {
+      "name": "duplicate",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:DUPLICATE_OR_CASE_ALIAS_PUBLIC_FILE"
+    },
+    {
+      "name": "casealias",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:DUPLICATE_OR_CASE_ALIAS_PUBLIC_FILE"
+    },
+    {
+      "name": "traversal",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:NONCANONICAL_PUBLIC_PATH"
+    },
+    {
+      "name": "noncanonical",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:NONCANONICAL_PUBLIC_PATH"
+    },
+    {
+      "name": "wrongsize",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:"
+    },
+    {
+      "name": "wronghash",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:"
+    },
+    {
+      "name": "boolsize",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:INVALID_PUBLIC_SIZE"
+    },
+    {
+      "name": "badhashsyntax",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:INVALID_PUBLIC_SHA256"
+    },
+    {
+      "name": "extra",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:PUBLIC_MANIFEST_MUST_EXACTLY_COVER_CHECKPOINT_EXCEPT_ITSELF"
+    },
+    {
+      "name": "selfreference",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:PUBLIC_MANIFEST_MUST_EXACTLY_COVER_CHECKPOINT_EXCEPT_ITSELF"
+    },
+    {
+      "name": "duplicate_JSON_key",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:DUPLICATE_JSON_OBJECT_KEY"
+    },
+    {
+      "name": "nonlist",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:PUBLIC_FILES_MUST_BE_NONEMPTY_LIST"
+    },
+    {
+      "name": "reuseflag",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "SystemExit:2"
+    },
+    {
+      "name": "preexisting_local_copy",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 0,
+      "rejection": "AssertionError:FRESH_OR_EMPTY_DOWNLOAD_DIRECTORY_REQUIRED"
+    },
+    {
+      "name": "HTTP200",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 4,
+      "rejection": "RuntimeError:REMOTE_RANGE_FAILED index=0 type=AssertionError"
+    },
+    {
+      "name": "bad_ContentRange",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 4,
+      "rejection": "RuntimeError:REMOTE_RANGE_FAILED index=0 type=AssertionError"
+    },
+    {
+      "name": "short_body",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 4,
+      "rejection": "RuntimeError:REMOTE_RANGE_FAILED index=0 type=AssertionError"
+    },
+    {
+      "name": "wrong_body",
+      "expected_reject": true,
+      "pass": true,
+      "mock_HTTP_requests": 1,
+      "rejection": "AssertionError:"
+    }
+  ],
+  "test_count": 21,
+  "old_defects_report_sha256": "34141b4eee9237e7dfd0125dfb1f50414211f18225e661f03b8acf4f931ce648",
+  "real_network_requests": 0,
+  "actual_Git_or_LFS_remote_VERIFIED": false,
+  "production_key_or_credential_configs_read": false,
+  "frozen_research_sources_or_allowlist_modified": false,
+  "only_approved_delivery_verifier_modified": true,
+  "training_started": false,
+  "new_business_Teacher_Actor_calls": 0,
+  "AI_curation_CPU_cost": "UNKNOWN_NOT_ZERO",
+  "ordinary_blob_scope": "Supplied immutable local Git objects. Root must separately record fresh remote fetch provenance.",
+  "remaining_actual_work": "Run fixed tool against exact pushed commit from fresh fetched Git objects and newly download actual LFS entity; mocks do not prove real Git delivery."
+}
