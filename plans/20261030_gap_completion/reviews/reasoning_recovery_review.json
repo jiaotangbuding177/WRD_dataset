@@ -1,0 +1,222 @@
+{
+  "schema": "wrd-original-reasoning-recovery-plan-review-v1",
+  "date_Asia_Shanghai": "2026-10-30",
+  "status": "READ_ONLY_REVIEW_AND_PROPOSED_NEXT_RECOVERY_NO_BATCH_EXECUTION",
+  "reviewer": "scheduled_batch24",
+  "main_conclusion": "100个已核native未存显式thinking，93会话2729个兼容responseId与旧1536个provider组无交集，只说明这些已检查载体及这个ID键没有恢复出对应原R。历史兼容桥明确重写响应ID和工具调用ID，并把进度与真thought混发到reasoning_content；下一步必须做分层多键归属，不能由ID无交集推出原思考不存在，也不能由字段名命中直接授原CoT信用。",
+  "scope_this_review": {
+    "read": "研究入口、当前双稿与07记忆、既有恢复/SDK/物理账/备份收据、限定observed_service桥接源码、已知C侧目录的直接名字或存在性元数据。",
+    "not_done": [
+      "未解密任何thought、redacted_thinking或凭据。",
+      "未读取账户/auth/settings内容或SDK trace/日志正文。",
+      "未搜整个C/E，未读取C侧75.56MB Codex会话正文或枚举其父目录。",
+      "未重新扫描100会话、2729响应或1536 provider正文。",
+      "未执行历史桥/旧Agent/资源脚本、Teacher、Actor或训练。",
+      "未修改主集、双稿、记忆或Git。"
+    ],
+    "new_recovered_original_R_targets": 0,
+    "AI_research_curation_cost": "UNKNOWN_NOT_ZERO"
+  },
+  "evidence_supported_findings": [
+    {
+      "finding": "兼容responseId不是底层provider completion身份。",
+      "source": "E:/skillloop_runs/20261021_T0012_native_two_arm/observed_service/src/openai-handler.js",
+      "source_sha256": "21cb2b68a431bbe0840b75cac44ff654ca8ce7a536cd01ed4b8bd69a51f850a8",
+      "lines": [568, 648, 732],
+      "mechanism": "每条兼容响应消费路径新建chatcmpl-${Date.now()}。挂起工具后的续跑也新建兼容completionId。不能用它与底层provider_completion_id直接等值连接或做缺失否证。",
+      "limit": "这证明此实际存续SHA代码的行为；仍须逐episode用冻结部署/源码SHA确认当时版本，不能把今天存续文件概括到所有历史。"
+    },
+    {
+      "finding": "工具call ID也有明确的前后身份映射。",
+      "source": "E:/skillloop_runs/20261021_T0012_native_two_arm/observed_service/src/openai-handler.js",
+      "source_sha256": "21cb2b68a431bbe0840b75cac44ff654ca8ce7a536cd01ed4b8bd69a51f850a8",
+      "lines": [809, 815, 816, 818, 830],
+      "mechanism": "保存backendToolCallId后生成新的call+随机UUID供兼容客户端使用。ACP reqId仍是实际RPC owner。仅有客户端call ID不能假定可与原SDK provider工具ID等值匹配。",
+      "limit": "代码中存在内存映射不等于历史磁盘已经记录了这个映射；找不到映射时只能候选，不得凭函数名相同补造字典。"
+    },
+    {
+      "finding": "reasoning_content有两种不同事件来源。",
+      "source": "E:/skillloop_runs/20261021_T0012_native_two_arm/observed_service/src/sink-factory.js",
+      "source_sha256": "c95810d8515b5b83b9e3047d66c264190fb19e97ca8f160335e32640b268b9c6",
+      "lines": [45, 46, 47, 50, 51, 52, 57],
+      "mechanism": "onReasoning累计到state.reasoning并发出reasoning_content；onProgress也流式发出reasoning_content，但不写state.reasoning。上下文压缩/阶段进度不能混作模型原思考。",
+      "paired_parser": {
+        "source": "E:/skillloop_runs/20261021_T0012_native_two_arm/observed_service/src/acp-events.js",
+        "sha256": "0fc9bbd975589bbb5f85a6b050955d824dded4c4b264ea28ed8eeaa06409804f",
+        "lines": [32, 38, 42, 44],
+        "mechanism": "明确区分agent_message_chunk与agent_thought_chunk。"
+      }
+    },
+    {
+      "finding": "九通道native_events主要是计量/传输元数据，不能当正文备份。",
+      "source": "E:/skillloop_runs/20261021_T0012_native_two_arm/observed_service/native_observer.cjs",
+      "sha256": "81c94bd811decfbe2de539332d46aebe4c8cbfbd21c4bcfee7e85108d34d4282",
+      "mechanism": "记录native_start、usage中的provider_completion_id、finish与stream end；正常chunk不把模型正文写盘。仍可用作native_request_id/session_id/conversation_request_id/prompt_request_id到provider ID的桥梁。"
+    },
+    {
+      "finding": "曾有明确的旧解析遗漏，不能把旧JSON缺R当不存在。",
+      "source": "D:/skillloop/output/20261025_wrd_reasoning_recovery_v4/SSE_REASONING_RECOVERY_REPORT.json",
+      "sha256": "26d1369c10232702c7cd01eb6b6ec4e49c894d70687525a926a2524bc6b540f2",
+      "existing_record_only": "旧68 SSE中67对有原R，1301758字符，而旧response JSON遗漏R的对数为67。这里引用既有结果，未重新读原thought；这些旧历史记录并不自动属于当前100会话。"
+    }
+  ],
+  "carrier_priority_and_current_metadata": [
+    {
+      "priority": 1,
+      "carrier": "100个maker对应的原attempt目录：openclaw_transport/evidence、完整native、request/response、metering、原同lane native_events及原service freeze。",
+      "why": "这是把外层兼容响应和真正上游请求建立一对多关系的最近入口。先从已恢复的显式目录表投递，不遍历整盘。",
+      "existing_entry": "D:/skillloop/output/20261029_wrd_batch24/FINAL969_TARGET_OVERLAY.jsonl.gz",
+      "next_action_proposal": "只导出元数据索引和字段类型/长度/哈希；原R正文先不放入索引或主集。"
+    },
+    {
+      "priority": 2,
+      "carrier": "C:/Users/22142/.codebuddy/sessions；C:/Users/22142/.codebuddy/projects/c-Users-22142-AppData-Local-Programs-buddy2api",
+      "current_metadata_observation": "sessions直接条目1353；指定buddy2api工程JSONL文件18。仅直接目录元数据，未读会话或project正文。旧SDK_DISCOVERY曾查755份session metadata、18工程JSONL（17为空），25个session与WRD桥session ID精确关联，但仍未证到episode。",
+      "why": "新版累计session元数据与此前只用一份桥事件的旧SDK发现之间仍有覆盖差异。先按本批backend session/prompt ID、PID和进程启动时段定向查，不扫描无关730等个人会话正文。",
+      "existing_link_metadata": "D:/skillloop/output/20261025_wrd_reasoning_recovery_v4/controlled/sdk_session_links.jsonl.gz",
+      "new_thought_recovery_claim": false
+    },
+    {
+      "priority": 3,
+      "carrier": "C:/Users/22142/.codebuddy/traces；C:/Users/22142/.codebuddy/logs；C:/Users/22142/.codebuddy/diagnostics",
+      "current_metadata_observation": "本轮直接元数据：traces和logs均为空；diagnostics有3份20261023 report JSON，仅看文件名/大小，没有读报告正文。旧SDK_DISCOVERY曾列68份未关联trace和44份日志元数据，正文均未审。",
+      "why": "现在目录为空不证明历史未保存，更不说明清理原因；应先核旧清单的具体路径/SHA、同SHA归档副本与运行HOME位置。诊断报告可能含环境或凭据信息，未来只能用受控字段白名单查session/时间元数据。"
+    },
+    {
+      "priority": 4,
+      "carrier": "C:/Users/22142/.codex/sessions/2026/10/23/rollout-2026-10-23T01-11-23-01a16469-7614-7e01-ba76-1ad2d9707177_01a16498-9504-7342-80c4-b714199ce710.jsonl",
+      "current_metadata_observation": "仍存在，75555936字节；本轮仍只stat，未读/哈希正文，未枚举父目录。",
+      "known_project_link": "D:/skillloop/output/20261023_codex_assisted_resource_repair；旧ASSISTED_REPAIR_SOURCE已明确指向legal-document-drafting辅助修复。",
+      "why": "这是已定位但此前只有stat、未完成字段恢复的原C侧会话入口。未来先检查头部项目身份、事件类型与可读/加密字段形状，再按源闭包提取明确可读原analysis/动作；encrypted_content/redacted内容保持原样，不解密/猜写。",
+      "condition": "历史Codex辅助修复与GLM/OpenClaw条件不同；不能把其原思考挂到当前100个GLM maker，也不能把整75.56MB算新增训练文本。"
+    },
+    {
+      "priority": 5,
+      "carrier": "C:/Users/22142/.codex/archived_sessions",
+      "current_metadata_observation": "目录存在，仅路径存在性；未枚举或读任何body，尚无WRD会话身份关联。",
+      "why": "可作为定向元数据补查入口：只在从本项目原turn/修复收据获得的精确thread/session ID范围查询；未关联前不读全历史。不能称已发现新的WRD thought。"
+    },
+    {
+      "priority": 6,
+      "carrier": "D:/skillloop/output/20261025_wrd_training_dataset/bundle/archive/file_index.jsonl 与 archive/objects",
+      "current_metadata_observation": "file_index现存430426403字节；本轮只stat，没有扫描430MB目录表或objects。另有local_index_before_sanitize.jsonl和local_sensitive_object_quarantine；后者不得作为绕过凭据/排除规则的内容入口。",
+      "why": "按原carrier SHA对已发布原包/CAS/历史split清单定向取回可证明的同SHA副本；缓存/多份密文不能累计为新语料。旧提取产物未存R时应继续找原raw/SSE，不从投影JSON反推。"
+    },
+    {
+      "priority": 7,
+      "carrier": "C:/Users/22142/.codex/worktrees/q-evaluation-handoff/skillloop/handoff/20261025_q_evaluation",
+      "current_metadata_observation": "这个精确旧备份工作树目录本轮存在；没有打开或认证其压缩实体。D盘handoff直接目录只有20261021_eval250_q_artifacts与20261021_eval250_q_scoring。",
+      "historical_remote_receipt": "D:/skillloop/output/20261025_q_handoff_publish/publish_receipt.json：skillsloop分支codex/q-evaluation-handoff-20261025，commit e4258f18e28af8577fd0f14931ce3c596ea5d0c8，旧6 LFS共86239083字节/11336归档成员。",
+      "why": "只对具体缺失carrier查旧file_provenance/归档成员与SHA；当前目录存在不证明LFS实体已在本地。原用途是250评测/Q交接，属于受保护/不同角色，不能因此反哺训练。"
+    },
+    {
+      "priority": 8,
+      "carrier": "D:/skillloop/handoff/20261021_eval250_q_artifacts/eval250_q_artifacts.tar.gz",
+      "current_metadata_observation": "现存68557517字节，仅stat，本轮未解包。旧archive_search只证明其中2种缺失artifact SHA有副本，不证明含maker thought。",
+      "why": "未来仅列成员名/大小，命中具体原native/request/raw/SSE的期望SHA才取回；不能把评测素材包当训练推理库。"
+    },
+    {
+      "priority": "NOT_CURRENTLY_PRESENT",
+      "carrier": "C:/Users/22142/.codebuddy/agent-home/.codebuddy/{sessions,projects,traces} 与 C:/Users/22142/AppData/Local/Temp/buddy2api-api",
+      "current_metadata_observation": "这四个精确候选路径本轮均不存在；未扩成全C搜索。历史SDK发现的78个temporary cwd要按其原metadata逐项核，不用不存在的默认路径否证全部运行HOME。"
+    }
+  ],
+  "proposed_matching_pipeline": [
+    {
+      "step": 1,
+      "name": "冻结外层身份与历史部署条件",
+      "produce": "OUTER_RESPONSE_IDENTITY.index：episode/native SHA、event line、message index、OpenClaw session/runId、兼容responseId、工具call/args SHA、lane、请求开始/结束UTC、原request与source freeze引用。",
+      "rule": "原raw request字节存在才记raw_request_SHA；只有native导出不伪造完整原system/tools请求。runId+session+process/lane是命名空间，不单凭路径basename匹配。"
+    },
+    {
+      "step": 2,
+      "name": "取九通道元数据桥并恢复ID改写关系",
+      "produce": "OUTER_INNER_CROSSWALK：compat_responseId/client_toolCallId → 已证backendToolCallId/ACP reqId/backend session/promptRequestId/native_request_id → provider_completion_id；每条边绑定原文件SHA、行、时间、具体字段。",
+      "rule": "Date.now形式只是本机时间线索；随机callUUID无可逆公式。源码只能证明有重写机制，不能凭源码自动生成历史映射。单次外层工具往返可以对应多次底层provider请求、重试和压缩，保留一对多而非强迫一对一。"
+    },
+    {
+      "step": 3,
+      "name": "建立保守的三层请求指纹",
+      "produce": [
+        "L0原HTTP body字节SHA：精确身份，不改正文。",
+        "L1解析JSON规范键序SHA：仅对象key排序；数组顺序、数字值、字符串内部空白/Unicode、messages/tools/图像内容引用均保留；不删system或合并助手消息。",
+        "L2该冻结SHA版本prompt-builder的有证变换视图：OpenAI messages→ACP blocks/prompt；任何SDK额外system/tools前缀另列，不声称OpenClaw兼容请求等于最终provider输入。"
+      ],
+      "rule": "L2匹配必须保存逐字段/块变换证明。只做空白模糊化、删除前缀、截取相似业务需求得到的匹配只可召回候选。不得在这一步篡改训练输入或历史请求。"
+    },
+    {
+      "step": 4,
+      "name": "多键候选召回及独立交叉核对",
+      "blocking_keys": [
+        "精确backend sessionId与promptRequestId/native_request_id，有PID+进程epoch/lane命名空间。",
+        "真实request L0/L1指纹或已证明的L2 bridge变换。",
+        "原工具名+完整参数JSON SHA、原结果/输出全文SHA或原caller↔backend工具ID映射。",
+        "记录在本机的请求起止UTC；用已知强连接估计钟差。响应ID中的毫秒时间只辅助。"
+      ],
+      "time_window": "先用原outer起始至关闭时段加小容差召回；容差用同机器已证ID对标定，保留队列/重试实际区间，不把固定±数秒当普遍事实。不同机器provider created时间不能直接当本机时钟。",
+      "rule": "候选可以many-to-many，所有候选及冲突保留。相同prompt被重试、缓存或并发重复时，prompt SHA也不构成唯一响应归属。模型名、费用、时间和文件名相同都不是充分证据。"
+    },
+    {
+      "step": 5,
+      "name": "先判归属，再判原thought类型、完整性和来源",
+      "produce": "MATCH_REVIEW：EXACT_EVENT_LINK / EXACT_CROSSWALK_PLUS_REQUEST_AND_RESPONSE / CANDIDATE_ONLY / CONFLICT / MISSING，并单列raw thought channel、progress、cumulative、partial与encrypted字段。",
+      "rule": "至少有可复核唯一事件/ID跨层链，且请求或完整动作/响应内容交叉一致，才将原R挂到某一原响应owner。无法唯一排除重试/同prompt重复者HOLD；不能用训练者判断语义相似来补原CoT归属。来源受保护则仅审计，匹配成功也不改变隔离。"
+    },
+    {
+      "step": 6,
+      "name": "可读原R的后续质量与loss审查",
+      "rule": "原R逐字、字段/事件/字符字节范围和SHA保全；其可正监督范围另需当时可见前提与同对象结果支持。没有记录的R不新写成原R；partial/length不补结束标志，错误和未知片段仍保全loss0。未来观测只作准入证据，不回填较早输入。"
+    }
+  ],
+  "evidence_grades": {
+    "exact_event_link": "同一原协议事件链提供client/backend ID映射与完整上下文身份，实际原文件/行/SHA可重验；随后仍独立检查来源与语义。",
+    "exact_multi_key": "一条明确跨层事件ID关系，加完整请求或经证明的格式变换一致、原完整输出/参数一致、时间/版本一致且候选唯一。可提交原R归属复核，不能自动授loss。",
+    "candidate_only": [
+      "只有Date.now响应时间、近邻顺序或同lane/PID。",
+      "只有sessionId而同session存在多个prompt、重试或SDK内部工具调用。",
+      "只有相同prompt、相同输出片段、同函数名或规范化相似文本。",
+      "只有模型名、token量、finish_reason或reasoning_tokens计量。",
+      "只有重写算法源码而没有当次历史映射，或只命中长字符串。"
+    ],
+    "never_reconstruct_as_original_CoT": [
+      "以最终skill正确倒写其原思考。",
+      "把缺证前提补上后声称Teacher在此新输入下生成过相同R。",
+      "将断片、不同底层请求、不同重试或不同actor的R无标记拼成连续自主思维。",
+      "把encrypted/redacted_thinking、签名、进度/压缩状态或token计量当可读thought。"
+    ]
+  },
+  "reasoning_origin_taxonomy": {
+    "ORIGINAL_PROVIDER_THOUGHT_DELTA": "有原agent_thought_chunk/明确provider字段及完整事件归属。按原增量顺序保全，不解释为潜在未公开内部机制。",
+    "ORIGINAL_COMPAT_REASONING_MIXED_ORIGIN": "兼容SSE reasoning_content可能混thought与progress；若无事件类型反证据，只能作为混合原字段保全，不能全部计原CoT。",
+    "ORIGINAL_CUMULATIVE_COLLECTION": "历史collector跨请求或run累计的R。有冻结collector源码和边界证据才取连续可证子段；不把最终累计串挂给最后动作，不凭文本重复自行推每turn边界。",
+    "ORIGINAL_VISIBLE_EXPLANATION": "原助手正文中可见解释；与独立reasoning字段分开统计，不能换名增加原R数量。",
+    "NEW_AUTHORED_RATIONALE": "本轮人工/AI整理的新理由和状态标签，显式作者/输入条件/费用，不能报为恢复的原Teacher thought。",
+    "ENCRYPTED_OR_REDACTED": "保留原字段及metadata，不解密或猜写，不作为明文正监督。"
+  },
+  "specific_first_step_and_bounded_pilot": {
+    "first_step": "下一次获准整理后先写10个响应位置的元数据联表，不先提取/拼接R：从100-maker已恢复目录表选2个以上lane、至少2种桥freeze，包含一个已知同request强匹配的干净历史控制和一个同prompt重复/重试负控；只导出非正文身份、指纹与缺字段。优先核旧SDK发现只用lane0、而本批来自其它lane的差异。",
+    "pilot_outputs": [
+      "CARRIER_METADATA：每个实际限定入口的SHA/mtime/字节、内容角色、读/未读范围；不含凭据或无关联个人正文。",
+      "OUTER_RESPONSE_IDENTITY.index与OUTER_INNER_CROSSWALK：原层级ID和真实证据边，未发现映射明确MISSING。",
+      "MATCH_CANDIDATES与MATCH_REVIEW：候选全集、冲突、排除原因及唯一性，不只有成功清单。",
+      "REASONING_ORIGIN_AND_COMPLETENESS：thought/progress/cumulative/newrationale分栏，恢复正文仍在受控审计层。"
+    ],
+    "acceptance": [
+      "10/10有明确最终状态，所有指纹/ID边可从冻结原件行号重算；不能以候选数报可训练量。",
+      "已知强连接控制必须命中；同prompt重复/重试负控不得被时间最近规则误并，全部歧义保持HOLD。",
+      "凡称原R归属成功者，100%通过独立不同实现复核请求/输出或动作、版本、归属唯一性；跨层1→多关系完整保留。",
+      "实际原thought与progress事件能分清才统计原R；旧累计R只在有collector边界证据时提取范围；新理由保持新作者。",
+      "原226/H/static及未知祖先继续隔离；没有新可读原R时也给出具体剩余载体与未获得字段，不把无结果写成没有思考。"
+    ],
+    "scale_condition": "先用该pilot确认多键映射可行、误并为0、来源/事件边界可重现，再考虑93/100会话批量索引；本轮没有执行这个pilot。"
+  },
+  "reference_pins": [
+    {"path": "D:/skillloop/output/20261025_wrd_reasoning_recovery_v4/SDK_DISCOVERY.json", "bytes": 4605, "sha256": "1419e99e57e5471b8ad9193cbc863610cb619bf81cb22a1ad29786304970a2bb"},
+    {"path": "D:/skillloop/output/20261026_wrd_dataset_v9/recovery/REPORT.json", "bytes": 1946, "sha256": "e59abd6e7c95a06e03cbc3e83f9dc1cca96b37b4ba6aaa60f057bb26dc71d2a7"},
+    {"path": "D:/skillloop/output/20261026_wrd_raw_census_v7/ASSISTED_REPAIR_SOURCE.json", "bytes": 4231, "sha256": "dcd262c3e14a5c2471b702d4069475c17d5b65534cc349233ec78cc35165a9f9"},
+    {"path": "D:/skillloop/output/20261026_wrd_raw_census_v7/NATIVE_EVENT_CARRIER_ROLES.json", "bytes": 851, "sha256": "9888a80f9200ea65c6e0de3070cffa561cd7a97f5ea538087d70e664b2970379"},
+    {"path": "E:/skillloop_runs/20261021_T0012_native_two_arm/observed_service/src/prompt-builder.js", "bytes": 7331, "sha256": "97de40055a20a4432ad0690a44020742799fbffd7b32e03c38fafc5bb4fcf9c1"},
+    {"path": "E:/skillloop_runs/20261021_T0012_native_two_arm/observed_service/src/continuation-policy.js", "bytes": 6965, "sha256": "10fed45246df3dbfe439ef871bf757b99a9012aa40dea043fa2aba198927e746"}
+  ],
+  "recommendation_to_parent": "计划正文应明确安排恢复原R的元数据跨层联表和小样本验收，而不是继续只试responseId相交。同步列出C侧精确辅助会话、定向SDK metadata与原归档副本入口；不承诺必能恢复、不把原R恢复等同内容正确或主量足够。"
+}

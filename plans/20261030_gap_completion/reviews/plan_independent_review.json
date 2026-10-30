@@ -1,0 +1,61 @@
+{
+  "schema": "wrd-gap-plan-independent-review-v1",
+  "date": "2026-10-30",
+  "status": "PASS_PLAN_ONLY_COUNTS_ALIGNED",
+  "unresolved_findings_count": 0,
+  "execution_approval": false,
+  "reviewed_files": [
+    {"path": "research/plans/20261030_wrd_gap_completion/PLAN.md", "sha256": "55a385e649ce478d5fba1956aae370e837f41ad2a9cae05a87594f8e57bc2235"},
+    {"path": "research/designs/A_B_MODULES.md", "sha256": "33665de26bcd762d6235edad0b8b50714f1288508e002da8f6a8ab84584977bd"},
+    {"path": "research/designs/PIPELINE.md", "sha256": "e1634268913d6c63f72fdc63739ac996f4eb51ca5560e5c16d75a03de3bdeb3a"}
+  ],
+  "findings": [
+    {
+      "severity": "P2_NONBLOCKING_PLAN_COUNT_CLARIFICATION",
+      "plan_line": 89,
+      "issue": "PLAN把4个留出source component称为4个留出任务；链接的clean_collection_proposal.md第38行则规定每留出来源2实例，合计4dev+4test=8实例。来源数与评测实例数应统一，避免后续执行和数据量统计产生两种口径。",
+      "recommendation": "明确是4个留出来源（2dev/2test）；若沿用细则则另报8个实例，若改为每来源1实例则同步说明该计划选择。不能把同来源变体计成新的独立来源。",
+      "blocks_plan_discussion": false,
+      "must_resolve_before_freezing_case_manifest": true,
+      "finding_retained_as_history": true,
+      "resolution_status": "RESOLVED_BY_ADOPTING_ROOT_PLAN_ONE_TASK_PER_HELDOUT_SOURCE",
+      "resolution": "采用根PLAN口径：4个留出来源=4个独立真实任务，2dev+2test，每来源只1实例。正常/边界变体仅作同任务内检查，不增加独立任务n或来源n。细则第38行已同步，原每来源2实例建议被明确取代。",
+      "current_blocking": false,
+      "resolution_evidence": {
+        "root_plan_line": 89,
+        "root_plan_sha256_unchanged": "55a385e649ce478d5fba1956aae370e837f41ad2a9cae05a87594f8e57bc2235",
+        "detail_path": "research/plans/20261030_wrd_gap_completion/reviews/clean_collection_proposal.md",
+        "detail_line": 38,
+        "detail_sha256": "8911716676aaa661271a8187f8776928ea6b1f35f937c3a8fee82a270eac8d44"
+      }
+    }
+  ],
+  "checks_passed": [
+    {"topic": "预算与target分离", "plan_lines": [72, 73, 74, 75, 91], "result": "24native/200provider/6M是采集上限，200不换算为SFT target，采后按canonical owner计量；两完整链为目标且可能0。"},
+    {"topic": "时间口径", "plan_lines": [76, 77, 79], "result": "6小时明确从预检启动的经过墙钟，含队列/等待/空闲；单native1800秒含父等待，未延长，未冒充累计native-session hours。"},
+    {"topic": "原生自主采集的可执行性", "plan_lines": [66, 68, 79, 81, 87], "result": "未假定sessions_spawn/agents_wait实际可用；原生委派、真实隔离、原R映射和硬预算须先实证，失败即停止企业采集，不以外层逐步派发或拼接替代。"},
+    {"topic": "权限与研究边界", "plan_lines": [5, 7, 66, 91, 118, 125, 145], "result": "本文及设计47仅计划/只读核查，不授权本轮执行；原226/H/static隔离、后续4/6批无自动额度，不把计划发布当新数据。"},
+    {"topic": "训练因果与语义信用", "plan_lines": [49, 51, 57, 58, 59, 62, 99, 108, 110, 112], "result": "来源可用不等于正loss；前因/动作/返回/版本/结果连线，错误跨度mask0，原R与新理由分账，未来Q只授信用不倒灌输入；长窗不静裁必要过去。"},
+    {"topic": "假设、实证与充分性", "plan_lines": [5, 60, 95, 114, 121, 122, 124, 135], "result": "6–12构建/12–24修订是工程目标而非已得数据；新量需实编再定训练日程；0KEEP可接受，不承诺足量、教师等效或降本，需冻结新来源学生实测。"},
+    {"topic": "Q与成本", "plan_lines": [87, 89, 129, 131, 133], "result": "适用rubric先核冻结；小留出不冒称总体显著；TSR/Q分报、未知不补零、全尝试/训练摊销和失败成本纳入，N=20仅工程情景。"}
+  ],
+  "design_version_check": {
+    "planning_revision": "5.0.47 / ALG-20261030-01",
+    "actual_manifest_revision": "5.0.46",
+    "actual_manifest_sha256": "94770ad82f082c55cf780f8a85108b9429cfa9ee5ee168c43198878f18633541",
+    "actual_counts": {"sequences": 552, "supervised_tokens": 150674, "input_tokens": 3300896},
+    "actual_training_started": false,
+    "actual_model_weights_loaded": false,
+    "result": "Both design47 notices explicitly retain actual07 design46 and current552 data unchanged."
+  },
+  "execution_gates_still_unproven": [
+    "原生父子会话的同环境、无答案泄漏隔离、自然回传及父预算内闭环。",
+    "历史/新provider原R、原生事件和usage的真实归属捕获；不能用reasoning_content字段名代替。",
+    "全部父子/重试/内嵌API请求共享的实际硬预算账，以及到cap时的终态保全。",
+    "具体source/case名单、附件完整性及适用Q锚点冻结。"
+  ],
+  "review_scope_limit": "这是计划逻辑和只读版本核查，通过不等于现行采集器已实现或已获执行授权。未独立重审所有历史来源统计和桥接源码结论。",
+  "root_plan_modified": false,
+  "new_collection_or_training_started": false,
+  "model_weights_loaded": false
+}
