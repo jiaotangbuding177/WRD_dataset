@@ -1,0 +1,188 @@
+{
+  "status": "PASS_METADATA_FOLLOWUP_SYNTHETIC_NEGATIVES",
+  "tests": [
+    {
+      "name": "valid_unsorted_two_parts_new_metadata_same_prior_network_object",
+      "pass": true,
+      "expected_reject": false,
+      "mock_cold_fetches": 1,
+      "error": null
+    },
+    {
+      "name": "wrong_frozen_receipt_SHA",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_RECEIPT_FROZEN_SHA_MISMATCH"
+    },
+    {
+      "name": "wrong_frozen_body_SHA",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_BODY_SHA_OR_SIZE_MISMATCH"
+    },
+    {
+      "name": "wrong_first_data_commit",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_DATA_COMMIT_MISMATCH"
+    },
+    {
+      "name": "old_reuse_transport_cannot_claim_fresh_network",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_RECEIPT_NOT_FRESH_NETWORK_TRANSPORT"
+    },
+    {
+      "name": "missing_fresh_network_assertion",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:"
+    },
+    {
+      "name": "same_SHA_arbitrary_local_cipher_path_is_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:BODY_MUST_BE_ORIGINAL_RECEIPT_DOWNLOAD_PATH"
+    },
+    {
+      "name": "empty_first_network_parts",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_NETWORK_PARTS_REQUIRED"
+    },
+    {
+      "name": "duplicate_part_index",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_PART_NOT_CONTIGUOUS_2MIB_COVER"
+    },
+    {
+      "name": "part_index_gap",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_PART_DUPLICATE_OR_GAP"
+    },
+    {
+      "name": "overlapping_or_noncontiguous_part_start",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_PART_NOT_CONTIGUOUS_2MIB_COVER"
+    },
+    {
+      "name": "incomplete_final_part_cover",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_PART_NOT_CONTIGUOUS_2MIB_COVER"
+    },
+    {
+      "name": "wrong_receipt_part_SHA",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_BODY_RANGE_SHA_MISMATCH"
+    },
+    {
+      "name": "missing_actual_network_part_file",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_ACTUAL_NETWORK_PART_MISSING_OR_WRONG"
+    },
+    {
+      "name": "actual_part_bytes_wrong_despite_correct_whole_body",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:FIRST_ACTUAL_NETWORK_PART_MISSING_OR_WRONG"
+    },
+    {
+      "name": "boolean_part_size_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:"
+    },
+    {
+      "name": "impossible_attempt_count_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 0,
+      "error": "AssertionError:"
+    },
+    {
+      "name": "final_LFS_OID_changed",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 1,
+      "error": "AssertionError:FINAL_LFS_OID_OR_SIZE_CHANGED"
+    },
+    {
+      "name": "first_remote_data_pointer_disagrees_with_frozen_receipt",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 1,
+      "error": "AssertionError:FIRST_REMOTE_POINTER_DISAGREES_WITH_FROZEN_NETWORK_RECEIPT"
+    },
+    {
+      "name": "final_public_manifest_empty",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 1,
+      "error": "AssertionError:NONEMPTY_PUBLIC_FILES_REQUIRED"
+    },
+    {
+      "name": "final_public_inventory_incomplete",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 1,
+      "error": "AssertionError:PUBLIC_MANIFEST_INVENTORY_NOT_EXACT"
+    },
+    {
+      "name": "final_public_duplicate_path",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 1,
+      "error": "AssertionError:DUPLICATE_OR_CASE_ALIAS_PUBLIC_PATH"
+    },
+    {
+      "name": "final_local_ordinary_blob_mismatch",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 1,
+      "error": "AssertionError:FINAL_LOCAL_PUBLIC_BLOB_MISMATCH"
+    },
+    {
+      "name": "first_frozen_ordinary_record_disagrees_with_cold_data_commit",
+      "pass": true,
+      "expected_reject": true,
+      "mock_cold_fetches": 1,
+      "error": "AssertionError:FIRST_FROZEN_ORDINARY_BLOB_MISMATCH"
+    },
+    {
+      "name": "CLI_requires_explicit_all_frozen_pins",
+      "pass": true,
+      "expected_reject": true
+    }
+  ],
+  "test_count": 25,
+  "source_sha256": "97e656ffeca982cc1e8e8f0cc774a8091f1a7a059984981ae2e6ad0d513b0081",
+  "source_bytes": 12093,
+  "real_network_or_Git_fetch_executed": false,
+  "production_key_or_credential_configs_read": false,
+  "new_LFS_download_performed": false,
+  "training_started": false,
+  "new_business_Teacher_Actor_calls": 0,
+  "AI_curation_CPU_cost": "UNKNOWN_NOT_ZERO",
+  "scope": "Tests use locally generated fake first-network receipts explicitly; no actual remote proof claimed."
+}
