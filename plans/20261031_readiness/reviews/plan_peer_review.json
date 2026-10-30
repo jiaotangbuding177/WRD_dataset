@@ -1,0 +1,173 @@
+{
+  "schema_version": "wrd_readiness_plan_peer_v1",
+  "reviewer": "independent_child_remotion_batch24",
+  "status": "FINAL_PLAN_REVIEW_PASS_NO_UNRESOLVED_BLOCKING_FINDINGS",
+  "reviewed_plan": "research/plans/20261031_wrd_readiness/PLAN.md",
+  "reviewed_plan_sha256": "95970e57a48d6a5f1fec607d9b7075abefb60f6ebc62cd2c20250df259d11615",
+  "intermediate_reviewed_plan_sha256": "422cc90923befcc807c6da3c73f0d55a5a1427dfebdc53c5823122b8ebb11ba6",
+  "prior_reviewed_plan_sha256": "20bdc5b72c0fd7194f3cbb90a07a2552adf1ecd6c58b080dc8399310b8459ec4",
+  "review_history": "All original findings below are retained with resolution evidence. F1/F2 were resolved in the intermediate revision and remain resolved. F3/F4/F5 are resolved in the final reviewed wording. This is a plan review, not empirical validation or execution approval.",
+  "reviewed_line_count": 107,
+  "scope": "Read-only plan and current reconciliation review; not approval to execute experiments or collect new model data.",
+  "supporting_artifacts": [
+    {
+      "path": "output/20261031_wrd_readiness_plan/reviews/CURRENT569_RECONCILIATION.json",
+      "sha256": "80221cac9877d6314d2fa2c6074d99e43659c7f757bf1833340dbb6ea1877bc8",
+      "current_training_manifest_sha256": "cbb233f2a44bcb61035e4fcb046830178510529cb149cf3ea6100c613babe555"
+    },
+    {
+      "path": "research/data_prep/wrd_main_v10/compile_main.py",
+      "lines": [42, 49],
+      "use": "Check that pipeline stages and token supervision component names are separate concepts."
+    }
+  ],
+  "checks": [
+    {
+      "id": "C1",
+      "result": "PASS",
+      "plan_lines": [3, 7, 15, 16, 18, 19, 22, 26],
+      "detail": "Current 569 targets, 177562 positive tokens and 133 process targets are not claimed to be independent full trajectories. Historical workflow R26 is separately identified from B92. Full native A-D, admitted KEEP and student dev/test remain zero. Array validity is not presented as capability evidence."
+    },
+    {
+      "id": "C2",
+      "result": "PASS",
+      "plan_lines": [43, 46, 58, 60, 62],
+      "detail": "Evaluation material recovery and ancestry closure precede new training labels. The 63 method-exact positions have protected producer edges and are not promoted as clean recoverable examples. 387/378 are candidates and 51 references/49 hashes are not claimed to be actual verified files."
+    },
+    {
+      "id": "C3",
+      "result": "PASS_PLAN_NOT_IMPLEMENTATION_AUDIT",
+      "plan_lines": [56, 76, 78, 80],
+      "detail": "The first two-route batch is explicitly capped at 24 native sessions, 200 actual upstream requests, 6M IO tokens and six hours elapsed wall clock, including preflight, parents, children, consumers and Q. The plan explicitly rejects 24 native = 24 parent trajectories and does not infer target counts from requests. Native loops are mandatory; no new dispatch or training is authorized here. Actual enforcement is a future implementation check."
+    },
+    {
+      "id": "C4",
+      "result": "PASS_CURRENT_STEP_ABLATION_SPECIFIED",
+      "plan_lines": [84, 86, 87, 88, 89, 95],
+      "detail": "Nested source-component learning curves, two endpoints first, untrained baselines, separate exposure/compute accounting and process-matched warmup comparisons are defensible exploratory designs. Revised L89 explicitly defines a current-step R estimand on paired A/business-D owners, excludes R-only examples from both paired arms, preserves the same observed historical R in both arms, and separates whole-history reason-free ablation. F1 is resolved as a specification issue; implementation and effects remain untested."
+    },
+    {
+      "id": "C5",
+      "result": "PASS_NUMERIC_AND_LIMITATION_STATEMENTS",
+      "plan_lines": [43, 93, 95],
+      "detail": "12 dev/24 blind test are proposed work quotas, not actual arrays, a sufficiency threshold or a significance claim. Wilson illustrations are correct for an independent Bernoulli proportion near 0.5 and are not measured results. Repeated same-skill consumption is correctly excluded from independent n. A paired model-difference interval still needs its own protocol; see F4."
+    },
+    {
+      "id": "C6",
+      "result": "PASS_DISTINCT_SKILL_DENOMINATOR_SPECIFIED",
+      "plan_lines": [99, 101],
+      "detail": "Revised L99/L101 use actual deduplicated qualified skill K(N), shared historical/incremental cost attribution, lambda for multiple package yields, positive yield and break-even denominators, and explicit non-stationary yield limits. Unknown is not zero and zero qualified skills is undefined. F2 is resolved; no observed economic return is claimed."
+    },
+    {
+      "id": "C7",
+      "result": "PASS",
+      "plan_lines": [3, 7, 9, 76, 80, 84, 107],
+      "detail": "No empirical Spark training, student ability, full-system quality, cost reduction or publication sufficiency is asserted. Future 8/16/32 parent-task stages are conditional work quotas, not automatic budget expansion. The research-feasibility sentence is bounded by explicit unknown full-system efficacy."
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "P2",
+      "state": "RESOLVED_IN_REVIEWED_PLAN",
+      "previous_state": "SPECIFY_BEFORE_ABLATION_NOT_CONFIRMED_LEAK",
+      "resolution": {
+        "plan_sha256": "422cc90923befcc807c6da3c73f0d55a5a1427dfebdc53c5823122b8ebb11ba6",
+        "line": 89,
+        "detail": "Current-step R scope, same paired A/business-D owners, R-only exclusion in both arms, symmetric observed historical-R retention and separate trajectory-wide reason-free setting are all explicit. Original/new R and extra compute remain separate."
+      },
+      "plan_lines": [70, 89],
+      "title": "Define the R-ablation estimand and paired owner cohort",
+      "observation": "Removing only current-target R tests current-step rationale supervision conditional on the retained history. It is not automatically a reason-free whole-trajectory policy when prior teacher R, cumulative R or explicit reasoning embedded in historical content remains. R-only owners also do not supply a matched A target.",
+      "requested_change": "State whether the test is current-step R contribution or trajectory-wide R contribution. Freeze a paired R/A owner/source cohort; keep R-only auxiliary examples out of the paired count or report them as a separate arm. For a trajectory-wide A-only arm, explicitly transform prior original/cumulative R in the prefix as well and re-render/re-mask; for a current-step arm, disclose retained historical R. Native evaluation must not provide future teacher R. Match action owners/source exposure and report the already acknowledged format, context and compute differences.",
+      "impact": "Prevents attributing retained teacher context or additional owner exposure to learning the target step's reasoning. It does not require claiming that all visible historical assistant prose can or should be removed."
+    },
+    {
+      "id": "F2",
+      "severity": "P2",
+      "state": "RESOLVED_IN_REVIEWED_PLAN",
+      "previous_state": "CONDITIONAL_UNIT_AMBIGUITY",
+      "resolution": {
+        "plan_sha256": "422cc90923befcc807c6da3c73f0d55a5a1427dfebdc53c5823122b8ebb11ba6",
+        "lines": [99, 101],
+        "detail": "Primary reporting uses deduplicated actual K(N), lambda replaces probability for multiple skills, repeated revisions/renames/consumptions do not inflate counts, shared cost attribution is explicit, and stationary-yield approximation is conditional."
+      },
+      "plan_lines": [99, 101],
+      "title": "A successful-task probability is not generally the number of qualified skills",
+      "observation": "N*p_s counts successful tasks when p_s is a binary task success rate. It equals the expected qualified skill count only if each task/attempt yields at most one counted candidate package. The proposed end-to-end pipeline may emit zero, one or multiple packages per source task.",
+      "requested_change": "Either define N as one-candidate-skill attempts and require N>0, p_s>0 and p_t>0, or use lambda_s=E[qualified skill packages per task] and lambda_t analogously. Then student unit cost is (F+N*c_s)/(N*lambda_s), teacher operating unit cost c_t/lambda_t, and the corresponding break-even denominator is lambda_s*c_t/lambda_t-c_s. Keep the current zero-denominator and uncertainty restrictions. State the fixed-cost boundary for both teacher and student comparisons.",
+      "toy_counterexample": {
+        "label": "Pure arithmetic canary, not measured WRD costs",
+        "F": 100,
+        "N": 2,
+        "c_s": 10,
+        "qualified_skill_counts_per_task": [2, 0],
+        "binary_task_success_rate": 0.5,
+        "cost_divided_by_N_times_binary_success_rate": 120,
+        "actual_cost_per_qualified_skill": 60
+      }
+    },
+    {
+      "id": "F3",
+      "severity": "P3",
+      "state": "RESOLVED_IN_REVIEWED_PLAN",
+      "previous_state": "NAMING_CLARIFICATION",
+      "resolution": {
+        "plan_sha256": "95970e57a48d6a5f1fec607d9b7075abefb60f6ebc62cd2c20250df259d11615",
+        "line": 48,
+        "detail": "R/A/D credit and stage-C evidence are explicitly separated; no C token component is introduced. Core7/full53 coverage is separately reported."
+      },
+      "plan_lines": [48],
+      "title": "Separate pipeline phase from supervision component names",
+      "observation": "P5 says R/A/C/D separately credited. Pipeline phases A-D and token components such as F/R/A/D are distinct; compile_main.py does not accept C as an approved_components value.",
+      "requested_change": "Say that stage A-D coverage and token/field supervision components are separately credited and counted. Do not translate pipeline C into a token-component C. This is a plan wording issue; no invalid compiled row was found or alleged."
+    },
+    {
+      "id": "F4",
+      "severity": "P3",
+      "state": "RESOLVED_AT_PLAN_SCOPE_IMPLEMENTATION_STILL_FUTURE",
+      "previous_state": "EVALUATION_PROTOCOL_REFINEMENT",
+      "resolution": {
+        "plan_sha256": "95970e57a48d6a5f1fec607d9b7075abefb60f6ebc62cd2c20250df259d11615",
+        "lines": [62, 80, 87, 93],
+        "detail": "L93 now explicitly limits Wilson to a single-proportion interval, excludes model-difference power claims, and specifies paired source/skill-group uncertainty for TSR/Q/cost with sample planning from paired variance. Rubric/dev calibration and stage/outcome coverage are already required elsewhere in the plan. Concrete estimators, cohorts and calibrated scoring remain implementation artifacts, not new evidence or automatic execution."
+      },
+      "plan_lines": [87, 90, 93],
+      "title": "Keep Wilson illustrations separate from paired model-difference uncertainty",
+      "observation": "The Wilson numbers quantify one independent success proportion, not the precision or power of the paired SFT14B-base14B or 14B-8B difference. The plan already flags coarse exploration and clustering, so the illustrations are valid as written.",
+      "requested_change": "Before execution, specify task/source-cluster paired resampling or an appropriate paired binary analysis for model differences; report actual ancestry-isolated group n and discordances. For nested data curves, stratify or at least report rare-stage/mechanism coverage so a coverage change is not interpreted as a pure sample-count effect. Freeze Q rubric, anchors and calibration on dev before assigning qualified KEEP."
+    },
+    {
+      "id": "F5",
+      "severity": "P3",
+      "state": "RESOLVED_IN_REVIEWED_PLAN",
+      "previous_state": "OPTIONAL_WORDING_CLARIFICATION",
+      "resolution": {
+        "plan_sha256": "95970e57a48d6a5f1fec607d9b7075abefb60f6ebc62cd2c20250df259d11615",
+        "line": 80,
+        "detail": "The mechanism-coverage limitation now explicitly applies to a later conditional stage, without changing the two-route 24-native first-batch cap."
+      },
+      "plan_lines": [76, 80],
+      "title": "Clarify which later stage can cover 4-6 mechanisms",
+      "observation": "The first collection batch is two routes, while the next paragraph says first round covering only 4-6 mechanisms. Routes and mechanisms need not be identical, but the relation is not defined here.",
+      "requested_change": "Replace the latter first round with a conditional later-stage phrase, or explicitly map multiple mechanisms to the two first-batch routes. This does not alter the existing 24-native hard cap or imply that two full trajectories will complete."
+    }
+  ],
+  "independent_math": {
+    "z": 1.959963984540054,
+    "assumed_success_probability": 0.5,
+    "wilson_halfwidth_percentage_points": {"24": 18.572574, "100": 9.616847, "200": 6.863914, "400": 4.876550},
+    "method_url": "https://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm",
+    "empirical_results": false
+  },
+  "authorization": {
+    "training_started": false,
+    "new_business_teacher_or_actor_calls": 0,
+    "new_native_collection_sessions": 0,
+    "changed_training_data_or_main_manifest": false,
+    "changed_plan_or_designs": false,
+    "git_actions": false,
+    "ai_and_cpu_curation_cost": "UNKNOWN_NOT_ZERO"
+  },
+  "conclusion": "The final reviewed plan is a defensible bounded research and curation plan with no unresolved blocking findings in the requested scope. All five original findings and their resolution evidence are retained. It is not evidence that current data can already produce a complete autonomous skill-distillation model, and does not approve experiment or collection execution. Concrete implementation QA and independent evaluation remain future requirements."
+}

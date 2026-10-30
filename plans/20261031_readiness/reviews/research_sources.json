@@ -1,0 +1,141 @@
+{
+  "status": "PRIMARY_SOURCE_RESEARCH_COMPLETE_NO_TRAINING",
+  "checked_date": "2026-10-31",
+  "primary_sources_only": true,
+  "current_WRD_context": {
+    "design_revision": "5.0.48",
+    "training_targets": 569,
+    "positive_supervised_tokens": 177562,
+    "contract_targets": 436,
+    "contract_positive_tokens": 74758,
+    "process_targets": 133,
+    "process_positive_tokens": 102804,
+    "process_sources": 33,
+    "process_connected_components": 23,
+    "complete_native_autonomous_A_to_D_demonstrations": 0,
+    "qualified_KEEP_demonstrations": 0,
+    "independent_student_dev_test_arrays": 0,
+    "evidence_paths": [
+      "D:/skillloop/research/designs/A_B_MODULES.md",
+      "D:/skillloop/research/designs/PIPELINE.md",
+      "D:/skillloop/research/memory/2026-10-31_wrd_gap08_verified_delivery.md"
+    ],
+    "interpretation": "Targets/tokens are not independent full trajectories. Component SFT is a testable hypothesis; complete-model sufficiency is not established."
+  },
+  "papers": [
+    {
+      "id": "LIMA_2023",
+      "title": "LIMA: Less Is More for Alignment",
+      "primary_paper": "https://arxiv.org/pdf/2305.11206",
+      "abstract": "https://arxiv.org/abs/2305.11206",
+      "quantity": 1000,
+      "unit": "curated prompt-response examples in main experiment",
+      "model": "LLaMA-65B",
+      "evaluation_units": {"development_prompts": 50, "test_prompts": 300},
+      "locators": ["Sections 2-3", "Section 5 footnote 5, Figures 5-6", "Section 6"],
+      "precise_primary_evidence": {
+        "url": "https://arxiv.org/pdf/2305.11206#page=6",
+        "physical_PDF_page_1based": 6,
+        "section": "5, footnote 5",
+        "parsed_source_lines": [336, 337],
+        "short_excerpt": "using at least 2,000 examples improved stability in this setting."
+      },
+      "critical_boundary": "7B ablation footnote reports improved stability with at least 2000 examples. General response alignment and text preference are not autonomous tool-pipeline success.",
+      "WRD_sample_threshold_inferred": null
+    },
+    {
+      "id": "AGENTTUNING_2023V2",
+      "title": "AgentTuning: Enabling Generalized Agent Abilities for LLMs",
+      "primary_paper": "https://arxiv.org/html/2310.12823v2",
+      "published_paper": "https://aclanthology.org/2024.findings-acl.181.pdf",
+      "author_repository": "https://github.com/THUDM/AgentTuning",
+      "quantity": 1866,
+      "unit": "filtered agent interaction trajectories, six task families",
+      "models": ["Llama-2-chat-7B", "Llama-2-chat-13B", "Llama-2-chat-70B"],
+      "general_conversation_counts": {"GPT_3_5": 57096, "GPT_4": 3670},
+      "agent_sampling_fraction": 0.2,
+      "Mind2Web_single_step_records": 122,
+      "locators": ["Table 1", "Sections 2.1.2-2.2", "Table 4", "Appendix A/Table 6"],
+      "precise_general_data_evidence": {
+        "url": "https://aclanthology.org/2024.findings-acl.181.pdf#page=5",
+        "physical_PDF_page_1based": 5,
+        "printed_page": 3057,
+        "section": "2.2.1, first paragraph",
+        "parsed_source_lines": [317, 325],
+        "short_excerpt": "yielding 57,096 conversations with GPT-3.5 and 3,670 with GPT-4."
+      },
+      "critical_boundary": "Mixed general data matters; not all trajectory records are full multi-step episodes. Mind2Web filtering permits reward >=2/3. Held-out tasks influenced mixture selection, unlike a strictly sealed final test.",
+      "rationale_provenance_note": "Some task-derived trajectories lacked thoughts and received later GPT-4 supplementation; such supplementation is not recovered original reasoning.",
+      "WRD_sample_threshold_inferred": null
+    },
+    {
+      "id": "FIREACT_2023V1",
+      "title": "FireAct: Toward Language Agent Fine-tuning",
+      "primary_paper": "https://arxiv.org/html/2310.05915v1",
+      "author_project": "https://fireact-agent.github.io/",
+      "author_repository": "https://github.com/anchen1011/FireAct",
+      "quantity": 500,
+      "unit": "successful GPT-4 HotpotQA agent trajectories in default single-task setting",
+      "evaluation_questions": 500,
+      "relevant_model": "Llama-2-7B-chat with LoRA",
+      "HotpotQA_EM_percent": {"ReAct_prompting": 14.8, "FireAct": 26.2},
+      "gain": {"percentage_points": 11.4, "relative_percent_rounded": 77},
+      "data_curve_trajectory_counts": [100, 200, 500, 1000],
+      "locators": ["Sections 4-5", "Table 2", "Figure 4", "Appendix A.5/Table 11"],
+      "critical_boundary": "Search-QA tool and answer EM, not reusable-skill production. 77% is relative improvement, not absolute success. Model-dependent data curves disallow a universal 500-example rule.",
+      "WRD_sample_threshold_inferred": null
+    },
+    {
+      "id": "DEEPSEEK_R1_2025V1",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "primary_paper": "https://arxiv.org/html/2501.12948v1",
+      "author_repository": "https://github.com/deepseek-ai/DeepSeek-R1",
+      "quantity_approx": 800000,
+      "unit": "curated training samples, not tokens/API calls/unique task episodes",
+      "reasoning_samples_approx": 600000,
+      "other_samples_approx": 200000,
+      "relevant_bases": ["Qwen2.5-14B", "Llama-3.1-8B"],
+      "other_distilled_bases": ["Qwen2.5-Math-1.5B", "Qwen2.5-Math-7B", "Qwen2.5-32B", "Llama-3.3-70B-Instruct"],
+      "student_method": "SFT only; no student RL in reported distillation",
+      "locators": ["Sections 2.3.3-2.4"],
+      "critical_boundary": "Broad reasoning transfer, not WRD environment control. Multiple correct responses may share a prompt. Teacher preparation is substantial and is not a free-cost assumption.",
+      "WRD_sample_threshold_inferred": null
+    }
+  ],
+  "research_recommendations_not_executed": {
+    "data_sufficiency_decision": "Use clean independent task outcomes and source-level learning curves; no cross-paper numeric threshold.",
+    "evaluation_isolation": [
+      "Freeze new independent dev/test by source, material ancestry and connected component.",
+      "Keep original226/H12/static out of training and tuning.",
+      "Do not count action windows, retries or task variants as independent test tasks.",
+      "A small flow-smoke set is technical acceptance only; this recommendation does not assert any newly completed clean evaluation task count."
+    ],
+    "capability_tests": [
+      "Component correctness: parameters, resource completeness, factual fidelity, diagnosis and local repair.",
+      "Autonomy: one native model controls the entire loop from new conversation/materials without outer step dispatch.",
+      "Skill utility: same-version skill consumption versus no-skill with separate delivery success, independent Q and cost."
+    ],
+    "learning_curve": {
+      "proposed_nested_process_components": [6, 12, 18, 23],
+      "execution_scope": "Design suggestion only; do not automatically run all configurations.",
+      "first_comparison": "Untuned baseline plus two data endpoints, then add levels/seeds only within a separately declared budget.",
+      "model_comparison": "14B main and 8B control share data splits, tools, context and evidence rules.",
+      "required_axes": ["independent components", "source_ids", "unique owners", "positive tokens", "repeat exposures", "actual compute"],
+      "confounding_control": "Distinguish one-pass data expansion from fixed-compute repetition; neither alone proves a universal sufficient sample count."
+    },
+    "acceptance": [
+      "Predeclare outcome quality, autonomous completion and total-cost requirements.",
+      "Use task/source-level uncertainty and paired comparisons.",
+      "A plateau below required performance is failure to meet the goal, not evidence that data are sufficient.",
+      "Reasoning style similarity and loss reduction are not causal-policy validation.",
+      "Zero qualified skills makes cost per qualified skill undefined."
+    ]
+  },
+  "scope": {
+    "frozen_data_or_source_modified": false,
+    "training_started": false,
+    "new_business_Teacher_Actor_calls": 0,
+    "AI_research_curation_cost": "UNKNOWN_NOT_ZERO",
+    "no_guarantee_of_full_model_effectiveness": true
+  }
+}
