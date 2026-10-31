@@ -1,0 +1,91 @@
+{
+  "schema": "wrd-public-document-consistency-review10-v1",
+  "status": "PASS_CONTENT_CONSISTENCY_NO_SUBSTANTIVE_BLOCKER",
+  "reviewer": "curation10_identity_independent_review",
+  "date": "2026-10-31",
+  "scope": "Read-only consistency review of the four frozen public documents against the actual activated manifest, all 28 pinned train files, and the completed static context audit. This is not a new semantic approval, tokenizer rerun, model evaluation, training run, or remote delivery verification.",
+  "reviewed_documents": [
+    {
+      "path": "research/plans/20261031_wrd_curation10/ACTUAL_DATA_REPORT.md",
+      "bytes": 8365,
+      "sha256": "da683824390cdb16b8854fa166c20a2f7a95626e1d8cba24f582512d0b724b45"
+    },
+    {
+      "path": "research/plans/20261031_wrd_curation10/TRAINING_STRATEGY_10.md",
+      "bytes": 5460,
+      "sha256": "cabaf44ddb64f5681b7ca4338a9984278df671222cf913af7cc689f03a1af46b"
+    },
+    {
+      "path": "research/plans/20261031_wrd_curation10/CONTEXT_AND_NATIVE_READINESS10.md",
+      "bytes": 7739,
+      "sha256": "ca932fe3fcc6c3d2006b633f569ceb5e1a2f837aab78375a9b99d98c6c078f95"
+    },
+    {
+      "path": "output/20261031_wrd_curation10_delivery/prepared_public/README.md",
+      "bytes": 3789,
+      "sha256": "752ed2952a4b075479c137109c0e0184653bc693fc2cee3c76892d67bcb55520"
+    }
+  ],
+  "evidence": {
+    "activated_manifest": {
+      "path": "output/20261027_wrd_main_v10/TRAINING_MANIFEST.json",
+      "sha256": "9aace2dc6b39d0dde3bafbf9f7f3d6763e485609017dd70a5c40c17a2c30277e"
+    },
+    "static_full53_audit": {
+      "path": "output/20261031_wrd_curation10/context53_audit10/CONTEXT53_STATIC_AUDIT_QA.json",
+      "sha256": "ae461971020cbc80a04ca4173e998a80403155d5838dfd8c95b845d3d4eb4fe4"
+    },
+    "all_28_actual_train_file_bytes_and_sha256_rechecked": true,
+    "all_623_compiled_rows_reread_for_counts_groups_stages_and_weighted_mass": true,
+    "group_method": "Global DSU over row IDs, source_group_id and source_ids, then count the global representatives intersecting each bank. Process groups are not separately deduplicated or added to contract groups."
+  },
+  "independently_recomputed": {
+    "all": {"targets": 623, "positive_tokens": 227233, "sequence_tokens": 3853977, "source_ids": 288, "global_connected_groups": 267, "le16K": 539, "between16K_and32K": 84, "maximum_sequence": 32525},
+    "contract": {"targets": 418, "positive_tokens": 70892, "sequence_tokens": 1316051, "source_ids": 258, "global_connected_groups": 247, "le16K": 406, "between16K_and32K": 12},
+    "process": {"targets": 205, "positive_tokens": 156341, "sequence_tokens": 2537926, "source_ids": 56, "global_connected_groups": 44, "le16K": 133, "between16K_and32K": 72},
+    "literal_stage_buckets": {"A": 423, "B": 158, "C": 11, "D": 5, "historical_workflow_R": 26},
+    "positive_components": {"R": 61570, "A": 90998, "D": 72002, "F": 2508, "E": 155},
+    "weighted_positive_mass_rounded_to_2_decimals": 80335.05,
+    "candidate_optimizer_steps": {"process_pass_accum4_flush": 52, "contract_pass_accum16_flush": 27, "contract1_plus_process1": 79, "contract1_plus_process3": 183},
+    "candidate_contract1_plus_process3_unpadded_sequence_work": 8929829
+  },
+  "checks": {
+    "numbers_across_all_four_documents_match_actual_manifest": "PASS",
+    "new29_20984_positive_and_withdrawn1_9905_A_net28_11079_are_separate": "PASS",
+    "withdrawn_ancestry_unknown_is_not_reported_as_confirmed_contamination": "PASS",
+    "original_R_54946_recontextualized_original_R_4326_new_authored_R_2298_sum_to_61570": "PASS",
+    "R_only46_and_50243_original_R_positive_not_discarded": "PASS",
+    "paired_R_views72_and_original_compatible24_recontext5_cumulative1_new42_distinguished": "PASS",
+    "process56_sources44_global_groups_not_205_independent_tasks_or623_full_pipelines": "PASS",
+    "source_only_annotation_new_functional_state_and_recorded_reasoning_not_mislabeled_as_original_native_requests": "PASS",
+    "core7_training_view_not_equated_to_native53_deployment": "PASS",
+    "full53_new29_complete11_fit32K18_over_and_original67_input2_fit32K65_over": "PASS",
+    "full53_8K_output_headroom_zero_for_both_profiles_and_dynamic_rollout_unknown": "PASS",
+    "static_catalog_profile_not_reported_as_teacher_metering_or_native_rollout_or64K128K_readiness": "PASS",
+    "temporal_causality_feedback_only_for_grading_or_later_state_not_earlier_input": "PASS",
+    "local_counterexample_repairs_not_upgraded_to_business_Q_KEEP_or_student_effect": "PASS",
+    "loss_formula_uses_accumulated_shifted_target_count_and_preserves_silver_weight025": "PASS",
+    "R_ablation_common_owner_and_A_only_rerender_avoids_gold_current_R_leakage": "PASS",
+    "ARM64_GB10_T0_T1_T2_not_claimed_verified_T2_backward_acknowledged_as_training": "PASS",
+    "original226_H12_static_reserved_boundaries_not_released_to_training": "PASS",
+    "no_training_no_loaded_weights_no_new_business_execution_claims_match_manifest": "PASS",
+    "full_autonomous_native_A_to_D_zero_qualified_KEEP_zero_full_student_eval_zero": "PASS",
+    "default_full_pipeline_entrypoint_null_full_WRD_ready_false_no_guaranteed_autonomy": "PASS",
+    "cost_unknown_not_zero_K_zero_unit_qualified_skill_cost_undefined": "PASS",
+    "new_collection_and_training_schedules_are_proposals_not_completed_execution": "PASS"
+  },
+  "substantive_findings": [],
+  "nonblocking_delivery_observations": [
+    {
+      "kind": "PENDING_FINAL_DELIVERY_RECEIPTS_NOT_CONTENT_ERROR",
+      "detail": "At review time prepared_public did not yet contain README-linked FULL_STAGED_DATA_QA.json or CHECKPOINT_QA.json. Final packaging and remote materialization verification are owned by the root delivery task and were in progress. The README explicitly makes delivery claims conditional on final receipts; this review does not certify those absent files or remote Git/LFS entities. Root was notified."
+    }
+  ],
+  "mutations": {
+    "frozen_research_documents_modified": false,
+    "frozen_work_output_tree_modified": false,
+    "main_or_compiled_training_data_modified": false,
+    "only_output_added": "output/20261031_wrd_curation10_delivery/public_review/PUBLIC_DOC_REVIEW10.json"
+  },
+  "conclusion": "The four public documents consistently describe a scoped component-SFT research dataset and candidate 14B/8B plan. They do not claim sufficient complete autonomous distillation supervision or a proven model outcome. No substantive contradiction was found. Final delivery receipts remain a separate required packaging verification."
+}
