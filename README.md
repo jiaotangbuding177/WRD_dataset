@@ -1,3 +1,13 @@
+## 当前数据课程11（2026-10-31）
+
+[实际数据入口](dataset/20261031_v10_curriculum11/README.md) · [14B/8B方案](dataset/20261031_v10_curriculum11/TRAINING_STRATEGY11.md) · [来源与质量边界](dataset/20261031_v10_curriculum11/ACTUAL_DATA_REPORT11.md)
+
+1250唯一可用目标＝原623＋新627构造辅助；默认过程832＝原205＋新627。原记录与原思考保留，新理由/CPU反馈/条件KEEP明确标记；两个profile互斥，不能双计。完整目录与预算投影已分别双token/mask/数组验收，预算辅助静态序列少62.47%，不是模型质量或GPU收益结论。
+
+真实自主/合格KEEP/学生闭环仍0，不训练；公开新构造包329185069B无需密钥，原205需旧认证10合并根。数据已实际还原；Git认证缺失时本地提交不代表远端上传，见LOCAL_DELIVERY_STATUS11.json。
+
+以下保留先前发布状态。
+
 ## 当前数据检查点10（2026-10-31）
 
 [实际数据入口](dataset/20261031_v10_checkpoint10/README.md) · [训练方案](dataset/20261031_v10_checkpoint10/TRAINING_PLAN.md) · [因果证据与缺口](dataset/20261031_v10_checkpoint10/ACTUAL_DATA_REPORT.md)
