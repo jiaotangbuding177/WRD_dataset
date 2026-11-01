@@ -1,3 +1,17 @@
+<!-- WRD57 DEFAULT START -->
+## 当前默认：57离线数据与完整流程课程（2026-11-01）
+
+[57详细计划](plans/20261101_increment57/PLAN.md) · [实际训练量与因果解释](plans/20261101_increment57/ACTUAL_DATA_REPORT.md) · [恢复及CPU验证](plans/20261101_increment57/RESTORE_AND_VALIDATE.md) · [默认v2入口](plans/20261101_increment57/TRAINING_ENTRYPOINT57.json)
+
+当前 **1227唯一目标／272517正监督tokens**＝401流程契约＋178保留过程＋627辅助＋21本轮恢复过程；287企业来源ID／261个57真实身份组件。默认v2完整单遍课程为233次候选更新，199个过程批包含真实记录/投影、8个纯辅助批均匀分布。14B主、8B对照，两profile同监督、互斥选择；未加载学生权重或启动训练。
+
+来源复核已隔离旧44目标，**旧55含这些ID的1250白名单与236步课程不再作为默认**；原05—11实体、全部原思考/工具/修订和历史计划保留。取得旧05—11依赖及新增57认证加密实体后，只用57 active selector。公开文件是去标识统计/课程/源码，企业文本与数组在认证实体中；密钥保留本地。
+
+远端实体及Git交付状态以本轮最终回执为准。本节以下均为历史发布记录；遇到旧“当前”或“尚未执行”标题，以本节及根`TRAINING_ENTRYPOINT.json`为默认。
+
+---
+<!-- WRD57 DEFAULT END -->
+
 ## 下一轮独立经验与真实修订链增量计划56（2026-11-01，尚未执行）
 
 [详细增量计划](plans/20261101_experience_increment56/PLAN.md) · [范围与预算](plans/20261101_experience_increment56/PLAN_STATUS.json) · [独立复核](plans/20261101_experience_increment56/reviews/FINAL_PLAN_QA56.json)
