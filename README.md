@@ -1,3 +1,15 @@
+## 当前完整流程SFT计划55（2026-11-01）
+
+[完整14B主／8B对照训练计划](plans/20261101_full_pipeline_sft/PLAN.md) · [完整数据恢复](plans/20261101_full_pipeline_sft/RESTORE_AND_VALIDATE.md) · [明确配置](plans/20261101_full_pipeline_sft/TRAINING_CONFIG.json) · [实际课程验收](plans/20261101_full_pipeline_sft/COURSE_QA55.json)
+
+**当前已具备覆盖A—D完整流程的逐步联合SFT数据入口。**实际1,250唯一目标、284,595正监督；正式课程418契约接832过程，同一adapter共1,254曝光、236次候选更新。budget主课程10,244,527序列tokens，full53同目标参照20,820,961。两profile互斥，原记录／投影／构造明确分账。
+
+完整数据为05→10认证主根＋11公开辅助包，七个真实实体共1,307,762,484字节，路径与SHA见[数据依赖](plans/20261101_full_pipeline_sft/DATA_DEPENDENCIES.json)；历史原始12分卷与原始过程保留。旧包使用用户已有本地密钥，密钥不在Git。
+
+原226及保留来源继续隔离；没有启动训练。Spark运行和训练后的完整自主沉淀效果按计划验收。当前远端交付状态以[最新实体与计划回读回执](deliveries/20261101_full_data_and_plan/REMOTE_VERIFICATION.json)为准；以下旧计划、旧认证阻塞和组件范围是历史记录，当前训练范围以55为准。
+
+---
+
 ## 当前数据课程11（2026-10-31）
 
 [实际数据入口](dataset/20261031_v10_curriculum11/README.md) · [14B/8B方案](dataset/20261031_v10_curriculum11/TRAINING_STRATEGY11.md) · [来源与质量边界](dataset/20261031_v10_curriculum11/ACTUAL_DATA_REPORT11.md)
