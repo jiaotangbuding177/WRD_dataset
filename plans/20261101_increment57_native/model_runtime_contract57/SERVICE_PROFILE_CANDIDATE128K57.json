@@ -1,0 +1,79 @@
+{
+  "schema": "wrd57-student-model-service-candidate-not-launch-config",
+  "status": "CANDIDATE_REQUIRES_ARM64_STACK_PIN_AND_REAL_PREFLIGHT_NOT_DEPLOYED",
+  "model_configs": [
+    {
+      "model": "Qwen3-14B",
+      "revision": "40c069824f4251a91eefaf281ebe4c544efd3e18",
+      "source_url": "https://huggingface.co/Qwen/Qwen3-14B/resolve/40c069824f4251a91eefaf281ebe4c544efd3e18/config.json",
+      "bytes": 728,
+      "sha256": "e73c3664ca09b10a673fef0c22e8a6b456201d49bd4713c9691f775720e8857a",
+      "fields": {
+        "model_type": "qwen3",
+        "max_position_embeddings": 40960,
+        "rope_scaling": null,
+        "num_hidden_layers": 40,
+        "num_attention_heads": 40,
+        "num_key_value_heads": 8,
+        "head_dim": 128,
+        "torch_dtype": "bfloat16"
+      },
+      "weights_downloaded": false
+    },
+    {
+      "model": "Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "source_url": "https://huggingface.co/Qwen/Qwen3-8B/resolve/b968826d9c46dd6066d109eabc6255188de91218/config.json",
+      "bytes": 728,
+      "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30",
+      "fields": {
+        "model_type": "qwen3",
+        "max_position_embeddings": 40960,
+        "rope_scaling": null,
+        "num_hidden_layers": 36,
+        "num_attention_heads": 32,
+        "num_key_value_heads": 8,
+        "head_dim": 128,
+        "torch_dtype": "bfloat16"
+      },
+      "weights_downloaded": false
+    }
+  ],
+  "model_card_sources": [
+    "https://huggingface.co/Qwen/Qwen3-14B#processing-long-texts",
+    "https://huggingface.co/Qwen/Qwen3-8B#processing-long-texts"
+  ],
+  "observed_raw_max_position_embeddings": 40960,
+  "observed_raw_rope_scaling": null,
+  "official_native_context_tokens": 32768,
+  "official_YaRN_context_tokens": 131072,
+  "candidate_max_model_len": 131072,
+  "candidate_rope_scaling": {
+    "rope_type": "yarn",
+    "factor": 4.0,
+    "original_max_position_embeddings": 32768
+  },
+  "existing_max_reply_cap": 32768,
+  "observed_full_API_max_sequence_tokens": 65806,
+  "conservative_sequence_plus_reply_upper_bound": 98574,
+  "observed_max_sequence_is_not_claimed_exact_input_token_count": true,
+  "training_max_sequence_length_unchanged": 32768,
+  "paired_base_adapter_and14B8B_same_context_rope_and_task_budget_within_profile": true,
+  "HTTP_routing": "fixed amd64 OpenClaw native tool/session host calls Spark model HTTP endpoint; Spark does not replace the tool Agent loop",
+  "preflight_to_measure": [
+    "arm64 model-server/container and CUDA/kernel compatibility",
+    "actual128K context acceptance and long-sequence prefill/decode",
+    "unified-memory/KV peak and throughput",
+    "reasoning/tool-call parsing and full SSE capture",
+    "native session continuation/owner and budget metadata alignment"
+  ],
+  "stack_digest_locked": false,
+  "latency_memory_or_quality_validated": false,
+  "model_weights_loaded": false,
+  "training_started": false,
+  "official_history_policy": "history retains final output only; no historical thinking",
+  "frozen_research_template_variant": "explicit original provider R and NEW_AUTHORED_PAST_ONLY_STATE; not official default or original native prompt equivalence",
+  "serving_state_tool_sequence_and_R_visibility_equivalence_pending_validation": true,
+  "controlled_post_training_official_history_vs_research_variant_comparison_required": true,
+  "training_input_ids_retemplated_or_R_removed": false
+}

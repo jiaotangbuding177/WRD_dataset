@@ -1,0 +1,63 @@
+{
+  "schema": "wrd57-saved-active-dataset-independent-style-reread",
+  "status": "PASS_SAVED_ACTIVE_BOTH_PROFILES_FEATURES_AND_MASK_GUARDS",
+  "actual_reread": {
+    "budget_projection": {
+      "unique_targets": 1260,
+      "positive_tokens": 294828,
+      "sequence_tokens": 10631405,
+      "weighted_mass": "84840.80",
+      "le16k_targets": 934,
+      "long16to32k_targets": 326,
+      "by_pool": {
+        "real_process": 178,
+        "contract_optional": 401,
+        "synthetic": 627,
+        "increment_process": 54
+      }
+    },
+    "full_native53": {
+      "unique_targets": 1260,
+      "positive_tokens": 294828,
+      "sequence_tokens": 21207839,
+      "weighted_mass": "84840.80",
+      "le16k_targets": 532,
+      "long16to32k_targets": 728,
+      "by_pool": {
+        "real_process": 178,
+        "contract_optional": 401,
+        "synthetic": 627,
+        "increment_process": 54
+      }
+    }
+  },
+  "cross_profile_positive_payload_equal": true,
+  "negative_mask_guards": [
+    {
+      "name": "positive_position0",
+      "rejected": true
+    },
+    {
+      "name": "bad_label",
+      "rejected": true
+    },
+    {
+      "name": "zero_weight_positive",
+      "rejected": true
+    },
+    {
+      "name": "positive_weight_ignore",
+      "rejected": true
+    },
+    {
+      "name": "nonone_unpadded_attention",
+      "rejected": true
+    }
+  ],
+  "python_O_actual_subprocess_rejected_before_data": true,
+  "manifest_sha256": "87d6bbc67269783aef5a4a015f8ad57ba9f4f49f3e4d36a1e2a32991ef1f86d6",
+  "verifier_sha256": "35dddb56de7386d007a7b8a6461d8fc07d9f09818dbc824515b09de89c44c532",
+  "weights_loaded": false,
+  "forward_or_backward": false,
+  "training_started": false
+}

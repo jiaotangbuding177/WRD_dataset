@@ -1,0 +1,261 @@
+{
+  "status": "READ_ONLY_EXACT_MASK_LOCAL_SCOPE_AUDIT_NO_AUTOMATIC_WITHDRAWAL",
+  "current_bank_compilation_report_sha256": "57c7b5e85849e1a8cc86b90ef4e39d3d3a398013a86b19f06b769b082198c8bd",
+  "policy_sha256": "433ea5557a094b28b949e17af862c7bc64c321a2ae543482f156948e3b39294e",
+  "source_final_builder_sha256": "f690c915b39d4613900282ce66874ed622f7741953cd4c89d97f5eee07206dc5",
+  "functions": [
+    {
+      "function": "csvEscape",
+      "api_index_one_based": 4,
+      "field_pointer": "/calls/0/arguments/content",
+      "initial_write_decoded_character_range": [
+        15489,
+        15622
+      ],
+      "initial_write_field_sha256": "2ee945a58ed7bfc4f98f22a443db1fc807aef6a0ce6ff01e4ac732198e3bcf0f",
+      "final_builder_character_range": [
+        15936,
+        16069
+      ],
+      "final_builder_line_range_one_based": [
+        360,
+        364
+      ],
+      "unchanged_function_utf8_sha256": "481ba90e6e13e6a3baa18a6ded1d1e64e41808c0a37e1a34e311f82aa519dcc7",
+      "exact_function_text": "function csvEscape(v){\n  const s = String(v == null ? '' : v);\n  return /[\",\\n\\r]/.test(s) ? '\"' + s.replace(/\"/g,'\"\"') + '\"' : s;\n}\n",
+      "actual_201_policy_intersections": [
+        {
+          "original_policy_range": [
+            10335,
+            16806
+          ],
+          "decoded_character_intersection": [
+            15489,
+            15622
+          ],
+          "characters": 133,
+          "local_credit_reason": "EXACT_FINAL_RETAINED_CODE_AND_LOCAL_TEST_EVIDENCE_NOT_BLANKET_SECURITY_CREDIT",
+          "credit_evidence_API_indices": [
+            17,
+            20,
+            24,
+            30
+          ]
+        }
+      ],
+      "rendered_argument_range": [
+        78217,
+        78362
+      ],
+      "all_touching_token_count": 57,
+      "fully_inside_token_count": 57,
+      "positive_touching_token_count": 57,
+      "positive_fully_inside_token_count": 57,
+      "positive_token_index_intervals": [
+        [
+          23614,
+          23671
+        ]
+      ],
+      "positive_components_and_weights": [
+        [
+          "A",
+          0.25
+        ]
+      ],
+      "original_local_scope": "RFC4180-style cell quoting / row serialization and CSV export pipeline; not formula-prefix neutralization or cross-device security"
+    },
+    {
+      "function": "recordRow",
+      "api_index_one_based": 4,
+      "field_pointer": "/calls/0/arguments/content",
+      "initial_write_decoded_character_range": [
+        15622,
+        15938
+      ],
+      "initial_write_field_sha256": "2ee945a58ed7bfc4f98f22a443db1fc807aef6a0ce6ff01e4ac732198e3bcf0f",
+      "final_builder_character_range": [
+        16069,
+        16385
+      ],
+      "final_builder_line_range_one_based": [
+        364,
+        373
+      ],
+      "unchanged_function_utf8_sha256": "ff82e1fe7a5437a2eaac575093c42ee7174492a0cf2356716b89ca9adef89a3b",
+      "exact_function_text": "function recordRow(record){\n  const row = [record.id, record.submitted_at];\n  for (const f of CFG.submitter_fields) row.push(record.submitter[f.id] || '');\n  for (const q of CFG.questions) {\n    const v = record.answers[q.id];\n    row.push(Array.isArray(v) ? v.join('|') : (v == null ? '' : v));\n  }\n  return row;\n}\n",
+      "actual_201_policy_intersections": [
+        {
+          "original_policy_range": [
+            10335,
+            16806
+          ],
+          "decoded_character_intersection": [
+            15622,
+            15938
+          ],
+          "characters": 316,
+          "local_credit_reason": "EXACT_FINAL_RETAINED_CODE_AND_LOCAL_TEST_EVIDENCE_NOT_BLANKET_SECURITY_CREDIT",
+          "credit_evidence_API_indices": [
+            17,
+            20,
+            24,
+            30
+          ]
+        }
+      ],
+      "rendered_argument_range": [
+        78362,
+        78687
+      ],
+      "all_touching_token_count": 101,
+      "fully_inside_token_count": 101,
+      "positive_touching_token_count": 101,
+      "positive_fully_inside_token_count": 101,
+      "positive_token_index_intervals": [
+        [
+          23671,
+          23772
+        ]
+      ],
+      "positive_components_and_weights": [
+        [
+          "A",
+          0.25
+        ]
+      ],
+      "original_local_scope": "RFC4180-style cell quoting / row serialization and CSV export pipeline; not formula-prefix neutralization or cross-device security"
+    },
+    {
+      "function": "csvHeaders",
+      "api_index_one_based": 4,
+      "field_pointer": "/calls/0/arguments/content",
+      "initial_write_decoded_character_range": [
+        15938,
+        16144
+      ],
+      "initial_write_field_sha256": "2ee945a58ed7bfc4f98f22a443db1fc807aef6a0ce6ff01e4ac732198e3bcf0f",
+      "final_builder_character_range": [
+        16385,
+        16591
+      ],
+      "final_builder_line_range_one_based": [
+        373,
+        379
+      ],
+      "unchanged_function_utf8_sha256": "abee099efff44ce21f8e3b7eed64e682c698d5b3238f72f1c4b4fabfcc28956a",
+      "exact_function_text": "function csvHeaders(){\n  const h = ['record_id','submitted_at'];\n  for (const f of CFG.submitter_fields) h.push(f.label);\n  CFG.questions.forEach((q,i) => h.push('Q' + (i+1) + ' ' + q.text));\n  return h;\n}\n",
+      "actual_201_policy_intersections": [
+        {
+          "original_policy_range": [
+            10335,
+            16806
+          ],
+          "decoded_character_intersection": [
+            15938,
+            16144
+          ],
+          "characters": 206,
+          "local_credit_reason": "EXACT_FINAL_RETAINED_CODE_AND_LOCAL_TEST_EVIDENCE_NOT_BLANKET_SECURITY_CREDIT",
+          "credit_evidence_API_indices": [
+            17,
+            20,
+            24,
+            30
+          ]
+        }
+      ],
+      "rendered_argument_range": [
+        78687,
+        78899
+      ],
+      "all_touching_token_count": 72,
+      "fully_inside_token_count": 72,
+      "positive_touching_token_count": 72,
+      "positive_fully_inside_token_count": 72,
+      "positive_token_index_intervals": [
+        [
+          23772,
+          23844
+        ]
+      ],
+      "positive_components_and_weights": [
+        [
+          "A",
+          0.25
+        ]
+      ],
+      "original_local_scope": "RFC4180-style cell quoting / row serialization and CSV export pipeline; not formula-prefix neutralization or cross-device security"
+    },
+    {
+      "function": "exportCsv",
+      "api_index_one_based": 4,
+      "field_pointer": "/calls/0/arguments/content",
+      "initial_write_decoded_character_range": [
+        16144,
+        16434
+      ],
+      "initial_write_field_sha256": "2ee945a58ed7bfc4f98f22a443db1fc807aef6a0ce6ff01e4ac732198e3bcf0f",
+      "final_builder_character_range": [
+        16591,
+        16881
+      ],
+      "final_builder_line_range_one_based": [
+        379,
+        385
+      ],
+      "unchanged_function_utf8_sha256": "5e52b14cd7f826efa661f416d44f0cc941dd75321e67c7de3ff43fd18cc83198",
+      "exact_function_text": "function exportCsv(){\n  const list = loadRecords();\n  const lines = [csvHeaders(), ...list.map(recordRow)].map(r => r.map(csvEscape).join(','));\n  const blob = new Blob(['\\ufeff' + lines.join('\\r\\n')], { type:'text/csv;charset=utf-8' });\n  triggerDownload(blob, CFG.title + '_提交记录.csv');\n}\n",
+      "actual_201_policy_intersections": [
+        {
+          "original_policy_range": [
+            10335,
+            16806
+          ],
+          "decoded_character_intersection": [
+            16144,
+            16434
+          ],
+          "characters": 290,
+          "local_credit_reason": "EXACT_FINAL_RETAINED_CODE_AND_LOCAL_TEST_EVIDENCE_NOT_BLANKET_SECURITY_CREDIT",
+          "credit_evidence_API_indices": [
+            17,
+            20,
+            24,
+            30
+          ]
+        }
+      ],
+      "rendered_argument_range": [
+        78899,
+        79198
+      ],
+      "all_touching_token_count": 92,
+      "fully_inside_token_count": 92,
+      "positive_touching_token_count": 92,
+      "positive_fully_inside_token_count": 92,
+      "positive_token_index_intervals": [
+        [
+          23844,
+          23936
+        ]
+      ],
+      "positive_components_and_weights": [
+        [
+          "A",
+          0.25
+        ]
+      ],
+      "original_local_scope": "RFC4180-style cell quoting / row serialization and CSV export pipeline; not formula-prefix neutralization or cross-device security"
+    }
+  ],
+  "explicit_formula_or_CSV_injection_safety_claim_matches_all_original_R_A_visible": [],
+  "positive_safety_claim_matches": [],
+  "static_observation": "csvEscape only conditionally quotes cells containing quote/comma/CR/LF and doubles quotes; recordRow forwards source text; exportCsv applies that quoting. No formula-prefix neutralizer is present in these functions.",
+  "new_consumer_criterion5_is_not_evidence_that_original_source_demanded_formula_safety": true,
+  "task_end_actual_function_reuse_or_failure_evidence": "PENDING_ROOT_TASK_END_CHECK;this audit does not execute HTML or infer delivery score",
+  "whole_skill_KEEP_or_utility_granted": false,
+  "masks_and_data_modified": false,
+  "business_code_or_model_executed": false,
+  "training_started": false
+}

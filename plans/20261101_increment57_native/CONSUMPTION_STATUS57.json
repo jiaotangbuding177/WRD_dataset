@@ -1,0 +1,190 @@
+{
+  "schema": "wrd57-native-consumption-status-public-draft",
+  "status": "PROVIDERS_CLOSED_TASK_END_EVIDENCE_COMPLETE_PENDING_PACKAGE_FREEZE",
+  "student_training_or_inference_executed": false,
+  "whole_skill_KEEP_qualified": false,
+  "case1_condition": "all three consumers initially lacked explicit8-request allowance; matched condition, budget-censored",
+  "case1_arms": {
+    "NS": {
+      "provider_requests": 8,
+      "actual_IO_tokens": 530636,
+      "result": "BUDGET_CENSORED_NEXT_REQUEST_DENIED",
+      "quality_score": null
+    },
+    "V0": {
+      "provider_requests": 8,
+      "actual_IO_tokens": 526644,
+      "result": "BUDGET_CENSORED_NEXT_REQUEST_DENIED",
+      "quality_score": null
+    },
+    "V1": {
+      "provider_requests": 8,
+      "actual_IO_tokens": 502397,
+      "result": "BUDGET_CENSORED_NEXT_REQUEST_DENIED",
+      "quality_score": null
+    }
+  },
+  "case1_first_Q": {
+    "provider_requests": 4,
+    "actual_IO_tokens": 222152,
+    "result": "FAILED_NO_Q_SCORES",
+    "failure_and_cost_preserved": true,
+    "score_imputed": false
+  },
+  "case1_Q_retry": {
+    "provider_cap": 8,
+    "initial_budget_visible": true,
+    "additional_attempts_authorized": 1,
+    "status": "FAILED_NO_Q_SCORES",
+    "scores": null,
+    "failure_and_cost_preserved": true
+  },
+  "case2": {
+    "NS": {
+      "status": "ACTUAL_TERMINAL_8_PROVIDER",
+      "provider_requests": 8,
+      "known_usage_requests": 7,
+      "known_IO_tokens": 424953,
+      "missing_usage_requests": 1,
+      "unreconciled_strict_IO_reservation": 1032768,
+      "conservative_IO_charge": 1457721
+    },
+    "V0": {
+      "status": "SKIP_BUDGET_RESERVE"
+    },
+    "V1": {
+      "status": "SKIP_BUDGET_RESERVE"
+    },
+    "Q": {
+      "status": "SKIP_BUDGET_RESERVE"
+    },
+    "scores": null
+  },
+  "distinct_budget_conditions_are_stratified_not_pooled": true,
+  "outer_FAIL_not_content_error_or_Q_zero": true,
+  "each_alias_Q_separate_clean_BrowserContext": true,
+  "Q_rubric_and_cases_provenance": "NEW_AUTHORED and frozen before evaluation; not rewritten for an arm or observed result",
+  "task_end_tests_provenance": "New deterministic scorer authored by the outer research process only after Agent tasks ended; applies the frozen criteria to unchanged artifacts",
+  "actual_model_Q_result": "Neither Q attempt delivered q_scores; deterministic task-end checks are separate evidence and do not create model Q scores",
+  "budget_override_v2_sha256": "63f33bab7448f15c4070f4c35eb6c3f6a7ccb51696f72b8428bd0366dfa9c283",
+  "bfc_group_IO_cap": 8000000,
+  "bfc_group_provider_cap": 104,
+  "bfc_group_native_cap": 11,
+  "global_first2_IO_cap": 9000000,
+  "global_first6_IO_cap": 25000000,
+  "global_remaining_precedes_local_cap": true,
+  "source96": {
+    "status": "TWO_AUTHORED_SYNTHETIC_TABLE_CASES_PREPARED_CANDIDATE_NOT_DISPATCHED",
+    "new_real_source_facts_or_sources_claimed": 0
+  },
+  "all_results_are_teacher_collection_not_trained_Qwen_student_results": true,
+  "future_scores_not_inserted_into_original_training_inputs": true,
+  "new_provider_requests_stopped": true,
+  "closed_cost_ledger": {
+    "global": {
+      "provider_requests": 83,
+      "native_sessions": 11,
+      "known_IO_tokens": 5896235,
+      "unreconciled_strict_IO_reservation": 1032768,
+      "conservative_IO_charge": 6929003
+    },
+    "bfc_group": {
+      "known_IO_tokens": 5626702,
+      "unreconciled_strict_IO_reservation": 1032768,
+      "conservative_IO_charge": 6659470
+    },
+    "public_technical_failures_known_IO_tokens": 269533,
+    "known_usage_and_reservation_reported_separately": true
+  },
+  "task_end_deterministic_checks": {
+    "status": "COMPLETE_FIXED_CRITERIA_BROWSER_PLUS_ROOT_C6_REVIEW",
+    "additional_provider_requests": 0,
+    "additional_native_Agent_sessions": 0,
+    "fixed_rubric_and_artifacts_and_image": true,
+    "not_model_Q_or_new_Agent_loop": true,
+    "q_scores_authored_by_outer": false,
+    "browser_C6_UNKNOWN_retained_separately": true,
+    "root_C6_review_does_not_overwrite_original_browser_report": true,
+    "evidence_path": "reviews/task_end/TASK_END_EVIDENCE_FINAL57.json",
+    "evidence_sha256": "f3151a32b8fad077484c794bac9e388e9dadd1786c58cc65e37be0fc14f1d2ba",
+    "root_C6_path": "reviews/task_end/ROOT_C6_MANUAL_REVIEW57.json",
+    "root_C6_sha256": "4169369ff801cb1546cf3b13706737effeec50ba7672c955aedea064c02f247c",
+    "final_criterion_matrix": [
+      {
+        "arm": "NS",
+        "alias": "output_1b10dcbd9c",
+        "artifact_sha256": "e57f41ed28715c6d2874efe2ca7f3302add7e8c7bdeaa9474c42e37addea6e71",
+        "criteria": {
+          "1": "PASS",
+          "2": "PASS",
+          "3": "PASS",
+          "4": "PASS",
+          "5": "PASS",
+          "6": "PASS"
+        },
+        "passed_criteria": 6,
+        "all_six_frozen_case_criteria_pass": true,
+        "consumer_run_status": "BUDGET_CENSORED"
+      },
+      {
+        "arm": "V1",
+        "alias": "output_442315cb5d",
+        "artifact_sha256": "db61445b91df8ef9a459880b4773627ae5df124ebc27a4ec57c32744eef6b5b7",
+        "criteria": {
+          "1": "PASS",
+          "2": "PASS",
+          "3": "PASS",
+          "4": "PASS",
+          "5": "FAIL",
+          "6": "PASS"
+        },
+        "passed_criteria": 5,
+        "all_six_frozen_case_criteria_pass": false,
+        "consumer_run_status": "BUDGET_CENSORED"
+      },
+      {
+        "arm": "V0",
+        "alias": "output_d5f8df4ee5",
+        "artifact_sha256": "b23472411e68b735ef6b9e1ba5c6acecf55f30bacd505f2b0a184eef96fd2b0a",
+        "criteria": {
+          "1": "PASS",
+          "2": "PASS",
+          "3": "PASS",
+          "4": "PASS",
+          "5": "FAIL",
+          "6": "PASS"
+        },
+        "passed_criteria": 5,
+        "all_six_frozen_case_criteria_pass": false,
+        "consumer_run_status": "BUDGET_CENSORED"
+      }
+    ],
+    "whole_skill_KEEP_or_utility_credit": false,
+    "D1_D5_or_Q_scores_created": false
+  },
+  "training_credit_after_consumer_failure": {
+    "decision": "RETAIN_ONLY_PREVIOUS_LOCAL_CSV_SERIALIZATION_AND_EXPORT_CREDIT",
+    "exact_mask_audit_sha256": "599fcb8b6f905c288358b09083f7715727adb1b54d6a5b29dad4c3ba8c164fda",
+    "outcome_decision_sha256": "43cd958bf9d62eb404421ee20ab61c190e48cb90293770c6652062e76ed294f9",
+    "CSV_formula_safety_positive_claims": 0,
+    "whole_skill_ACCEPT_or_KEEP_not_granted": true,
+    "active_unique_targets": 1260,
+    "positive_tokens": 294828,
+    "candidate_optimizer_steps": 241,
+    "training_masks_changed": false,
+    "reason": "The selected CSV code has local cell-quoting/serialization/export evidence. The newly tested formula-prefix requirement fails; it was never positively promised in the original 33 targets. Failure is linked to V0/V1, not relabeled as successful repair."
+  },
+  "next_increment_priority": {
+    "status": "PLAN_NOT_DISPATCHED",
+    "first": "Expose the actual V0/V1 CSV formula-prefix failure to an authorized TRAIN-MINING repair; capture versioned patch and actual regression.",
+    "required_evidence": [
+      "Same frozen fixture passes after repair",
+      "Independent new inputs validate dangerous prefixes, quoting, comma/newline, and export roundtrip",
+      "Prior passing criteria remain passing",
+      "Original failure, failed attempts, actual usage, and version lineage retained"
+    ],
+    "no_fabricated_teacher_repair_or_new_positive_target": true,
+    "same_source_group_not_new_independent_experience": true,
+    "then": "Proceed to independent non-HTML task experience under remaining explicitly approved global budget."
+  }
+}

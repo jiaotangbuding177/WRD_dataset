@@ -1,0 +1,85 @@
+{
+  "schema": "wrd57-root-outcome-linked-training-credit-v1",
+  "task_end_evidence": {
+    "path": "D:\\skillloop\\output\\20261101_wrd_increment57\\task_end_checks57\\TASK_END_EVIDENCE_FINAL57.json",
+    "sha256": "f3151a32b8fad077484c794bac9e388e9dadd1786c58cc65e37be0fc14f1d2ba"
+  },
+  "criterion6_review": {
+    "path": "D:\\skillloop\\output\\20261101_wrd_increment57\\root_review57\\ROOT_C6_MANUAL_REVIEW57.json",
+    "sha256": "4169369ff801cb1546cf3b13706737effeec50ba7672c955aedea064c02f247c",
+    "bytes": 5331
+  },
+  "actual_case1_matrix": [
+    {
+      "arm": "NS",
+      "alias": "output_1b10dcbd9c",
+      "artifact_sha256": "e57f41ed28715c6d2874efe2ca7f3302add7e8c7bdeaa9474c42e37addea6e71",
+      "criteria": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS",
+        "6": "PASS"
+      },
+      "passed_criteria": 6,
+      "all_six_frozen_case_criteria_pass": true,
+      "consumer_run_status": "BUDGET_CENSORED"
+    },
+    {
+      "arm": "V1",
+      "alias": "output_442315cb5d",
+      "artifact_sha256": "db61445b91df8ef9a459880b4773627ae5df124ebc27a4ec57c32744eef6b5b7",
+      "criteria": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "FAIL",
+        "6": "PASS"
+      },
+      "passed_criteria": 5,
+      "all_six_frozen_case_criteria_pass": false,
+      "consumer_run_status": "BUDGET_CENSORED"
+    },
+    {
+      "arm": "V0",
+      "alias": "output_d5f8df4ee5",
+      "artifact_sha256": "b23472411e68b735ef6b9e1ba5c6acecf55f30bacd505f2b0a184eef96fd2b0a",
+      "criteria": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "FAIL",
+        "6": "PASS"
+      },
+      "passed_criteria": 5,
+      "all_six_frozen_case_criteria_pass": false,
+      "consumer_run_status": "BUDGET_CENSORED"
+    }
+  ],
+  "actual_failure": "V0/V1 actual CSV exported fixture formula text '=1+1' unchanged. JSON and rank/persistence/roundtrip checks passed. NS neutralized the CSV formula prefix in this fixture.",
+  "mask_intersection_audit": {
+    "path": "D:\\skillloop\\output\\20261101_wrd_increment57\\root_review57\\CSV_FORMULA_MASK_AUDIT57.json",
+    "sha256": "599fcb8b6f905c288358b09083f7715727adb1b54d6a5b29dad4c3ba8c164fda"
+  },
+  "positive_credit_decision": "RETAIN_ONLY_PREVIOUS_LOCAL_CSV_SERIALIZATION_AND_EXPORT_CREDIT",
+  "reason": "API4 positive scope was exact retained code plus local test evidence, explicitly without blanket security credit. The selected code implements CSV quoting/serialization/export; no formula-safety assertion occurs in all 33 original decoded R/A/visible outputs. The new independent-case failure establishes an unimplemented extra requirement and denies whole-skill acceptance; it does not rewrite the original source task or invent a successful repair.",
+  "formula_safety_positive_claims": 0,
+  "whole_skill_KEEP_or_utility_credit": false,
+  "data_or_masks_modified": false,
+  "active_unique_targets": 1260,
+  "positive_tokens": 294828,
+  "next_real_chain_priority": "On a future authorized TRAIN-MINING repair, expose this exact CSV failure and require versioned repair plus regression on the same fixture and independent new inputs; retain failed attempts and cost. Do not fabricate a recorded teacher repair now.",
+  "not_claimed": [
+    "Q or five-dimension score",
+    "student-model effect",
+    "completed-consumer cost",
+    "cross-device success",
+    "qualified skill KEEP",
+    "new independent source from a window"
+  ],
+  "new_native_or_provider_calls": 0,
+  "training_started": false
+}

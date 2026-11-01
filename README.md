@@ -1,3 +1,20 @@
+## 当前训练入口：native57／14B主、8B对照
+
+[详细训练计划](plans/20261101_increment57_native/PLAN.md) · [实际数据](plans/20261101_increment57_native/ACTUAL_DATA_REPORT.md) · [分池阶段覆盖](plans/20261101_increment57_native/reviews/post_freeze_coverage/POOL_STAGE_COVERAGE57.json) · [严格恢复与CPU验证](plans/20261101_increment57_native/RESTORE_AND_VALIDATE.md) · [训练入口](TRAINING_ENTRYPOINT.json)
+
+当前完整逐步SFT数据为 **1260唯一目标／294828正监督tokens**，14B／8B共同≤32K，单遍候选课程241更新。本次新增33个真实原生producer步骤，原provider思考39679字符完整保全，依据实际故障—修订—回归证据精确mask，再以固定past-only状态编译；33步不是33个skills。
+
+| 数据池 | 目标数 | 阶段覆盖 |
+|---|---:|---|
+| 来源需求契约 | 401 | A401 |
+| 真实过程与原过程再情境视图 | 232 | A7／B166／C21／D12／历史workflow-R26 |
+| 显式低权重辅助课程 | 627 | A48／B170／C232／D177 |
+
+真实过程来自59来源／46身份组件，当前实证主力是 **B资源制作、工具执行与修订回归**。下一增量优先独立C评价、与消费结果挂钩的修订及D收尾；首条应实修已发现的CSV公式前缀失败并做独立回归。消费case1 NS六项PASS，V0/V1五项PASS、CSV安全一项FAIL，局部代码授信与整skill KEEP分账；本轮没有学生训练或效果结论。
+
+新实体为单LFS **81,166,541B**，保留完整原R、API/原生轨迹、工具反馈、失败与版本、33步bank/99bin、1260检查点和课程。原05—11、离线57及旧1227原字节保留；默认入口更新为新1260，原226及44隔离ID继续受限。恢复与真实远端状态见[交付回执](deliveries/20261101_increment57_native/REMOTE_VERIFICATION.json)；密钥仅本地。Spark负责ARM训练/模型HTTP服务，固定amd64宿主继续原生OpenClaw工具与会话循环，128K服务为待验候选。
+
+
 <!-- WRD57 DEFAULT START -->
 ## 当前默认：57离线数据与完整流程课程（2026-11-01）
 
