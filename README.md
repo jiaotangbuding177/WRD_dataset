@@ -1,3 +1,11 @@
+## 下一轮独立经验与真实修订链增量计划56（2026-11-01，尚未执行）
+
+[详细增量计划](plans/20261101_experience_increment56/PLAN.md) · [范围与预算](plans/20261101_experience_increment56/PLAN_STATUS.json) · [独立复核](plans/20261101_experience_increment56/reviews/FINAL_PLAN_QA56.json)
+
+先按全部TRAIN来源闭包重基，规划12个首次新TRAIN组及4dev/4test；离线恢复优先，缺链TRAIN才做原生2→6组有界补采。所有数量为工作目标，当前新增准入0、模型/训练/采集0；已有1250目标和55完整训练课程保持。后验版本消费不冒充父当时反馈，全部失败及费用保留，原226及保留组不回TRAIN。
+
+---
+
 ## 当前完整流程SFT计划55（2026-11-01）
 
 [完整14B主／8B对照训练计划](plans/20261101_full_pipeline_sft/PLAN.md) · [完整数据恢复](plans/20261101_full_pipeline_sft/RESTORE_AND_VALIDATE.md) · [明确配置](plans/20261101_full_pipeline_sft/TRAINING_CONFIG.json) · [实际课程验收](plans/20261101_full_pipeline_sft/COURSE_QA55.json)
