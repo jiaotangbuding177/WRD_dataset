@@ -1,0 +1,71 @@
+{
+  "schema": "wrd58-evaluation-precision-and-cost-math-not-performance-estimates",
+  "normal_approximation_worst_case_p": 0.5,
+  "z": 1.959963984540054,
+  "approximate_independent_components_for_half_width": {
+    "0.2": 25,
+    "0.15": 43,
+    "0.1": 97
+  },
+  "example_precision_if_exactly_half_succeed_not_a_WRD_prediction": {
+    "4": {
+      "k": 2,
+      "wilson95": [
+        0.15003898915214947,
+        0.8499610108478506
+      ]
+    },
+    "8": {
+      "k": 4,
+      "wilson95": [
+        0.21521606221387757,
+        0.7847839377861224
+      ]
+    },
+    "24": {
+      "k": 12,
+      "wilson95": [
+        0.3142742581957335,
+        0.6857257418042665
+      ]
+    },
+    "44": {
+      "k": 22,
+      "wilson95": [
+        0.35831760539989393,
+        0.641682394600106
+      ]
+    },
+    "100": {
+      "k": 50,
+      "wilson95": [
+        0.4038315303659956,
+        0.5961684696340044
+      ]
+    }
+  },
+  "four_stage_chain_rule_sensitivity_only_not_WRD_forecast": [
+    {
+      "all_four_conditional_final_stage_pass_probabilities_hypothetically_equal": 0.85,
+      "overall": 0.5220062499999999,
+      "conditional_probabilities_include_within_stage_repair": true,
+      "independence_assumed": false
+    },
+    {
+      "all_four_conditional_final_stage_pass_probabilities_hypothetically_equal": 0.9,
+      "overall": 0.6561,
+      "conditional_probabilities_include_within_stage_repair": true,
+      "independence_assumed": false
+    },
+    {
+      "all_four_conditional_final_stage_pass_probabilities_hypothetically_equal": 0.95,
+      "overall": 0.8145062499999999,
+      "conditional_probabilities_include_within_stage_repair": true,
+      "independence_assumed": false
+    }
+  ],
+  "cost_formula": "U_m(N)=(T_m/N+c_m)/p_m",
+  "model14_is_more_cost_effective_iff": "p14/p8 > (T14/N+c14)/(T8/N+c8)",
+  "future_sampling_authorized_by_this_file": false,
+  "weights_loaded_or_training_started": false
+}

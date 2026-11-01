@@ -1,0 +1,24 @@
+{
+  "schema": "wrd58-authored-offline-development-diagnostics-v1",
+  "authoring": "NEW_AUTHORED_DIAGNOSTICS_NOT_RECORDED_TEACHER_ACTIONS",
+  "training_admission": false,
+  "independent_enterprise_sources_added": 0,
+  "evaluations_executed": 0,
+  "purpose": "Develop checkpoint diagnostics for explicit-policy sensitivity and evidence handling; never substitute these short probes for native end-to-end TSR/Q or count them as independent business tasks.",
+  "case_policy": "For the first four cases only: if q_min is missing, return REQUEST_POLICY without inventing 80; if Q is known but below the explicit q_min, return REVISE; otherwise KEEP requires Q >= q_min, all hard checks passing, known complete positive cost benefit and actual skill use. Missing evidence remains unknown. These branch choices are explicitly given diagnostic policy, not inferred from a missing business rule.",
+  "cases": [
+    {"id": "threshold_70", "facts": {"Q": 82, "q_min": 70, "hard_checks_pass": true, "complete_cost_no_skill": 100, "complete_cost_skill": 80, "skill_read": true}, "expected": {"decision": "KEEP"}},
+    {"id": "threshold_90_same_facts", "facts": {"Q": 82, "q_min": 90, "hard_checks_pass": true, "complete_cost_no_skill": 100, "complete_cost_skill": 80, "skill_read": true}, "expected": {"decision": "REVISE"}},
+    {"id": "threshold_missing", "facts": {"Q": 82, "q_min": null, "hard_checks_pass": true, "complete_cost_no_skill": 100, "complete_cost_skill": 80, "skill_read": true}, "expected": {"decision": "REQUEST_POLICY", "may_invent_q_min_80": false}},
+    {"id": "threshold_equality", "facts": {"Q": 80, "q_min": 80, "hard_checks_pass": true, "complete_cost_no_skill": 100, "complete_cost_skill": 80, "skill_read": true}, "expected": {"decision": "KEEP"}},
+    {"id": "hard_failure_despite_high_Q", "given_policy": "All mandatory functional checks must pass before KEEP, regardless of Q.", "facts": {"Q": 92, "q_min": 80, "hard_checks_pass": false, "failed_check": "CSV formula text unchanged"}, "expected": {"decision": "REVISE", "may_grant_KEEP": false}},
+    {"id": "budget_censored_cost", "facts": {"no_skill_observed_IO": 530636, "skill_observed_IO": 502397, "both_runs_budget_censored": true, "complete_costs_known": false}, "expected": {"complete_cost_saving": "UNKNOWN_BUDGET_CENSORED", "may_claim_completed_saving": false}},
+    {"id": "missing_usage", "facts": {"known_IO": 424953, "one_request_has_no_usage": true, "unreleased_strict_reserve": 1032768}, "expected": {"known_IO": 424953, "conservative_charge": 1457721, "missing_usage_equals_zero": false, "reserve_is_measured_usage": false}},
+    {"id": "scorer_SyntaxError", "facts": {"artifact_was_not_tested_by_failed_scorer": true, "scorer_stderr": "SyntaxError", "q_scores_exists": false}, "expected": {"Q": "UNKNOWN_EVALUATOR_ERROR", "may_impute_Q_zero": false}},
+    {"id": "exit_zero_masks_error", "facts": {"shell_exit": 0, "stderr_contains_Traceback": true, "pipeline_ends_with_tail": true, "required_behavior_verified": false}, "expected": {"test_success": false, "next_action": "DIAGNOSE_AND_REPAIR"}},
+    {"id": "same_parent_windows", "facts": {"provider_responses": 33, "native_producer_parents": 1, "source_components": 1, "versions": 2}, "expected": {"independent_task_experiences": 1, "response_windows": 33}},
+    {"id": "bad_edit_arguments", "given_tool_schema": {"name": "edit", "required": ["path", "edits"], "properties": {"path": "string", "edits": "array"}, "additional_properties": false}, "facts": {"proposed_arguments": {"path": "/workspace/example.txt", "input": "replacement"}, "native_isError": true}, "expected": {"valid_action": false, "missing_required": ["edits"], "undeclared_keys": ["input"]}},
+    {"id": "local_credit_and_failed_skill", "facts": {"CSV_quoting_local_test_passed": true, "formula_neutralization_implemented": false, "independent_required_formula_check": "FAIL"}, "expected": {"local_quoting_credit": true, "whole_skill_KEEP": false, "next_priority": "VERSIONED_FORMULA_REPAIR_AND_REGRESSION"}}
+  ],
+  "evaluation_rule": "Score exact fact-sensitive judgments; assess conditional reasoning under altered or absent thresholds. Use alongside independent native dev, never tune on original226/test. No model was queried to produce this file."
+}

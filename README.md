@@ -1,4 +1,12 @@
-## 当前训练入口：native57／14B主、8B对照
+## 当前训练入口：最终审计58／14B主、8B对照
+
+当前1260个唯一目标、295478正监督tokens，401来源契约＋232真实过程＋627辅助，最多241更新，checkpoint0/26/80/134/188/241。新31个合法工具调用补650协议F，原语义和input IDs不变；COURSE58逐过程步额外缩放辅助系数，静态mass上限20%，通过可执行objective_adapter58一次施加，共同分母不再除accumulation。原226和保留来源隔离，未加载学生模型或启动训练。
+
+[完整训练计划](plans/20261102_final_training_audit58/PLAN.md) · [能力质量预估](plans/20261102_final_training_audit58/QUALITY_FORECAST58.md) · [实际入口](plans/20261102_final_training_audit58/TRAINING_ENTRYPOINT58.json) · [恢复与复验](plans/20261102_final_training_audit58/RESTORE_AND_VALIDATE.md) · [完整新增实体](dataset/20261102_v58_protocol_mask/) · [实物/远端状态](deliveries/20261102_final_training_audit58/DELIVERY_STATUS58.json)
+
+新10,303,636B加密小增量已两次实际还原419文件并逐SHA通过，两profile各1260/295478正以及实际241步目标适配器复验通过。旧05—11、离线57、native57保持；本轮不重复旧rawSSE，旧思考与完整轨迹仍由原认证依赖保存。远端上传状态以所链接后置回执为准。
+
+## 历史训练入口：native57／14B主、8B对照（保留）
 
 [详细训练计划](plans/20261101_increment57_native/PLAN.md) · [实际数据](plans/20261101_increment57_native/ACTUAL_DATA_REPORT.md) · [分池阶段覆盖](plans/20261101_increment57_native/reviews/post_freeze_coverage/POOL_STAGE_COVERAGE57.json) · [严格恢复与CPU验证](plans/20261101_increment57_native/RESTORE_AND_VALIDATE.md) · [训练入口](TRAINING_ENTRYPOINT.json)
 
