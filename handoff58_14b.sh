@@ -9,6 +9,8 @@ else
   echo "[handoff $(date -Is)] WARNING: 8b checkpoint-241 MISSING" >> $LOG
 fi
 cd /workspace
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_HOME=/hfcache
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TOKENIZERS_PARALLELISM=false
 echo "[handoff $(date -Is)] START 14b -> /workspace/out58_14b_v2" >> $LOG
 /opt/wrd/bin/python /workspace/wrd_train58.py --model 14b --output-dir /workspace/out58_14b_v2 --profile budget_projection > /workspace/logs58/train_14b_v2.log 2>&1
 rc=$?
