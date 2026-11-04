@@ -22,8 +22,8 @@ run_model () {
   return $rc
 }
 
-run_model 8b /workspace/out58_8b /workspace/logs58/train_8b.log
+run_model 8b /workspace/out58_8b_v2 /workspace/logs58/train_8b_v2.log
 rc8=$?
-run_model 14b /workspace/out58_14b /workspace/logs58/train_14b.log
+run_model 14b /workspace/out58_14b_v2 /workspace/logs58/train_14b_v2.log
 rc14=$?
 echo "[launcher $(date -Is)] ALL_DONE rc8=$rc8 rc14=$rc14" >> /workspace/logs58/launcher.log
