@@ -76,7 +76,10 @@ def chunked_ce(logits, tgt, chunk):
 
         def _ce(lg, tt):
             logp = F.log_softmax(lg.float(), dim=-1)
-            return torch.gather(logp, 2, tt.unsqueeze(-1).clamp_min(0)).squeeze(-1)
+            # CE = -log p(target). The negation is load-bearing: minimizing the
+            # gathered log_softmax directly (v1 sign bug) *maximizes* target
+            # probability and produced all-negative logged losses.
+            return -torch.gather(logp, 2, tt.unsqueeze(-1).clamp_min(0)).squeeze(-1)
 
         outs.append(torch_checkpoint(_ce, logits[:, s:e, :], tgt[:, s:e],
                                      use_reentrant=False))
