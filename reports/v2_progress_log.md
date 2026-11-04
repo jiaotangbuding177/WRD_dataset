@@ -6,3 +6,4 @@
 | 2026-11-04T07:4x | 8B | 21/241 | 0.6006 | 1.4GB | contract 16-microbatch 大步，显存回落（与 v1 一致） |
 | 2026-11-04T08:0x | 8B | 23/241 | 0.4467 | 1.4GB | contract 末段，稳定 |
 | 2026-11-04T08:3x | 8B | 24/241 | 0.4240 | 1.4GB | checkpoint-0 已存；contract 持续 |
+| 2026-11-04T09:0x | 8B | 26/241 | 0.1151 | 1.4GB | **contract 阶段完成**，checkpoint-26 已存取证；进入 process 阶段 (acc≤4) |
