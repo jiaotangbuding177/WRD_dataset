@@ -1,0 +1,36 @@
+---
+name: paper-data-review
+description: 用户提供可解析论文稿件(PDF/Word/MD/TXT或目录)做数据智审时使用：提取文本与表图数值、按指定维度核对源数据一致性与表格数值、产出结构化审查报告(md或word)。触发：论文数据审核、数据智审、表格数值核对、科研诚信风险。
+---
+
+# 论文数据智审（paper-data-review）
+
+路线：s1/s2 提取稿件文本并扫描表图引用与数值 → s3 按用户指定维度核对（缺省核心：源数据一致性/表格数值/科研诚信风险）→ s4 按 templates/review_report.template.md 组稿交付。维度与输出格式以用户要求为准（templates/check_dimensions.template.json 参数化）；不模拟期刊审稿人评审、不做学者背景与文献检索、不给录用/拒稿等学术定性结论。
+
+资源入口（{SKILL}=本技能根目录；{稿件}、{OUT}、{报告} 为业务使用时的实际路径参数，文件名跟随实际稿件）：
+
+1. s1/s2 批量提取稿件文本（pptx/docx/doc/pdf/md/txt → 每文件 .txt + index.json；目录递归；退出3=有文件失败，错误在 index.json.errors；扫描版PDF报"无文本层"，OCR回退见 references/stage_notes.md）：
+```
+python3 {SKILL}/scripts/extract_texts.py {稿件或目录} --out {OUT}/extracted
+```
+2. s2 表/图引用与数值扫描（scan.json 作 s3 核对底稿；退出2=输入缺失/非.txt.md/非UTF-8）：
+```
+python3 {SKILL}/scripts/scan_numeric_refs.py {OUT}/extracted/源名.txt --out {OUT}/scan.json
+```
+3. s3 .docx 稿件定位正文声称的原文位置（关键词取正文声称中的数字/术语/表号；输出 member+context 作依据；退出2=非docx/无关键词）：
+```
+python3 {SKILL}/scripts/scan_docx_keywords.py {稿件}.docx --keywords 关键词1,关键词2 --out {OUT}/keyword_hits.json
+```
+4. s4 报告占位全部替换后按用户要求导出：Markdown 直接交付；Word（已实测）：
+```
+soffice --headless --convert-to docx --outdir {OUT} {OUT}/报告.md
+```
+
+关键判断：
+- 稿件/附件路径无效或工作区找不到论文 → 如实报告并向用户索取文件、目录或DOI，不编造论文内容。
+- 无本地源数据 → s3 仍做正文vs表格数值比对；数值复算项明确写"扫描结果为0，未能执行数值复算"；图片格式表格、无法自动校验项按 critical/major 标注并列入首要核查清单。
+- 正文数值与表格数值范围矛盾 → critical，排首要核查清单首位。
+- 报告用 templates/review_report.template.md 占位替换；材料不足处写"材料不足，未核对"；保留"AI判断不能作为最终结果，需人工复核"。
+- 多篇批量 → 每篇独立 s1→s4，index.json 汇总提取记录与错误。
+
+阶段细节与来源教训：references/stage_notes.md。

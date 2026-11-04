@@ -1,0 +1,342 @@
+{
+  "batch": "batch_008",
+  "card_id": "rubric-scored-feedback",
+  "derived_card": {
+    "bytes": 7152,
+    "path": "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\route_recovery\\batch_008\\card_02\\derived_card.json",
+    "sha256": "bcc988e3792708223e5c32cf7ce8a82795aad54d101ddd4577ee3c0933709bfd"
+  },
+  "model_calls": 0,
+  "normalization_attempted": true,
+  "original_checked_cards": {
+    "bytes": 37113,
+    "path": "D:\\skillloop\\output\\20261021_workflow_library_parallel4_recovery1\\route_reviews\\batch_008\\checked_cards.json",
+    "sha256": "f1e67dc269e82b1d90dcab980e0d8bc710d364ac325de954936ee92605b80e4b"
+  },
+  "original_json_pointer": "/holds/1/raw_card",
+  "original_rejection": "Unconfirmed route {'status': 'HOLD', 'route_hash': None, 'signature': None, 'reasons': ['Step evidence absent from card source evidence'], 'requires_native_review': True}",
+  "raw_card": {
+    "bytes": 7048,
+    "path": "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\route_recovery\\batch_008\\card_02\\raw_card.json",
+    "sha256": "d10b018339beb628530f009146086028322a2bf85f0ad74a74b7176119b2ed86"
+  },
+  "semantic_content_unchanged": true,
+  "skill_edits": 0,
+  "skill_generated": false,
+  "status": "PASS",
+  "transformations": [
+    {
+      "canonical_conversation": {
+        "bytes": 33308,
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_d296b8df4dfc\\conversation.json",
+        "sha256": "15a421d7b86b50308e23baad44bc65a899e2830a937e68c8868824e1279ea318"
+      },
+      "canonical_source_record_sha256": "5ae3b37ab1a16b27a6558eb3bdeb35368df537f7694a79168ad09369b9571dfb",
+      "from_pointer": "/route_signature/steps/3/source_evidence/1",
+      "operation": "copy_existing_exact_step_reference_to_top_level",
+      "to_pointer": "/source_evidence/2",
+      "value": {
+        "message_id": "conv_d296b8df4dfc:msg_44",
+        "source_id": "conv_d296b8df4dfc"
+      }
+    }
+  ],
+  "validation": {
+    "candidate_gate": {
+      "candidate_plan_sha256": "edebbbe1729abf7d20f04e9c01d2b24db793d6f13ad7cf34cee9ac3845207159",
+      "checks": [
+        {
+          "name": "real_source_support",
+          "status": "PASS"
+        },
+        {
+          "name": "specific_reusable_resources",
+          "status": "PASS"
+        },
+        {
+          "name": "replaces_real_common_work",
+          "status": "PASS"
+        }
+      ],
+      "metrics": {
+        "common_steps": 2,
+        "performance_measured": false,
+        "proposed_resources": 1,
+        "real_sources": 2
+      },
+      "reasons": [],
+      "schema": "wrd-reuse-admission-v2",
+      "scope": "fixed independent development cases only; no formal250 or universal saving claim",
+      "status": "PASS",
+      "value_plan": {
+        "resources": [
+          {
+            "applicability": {
+              "conditions": [
+                "反馈表为可编辑文档/表格且字段位置可定位",
+                "评分结果已按细则生成"
+              ],
+              "unsupported": [
+                "打分判断本身（仍需按细则执行）",
+                "扫描件或手写批注",
+                "细则缺失时的自定标准"
+              ]
+            },
+            "fixture_refs": [
+              {
+                "message_ids": [
+                  "conv_d296b8df4dfc:msg_1"
+                ],
+                "pin": {
+                  "bytes": 33308,
+                  "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_d296b8df4dfc\\conversation.json",
+                  "sha256": "15a421d7b86b50308e23baad44bc65a899e2830a937e68c8868824e1279ea318"
+                },
+                "source_id": "conv_d296b8df4dfc"
+              },
+              {
+                "message_ids": [
+                  "conv_0945c1554661:msg_1"
+                ],
+                "pin": {
+                  "bytes": 33404,
+                  "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_0945c1554661\\conversation.json",
+                  "sha256": "bd428bed7d0c19ec9bc28e3e346d3c6763b827c155ca168af3444ed537891c6a"
+                },
+                "source_id": "conv_0945c1554661"
+              }
+            ],
+            "id": "r1",
+            "input_contract": "结构化score_results（条目/分值/意见）加可编辑反馈表文件",
+            "kind": "program",
+            "operation": "替代把逐项评分与评语手工誊入反馈表再导出的重复填写工作",
+            "output_contract": "已填好评分与意见的反馈表成品文件"
+          }
+        ],
+        "reusable_steps": [
+          {
+            "action": "按给定评分细则对提交材料逐项打分并生成意见",
+            "id": "rs1",
+            "replaces": [
+              "multi_step_decision"
+            ],
+            "resource_ids": [
+              "r1"
+            ],
+            "support": [
+              {
+                "message_ids": [
+                  "conv_d296b8df4dfc:msg_1"
+                ],
+                "source_id": "conv_d296b8df4dfc"
+              },
+              {
+                "message_ids": [
+                  "conv_0945c1554661:msg_1"
+                ],
+                "source_id": "conv_0945c1554661"
+              }
+            ]
+          },
+          {
+            "action": "把评分与意见填入既有反馈表对应位置并导出成品文件",
+            "id": "rs2",
+            "replaces": [
+              "data_processing",
+              "repeated_operation"
+            ],
+            "resource_ids": [
+              "r1"
+            ],
+            "support": [
+              {
+                "message_ids": [
+                  "conv_d296b8df4dfc:msg_1",
+                  "conv_d296b8df4dfc:msg_44"
+                ],
+                "source_id": "conv_d296b8df4dfc"
+              },
+              {
+                "message_ids": [
+                  "conv_0945c1554661:msg_1"
+                ],
+                "source_id": "conv_0945c1554661"
+              }
+            ]
+          }
+        ],
+        "schema": "wrd-reuse-value-plan-v2",
+        "source_ids": [
+          "conv_d296b8df4dfc",
+          "conv_0945c1554661"
+        ],
+        "workflow_id": "rubric-scored-feedback"
+      }
+    },
+    "canonical": {
+      "reasons": [],
+      "route_hash": "f7f2c3d9aa6df17f1ffeb23d8b422a8bed67b1e1a5f45d5839c341ce96b3ebe3",
+      "signature": {
+        "branches": [],
+        "input_types": [
+          "feedback_form_document",
+          "rubric_document",
+          "submission_document_set"
+        ],
+        "output_types": [
+          "scored_feedback_form"
+        ],
+        "steps": [
+          {
+            "condition": null,
+            "depends_on": [],
+            "input_types": [
+              "rubric_document"
+            ],
+            "operation": "parse_rubric_criteria",
+            "output_types": [
+              "scoring_criteria"
+            ]
+          },
+          {
+            "condition": null,
+            "depends_on": [
+              0
+            ],
+            "input_types": [
+              "submission_document_set"
+            ],
+            "operation": "extract_submission_content",
+            "output_types": [
+              "structured_submissions"
+            ]
+          },
+          {
+            "condition": "严格按给定细则打分，仅输出评分与意见，不做通过/录用决定",
+            "depends_on": [
+              1
+            ],
+            "input_types": [
+              "scoring_criteria",
+              "structured_submissions"
+            ],
+            "operation": "score_against_criteria",
+            "output_types": [
+              "score_results"
+            ]
+          },
+          {
+            "condition": "意见写入指定反馈表对应位置并按需导出副本",
+            "depends_on": [
+              2
+            ],
+            "input_types": [
+              "feedback_form_document",
+              "score_results"
+            ],
+            "operation": "fill_feedback_form_and_export",
+            "output_types": [
+              "scored_feedback_form"
+            ]
+          }
+        ]
+      },
+      "source_evidence": [
+        {
+          "message_id": "conv_0945c1554661:msg_1",
+          "source_id": "conv_0945c1554661"
+        },
+        {
+          "message_id": "conv_d296b8df4dfc:msg_1",
+          "source_id": "conv_d296b8df4dfc"
+        },
+        {
+          "message_id": "conv_d296b8df4dfc:msg_44",
+          "source_id": "conv_d296b8df4dfc"
+        }
+      ],
+      "status": "CONFIRMED",
+      "step_evidence": [
+        {
+          "source_evidence": [
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            },
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            }
+          ],
+          "step_index": 0
+        },
+        {
+          "source_evidence": [
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            },
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            }
+          ],
+          "step_index": 1
+        },
+        {
+          "source_evidence": [
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            },
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            }
+          ],
+          "step_index": 2
+        },
+        {
+          "source_evidence": [
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            },
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_id": "conv_d296b8df4dfc:msg_44",
+              "source_id": "conv_d296b8df4dfc"
+            }
+          ],
+          "step_index": 3
+        }
+      ]
+    },
+    "checks": [
+      {
+        "name": "original_card_source_checks",
+        "status": "PASS"
+      },
+      {
+        "name": "original_canonical_route",
+        "status": "PASS"
+      },
+      {
+        "name": "original_candidate_value_gate",
+        "status": "PASS"
+      },
+      {
+        "name": "original_route_value_source_identity",
+        "status": "PASS"
+      }
+    ],
+    "status": "PASS"
+  },
+  "verified_source_ids": [
+    "conv_d296b8df4dfc",
+    "conv_0945c1554661"
+  ]
+}

@@ -1,0 +1,861 @@
+{
+  "schema": "wrd-making-replay-v1",
+  "programs": [
+    {
+      "path": "scripts/build_slide_plan.py",
+      "documented_usage": "python {SKILL}/scripts/build_slide_plan.py {INPUT}/ppt_request.json --out {OUT}/slide_plan.json",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/build_slide_plan.py",
+        "{INPUT}/ppt_request.json",
+        "--out",
+        "{OUT}/slide_plan.json"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/build_slide_plan.py {INPUT}/ppt_request.json --out {OUT}/slide_plan.json",
+        "inputs": [
+          "PPT 请求 JSON：topic 非空字符串、pages 整数 1..50、可选 style 字符串与 confirm_free 布尔"
+        ],
+        "outputs": [
+          "slide 计划 JSON 骨架：topic/pages/style/aspect/image_width/image_height/needs_confirmation/slides（含页序 image_path）"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_slide_plan.py",
+            "{INPUT}/ppt_request.json",
+            "--out",
+            "{OUT}/slide_plan.json"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "path": "ppt_request.json",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/ppt_request.json",
+              "sha256": "7d0210f1d336f5907eb7f3e4b291de1f29ae8d86f92301e859e0777aa98bde18",
+              "bytes": 142
+            },
+            "source_id": "conv_70cad24899f6",
+            "message_ids": [
+              "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+            ],
+            "source_record_sha256": "1b4005e3cd93f3b3f812a601bfc42855066754e139ab114c442edaadca63c6df",
+            "origin": "generated_fixture",
+            "generated": true,
+            "purpose": "source_reconstruction",
+            "derivation": "普通用例请求样例：topic《小学一年级-开学第一课》与 pages=5 取自真实请求消息原文；style 描述取自 conv_80c0ba2c2e7e 大纲声明的风格段。仅为验证样例，不预填测试答案。"
+          },
+          "outputs": [
+            {
+              "path": "slide_plan.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "slide_plan.json",
+              "value": {
+                "topic": "小学一年级-开学第一课",
+                "pages": 5,
+                "style": "明亮卡通，暖橙+天蓝主色调，圆润可爱，大字号",
+                "aspect": "16:9",
+                "image_width": 2048,
+                "image_height": 1152,
+                "needs_confirmation": true,
+                "slides": [
+                  {
+                    "page": 1,
+                    "title": "",
+                    "image_prompt": "",
+                    "image_path": "slide_001.png"
+                  },
+                  {
+                    "page": 2,
+                    "title": "",
+                    "image_prompt": "",
+                    "image_path": "slide_002.png"
+                  },
+                  {
+                    "page": 3,
+                    "title": "",
+                    "image_prompt": "",
+                    "image_path": "slide_003.png"
+                  },
+                  {
+                    "page": 4,
+                    "title": "",
+                    "image_prompt": "",
+                    "image_path": "slide_004.png"
+                  },
+                  {
+                    "page": 5,
+                    "title": "",
+                    "image_prompt": "",
+                    "image_path": "slide_005.png"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_slide_plan.py",
+            "{FIXTURE}/boundary_ppt_request.json",
+            "--out",
+            "{OUT}/slide_plan_boundary.json"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "path": "boundary_ppt_request.json",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/boundary_ppt_request.json",
+              "sha256": "907d42744edafcefa2c830576512cbee6e374664101af1a3526222fb44d434ab",
+              "bytes": 87
+            },
+            "source_id": "conv_70cad24899f6",
+            "message_ids": [
+              "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+            ],
+            "source_record_sha256": "1b4005e3cd93f3b3f812a601bfc42855066754e139ab114c442edaadca63c6df",
+            "origin": "generated_fixture",
+            "generated": true,
+            "purpose": "boundary_case",
+            "derivation": "边界用例：pages 取程序允许的最小值 1；confirm_free=true 复现 conv_80c0ba2c2e7e 中用户明确免确认的变体。"
+          },
+          "outputs": [
+            {
+              "path": "slide_plan_boundary.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "slide_plan_boundary.json",
+              "value": {
+                "topic": "小学一年级-开学第一课",
+                "pages": 1,
+                "style": "",
+                "aspect": "16:9",
+                "image_width": 2048,
+                "image_height": 1152,
+                "needs_confirmation": false,
+                "slides": [
+                  {
+                    "page": 1,
+                    "title": "",
+                    "image_prompt": "",
+                    "image_path": "slide_001.png"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_slide_plan.py",
+            "{FIXTURE}/invalid_ppt_request.json",
+            "--out",
+            "{OUT}/slide_plan_invalid.json"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "path": "invalid_ppt_request.json",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/invalid_ppt_request.json",
+              "sha256": "06744baca1b7a6b0a3f1f0f1569b811f6d3d8132fcecd3ebd4ec55768d191727",
+              "bytes": 63
+            },
+            "source_id": "conv_70cad24899f6",
+            "message_ids": [
+              "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+            ],
+            "source_record_sha256": "1b4005e3cd93f3b3f812a601bfc42855066754e139ab114c442edaadca63c6df",
+            "origin": "generated_fixture",
+            "generated": true,
+            "purpose": "invalid_input",
+            "derivation": "错误用例：pages=0 低于程序允许的最小值，验证错误路径与非0退出。"
+          },
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "plan_error: pages must be between 1 and 50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/assemble_image_ppt.py",
+      "documented_usage": "python {SKILL}/scripts/assemble_image_ppt.py {INPUT}/slide_plan.json --images {INPUT}/images --out {OUT}/result.pptx",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/assemble_image_ppt.py",
+        "{INPUT}/slide_plan.json",
+        "--images",
+        "{INPUT}/images",
+        "--out",
+        "{OUT}/result.pptx"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/assemble_image_ppt.py {INPUT}/slide_plan.json --images {INPUT}/images --out {OUT}/result.pptx",
+        "inputs": [
+          "slide 计划 JSON（pages 与 slides 一致，每页含安全相对 image_path）与 images 目录内的 PNG/JPEG 页图"
+        ],
+        "outputs": [
+          "16:9（12192000x6858000 EMU）整页图片式 PPTX，页序与计划一致，字节级确定"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/assemble_image_ppt.py",
+            "{INPUT}/slide_plan.json",
+            "--images",
+            "{INPUT}/images",
+            "--out",
+            "{OUT}/result.pptx"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "slide_plan.json",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/slide_plan.json",
+                "sha256": "236363d6aedbb301131a23fff6735aee533d87e62c126153ef5bde24e37f6a70",
+                "bytes": 812
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "source_reconstruction",
+              "derivation": "由 build_slide_plan.py 正常用例的实际输出复制（链式接续），pages=5 与 slide_00N.png 页序命名对应 conv_80c0ba2c2e7e 逐页成果清单。"
+            },
+            {
+              "path": "images/slide_001.png",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/images/slide_001.png",
+                "sha256": "8b64b210a1e16d974eda1901cd266cabe30a97190c6973d21c1f73eb7ee7152c",
+                "bytes": 8698
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "composition_input",
+              "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+            },
+            {
+              "path": "images/slide_002.png",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/images/slide_002.png",
+                "sha256": "2700682cb94e6488b8fd5b3c4a3bd2aa7c97dbd6812031559444e3b571f0c83c",
+                "bytes": 8705
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "composition_input",
+              "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+            },
+            {
+              "path": "images/slide_003.png",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/images/slide_003.png",
+                "sha256": "982fa053aca24350077656b8409c8f10dd2a8e55805693a43f3132e991653e27",
+                "bytes": 8706
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "composition_input",
+              "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+            },
+            {
+              "path": "images/slide_004.png",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/images/slide_004.png",
+                "sha256": "b232982ecf884a4edb2d2f98583b80d0f69e4274f6b1b7dade1867a4e6a0df51",
+                "bytes": 8706
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "composition_input",
+              "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+            },
+            {
+              "path": "images/slide_005.png",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/images/slide_005.png",
+                "sha256": "3173afbfad25bd5377e3f56cfdd1f36e32dbdb8d0228cf8efa2359e0235c712b",
+                "bytes": 8705
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "composition_input",
+              "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "result.pptx",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "result.pptx",
+              "value": "3610314d874d84b020b45cc90febb4e1a1454507784fd6d55d8de26de8d06204"
+            },
+            {
+              "kind": "zip_members",
+              "path": "result.pptx",
+              "value": [
+                "[Content_Types].xml",
+                "_rels/.rels",
+                "ppt/presentation.xml",
+                "ppt/theme/theme1.xml",
+                "ppt/slides/slide1.xml",
+                "ppt/slides/slide5.xml",
+                "ppt/slides/_rels/slide1.xml.rels",
+                "ppt/slides/_rels/slide5.xml.rels",
+                "ppt/media/image1.png",
+                "ppt/media/image5.png"
+              ]
+            },
+            {
+              "kind": "zip_member_count",
+              "path": "result.pptx",
+              "pattern": "ppt/slides/slide[0-9]+\\.xml",
+              "value": 5
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "result.pptx",
+              "member": "ppt/presentation.xml",
+              "value": "<p:sldSz cx=\"12192000\" cy=\"6858000\"/>"
+            }
+          ],
+          "fixture_provenance": {
+            "path": "slide_plan.json",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/slide_plan.json",
+              "sha256": "236363d6aedbb301131a23fff6735aee533d87e62c126153ef5bde24e37f6a70",
+              "bytes": 812
+            },
+            "source_id": "conv_80c0ba2c2e7e",
+            "message_ids": [
+              "69874714-91e7-4d1c-a218-cd8270ea4903"
+            ],
+            "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+            "origin": "generated_fixture",
+            "generated": true,
+            "purpose": "source_reconstruction",
+            "derivation": "由 build_slide_plan.py 正常用例的实际输出复制（链式接续），pages=5 与 slide_00N.png 页序命名对应 conv_80c0ba2c2e7e 逐页成果清单。attempt 1 该用例缺 fixture_provenance 导致外部管道未创建临时 {INPUT} 绑定（declared_input_not_actually_supplied_to_program）；本 attempt 补齐 fixture_provenance 作为绑定触发，页图由 inputs 数组声明。"
+          }
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/assemble_image_ppt.py",
+            "{FIXTURE}/boundary_slide_plan.json",
+            "--images",
+            "{FIXTURE}/boundary_images",
+            "--out",
+            "{OUT}/result_boundary.pptx"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "boundary_slide_plan.json",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/boundary_slide_plan.json",
+                "sha256": "4685251901ecf245cd1e6109e3f10878ebdad8729fb414e5556c128277dfaf9c",
+                "bytes": 305
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "boundary_case",
+              "derivation": "由 build_slide_plan.py 边界用例的实际输出复制：pages=1 的最小拼装输入。"
+            },
+            {
+              "path": "boundary_images/slide_001.png",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/boundary_images/slide_001.png",
+                "sha256": "53c50c0db72983296281dd24ab166dd87371b2dee6b5e1a2e900f916033a6221",
+                "bytes": 8704
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "boundary_case",
+              "derivation": "边界用例单页占位图：2048x1152 纯色 PNG，颜色与正常用例不同以便区分。"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "result_boundary.pptx",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "result_boundary.pptx",
+              "value": "47220b7ef59cb0a30a7bef1c836011d654bf53d950eddff314c20bac3d0791f7"
+            },
+            {
+              "kind": "zip_members",
+              "path": "result_boundary.pptx",
+              "value": [
+                "ppt/presentation.xml",
+                "ppt/slides/slide1.xml",
+                "ppt/slides/_rels/slide1.xml.rels",
+                "ppt/media/image1.png"
+              ]
+            },
+            {
+              "kind": "zip_member_count",
+              "path": "result_boundary.pptx",
+              "pattern": "ppt/slides/slide[0-9]+\\.xml",
+              "value": 1
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "result_boundary.pptx",
+              "member": "ppt/presentation.xml",
+              "value": "<p:sldSz cx=\"12192000\" cy=\"6858000\"/>"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/assemble_image_ppt.py",
+            "{FIXTURE}/invalid_plan.json",
+            "--images",
+            "{FIXTURE}/images",
+            "--out",
+            "{OUT}/result_invalid.pptx"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "path": "invalid_plan.json",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/invalid_plan.json",
+                "sha256": "fab83b49e3ddf0c81f1b4dc70b16c52ec9f748d7662ed4de41553a13dfb7a97e",
+                "bytes": 539
+              },
+              "source_id": "conv_80c0ba2c2e7e",
+              "message_ids": [
+                "69874714-91e7-4d1c-a218-cd8270ea4903"
+              ],
+              "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "invalid_input",
+              "derivation": "错误用例：pages=5 但 slides 只有 3 条，构造 slides/pages 计数不匹配。"
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "pptx_error: slides count 3 does not match pages 5"
+            }
+          ],
+          "fixture_provenance": {
+            "path": "invalid_plan.json",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/invalid_plan.json",
+              "sha256": "fab83b49e3ddf0c81f1b4dc70b16c52ec9f748d7662ed4de41553a13dfb7a97e",
+              "bytes": 539
+            },
+            "source_id": "conv_80c0ba2c2e7e",
+            "message_ids": [
+              "69874714-91e7-4d1c-a218-cd8270ea4903"
+            ],
+            "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+            "origin": "generated_fixture",
+            "generated": true,
+            "purpose": "invalid_input",
+            "derivation": "错误用例：pages=5 但 slides 只有 3 条，构造 slides/pages 计数不匹配。本用例 --images 改为 {FIXTURE}/images 绑定（夹具集内实际存在的页图目录），修复 attempt 1 的 text_content_mismatch。"
+          }
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "ppt_request.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/ppt_request.json",
+        "sha256": "7d0210f1d336f5907eb7f3e4b291de1f29ae8d86f92301e859e0777aa98bde18",
+        "bytes": 142
+      },
+      "source_id": "conv_70cad24899f6",
+      "message_ids": [
+        "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+      ],
+      "source_record_sha256": "1b4005e3cd93f3b3f812a601bfc42855066754e139ab114c442edaadca63c6df",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "普通用例请求样例：topic《小学一年级-开学第一课》与 pages=5 取自真实请求消息原文；style 描述取自 conv_80c0ba2c2e7e 大纲声明的风格段。仅为验证样例，不预填测试答案。"
+    },
+    {
+      "path": "boundary_ppt_request.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/boundary_ppt_request.json",
+        "sha256": "907d42744edafcefa2c830576512cbee6e374664101af1a3526222fb44d434ab",
+        "bytes": 87
+      },
+      "source_id": "conv_70cad24899f6",
+      "message_ids": [
+        "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+      ],
+      "source_record_sha256": "1b4005e3cd93f3b3f812a601bfc42855066754e139ab114c442edaadca63c6df",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "边界用例：pages 取程序允许的最小值 1；confirm_free=true 复现 conv_80c0ba2c2e7e 中用户明确免确认的变体。"
+    },
+    {
+      "path": "invalid_ppt_request.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/invalid_ppt_request.json",
+        "sha256": "06744baca1b7a6b0a3f1f0f1569b811f6d3d8132fcecd3ebd4ec55768d191727",
+        "bytes": 63
+      },
+      "source_id": "conv_70cad24899f6",
+      "message_ids": [
+        "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+      ],
+      "source_record_sha256": "1b4005e3cd93f3b3f812a601bfc42855066754e139ab114c442edaadca63c6df",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "错误用例：pages=0 低于程序允许的最小值，验证错误路径与非0退出。"
+    },
+    {
+      "path": "slide_plan.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/slide_plan.json",
+        "sha256": "236363d6aedbb301131a23fff6735aee533d87e62c126153ef5bde24e37f6a70",
+        "bytes": 812
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "由 build_slide_plan.py 正常用例的实际输出复制（链式接续），pages=5 与 slide_00N.png 页序命名对应 conv_80c0ba2c2e7e 逐页成果清单。"
+    },
+    {
+      "path": "boundary_slide_plan.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/boundary_slide_plan.json",
+        "sha256": "4685251901ecf245cd1e6109e3f10878ebdad8729fb414e5556c128277dfaf9c",
+        "bytes": 305
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "由 build_slide_plan.py 边界用例的实际输出复制：pages=1 的最小拼装输入。"
+    },
+    {
+      "path": "invalid_plan.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/invalid_plan.json",
+        "sha256": "fab83b49e3ddf0c81f1b4dc70b16c52ec9f748d7662ed4de41553a13dfb7a97e",
+        "bytes": 539
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "错误用例：pages=5 但 slides 只有 3 条，构造 slides/pages 计数不匹配。"
+    },
+    {
+      "path": "images/slide_001.png",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/images/slide_001.png",
+        "sha256": "8b64b210a1e16d974eda1901cd266cabe30a97190c6973d21c1f73eb7ee7152c",
+        "bytes": 8698
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "composition_input",
+      "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+    },
+    {
+      "path": "images/slide_002.png",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/images/slide_002.png",
+        "sha256": "2700682cb94e6488b8fd5b3c4a3bd2aa7c97dbd6812031559444e3b571f0c83c",
+        "bytes": 8705
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "composition_input",
+      "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+    },
+    {
+      "path": "images/slide_003.png",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/images/slide_003.png",
+        "sha256": "982fa053aca24350077656b8409c8f10dd2a8e55805693a43f3132e991653e27",
+        "bytes": 8706
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "composition_input",
+      "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+    },
+    {
+      "path": "images/slide_004.png",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/images/slide_004.png",
+        "sha256": "b232982ecf884a4edb2d2f98583b80d0f69e4274f6b1b7dade1867a4e6a0df51",
+        "bytes": 8706
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "composition_input",
+      "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+    },
+    {
+      "path": "images/slide_005.png",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/images/slide_005.png",
+        "sha256": "3173afbfad25bd5377e3f56cfdd1f36e32dbdb8d0228cf8efa2359e0235c712b",
+        "bytes": 8705
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "composition_input",
+      "derivation": "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。"
+    },
+    {
+      "path": "boundary_images/slide_001.png",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/boundary_images/slide_001.png",
+        "sha256": "53c50c0db72983296281dd24ab166dd87371b2dee6b5e1a2e900f916033a6221",
+        "bytes": 8704
+      },
+      "source_id": "conv_80c0ba2c2e7e",
+      "message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "边界用例单页占位图：2048x1152 纯色 PNG，颜色与正常用例不同以便区分。"
+    }
+  ],
+  "non_executable_resources": [
+    {
+      "path": "templates/slide_prompt_plan.template.md",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "templates/slide_prompt_plan.template.md",
+          "value": "{{TOPIC}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/slide_prompt_plan.template.md",
+          "value": "{{SLIDE_ROWS}}"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_743a2a4ed77e",
+          "message_ids": [
+            "39fd01e5-d375-49ec-b26c-b4abdcf1c470"
+          ],
+          "source_record_sha256": "95128ab1c745298891e38aa9362ac371e33c3800738af46a6f410cdb427dfc35",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_743a2a4ed77e.json",
+            "sha256": "0486bcb6f374e1ccb2c825643994e23080e5d213a550f5a4dc49e26006c8c6e8",
+            "bytes": 7805
+          }
+        },
+        {
+          "source_id": "conv_80c0ba2c2e7e",
+          "message_ids": [
+            "cd55fc0f-1213-4c32-b60a-64e9ca938c4a"
+          ],
+          "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_80c0ba2c2e7e.json",
+            "sha256": "14873d4a934012be69da140622f252db3e1cd565d9930a68367f2048ee7c660f",
+            "bytes": 9305
+          }
+        }
+      ]
+    },
+    {
+      "path": "references/stage_notes.md",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "references/stage_notes.md",
+          "value": "slide_001.png"
+        },
+        {
+          "kind": "contains",
+          "path": "references/stage_notes.md",
+          "value": "2048x1152"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_80c0ba2c2e7e",
+          "message_ids": [
+            "69874714-91e7-4d1c-a218-cd8270ea4903"
+          ],
+          "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_80c0ba2c2e7e.json",
+            "sha256": "14873d4a934012be69da140622f252db3e1cd565d9930a68367f2048ee7c660f",
+            "bytes": 9305
+          }
+        },
+        {
+          "source_id": "conv_80c0ba2c2e7e",
+          "message_ids": [
+            "cd55fc0f-1213-4c32-b60a-64e9ca938c4a"
+          ],
+          "source_record_sha256": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_80c0ba2c2e7e.json",
+            "sha256": "14873d4a934012be69da140622f252db3e1cd565d9930a68367f2048ee7c660f",
+            "bytes": 9305
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "s3 逐页出图依赖运行环境内已配置的图像生成能力（如环境提供的 image 命令），本技能不打包该能力；2048x1152 为来源声明的输出规格。",
+    "拼装程序仅支持 PNG/JPEG 整页图片式幻灯片，不生成文字版式（对应 route_card unsupported：不覆盖大量精确文字排版的PPT）。",
+    "页面视觉风格一致性由 s2 提示词控制（从第2页起参考前面页），拼装程序不做风格校验。"
+  ],
+  "no_program_reason": null
+}

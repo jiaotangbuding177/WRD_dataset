@@ -1,0 +1,52 @@
+{
+  "route_id": "docx-standardize-export",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/scripts/make_docx.js",
+    "outputs/skill/scripts/fix_toc.py",
+    "outputs/skill/scripts/extract_texts.py",
+    "outputs/skill/templates/content.example.json",
+    "outputs/skill/references/stage_notes.md"
+  ],
+  "replaced_work": [
+    "previous.json 指向的旧反馈是宿主路径 E:\\skillloop_runs\\...（本容器不存在），未复用旧成果，改从 conv_1ec77749aa65 会话直接学习",
+    "历史会话中『LibreOffice 宏刷新目录域』路线（msg_31~43 反复失败）被替换为 fix_toc.py 的 XML 注入+两遍实测页码方案",
+    "历史会话中生成阶段使用 docx-js Bookmark 加书签的做法（w:id 全为 1 的 bug，msg_49/61）被替换为后处理阶段注入书签",
+    "reusable 技能仅复制 skill_3/scripts/extract_texts.py（原样复用，已实测）；skill_1（HTML转PDF）、skill_2（合同审查）对象与产物不同，未复制未改写"
+  ],
+  "program_runs": [
+    {
+      "command": "node outputs/skill/scripts/make_docx.js making_samples/content.json making_samples/sample_raw.docx",
+      "result": "OK，生成 12211 字节，含封面节/目录节(TableOfContents)/正文节(页码从1起算)"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/fix_toc.py making_samples/sample_raw.docx making_samples/sample_final.docx",
+      "result": "OK，4 页；注入 5 个书签+5 条目录条目，页码映射全部正确；再渲染验证通过"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/fix_toc.py making_samples/sample_final.docx making_samples/sample_final_rerun.docx",
+      "result": "OK，幂等验证：重跑输出与上次 document.xml 完全一致，条目未重复"
+    },
+    {
+      "command": "node make_docx.js content_long.json + fix_toc.py（长文档，正文跨多页）",
+      "result": "OK，13 页，目录页码 1..11 递增且与正文实际位置一致，末页页脚『第 11 页』"
+    },
+    {
+      "command": "fix_toc.py 边界用例：无TOC域 docx / 有TOC无标题 docx / 不存在的文件",
+      "result": "均退出码 2 并给出明确 stderr；构造用例过程曾因 shell 引号问题两次失误，修正后全部通过（非脚本缺陷）"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/extract_texts.py making_samples/sample_final.docx --out making_samples/extracted",
+      "result": "OK，1 文件 0 错误；对照 sample_material.md 逐项核对 17 个关键事实串，全部原文保留"
+    },
+    {
+      "command": "soffice 渲染 PDF + pdftoppm 出图 + ecnu_tools vision 视觉检查（封面/目录/正文页）",
+      "result": "封面无页眉页脚页码；目录独占一页、点线+页码、无域代码字样；正文页眉右上+分隔线、页脚『第 1 页』、标题层级分明、表格浅蓝表头+斑马纹、关键结论加粗"
+    }
+  ],
+  "known_issues": [
+    "目录缓存页码按 LibreOffice 渲染实测；Word 打开后 updateFields 会按 Word 分页刷新，两者分页略有差异时以 Word 刷新后为准",
+    "默认中文字体 Noto Sans CJK SC（渲染环境实测可用）；目标机器缺该字体时会回退，可用 content.json 的 fontEastAsia 换字体",
+    "fix_toc.py 按标题文本在 PDF 逐页匹配定位，若标题整串在目录页之后、其正文位置之前的页面重复出现会被提前匹配（实际材料罕见，docstring 已注明）"
+  ]
+}

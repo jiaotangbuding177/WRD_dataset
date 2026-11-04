@@ -1,0 +1,34 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/annuity_playbook.md",
+    "outputs/skill/templates/operator_checklist.md",
+    "outputs/skill/templates/legal_explanation.md",
+    "outputs/skill/scripts/scan_text_keywords.py",
+    "outputs/skill/scripts/extract_contract_text.py"
+  ],
+  "replaced_work": "本轮为沿 retained 技能的最小局修，不重写可靠资源：previous_skill 复制到 outputs/skill 后逐字节 diff 一致，仅按 previous_feedback.json prior_review 的两条 resource_repairs 局修。(1) templates/legal_explanation.md 首注：原'出正式法律意见时比对一次条号；web_search 不可用或连续失败时不试错重试，直接 web_fetch 固定官方地址'的无条件回退改为条件触发规则——普通解释/操作类交付直接引用内联条号、不做任何网络核验；仅正式法律意见或对方质疑条号时核验一次，限单次 web_fetch（maxChars≤8000）固定官方地址（flk.npc.gov.cn / gov.cn / zh.wikisource.org），检索失败不重试不换址，禁止 curl 循环抓全法。(2) SKILL.md 关键判断末条：删除与第5步'不逐条复验'冲突的无条件回退句（'web_search 不可用时…直接 fetch 条文'），改为指向 legal_explanation.md 首注的条件规则。未改动：两个脚本、references/annuity_playbook.md（含第4节指回模板的短节口径）、templates/operator_checklist.md、第1-5步路线、OCR/解密闭环等已验证口径。不采纳：feedback 无其他待修项；'补真实业务试用'属业务执行期事项，制作无法代为发生。",
+  "program_runs": [
+    {
+      "command": "python3 outputs/skill/scripts/scan_text_keywords.py inputs/materials/conv_ed0d158f38e3/15_华师大知识产权转让协议.pdf --keywords 年费,维持费,未缴年费,滞纳金,维护,恢复 --out outputs/making_samples/scan_real_pdf.json",
+      "result": "exit=0，5 hits for 6 keywords，重现'只搜年费会漏'教训；结果存 outputs/making_samples/scan_real_pdf.json"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/extract_contract_text.py inputs/recovered/e3826b89dcdc.docx --out outputs/making_samples/extract_recovered_docx.json",
+      "result": "exit=0，提取108段；结果存 outputs/making_samples/extract_recovered_docx.json"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/scan_text_keywords.py inputs/recovered/e3826b89dcdc.docx --keywords 年费,维持费,未缴年费,滞纳金,恢复 --out outputs/making_samples/scan_recovered_docx.json",
+      "result": "exit=0，115 hits for 5 keywords，docx 分支验证通过；结果存 outputs/making_samples/scan_recovered_docx.json"
+    },
+    {
+      "command": "python3 -m py_compile outputs/skill/scripts/scan_text_keywords.py outputs/skill/scripts/extract_contract_text.py",
+      "result": "exit=0，编译通过"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/scan_text_keywords.py inputs/nonexistent_missing.pdf --keywords 年费 --out outputs/making_samples/err_case.json; python3 outputs/skill/scripts/scan_text_keywords.py inputs/route.json --keywords 年费 --out outputs/making_samples/err_case2.json",
+      "result": "边界情形：缺失文件报 'input not found'，不支持类型报 'unsupported input type .json: expected .pdf / .txt / .docx'，均 exit=2，报错清晰无静默成功（错误样例未留存 making_samples，避免噪音）"
+    }
+  ],
+  "known_issues": "脚本本轮零改动，沿上一轮已验证的加密/损坏PDF报错与解密闭环、OCR -png 显式参数、owner-password-only 不误报等口径；无附协议文件的真实业务委托试用（属业务执行期事项）；法条条号预填基于2026-10-23核实的现行版本，实施细则再修订才需更新 legal_explanation.md 内联条号。本轮修复后未再实测业务运行成本收敛，成本效果留待下一次业务运行与审查验证。"
+}

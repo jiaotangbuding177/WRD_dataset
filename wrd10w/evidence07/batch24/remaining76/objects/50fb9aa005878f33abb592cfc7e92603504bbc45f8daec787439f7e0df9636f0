@@ -1,0 +1,30 @@
+{
+  "decision": "revise",
+  "reason": "候选与原制作版本逐字节一致（SKILL.md及6脚本、ooxml-lessons.md全部cmp相同），资源可靠；真实业务运行（case 1 workflow）完整读取SKILL.md（skill_reads complete_body_observed=true，session_events:7正文与候选一致），并实际执行extract_contract_text/locate_gaps/docx_extras三个脚本且有结果回执（两文档155/497段提取、169段预扫，session_events:13）。交付达线：输出docx在位，重提取diff确认仅新增4段、原155段未动，PDF渲染+视觉探针核验第6/7页（session_events:37,43,46,58,64）。但retain的成本门槛未过：workflow臂1,911,895 tokens/24次调用，对比no_skill臂1,028,456/14，Token与调用数均上升（review_input.json cost_reduced=false，totals为全量完整记录）。且回写环节绕开了技能的fill_cell.py/backfill_apply.py直接手写XML插入（session_events:12-37），两个回写脚本至今只在合成样例上验证过（making.json known_issues自认原附件字节不可用），真实业务未试用。有具体可局部修复的问题，故revise而非reject/defer。",
+  "replaced_work": "替代的公共工作：docx逐段全文提取、空段占位/批注锚点/邻段格式基准定位、批注与文本框预扫——原每次需手写python-docx临时脚本，本次真实运行中三个提取/定位脚本一次exec即完成两份合同文档的提取与预扫（回执extracted 155/497 paragraphs），确实替代了手写提取定位代码；提取后重提取核对+soffice转PDF渲染核验的验证流程也由SKILL.md固化。回写（fill_cell/backfill_apply）宣称替代手写XML编辑，但本次运行未使用，仍为手写XML，该替代未在真实业务中成立。",
+  "resource_reliable": true,
+  "delivery_passed": true,
+  "resource_used": true,
+  "evidence_refs": [
+    "inputs/review_input.json（totals no_skill=[1028456,14] vs workflow=[1911895,24]，cost_reduced=false）",
+    "inputs/candidate/SKILL.md（sha256 a714fe1e…，与 inputs/making/make__doc-section-supplement/attempt_2/workspace/outputs/skill/SKILL.md 及全部脚本cmp逐字节相同）",
+    "inputs/making/make__doc-section-supplement/attempt_2/workspace/outputs/making.json（program_runs实跑回执；known_issues: 合成样例、嵌套表格不支持）",
+    "inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:7（SKILL.md全文读取，正文与候选一致）、:13（extract_contract_text/locate_gaps/docx_extras一次调用实跑，回执155/497/169段）、:37（written outputs/…补充版.docx 45708）、:43（diff：仅+4段，orig 105=105）、:46/:58/:64（PDF渲染+视觉探针核验页6/7）",
+    "inputs/cases/1/workflow/openclaw_transport/skill_reads.json（complete_body_observed=true）",
+    "inputs/cases/1/workflow/read_usage_evidence.json（exec_resource_attempts=4，fill_cell/backfill_apply未出现在任何exec轨迹）",
+    "inputs/cases/1/workflow/workspace/outputs/热电池智能设计与验证平台技术协议-交付标准补充版.docx（45708字节，在位）",
+    "inputs/cases/1/no_skill/openclaw_transport/session_events.jsonl（无技能臂同样交付但成本更低）"
+  ],
+  "case_findings": [
+    {
+      "case_id": "doc-section-supplement-001",
+      "delivery": "pass",
+      "reason": "workflow臂按委托只新增交付标准子条款并导出Word到outputs/，重提取diff确认原文未动、仅插4段，PDF渲染并经独立视觉探针核验版式（session_events:37-64），文件在位并回报位置，未发现虚构数据或越界改写。"
+    }
+  ],
+  "repair_notes": [
+    "SKILL.md第1步补充读取纪律：长文档提取结果（如497段的text.json）不得整份灌入上下文，先按章节偏移/关键词在文件内定位，只读相关窗口——本次运行Token比无技能臂高86%（1.91M vs 1.03M），是retain被阻的直接原因，需给出可核对的省token读法。",
+    "SKILL.md第3步明确场景归属：表格之后/下一节标题之前的章节级插入（无空占位段锚点时）应优先用 backfill_apply.py --insert-after 指向表格后空段或邻段锚点，而不是手写XML；本次真实运行绕开了两个回写脚本，需补一句使用指引使回写资源在真实业务得到验证。",
+    "保留known_issues中'fill_cell仅在合成样例验证、原附件字节不可用'的限制声明；下轮真实业务命中表格单元格场景时补验后再升级结论。"
+  ]
+}

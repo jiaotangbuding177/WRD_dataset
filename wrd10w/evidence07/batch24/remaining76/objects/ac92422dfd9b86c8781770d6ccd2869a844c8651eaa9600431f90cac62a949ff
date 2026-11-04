@@ -1,0 +1,28 @@
+{
+  "id": "workitem-weekly-report",
+  "name": "工作项周期周报生成路线",
+  "category": "TECH",
+  "source_ids": [
+    "conv_073150ee30be",
+    "conv_d5047f96985d"
+  ],
+  "steps": [
+    "按用户给的时间范围，从工作项系统筛选已完成/已验收的需求、缺陷、任务和PR记录",
+    "按类型汇总合并成周报条目，只统计当前周期，不重复计数",
+    "生成周报文档并按用户要求@指定人分享；数据被质疑时先排查口径再重跑"
+  ],
+  "reuse_reason": "按周期拉取工作项生成技术周报是独立重复流程，无既有路线覆盖；与weekly-report技能迭代配合使用",
+  "conditions": [
+    "需要工作项系统（lark-cli等）授权凭据，凭据不可用时明示缺失",
+    "时间范围与统计口径以用户指定为准",
+    "定时刷新复用scheduled-task-config；授权引导复用skill-connector-setup；整理知识库部分归knowledge-base-maintenance",
+    "Gitee数据采集脚本可复用，日期范围为上周一至周日",
+    "飞书文档写入依赖bot身份或用户授权，授权链接过期需重新发起"
+  ],
+  "conflicts": [
+    {
+      "source_id": "conv_d5047f96985d",
+      "note": "bot身份创建的飞书文档用户无管理权限，用户多次被卡：交付时须明示文档权限归属和补救方式（授权后用用户身份重建或手动加权限）"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+import json
+
+items = [
+    # 周期内已完成，三种类型
+    {"id": 1, "ident": "IJMKXQ", "title": "定时任务新建", "type": "需求", "issue_state": "已完成", "updated_at": "2026-05-15T10:00:00+08:00"},
+    {"id": 2, "ident": "IJMKJV", "title": "域名变更", "type": "任务", "state": "已验收", "updated_at": "2026-05-12T09:00:00+08:00"},
+    {"id": 3, "ident": "IJN22W", "title": "登录页改版bug", "type": "缺陷", "issue_state": "已完成", "updated_at": "2026-05-18T23:59:00+08:00"},
+    {"id": 4, "ident": "IJO5H1", "title": "AI 提醒", "issue_type": "需求", "issue_state": "已完成", "updated_at": "2026-05-13T08:00:00Z"},
+    # 非完成状态
+    {"id": 5, "ident": "TEST01", "title": "进行中的需求", "type": "需求", "state": "进行中", "updated_at": "2026-05-14T10:00:00+08:00"},
+    # 周期外
+    {"id": 6, "ident": "TEST02", "title": "四月验收", "type": "任务", "state": "已验收", "updated_at": "2026-04-27T10:00:00+08:00"},
+    {"id": 7, "ident": "TEST03", "title": "周期后一天", "type": "任务", "state": "已完成", "updated_at": "2026-05-19T00:00:00+08:00"},
+    # 缺时间字段
+    {"id": 8, "ident": "TEST04", "title": "无时间", "type": "需求", "state": "已完成"},
+    # 重复（模拟分页重叠）
+    {"id": 1, "ident": "IJMKXQ", "title": "定时任务新建", "type": "需求", "issue_state": "已完成", "updated_at": "2026-05-15T10:00:00+08:00"},
+    # 格式异常
+    "garbage-string-entry",
+]
+json.dump(items, open('/workspace/outputs/making_samples/workitems_fixture.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+json.dump([], open('/workspace/outputs/making_samples/workitems_empty.json', 'w'))
+
+prs = [
+    {"id": 101, "title": "feat: 教案AI改写", "state": "merged", "merged_at": "2026-05-14T12:00:00+08:00", "_repo": "owner/api-backend"},
+    {"id": 102, "title": "fix: 登录态", "state": "merged", "merged_at": "2026-05-16T12:00:00+08:00", "_repo": "owner/api-backend"},
+    {"id": 103, "title": "feat: 文案", "state": "merged", "merged_at": "2026-05-20T12:00:00+08:00", "_repo": "owner/front"},
+    {"id": 104, "title": "wip", "state": "open", "merged_at": None, "_repo": "owner/front"},
+]
+json.dump(prs, open('/workspace/outputs/making_samples/pr_fixture.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+print('fixtures written')

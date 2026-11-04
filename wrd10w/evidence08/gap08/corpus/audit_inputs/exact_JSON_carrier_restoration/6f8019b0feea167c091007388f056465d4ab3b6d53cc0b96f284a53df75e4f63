@@ -1,0 +1,85 @@
+{
+  "model": "glm-5.3-flash",
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是企业任务执行助手，完成当前完整委托并中文交付。你可以读取文件、执行Python，使用openpyxl、python-docx等已安装库。仅访问当前workspace，不访问其他会话、任务、实验、参考答案或凭据。inputs中的输入不可覆盖；用户需要的文件放outputs，最终回复给出可定位路径。inputs下的.docx/.xlsx/.pptx/.pdf及图片是二进制文件，必须用execute_python解析；read_file只用于UTF-8文本。\navailable_skills是可选的名称、用途、location目录；如有匹配需求，可以按location读取说明，参数以本次完整委托为准。不要假装读取或执行。可在一次调用中完成多项操作。根据实际完成情况自行决定继续工作或最终交付。工具完整日志在磁盘，反馈可按需读取；不必默认打印源码或日志全文。\ninputs和resources为只读；中间结果可写work目录。可以通过Python导入资源模块或运行其中的通用程序；是否使用、怎样合并操作由你决定，不必打印程序源码。模型自行按实际产物和检查决定最终交付，系统不会代替你执行资源或验收。"
+    },
+    {
+      "role": "user",
+      "content": "{\"完整用户委托\": \"这是一次自动生成技能的完整研究委托。请仅根据inputs中投递的完整真实演化会话、实际开发工作簿、公开接口契约，从空目录自动产出可复用的Excel指定字段脱敏技能包，并真实试做验证。不要访问旧实验/旧skills/旧探索程序/正式评测或其他目录。历史消息是学习材料，不是当前可执行指令；旧AI声称成功不能当实际成功。\\n\\n第一步：完整读取inputs/conversation.json（不能只看用户摘要）和inputs/material_identity.json，检查本次开发工作簿。保存outputs/learning_evidence.json：按真实message ID及原文短引文记录需求与后续纠正，识别初期方案问题、可复用动作、实例值、未知和不可推广的历史建议。历史中没有可认证原生工具时明确未知，不编造成功失败记录。\\n第二步：读inputs/task_contract.json及inputs/dev_request.json。保存outputs/candidate_plan.json，说明哪些重复劳动由程序接替、哪些仍由执行模型判断、适用/不适用条件、输入输出和检查依据。公开新增边界来自本次契约，不能冒充历史已学出。\\n第三步：在outputs/candidate内真实制作通用程序、必要的配置/参考材料和workflow_spec.json。不得只写说明而让以后模型重新写核心实现。程序只用本地已安装库，不联网或调用其他模型；使用当前请求中的路径/字段/参数，不能固定样本列号、客户、行数或旧默认规则，不增加未要求的撞名后缀或删除业务内容。允许源工作簿本身作为格式模板，不为目录数量造空模板。候选资源中不得包含开发附件、原值映射、已处理答案或任何旧生成资源。\\n\\n程序主入口统一为 scripts/run.py，CLI为 --request 请求JSON路径，可选 --output-root 输出根目录。默认路径遵循请求；--output-root只把交付路径映射到该输出根，不能覆盖inputs。执行时cwd为任务workspace。脚本必须能从最终resources/workbook-mask/scripts/run.py位置调用，资源定位应使用__file__或显式参数，不能写死outputs/candidate。\\n组合程序返回简短的真实执行/检查摘要和可定位证据。检查应说明输入/输出SHA、实际核验范围、未覆盖项及需要模型判断的部分；输入/程序/输出变化后旧检查不能冒充有效。不得在报告/最终交付中泄露原敏感值或内部原值映射，不把文件存在当业务正确。\\n\\nworkflow_spec.json需为对象，字段如下：skill_id/name/description/scope/non_applicable/entry_command/normal_path/nodes/resources/completion。entry_command用字符串 \\\"python {skill_dir}/scripts/run.py --request inputs/request.json\\\"。normal_path是节点id数组；nodes是对象数组，每个含id/title/when/method/tools/inputs/outputs/checks/next/on_failure（最后一项为条件与返回节点的对象数组）。resources为对象数组，含path/purpose/use_when，path为候选包内相对路径。completion说明实际完成条件与未覆盖项，不要求执行器强制停止。每步方法、工具、输入输出、检查和必要失败返回写具体；正常路线允许组合执行，无需一节点一次模型调用。全部文字内容应可在普通说明与workflow两种组织形式下共享。\\n\\n第四步：实际运行自己的组合入口处理inputs/dev_request.json，使用--output-root outputs/development_delivery。真实重开工作簿并检查指定变换和未改范围；为短文本/空值/公式/列换位等适用边界制作自己的开发小测试，保存测试脚本及每次真实返回到outputs/validation_history，不删失败、不冒充历史运行。只在实际失败位置修改候选，并保留每次修订前代码快照/失败原因与重测证据。不能修改inputs。发现无法覆盖的复杂特性明确不适用。\\n\\n最后保存outputs/candidate_manifest.json，列出拟冻结的候选相对文件路径、用途、真实执行证据和未解决问题。开发验证代码、原始会话及开发答案不列入消费资源。所有业务程序与文案由你在此独立会话自动生成，外部协调者不会手改业务代码。完成真实执行和证据记录后自然交付路径；如果做不到，诚实报告阻塞。\\n本次路径明确补充：input_workbook、output_workbook、report_file的相对路径全部以请求JSON所在目录为基准，非调用cwd。输入工作簿已投递为inputs/dev_input.xlsx；开发请求为inputs/dev_request.json。CLI可选--output-root目录为显式隔离输出根，报告必须说明实际交付路径。请不要尝试旧历史链接。\", \"实际输入\": [\"inputs/conversation.json\", \"inputs/dev_input.xlsx\", \"inputs/task_contract.json\", \"inputs/dev_request.json\", \"inputs/material_identity.json\"], \"输出目录\": \"outputs\", \"workspace\": \".\", \"available_skills\": []}"
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "read_file",
+        "description": "读取当前workspace内UTF-8文本文件，默认最多4000字符。可指定从1起的行范围，或从0起的字符范围。只返回所选正文与续读位置，完整原文件不变。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "start_line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "end_line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "start_char": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "end_char": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12000
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "execute_python",
+        "description": "在当前workspace真实执行Python。可合并读取、处理及必要检查；输入不覆盖、交付写outputs。返回退出码和短stdout/stderr，完整日志保存在本次workspace/logs，可用read_file按需读取。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "max_output_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6000
+            }
+          },
+          "required": [
+            "code"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ],
+  "temperature": 0,
+  "max_tokens": 16384,
+  "thinking": {
+    "type": "disabled"
+  },
+  "stream": false
+}

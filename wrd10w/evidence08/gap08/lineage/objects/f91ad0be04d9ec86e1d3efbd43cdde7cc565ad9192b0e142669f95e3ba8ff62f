@@ -1,0 +1,20 @@
+from playwright.sync_api import sync_playwright
+import json, time
+res = {}
+with sync_playwright() as p:
+    b = p.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+    for name, path in (("normal", "/workspace/tmp/run1/demo.html"), ("boundary", "/workspace/tmp/run3/demo.html")):
+        pg = b.new_page(); pg.goto("file://" + path)
+        pg.wait_for_timeout(400)
+        names = pg.evaluate("SPEC.objects.map(o=>o.name)")
+        f1 = pg.evaluate("days"); pg.wait_for_timeout(600); f2 = pg.evaluate("days")
+        pg.click("#playBtn"); fr1 = pg.evaluate("days"); pg.wait_for_timeout(400); fr2 = pg.evaluate("days")
+        pg.click("#playBtn")
+        pg.eval_on_selector("#speed", "el=>{el.value='5';el.dispatchEvent(new Event('input'))}")
+        sv = pg.text_content("#speedVal")
+        labels = pg.eval_on_selector("#labels", "el=>el.checked")
+        res[name] = {"objects": names, "advances": f2 > f1, "pause_freezes": fr1 == fr2,
+                     "speed_display": sv, "labels_default": labels}
+        pg.close()
+    b.close()
+print(json.dumps(res, ensure_ascii=False))

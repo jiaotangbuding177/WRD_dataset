@@ -1,0 +1,177 @@
+{
+  "session_id": "conv_2e03834fce5c",
+  "title": "阅读文件，总结基因序列",
+  "task_category": "ASSIST",
+  "task_category_name": "助手配置与技能管理",
+  "secondary_task_categories": [],
+  "split": "evolution",
+  "leakage_component_id": "fc_03e877a59dabdd7f",
+  "owner_alias": "用户29",
+  "agent_instance_id": "d41f0d2f-a623-45f5-90c3-a24ebfdd2b72",
+  "file_references": [],
+  "link_adaptations": {
+    "schema": "source-scoped-links-v1",
+    "session_id": "conv_2e03834fce5c",
+    "mappings": [
+      {
+        "mapping_id": "link-952d9c64eb38dade5f978fac",
+        "session_id": "conv_2e03834fce5c",
+        "resource_id": "res_ef4666f7352bf9af8dca",
+        "original_reference": "结合我附加的文件",
+        "kind": "path",
+        "mount": "inputs/staged/a2d61766554fd488/合成_结合我附加的文件.md",
+        "available_from_dispatch_index": 1,
+        "sha256": "a2d61766554fd4881b9ef85ee287b9cce123d569164b8b04f07ce58521d41fdd",
+        "synthetic": true,
+        "provenance": "synthetic_previous_version",
+        "match_basis": "source-specific admitted dependency original_path_or_url; exact artifact and delivery index",
+        "original_human_text_changed": false,
+        "local_url": "http://127.0.0.1:8765/resources/link-952d9c64eb38dade5f978fac/%E5%90%88%E6%88%90_%E7%BB%93%E5%90%88%E6%88%91%E9%99%84%E5%8A%A0%E7%9A%84%E6%96%87%E4%BB%B6.md",
+        "redirect_original_reference": true
+      }
+    ],
+    "skill_path_aliases": [],
+    "original_human_text_changed": false,
+    "unmatched_public_download_urls_preserved": true,
+    "historical_service_authentication_restored": false,
+    "runtime_url_base": "http://127.0.0.1:8765",
+    "download_cli": "python /opt/eval-adapter/links_runtime.py \"<原始路径或链接>\"",
+    "delivery_scope": "actual bytes available only after associated human dispatch delivery"
+  },
+  "baseline_skill_policy": {
+    "public_baseline_reference_skills": [],
+    "do_not_preinstall_user_requested": [],
+    "missing_baseline_skills": [],
+    "uncertain_not_preinstalled": [],
+    "supplied_environment_builtin_skills": [],
+    "removed_preinstalled_skills": []
+  },
+  "sequence_basis": "source user-occurrence order with known timestamps for audit; semantic response stage reconstruction, not authenticated native historical order",
+  "user_order_projection": null,
+  "native_reply_to_verified": false,
+  "historical_event_identity_verified": false,
+  "schema": "effective-whole-source-semantic-trace-v8",
+  "messages": [
+    {
+      "id": "conv_2e03834fce5c:msg_1",
+      "role": "user",
+      "content": "检查文件是否存在",
+      "source_message_ids": [
+        "conv_2e03834fce5c:msg_1"
+      ],
+      "user_created_at": "2026-06-13T11:28:39.528Z",
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "conv_2e03834fce5c:msg_4",
+      "role": "assistant",
+      "content": "金宝，你说要检查文件是否存在，但没告诉我文件名或路径哦。你想检查什么文件？给我个名字或路径就好～",
+      "source_message_ids": [
+        "conv_2e03834fce5c:msg_4"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    },
+    {
+      "id": "conv_2e03834fce5c:msg_5",
+      "role": "user",
+      "content": "请结合我附加的文件继续处理。",
+      "source_message_ids": [
+        "conv_2e03834fce5c:msg_5"
+      ],
+      "user_created_at": "2026-06-13T11:29:33.713Z",
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "conv_2e03834fce5c:msg_10",
+      "role": "assistant",
+      "content": "金宝，\"前端工程师招聘流程.md\" 这个文件现在实际上**不在文件系统中**，刚才你是以附件形式贴在对话里的，内容我已经看到了。\n\n两者的情况：\n\n1. **你说的\"检查文件是否存在\"** → 这个文件在磁盘上找不到，但内容已通过附件完整提供给我了\n2. **结合附件继续处理** → 内容已全部读取完毕\n\n所以你现在是想对这个招聘流程做什么？比如：\n\n- 🎯 **根据特定岗位生成对应的 JD（docx）**\n- 📋 **制作前端工程师面试评估表/评分表**\n- ✏️ **帮你修改或定制这个招聘流程**\n- 🔍 或者别的需求？\n\n告诉我具体要干啥，我来搞～",
+      "source_message_ids": [
+        "conv_2e03834fce5c:msg_10"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    }
+  ],
+  "turns": [
+    {
+      "turn_index": 0,
+      "user": {
+        "id": "conv_2e03834fce5c:msg_1",
+        "role": "user",
+        "content": "检查文件是否存在",
+        "source_message_ids": [
+          "conv_2e03834fce5c:msg_1"
+        ],
+        "user_created_at": "2026-06-13T11:28:39.528Z",
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "conv_2e03834fce5c:msg_4",
+          "role": "assistant",
+          "content": "金宝，你说要检查文件是否存在，但没告诉我文件名或路径哦。你想检查什么文件？给我个名字或路径就好～",
+          "source_message_ids": [
+            "conv_2e03834fce5c:msg_4"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "询问具体文件名以便检查",
+        "confidence": 0.99,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    },
+    {
+      "turn_index": 1,
+      "user": {
+        "id": "conv_2e03834fce5c:msg_5",
+        "role": "user",
+        "content": "请结合我附加的文件继续处理。",
+        "source_message_ids": [
+          "conv_2e03834fce5c:msg_5"
+        ],
+        "user_created_at": "2026-06-13T11:29:33.713Z",
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "conv_2e03834fce5c:msg_10",
+          "role": "assistant",
+          "content": "金宝，\"前端工程师招聘流程.md\" 这个文件现在实际上**不在文件系统中**，刚才你是以附件形式贴在对话里的，内容我已经看到了。\n\n两者的情况：\n\n1. **你说的\"检查文件是否存在\"** → 这个文件在磁盘上找不到，但内容已通过附件完整提供给我了\n2. **结合附件继续处理** → 内容已全部读取完毕\n\n所以你现在是想对这个招聘流程做什么？比如：\n\n- 🎯 **根据特定岗位生成对应的 JD（docx）**\n- 📋 **制作前端工程师面试评估表/评分表**\n- ✏️ **帮你修改或定制这个招聘流程**\n- 🔍 或者别的需求？\n\n告诉我具体要干啥，我来搞～",
+          "source_message_ids": [
+            "conv_2e03834fce5c:msg_10"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "附件文件存在性确认及后续需求",
+        "confidence": 0.99,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    }
+  ],
+  "original_audit_path": "sessions/conv_2e03834fce5c.json"
+}

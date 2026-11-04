@@ -1,0 +1,26 @@
+{
+  "action_id": "try_w1_valuation_conv1702b763a7ee",
+  "kind": "TRY",
+  "source_id": "conv_1702b763a7ee",
+  "purpose": "用可复用参数化脚本实际执行 w1 的估值与注册资本/资本公积拆分逻辑，验证回代校验、拆分守恒与缺参降级分支是否真的成立",
+  "arguments": {
+    "mode": "single_repair",
+    "workflow_id": "conv_1702b763a7ee_w1",
+    "step_ids": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+    ],
+    "resource_ids": [],
+    "existing_asset_ids": [],
+    "code": "import json, os, sys\n\n\ndef compute_valuation(increase_amount, post_stake, pre_registered_capital=None, tol=1e-6):\n    \"\"\"Generic: post-money = increase / post_stake; split increase into registered capital and capital reserve.\"\"\"\n    assert increase_amount > 0, \"increase_amount must be positive\"\n    assert 0.0 < post_stake < 1.0, \"post_stake must be a decimal in (0,1)\"\n    post_money = increase_amount / post_stake\n    pre_money = post_money - increase_amount\n    assert abs(post_stake * post_money - increase_amount) <= tol * increase_amount, \"back-substitution failed\"\n    out = {\n        \"increase_amount\": increase_amount,\n        \"post_stake\": post_stake,\n        \"post_money_valuation\": post_money,\n        \"pre_money_valuation\": pre_money,\n    }\n    if pre_registered_capital is not None:\n        assert pre_registered_capital > 0, \"pre_registered_capital must be positive\"\n        assert pre_registered_capital <= pre_money + tol, \"pre_registered_capital exceeds pre-money valuation -> negative capital reserve\"\n        price_per_unit = pre_money / pre_registered_capital\n        new_registered = increase_amount / price_per_unit\n        capital_reserve = increase_amount - new_registered\n        assert abs(new_registered + capital_reserve - increase_amount) <= tol * increase_amount, \"split does not sum to increase\"\n        implied = new_registered / (pre_registered_capital + new_registered)\n        assert abs(implied - post_stake) <= 1e-6, \"implied post stake mismatch\"\n        out.update({\n            \"pre_registered_capital\": pre_registered_capital,\n            \"price_per_unit\": price_per_unit,\n            \"new_registered_capital\": new_registered,\n            \"capital_reserve\": capital_reserve,\n            \"implied_post_stake\": implied,\n        })\n    else:\n        out[\"formula\"] = {\n            \"new_registered_capital\": \"increase_amount * pre_registered_capital / pre_money_valuation\",\n            \"capital_reserve\": \"increase_amount - new_registered_capital\",\n            \"constraint\": \"pre_registered_capital <= pre_money_valuation\",\n        }\n    return out\n\n\ndef main():\n    import argparse\n    p = argparse.ArgumentParser(description=\"增资估值与注册资本/资本公积拆分\")\n    p.add_argument(\"--increase\", type=float, required=True)\n    p.add_argument(\"--post-stake\", type=float, required=True)\n    p.add_argument(\"--pre-registered\", type=float, default=None)\n    p.add_argument(\"--out\", default=\"outputs/valuation_result.json\")\n    a = p.parse_args()\n    r = compute_valuation(a.increase, a.post_stake, a.pre_registered)\n    os.makedirs(os.path.dirname(a.out) or \".\", exist_ok=True)\n    with open(a.out, \"w\", encoding=\"utf-8\") as f:\n        json.dump(r, f, ensure_ascii=False, indent=2)\n    print(json.dumps(r, ensure_ascii=False, indent=2))\n\n\nif __name__ == \"__main__\":\n    if \"--increase\" in sys.argv:\n        main()\n    else:\n        # self-verification with this episode's parameters (480万 / 14.2012% / 投前注册资本1000万)\n        r = compute_valuation(480.0, 0.142012, 1000.0)\n        assert abs(r[\"post_money_valuation\"] - 3380.0) < 1.0\n        assert abs(r[\"pre_money_valuation\"] - 2900.0) < 1.0\n        assert abs(r[\"new_registered_capital\"] - 165.52) < 0.1\n        assert abs(r[\"capital_reserve\"] - 314.48) < 0.1\n        # missing-parameter branch must not invent a unique split\n        r2 = compute_valuation(480.0, 0.142012, None)\n        assert \"formula\" in r2 and \"new_registered_capital\" not in r2\n        os.makedirs(\"outputs\", exist_ok=True)\n        with open(\"outputs/valuation_result.json\", \"w\", encoding=\"utf-8\") as f:\n            json.dump(r, f, ensure_ascii=False, indent=2)\n        print(json.dumps(r, ensure_ascii=False, indent=2))\n",
+    "checks": [
+      "post_stake * post_money_valuation == increase_amount (relative tolerance 1e-6)",
+      "new_registered_capital + capital_reserve == increase_amount",
+      "implied post stake new_registered/(pre_registered+new_registered) == post_stake",
+      "missing pre_registered_capital returns formula only, no unique split value"
+    ],
+    "reusable_asset": true
+  }
+}

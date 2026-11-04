@@ -1,0 +1,30 @@
+{
+  "decision": "revise",
+  "reason": "候选为纯操作决策型技能（无脚本，符合制作要求），资源完整可靠且在 case-1 workflow 轨迹中被真实全文读取并实际使用（读取哈希与当前候选一致，非旧版本试用）。但试用账目显示成本不降反升：workflow 702,376 tokens/12 calls 对 no_skill 562,304/10（cost_reduced=false），不满足 retain 的硬条件；且两组运行均因环境缺 Gitee 授权凭据停在授权提示，未产生实际创建的工作项，交付底线未达线。技能有真实可复用价值（REST 405 必走 MCP、授权链接过期重发、标识符不猜、历史映射需实查），非 reject；材料与账目齐全且有真实试用，非 defer；成本回落与对照表补齐属可局部修改问题，故 revise。",
+  "replaced_work": "替代每次重新推导的操作决策工作：字段解析与标题改写规则、REST 405 必走 Gitee MCP 的路线判断、项目简称/成员登录名映射流程（zlaw→ZClaw、徐志高→did-xiao-nan-work-hard-today）、授权设备码过期需重发的处理、带链接的回报格式。workflow 臂可见输出确实按该路线执行（分类表、映射历史值标注、不猜登录名）；但 no_skill 臂在无技能时也产出同等分类，边际替代量有限。",
+  "resource_reliable": true,
+  "delivery_passed": false,
+  "resource_used": true,
+  "evidence_refs": [
+    "/workspace/inputs/review_input.json（totals no_skill=[562304,10] / workflow=[702376,12]，cost_reduced=false）",
+    "/workspace/inputs/cases/1/workflow/read_usage_evidence.json:7,13（SKILL.md 与 mappings.md 各一次全文成功读取，sha256 c220b877…/6454c584… 与 /workspace/inputs/candidate/ 下文件一致）",
+    "/workspace/inputs/cases/1/workflow/response.json（finalAssistantVisibleText 按技能路线执行：MCP-only、历史映射需实查、不猜登录名；明确因无 Gitee 凭据阻塞，artifacts=outputs/gitee_workitems_zhangwen_plan.md）",
+    "/workspace/inputs/cases/1/workflow/workspace/outputs/gitee_workitems_zhangwen_plan.md（仅分析与待建单清单，标注'待建单'，无实际创建的工作项）",
+    "/workspace/inputs/cases/1/no_skill/response.json（同样因缺 Gitee 凭据停在授权提示，artifacts 为空——环境性阻塞与技能无关，但交付底线两臂均未达）",
+    "/workspace/inputs/candidate/SKILL.md、/workspace/inputs/candidate/references/mappings.md（与 making 产物 diff 完全一致：SKILL_SAME/MAP_SAME，试用针对当前版本）",
+    "/workspace/inputs/making/make__gitee-workitem-mgmt/attempt_1/workspace/outputs/making.json（program_runs 为空、无脚本，声明 reusable 三技能与本路线无重叠、previous.json 为空，与 request.json 挂载清单相符）",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/skill_reads.json（loaded_skill_ids=[gitee-workitem-mgmt]，complete_body_observed=true）"
+  ],
+  "case_findings": [
+    {
+      "case_id": "case-1",
+      "delivery": "unknown",
+      "reason": "交付底线（在匹配项目中实际创建并回报工作项）两臂均未达：workflow 与 no_skill 均实查确认环境无 Gitee MCP 工具/凭据，按建单要求第5条正确停在重新授权提示，未跳过、未伪造建单结果。非技能导致的失败，但记录中无法确认任何工作项创建成功；workflow 臂额外产出的建单清单为分析方案而非最终交付。"
+    }
+  ],
+  "repair_notes": [
+    "成本问题是 retain 的直接障碍：workflow 臂 tokens 与 calls 双升（702376/12 vs 562304/10）。压缩 SKILL.md 首页（合并'关键判断'与'细节'的重复表述），并将 references/mappings.md 改为条件化读取——仅在需要标识符映射时才读，减少固定的两次 read 开销。",
+    "references/mappings.md 成员表仅有徐志高一条；本案例高频跟进人'张文'无记录。补齐已确认的高频成员映射（按既有更新规则：实查确认后追加并注明确认时间），减少现场查询轮次。",
+    "交付未在真实凭据环境验证：case-1 两臂均因缺 Gitee 授权停在授权提示。需在具备可用 Gitee MCP 凭据的环境补一次真实业务试用，确认建单全链路（映射→MCP 创建→带链接回报）后再评估 retain。"
+  ]
+}

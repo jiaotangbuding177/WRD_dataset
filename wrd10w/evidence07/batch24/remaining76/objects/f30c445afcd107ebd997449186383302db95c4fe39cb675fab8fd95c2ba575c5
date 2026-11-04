@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""漫画/多格页拼版：逐格 AI 生图（画面不带文字）→ 程序拼 N×M 网格 + 台词条。
+
+台词条用本机 Noto Sans CJK 真字体渲染，角色台词黑色、旁白金色，中文零乱码。
+替代逐格手工拼图；输入一页规格 JSON（网格 + 每格图片与台词），输出整页 PNG。
+
+输入 JSON：
+  {"page_size": [1536, 2048], "grid": [2, 2], "caption_font_size": 30,
+   "colors": {"dialogue": "#1a1a1a", "narration": "#b8860b"},
+   "pages": [{"out": "page_01.png",
+              "cells": [{"image": "cell_01.png",
+                         "lines": [{"role": "dialogue", "text": "台词"},
+                                   {"role": "narration", "text": "旁白"}]}]}]}
+
+公开用法：
+  python make_comic_pages.py PAGES_SPEC_JSON
+错误：exit 2（pages_error: ...）输入/图片缺失/台词放不下。
+"""
+import argparse
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+from PIL import Image, ImageDraw, ImageFont
+
+
+def fail(message: str) -> None:
+    print("pages_error: " + message, file=sys.stderr)
+    raise SystemExit(2)
+
+
+def find_font(size: int):
+    if shutil.which("fc-match"):
+        try:
+            raw = subprocess.run(["fc-match", "-f", "%{file}", "Noto Sans CJK SC"],
+                                 capture_output=True, text=True, timeout=10).stdout.strip()
+        except subprocess.SubprocessError:
+            raw = ""
+        for path in filter(None, [raw, "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"]):
+            candidate = Path(path)
+            if candidate.is_file():
+                try:
+                    return ImageFont.truetype(str(candidate), size)
+                except OSError:
+                    continue
+    fail("no CJK font found (need Noto Sans CJK SC)")
+
+
+def load_spec(path: str) -> dict:
+    try:
+        with open(path, encoding="utf-8-sig") as handle:
+            spec = json.load(handle)
+    except OSError as error:
+        fail(f"cannot read spec: {error}")
+    except (UnicodeError, json.JSONDecodeError) as error:
+        fail(f"invalid spec JSON: {error}")
+    if not isinstance(spec, dict) or not spec.get("pages"):
+        fail("spec must be a JSON object with non-empty 'pages'")
+    return spec
+
+
+def cover_crop(image: Image.Image, cell_w: int, cell_h: int) -> Image.Image:
+    scale = max(cell_w / image.width, cell_h / image.height)
+    resized = image.resize((round(image.width * scale), round(image.height * scale)))
+    left = (resized.width - cell_w) // 2
+    top = (resized.height - cell_h) // 2
+    return resized.crop((left, top, left + cell_w, top + cell_h))
+
+
+def wrap(draw, text: str, font, max_w: int):
+    lines, current = [], ""
+    for char in text:
+        trial = current + char
+        if draw.textbbox((0, 0), trial, font=font)[2] > max_w and current:
+            lines.append(current)
+            current = char
+        else:
+            current = trial
+    if current:
+        lines.append(current)
+    return lines
+
+
+def draw_cell(page: Image.Image, image_path: Path, lines, rect, base_font_size: int,
+              colors: dict) -> None:
+    x0, y0, x1, y1 = rect
+    cell_w, cell_h = x1 - x0, y1 - y0
+    draw = ImageDraw.Draw(page)
+    draw.rectangle(rect, outline="#333333", width=3)
+    caption_h = 0
+    if lines:
+        caption_h = max(round(cell_h * 0.24), base_font_size + 10)
+    if not image_path.is_file():
+        fail(f"cell image not found: {image_path}")
+    try:
+        cell_image = Image.open(image_path).convert("RGB")
+    except OSError as error:
+        fail(f"cannot decode cell image {image_path}: {error}")
+    page.paste(cover_crop(cell_image, cell_w - 6, cell_h - caption_h - 6), (x0 + 3, y0 + 3))
+    if not lines:
+        return
+    caption_top = y0 + cell_h - caption_h
+    draw.rectangle((x0 + 3, caption_top, x1 - 3, y1 - 3), fill="#f7f3e8")
+    inner_w = cell_w - 30
+    font_size = base_font_size
+    while font_size >= 14:
+        font = find_font(font_size)
+        rendered = []
+        for line in lines:
+            role = str(line.get("role", "dialogue"))
+            text = str(line.get("text", "")).strip()
+            if not text:
+                continue
+            prefix = "【旁白】" if role == "narration" else ""
+            for wrapped in wrap(draw, prefix + text, font, inner_w):
+                rendered.append((role, wrapped))
+        line_h = font.size + 6
+        if len(rendered) * line_h + 12 <= caption_h:
+            break
+        font_size -= 2
+    else:
+        fail(f"caption text does not fit in cell at {rect}: too many lines")
+    y = caption_top + 8
+    for role, text in rendered:
+        color = colors.get("narration" if role == "narration" else "dialogue", "#1a1a1a")
+        draw.text((x0 + 15, y), text, font=font, fill=color)
+        y += line_h
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="拼版漫画页：网格图 + 真字体台词条")
+    parser.add_argument("spec", help="页面规格 JSON 路径")
+    args = parser.parse_args()
+    spec = load_spec(args.spec)
+
+    size = spec.get("page_size") or [1536, 2048]
+    if (not isinstance(size, list) or len(size) != 2
+            or not all(isinstance(v, int) and 100 <= v <= 8192 for v in size)):
+        fail("page_size must be [width, height] ints in 100..8192")
+    width, height = size
+    grid = spec.get("grid") or [2, 2]
+    if (not isinstance(grid, list) or len(grid) != 2
+            or not all(isinstance(v, int) and 1 <= v <= 4 for v in grid)):
+        fail("grid must be [cols, rows] ints in 1..4")
+    cols, rows = grid
+    base_font_size = int(spec.get("caption_font_size", 30))
+    colors = spec.get("colors") or {"dialogue": "#1a1a1a", "narration": "#b8860b"}
+
+    for page_index, page_spec in enumerate(spec["pages"], 1):
+        if not isinstance(page_spec, dict) or not str(page_spec.get("out", "")).strip():
+            fail(f"pages[{page_index}] needs an 'out' path")
+        cells = page_spec.get("cells", [])
+        capacity = cols * rows
+        if not 1 <= len(cells) <= capacity:
+            fail(f"pages[{page_index}] has {len(cells)} cells, expected 1..{capacity}")
+        page = Image.new("RGB", (width, height), "#ffffff")
+        margin = 24
+        gap = 12
+        cell_w = (width - margin * 2 - gap * (cols - 1)) // cols
+        cell_h = (height - margin * 2 - gap * (rows - 1)) // rows
+        for cell_index, cell in enumerate(cells):
+            if not isinstance(cell, dict):
+                fail(f"pages[{page_index}] cells[{cell_index}] must be an object")
+            col, row = cell_index % cols, cell_index // cols
+            rect = (margin + col * (cell_w + gap), margin + row * (cell_h + gap),
+                    margin + col * (cell_w + gap) + cell_w,
+                    margin + row * (cell_h + gap) + cell_h)
+            lines = cell.get("lines") or []
+            if not isinstance(lines, list):
+                fail(f"pages[{page_index}] cells[{cell_index}] 'lines' must be a list")
+            image = str(cell.get("image", "")).strip()
+            if not image:
+                fail(f"pages[{page_index}] cells[{cell_index}] missing 'image'")
+            draw_cell(page, Path(image), lines, rect, base_font_size, colors)
+        out = Path(page_spec["out"])
+        try:
+            if out.parent and not out.parent.exists():
+                out.parent.mkdir(parents=True, exist_ok=True)
+            page.save(out)
+        except OSError as error:
+            fail(f"cannot write page {out}: {error}")
+        print(f"{out} ({width}x{height}, {len(cells)} cells)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

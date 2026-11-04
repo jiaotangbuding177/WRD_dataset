@@ -1,0 +1,2972 @@
+{
+  "results": [
+    {
+      "case_id": "QA11-P01",
+      "mechanism_family": "parent_scheduling",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "WAIT_EXISTING"
+    },
+    {
+      "case_id": "QA11-P02",
+      "mechanism_family": "parent_scheduling",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "INSPECT_EXISTING_RESULT"
+    },
+    {
+      "case_id": "QA11-P03",
+      "mechanism_family": "parent_scheduling",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "CALL_BUDGET_BLOCKER_ONLY_NO_DISPATCH_RECOMMENDATION",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "dispatch_requests",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "required_requests": 1,
+                "remaining_requests": 0
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "只读输入尚未给齐，即使预算足够也不应派发依赖未知材料的制作。",
+                "D": {
+                  "decision": "CLARIFY",
+                  "next_step": "RECOVER_REQUIRED_INPUT",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNKNOWN_READ_ONLY_INPUT_READINESS",
+              "UNSPECIFIED_REMAINING_SECONDS",
+              "UNSPECIFIED_REQUIRED_SECONDS",
+              "UNSPECIFIED_REMAINING_IO_TOKENS",
+              "UNSPECIFIED_REQUIRED_IO_TOKENS"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "CALL_BUDGET_BLOCKER_ONLY_NO_DISPATCH_RECOMMENDATION",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "dispatch_requests",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "required_requests": 1,
+                "remaining_requests": 0
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "只读输入尚未给齐，即使预算足够也不应派发依赖未知材料的制作。",
+                "D": {
+                  "decision": "CLARIFY",
+                  "next_step": "RECOVER_REQUIRED_INPUT",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNKNOWN_READ_ONLY_INPUT_READINESS",
+              "UNSPECIFIED_REMAINING_SECONDS",
+              "UNSPECIFIED_REQUIRED_SECONDS",
+              "UNSPECIFIED_REMAINING_IO_TOKENS",
+              "UNSPECIFIED_REQUIRED_IO_TOKENS"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "HOLD_BUDGET"
+    },
+    {
+      "case_id": "QA11-P04",
+      "mechanism_family": "parent_scheduling",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Parent fixtures specify call budget but not the positive seconds/tool-result-path fields required by this solver. Do not invent bounds or result paths.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "DISPATCH_ONCE"
+    },
+    {
+      "case_id": "QA11-V05",
+      "mechanism_family": "version_causality",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "HOLD_VERSION_EVIDENCE"
+    },
+    {
+      "case_id": "QA11-V06",
+      "mechanism_family": "version_causality",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "HOLD_ARTIFACT_IDENTITY"
+    },
+    {
+      "case_id": "QA11-V07",
+      "mechanism_family": "version_causality",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "RUN_VERSIONED_RETEST"
+    },
+    {
+      "case_id": "QA11-V08",
+      "mechanism_family": "version_causality",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multiple producer/artifact/consumer identities, finite retest budget and review eligibility are not the single receipt_version policy. No forced version/status projection.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "READY_FOR_COMPARISON"
+    },
+    {
+      "case_id": "QA11-M09",
+      "mechanism_family": "matched_consumption",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multi-receipt joining/independence cannot be delegated to the single matched_case input without an adapter solving the challenge first.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multi-receipt joining/independence cannot be delegated to the single matched_case input without an adapter solving the challenge first.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multi-receipt joining/independence cannot be delegated to the single matched_case input without an adapter solving the challenge first.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "HOLD_INDEPENDENCE"
+    },
+    {
+      "case_id": "QA11-M10",
+      "mechanism_family": "matched_consumption",
+      "base": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "ONE_PAIR_INPUT_ELIGIBILITY_OPAQUE_SYNTHETIC_DIGEST_ALIASES_NOT_FILE_SHA_PROOF",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "matched_case",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_input_sha256": "input-old",
+                "skill_input_sha256": "input-edited",
+                "skill_version_frozen": true,
+                "skill_version_sha256": "fixture-skill-b",
+                "execution_and_scoring_conditions_fixed": true
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "无技能与技能臂使用不同输入，交付或成本差异不能归因于技能。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "RERUN_MATCHED_INPUT_COMPARISON",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "ONE_PAIR_INPUT_ELIGIBILITY_OPAQUE_SYNTHETIC_DIGEST_ALIASES_NOT_FILE_SHA_PROOF",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "matched_case",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_input_sha256": "input-old",
+                "skill_input_sha256": "input-old",
+                "skill_version_frozen": true,
+                "skill_version_sha256": "fixture-skill-b",
+                "execution_and_scoring_conditions_fixed": true
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "两臂输入一致且版本已固定，可以比较给定指标；这只建立可比条件，不提前宣布优胜。",
+                "D": {
+                  "decision": "COMPARE",
+                  "next_step": "COMPARE_SEPARATE_TSR_Q_AND_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "ONE_PAIR_INPUT_ELIGIBILITY_OPAQUE_SYNTHETIC_DIGEST_ALIASES_NOT_FILE_SHA_PROOF",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "matched_case",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_input_sha256": "input-old",
+                "skill_input_sha256": "input-edited",
+                "skill_version_frozen": true,
+                "skill_version_sha256": "fixture-skill-b",
+                "execution_and_scoring_conditions_fixed": true
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "无技能与技能臂使用不同输入，交付或成本差异不能归因于技能。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "RERUN_MATCHED_INPUT_COMPARISON",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": true,
+      "invariance_passed": true,
+      "audit_expected_decision_not_input": "HOLD_UNMATCHED_INPUT"
+    },
+    {
+      "case_id": "QA11-M11",
+      "mechanism_family": "matched_consumption",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Environment/model/evaluation/case matching differs. matched_case checks only input identity and would assume the other conditions.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "ONE_PAIR_INPUT_ELIGIBILITY_OPAQUE_SYNTHETIC_DIGEST_ALIASES_NOT_FILE_SHA_PROOF",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "matched_case",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_input_sha256": "input-z",
+                "skill_input_sha256": "input-z",
+                "skill_version_frozen": true,
+                "skill_version_sha256": "fixture-skill-c",
+                "execution_and_scoring_conditions_fixed": true
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "两臂输入一致且版本已固定，可以比较给定指标；这只建立可比条件，不提前宣布优胜。",
+                "D": {
+                  "decision": "COMPARE",
+                  "next_step": "COMPARE_SEPARATE_TSR_Q_AND_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Environment/model/evaluation/case matching differs. matched_case checks only input identity and would assume the other conditions.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "HOLD_UNMATCHED_ENVIRONMENT"
+    },
+    {
+      "case_id": "QA11-M12",
+      "mechanism_family": "matched_consumption",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multi-receipt joining/independence cannot be delegated to the single matched_case input without an adapter solving the challenge first.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multi-receipt joining/independence cannot be delegated to the single matched_case input without an adapter solving the challenge first.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "Multi-receipt joining/independence cannot be delegated to the single matched_case input without an adapter solving the challenge first.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "VALID_PAIRED_EVIDENCE"
+    },
+    {
+      "case_id": "QA11-Q13",
+      "mechanism_family": "quality_and_observability",
+      "base": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 3
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 2
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 1
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 4
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，5条记录对应5项独立费用，总额10；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 5,
+                    "total_cost": "10"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 3
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 2
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 1
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 4
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，5条记录对应5项独立费用，总额10；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 5,
+                    "total_cost": "10"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 3
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 2
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 1
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 4
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，5条记录对应5项独立费用，总额10；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 5,
+                    "total_cost": "10"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "QUALITY_ADMISSIBLE"
+    },
+    {
+      "case_id": "QA11-Q14",
+      "mechanism_family": "quality_and_observability",
+      "base": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "UNKNOWN_Q_IS_A_SUFFICIENT_GATE_BLOCKER_NO_SCORE_IMPUTATION",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "quality_known",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "quality_score": null,
+                "delivery_success": true
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "交付状态成功但独立Q未知，不能把未知写0或从success推高质量。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "OBTAIN_BLIND_QUALITY_SCORE",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，5条记录对应5项独立费用，总额0；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 5,
+                    "total_cost": "0"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "UNKNOWN_Q_IS_A_SUFFICIENT_GATE_BLOCKER_NO_SCORE_IMPUTATION",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "quality_known",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "quality_score": null,
+                "delivery_success": true
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "交付状态成功但独立Q未知，不能把未知写0或从success推高质量。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "OBTAIN_BLIND_QUALITY_SCORE",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": true,
+      "invariance_passed": true,
+      "audit_expected_decision_not_input": "HOLD_Q_UNKNOWN"
+    },
+    {
+      "case_id": "QA11-Q15",
+      "mechanism_family": "quality_and_observability",
+      "base": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，5条记录对应5项独立费用，总额0；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 5,
+                    "total_cost": "0"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 0
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": null
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "共享费用记录缺额或同一费用ID冲突；不能在不确定时重复相加或选更低值。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "RECONCILE_SHARED_LEDGER",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 0.0
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 0.0
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 0.0
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 0.0
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": 0.0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，5条记录对应5项独立费用，总额0.0；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 5,
+                    "total_cost": "0.0"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "EVIDENCE_COMPLETE_WITH_ZERO_COST"
+    },
+    {
+      "case_id": "QA11-Q16",
+      "mechanism_family": "quality_and_observability",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "FAILED_REQUIRED_DELIVERY_ONLY_NO_POSITIVE_KEEP_PREREQUISITES_ADDED",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "delivery_success",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "delivery_accepted": false,
+                "quality_vector_given_separately": [
+                  95,
+                  95,
+                  95,
+                  95,
+                  95
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：same_input,same_version,independent_consumer,costs_complete。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_INPUT",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_COSTS_COMPLETE"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Only known/zero cost subtotal can be tested. A five-dimensional admission gate is not the scalar quality_threshold KEEP question.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construction",
+                    "amount": 3
+                  },
+                  {
+                    "expense_id": "training_allocation",
+                    "amount": 2
+                  },
+                  {
+                    "expense_id": "evaluation",
+                    "amount": 1
+                  },
+                  {
+                    "expense_id": "generation_and_repair",
+                    "amount": 4
+                  },
+                  {
+                    "expense_id": "teacher_fallback",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "CLOSED_COSTS_GIVEN_BY_THIS_INDEPENDENT_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，5条记录对应5项独立费用，总额10；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 5,
+                    "total_cost": "10"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "FAILED_REQUIRED_DELIVERY_ONLY_NO_POSITIVE_KEEP_PREREQUISITES_ADDED",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "delivery_success",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "delivery_accepted": false,
+                "quality_vector_given_separately": [
+                  95,
+                  95,
+                  95,
+                  95,
+                  95
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：same_input,same_version,independent_consumer,costs_complete。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_INPUT",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_COSTS_COMPLETE"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "REVISE_DELIVERY"
+    },
+    {
+      "case_id": "QA11-E17",
+      "mechanism_family": "dominance_and_break_even",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "STRICT_NET_BENEFIT_ARITHMETIC_GIVEN_OTHER_FIXTURE_CONDITIONS_NOT_REAL_UTILITY",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 10,
+                "skill_per_task": 4,
+                "fixed_cost": 60,
+                "future_tasks": 10,
+                "quality_score": 90,
+                "quality_equal": true,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "STRICT_NET_BENEFIT_ARITHMETIC_GIVEN_OTHER_FIXTURE_CONDITIONS_NOT_REAL_UTILITY",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 10,
+                "skill_per_task": 4,
+                "fixed_cost": 60,
+                "future_tasks": 11,
+                "quality_score": 90,
+                "quality_equal": true,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "STRICT_NET_BENEFIT_ARITHMETIC_GIVEN_OTHER_FIXTURE_CONDITIONS_NOT_REAL_UTILITY",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 10,
+                "skill_per_task": 4,
+                "fixed_cost": 60,
+                "future_tasks": 10,
+                "quality_score": 90,
+                "quality_equal": true,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "STOP_NON_POSITIVE_BENEFIT"
+    },
+    {
+      "case_id": "QA11-E18",
+      "mechanism_family": "dominance_and_break_even",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "STRICT_NET_BENEFIT_ARITHMETIC_GIVEN_OTHER_FIXTURE_CONDITIONS_NOT_REAL_UTILITY",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 10,
+                "skill_per_task": 4,
+                "fixed_cost": 60,
+                "future_tasks": 11,
+                "quality_score": 90,
+                "quality_equal": true,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "STRICT_NET_BENEFIT_ARITHMETIC_GIVEN_OTHER_FIXTURE_CONDITIONS_NOT_REAL_UTILITY",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 10,
+                "skill_per_task": 4,
+                "fixed_cost": 60,
+                "future_tasks": 10,
+                "quality_score": 90,
+                "quality_equal": true,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "STRICT_NET_BENEFIT_ARITHMETIC_GIVEN_OTHER_FIXTURE_CONDITIONS_NOT_REAL_UTILITY",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 10,
+                "skill_per_task": 4,
+                "fixed_cost": 60,
+                "future_tasks": 11,
+                "quality_score": 90,
+                "quality_equal": true,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "KEEP_FIXTURE"
+    },
+    {
+      "case_id": "QA11-E19",
+      "mechanism_family": "dominance_and_break_even",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 5,
+                "skill_per_task": 8,
+                "fixed_cost": 0,
+                "future_tasks": 20,
+                "quality_score": 85,
+                "quality_equal": false,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：quality_equal,matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "FALSE_COMPARISON_PREMISE_QUALITY_EQUAL",
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "STRICT_NET_BENEFIT_ARITHMETIC_GIVEN_OTHER_FIXTURE_CONDITIONS_NOT_REAL_UTILITY",
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 5,
+                "skill_per_task": 8,
+                "fixed_cost": 0,
+                "future_tasks": 20,
+                "quality_score": 90,
+                "quality_equal": true,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "The new subject global guard needs givens absent or false in this finite challenge. Actual legacy-adapter calls are retained as diagnostics, not counted as failure or pass.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "amortization",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "baseline_per_task": 5,
+                "skill_per_task": 8,
+                "fixed_cost": 0,
+                "future_tasks": 25,
+                "quality_score": 85,
+                "quality_equal": false,
+                "delivery_both_success": true,
+                "unit": "abstract_credit",
+                "fixed_cost_scope": "ALL_ONE_TIME_COSTS_EXPLICIT_IN_FINITE_FIXTURE"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "本题保留或停止的比较前提未满足：quality_equal,matched_independent_consumer,same_version,fixed_cost_prospective_not_sunk。不能让单一质量或费用数字替代匹配、独立消费、版本与完整账，沉没费用也不能混作前瞻投入。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "REPAIR_MISSING_POLICY_PREMISES",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [
+              "FALSE_COMPARISON_PREMISE_QUALITY_EQUAL",
+              "UNSPECIFIED_COMPARISON_PREMISE_MATCHED_INDEPENDENT_CONSUMER",
+              "UNSPECIFIED_COMPARISON_PREMISE_SAME_VERSION",
+              "UNSPECIFIED_COMPARISON_PREMISE_FIXED_COST_PROSPECTIVE_NOT_SUNK",
+              "UNSPECIFIED_TESTED_VERSION_SHA256",
+              "UNSPECIFIED_CURRENT_VERSION_SHA256"
+            ],
+            "actual_call_counted_as_challenge_pass": false
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "STOP_DOMINATED"
+    },
+    {
+      "case_id": "QA11-E20",
+      "mechanism_family": "dominance_and_break_even",
+      "base": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "NOT_COMPARABLE_POLICY: this objective allows strict Q improvement at equal cost; solver uses strict cash reduction.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "NOT_COMPARABLE_POLICY: this objective allows strict Q improvement at equal cost; solver uses strict cash reduction.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE",
+        "adaptation_mode": "NOT_COMPARABLE",
+        "legacy_requested_adaptation_mode": "NOT_COMPARABLE",
+        "scope": null,
+        "reason": "NOT_COMPARABLE_POLICY: this objective allows strict Q improvement at equal cost; solver uses strict cash reduction.",
+        "calls": [],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "KEEP_FIXTURE_PARETO"
+    },
+    {
+      "case_id": "QA11-A21",
+      "mechanism_family": "cost_accounting",
+      "base": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "TERMINAL_DIGEST_DEDUP_AND_DIVISION_GIVEN_INDEPENDENTLY_SUMMED_VISIBLE_NUMERATOR",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "120",
+                "qualified_terminal_skill_ids": []
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "去重终版合格技能数K=0，每合格技能总成本未定义；不得报0或用候选数当分母。",
+                "D": {
+                  "decision": "UNDEFINED",
+                  "next_step": "REPORT_UNDEFINED_K_ZERO",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 0,
+                    "cost_per_qualified_skill": null
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "TERMINAL_DIGEST_DEDUP_AND_DIVISION_GIVEN_INDEPENDENTLY_SUMMED_VISIBLE_NUMERATOR",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "120",
+                "qualified_terminal_skill_ids": [
+                  "fixture-a21"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=1，题给总额120除以K=120；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 1,
+                    "cost_per_qualified_skill": "120"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "TERMINAL_DIGEST_DEDUP_AND_DIVISION_GIVEN_INDEPENDENTLY_SUMMED_VISIBLE_NUMERATOR",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "120",
+                "qualified_terminal_skill_ids": []
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "去重终版合格技能数K=0，每合格技能总成本未定义；不得报0或用候选数当分母。",
+                "D": {
+                  "decision": "UNDEFINED",
+                  "next_step": "REPORT_UNDEFINED_K_ZERO",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 0,
+                    "cost_per_qualified_skill": null
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": true,
+      "invariance_passed": true,
+      "audit_expected_decision_not_input": "UNDEFINED_K_ZERO"
+    },
+    {
+      "case_id": "QA11-A22",
+      "mechanism_family": "cost_accounting",
+      "base": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "TERMINAL_DIGEST_DEDUP_AND_DIVISION_GIVEN_INDEPENDENTLY_SUMMED_VISIBLE_NUMERATOR",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "60",
+                "qualified_terminal_skill_ids": [
+                  "same-final-content-22",
+                  "same-final-content-22"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=1，题给总额60除以K=60；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 1,
+                    "cost_per_qualified_skill": "60"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "TERMINAL_DIGEST_DEDUP_AND_DIVISION_GIVEN_INDEPENDENTLY_SUMMED_VISIBLE_NUMERATOR",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "60",
+                "qualified_terminal_skill_ids": [
+                  "same-final-content-22",
+                  "different-qualified-final-22"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=2，题给总额60除以K=30；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 2,
+                    "cost_per_qualified_skill": "30"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "TERMINAL_DIGEST_DEDUP_AND_DIVISION_GIVEN_INDEPENDENTLY_SUMMED_VISIBLE_NUMERATOR",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "60",
+                "qualified_terminal_skill_ids": [
+                  "same-final-content-22",
+                  "same-final-content-22",
+                  "same-final-content-22"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=1，题给总额60除以K=60；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 1,
+                    "cost_per_qualified_skill": "60"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": true,
+      "invariance_passed": true,
+      "audit_expected_decision_not_input": "REPORT_KNOWN_UNIT_COST"
+    },
+    {
+      "case_id": "QA11-A23",
+      "mechanism_family": "cost_accounting",
+      "base": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Two primitive accounting calls are checked, not one end-to-end raw-ledger policy. Numerator of second call is independently recomputed from visible physical events, not copied from first solver answer.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construct-a23",
+                    "amount": 10
+                  },
+                  {
+                    "expense_id": "construct-b23",
+                    "amount": 20
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 100
+                  },
+                  {
+                    "expense_id": "shared-eval-23",
+                    "amount": 20
+                  },
+                  {
+                    "expense_id": "generate-a23",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "generate-b23",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 100
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 100
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "ALL_PHYSICAL_COSTS_IN_FINITE_FIXTURE_ALLOCATIONS_ARE_REFERENCES"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，8条记录对应6项独立费用，总额160；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 6,
+                    "total_cost": "160"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          },
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "160",
+                "qualified_terminal_skill_ids": [
+                  "final-a23",
+                  "final-b23"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=2，题给总额160除以K=80；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 2,
+                    "cost_per_qualified_skill": "80"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Two primitive accounting calls are checked, not one end-to-end raw-ledger policy. Numerator of second call is independently recomputed from visible physical events, not copied from first solver answer.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construct-a23",
+                    "amount": 10
+                  },
+                  {
+                    "expense_id": "construct-b23",
+                    "amount": 20
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 120
+                  },
+                  {
+                    "expense_id": "shared-eval-23",
+                    "amount": 20
+                  },
+                  {
+                    "expense_id": "generate-a23",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "generate-b23",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 120
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 120
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "ALL_PHYSICAL_COSTS_IN_FINITE_FIXTURE_ALLOCATIONS_ARE_REFERENCES"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，8条记录对应6项独立费用，总额180；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 6,
+                    "total_cost": "180"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          },
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "180",
+                "qualified_terminal_skill_ids": [
+                  "final-a23",
+                  "final-b23"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=2，题给总额180除以K=90；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 2,
+                    "cost_per_qualified_skill": "90"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Two primitive accounting calls are checked, not one end-to-end raw-ledger policy. Numerator of second call is independently recomputed from visible physical events, not copied from first solver answer.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construct-a23",
+                    "amount": 10
+                  },
+                  {
+                    "expense_id": "construct-b23",
+                    "amount": 20
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 100
+                  },
+                  {
+                    "expense_id": "shared-eval-23",
+                    "amount": 20
+                  },
+                  {
+                    "expense_id": "generate-a23",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "generate-b23",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 100
+                  },
+                  {
+                    "expense_id": "shared-train-23",
+                    "amount": 100
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "ALL_PHYSICAL_COSTS_IN_FINITE_FIXTURE_ALLOCATIONS_ARE_REFERENCES"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "同一expense_id只计一次，8条记录对应6项独立费用，总额160；共享项不重复归入不同模型。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_DEDUPLICATED_TOTAL",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "unique_expenses": 6,
+                    "total_cost": "160"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          },
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "160",
+                "qualified_terminal_skill_ids": [
+                  "final-a23",
+                  "final-b23"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=2，题给总额160除以K=80；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 2,
+                    "cost_per_qualified_skill": "80"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "REPORT_KNOWN_UNIT_COST"
+    },
+    {
+      "case_id": "QA11-A24",
+      "mechanism_family": "cost_accounting",
+      "base": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Unknown-cost status can be tested; solver HOLD does not itself report known subtotal, K and null unit cost.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construct-24",
+                    "amount": 10
+                  },
+                  {
+                    "expense_id": "train-24",
+                    "amount": null
+                  },
+                  {
+                    "expense_id": "eval-24",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "generate-24",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "ALL_PHYSICAL_COSTS_IN_FINITE_FIXTURE_ALLOCATIONS_ARE_REFERENCES"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "共享费用记录缺额或同一费用ID冲突；不能在不确定时重复相加或选更低值。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "RECONCILE_SHARED_LEDGER",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "counterfactual": {
+        "status": "PASS_FULL_FINITE_CHALLENGE_SCOPE",
+        "adaptation_mode": "FULL",
+        "legacy_requested_adaptation_mode": "FULL",
+        "scope": "TERMINAL_DIGEST_DEDUP_AND_DIVISION_GIVEN_INDEPENDENTLY_SUMMED_VISIBLE_NUMERATOR",
+        "reason": null,
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "qualified_denominator",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "total_cost": "15",
+                "qualified_terminal_skill_ids": [
+                  "final-24"
+                ]
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "按终版技能ID去重后K=1，题给总额15除以K=15；重复命名与消费次数不增加K。",
+                "D": {
+                  "decision": "ACCOUNT",
+                  "next_step": "REPORT_GIVEN_UNIT_COST",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false,
+                  "derived_values": {
+                    "K": 1,
+                    "cost_per_qualified_skill": "15"
+                  }
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "nuisance": {
+        "status": "NOT_COMPARABLE_FULL_CHALLENGE_SUBCHECKS_PASS",
+        "adaptation_mode": "PARTIAL",
+        "legacy_requested_adaptation_mode": "PARTIAL",
+        "scope": null,
+        "reason": "Unknown-cost status can be tested; solver HOLD does not itself report known subtotal, K and null unit cost.",
+        "calls": [
+          {
+            "input": {
+              "case_alias": "independent_given_state",
+              "display_name": "independent QA only",
+              "request_kind": "shared_cost",
+              "policy": {
+                "q_min": 80,
+                "strict_cost_improvement": true
+              },
+              "facts": {
+                "ledger": [
+                  {
+                    "expense_id": "construct-24",
+                    "amount": 10
+                  },
+                  {
+                    "expense_id": "train-24",
+                    "amount": null
+                  },
+                  {
+                    "expense_id": "eval-24",
+                    "amount": 5
+                  },
+                  {
+                    "expense_id": "generate-24",
+                    "amount": 0
+                  }
+                ],
+                "unit": "abstract_credit",
+                "ledger_scope": "ALL_PHYSICAL_COSTS_IN_FINITE_FIXTURE_ALLOCATIONS_ARE_REFERENCES"
+              }
+            },
+            "response": {
+              "status": "RETURNED",
+              "result": {
+                "R": "共享费用记录缺额或同一费用ID冲突；不能在不确定时重复相加或选更低值。",
+                "D": {
+                  "decision": "HOLD",
+                  "next_step": "RECONCILE_SHARED_LEDGER",
+                  "scope": "SYNTHETIC_GIVEN_POLICY_ONLY",
+                  "real_skill_qualified_claim": false
+                },
+                "native_tool_intent": null,
+                "new_author_reasoning": true
+              },
+              "input_unchanged": true
+            },
+            "independent_failures": [],
+            "new_subject_contract_gaps": [],
+            "actual_call_counted_as_challenge_pass": true
+          }
+        ],
+        "failures": [],
+        "answer_poison_test": true,
+        "expected_answer_used_only_after_subject_execution": true
+      },
+      "invariance_comparable": false,
+      "invariance_passed": null,
+      "audit_expected_decision_not_input": "HOLD_COST_UNKNOWN"
+    }
+  ],
+  "not_comparable_not_counted_as_pass": true
+}

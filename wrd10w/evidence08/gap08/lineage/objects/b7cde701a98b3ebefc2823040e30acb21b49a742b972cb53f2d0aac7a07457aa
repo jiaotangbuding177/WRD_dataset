@@ -1,0 +1,842 @@
+{
+  "all_executables_covered": true,
+  "checks": [],
+  "complete_reproduction": false,
+  "derived_replay_pin": {
+    "bytes": 43847,
+    "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\declared_replay.json",
+    "sha256": "4ecef97fdc05329ab29056142691d972aaf8b8b17c2c1254b81d557a41c8ae99"
+  },
+  "documented_usage_verified": false,
+  "image_id": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+  "independent_replay": true,
+  "limitations": [
+    "Finite tested inputs do not prove correctness for every future input.",
+    "Generated fixture source/message references are verified; derivation is a declared making-side operation, not authenticated historical bytes.",
+    "These checks establish resource execution evidence, not Actor token or model-call savings."
+  ],
+  "metadata_conversion_pin": {
+    "bytes": 11812,
+    "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\metadata_path_conversions.json",
+    "sha256": "6715bade63a938db8508ea37c067660f0187bedf88fa53ec7ec9f9b37c4de63b"
+  },
+  "native_agent_modified": false,
+  "no_model_calls": true,
+  "non_executable_resources": [],
+  "optional_fixture_root_absent": false,
+  "original_replay_pin": {
+    "bytes": 41477,
+    "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\replay_original.json",
+    "sha256": "2eada0554ad33fdfdf3461113dda1bd0417836dd2cdc1c9af59786d5ce08a6f7"
+  },
+  "package_sha256": {
+    "SKILL.md": "f1059d0bba0998b07242e9061cd9ae9d286200cbf6773ed7e773b7a9a37a98ae",
+    "references/stage_notes.md": "d2afea3a2bc2eb7678afe2cd854795555a230a1ef0a6b2d0b849e08b61e8de30",
+    "scripts/kb_inventory.py": "f83665421e2ded292e36a5fb09dbebbc6f6cd7a10b1486a09ac4875694d05fdc",
+    "scripts/kb_organize.py": "60cce2058480d3cc969508a290e466b2109a3c8a72f6d28e6487356c45964052",
+    "scripts/kb_report.py": "132e55b1e9a38fcf8372009c2a1a9a5d38b754e007732f1036274db8fd5f9816",
+    "templates/maintenance_report_template.md": "2799fe42275d4ab087becbb2ee2a6c973eb157a1631a9b6dce7211a5706b5f91",
+    "templates/organize_rules.json": "a2f7df98488675ed381b5b96eb1bf77b149897523c24fff5d07768f05c0d8f06"
+  },
+  "programs": [
+    {
+      "cases": [
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{INPUT}/kb",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "declared_input_not_actually_supplied_to_program",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 0,
+          "full_input": false,
+          "full_output": false,
+          "id": "0001",
+          "kind": "normal",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "declared_input_not_actually_supplied_to_program"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "absence_observation": null,
+          "actual_argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{FIXTURE}/kb_boundary",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{FIXTURE}/kb_boundary",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "checks": [
+            {
+              "kind": "execution",
+              "output_pins": [
+                {
+                  "bytes": 2982,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.json",
+                  "sha256": "f5c7fd673fb8033178e440e859376cce177be9b3208a8fc649ac5f7b5e57624b"
+                },
+                {
+                  "bytes": 49,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.stdout",
+                  "sha256": "fb5599f4744e44200e3253130ef221c6ee574803aafc3fdaa66225c3c6c091e1"
+                },
+                {
+                  "bytes": 0,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              ],
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "assertion_kind": "sha256",
+              "exhaustive": true,
+              "kind": "field_preservation",
+              "output_pins": [
+                {
+                  "bytes": 296,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\out\\inventory.json",
+                  "sha256": "5c883f5804ebbc679f879d57619f52311bab40d6135c09558f273180aca61fce"
+                }
+              ],
+              "path": "inventory.json",
+              "status": "PASS"
+            }
+          ],
+          "commands": [
+            {
+              "actual_argv": [
+                "python",
+                "{SKILL}/scripts/kb_inventory.py",
+                "{FIXTURE}/kb_boundary",
+                "--out",
+                "{OUT}/inventory.json"
+              ],
+              "argv": [
+                "python",
+                "{SKILL}/scripts/kb_inventory.py",
+                "{FIXTURE}/kb_boundary",
+                "--out",
+                "{OUT}/inventory.json"
+              ],
+              "binding_changes_test_input_location_only": true,
+              "docker_argv": [
+                "docker",
+                "run",
+                "--rm",
+                "--name",
+                "wrd-resource-replay-912e9b9197794d20988bcea468f63cde",
+                "--label",
+                "wrd.resource-replay=912e9b9197794d20988bcea468f63cde",
+                "--network",
+                "none",
+                "--read-only",
+                "--cap-drop",
+                "ALL",
+                "--security-opt",
+                "no-new-privileges",
+                "--pids-limit",
+                "128",
+                "--tmpfs",
+                "/tmp:rw,nosuid,nodev,size=256m",
+                "-e",
+                "PYTHONDONTWRITEBYTECODE=1",
+                "-e",
+                "HOME=/tmp",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill:/skill:ro",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs:/input:ro",
+                "-v",
+                "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\out:/out",
+                "--workdir",
+                "/out",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs:/fixtures:ro",
+                "--entrypoint",
+                "python",
+                "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+                "/skill/scripts/kb_inventory.py",
+                "/fixtures/kb_boundary",
+                "--out",
+                "/out/inventory.json"
+              ],
+              "docker_lifecycle": null,
+              "execution_boundary": {
+                "reason_code": "observed_resource_process_result",
+                "resource_fault_exonerated": false,
+                "status": "RESOURCE_RESULT"
+              },
+              "execution_record": {
+                "bytes": 2982,
+                "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.json",
+                "sha256": "f5c7fd673fb8033178e440e859376cce177be9b3208a8fc649ac5f7b5e57624b"
+              },
+              "expanded_argv": [
+                "python",
+                "/skill/scripts/kb_inventory.py",
+                "/fixtures/kb_boundary",
+                "--out",
+                "/out/inventory.json"
+              ],
+              "expected_exit": 0,
+              "host_spawn_error": null,
+              "original_argv": [
+                "python",
+                "{SKILL}/scripts/kb_inventory.py",
+                "{FIXTURE}/kb_boundary",
+                "--out",
+                "{OUT}/inventory.json"
+              ],
+              "owned_timeout_cleanup": null,
+              "program": "scripts/kb_inventory.py",
+              "raw_public_argv_preserved": true,
+              "resolved_argv": [
+                "python",
+                "/skill/scripts/kb_inventory.py",
+                "/fixtures/kb_boundary",
+                "--out",
+                "/out/inventory.json"
+              ],
+              "returncode": 0,
+              "seconds": 1.063,
+              "stderr": {
+                "bytes": 0,
+                "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 49,
+                "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.stdout",
+                "sha256": "fb5599f4744e44200e3253130ef221c6ee574803aafc3fdaa66225c3c6c091e1"
+              },
+              "temporary_input_bindings": null,
+              "timed_out": false
+            }
+          ],
+          "expanded_argv": [
+            "python",
+            "/skill/scripts/kb_inventory.py",
+            "/fixtures/kb_boundary",
+            "--out",
+            "/out/inventory.json"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "data_origin_declaration": {
+              "derivation": "最小单文件知识库边界样例：文件内容取自 conv_1e8e6e53ac34:msg_1 的触发语“整理知识库”加换行，扩展名 txt 对应口径中的“文档”分类；用于验证单文件KB的盘点/整理/报告链路。非历史原件，制作时新生成。",
+              "generated": true,
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "path": "kb_boundary/notes.txt",
+              "pin": {
+                "bytes": 16,
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+                "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+              },
+              "purpose": "boundary_case",
+              "source_id": "conv_1e8e6e53ac34",
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d"
+            },
+            "message_ids": [
+              "conv_1e8e6e53ac34:msg_1"
+            ],
+            "origin": "generated_fixture",
+            "pin": {
+              "bytes": 16,
+              "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+              "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+            },
+            "source_id": "conv_1e8e6e53ac34",
+            "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+            "usage_source_reference": {
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 16,
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+                "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+              },
+              "source_id": "conv_1e8e6e53ac34",
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d"
+            },
+            "whole_file_bytes_supplied": true
+          },
+          "fixture_refs": [
+            {
+              "data_origin_declaration": {
+                "derivation": "最小单文件知识库边界样例：文件内容取自 conv_1e8e6e53ac34:msg_1 的触发语“整理知识库”加换行，扩展名 txt 对应口径中的“文档”分类；用于验证单文件KB的盘点/整理/报告链路。非历史原件，制作时新生成。",
+                "generated": true,
+                "message_ids": [
+                  "conv_1e8e6e53ac34:msg_1"
+                ],
+                "origin": "generated_fixture",
+                "path": "kb_boundary/notes.txt",
+                "pin": {
+                  "bytes": 16,
+                  "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+                  "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+                },
+                "purpose": "boundary_case",
+                "source_id": "conv_1e8e6e53ac34",
+                "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d"
+              },
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 16,
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+                "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+              },
+              "source_id": "conv_1e8e6e53ac34",
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "usage_source_reference": {
+                "message_ids": [
+                  "conv_1e8e6e53ac34:msg_1"
+                ],
+                "origin": "generated_fixture",
+                "pin": {
+                  "bytes": 16,
+                  "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+                  "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+                },
+                "source_id": "conv_1e8e6e53ac34",
+                "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d"
+              },
+              "whole_file_bytes_supplied": true
+            }
+          ],
+          "full_input": true,
+          "full_output": true,
+          "id": "0002",
+          "input_pin": {
+            "bytes": 16,
+            "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+            "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+          },
+          "input_pin_role": "actual_file_input",
+          "input_pins": [
+            {
+              "bytes": 16,
+              "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs\\kb_boundary\\notes.txt",
+              "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d"
+            }
+          ],
+          "kind": "boundary",
+          "outputs": [
+            {
+              "bytes": 296,
+              "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\out\\inventory.json",
+              "sha256": "5c883f5804ebbc679f879d57619f52311bab40d6135c09558f273180aca61fce"
+            }
+          ],
+          "public_usage_executed": false,
+          "returncode": 0,
+          "status": "PASS",
+          "stderr": {
+            "bytes": 0,
+            "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 49,
+            "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0002\\command_01.stdout",
+            "sha256": "fb5599f4744e44200e3253130ef221c6ee574803aafc3fdaa66225c3c6c091e1"
+          }
+        },
+        {
+          "absence_observation": {
+            "bytes": 6364,
+            "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\absence_observation.json",
+            "sha256": "e56a071d433906944ef56209a7bddc8299d63cee363eec34d6a830b01d8df5bd"
+          },
+          "actual_argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{INPUT}/never_exists_kb",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{INPUT}/never_exists_kb",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "checks": [
+            {
+              "kind": "execution",
+              "output_pins": [
+                {
+                  "bytes": 2991,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.json",
+                  "sha256": "8baef63f0431b2cd70c73bcc2396015b957bf332c2d0637e5e40105e8b4778fd"
+                },
+                {
+                  "bytes": 0,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "bytes": 67,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+                  "sha256": "a7eaac6c9507e8a644702258a88a9006383ba907a8f9b4ae416a06a585bd2340"
+                }
+              ],
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "kind": "input_absence",
+              "output_pins": [
+                {
+                  "bytes": 6364,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\absence_observation.json",
+                  "sha256": "e56a071d433906944ef56209a7bddc8299d63cee363eec34d6a830b01d8df5bd"
+                }
+              ],
+              "status": "PASS"
+            },
+            {
+              "assertion_kind": "contains",
+              "exhaustive": false,
+              "kind": "content",
+              "output_pins": [
+                {
+                  "bytes": 67,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+                  "sha256": "a7eaac6c9507e8a644702258a88a9006383ba907a8f9b4ae416a06a585bd2340"
+                }
+              ],
+              "path": "$stderr",
+              "status": "PASS"
+            }
+          ],
+          "commands": [
+            {
+              "actual_argv": [
+                "python",
+                "{SKILL}/scripts/kb_inventory.py",
+                "{INPUT}/never_exists_kb",
+                "--out",
+                "{OUT}/inventory.json"
+              ],
+              "argv": [
+                "python",
+                "{SKILL}/scripts/kb_inventory.py",
+                "{INPUT}/never_exists_kb",
+                "--out",
+                "{OUT}/inventory.json"
+              ],
+              "binding_changes_test_input_location_only": true,
+              "docker_argv": [
+                "docker",
+                "run",
+                "--rm",
+                "--name",
+                "wrd-resource-replay-d9fa0422ba50401db43818f1e16943ff",
+                "--label",
+                "wrd.resource-replay=d9fa0422ba50401db43818f1e16943ff",
+                "--network",
+                "none",
+                "--read-only",
+                "--cap-drop",
+                "ALL",
+                "--security-opt",
+                "no-new-privileges",
+                "--pids-limit",
+                "128",
+                "--tmpfs",
+                "/tmp:rw,nosuid,nodev,size=256m",
+                "-e",
+                "PYTHONDONTWRITEBYTECODE=1",
+                "-e",
+                "HOME=/tmp",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill:/skill:ro",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs:/input:ro",
+                "-v",
+                "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\out:/out",
+                "--workdir",
+                "/out",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\reproduction_inputs:/fixtures:ro",
+                "--entrypoint",
+                "python",
+                "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+                "/skill/scripts/kb_inventory.py",
+                "/input/never_exists_kb",
+                "--out",
+                "/out/inventory.json"
+              ],
+              "docker_lifecycle": null,
+              "execution_boundary": {
+                "reason_code": "observed_resource_process_result",
+                "resource_fault_exonerated": false,
+                "status": "RESOURCE_RESULT"
+              },
+              "execution_record": {
+                "bytes": 2991,
+                "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.json",
+                "sha256": "8baef63f0431b2cd70c73bcc2396015b957bf332c2d0637e5e40105e8b4778fd"
+              },
+              "expanded_argv": [
+                "python",
+                "/skill/scripts/kb_inventory.py",
+                "/input/never_exists_kb",
+                "--out",
+                "/out/inventory.json"
+              ],
+              "expected_exit": 2,
+              "host_spawn_error": null,
+              "original_argv": [
+                "python",
+                "{SKILL}/scripts/kb_inventory.py",
+                "{INPUT}/never_exists_kb",
+                "--out",
+                "{OUT}/inventory.json"
+              ],
+              "owned_timeout_cleanup": null,
+              "program": "scripts/kb_inventory.py",
+              "raw_public_argv_preserved": true,
+              "resolved_argv": [
+                "python",
+                "/skill/scripts/kb_inventory.py",
+                "/input/never_exists_kb",
+                "--out",
+                "/out/inventory.json"
+              ],
+              "returncode": 2,
+              "seconds": 0.484,
+              "stderr": {
+                "bytes": 67,
+                "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+                "sha256": "a7eaac6c9507e8a644702258a88a9006383ba907a8f9b4ae416a06a585bd2340"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "temporary_input_bindings": null,
+              "timed_out": false
+            }
+          ],
+          "expanded_argv": [
+            "python",
+            "/skill/scripts/kb_inventory.py",
+            "/input/never_exists_kb",
+            "--out",
+            "/out/inventory.json"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "absence_verified_before": true,
+            "absent_host_path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs\\never_exists_kb",
+            "absent_relative_path": "never_exists_kb",
+            "absent_root": "INPUT",
+            "container_path": "/input/never_exists_kb",
+            "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed.",
+            "generated": true,
+            "message_ids": [
+              "conv_1e8e6e53ac34:msg_1"
+            ],
+            "not_a_file_input_pin": true,
+            "origin": "absent_path",
+            "parent_directory_pin": {
+              "entries": [
+                {
+                  "kind": "directory",
+                  "name": "conversations"
+                },
+                {
+                  "bytes": 1762,
+                  "kind": "file",
+                  "name": "generation.md",
+                  "sha256": "cb8ea643a59605156567198e4ee8405ea12dee87426e497ecc06c43a23004b86"
+                },
+                {
+                  "bytes": 13543,
+                  "kind": "file",
+                  "name": "making_contract.json",
+                  "sha256": "188ebf7722862f26cf76367fc61c86a625ff07a20a423e8e230fb2f2a505454d"
+                },
+                {
+                  "bytes": 25338,
+                  "kind": "file",
+                  "name": "making_input_index.json",
+                  "sha256": "9acb18517c9ab994175ed4bb3d90342cd7407747b614770560add8642721bec4"
+                },
+                {
+                  "bytes": 273,
+                  "kind": "file",
+                  "name": "making_lineage.json",
+                  "sha256": "977973d825d142ecb05e0a79e9247b8aaa540264d62ecc70a5e95f32a6b3f863"
+                },
+                {
+                  "kind": "directory",
+                  "name": "making_tools"
+                },
+                {
+                  "bytes": 312,
+                  "kind": "file",
+                  "name": "resource_catalog.json",
+                  "sha256": "dbdcb89abc00c33ed216c3328759a644195c3628d9f830acb89a12639932ce54"
+                },
+                {
+                  "kind": "directory",
+                  "name": "reusable"
+                },
+                {
+                  "bytes": 5635,
+                  "kind": "file",
+                  "name": "reusable_packages.json",
+                  "sha256": "4e9acd9336a3d4b4ac80efa1309dffb3abc22f23ee425029edaf4ebd6659ea39"
+                },
+                {
+                  "bytes": 12563,
+                  "kind": "file",
+                  "name": "route_card.json",
+                  "sha256": "21b7051c769f9b6c1d350f9077378353bbbe3dbafbaddebeef472a2a23e2b6f2"
+                },
+                {
+                  "bytes": 4997,
+                  "kind": "file",
+                  "name": "source_bindings.json",
+                  "sha256": "8fd3d7f5d115f124a9be37c1b962e42f80196d027d27be061dd4f1559d21a490"
+                }
+              ],
+              "kind": "directory_listing",
+              "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs",
+              "sha256": "307decaa2e8f337539e4e1abff21eebabecb490c19a0a96d7d53134fca68accb"
+            },
+            "purpose": "invalid_input",
+            "source_id": "conv_1e8e6e53ac34",
+            "source_material_pin": {
+              "bytes": 11295,
+              "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs\\conversations\\conv_1e8e6e53ac34.json",
+              "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c"
+            },
+            "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+            "whole_file_bytes_supplied": false
+          },
+          "fixture_refs": [
+            {
+              "absence_verified_before": true,
+              "absent_host_path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs\\never_exists_kb",
+              "absent_relative_path": "never_exists_kb",
+              "absent_root": "INPUT",
+              "container_path": "/input/never_exists_kb",
+              "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed.",
+              "generated": true,
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "not_a_file_input_pin": true,
+              "origin": "absent_path",
+              "parent_directory_pin": {
+                "entries": [
+                  {
+                    "kind": "directory",
+                    "name": "conversations"
+                  },
+                  {
+                    "bytes": 1762,
+                    "kind": "file",
+                    "name": "generation.md",
+                    "sha256": "cb8ea643a59605156567198e4ee8405ea12dee87426e497ecc06c43a23004b86"
+                  },
+                  {
+                    "bytes": 13543,
+                    "kind": "file",
+                    "name": "making_contract.json",
+                    "sha256": "188ebf7722862f26cf76367fc61c86a625ff07a20a423e8e230fb2f2a505454d"
+                  },
+                  {
+                    "bytes": 25338,
+                    "kind": "file",
+                    "name": "making_input_index.json",
+                    "sha256": "9acb18517c9ab994175ed4bb3d90342cd7407747b614770560add8642721bec4"
+                  },
+                  {
+                    "bytes": 273,
+                    "kind": "file",
+                    "name": "making_lineage.json",
+                    "sha256": "977973d825d142ecb05e0a79e9247b8aaa540264d62ecc70a5e95f32a6b3f863"
+                  },
+                  {
+                    "kind": "directory",
+                    "name": "making_tools"
+                  },
+                  {
+                    "bytes": 312,
+                    "kind": "file",
+                    "name": "resource_catalog.json",
+                    "sha256": "dbdcb89abc00c33ed216c3328759a644195c3628d9f830acb89a12639932ce54"
+                  },
+                  {
+                    "kind": "directory",
+                    "name": "reusable"
+                  },
+                  {
+                    "bytes": 5635,
+                    "kind": "file",
+                    "name": "reusable_packages.json",
+                    "sha256": "4e9acd9336a3d4b4ac80efa1309dffb3abc22f23ee425029edaf4ebd6659ea39"
+                  },
+                  {
+                    "bytes": 12563,
+                    "kind": "file",
+                    "name": "route_card.json",
+                    "sha256": "21b7051c769f9b6c1d350f9077378353bbbe3dbafbaddebeef472a2a23e2b6f2"
+                  },
+                  {
+                    "bytes": 4997,
+                    "kind": "file",
+                    "name": "source_bindings.json",
+                    "sha256": "8fd3d7f5d115f124a9be37c1b962e42f80196d027d27be061dd4f1559d21a490"
+                  }
+                ],
+                "kind": "directory_listing",
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs",
+                "sha256": "307decaa2e8f337539e4e1abff21eebabecb490c19a0a96d7d53134fca68accb"
+              },
+              "purpose": "invalid_input",
+              "source_id": "conv_1e8e6e53ac34",
+              "source_material_pin": {
+                "bytes": 11295,
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\inputs\\conversations\\conv_1e8e6e53ac34.json",
+                "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c"
+              },
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "whole_file_bytes_supplied": false
+            }
+          ],
+          "full_input": false,
+          "full_output": true,
+          "id": "0003",
+          "input_pin": {
+            "bytes": 6364,
+            "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\absence_observation.json",
+            "sha256": "e56a071d433906944ef56209a7bddc8299d63cee363eec34d6a830b01d8df5bd"
+          },
+          "input_pin_role": "absence_observation_not_input_file",
+          "input_pins": [],
+          "kind": "invalid_input",
+          "outputs": [],
+          "public_usage_executed": false,
+          "returncode": 2,
+          "status": "PASS",
+          "stderr": {
+            "bytes": 67,
+            "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+            "sha256": "a7eaac6c9507e8a644702258a88a9006383ba907a8f9b4ae416a06a585bd2340"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "E:\\skillloop_runs\\w10\\rep\\knowledge-base-maintenance\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "documented_usage": "python {SKILL}/scripts/kb_inventory.py {INPUT}/kb --out {OUT}/inventory.json",
+      "path": "scripts/kb_inventory.py",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/kb_inventory.py",
+        "{INPUT}/kb",
+        "--out",
+        "{OUT}/inventory.json"
+      ],
+      "sha256": "f83665421e2ded292e36a5fb09dbebbc6f6cd7a10b1486a09ac4875694d05fdc"
+    }
+  ],
+  "reasons": [
+    "one_or_more_program_cases_failed"
+  ],
+  "resource_reports": [],
+  "schema": "wrd-library-reproduction-v7",
+  "skill_tree_pins": {
+    "SKILL.md": {
+      "bytes": 1974,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill\\SKILL.md",
+      "sha256": "f1059d0bba0998b07242e9061cd9ae9d286200cbf6773ed7e773b7a9a37a98ae"
+    },
+    "references/stage_notes.md": {
+      "bytes": 2803,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill\\references\\stage_notes.md",
+      "sha256": "d2afea3a2bc2eb7678afe2cd854795555a230a1ef0a6b2d0b849e08b61e8de30"
+    },
+    "scripts/kb_inventory.py": {
+      "bytes": 2939,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill\\scripts\\kb_inventory.py",
+      "sha256": "f83665421e2ded292e36a5fb09dbebbc6f6cd7a10b1486a09ac4875694d05fdc"
+    },
+    "scripts/kb_organize.py": {
+      "bytes": 6091,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill\\scripts\\kb_organize.py",
+      "sha256": "60cce2058480d3cc969508a290e466b2109a3c8a72f6d28e6487356c45964052"
+    },
+    "scripts/kb_report.py": {
+      "bytes": 3971,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill\\scripts\\kb_report.py",
+      "sha256": "132e55b1e9a38fcf8372009c2a1a9a5d38b754e007732f1036274db8fd5f9816"
+    },
+    "templates/maintenance_report_template.md": {
+      "bytes": 348,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill\\templates\\maintenance_report_template.md",
+      "sha256": "2799fe42275d4ab087becbb2ee2a6c973eb157a1631a9b6dce7211a5706b5f91"
+    },
+    "templates/organize_rules.json": {
+      "bytes": 420,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\knowledge-base-maintenance__make1\\workspace\\outputs\\candidate\\skill\\templates\\organize_rules.json",
+      "sha256": "a2f7df98488675ed381b5b96eb1bf77b149897523c24fff5d07768f05c0d8f06"
+    }
+  },
+  "source_evidence_verified": false,
+  "status": "HOLD",
+  "validator": {
+    "bytes": 3606,
+    "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v10\\reproduction.py",
+    "sha256": "e86d561df00c57264cd0c539085ccc7edb48acac91ac770a2e5594c499c312d8"
+  },
+  "verified_source_ids": [
+    "conv_1e8e6e53ac34",
+    "conv_63914080dfaf",
+    "conv_6cedf31d582f",
+    "conv_7c09ae1a1aad"
+  ]
+}

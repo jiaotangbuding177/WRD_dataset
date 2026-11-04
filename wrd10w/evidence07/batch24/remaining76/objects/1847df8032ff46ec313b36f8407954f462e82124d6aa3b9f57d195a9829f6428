@@ -1,0 +1,44 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/audit_checklist.md",
+    "outputs/skill/scripts/verify_text.py",
+    "outputs/skill/scripts/overlay_text.py",
+    "outputs/skill/scripts/check_region.py"
+  ],
+  "replaced_work": "三个验证/叠加脚本原样复制自 reusable skill_1（user-image-editing），零改动复用。skill_2 的 compose_plan/check_missing/revise_plan 未复制：本路线通常只出优化前后两张图，批量计划工具不减负，其关键判断（缺漏以实际文件为准、纠正只改点名条目、先澄清再修订）已并入 SKILL.md 关键判断。skill_3（HTML游戏）与路线无关，未采用。诊断维度表、方案文档结构、前后原型提示词模板为本次从 conv_1765ca7d99bb 成功做法新写；ui-ux-pro-max 基线技能未随任务提供，未下载依赖。",
+  "program_runs": [
+    {
+      "cmd": "python /workspace/outputs/making_samples/make_mockup.py",
+      "result": "成功。生成 1080x1440 购物车样例底图 base.png，含会话同款错拼 COFFEC BEANS 用于检验错字检测"
+    },
+    {
+      "cmd": "python outputs/skill/scripts/verify_text.py base.png --expect '我的购物车,家用咖啡机,去结算,合计' --out t1_text_check.json",
+      "result": "exit 5：标题/商品名命中；'去结算'（白字橙底）整图OCR漏读，'合计'被误读成 Ait。属OCR局限非缺字"
+    },
+    {
+      "cmd": "python outputs/skill/scripts/verify_text.py base.png --expect 'COFFEE BEANS,咖啡豆礼盒' --out t2_text_check.json",
+      "result": "exit 5：COFFEE BEANS 正确报缺（图内实为错拼 COFFEC），复现并验证了会话中错拼教训的检测路径"
+    },
+    {
+      "cmd": "裁块放大3x后 verify_text.py t6_button_crop.png --expect '去结算' --out t6_check.json",
+      "result": "exit 0：低对比按钮文字裁块放大后命中。结论（已写入 references）：OCR候选先裁块放大确认，误读即通过，不因此重生成正常图"
+    },
+    {
+      "cmd": "python outputs/skill/scripts/overlay_text.py base.png --text '问题1：勾选与金额不一致' --anchor top-left --x 140 --y 155 --font-size 36 --color '#e53935' --out annotated.png（另测多行 bottom-right）",
+      "result": "exit 0 成功。注记区域与 base.png+同字体同参数重绘逐像素比对一致，证明叠加即预期字形；--x/--y 覆盖锚点定位与文档一致"
+    },
+    {
+      "cmd": "python outputs/skill/scripts/check_region.py base.png annotated.png --region 0,1220,1080,1440（must_match）与 --region 100,140,700,220 --mode must_differ；另测缺文件/坏region/尺寸不符/越界四种错误情形",
+      "result": "校验用例全部 exit 0 通过；错误情形均 exit 2 且报错信息明确（file_not_found/bad_region/size_mismatch/region_out_of_bounds）"
+    },
+    {
+      "cmd": "python /opt/eval-adapter/ecnu_tools.py image --text '极简手机购物车界面UI设计稿，白底，橙色按钮' --output probe.png（两次）",
+      "result": "均 ECNU HTTP 404 Unknown endpoint: POST /v1/images/generations。制作时环境生图端点不可用"
+    }
+  ],
+  "known_issues": [
+    "生图命令在制作时环境返回404，高保真原型生成命令未经真实出图验证；SKILL.md 已内置开工探活与降级路线（本地代码渲染/PIL + overlay_text 叠字），降级路径本次已实测可用，业务执行时以实际探活结果为准",
+    "verify_text.py 整图OCR对低对比按钮字、小号彩字有漏读/误读（本次实测'去结算'漏读、'合计'读成Ait、红色小标注放大后仍误读），必须按技能指引裁块放大确认或与确定性渲染比对，不能见 exit 5 就盲目重生成"
+  ]
+}

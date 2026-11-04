@@ -1,0 +1,19 @@
+{
+  "old_checker_sha256": "50c96784183294137c5704597b318b5e350dd863ced2e4aae713e8aefb4d93a4",
+  "old_exact_source_snapshot": "../checker_history/50c96784183294137c5704597b318b5e350dd863ced2e4aae713e8aefb4d93a4.py",
+  "old_run01_results_preserved": true,
+  "challenge_original_bytes_modified": false,
+  "root_source_or_cases_modified_by_QA": false,
+  "changes": [
+    "Recognize the source's new explicit combined-policy input contract and classify queries with missing or false required givens as NOT_COMPARABLE.",
+    "Retain actual legacy-adapter calls and their real root responses as diagnostics, without counting them as passes or subject failures.",
+    "For newly added amortization HOLD examples, independently check the false comparison prerequisite blocks the policy calculation; do not demand derived values from an intentionally ineligible comparison.",
+    "Declare current_rows_actual_count rather than interpreting historical CURRENT512 file/key identifiers as the actual row count."
+  ],
+  "new_givens_invented_or_set_true": false,
+  "adapter_reads_expected_answers": false,
+  "new_compatibility_limits_are_not_model_errors_or_passes": true,
+  "challenge_used_for_development_correction": true,
+  "claim_heldout_external_test_or_student_model_gain": false,
+  "native_calls_or_training_started": false
+}

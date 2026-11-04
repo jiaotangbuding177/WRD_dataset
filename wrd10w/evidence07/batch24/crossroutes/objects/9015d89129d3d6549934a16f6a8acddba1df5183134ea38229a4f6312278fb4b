@@ -1,0 +1,31 @@
+{
+  "decision": "revise",
+  "reason": "候选资源本身可靠且在真实委托中被读取并部分使用、交付达线，但同一委托下 workflow 组 Token（1,460,621 vs 1,314,430）与调用（27 vs 21）均高于 no_skill 组，成本未降，不满足 retain 条件。且本例委托明确要求『不添加封面、页眉页脚或装饰元素』，与技能默认版式路线（封面/目录/页眉页脚）不匹配，核心生成路径 content.json→make_docx.js→fix_toc.py 在真实业务中完全未被使用，实际只复用了 extract_texts.py，减负面过窄——这是可通过局部修改（为纯格式转换场景增加无封面/目录分支）解决的具体问题，故判 revise 而非 reject。",
+  "replaced_work": "制作记录显示技能替代了三项公共工作：LibreOffice 宏刷新目录域（历史会话 msg_31~43 反复失败）替换为 fix_toc.py 的 XML 注入+实测页码回填；docx-js Bookmark 类（w:id 全为 1 的 bug，msg_49/61）替换为后处理注入书签；PDF/docx 材料文本提取的手工搭建替换为 extract_texts.py。真实委托 run 中仅第三项（extract_texts.py）实际发生替代，前两项仅存在于制作样例验证中。",
+  "resource_reliable": true,
+  "delivery_passed": true,
+  "resource_used": true,
+  "evidence_refs": [
+    "/workspace/inputs/candidate 与 /workspace/inputs/making/make__docx-standardize-export/attempt_2/workspace/outputs/skill 目录 diff 为空（候选与已完成制作产出逐文件一致）",
+    "/workspace/inputs/making/make__docx-standardize-export/attempt_2/workspace/outputs/making.json（program_runs 记录 make_docx.js 生成、fix_toc.py 含幂等/边界/长文档验证、extract_texts.py 回提比对 17 项事实、渲染+vision 核验）",
+    "/workspace/inputs/making/make__docx-standardize-export/attempt_2/result.json（status=completed，returncode=0）；attempt_1/result.json（status=failed，容器重启，不计入完整记录）",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:13（SKILL.md 原生 read 全文送达，2030 字符与候选文件字符数一致）、:16（exec extract_texts.py 返回 {\"extracted\":1,\"errors\":0}，输出 2890 字节 txt+index.json）、:39-43（改用自写 python-docx 脚本生成，未经 make_docx.js）、:45-61（LibreOffice 渲染+逐页 vision 检查）",
+    "/workspace/inputs/cases/1/workflow/workspace/outputs/2026.07.03产品规格书.docx（141,751 字节，实际存在）",
+    "/workspace/inputs/cases/1/workflow/response.json（52 项事实比对无缺失）",
+    "/workspace/inputs/cases/1/no_skill/workspace/outputs/2026.07.03产品规格书.docx（39,334 字节，基线组亦有交付）",
+    "/workspace/inputs/review_input.json totals：no_skill [1314430,21] vs workflow [1460621,27]，cost_reduced=false",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/skill_reads.json（原生全文读取通道摘要为空，不据此判未读；以 read_usage_evidence.json 与原始事件行 13 为准）"
+  ],
+  "case_findings": [
+    {
+      "case_id": "conv_feb7c0fed490_msg16_docx",
+      "delivery": "pass",
+      "reason": "workflow 组按委托交付 /workspace/outputs/2026.07.03产品规格书.docx（141KB 二进制），经 LibreOffice 实渲染 3 页、逐页 vision 检查与 52 项关键事实比对（缺失 NONE），未添加封面/页眉页脚，符合『仅格式整理不改事实数据』底线；但该委托禁用封面/目录，技能核心生成路线不适用，仅复用 extract_texts.py，生成段由 agent 自写 python-docx 完成。"
+    }
+  ],
+  "repair_notes": [
+    "在 SKILL.md 增加『无封面/目录纯格式转换』分支：此类委托直接用 extract_texts.py 提取+渲染核验，并让 make_docx.js 支持 minimal 模式（跳过封面节/目录节/页眉页脚），使生成路径对相邻委托真正可复用，否则该类任务只能复用提取脚本、技能加载反而增加开销。",
+    "成本未降（Token +146,191、调用 +6）：修改后需在同类『无封面/目录』委托上重做真实试用，确认 Token 与调用均低于 no_skill 基线，方可再次提请 retain。",
+    "SKILL.md 描述可将适用条件细化：现文『不添加封面页眉页脚』类委托会误触发本技能，建议在 description 中注明默认版式路线仅适用于要求封面/目录/页眉页脚的整理任务。"
+  ]
+}

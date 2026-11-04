@@ -1,0 +1,40 @@
+{
+  "task": "凭据安全加固与就绪检测路线沉淀技能（route: credential-safe-hardening）",
+  "previous_attempt": {
+    "status": "unavailable",
+    "detail": "inputs/previous.json 指向的 episode 与 feedback 文件（E:\\skillloop_runs\\...attempt_2\\...\\making.json）在本环境不存在，无法复用旧成果与旧反馈；本次按会话材料全新制作。"
+  },
+  "learning_sources": [
+    "inputs/conversations/conv_a999f104e767.json（已完整读取：Round1-2 凭据加固 9 项修复与 24 项离线测试；Round3 Live Test Phase 0-2 的隔离评估、双路出口 IP、假凭据白名单探测与阻塞上报）"
+  ],
+  "reusable_reviewed": [
+    {"id": "skill-connector-setup", "verdict": "不相关，未复用"},
+    {"id": "email-send-assist", "verdict": "与本路线核心（凭据加固/就绪检测）无直接交集，未复用；报告交付方式留给业务任务"},
+    {"id": "gitee-workitem-mgmt", "verdict": "不相关，未复用"}
+  ],
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/scripts/redact.py",
+    "outputs/skill/scripts/readiness_check.py",
+    "outputs/skill/references/readiness-report-template.md"
+  ],
+  "replaced_work": "无（三个 reusable 技能均无可用现成资源可复制）",
+  "program_runs": [
+    {"cmd": "python outputs/skill/scripts/redact.py --text '<URL含secret/access_token>'", "result": "OK：URL 参数值全部打 ***，appid 保留"},
+    {"cmd": "python outputs/skill/scripts/redact.py --text 'json/引号kv/裸kv三种形式'", "result": "初版 JSON 形式漏掩码，修正 _KV 正则后三种形式均 OK"},
+    {"cmd": "python outputs/skill/scripts/redact.py --file err.log --redact-value MYSECRET1234", "result": "OK：密钥原文纵深抹除，URL token 打码"},
+    {"cmd": "python outputs/skill/scripts/redact.py --check-url <freepublish|mass/sendall|draft/add>", "result": "OK：禁用端点 BLOCKED 退出码 3；draft/add 放行退出码 0 且 token 打码"},
+    {"cmd": "python -c 'from redact import redact, assert_draft_only'（库级 import，含 None 边界与闸函数边界）", "result": "OK"},
+    {"cmd": "python outputs/skill/scripts/readiness_check.py scan making_samples/demo_project --forbid-literal=--app_secret [--include-tests]", "result": "OK：检出 cli_secret_param/output_secret/input_secret/blocked_endpoint/forbid_literal/.env 共 8 项，退出码 1；tests 默认排除（2 处字面量），--include-tests 复核出 3 处；命中行经 redact 输出，不回显值"},
+    {"cmd": "python outputs/skill/scripts/readiness_check.py scan making_samples/clean_proj", "result": "OK：干净目录 0 发现，退出码 0"},
+    {"cmd": "python outputs/skill/scripts/readiness_check.py scan /nonexistent_dir_xyz", "result": "OK：报 ERROR，退出码 2"},
+    {"cmd": "python outputs/skill/scripts/readiness_check.py egress（当前任务 + 独立进程双路；含 --expect-ip 1.2.3.4 失配与 --json）", "result": "OK：三源两路一致 134.195.101.195，PASS 退出码 0；失配 FAIL 退出码 1；ifconfig.me 单次返回 IPv6 记为源失败、不影响多数一致（与历史 ipify 瞬断教训一致）"},
+    {"cmd": "python outputs/skill/scripts/readiness_check.py probe --token-url 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential'（假凭据）", "result": "OK：errcode 40013 → IP 已过白名单，退出码 0；probe_url 中假 secret 已打码"},
+    {"cmd": "python outputs/skill/scripts/readiness_check.py probe --token-url 'https://api.invalid-host-xyz.example/...'（边界）", "result": "OK：DNS 失败 → inconclusive，退出码 2"}
+  ],
+  "known_issues": [
+    "scan 对变量名含 token/secret 的普通赋值（如 token = input(...)）会整行命中并过度打码上下文，属有意的保守策略，SKILL.md 已注明命中需人工按上下文判定",
+    "白名单探测仅在 --token-url 指向真实 token 接口时有效；其他平台的 errcode 含义不同，需按 references 模板人工判读"
+  ],
+  "notes": "制作过程未请求、未读取、未写入任何真实凭据；demo 样例与运行日志在 outputs/making_samples/（run_log.txt、egress_p2.txt）。本环境出口 IP 为制作环境实测值，与历史会话的 47.96.103.101 不同属预期，运行时以 --expect-ip 传入当前任务的目标 IP。"
+}

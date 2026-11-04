@@ -1,0 +1,441 @@
+{
+  "status": "PARSE_AND_SOURCE_MATCH_ONLY_NOT_RESOURCE_EXECUTION_QA",
+  "records": [
+    {
+      "owner_id": "e2d506cd3f4eabeee6eae154",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "f36a77f9a6b6d9a31b0961fce3f04087b4e762a2b83ef27720ff33642b9a1761",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 0,
+      "posix_shlex_parse": [
+        "node",
+        "/workspace/tmp/test_game.js"
+      ]
+    },
+    {
+      "owner_id": "3753dbff1b53e9b307fa971d",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "711e906ba6fe08ad41c8e31c09f359003fdaf89be87405f772d8fb9e11996080",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 2,
+      "posix_shlex_parse": [
+        "curl",
+        "-s",
+        "https://api.crossref.org/works?query=grouper+larval+rearing+mortality+survival&rows=8&select=title,author,container-title,published,DOI",
+        "|",
+        "python3",
+        "-c",
+        "import json,sys; d=json.load(sys.stdin); [print(i.get('DOI'),'|',(i.get('title') or [''])[0][:110],'|',(i.get('container-title') or [''])[0][:60],'|',i.get('published',{}).get('date-parts')) for i in d['message']['items']]"
+      ]
+    },
+    {
+      "owner_id": "adae12dd285bb0ca9f14cd4f",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "6183e54e83e12ef877eac117a109061f59e181aac3213415839a74d6353b8f0c",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 8,
+      "posix_shlex_parse": [
+        "curl",
+        "-s",
+        "https://api.crossref.org/works/10.1007/bf02678706",
+        "|",
+        "python3",
+        "-c",
+        "import json,sys; m=json.load(sys.stdin)['message']; print(m.get('title'),m.get('author',[]),m.get('container-title'),m.get('volume'),m.get('issue'),m.get('page'),m.get('published'));",
+        "curl",
+        "-s",
+        "https://api.crossref.org/works/10.1016/0044-8486(80)90082-4",
+        "|",
+        "python3",
+        "-c",
+        "import json,sys; m=json.load(sys.stdin)['message']; print(m.get('title'),m.get('author',[]),m.get('container-title'),m.get('volume'),m.get('page'),m.get('published'));",
+        "curl",
+        "-s",
+        "https://api.crossref.org/works/10.1016/s0044-8486(96)01467-6",
+        "|",
+        "python3",
+        "-c",
+        "import json,sys; m=json.load(sys.stdin)['message']; print(m.get('title'),m.get('author',[]),m.get('container-title'),m.get('volume'),m.get('page'),m.get('published'));",
+        "curl",
+        "-s",
+        "https://api.crossref.org/works/10.5376/ija.2013.03.0013",
+        "|",
+        "python3",
+        "-c",
+        "import json,sys; m=json.load(sys.stdin)['message']; print(m.get('title'),m.get('author',[]),m.get('container-title'),m.get('volume'),m.get('issue'),m.get('page'),m.get('published'))"
+      ]
+    },
+    {
+      "owner_id": "0ddec296a38c6ec24a2e9b18",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "5bd75c8e57b71d77b06b3f0f9a5e46dd549275f8349bcbca7d6cac3e576d588e",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 5,
+      "posix_shlex_parse": [
+        "curl",
+        "-s",
+        "https://www.youtube.com/results?search_query=OpenAI+introducing+GPT-5+official",
+        "--max-time",
+        "20",
+        "-H",
+        "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "|",
+        "grep",
+        "-o",
+        "\"videoId\":\"[^\"]*\"",
+        "|",
+        "head",
+        "-20"
+      ]
+    },
+    {
+      "owner_id": "10cb6178ac2a09e2cfbbcf23",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "3cc09ec132e4ee4ea3db45fa88b1cc31a518e3edbae525857c9d796176ede668",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 6,
+      "posix_shlex_parse": [
+        "mkdir",
+        "-p",
+        "/workspace/tmp",
+        "/workspace/outputs",
+        "&&",
+        "cat",
+        ">",
+        "/workspace/tmp/yt_search.py",
+        "<<",
+        "EOF",
+        "import",
+        "json,",
+        "re,",
+        "sys,",
+        "urllib.parse,",
+        "urllib.request",
+        "def",
+        "search(q):",
+        "url",
+        "=",
+        "https://www.youtube.com/results?search_query=",
+        "+",
+        "urllib.parse.quote(q)",
+        "req",
+        "=",
+        "urllib.request.Request(url,",
+        "headers={User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,Accept-Language:en-US,en;q=0.9})",
+        "html",
+        "=",
+        "urllib.request.urlopen(req,",
+        "timeout=25).read().decode(utf-8,ignore)",
+        "m",
+        "=",
+        "re.search(rvar ytInitialData = (\\{.*?\\});</script>,",
+        "html)",
+        "data",
+        "=",
+        "json.loads(m.group(1))",
+        "if",
+        "m",
+        "else",
+        "None",
+        "out",
+        "=",
+        "{}",
+        "def",
+        "walk(o):",
+        "if",
+        "isinstance(o,",
+        "dict):",
+        "if",
+        "videoRenderer",
+        "in",
+        "o:",
+        "v",
+        "=",
+        "o[videoRenderer]",
+        "vid",
+        "=",
+        "v.get(videoId)",
+        "if",
+        "vid",
+        "and",
+        "vid",
+        "not",
+        "in",
+        "out:",
+        "title",
+        "=",
+        ".join(r.get(text,)",
+        "for",
+        "r",
+        "in",
+        "v.get(title,{}).get(runs,[]))",
+        "ch",
+        "=",
+        ".join(r.get(text,)",
+        "for",
+        "r",
+        "in",
+        "v.get(ownerText,{}).get(runs,[]))",
+        "dur",
+        "=",
+        "v.get(lengthText,{}).get(simpleText,)",
+        "views",
+        "=",
+        "v.get(viewCountText,{}).get(simpleText,)",
+        "pub",
+        "=",
+        "v.get(publishedTimeText,{}).get(simpleText,)",
+        "out[vid]",
+        "=",
+        "{id:vid,title:title,channel:ch,duration:dur,views:views,published:pub}",
+        "for",
+        "vv",
+        "in",
+        "o.values():",
+        "walk(vv)",
+        "elif",
+        "isinstance(o,",
+        "list):",
+        "for",
+        "vv",
+        "in",
+        "o:",
+        "walk(vv)",
+        "if",
+        "data:",
+        "walk(data)",
+        "return",
+        "list(out.values())",
+        "for",
+        "q",
+        "in",
+        "sys.argv[1:]:",
+        "print(### QUERY:,",
+        "q)",
+        "for",
+        "r",
+        "in",
+        "search(q)[:10]:",
+        "print(json.dumps(r,",
+        "ensure_ascii=False))",
+        "print()",
+        "EOF",
+        "python3",
+        "/workspace/tmp/yt_search.py",
+        "OpenAI introducing GPT-5 official launch video",
+        "OpenAI GPT-4o meet GPT-4o official",
+        "OpenAI Introducing ChatGPT Atlas official"
+      ]
+    },
+    {
+      "owner_id": "84f39667be6fefa3fbc09266",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "c21d401325c1abfbea764a53eb71c249f61b11c52154d2f38d422c1727644b7f",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 0,
+      "posix_shlex_parse": [
+        "for",
+        "i",
+        "in",
+        "1",
+        "2",
+        "3;",
+        "do",
+        "/usr/bin/chromium",
+        "--headless",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--hide-scrollbars",
+        "--window-size=1080,600",
+        "--screenshot=/workspace/outputs/图${i}_$(",
+        "[",
+        "$i",
+        "=",
+        "1",
+        "]",
+        "&&",
+        "echo",
+        "封面_AI当CEO",
+        "||",
+        "(",
+        "[",
+        "$i",
+        "=",
+        "2",
+        "]",
+        "&&",
+        "echo",
+        "白名单漏洞",
+        "||",
+        "echo",
+        "三层防御",
+        ")",
+        ").png",
+        "file:///workspace/tmp/img${i}.html",
+        "2>/dev/null;",
+        "done;",
+        "ls",
+        "-la",
+        "/workspace/outputs/"
+      ]
+    },
+    {
+      "owner_id": "af98d54fb39ba95526215440",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "98d9f7ab6ced7113b7135df19934b93e823c4c840dfedbdcffae6bfa5cea6230",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 4,
+      "posix_shlex_parse": [
+        "cd",
+        "/workspace",
+        "&&",
+        "python",
+        "/opt/eval-adapter/ecnu_tools.py",
+        "vision",
+        "--image-path",
+        "/workspace/outputs/图1_封面_AI当CEO.png",
+        "--text",
+        "请描述这张图片的内容，图中文字是否清晰完整、有无乱码或缺字",
+        "--output",
+        "/workspace/outputs/说明.txt"
+      ]
+    },
+    {
+      "owner_id": "0da13410d543f90f6dcc4e35",
+      "parsed_args_equal_original_native_args": true,
+      "valid_json": true,
+      "shot_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "durations": [
+        5,
+        10,
+        5,
+        15,
+        10,
+        10,
+        5,
+        10
+      ],
+      "duration_sum": 70,
+      "every_narration_verbatim_in_original_requests": true,
+      "narration_matches": [
+        {
+          "shot": 1,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        },
+        {
+          "shot": 2,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        },
+        {
+          "shot": 3,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        },
+        {
+          "shot": 4,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        },
+        {
+          "shot": 5,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        },
+        {
+          "shot": 6,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        },
+        {
+          "shot": 7,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        },
+        {
+          "shot": 8,
+          "matched_request_ids": [
+            "conv_2f75e4f55a18:msg_88",
+            "conv_2f75e4f55a18:msg_94"
+          ]
+        }
+      ],
+      "first_seven_cumulative_windows": [
+        [
+          0,
+          5
+        ],
+        [
+          5,
+          15
+        ],
+        [
+          15,
+          20
+        ],
+        [
+          20,
+          35
+        ],
+        [
+          35,
+          45
+        ],
+        [
+          45,
+          55
+        ],
+        [
+          55,
+          60
+        ]
+      ],
+      "eighth_window_60_70_curator_choice_within_source_60plus": true
+    },
+    {
+      "owner_id": "ab410b79e6bdbf7bc6642f2f",
+      "parsed_args_equal_original_native_args": true,
+      "command_sha256": "8d54fe805738a6b981d9e970d67597ba299a36f19d242da8051270447f6b240b",
+      "literal_backslash_doublequote_count": 0,
+      "doublequote_count": 0,
+      "posix_shlex_parse": [
+        "cat",
+        "/workspace/tmp/gen_assets.log",
+        "&&",
+        "echo",
+        "----",
+        "&&",
+        "ls",
+        "-la",
+        "/workspace/outputs/frames",
+        "/workspace/outputs/audio"
+      ]
+    }
+  ],
+  "business_calls": 0,
+  "training_runs": 0
+}

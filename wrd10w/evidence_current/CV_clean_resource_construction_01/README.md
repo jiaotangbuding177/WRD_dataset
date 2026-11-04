@@ -1,0 +1,11 @@
+# 四份完整CV资源构建的新功能状态
+
+新作者定义功能任务和状态，用固定原生write schema生成3个完整Python脚本与SKILL.md。输出文件逐字取自真实Maker修订后、独立22+17与新增raw/page诊断检查覆盖的冻结4文件树；真实原版/修后diff与资源血缘均保全。此为NEW_AUTHORED_NATIVE_ACTION_PROJECTION_VERIFIED_OFFLINE，绝不是原历史同条件的write调用，未执行任何新Agent、工具业务或训练。新R是AI银标，原Teacher R没有冒名复用。
+
+目标是把已形成的可用资源真正纳入完整程序生成监督：PDF逐页原文+内容身份+显式错误库、批量提取CLI、带类型/页码诊断的字面引用CLI、按任务篇幅封装流程。输入只含原Maker单源需求、实际文件清单、明确功能契约与完整当前依赖。目标文件本身不存在也不在输入；单独写cvlib无其它目标代码，两个CLI有完整cvlib，写SKILL有完整三个脚本。依赖是明示的新状态投递，未伪称历史已读。后来PASS、隐藏消费者、C结论均不放输入，后验资源检查可以作为监督标签的质量依据。
+
+仅一个当前TRAIN来源conv_2b8fd8fdd8bc，4个功能目标不能当4个新技能或独立源。每份目标文件SHA都对应实际独立QA同一4文件树d5df8386…；程序静态parse及两个模型tokenizer的IDs/offsets、逐位置mask、24个真实binary全部验证。core/full53同4owner互斥，完整工具目录的长条件不能据此宣称Spark前向或训练可用。
+
+保全原SKILL的两段重复文字，没有静默去重；第二份重复以及“semantic cannot be automated”的过宽句子只mask0，不改变原target文件bytes。脚本库展示层仍有水印启发式，训练功能契约明确它可能有损，原文raw_text与引文核验必须走未过滤文本；不能教成展示文本不会丢字或资格判断已正确。程序处理范围是可读本地UTF-8 JSON/PDF，未声称所有异常/格式/业务条件均覆盖。
+
+PORTABLE_SELECTION.json是实际数组入口；RESOURCE_CAUSAL_CLOSURE.json包含输入、完整目标和旧版本、实际新旧diff、固定schema、有限QA与来源边界的SHA对象。没有读取后续消费者。当前作者候选root_main_admission=false，等待根独立语义准入。人工金标不存在；AI整理成本UNKNOWN_NOT_ZERO。既有独立资源QA已在项目账中，0新增业务执行，招聘适配、净减负与合格技能成本仍未知。

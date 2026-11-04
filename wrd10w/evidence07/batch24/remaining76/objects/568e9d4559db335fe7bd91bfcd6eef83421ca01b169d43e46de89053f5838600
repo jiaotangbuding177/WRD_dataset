@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+"""对照生成清单检查缺漏，输出未生成项清单便于补生成。
+
+方法：读取 plan.json 的条目 id 顺序，与 generated 清单（每行一个已生成
+文件名，按文件名主干匹配 id）对照，输出 missing.json：generated 有序命中
+列表 + missing 未生成列表。替代逐张核对文件的重复检查
+（来源：conv_d6918e9034d3:msg_81/msg_84）。
+输入：plan.json 与 generated.txt；输出：missing.json（缺漏清单）。
+"""
+import argparse
+import json
+import sys
+
+
+def fail(code, message, exit_code=2):
+    print(f"{code}: {message}", file=sys.stderr)
+    raise SystemExit(exit_code)
+
+
+def stem(line):
+    name = line.strip().split("/")[-1]
+    if "." in name:
+        name = name.rsplit(".", 1)[0]
+    return name
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="对照生成清单检查计划缺漏，输出未生成项清单")
+    parser.add_argument("plan", help="生成计划 plan.json 路径")
+    parser.add_argument("--generated", required=True,
+                        help="已生成文件名清单文本，每行一个文件名")
+    parser.add_argument("--out", required=True, help="输出 missing.json 路径")
+    args = parser.parse_args()
+    try:
+        with open(args.plan, encoding="utf-8-sig") as handle:
+            plan = json.load(handle)
+    except OSError as error:
+        fail("plan_read_error", str(error))
+    except UnicodeError as error:
+        fail("plan_read_error", f"plan is not valid UTF-8: {error}")
+    except json.JSONDecodeError as error:
+        fail("plan_load_error",
+             f"invalid JSON in {args.plan}: line {error.lineno} column {error.colno}")
+    if not isinstance(plan, dict) or not isinstance(plan.get("prompts"), list):
+        fail("plan_schema_error", "plan must be an object with a prompts list")
+    ids = []
+    for prompt in plan["prompts"]:
+        if not isinstance(prompt, dict) or not isinstance(prompt.get("id"), str):
+            fail("plan_schema_error", "every prompts entry needs a string id")
+        ids.append(prompt["id"])
+    try:
+        with open(args.generated, encoding="utf-8-sig") as handle:
+            lines = handle.readlines()
+    except OSError as error:
+        fail("generated_read_error", str(error))
+    generated_ids = {stem(line) for line in lines if line.strip()}
+    report = {
+        "generated": [item_id for item_id in ids if item_id in generated_ids],
+        "missing": [item_id for item_id in ids if item_id not in generated_ids],
+    }
+    with open(args.out, "w", encoding="utf-8") as handle:
+        json.dump(report, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+    print(f"generated {len(report['generated'])}, missing {len(report['missing'])}"
+          f" -> {args.out}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

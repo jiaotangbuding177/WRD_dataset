@@ -1,0 +1,733 @@
+{
+  "schema": "wrd-replay-v1",
+  "programs": [
+    {
+      "path": "scripts/extract_texts.py",
+      "documented_usage": "python {SKILL}/scripts/extract_texts.py {INPUT}/manuscript --out {OUT}/extracts",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/extract_texts.py",
+        "{INPUT}/manuscript",
+        "--out",
+        "{OUT}/extracts"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/extract_texts.py {INPUT}/manuscript --out {OUT}/extracts",
+        "inputs": [
+          "论文/评审材料目录或文件（.pptx/.docx/.doc/.pdf/.md/.txt；.pptx 需 python-pptx，.docx 需 python-docx，.doc 需 soffice，.pdf 需 pdftotext）"
+        ],
+        "outputs": [
+          "每个源一个同名 .txt 提取件",
+          "index.json（源 sha256、bytes、sections、chars、errors 索引）",
+          "$stdout JSON {\"extracted\": n, \"errors\": m}"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_texts.py",
+            "{INPUT}/manuscript",
+            "--out",
+            "{OUT}/extracts"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "manuscript.txt",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/manuscript.txt",
+                "sha256": "97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e",
+                "bytes": 2355
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "source_reconstruction",
+              "derivation": "manuscript.txt fixture reconstructed from the full UTF-8 leaf text of real message 2dd9b116-c054-4bf5-9418-ce8ed60ebbf7 (conv_b8618dade74b final review report); its sha256 equals the leaf_sha256 reported by the native read_source batch, so bytes are exactly the received source text. The original paper PDF is not present in the transcript; this fixture stands in for a text-layer manuscript."
+            }
+          ],
+          "outputs": [
+            {
+              "path": "extracts/manuscript.txt",
+              "min_bytes": 1
+            },
+            {
+              "path": "extracts/index.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "text_equals",
+              "path": "$stdout",
+              "value": "{\"extracted\": 1, \"errors\": 0}"
+            },
+            {
+              "kind": "sha256",
+              "path": "extracts/manuscript.txt",
+              "value": "97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e"
+            },
+            {
+              "kind": "json_count",
+              "path": "extracts/index.json",
+              "pointer": "/files",
+              "value": 1
+            },
+            {
+              "kind": "source_mapping",
+              "path": "extracts/index.json",
+              "pointer": "/files/0/sha256",
+              "value": "97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e"
+            },
+            {
+              "kind": "json_equals",
+              "path": "extracts/index.json",
+              "pointer": "/files/0/output",
+              "value": "manuscript.txt"
+            }
+          ]
+        },
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_texts.py",
+            "{INPUT}/manuscript.docx",
+            "--out",
+            "{OUT}/extracts"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "manuscript.docx",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/manuscript.docx",
+                "sha256": "280a2acd570cf6cd8297ecd20594d104d3d5f63fd2c9223e82d12f4c1aa54008",
+                "bytes": 38189
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "source_reconstruction",
+              "derivation": "docx fixture built with python-docx from the same real message leaf text, one paragraph per non-empty line, to exercise the .docx extraction and keyword-scan paths of the real route."
+            }
+          ],
+          "outputs": [
+            {
+              "path": "extracts/manuscript.txt",
+              "min_bytes": 1
+            },
+            {
+              "path": "extracts/index.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "text_equals",
+              "path": "$stdout",
+              "value": "{\"extracted\": 1, \"errors\": 0}"
+            },
+            {
+              "kind": "sha256",
+              "path": "extracts/manuscript.txt",
+              "value": "3795553c225027bfaf5d947ff6262c92e513f0db67eeae0b4d22fcb09e1384f5"
+            },
+            {
+              "kind": "json_count",
+              "path": "extracts/index.json",
+              "pointer": "/files",
+              "value": 1
+            },
+            {
+              "kind": "source_mapping",
+              "path": "extracts/index.json",
+              "pointer": "/files/0/sections",
+              "value": 28
+            }
+          ]
+        },
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_texts.py",
+            "{INPUT}/manuscript.pdf",
+            "--out",
+            "{OUT}/extracts"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "manuscript.pdf",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/manuscript.pdf",
+                "sha256": "d48fb92bfde0aa31d6d74642da8480305752cca0b5d3c7a2c5f53e460b8e7f70",
+                "bytes": 97114
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "source_reconstruction",
+              "derivation": "pdf fixture converted from manuscript.docx with LibreOffice soffice --headless to exercise the pdftotext path; original paper PDF absent from transcript."
+            }
+          ],
+          "outputs": [
+            {
+              "path": "extracts/manuscript.txt",
+              "min_bytes": 1
+            },
+            {
+              "path": "extracts/index.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "text_equals",
+              "path": "$stdout",
+              "value": "{\"extracted\": 1, \"errors\": 0}"
+            },
+            {
+              "kind": "sha256",
+              "path": "extracts/manuscript.txt",
+              "value": "ab306979f8724e5e865096a486982f8d0a41301a98f6f6394b8194974209caf2"
+            },
+            {
+              "kind": "json_count",
+              "path": "extracts/index.json",
+              "pointer": "/files",
+              "value": 1
+            },
+            {
+              "kind": "source_mapping",
+              "path": "extracts/index.json",
+              "pointer": "/files/0/sections",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_texts.py",
+            "{INPUT}/tiny.txt",
+            "--out",
+            "{OUT}/out_boundary"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "tiny.txt",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/tiny.txt",
+                "sha256": "ca2b18456e57410b18fbb54332e92c81bce143e41b916128619a15a5f4a32b4f",
+                "bytes": 4
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "boundary_case",
+              "derivation": "minimal 4-byte file ENSO (topic term appearing in real message 2dd9b116) with no trailing newline; exercises minimal-input boundary of extract_texts."
+            }
+          ],
+          "outputs": [
+            {
+              "path": "out_boundary/tiny.txt",
+              "min_bytes": 1
+            },
+            {
+              "path": "out_boundary/index.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "text_equals",
+              "path": "$stdout",
+              "value": "{\"extracted\": 1, \"errors\": 0}"
+            },
+            {
+              "kind": "sha256",
+              "path": "out_boundary/tiny.txt",
+              "value": "ca2b18456e57410b18fbb54332e92c81bce143e41b916128619a15a5f4a32b4f"
+            },
+            {
+              "kind": "json_count",
+              "path": "out_boundary/index.json",
+              "pointer": "/files",
+              "value": 1
+            },
+            {
+              "kind": "source_mapping",
+              "path": "out_boundary/index.json",
+              "pointer": "/files/0/chars",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_texts.py",
+            "{INPUT}/unsupported.xyz",
+            "--out",
+            "{OUT}/out_invalid"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "path": "unsupported.xyz",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/unsupported.xyz",
+                "sha256": "97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e",
+                "bytes": 2355
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "invalid_input",
+              "derivation": "byte copy of the reconstructed manuscript.txt under a .xyz extension to drive the unsupported-input-type error of extract_texts."
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "不支持的输入类型"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_texts.py",
+            "{INPUT}/broken.pdf",
+            "--out",
+            "{OUT}/out_invalid_pdf"
+          ],
+          "expected_exit": 3,
+          "inputs": [
+            {
+              "path": "broken.pdf",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/broken.pdf",
+                "sha256": "19ffd13a93fd0e21537c53e5127c49d8f52e99f8339109d2af96825d6a49f51c",
+                "bytes": 183
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "invalid_input",
+              "derivation": "truncated PDF: %PDF-1.4 header plus the first 64 bytes of the real message leaf text; drives pdftotext failure recorded in index.json errors with exit 3."
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "提取失败 broken.pdf"
+            },
+            {
+              "kind": "contains",
+              "path": "$stdout",
+              "value": "{\"extracted\": 0, \"errors\": 1}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/scan_docx_keywords.py",
+      "documented_usage": "python {SKILL}/scripts/scan_docx_keywords.py {INPUT}/manuscript.docx --keywords 南移,CMIP6 --out {OUT}/keyword_hits.json",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/scan_docx_keywords.py",
+        "{INPUT}/manuscript.docx",
+        "--keywords",
+        "南移,CMIP6",
+        "--out",
+        "{OUT}/keyword_hits.json"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/scan_docx_keywords.py {INPUT}/manuscript.docx --keywords 南移,CMIP6 --out {OUT}/keyword_hits.json",
+        "inputs": [
+          ".docx 稿件",
+          "逗号分隔关键词"
+        ],
+        "outputs": [
+          "keyword_hits.json（关键词、member、±12字上下文、计数）",
+          "$stdout 命中摘要行"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/scan_docx_keywords.py",
+            "{INPUT}/manuscript.docx",
+            "--keywords",
+            "南移,CMIP6",
+            "--out",
+            "{OUT}/keyword_hits.json"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "manuscript.docx",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/manuscript.docx",
+                "sha256": "280a2acd570cf6cd8297ecd20594d104d3d5f63fd2c9223e82d12f4c1aa54008",
+                "bytes": 38189
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "source_reconstruction",
+              "derivation": "docx fixture built with python-docx from the same real message leaf text, one paragraph per non-empty line, to exercise the .docx extraction and keyword-scan paths of the real route."
+            }
+          ],
+          "outputs": [
+            {
+              "path": "keyword_hits.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stdout",
+              "value": "4 hits for 2 keywords across 1 members"
+            },
+            {
+              "kind": "sha256",
+              "path": "keyword_hits.json",
+              "value": "1adf9ddd9269fe78d7a3e9aa23325442923f14a4c35a2fe97bc4ab606f1433fa"
+            },
+            {
+              "kind": "json_count",
+              "path": "keyword_hits.json",
+              "pointer": "/hits",
+              "value": 4
+            },
+            {
+              "kind": "source_mapping",
+              "path": "keyword_hits.json",
+              "pointer": "/total",
+              "value": 4
+            },
+            {
+              "kind": "source_mapping",
+              "path": "keyword_hits.json",
+              "pointer": "/keywords",
+              "value": [
+                "南移",
+                "CMIP6"
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/scan_docx_keywords.py",
+            "{INPUT}/manuscript.docx",
+            "--keywords",
+            "量子纠缠",
+            "--out",
+            "{OUT}/keyword_hits_boundary.json"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "path": "manuscript.docx",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/manuscript.docx",
+                "sha256": "280a2acd570cf6cd8297ecd20594d104d3d5f63fd2c9223e82d12f4c1aa54008",
+                "bytes": 38189
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "source_reconstruction",
+              "derivation": "docx fixture built with python-docx from the same real message leaf text, one paragraph per non-empty line, to exercise the .docx extraction and keyword-scan paths of the real route."
+            }
+          ],
+          "outputs": [
+            {
+              "path": "keyword_hits_boundary.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stdout",
+              "value": "0 hits for 1 keywords across 1 members"
+            },
+            {
+              "kind": "sha256",
+              "path": "keyword_hits_boundary.json",
+              "value": "532437187e1d3868d6ac02eda135891b9b6f2c3f88cc403c691e69353f074f93"
+            },
+            {
+              "kind": "json_count",
+              "path": "keyword_hits_boundary.json",
+              "pointer": "/hits",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/scan_docx_keywords.py",
+            "{INPUT}/manuscript.txt",
+            "--keywords",
+            "南移",
+            "--out",
+            "{OUT}/keyword_hits_invalid.json"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "path": "manuscript.txt",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/manuscript.txt",
+                "sha256": "97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e",
+                "bytes": 2355
+              },
+              "source_id": "conv_b8618dade74b",
+              "message_ids": [
+                "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+              ],
+              "origin": "generated_fixture",
+              "generated": true,
+              "purpose": "source_reconstruction",
+              "derivation": "manuscript.txt fixture reconstructed from the full UTF-8 leaf text of real message 2dd9b116-c054-4bf5-9418-ce8ed60ebbf7 (conv_b8618dade74b final review report); its sha256 equals the leaf_sha256 reported by the native read_source batch, so bytes are exactly the received source text. The original paper PDF is not present in the transcript; this fixture stands in for a text-layer manuscript."
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "unsupported input type .txt"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "manuscript.txt",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/manuscript.txt",
+        "sha256": "97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e",
+        "bytes": 2355
+      },
+      "source_id": "conv_b8618dade74b",
+      "message_ids": [
+        "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "manuscript.txt fixture reconstructed from the full UTF-8 leaf text of real message 2dd9b116-c054-4bf5-9418-ce8ed60ebbf7 (conv_b8618dade74b final review report); its sha256 equals the leaf_sha256 reported by the native read_source batch, so bytes are exactly the received source text. The original paper PDF is not present in the transcript; this fixture stands in for a text-layer manuscript."
+    },
+    {
+      "path": "manuscript.docx",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/manuscript.docx",
+        "sha256": "280a2acd570cf6cd8297ecd20594d104d3d5f63fd2c9223e82d12f4c1aa54008",
+        "bytes": 38189
+      },
+      "source_id": "conv_b8618dade74b",
+      "message_ids": [
+        "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "docx fixture built with python-docx from the same real message leaf text, one paragraph per non-empty line, to exercise the .docx extraction and keyword-scan paths of the real route."
+    },
+    {
+      "path": "manuscript.pdf",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/manuscript.pdf",
+        "sha256": "d48fb92bfde0aa31d6d74642da8480305752cca0b5d3c7a2c5f53e460b8e7f70",
+        "bytes": 97114
+      },
+      "source_id": "conv_b8618dade74b",
+      "message_ids": [
+        "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "pdf fixture converted from manuscript.docx with LibreOffice soffice --headless to exercise the pdftotext path; original paper PDF absent from transcript."
+    },
+    {
+      "path": "tiny.txt",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/tiny.txt",
+        "sha256": "ca2b18456e57410b18fbb54332e92c81bce143e41b916128619a15a5f4a32b4f",
+        "bytes": 4
+      },
+      "source_id": "conv_b8618dade74b",
+      "message_ids": [
+        "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "minimal 4-byte file ENSO (topic term appearing in real message 2dd9b116) with no trailing newline; exercises minimal-input boundary of extract_texts."
+    },
+    {
+      "path": "unsupported.xyz",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/unsupported.xyz",
+        "sha256": "97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e",
+        "bytes": 2355
+      },
+      "source_id": "conv_b8618dade74b",
+      "message_ids": [
+        "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "byte copy of the reconstructed manuscript.txt under a .xyz extension to drive the unsupported-input-type error of extract_texts."
+    },
+    {
+      "path": "broken.pdf",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/broken.pdf",
+        "sha256": "19ffd13a93fd0e21537c53e5127c49d8f52e99f8339109d2af96825d6a49f51c",
+        "bytes": 183
+      },
+      "source_id": "conv_b8618dade74b",
+      "message_ids": [
+        "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "truncated PDF: %PDF-1.4 header plus the first 64 bytes of the real message leaf text; drives pdftotext failure recorded in index.json errors with exit 3."
+    }
+  ],
+  "non_executable_resources": [
+    {
+      "path": "templates/review_report.md",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "templates/review_report.md",
+          "value": "{{PAPER_TITLE}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/review_report.md",
+          "value": "{{SEVERITY}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/review_report.md",
+          "value": "{{ISSUE_LOCATION}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/review_report.md",
+          "value": "AI 判断不能作为最终结果，需人工复核"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_b8618dade74b",
+          "message_ids": [
+            "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+          ],
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_b8618dade74b.json",
+            "sha256": "b06c550bb6ec69906b27c4277a2edbd1d063398b9abe8cb5b7c5df04feefb0b6",
+            "bytes": 17339
+          },
+          "origin": "real_source"
+        },
+        {
+          "source_id": "conv_c19f3434fa4f",
+          "message_ids": [
+            "59d46b9f-b3af-4317-b2ba-f320d297bc2c"
+          ],
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_c19f3434fa4f.json",
+            "sha256": "43cb6f9e0e7a2c886ceb243c1c33463798e9cc5266cb38b52f117bebd1e58ee1",
+            "bytes": 10269
+          },
+          "origin": "real_source"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "extract_texts.py 的 .pptx/.doc/.xlsx 旁路依赖 python-pptx/soffice；本次复现用例覆盖 .txt/.docx/.pdf 主路径，python-pptx 未被用例执行。",
+    "两程序均为公开可复用包的完整字节副本（sha256 与 making_input_index pin 一致），未改动；期望值均来自本次真实运行。",
+    "manuscript.txt/docx/pdf 为真实消息文本重构的稿件替身；原论文 PDF 不在会话记录中。",
+    "阶段2核查判断与阶段3报告成文由执行者完成，不属程序化复现范围。"
+  ]
+}

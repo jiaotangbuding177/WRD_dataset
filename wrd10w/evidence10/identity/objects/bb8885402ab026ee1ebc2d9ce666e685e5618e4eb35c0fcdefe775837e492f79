@@ -1,0 +1,632 @@
+"""Independent, zero-model replay, extending v2 only for declared stdout data.
+
+This is a making-side resource checker, not an Agent or a business executor.
+It never edits a skill, accepts shell command strings, installs dependencies,
+or substitutes estimates for execution evidence. See ``reproduce`` for the API.
+"""
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import json
+from pathlib import Path, PurePosixPath
+import re
+import shlex
+import copy
+import subprocess
+import time
+from typing import Any
+from urllib.parse import unquote
+import zipfile
+import uuid
+
+SCHEMA = 'wrd-library-reproduction-v3'
+FIXED_IMAGE = 'sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2'
+EXECUTABLE_SUFFIXES = {'.py', '.sh', '.bash', '.zsh', '.js', '.mjs', '.cjs', '.ps1', '.bat', '.cmd', '.exe', '.rb', '.pl', '.r', '.ipynb', '.jar', '.wasm'}
+INTERPRETERS = {'python': {'.py'}, 'python3': {'.py'}, 'node': {'.js', '.mjs', '.cjs'}, 'bash': {'.sh', '.bash'}, 'sh': {'.sh'}, 'ruby': {'.rb'}, 'perl': {'.pl'}, 'Rscript': {'.r'}}
+TOKENS = {'SKILL': '/skill', 'INPUT': '/input', 'FIXTURE': '/fixtures', 'OUT': '/out'}
+MAKING_NAMES = {'evidence.json', 'replay.json', 'development.json', 'validation.json', 'reproduction.json', 'reproduction_report.json', 'learning_evidence.json'}
+_MODULES: dict[str, Any] = {}
+
+
+def _need(value: Any, reason: str) -> None:
+    if not value:
+        raise ValueError(reason)
+
+
+def _module(name: str):
+    if name not in _MODULES:
+        _need(name in ('admission', 'registry'), 'unsupported_original_validator_module')
+        original = Path(__file__).parent.parent / 'wrd_workflow_library_v2' / (name + '.py')
+        spec = importlib.util.spec_from_file_location('wrd_reproduction_' + name, original)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        _MODULES[name] = module
+    return _MODULES[name]
+
+
+def _json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding='utf-8-sig'))
+
+
+def _write(path: Path, value: Any) -> dict:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('x', encoding='utf-8') as stream:
+        json.dump(value, stream, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False)
+        stream.write('\n')
+    return pin(path)
+
+
+def _no_links(path: Path) -> None:
+    _need(not any(p.is_symlink() for p in [path, *path.parents]), 'symlink_in_path:' + str(path))
+
+
+def pin(path: str | Path) -> dict:
+    path = Path(path)
+    _no_links(path)
+    _need(path.is_file(), 'missing_regular_file:' + str(path))
+    value = path.read_bytes()
+    return {'path': str(path.resolve()), 'sha256': hashlib.sha256(value).hexdigest(), 'bytes': len(value)}
+
+
+def _pinned(value: dict) -> Path:
+    _need(isinstance(value, dict) and isinstance(value.get('path'), str), 'missing_file_pin')
+    actual = pin(value['path'])
+    _need(actual['sha256'] == value.get('sha256') and ('bytes' not in value or actual['bytes'] == value['bytes']), 'file_pin_changed:' + value['path'])
+    return Path(actual['path'])
+
+
+def _relative(value: Any) -> str:
+    _need(isinstance(value, str) and value and '\\' not in value and ':' not in value and '\x00' not in value, 'unsafe_relative_path')
+    path = PurePosixPath(value)
+    _need(not path.is_absolute() and all(p not in ('', '.', '..') for p in value.split('/')), 'unsafe_relative_path:' + value)
+    return value
+
+
+def _under(root: Path, relative: str) -> Path:
+    candidate = root / _relative(relative)
+    _no_links(candidate)
+    _need(candidate.resolve().is_relative_to(root.resolve()), 'path_escaped_root')
+    return candidate
+
+
+def _tree(root: Path) -> dict:
+    _no_links(root)
+    _need(root.is_dir(), 'missing_directory:' + str(root))
+    result = {}
+    for p in sorted(root.rglob('*')):
+        _no_links(p)
+        if p.is_file():
+            result[p.relative_to(root).as_posix()] = pin(p)
+    return result
+
+
+def inspect_package(skill_dir: str | Path, evidence: dict | None = None, bindings: dict | None = None) -> dict:
+    """Return exact file pins; reject large homepages, escaping links and records.
+
+    ``evidence`` is optional making-side source evidence. If supplied, all cited
+    source/message pairs must belong to the exact canonical real conversations.
+    """
+    skill = Path(skill_dir).resolve()
+    files = _tree(skill)
+    _need('SKILL.md' in files, 'missing_homepage')
+    homepage = (skill / 'SKILL.md').read_text(encoding='utf-8-sig')
+    _need(len(homepage) <= 1500 and len(homepage.encode('utf-8')) <= 4096, 'homepage_not_lightweight')
+    _need(homepage.startswith('---') and re.search(r'(?m)^name:', homepage) and re.search(r'(?m)^description:', homepage), 'native_frontmatter_missing')
+    for name in files:
+        p = skill / name
+        _need(not any(x.lower() in MAKING_NAMES or 'validation_history' in x.lower() or x.lower() == 'reproduction_inputs' for x in p.relative_to(skill).parts)
+              and p.suffix.lower() not in ('.log', '.pyc'), 'making_record_inside_skill:' + name)
+        if p.suffix.lower() in ('.md', '.txt'):
+            for target in re.findall(r'\]\(([^)]+)\)', p.read_text(encoding='utf-8-sig')):
+                if '://' in target or target.startswith('#'):
+                    continue
+                target = unquote(target.split('#', 1)[0].strip('<>'))
+                linked = p.parent / target
+                _no_links(linked)
+                _need(linked.resolve().is_relative_to(skill) and linked.is_file(), 'broken_or_escaping_package_link:' + name)
+    if evidence is not None:
+        _need(bindings, 'evidence_requires_source_bindings')
+        sources = _sources(bindings)
+        refs = evidence.get('source_evidence', evidence.get('sources', []))
+        _need(isinstance(refs, list) and refs, 'missing_source_message_evidence')
+        seen = set()
+        for ref in refs:
+            _support(ref, sources)
+            seen.add(ref['source_id'])
+        _need(set(bindings) <= seen, 'not_all_selected_sources_have_learning_evidence')
+    return files
+
+
+def _sources(bindings: dict) -> dict:
+    _need(isinstance(bindings, dict) and bindings, 'no_real_source_bindings')
+    return {sid: _module('admission')._source(binding, sid) for sid, binding in bindings.items()}
+
+
+def _support(ref: dict, sources: dict) -> dict:
+    _need(isinstance(ref, dict) and ref.get('source_id') in sources, 'fixture_source_not_selected')
+    bound = sources[ref['source_id']]
+    messages = ref.get('message_ids', [ref['message_id']] if ref.get('message_id') else [])
+    _need(isinstance(messages, list) and messages and set(messages) <= bound['messages'], 'fixture_message_evidence_invalid')
+    _need(ref.get('source_record_sha256', bound['binding']['source_record_sha256']) == bound['binding']['source_record_sha256'], 'fixture_source_record_changed')
+    return bound
+
+
+def _fixture(ref: dict, sources: dict, inputs: Path, fixtures: Path | None, catalog: list) -> tuple[dict, str]:
+    """Verify file bytes and distinguish actual inputs from generated fixtures."""
+    bound = _support(ref, sources)
+    p = _pinned(ref['pin'])
+    source = bound['binding']
+    eligible = {bound['conversation_sha256']}
+    eligible.update(m['sha256'] for m in source.get('materials', []) if m.get('eligible_real_input') and m.get('available') and m.get('sha256'))
+    origin = ref.get('origin')
+    path_mapping = None
+    original_pin = pin(p)
+    if origin == 'real_source':
+        _need(ref['pin']['sha256'] in eligible, 'fixture_not_bound_real_input')
+        if not p.is_relative_to(inputs):
+            mount = ref.get('source_mount', ref.get('mount'))
+            if mount:
+                _need(isinstance(mount, str) and mount.startswith('inputs/'), 'invalid_source_input_mount')
+                candidates = [_under(inputs, mount[len('inputs/'):])]
+            else:
+                candidates = [Path(x['path']) for x in _tree(inputs).values() if x['sha256'] == ref['pin']['sha256']]
+            _need(len(candidates) == 1 and pin(candidates[0])['sha256'] == ref['pin']['sha256'], 'real_input_staged_copy_not_unique_or_changed')
+            p = candidates[0].resolve()
+            path_mapping = {'operation': 'explicit_mount_or_unique_bound_sha_to_staged_copy',
+                            'original_pin': original_pin, 'staged_pin': pin(p), 'mount': mount}
+        container = '/input/' + p.relative_to(inputs).as_posix()
+    else:
+        _need(origin == 'generated_fixture' and fixtures is not None and p.is_relative_to(fixtures), 'generated_fixture_not_external_readonly_fixture')
+        matches = [x for x in catalog if x.get('pin', {}).get('sha256') == ref['pin']['sha256'] and Path(x.get('pin', {}).get('path', '')).resolve() == p]
+        _need(len(matches) == 1, 'generated_fixture_not_uniquely_catalogued')
+        declaration = matches[0]
+        _need(declaration.get('generated') is True and isinstance(declaration.get('derivation'), str) and declaration['derivation'].strip(), 'generated_fixture_derivation_missing')
+        _need(declaration.get('purpose') in ('source_reconstruction', 'boundary_case', 'invalid_input', 'composition_input'), 'generated_fixture_purpose_missing')
+        _support(declaration, sources)
+        _need(declaration['source_id'] == ref['source_id'] and set(declaration['message_ids']) == set(ref['message_ids']), 'generated_fixture_source_message_mismatch')
+        _pinned(declaration['pin'])
+        if declaration.get('source_material_pins'):
+            for original in declaration['source_material_pins']:
+                _pinned(original)
+                _need(original['sha256'] in eligible, 'generated_fixture_original_not_bound')
+        container = '/fixtures/' + p.relative_to(fixtures).as_posix()
+    result = {**ref, 'pin': pin(p), 'origin': origin, 'source_record_sha256': source['source_record_sha256'], 'whole_file_bytes_supplied': True}
+    if path_mapping:
+        result['path_mapping'] = path_mapping
+    return result, container
+
+
+def _expand(argv: Any, files: dict) -> tuple[list[str], str]:
+    _need(isinstance(argv, list) and len(argv) >= 2 and all(isinstance(x, str) and x and '\x00' not in x for x in argv), 'argv_must_be_nonempty_strings')
+    _need(argv[0] in INTERPRETERS, 'unsupported_or_shell_string_interpreter')
+    result = []
+    for arg in argv:
+        _need(not any(x in arg for x in ['://', '${', '$(', '`']), 'network_or_shell_expression_in_argv')
+        _need(arg not in ('-c', '-e', '-m', '--eval', '--command', '&&', ';', '|', '>', '>>', '<'), 'inline_or_shell_operator_forbidden')
+        expanded = arg
+        for key, value in TOKENS.items():
+            expanded = expanded.replace('{' + key + '}', value)
+        _need(not re.search(r'\{[A-Z_]+\}', expanded), 'unknown_path_token')
+        _need(not re.search(r'(?:^|[=/])\.\.(?:/|$)', expanded), 'traversal_in_argv')
+        result.append(expanded)
+    _need(result[1].startswith('/skill/'), 'only_direct_packaged_script_argv')
+    script = _relative(result[1][len('/skill/'):])
+    _need(script in files and Path(script).suffix.lower() in INTERPRETERS[result[0]], 'packaged_script_missing_or_wrong_interpreter')
+    return result, script
+
+
+def _pointer(value: Any, pointer: str = '') -> Any:
+    if pointer == '':
+        return value
+    _need(isinstance(pointer, str) and pointer.startswith('/'), 'invalid_json_pointer')
+    for part in pointer[1:].split('/'):
+        part = part.replace('~1', '/').replace('~0', '~')
+        value = value[int(part)] if isinstance(value, list) and re.fullmatch(r'0|[1-9][0-9]*', part) else value[part]
+    return value
+
+
+def _assertion(root: Path, spec: dict, *, logs: dict | None = None) -> dict:
+    """Read the produced bytes independently; no generator PASS is accepted."""
+    kind = spec.get('kind')
+    target = spec.get('path')
+    p = logs[target] if logs and target in logs else _under(root, target)
+    actual = pin(p)
+    data = p.read_bytes()
+    _need(data, 'empty_asserted_output')
+    value = spec.get('value', spec.get('expected'))
+    category = 'content'
+    exhaustive = False
+    if kind in ('contains', 'not_contains', 'text_equals'):
+        _need(isinstance(value, str) and value and value.strip().upper() not in ('PASS', 'SUCCESS', 'OK', 'TRUE'), 'vacuous_content_assertion')
+        text = data.decode(spec.get('encoding', 'utf-8-sig'))
+        _need((value in text if kind == 'contains' else value not in text if kind == 'not_contains' else value == text), 'text_content_mismatch')
+        exhaustive = kind == 'text_equals'
+    elif kind in ('json_equals', 'json_count', 'json_keys', 'source_mapping', 'field_preservation', 'explicit_error'):
+        parsed = _pointer(json.loads(data.decode('utf-8-sig')), spec.get('pointer', ''))
+        if kind == 'explicit_error':
+            _need(isinstance(parsed, (str, list, dict)) and bool(parsed), 'explicit_error_content_missing')
+            _need(value is None or parsed == value, 'explicit_error_content_mismatch')
+            category = 'explicit_error'
+        elif kind == 'json_count':
+            _need(type(value) is int and value >= 0 and isinstance(parsed, (list, dict)) and len(parsed) == value, 'json_record_count_mismatch')
+            category = 'record_count'
+        elif kind == 'json_keys':
+            _need(isinstance(value, list) and value and isinstance(parsed, dict) and set(value) <= set(parsed), 'json_fields_missing')
+            category = 'field_preservation'
+        else:
+            _need(value is not None and parsed == value, 'json_content_or_source_mapping_mismatch')
+            category = 'source_mapping' if kind == 'source_mapping' else 'field_preservation'
+            exhaustive = spec.get('pointer', '') == ''
+    elif kind in ('zip_members', 'zip_xml_contains', 'zip_member_count'):
+        with zipfile.ZipFile(p) as archive:
+            _need(sum(x.file_size for x in archive.infolist()) <= 256 * 1024 * 1024, 'zip_uncompressed_limit')
+            names = archive.namelist()
+            if kind == 'zip_members':
+                _need(isinstance(value, list) and value and set(value) <= set(names), 'artifact_members_missing')
+            elif kind == 'zip_member_count':
+                pattern = spec.get('pattern', '')
+                _need(pattern and type(value) is int and len([x for x in names if re.fullmatch(pattern, x)]) == value, 'artifact_part_count_mismatch')
+            else:
+                member = _relative(spec['member'])
+                _need(isinstance(value, str) and value and value in archive.read(member).decode('utf-8'), 'artifact_text_missing')
+        category = 'artifact_structure'
+    elif kind == 'sha256':
+        _need(re.fullmatch(r'[a-f0-9]{64}', str(value)) and actual['sha256'] == value, 'output_digest_mismatch')
+        category, exhaustive = 'field_preservation', True
+    else:
+        raise ValueError('unsupported_assertion:' + str(kind))
+    return {'kind': category, 'assertion_kind': kind, 'status': 'PASS', 'path': target,
+            'exhaustive': exhaustive, 'output_pins': [actual]}
+
+
+def _output_complete(checks: list[dict]) -> bool:
+    return any(x.get('exhaustive') for x in checks) or {'record_count', 'source_mapping'} <= {x['kind'] for x in checks} or (sum(x['kind'] == 'artifact_structure' for x in checks) >= 2 and any(x.get('assertion_kind') == 'zip_xml_contains' for x in checks))
+
+
+def _runtime_dependencies(dependencies: list) -> None:
+    _need(isinstance(dependencies, list) and all(isinstance(x, dict) for x in dependencies), 'dependencies_must_be_explicit_identity_list')
+    for dep in dependencies:
+        if dep.get('kind') == 'runtime':
+            _need(dep.get('identity_sha256') == FIXED_IMAGE.split(':', 1)[1], 'runtime_dependency_not_fixed_image')
+
+
+def _command(argv: list, files: dict, skill: Path, inputs: Path, fixtures: Path | None, out: Path,
+             logs_dir: Path, number: int, expected: int, timeout: int, image: str) -> dict:
+    expanded, script = _expand(argv, files)
+    owner = uuid.uuid4().hex
+    container_name = 'wrd-resource-replay-' + owner
+    cmd = ['docker', 'run', '--rm', '--name', container_name, '--label', 'wrd.resource-replay=' + owner,
+           '--network', 'none', '--read-only', '--cap-drop', 'ALL',
+           '--security-opt', 'no-new-privileges', '--pids-limit', '128', '--tmpfs', '/tmp:rw,nosuid,nodev,size=256m',
+           '-e', 'PYTHONDONTWRITEBYTECODE=1', '-e', 'HOME=/tmp', '-v', str(skill) + ':/skill:ro',
+           '-v', str(inputs) + ':/input:ro', '-v', str(out) + ':/out', '--workdir', '/out']
+    if fixtures is not None:
+        cmd += ['-v', str(fixtures) + ':/fixtures:ro']
+    cmd += ['--entrypoint', expanded[0], image, *expanded[1:]]
+    started = time.monotonic()
+    timed_out = False
+    cleanup = None
+    try:
+        run = subprocess.run(cmd, capture_output=True, timeout=timeout, check=False)
+        stdout, stderr, returncode = run.stdout, run.stderr, run.returncode
+    except subprocess.TimeoutExpired as error:
+        stdout, stderr, returncode, timed_out = error.stdout or b'', error.stderr or b'', None, True
+        # Killing only the Docker client can leave its container running. This
+        # name/label belongs exclusively to this resource check, never an Actor.
+        cleanup = {'container_name': container_name, 'ownership_label_verified': False}
+        try:
+            inspect = subprocess.run(['docker', 'inspect', container_name, '--format', '{{index .Config.Labels "wrd.resource-replay"}}'], capture_output=True, timeout=10, check=False)
+            cleanup['ownership_label_verified'] = inspect.returncode == 0 and inspect.stdout.decode().strip() == owner
+            if cleanup['ownership_label_verified']:
+                stopped = subprocess.run(['docker', 'kill', container_name], capture_output=True, timeout=10, check=False)
+                cleanup['kill_returncode'] = stopped.returncode
+                cleanup['kill_stdout'] = stopped.stdout.decode('utf-8', errors='replace')
+                cleanup['kill_stderr'] = stopped.stderr.decode('utf-8', errors='replace')
+        except (OSError, subprocess.SubprocessError) as cleanup_error:
+            cleanup['error'] = str(cleanup_error)
+    stdout_path, stderr_path = logs_dir / f'command_{number:02d}.stdout', logs_dir / f'command_{number:02d}.stderr'
+    stdout_path.write_bytes(stdout)
+    stderr_path.write_bytes(stderr)
+    row = {'argv': argv, 'actual_argv': list(argv), 'expanded_argv': expanded, 'docker_argv': cmd,
+           'program': script, 'returncode': returncode, 'expected_exit': expected, 'timed_out': timed_out,
+           'seconds': round(time.monotonic() - started, 6), 'stdout': pin(stdout_path), 'stderr': pin(stderr_path),
+           'owned_timeout_cleanup': cleanup}
+    row['execution_record'] = _write(logs_dir / f'command_{number:02d}.json', row)
+    return row
+
+
+def _run_case(spec: dict, skill: Path, files: dict, sources: dict, inputs: Path, fixtures: Path | None,
+          fixture_catalog: list, destination: Path, public_argv: list | None, timeout: int, image: str,
+          *, composition: bool = False) -> dict:
+    destination.mkdir(parents=True, exist_ok=False)
+    out = destination / 'out'
+    out.mkdir()
+    commands = spec.get('commands', [spec.get('argv')])
+    _need(isinstance(commands, list) and commands, 'case_commands_missing')
+    kind = spec.get('kind', 'composition' if composition else None)
+    _need(kind in ('normal', 'boundary', 'invalid_input', 'composition'), 'case_kind_required')
+    refs = spec.get('inputs', [spec.get('fixture_provenance')])
+    _need(isinstance(refs, list) and refs and all(isinstance(x, dict) for x in refs), 'case_input_provenance_missing')
+    verified, actual_input_paths = [], []
+    for ref in refs:
+        proof, path = _fixture(ref, sources, inputs, fixtures, fixture_catalog)
+        verified.append(proof)
+        actual_input_paths.append(path)
+    expanded = [_expand(argv, files)[0] for argv in commands]
+    _need(all(any(path == arg or path.startswith(arg.rstrip('/') + '/') or arg.endswith('=' + path) for argv in expanded for arg in argv[2:] if arg.startswith(('/input/', '/fixtures/', '--'))) for path in actual_input_paths), 'declared_input_not_actually_supplied_to_program')
+    expected = spec.get('expected_exit', 0)
+    _need(type(expected) is int and (kind == 'invalid_input' or expected == 0), 'invalid_expected_exit')
+    expected_exits = spec.get('expected_exits', [0] * (len(commands) - 1) + [expected])
+    _need(len(expected_exits) == len(commands) and all(type(x) is int for x in expected_exits), 'per_command_exit_contract_missing')
+    records = []
+    checks = []
+    for index, (argv, command_exit) in enumerate(zip(commands, expected_exits), 1):
+        record = _command(argv, files, skill, inputs, fixtures, out, destination, index, command_exit, timeout, image)
+        records.append(record)
+        checks.append({'kind': 'execution', 'status': 'PASS' if record['returncode'] == command_exit else 'HOLD',
+                       'reason': None if record['returncode'] == command_exit else 'command_exit_mismatch_or_timeout',
+                       'output_pins': [record['execution_record'], record['stdout'], record['stderr']]})
+        if record['returncode'] != command_exit:
+            break
+    _need(records, 'no_actual_command')
+    last = records[-1]
+    log_paths = {'$stdout': Path(last['stdout']['path']), '$stderr': Path(last['stderr']['path'])}
+    outputs = []
+    physical_outputs = []
+    stdout_declared = False
+    for required in spec.get('outputs', []):
+        if required['path'] == '$stdout':
+            _need(not stdout_declared, 'duplicate_stdout_output_declaration')
+            stdout_declared = True
+            p = log_paths['$stdout']
+        else:
+            p = _under(out, required['path'])
+        actual = pin(p)
+        _need(actual['bytes'] >= max(1, required.get('min_bytes', 1)), 'output_empty_or_too_small')
+        outputs.append(actual)
+        if required['path'] != '$stdout':
+            physical_outputs.append(actual)
+    for assertion in spec.get('assertions', []):
+        checks.append(_assertion(out, assertion, logs=log_paths))
+    if kind != 'invalid_input':
+        _need(outputs and spec.get('assertions'), 'case_requires_real_output_and_independent_assertions')
+        _need(all(any(x['path'] == o['path'] for check in checks if check['kind'] != 'execution' for x in check['output_pins']) for o in outputs), 'unasserted_declared_output')
+        if stdout_declared:
+            # Another fully asserted file cannot make a partial stdout check complete.
+            stdout_checks = [check for check in checks if check['kind'] != 'execution'
+                             and any(item['path'] == str(log_paths['$stdout'].resolve()) for item in check['output_pins'])]
+            _need(_output_complete(stdout_checks), 'stdout_output_completeness_not_independently_checked')
+    else:
+        _need(any(x['kind'] != 'execution' for x in checks), 'invalid_input_requires_error_content_assertion')
+        _need(expected != 0 or any(x['kind'] == 'explicit_error' for x in checks), 'invalid_input_silently_succeeds')
+    complete = kind == 'invalid_input' or _output_complete(checks)
+    _need(kind not in ('normal', 'composition') or complete, 'full_output_completeness_not_independently_checked')
+    all_outputs = _tree(out)
+    _need(set(x['path'] for x in physical_outputs) == set(x['path'] for x in all_outputs.values()), 'undeclared_output_file_or_partial_output_manifest')
+    full_input = all(x['whole_file_bytes_supplied'] for x in verified)
+    row = {'id': spec.get('id', destination.name), 'kind': kind,
+           'argv': last['argv'], 'actual_argv': last['actual_argv'], 'expanded_argv': last['expanded_argv'],
+           'returncode': last['returncode'], 'expected_exit': last['expected_exit'],
+           'stdout': last['stdout'], 'stderr': last['stderr'], 'commands': records,
+           'fixture_provenance': verified[0], 'fixture_refs': verified, 'input_pin': verified[0]['pin'],
+           'input_pins': [x['pin'] for x in verified], 'outputs': outputs, 'checks': checks,
+           'full_input': full_input, 'full_output': complete,
+           'public_usage_executed': public_argv is not None and any(argv == public_argv for argv in commands),
+           'status': 'PASS' if len(records) == len(commands) and all(x['status'] == 'PASS' for x in checks) else 'HOLD'}
+    _write(destination / 'case_report.json', row)
+    return row
+
+
+def _case(spec: dict, skill: Path, files: dict, sources: dict, inputs: Path, fixtures: Path | None,
+          fixture_catalog: list, destination: Path, public_argv: list | None, timeout: int, image: str,
+          *, composition: bool = False) -> dict:
+    """Preserve failed invocations and all produced bytes as well as successes."""
+    try:
+        return _run_case(spec, skill, files, sources, inputs, fixtures, fixture_catalog,
+                         destination, public_argv, timeout, image, composition=composition)
+    except (ValueError, KeyError, TypeError, AttributeError, OSError, UnicodeError, json.JSONDecodeError, zipfile.BadZipFile, IndexError, subprocess.SubprocessError) as error:
+        destination.mkdir(parents=True, exist_ok=True)
+        records = [_json(p) for p in sorted(destination.glob('command_*.json'))]
+        row = {'id': spec.get('id', destination.name), 'kind': spec.get('kind', 'composition' if composition else None),
+               'status': 'HOLD', 'reasons': [str(error)], 'commands': records,
+               'argv': records[-1]['argv'] if records else spec.get('argv'),
+               'actual_argv': records[-1]['actual_argv'] if records else None,
+               'returncode': records[-1]['returncode'] if records else None,
+               'expected_exit': spec.get('expected_exit', 0),
+               'stdout': records[-1]['stdout'] if records else None,
+               'stderr': records[-1]['stderr'] if records else None,
+               'outputs': list(_tree(destination / 'out').values()) if (destination / 'out').is_dir() else [],
+               'full_input': False, 'full_output': False, 'public_usage_executed': False,
+               'checks': [{'kind': 'failed_external_reproduction', 'status': 'HOLD', 'reason': str(error),
+                           'output_pins': [r['execution_record'] for r in records if 'execution_record' in r]}]}
+        # The execution record itself cannot recursively pin itself; command JSON
+        # paths provide retained independent trace files on the failure path.
+        row['checks'][0]['output_pins'] = [pin(p) for p in sorted(destination.glob('command_*.json'))]
+        path = destination / 'case_report.json'
+        if not path.exists():
+            _write(path, row)
+        return row
+
+
+def _metadata_paths(value: Any, inputs: Path, fixtures: Path | None, conversions: list) -> Any:
+    """Explicitly map known native pin paths; never rewrite public commands."""
+    if isinstance(value, list):
+        return [_metadata_paths(x, inputs, fixtures, conversions) for x in value]
+    if not isinstance(value, dict):
+        return value
+    result = {k: _metadata_paths(v, inputs, fixtures, conversions) for k, v in value.items()}
+    original = value.get('path')
+    if isinstance(original, str) and value.get('sha256'):
+        target = None
+        if original.startswith('/workspace/inputs/'):
+            target = _under(inputs, original[len('/workspace/inputs/'):])
+        elif original.startswith('/workspace/outputs/reproduction_inputs/'):
+            _need(fixtures is not None, 'native_fixture_path_requires_fixture_root')
+            target = _under(fixtures, original[len('/workspace/outputs/reproduction_inputs/'):])
+        if target is not None:
+            actual = pin(target)
+            _need(actual['sha256'] == value['sha256'] and ('bytes' not in value or actual['bytes'] == value['bytes']), 'native_pin_mapping_changed_bytes')
+            conversions.append({'original_path': original, 'host_path': actual['path'], 'sha256': actual['sha256'], 'bytes': actual['bytes'], 'operation': 'metadata_pin_path_mapping_only'})
+            result['path'] = actual['path']
+    return result
+
+
+def reproduce(skill_dir: str | Path, replay_path_or_dict: str | Path | dict, bindings: dict,
+              report_dir: str | Path, *, inputs_root: str | Path, fixtures_root: str | Path | None = None,
+              evidence: dict | None = None, resource_specs: dict | list | None = None,
+              image_id: str = FIXED_IMAGE, timeout_seconds: int = 240) -> dict:
+    """Run all declared programs and composition cases, then write external proof.
+
+    Replay programs declare ``path, documented_usage, public_argv, interface,
+    dependencies, cases``. Cases use direct argv or commands, ``kind`` normal /
+    boundary / invalid_input, provenance-pinned inputs, expected_exit, complete
+    output manifests and assertions. ``fixtures`` catalog generated files in the
+    external ``reproduction_inputs`` directory with source/message provenance.
+    All errors produce HOLD; finite replay does not establish universal safety
+    or Actor performance. ``report_dir`` must be fresh and outside the skill.
+    """
+    skill, inputs, report_root = Path(skill_dir).resolve(), Path(inputs_root).resolve(), Path(report_dir).resolve()
+    fixtures = Path(fixtures_root).resolve() if fixtures_root is not None else None
+    absent_fixture_root = fixtures is not None and not fixtures.exists()
+    if absent_fixture_root:
+        fixtures = None
+    _need(not report_root.is_relative_to(skill), 'verification_records_inside_skill')
+    report_root.mkdir(parents=True, exist_ok=False)
+    report: dict = {'schema': SCHEMA, 'status': 'HOLD', 'validator': pin(__file__),
+                    'image_id': image_id, 'independent_replay': True, 'no_model_calls': True,
+                    'native_agent_modified': False, 'programs': [], 'composition_cases': [],
+                    'non_executable_resources': [], 'resource_reports': [], 'reasons': [],
+                    'complete_reproduction': False, 'documented_usage_verified': False,
+                    'all_executables_covered': False, 'source_evidence_verified': False,
+                    'verified_source_ids': [], 'checks': [],
+                    'optional_fixture_root_absent': absent_fixture_root,
+                    'limitations': ['Finite tested inputs do not prove correctness for every future input.',
+                                    'Generated fixture source/message references are verified; derivation is a declared making-side operation, not authenticated historical bytes.',
+                                    'These checks establish resource execution evidence, not Actor token or model-call savings.']}
+    try:
+        _need(image_id == FIXED_IMAGE, 'resource_replay_image_must_match_fixed_native_image')
+        _need(type(timeout_seconds) is int and 1 <= timeout_seconds <= 240, 'replay_timeout_out_of_bounds')
+        _need(not inputs.is_relative_to(skill), 'replay_inputs_inside_skill')
+        _tree(inputs)
+        if fixtures is not None:
+            _need(fixtures.name == 'reproduction_inputs' and not fixtures.is_relative_to(skill), 'fixtures_must_be_external_reproduction_inputs')
+            _tree(fixtures)
+        original_replay = copy.deepcopy(replay_path_or_dict) if isinstance(replay_path_or_dict, dict) else _json(Path(replay_path_or_dict))
+        if not isinstance(replay_path_or_dict, dict):
+            report['replay_spec'] = pin(replay_path_or_dict)
+        report['original_replay_pin'] = _write(report_root / 'replay_original.json', original_replay)
+        conversions = []
+        replay = _metadata_paths(original_replay, inputs, fixtures, conversions)
+        report['metadata_conversion_pin'] = _write(report_root / 'metadata_path_conversions.json', conversions)
+        report['derived_replay_pin'] = _write(report_root / 'declared_replay.json', replay)
+        files = inspect_package(skill, evidence, bindings)
+        report['package_sha256'] = {name: p['sha256'] for name, p in files.items()}
+        report['skill_tree_pins'] = files
+        sources = _sources(bindings)
+        report['verified_source_ids'] = sorted(sources)
+        executable = {name for name in files if Path(name).suffix.lower() in EXECUTABLE_SUFFIXES}
+        programs = replay.get('programs', [])
+        _need(isinstance(programs, list) and len(programs) == len({p['path'] for p in programs}) and {p['path'] for p in programs} == executable, 'all_executable_resources_must_be_reproduced')
+        report['all_executables_covered'] = True
+        docs = '\n'.join((skill / name).read_text(encoding='utf-8-sig') for name in files if Path(name).suffix.lower() == '.md')
+        fixture_catalog = replay.get('fixtures', [])
+        _need(isinstance(fixture_catalog, list), 'fixture_catalog_must_be_list')
+        if isinstance(resource_specs, list):
+            _need(len(resource_specs) == len({x['path'] for x in resource_specs}), 'duplicate_resource_manifest_path')
+            specs = {x['path']: x for x in resource_specs}
+        else:
+            specs = resource_specs or {}
+        _need(isinstance(specs, dict) and set(specs) <= set(files), 'manifest_resource_not_packaged')
+        identities = {}
+        resource_rows = {}
+        counter = 0
+        for program in programs:
+            path = _relative(program['path'])
+            usage = program.get('documented_usage')
+            _need(isinstance(usage, str) and usage and usage in docs and '\n' not in usage, 'literal_public_usage_missing')
+            public = program.get('public_argv', shlex.split(usage, posix=True))
+            _need(shlex.split(usage, posix=True) == public, 'public_argv_differs_from_documentation')
+            _, public_script = _expand(public, files)
+            _need(public_script == path, 'public_usage_runs_different_program')
+            cases = program.get('cases', [])
+            _need(isinstance(cases, list) and {'normal', 'boundary', 'invalid_input'} <= {c.get('kind') for c in cases}, 'normal_boundary_invalid_reproduction_required')
+            results = []
+            for case in cases:
+                counter += 1
+                results.append(_case(case, skill, files, sources, inputs, fixtures, fixture_catalog,
+                                     report_root / 'cases' / f'{counter:04d}', public, timeout_seconds, image_id))
+            row = {'path': path, 'sha256': files[path]['sha256'], 'documented_usage': usage, 'public_argv': public, 'cases': results}
+            report['programs'].append(row)
+            _need(all(c['status'] == 'PASS' for c in results), 'one_or_more_program_cases_failed')
+            _need(any(c['public_usage_executed'] for c in results), 'public_usage_not_actually_executed')
+            _need(any(c['kind'] == 'normal' and c['full_input'] and c['full_output'] for c in results), 'only_partial_program_reproduction')
+            resource_rows[path] = row
+            meta = specs.get(path, program)
+            _need(meta.get('interface', {}).get('usage') == usage, 'resource_interface_usage_mismatch')
+            _runtime_dependencies(meta.get('dependencies', []))
+            identities[path] = _module('registry').resource_identity(files[path]['sha256'], meta['interface'], meta['dependencies'])
+        composition = replay.get('composition_cases', [])
+        _need(not executable or composition, 'complete_resource_composition_reproduction_required')
+        for case in composition:
+            counter += 1
+            result = _case(case, skill, files, sources, inputs, fixtures, fixture_catalog,
+                           report_root / 'cases' / f'{counter:04d}', None, timeout_seconds, image_id, composition=True)
+            report['composition_cases'].append(result)
+        non_program = replay.get('non_executable_resources', [])
+        required_non_program = {name for name in files if name not in executable and (Path(name).suffix.lower() != '.md' or any(p in ('templates', 'assets', 'materials', 'resources', 'data', 'examples') for p in Path(name).parts))}
+        _need(required_non_program <= {x.get('path') for x in non_program}, 'non_executable_resource_not_checked')
+        _need(executable or (non_program and replay.get('no_program_reason')), 'empty_nonprogram_reproduction')
+        for item in non_program:
+            path = _relative(item['path'])
+            _need(path in files and path not in executable, 'invalid_non_executable_resource')
+            meta = specs.get(path, item)
+            usage = meta.get('interface', {}).get('usage')
+            _need(isinstance(usage, str) and usage and usage in docs, 'nonprogram_public_usage_missing')
+            _need(item.get('assertions'), 'nonprogram_content_or_structure_assertion_missing')
+            checks = [_assertion(skill, assertion) for assertion in item['assertions']]
+            _need(all(x['path'] == path for x in checks), 'nonprogram_check_targets_other_file')
+            refs = item.get('fixture_refs', [])
+            _need(refs, 'nonprogram_source_fixture_provenance_missing')
+            for ref in refs:
+                _fixture(ref, sources, inputs, fixtures, fixture_catalog)
+            trace = _write(report_root / 'non_program' / (hashlib.sha256(path.encode()).hexdigest() + '.json'), {'path': path, 'resource_pin': files[path], 'checks': checks, 'fixture_refs': refs})
+            for check in checks:
+                check['output_pins'] = [trace]
+            row = {'path': path, 'sha256': files[path]['sha256'], 'documented_usage': usage, 'checks': checks, 'fixture_refs': refs}
+            report['non_executable_resources'].append(row)
+            resource_rows[path] = row
+            _runtime_dependencies(meta.get('dependencies', []))
+            identities[path] = _module('registry').resource_identity(files[path]['sha256'], meta['interface'], meta['dependencies'])
+        report['no_program_reason'] = replay.get('no_program_reason')
+        present_ids = {x['resource_id']: x for x in identities.values()}
+        _need(set(specs) <= set(resource_rows), 'manifest_resource_not_independently_reproduced')
+        for path, identity in identities.items():
+            for dep in identity['dependencies']:
+                if dep['kind'] == 'resource':
+                    _need(dep['resource_id'] in present_ids and present_ids[dep['resource_id']]['content_sha256'] == dep['content_sha256'], 'unmaterialized_or_unreproduced_shared_dependency')
+            row = resource_rows[path]
+            checks = row.get('checks', []) if path not in executable else [check for case in row['cases'] for check in case['checks']]
+            _need(checks and all(x['status'] == 'PASS' and x['output_pins'] for x in checks), 'resource_reproduction_checks_failed')
+            proof = {'schema': 'wrd-resource-reproduction-v1', 'status': 'PASS', 'validator': pin(__file__),
+                     'resource_sha256': identity['content_sha256'], 'interface_sha256': identity['interface_sha256'],
+                     'dependencies_sha256': identity['dependencies_sha256'], 'resource_id': identity['resource_id'],
+                     'resource_path': path, 'resource_pin': files[path], 'interface': identity['interface'],
+                     'dependencies': identity['dependencies'], 'complete_reproduction': True,
+                     'documented_usage_verified': True, 'independent_replay': True, 'checks': checks,
+                     'image_id': image_id, 'scope': 'finite exact input reproduction; no universal or Actor saving claim'}
+            proof_pin = _write(report_root / 'resources' / (identity['resource_id'] + '.json'), proof)
+            report['resource_reports'].append({'path': path, 'identity': identity, 'report': proof_pin, 'status': 'PASS'})
+        _need(_tree(skill) == files, 'packaged_resource_changed_during_replay')
+        for case in [c for p in report['programs'] for c in p['cases']] + report['composition_cases']:
+            for original in case.get('input_pins', []):
+                _pinned(original)
+        _need(all(c['status'] == 'PASS' for p in report['programs'] for c in p['cases']) and all(c['status'] == 'PASS' for c in report['composition_cases']), 'case_failed')
+        report.update({'status': 'PASS', 'complete_reproduction': True, 'documented_usage_verified': True,
+                       'source_evidence_verified': True,
+                       'resource_locks': [{'resource_pin': files[p], **v} for p, v in identities.items()],
+                       'checks': [{'kind': 'package_unchanged_and_all_resources_reproduced', 'status': 'PASS', 'output_pins': [x['report'] for x in report['resource_reports']]}]})
+    except (ValueError, KeyError, TypeError, AttributeError, OSError, UnicodeError, json.JSONDecodeError, zipfile.BadZipFile, IndexError, subprocess.SubprocessError) as error:
+        report['reasons'].append(str(error))
+    report['report_pin'] = _write(report_root / 'reproduction_report.json', report)
+    return report

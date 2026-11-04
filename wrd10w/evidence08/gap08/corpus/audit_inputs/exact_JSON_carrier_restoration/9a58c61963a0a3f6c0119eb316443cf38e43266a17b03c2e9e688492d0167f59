@@ -1,0 +1,161 @@
+{
+  "model": "glm-5.3-flash",
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是企业任务执行助手，完成当前完整委托并中文交付。你可以读取文件、执行Python，使用openpyxl、python-docx等已安装库。仅访问当前workspace，不访问其他会话、任务、实验、参考答案或凭据。inputs中的输入不可覆盖；用户需要的文件放outputs，最终回复给出可定位路径。inputs下的.docx/.xlsx/.pptx/.pdf及图片是二进制文件，必须用execute_python解析；read_file只用于UTF-8文本。\navailable_skills是可选的名称、用途、location目录；如有匹配需求，可以按location读取说明，参数以本次完整委托为准。不要假装读取或执行。可在一次调用中完成多项操作。根据实际完成情况自行决定继续工作或最终交付。工具完整日志在磁盘，反馈可按需读取；不必默认打印源码或日志全文。\ninputs和resources为只读；中间结果可写work目录。可以通过Python导入资源模块或运行其中的通用程序；是否使用、怎样合并操作由你决定，不必打印程序源码。模型自行按实际产物和检查决定最终交付，系统不会代替你执行资源或验收。"
+    },
+    {
+      "role": "user",
+      "content": "{\"完整用户委托\": \"我们要将这份客户台账发给协作方，请按随附request.json处理input.xlsx，只改变指定工作表、数据区和表头列中的普通文本，交付脱敏后的xlsx和JSON处理报告。规则：保留前3个字符和后0个字符，中间用##替换；长度不超过两端保留数之和的文本、空值、数值、布尔值和公式原样保留，不trim，不删括号，不编号，脱敏后重名也不加后缀。其他数据、公式、表格样式、单元格样式、行高列宽、工作表顺序和冻结窗格都保持。报告按公开契约记录范围、参数、计数、输入输出SHA、实际检查和未覆盖项，不包含原始敏感文字。三种文件路径都以request.json所在目录解析，勿覆盖原件。全部是虚构演练数据，业务规则已经给全，无需额外征询。\", \"实际输入\": [\"inputs/request.json\", \"inputs/input.xlsx\", \"inputs/task_contract.json\"], \"输出目录\": \"outputs\", \"workspace\": \".\", \"available_skills\": [{\"name\": \"excel_field_mask_v1\", \"description\": \"按请求JSON指定的工作表、表头列与数据行区间，对普通文本做'前缀+replacement+后缀'掩码；短文本/空值/数值/布尔/公式原样保留并分类计数；精确保留其他单元格内容、类型、样式与工作簿布局；交付脱敏xlsx与不含原值的JSON报告。对应公开契约 data_field_mask_request_v1（R01-R12）及其路径附议a1。\", \"location\": \"resources/workbook-mask/SKILL.md\"}]}"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call9a4ba0ad9f5341a3a3da9104ec6b878e",
+          "type": "function",
+          "function": {
+            "name": "execute_python",
+            "arguments": "{\"code\":\"import json\\nfor p in ['inputs/request.json','inputs/task_contract.json']:\\n    print('='*20, p)\\n    print(open(p, encoding='utf-8').read())\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call9a4ba0ad9f5341a3a3da9104ec6b878e",
+      "content": "{\"exit_code\": 0, \"stdout\": \"==================== inputs/request.json\\r\\n{\\r\\n  \\\"schema_version\\\": \\\"data_field_mask_request_v1\\\",\\r\\n  \\\"input_workbook\\\": \\\"input.xlsx\\\",\\r\\n  \\\"output_workbook\\\": \\\"../outputs/masked.xlsx\\\",\\r\\n  \\\"report_file\\\": \\\"../outputs/masking_report.json\\\",\\r\\n  \\\"worksheets\\\": [\\r\\n    {\\r\\n      \\\"name\\\": \\\"客户台账\\\",\\r\\n      \\\"header_row\\\": 1,\\r\\n      \\\"data_start_row\\\": 2,\\r\\n      \\\"data_end_row\\\": 33,\\r\\n      \\\"columns\\\": [\\r\\n        \\\"客户名称\\\",\\r\\n        \\\"联系人姓名\\\"\\r\\n      ]\\r\\n    }\\r\\n  ],\\r\\n  \\\"masking\\\": {\\r\\n    \\\"prefix_chars\\\": 3,\\r\\n    \\\"suffix_chars\\\": 0,\\r\\n    \\\"replacement\\\": \\\"##\\\"\\r\\n  }\\r\\n}\\r\\n==================== inputs/task_contract.json\\r\\n{\\r\\n  \\\"contract_id\\\": \\\"data_field_mask_request_v1\\\",\\r\\n  \\\"task_family\\\": \\\"DATA: Excel指定字段文本脱敏，保留其他内容和格式\\\",\\r\\n  \\\"request_json_schema\\\": {\\r\\n    \\\"type\\\": \\\"object\\\",\\r\\n    \\\"additionalProperties\\\": false,\\r\\n    \\\"required\\\": [\\r\\n      \\\"schema_version\\\",\\r\\n      \\\"input_workbook\\\",\\r\\n      \\\"output_workbook\\\",\\r\\n      \\\"report_file\\\",\\r\\n      \\\"worksheets\\\",\\r\\n      \\\"masking\\\"\\r\\n    ],\\r\\n    \\\"properties\\\": {\\r\\n      \\\"schema_version\\\": {\\r\\n        \\\"const\\\": \\\"data_field_mask_request_v1\\\"\\r\\n      },\\r\\n      \\\"input_workbook\\\": {\\r\\n        \\\"type\\\": \\\"string\\\",\\r\\n        \\\"description\\\": \\\"可读xlsx输入；相对路径以request.json所在目录为基准\\\"\\r\\n      },\\r\\n      \\\"output_workbook\\\": {\\r\\n        \\\"type\\\": \\\"string\\\",\\r\\n        \\\"description\\\": \\\"交付xlsx路径；不得与输入路径相同\\\"\\r\\n      },\\r\\n      \\\"report_file\\\": {\\r\\n        \\\"type\\\": \\\"string\\\",\\r\\n        \\\"description\\\": \\\"交付JSON报告路径\\\"\\r\\n      },\\r\\n      \\\"worksheets\\\": {\\r\\n        \\\"type\\\": \\\"array\\\",\\r\\n        \\\"minItems\\\": 1,\\r\\n        \\\"items\\\": {\\r\\n          \\\"type\\\": \\\"object\\\",\\r\\n          \\\"additionalProperties\\\": false,\\r\\n          \\\"required\\\": [\\r\\n            \\\"name\\\",\\r\\n            \\\"header_row\\\",\\r\\n            \\\"data_start_row\\\",\\r\\n            \\\"data_end_row\\\",\\r\\n            \\\"columns\\\"\\r\\n          ],\\r\\n          \\\"properties\\\": {\\r\\n            \\\"name\\\": {\\r\\n              \\\"type\\\": \\\"string\\\",\\r\\n              \\\"minLength\\\": 1\\r\\n            },\\r\\n            \\\"header_row\\\": {\\r\\n              \\\"type\\\": \\\"integer\\\",\\r\\n              \\\"minimum\\\": 1\\r\\n            },\\r\\n            \\\"data_start_row\\\": {\\r\\n              \\\"type\\\": \\\"integ\", \"stderr\": \"\", \"stdout_truncated\": true, \"stderr_truncated\": false, \"stdout_path\": \"logs/001.stdout.txt\", \"stderr_path\": \"logs/001.stderr.txt\"}"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "callb5fc00c7ab154778a47d0b980429cbb3",
+          "type": "function",
+          "function": {
+            "name": "read_file",
+            "arguments": "{\"path\":\"resources/workbook-mask/SKILL.md\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "callb5fc00c7ab154778a47d0b980429cbb3",
+      "content": "{\"path\": \"resources/workbook-mask/SKILL.md\", \"content\": \"# Excel指定字段文本脱敏\\n\\n按请求JSON指定的工作表、表头列与数据行区间，对普通文本做'前缀+replacement+后缀'掩码；短文本/空值/数值/布尔/公式原样保留并分类计数；精确保留其他单元格内容、类型、样式与工作簿布局；交付脱敏xlsx与不含原值的JSON报告。对应公开契约 data_field_mask_request_v1（R01-R12）及其路径附议a1。\\n\\n适用范围：\\n\\n```json\\n[\\n  \\\"输入为可读xlsx，请求符合data_field_mask_request_v1 schema\\\",\\n  \\\"目标=指定工作表内 header_row<data_start_row<=data_end_row 与指定表头列的矩形交集\\\",\\n  \\\"目标单元格为普通非空字符串时按Unicode码点做前后保留掩码\\\",\\n  \\\"报告口径：selected=changed+unchanged_text+blank+non_text+formula\\\",\\n  \\\"路径：input_workbook相对request.json目录；--output-root仅映射output_workbook/report_file的相对路径\\\"\\n]\\n```\\n\\n不适用范围：\\n\\n```json\\n[\\n  \\\"语义级敏感信息识别、实体识别、联系人抽取或真实外部查询（契约R07无此要求）\\\",\\n  \\\"对公式结果、数值、布尔值做脱敏（R06原样保留）\\\",\\n  \\\"撞名加编号后缀、删除括号备注、重排客户编号（R04/R07明确排除）\\\",\\n  \\\"生成含原值的对照表或把原值写入报告（R10禁止）\\\",\\n  \\\"非xlsx输入（csv/xls等）、图表/图片/透视表富对象保真、ZIP元数据与序列化顺序（未验证，属uncovered）\\\",\\n  \\\"请求结构非法（缺字段/区间倒置/表头重复/输出覆盖输入）——程序exit 2显式报错，不猜测（R11）\\\"\\n]\\n```\\n\\n组合入口：\\n\\n```text\\npython resources/workbook-mask/scripts/run.py --request inputs/request.json\\n```\\n\\n完成条件与未覆盖项：\\n\\n```json\\n\\\"实际完成条件：run.py以--request成功执行，exit 0，全部checks为PASS，六项计数恒等式成立，输入SHA未变，脱敏xlsx与报告落在摘要报告的实际交付路径。未覆盖项（如实列于报告uncovered）：原生Excel视觉验证、ZIP元数据、公式重算结果、图表/图片等富对象。执行器无需强制停止；模型审阅摘要后自然结束即可。\\\"\\n```\\n\\n正常路线：\\n\\nparse_request → resolve_paths → load_and_locate → apply_masking → verify_and_save → write_report → review_summary\\n\\n- [parse_request: 读取并校验请求JSON](nodes/parse_request.md)\\n- [resolve_paths: 解析路径与输出映射](nodes/resolve_paths.md)\\n- [load_and_locate: 打开工作簿并定位目标列](nodes/load_and_locate.md)\\n- [apply_masking: 按规则脱敏并分类计数](nodes/apply_masking.md)\\n- [verify_and_save: 保存交付簿并回读核验](nodes/verify_and_save.md)\\n- [write_report: 生成报告并输出摘要](nodes/write_report.md)\\n- [review_summary: 审阅摘要并决定交付（模型判断）](nodes/review_summary.md)\\n\\n条件导航：\\n\\n- [parse_request](nodes/parse_request.md)：\\\"每次执行开始\\\"\\n- [resolve_paths](nodes/resolve_paths.md)：\\\"请求校验通过后\\\"\\n- [load_and_locate](nodes/load_and_locate.md)：\\\"路径解析成功后\\\"\\n- [apply_masking](nodes/apply_masking.md)：\\\"目标列定位成功后\\\"\\n- [verify_and_save](nodes/verify_and_save.md)：\\\"内存脱敏完成后\\\"\\n- [write_report](nodes/write_report.md)：\\\"核验通过后\\\"\\n- [review_summary](nodes/review_summary.md)：\\\"程序正常返回后\\\"\\n- [error_exit](nodes/error_exit.md)：\\\"任何契约违反或核验失败\\\"\\n\\n[完整流程与全部资源说明](workflow.json)\\n\", \"total_chars\": 2084, \"total_lines\": 65, \"displayed_start_char\": 0, \"displayed_end_char\": 2084, \"requested_range_end_char\": 2084, \"truncated\": false, \"continuation_start_char\": null, \"file_sha256\": \"b7e62fccb8c24b9a3f21de95ec15df759df6e985c92f6aa1464e3364c8f9655c\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "请求符合 data_field_mask_request_v1 契约，我使用技能自带的执行器处理。",
+      "tool_calls": [
+        {
+          "id": "callbf3e539cef2e4f2fad51df6b1b03c350",
+          "type": "function",
+          "function": {
+            "name": "execute_python",
+            "arguments": "{\"code\":\"import subprocess, sys\\nr = subprocess.run([sys.executable, 'resources/workbook-mask/scripts/run.py', '--request', 'inputs/request.json'], capture_output=True, text=True)\\nprint('exit:', r.returncode)\\nprint(r.stdout[-5000:])\\nprint('STDERR:', r.stderr[-3000:])\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "callbf3e539cef2e4f2fad51df6b1b03c350",
+      "content": "{\"exit_code\": 0, \"stdout\": \"exit: 0\\r\\n{\\r\\n  \\\"status\\\": \\\"OK\\\",\\r\\n  \\\"delivery\\\": {\\r\\n    \\\"input_workbook\\\": \\\"E:\\\\\\\\skillloop_runs\\\\\\\\20261019_auto_workflow_pilot\\\\\\\\formal\\\\\\\\execution\\\\\\\\runs\\\\\\\\new_06_r1_workflow\\\\\\\\workspace\\\\\\\\inputs\\\\\\\\input.xlsx\\\",\\r\\n    \\\"output_workbook\\\": \\\"E:\\\\\\\\skillloop_runs\\\\\\\\20261019_auto_workflow_pilot\\\\\\\\formal\\\\\\\\execution\\\\\\\\runs\\\\\\\\new_06_r1_workflow\\\\\\\\workspace\\\\\\\\outputs\\\\\\\\masked.xlsx\\\",\\r\\n    \\\"report_file\\\": \\\"E:\\\\\\\\skillloop_runs\\\\\\\\20261019_auto_workflow_pilot\\\\\\\\formal\\\\\\\\execution\\\\\\\\runs\\\\\\\\new_06_r1_workflow\\\\\\\\workspace\\\\\\\\outputs\\\\\\\\masking_report.json\\\"\\r\\n  },\\r\\n  \\\"input_sha256\\\": \\\"1ee58252ae8d5bf10d216df474585d8b0b79db54598f265068a16031defe7c3c\\\",\\r\\n  \\\"output_sha256\\\": \\\"611790916ed50f743bb649a58d5185d99c6a8490df1d89209a66f5026f7b6633\\\",\\r\\n  \\\"totals\\\": {\\r\\n    \\\"selected_cells\\\": 64,\\r\\n    \\\"changed_cells\\\": 64,\\r\\n    \\\"unchanged_text_cells\\\": 0,\\r\\n    \\\"blank_cells\\\": 0,\\r\\n    \\\"non_text_cells\\\": 0,\\r\\n    \\\"formula_cells\\\": 0\\r\\n  },\\r\\n  \\\"checks\\\": [\\r\\n    {\\r\\n      \\\"name\\\": \\\"target_cells_match_expected\\\",\\r\\n      \\\"status\\\": \\\"PASS\\\",\\r\\n      \\\"evidence\\\": \\\"重开 E:\\\\\\\\skillloop_runs\\\\\\\\20261019_auto_workflow_pilot\\\\\\\\formal\\\\\\\\execution\\\\\\\\runs\\\\\\\\new_06_r1_workflow\\\\\\\\workspace\\\\\\\\outputs\\\\\\\\masked.xlsx 核对 64 个选择单元格的目标值与预期一致；不一致 0 处\\\"\\r\\n    },\\r\\n    {\\r\\n      \\\"name\\\": \\\"non_target_values_preserved\\\",\\r\\n      \\\"status\\\": \\\"PASS\\\",\\r\\n      \\\"evidence\\\": \\\"重开输入 E:\\\\\\\\skillloop_runs\\\\\\\\20261019_auto_workflow_pilot\\\\\\\\formal\\\\\\\\execution\\\\\\\\runs\\\\\\\\new_06_r1_workflow\\\\\\\\workspace\\\\\\\\inputs\\\\\\\\input.xlsx（sha256 1ee58252ae8d5bf10d216df474585d8b0b79db54598f265068a16031defe7c3c）与输出 E:\\\\\\\\skillloop_runs\\\\\\\\20261019_auto_workflow_pilot\\\\\\\\formal\\\\\\\\execution\\\\\\\\runs\\\\\\\\new_06_r1_workflow\\\\\\\\workspace\\\\\\\\outputs\\\\\\\\masked.xlsx（sha256 611790916ed50f743bb649a58d5185d99c6a8490df1d89209a66f5026f7b6633），全簿 1 个工作表逐格比对 264 个单元格的值；非目标不一致 0 处\\\"\\r\\n    },\\r\\n    {\\r\\n      \\\"name\\\": \\\"styles_and_layout_preserved\\\",\\r\\n      \\\"status\\\": \\\"PASS\\\",\\r\\n      \\\"evidence\\\": \\\"重开输出 E:\\\\\\\\skillloop_runs\\\\\\\\20261019_auto_workflow_pilot\\\\\\\\formal\\\\\\\\execution\\\\\\\\runs\\\\\\\\new_06_r1_workflow\\\\\\\\workspace\\\\\\\\outputs\\\\\\\\masked.xlsx（sha256 611790916ed50f743bb649a58d5185d99c6a8490df1d89209a66f5026f7b663\", \"stderr\": \"\", \"stdout_truncated\": true, \"stderr_truncated\": false, \"stdout_path\": \"logs/003.stdout.txt\", \"stderr_path\": \"logs/003.stderr.txt\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "请求符合 data_field_mask_request_v1 契约，我使用技能自带的执行器处理。执行成功，做最后的交付物核验。",
+      "tool_calls": [
+        {
+          "id": "call5e23c5ced5a8437f84fe1505dc08a582",
+          "type": "function",
+          "function": {
+            "name": "execute_python",
+            "arguments": "{\"code\":\"import json, os, hashlib\\np1='outputs/masked.xlsx'; p2='outputs/masking_report.json'\\nprint(p1, os.path.exists(p1), os.path.getsize(p1))\\nprint(p2, os.path.exists(p2), os.path.getsize(p2))\\nr=json.load(open(p2,encoding='utf-8'))\\nprint('report keys:', list(r.keys()))\\nprint('schema_version:', r.get('schema_version'))\\nprint('totals:', r.get('totals'))\\nchecks=r.get('checks',[])\\nprint('checks:', [(c['name'],c['status']) for c in checks])\\nprint('uncovered:', r.get('uncovered'))\\n# 确认报告中不含原始敏感文字（抽查工作簿原值不出现于报告文本）\\nfrom openpyxl import load_workbook\\nwb=load_workbook('inputs/input.xlsx'); ws=wb['客户台账']\\norig=[str(ws.cell(row=rr, column=cc).value) for rr in range(2,34) for cc in (1,3) if ws.cell(row=rr,column=cc).value]\\nrt=open(p2,encoding='utf-8').read()\\nleak=[o for o in orig if o in rt]\\nprint('report_leak_count:', len(leak))\\nwb2=load_workbook(p1); ws2=wb2['客户台账']\\nsample=[ws2.cell(row=rr,column=1).value for rr in range(2,6)]\\nprint('masked sample col1 r2-5:', sample)\\nprint('sheets:', wb2.sheetnames)\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call5e23c5ced5a8437f84fe1505dc08a582",
+      "content": "{\"exit_code\": 0, \"stdout\": \"outputs/masked.xlsx True 7288\\r\\noutputs/masking_report.json True 5385\\r\\nreport keys: ['schema_version', 'input_sha256', 'output_sha256', 'masking', 'sheets', 'totals', 'checks', 'uncovered']\\r\\nschema_version: data_field_mask_report_v1\\r\\ntotals: {'selected_cells': 64, 'changed_cells': 64, 'unchanged_text_cells': 0, 'blank_cells': 0, 'non_text_cells': 0, 'formula_cells': 0}\\r\\nchecks: [('target_cells_match_expected', 'PASS'), ('non_target_values_preserved', 'PASS'), ('styles_and_layout_preserved', 'PASS'), ('input_unchanged', 'PASS'), ('deliverable_hash_recorded', 'PASS'), ('types_and_tables_preserved', 'PASS'), ('counting_identity', 'PASS')]\\r\\nuncovered: ['未在原生Excel应用程序中做视觉渲染验证；样式保留结论来自openpyxl属性级比对', '未验证ZIP元数据与XML序列化顺序（契约R09明确不要求）', '公式仅在xlsx定义层面识别与保留（R06），未做重算引擎结果验证', '图表、图片、数据透视表等富对象不在本次契约与测试范围内，未验证其逐字节保真']\\r\\nreport_leak_count: 0\\r\\nmasked sample col1 r2-5: ['TST-61-0001', 'TST-61-0002', 'TST-61-0003', 'TST-61-0004']\\r\\nsheets: ['客户台账']\\r\\n\", \"stderr\": \"\", \"stdout_truncated\": false, \"stderr_truncated\": false, \"stdout_path\": \"logs/004.stdout.txt\", \"stderr_path\": \"logs/004.stderr.txt\"}"
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "read_file",
+        "description": "读取当前workspace内UTF-8文本文件，默认最多4000字符。可指定从1起的行范围，或从0起的字符范围。只返回所选正文与续读位置，完整原文件不变。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "start_line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "end_line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "start_char": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "end_char": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12000
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "execute_python",
+        "description": "在当前workspace真实执行Python。可合并读取、处理及必要检查；输入不覆盖、交付写outputs。返回退出码和短stdout/stderr，完整日志保存在本次workspace/logs，可用read_file按需读取。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "max_output_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6000
+            }
+          },
+          "required": [
+            "code"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ],
+  "temperature": 0,
+  "max_tokens": 8192,
+  "thinking": {
+    "type": "disabled"
+  },
+  "stream": false
+}

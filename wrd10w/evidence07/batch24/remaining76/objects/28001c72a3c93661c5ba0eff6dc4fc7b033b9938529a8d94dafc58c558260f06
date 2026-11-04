@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+"""Parse a Chinese/numeric schedule spec into scheduler schedule JSON and validate it.
+
+Method: match the spec text against the plan forms seen in real tasks:
+  - one-shot: "单次执行，执行时间为 2026-06-16 17:56" / "今天中午12点" / "明天下午2点半" / "一会儿四点半"
+                / "下周一10:00"（下周X解析为下一周对应星期的一次性执行）
+  - daily:    "每天 08:00" / "每天中午12点" / "每日11:00"
+  - weekly:   "每周一上午七点" / "每周五中午12点" / "每周三、周五 09:30"
+  - weekdays: "工作日 08:00"
+Recurring plans in real sources always carry 每天/每周/工作日; specs without those
+markers are treated as one-shot. One-shot times resolve against --now in --tz
+(default Asia/Shanghai, source users are GMT+8); a past one-shot time is rejected
+with exit 2 because the scheduler refuses "at is in the past".
+
+Input: schedule spec text (argv), optional --now ISO datetime (default: current UTC now),
+       optional --tz IANA zone (default Asia/Shanghai).
+Output: JSON on stdout: {"kind":"at","at":"<ISO with offset>"} or
+        {"kind":"cron","expr":"<5 fields>","tz":"<zone>"}.
+Errors: "schedule_error: <reason>" on stderr, exit 2 (past time / unparseable spec).
+"""
+from __future__ import annotations
+import argparse
+import json
+import re
+import sys
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+CN_NUM = {"零": 0, "一": 1, "两": 2, "二": 2, "三": 3, "四": 4, "五": 5,
+          "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
+CN_WEEK = {"一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6,
+           "日": 0, "天": 0}
+ZONE = "Asia/Shanghai"
+
+
+def cn_number(text):
+    """Chinese/Arabic number including 十 forms: 十=10, 十一=11, 二十三=23."""
+    if text is None:
+        return None
+    if text in CN_NUM:
+        return CN_NUM[text]
+    if text.isdigit():
+        return int(text)
+    parts = text.split("十")
+    if len(parts) == 2 and all(p == "" or p in CN_NUM for p in parts):
+        tens = CN_NUM.get(parts[0], 1)
+        ones = CN_NUM.get(parts[1], 0)
+        return tens * 10 + ones
+    return None
+
+
+cn_digit = cn_number
+
+
+def fail(reason):
+    print("schedule_error: " + reason, file=sys.stderr)
+    raise SystemExit(2)
+
+
+# "上午7点" "中午12点半" "下午2点30" "14:00" "四点半" "11点05分"
+TIME_RE = re.compile(
+    r"(?:(上午|早上|中午|下午|晚上)?\s*"
+    r"([零一二两三四五六七八九十\d]+)[点时:：]\s*"
+    r"(?:(半)|([零一二两三四五六七八九十\d]+)\s*分?)?"
+    r"|([零一二两三四五六七八九十\d]+)半)"
+)
+
+
+def parse_time(text, position=0):
+    """Return (hour, minute, meridiem|None) from the first time expression at/after position."""
+    start = position
+    while True:
+        match = TIME_RE.search(text, start)
+        if not match:
+            return None
+        meridiem = match.group(1)
+        if match.group(5) is not None:  # "四点半" form
+            hour = cn_digit(match.group(5))
+            minute = 30
+        else:
+            hour = cn_digit(match.group(2))
+            if hour is None:
+                # mixed match like "一10:00" in "下周一10:00": retry after its first char
+                start = match.start() + 1
+                continue
+            minute = 30 if match.group(3) else (cn_digit(match.group(4)) or 0)
+        return hour, minute, meridiem
+
+
+def to_24h(hour, minute, meridiem):
+    if meridiem in ("下午", "晚上") and hour < 12:
+        hour += 12
+    return hour, minute
+
+
+def resolve_time(text, now):
+    """Resolve a time expression plus optional day word to an aware datetime in tz of now."""
+    parsed = parse_time(text)
+    if parsed is None:
+        return None
+    hour, minute, meridiem = parsed
+    day_offset = 0
+    if "明天" in text:
+        day_offset = 1
+    elif "后天" in text:
+        day_offset = 2
+    hour, minute = to_24h(hour, minute, meridiem)
+    if meridiem is None and hour < 12:
+        # bare time like "四点半": pick the interpretation that is still ahead today
+        candidate = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+        if candidate <= now and hour + 12 < 24:
+            pm = now.replace(hour=hour + 12, minute=minute, second=0, microsecond=0)
+            if pm > now:
+                hour += 12
+    if not (0 <= hour <= 23 and 0 <= minute <= 59):
+        fail("time out of range in spec: " + text)
+    target = (now + timedelta(days=day_offset)).replace(
+        hour=hour, minute=minute, second=0, microsecond=0)
+    return target
+
+
+def next_weekday_time(text, now):
+    """Resolve "下周一10:00" (next week's weekday) to an aware datetime; None if not this form."""
+    match = re.search(r"下(?:周|星期)([零一二两三四五六日天])", text)
+    if not match:
+        return None
+    weekday = (CN_WEEK[match.group(1)] + 6) % 7  # Python Mon=0..Sun=6
+    delta = (7 - now.weekday()) % 7
+    if delta == 0:
+        delta = 7  # "下周一" said on a Monday still means next week's Monday
+    time_part = parse_time(text)
+    if time_part is None:
+        fail("next-weekday spec without recognizable time: " + text)
+    hour, minute, meridiem = time_part
+    hour, minute = to_24h(hour, minute, meridiem)
+    if not (0 <= hour <= 23 and 0 <= minute <= 59):
+        fail("time out of range in spec: " + text)
+    target = (now + timedelta(days=delta + weekday)).replace(
+        hour=hour, minute=minute, second=0, microsecond=0)
+    return target
+
+
+def parse_spec(text, now):
+    text = text.strip()
+    text = text.replace("星期", "周")
+    # explicit absolute one-shot date+time
+    absolute = re.search(r"(\d{4})-(\d{1,2})-(\d{1,2})[ T]+(\d{1,2}):(\d{2})", text)
+    if absolute or "单次" in text or "一次" in text:
+        if absolute:
+            year, month, day, hour, minute = map(int, absolute.groups())
+            try:
+                target = now.replace(year=year, month=month, day=day,
+                                     hour=hour, minute=minute, second=0, microsecond=0)
+            except ValueError as error:
+                fail("invalid date in spec: " + str(error))
+            return {"kind": "at", "at": target.isoformat()}
+        target = resolve_time(text, now)
+        if target is None:
+            fail("one-shot spec has no recognizable time: " + text)
+        return {"kind": "at", "at": target.isoformat()}
+
+    if re.search(r"每[天日]|每日", text):
+        time_part = parse_time(text)
+        if time_part is None:
+            fail("daily spec without recognizable time: " + text)
+        hour, minute, meridiem = time_part
+        hour, minute = to_24h(hour, minute, meridiem)
+        return {"kind": "cron", "expr": "%d %d * * *" % (minute, hour), "tz": ZONE}
+    next_week = next_weekday_time(text, now)
+    if next_week is not None:
+        return {"kind": "at", "at": next_week.isoformat()}
+    if "工作日" in text:
+        time_part = parse_time(text)
+        if time_part is None:
+            fail("weekday spec without recognizable time: " + text)
+        hour, minute, meridiem = time_part
+        hour, minute = to_24h(hour, minute, meridiem)
+        return {"kind": "cron", "expr": "%d %d * * 1-5" % (minute, hour), "tz": ZONE}
+    if re.search(r"每周|周[零一二两三四五六日天]", text):
+        time_part = parse_time(text)
+        if time_part is None:
+            fail("weekly spec without recognizable time: " + text)
+        hour, minute, meridiem = time_part
+        hour, minute = to_24h(hour, minute, meridiem)
+        days = set()
+        for match in re.finditer(r"周([零一二两三四五六日天])", text):
+            days.add(CN_WEEK[match.group(1)])
+        if not days:
+            fail("weekly spec without weekday: " + text)
+        days_text = ",".join(str(day) for day in sorted(days))
+        return {"kind": "cron", "expr": "%d %d * * %s" % (minute, hour, days_text), "tz": ZONE}
+    target = resolve_time(text, now)
+    if target is None:
+        fail("no recognizable time in spec: " + text)
+    return {"kind": "at", "at": target.isoformat()}
+
+
+def main():
+    global ZONE
+    parser = argparse.ArgumentParser(description="Parse a schedule spec into scheduler JSON")
+    parser.add_argument("spec", help="schedule text, e.g. '单次执行，执行时间为 2026-06-16 17:56'")
+    parser.add_argument("--now", help="current time ISO (default: now in --tz);"
+                        " pass the executor's real current time")
+    parser.add_argument("--tz", default=ZONE, help="IANA zone for user wall times (default Asia/Shanghai)")
+    args = parser.parse_args()
+    ZONE = args.tz
+    try:
+        zone = ZoneInfo(args.tz)
+    except Exception:
+        fail("unknown timezone: " + args.tz)
+    if args.now:
+        raw = args.now.strip().replace(" ", "T")
+        if raw.endswith("Z"):
+            raw = raw[:-1] + "+00:00"
+        try:
+            moment = datetime.fromisoformat(raw)
+        except ValueError:
+            fail("cannot parse --now: " + args.now)
+        if moment.tzinfo is None:
+            moment = moment.replace(tzinfo=zone)
+    else:
+        moment = datetime.now(tz=zone)
+    now = moment.astimezone(zone)
+    schedule = parse_spec(args.spec, now)
+    if schedule["kind"] == "at":
+        target = datetime.fromisoformat(schedule["at"])
+        if target <= now:
+            fail("schedule time %s is not after current time %s; the scheduler rejects past "
+                 "times, confirm a new time with the user" % (schedule["at"], now.isoformat()))
+    print(json.dumps(schedule, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

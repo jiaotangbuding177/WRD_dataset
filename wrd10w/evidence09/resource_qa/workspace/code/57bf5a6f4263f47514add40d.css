@@ -1,0 +1,135 @@
+/* ============================================================
+   界面背景配色优化 —— 基于产品图（麦角硫因）背景取色
+   原图背景主色实测：#e6ece5 / #d8f0d8 / #eef3ed（浅薄荷绿、灰绿）
+   设计原则：色调柔和、视觉舒适、避免过深；
+            底部统一青绿色 #00c4a3，与上部浅绿自然过渡；
+            文字保持高对比度，清晰易读。
+   适配：网页端响应式布局，兼容主流浏览器（Chrome/Edge/Firefox/Safari）。
+   使用方式：引入本文件后，页面根元素挂 class="theme-soft-mint" 即可生效；
+            也可直接将 :root 中的变量复制到现有样式表。
+   ============================================================ */
+
+:root,
+.theme-soft-mint {
+  /* ---------- 上部背景：呼应原图的浅薄荷绿 ---------- */
+  --bg-page-top: #f2f7f3;        /* 页面最顶端：近白的极浅薄荷绿，柔和不刺眼 */
+  --bg-page-upper: #e7f0ea;      /* 上部主背景：浅灰绿，对应原图 #e6ece5 */
+  --bg-page-upper-deep: #d9e9de; /* 上部渐变收尾：稍深一档的薄荷绿，增加层次但不过深 */
+
+  /* ---------- 过渡带：上部浅绿 → 底部青绿的衔接区 ---------- */
+  --bg-transition-mint: #bfe6d8; /* 中间调：柔和的薄荷青，让衔接不生硬 */
+  --bg-transition-teal: #7fd8c2; /* 靠近底部：淡青绿，向 #00c4a3 平滑靠近 */
+
+  /* ---------- 底部区域：统一青绿色 ---------- */
+  --bg-bottom: #00c4a3;          /* 底部主色：青绿色（题目指定参考值） */
+  --bg-bottom-deep: #00ae91;     /* 底部渐变收尾：略深的同色系，制造纵向层次，仍保持明快 */
+
+  /* ---------- 卡片 / 浮层表面 ---------- */
+  --bg-card: #ffffff;            /* 卡片、面板：纯白，在浅绿背景上干净清晰 */
+  --bg-card-tint: #f6fbf8;       /* 次级卡片 / 输入框底：带一丝绿意的近白 */
+
+  /* ---------- 文字颜色：保证浅底深字、深底白字的可读性 ---------- */
+  --text-primary: #1f2d28;       /* 上部浅背景上的主文字：深墨绿灰，对比度 > 12:1 */
+  --text-secondary: #5a6e66;     /* 辅助文字 / 次要说明：中灰绿，对比度约 5:1 */
+  --text-on-teal: #ffffff;       /* 底部青绿背景上的文字：纯白，清晰醒目 */
+  --text-on-teal-soft: rgba(255, 255, 255, 0.85); /* 底部次要文字：85% 白，柔和不失清晰 */
+
+  /* ---------- 点缀与描边 ---------- */
+  --accent-teal: #00c4a3;        /* 强调色：按钮、链接、图标，与底部呼应 */
+  --border-soft: #cfe3d7;        /* 柔和描边 / 分隔线：浅绿灰，弱化边框感 */
+
+  /* ---------- 上部整体渐变背景（柔和、不过深） ---------- */
+  --bg-upper-gradient: linear-gradient(
+    180deg,
+    var(--bg-page-top) 0%,
+    var(--bg-page-upper) 45%,
+    var(--bg-page-upper-deep) 100%
+  );
+
+  /* ---------- 底部整体渐变背景（统一青绿色系） ---------- */
+  --bg-bottom-gradient: linear-gradient(
+    180deg,
+    var(--bg-bottom) 0%,
+    var(--bg-bottom-deep) 100%
+  );
+
+  /* ---------- 全页纵向大渐变：上部浅绿与底部青绿的协调过渡 ----------
+     若希望整页一条渐变到底，可直接把它用作 body 背景。 */
+  --bg-page-gradient: linear-gradient(
+    180deg,
+    var(--bg-page-top) 0%,
+    var(--bg-page-upper) 35%,
+    var(--bg-page-upper-deep) 55%,
+    var(--bg-transition-mint) 70%,
+    var(--bg-transition-teal) 84%,
+    var(--bg-bottom) 100%
+  );
+}
+
+/* ============================================================
+   应用示例（可直接内联或放入样式表）
+   ============================================================ */
+
+/* 上部主体区域：浅薄荷绿渐变 + 深色文字，保证清晰度 */
+.theme-soft-mint .page-upper {
+  background: var(--bg-upper-gradient);
+  color: var(--text-primary);
+}
+
+/* 底部区域：统一青绿色渐变 + 白色文字 */
+.theme-soft-mint .page-bottom {
+  background: var(--bg-bottom-gradient);
+  color: var(--text-on-teal);
+}
+.theme-soft-mint .page-bottom .subtle {
+  color: var(--text-on-teal-soft);
+}
+
+/* 卡片：白色表面 + 柔和描边，浮于浅绿背景之上 */
+.theme-soft-mint .card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  color: var(--text-primary);
+}
+
+/* 强调按钮：青绿色，与底部形成呼应 */
+.theme-soft-mint .btn-accent {
+  background: var(--accent-teal);
+  color: var(--text-on-teal);
+}
+
+/* ============================================================
+   响应式适配
+   ============================================================ */
+
+/* 平板及以下：略收紧留白，配色不变 */
+@media (max-width: 768px) {
+  .theme-soft-mint .page-upper,
+  .theme-soft-mint .page-bottom {
+    padding-inline: 16px;
+  }
+}
+
+/* 手机：进一步收紧，渐变比例微调让过渡带更短、内容更聚焦 */
+@media (max-width: 480px) {
+  .theme-soft-mint .page-upper,
+  .theme-soft-mint .page-bottom {
+    padding-inline: 12px;
+  }
+}
+
+/* 用户偏好深色时，仅轻微加深上部背景，仍保持柔和并避免过深；
+   底部青绿保持不变，文字对比度不受影响。 */
+@media (prefers-color-scheme: dark) {
+  .theme-soft-mint {
+    --bg-page-top: #22302a;
+    --bg-page-upper: #2a3b33;
+    --bg-page-upper-deep: #31473d;
+    --bg-card: #31473d;
+    --bg-card-tint: #354c41;
+    --text-primary: #eef5f0;
+    --text-secondary: #a8bcb1;
+    --border-soft: #3d574b;
+  }
+}

@@ -1,0 +1,65 @@
+import hashlib, json, os, shutil, subprocess, sys
+from pathlib import Path
+
+REP = Path('/workspace/outputs/reproduction_inputs')
+BIND = Path('/workspace/outputs/making_records/bindings')
+SH = Path('/workspace/outputs/candidate/skill')
+
+def fresh(p):
+    p = Path(p)
+    if p.exists(): shutil.rmtree(p)
+    p.mkdir(parents=True)
+    return p
+
+def pin(p):
+    p = Path(p); raw = p.read_bytes()
+    return {'path': str(p), 'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)}
+
+def run(name, argv):
+    r = subprocess.run(argv, capture_output=True, text=True)
+    print('=== CASE', name, 'exit', r.returncode)
+    print('STDOUT:', r.stdout.strip()[:400])
+    print('STDERR:', r.stderr.strip()[:400])
+    return r
+
+# --- input bindings ---
+b1 = fresh(BIND/'extract_normal/input'); (b1/'manuscript').mkdir()
+shutil.copy(REP/'manuscript.txt', b1/'manuscript'/'manuscript.txt')
+o1 = fresh(BIND/'extract_normal/out')
+r = run('extract_normal', ['python', str(SH/'scripts/extract_texts.py'), str(b1/'manuscript'), '--out', str(o1/'extracts')])
+print('OUT manuscript.txt', json.dumps(pin(o1/'extracts'/'manuscript.txt')))
+print('OUT index.json', json.dumps(pin(o1/'extracts'/'index.json')))
+print('index:', (o1/'extracts'/'index.json').read_text(encoding='utf-8'))
+
+b2 = fresh(BIND/'extract_boundary/input'); shutil.copy(REP/'tiny.txt', b2/'tiny.txt')
+o2 = fresh(BIND/'extract_boundary/out')
+r = run('extract_boundary', ['python', str(SH/'scripts/extract_texts.py'), str(b2/'tiny.txt'), '--out', str(o2/'out_boundary')])
+print('OUT tiny.txt', json.dumps(pin(o2/'out_boundary'/'tiny.txt')))
+print('OUT index.json', json.dumps(pin(o2/'out_boundary'/'index.json')))
+
+b3 = fresh(BIND/'extract_invalid/input'); shutil.copy(REP/'unsupported.xyz', b3/'unsupported.xyz')
+o3 = fresh(BIND/'extract_invalid/out')
+run('extract_invalid_unsupported', ['python', str(SH/'scripts/extract_texts.py'), str(b3/'unsupported.xyz'), '--out', str(o3/'out_invalid')])
+
+b4 = fresh(BIND/'extract_invalid_pdf/input'); shutil.copy(REP/'broken.pdf', b4/'broken.pdf')
+o4 = fresh(BIND/'extract_invalid_pdf/out')
+run('extract_invalid_pdf', ['python', str(SH/'scripts/extract_texts.py'), str(b4/'broken.pdf'), '--out', str(o4/'out_invalid_pdf')])
+print('index_pdf:', (o4/'out_invalid_pdf'/'index.json').read_text(encoding='utf-8') if (o4/'out_invalid_pdf'/'index.json').exists() else 'NO INDEX')
+
+# --- scan_docx_keywords ---
+b5 = fresh(BIND/'scan_normal/input'); shutil.copy(REP/'manuscript.docx', b5/'manuscript.docx')
+o5 = fresh(BIND/'scan_normal/out')
+r = run('scan_normal', ['python', str(SH/'scripts/scan_docx_keywords.py'), str(b5/'manuscript.docx'), '--keywords', '南移,CMIP6', '--out', str(o5/'keyword_hits.json')])
+print('OUT keyword_hits.json', json.dumps(pin(o5/'keyword_hits.json')))
+hits = json.loads((o5/'keyword_hits.json').read_text(encoding='utf-8'))
+print('hits total:', hits['total'], 'members:', hits['members_scanned'])
+for h in hits['hits'][:6]: print(' hit:', h['keyword'], '|', h['context'][:60])
+
+b6 = fresh(BIND/'scan_boundary/input'); shutil.copy(REP/'manuscript.docx', b6/'manuscript.docx')
+o6 = fresh(BIND/'scan_boundary/out')
+run('scan_boundary_absent_keyword', ['python', str(SH/'scripts/scan_docx_keywords.py'), str(b6/'manuscript.docx'), '--keywords', '量子纠缠', '--out', str(o6/'keyword_hits_boundary.json')])
+print('OUT boundary json', json.dumps(pin(o6/'keyword_hits_boundary.json')))
+
+b7 = fresh(BIND/'scan_invalid/input'); shutil.copy(REP/'manuscript.txt', b7/'manuscript.txt')
+o7 = fresh(BIND/'scan_invalid/out')
+run('scan_invalid_type', ['python', str(SH/'scripts/scan_docx_keywords.py'), str(b7/'manuscript.txt'), '--keywords', '南移', '--out', str(o7/'x.json')])

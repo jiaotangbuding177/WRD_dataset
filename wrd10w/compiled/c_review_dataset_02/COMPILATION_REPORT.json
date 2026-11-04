@@ -1,0 +1,162 @@
+{
+  "schema_version": "wrd-v10-actual-token-compilation",
+  "counts": {
+    "input_records": 8,
+    "sequences": 4,
+    "targets": 4,
+    "input_tokens": 76289,
+    "supervised_tokens": 1458,
+    "16k_sequences": 2,
+    "train_sequences": 4,
+    "train_supervised_tokens": 1458,
+    "component_R": 519,
+    "held_TOOL_ARGUMENT_SCHEMA_INVALID": 1,
+    "held_GT32K_NO_SILENT_TRUNCATION": 3,
+    "32k_sequences": 2,
+    "component_A": 781,
+    "component_D": 158
+  },
+  "stages": {
+    "C_review": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 15277,
+      "supervised_tokens": 387,
+      "16k_sequences": 1,
+      "train_sequences": 1,
+      "train_supervised_tokens": 387,
+      "component_R": 387
+    },
+    "C_trial_skill": {
+      "sequences": 2,
+      "targets": 2,
+      "input_tokens": 53017,
+      "supervised_tokens": 781,
+      "32k_sequences": 2,
+      "train_sequences": 2,
+      "train_supervised_tokens": 781,
+      "component_A": 781
+    },
+    "D_new_post_terminal_state": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 7995,
+      "supervised_tokens": 290,
+      "16k_sequences": 1,
+      "train_sequences": 1,
+      "train_supervised_tokens": 290,
+      "component_R": 132,
+      "component_D": 158
+    }
+  },
+  "banks": {
+    "native_C_review_partial_02": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 15277,
+      "supervised_tokens": 387,
+      "16k_sequences": 1,
+      "train_sequences": 1,
+      "train_supervised_tokens": 387,
+      "component_R": 387,
+      "distinct_sources": 4,
+      "distinct_source_groups": 1
+    },
+    "native_C_execution_local_02": {
+      "sequences": 2,
+      "targets": 2,
+      "input_tokens": 53017,
+      "supervised_tokens": 781,
+      "32k_sequences": 2,
+      "train_sequences": 2,
+      "train_supervised_tokens": 781,
+      "component_A": 781,
+      "distinct_sources": 4,
+      "distinct_source_groups": 1
+    },
+    "new_real_state_cost_stop_02": {
+      "sequences": 1,
+      "targets": 1,
+      "input_tokens": 7995,
+      "supervised_tokens": 290,
+      "16k_sequences": 1,
+      "train_sequences": 1,
+      "train_supervised_tokens": 290,
+      "component_R": 132,
+      "component_D": 158,
+      "distinct_sources": 4,
+      "distinct_source_groups": 1
+    }
+  },
+  "files": [
+    {
+      "path": "native_C_execution_local_02.train.32k.jsonl.gz",
+      "bytes": 137811,
+      "sha256": "8cdfa4a0f9fc6b33c23cd3ca8f0b30a07f1fa43deddce044d56496960abdf36a"
+    },
+    {
+      "path": "native_C_review_partial_02.train.16k.jsonl.gz",
+      "bytes": 51048,
+      "sha256": "2405462789841dc3760c089f5134b7e8f1f6045c5b85572832edce42049501b9"
+    },
+    {
+      "path": "new_real_state_cost_stop_02.train.16k.jsonl.gz",
+      "bytes": 22769,
+      "sha256": "d333c74e708082a73299338a1cde7f4389084a151aee8503a9d221413bd9076f"
+    }
+  ],
+  "held_file": {
+    "path": "held.jsonl.gz",
+    "bytes": 281,
+    "sha256": "f3b071279843430921a72f927e9b39a6707b780a21e7c536d4ebef2f1afaae78"
+  },
+  "tokenizer_proof": {
+    "official_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "instrumented_template_sha256": "e32feaaf7ea205453c8d7083eaea652aaf53c541071bd453984c09a1e996916a",
+    "variant_is_not_unmodified_official_template": true,
+    "future_inference_api_must_use_same_causal_variant": true,
+    "inference_api_variant_already_integrated": false,
+    "two_tokenizer_asset_sets_byte_identical": true,
+    "asset_sha256": {
+      "primary_14b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "control_8b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      }
+    },
+    "independent_second_tokenizer_calls": 7,
+    "reuse_rule": "identical assets + identical rendered bytes; independent canary then every 97th window"
+  },
+  "script_sha256": "caa4449936c9705f17d50c09e27923d7cbd572d369e26e36bc8f8a4f27fb496f",
+  "immutable_inputs": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\c_review_dataset_01\\semantic_revision_02\\original_R.core7.candidates.jsonl.gz",
+      "sha256": "86f89c0503a7676f150e7aa706990c09617ddbe1bd51977aaa150e71409d94b2",
+      "bytes": 207696
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\c_review_dataset_01\\semantic_revision_02\\execution_local.core7.candidates.jsonl.gz",
+      "sha256": "30503cd1fb07b2ae86b0a28d32e071665ad8202ca6736a6de5727ddfe0adfc51",
+      "bytes": 70153
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\c_review_dataset_01\\semantic_revision_02\\new_real_state_cost_stop.candidate.jsonl.gz",
+      "sha256": "6e34f46a05a06b665190f3248103f4842af90bfd1bb6b57c822ccbe253c4298f",
+      "bytes": 11856
+    }
+  ],
+  "weights_loaded": false,
+  "training_started": false,
+  "future_outcomes_are_metadata_only": true,
+  "input_size_does_not_prove_autonomous_pipeline_capability": true
+}

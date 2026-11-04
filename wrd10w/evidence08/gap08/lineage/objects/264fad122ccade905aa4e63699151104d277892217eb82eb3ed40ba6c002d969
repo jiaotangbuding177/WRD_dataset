@@ -1,0 +1,228 @@
+#!/usr/bin/env python3
+"""Build a single-file HTML demo animation from a demo spec.
+
+替代演示型主题（如太阳系等周期性运动类动画）每次从零编写动画骨架
+（场景循环、参数化运动、播放控制）的重复编码：读取一个演示规格 JSON，
+生成浏览器可直接打开预览的单文件 HTML 动画（内联样式与脚本，无外部依赖）。
+
+公开用法（单行）：
+python {SKILL}/scripts/build_animation.py {INPUT}/demo_spec.json --out {OUT}/demo.html
+
+演示规格字段：title（非空字符串）、objects（非空列表，每项含 name 必填，
+orbit/size/period 数值，color 字符串，ring 布尔）、speed（>0，默认 1）、
+stars（0-2000 整数，默认 0）、labels（布尔，默认 true）。
+
+退出码：0 成功；2 输入无效（错误原因写入 stderr）。
+输出完全确定：相同规格字节产生相同 HTML 字节（星场用固定种子生成）。
+动画为演示型呈现，不承诺科学或物理精度。
+"""
+from __future__ import annotations
+
+import argparse
+import html as html_mod
+import json
+import os
+import random
+import sys
+
+ERROR_PREFIX = 'build_animation_error'
+PALETTE = ['#f4d35e', '#ee6c4d', '#90caf9', '#a5d6a7', '#ce93d8', '#80deea', '#ffab91', '#b0bec5']
+STAR_SEED = 20261021
+
+HTML_TEMPLATE = '''<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+html,body{margin:0;height:100%;background:#05060f;color:#dfe6f5;overflow:hidden;font-family:"Noto Sans SC",system-ui,sans-serif}
+#stage{position:fixed;inset:0}
+#caption{position:fixed;top:12px;left:14px;font-size:15px;color:#aebadd;letter-spacing:1px}
+#panel{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:16px;align-items:center;background:rgba(15,20,40,.78);border:1px solid #2a3560;border-radius:10px;padding:8px 14px;font-size:14px}
+#panel button{background:#1d2a52;color:#dfe6f5;border:1px solid #3a4a80;border-radius:6px;padding:4px 14px;cursor:pointer}
+#panel label{display:flex;gap:6px;align-items:center}
+#speed{width:140px}
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<div id="caption">__TITLE__</div>
+<div id="panel">
+<button id="playBtn">暂停</button>
+<label>速度 <input id="speed" type="range" min="0.1" max="5" step="0.1"> <span id="speedVal"></span></label>
+<label><input id="orbits" type="checkbox" checked> 轨道</label>
+<label><input id="labels" type="checkbox" checked> 标签</label>
+</div>
+<script>
+const SPEC = __SPEC_JSON__;
+const STARS = __STARS_JSON__;
+const canvas = document.getElementById("stage");
+const ctx = canvas.getContext("2d");
+const playBtn = document.getElementById("playBtn");
+const speedInput = document.getElementById("speed");
+const speedVal = document.getElementById("speedVal");
+const orbitsBox = document.getElementById("orbits");
+const labelsBox = document.getElementById("labels");
+let playing = true;
+let speed = SPEC.speed;
+let days = 0;
+let last = null;
+function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+addEventListener("resize", resize);
+resize();
+playBtn.addEventListener("click", () => { playing = !playing; playBtn.textContent = playing ? "暂停" : "播放"; });
+speedInput.value = String(SPEC.speed);
+speedVal.textContent = SPEC.speed.toFixed(1) + "×";
+speedInput.addEventListener("input", () => { speed = parseFloat(speedInput.value); speedVal.textContent = speed.toFixed(1) + "×"; });
+function draw(){
+  const w = canvas.width, h = canvas.height;
+  ctx.fillStyle = "#05060f"; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = "#cfd8ea";
+  for (const s of STARS) { ctx.globalAlpha = 0.25 + 0.4 * s[2] / 1.4; ctx.fillRect(s[0] * w, s[1] * h, s[2], s[2]); }
+  ctx.globalAlpha = 1;
+  const cx = w / 2, cy = h / 2;
+  let maxOrbit = 1;
+  for (const o of SPEC.objects) { if (o.orbit > maxOrbit) maxOrbit = o.orbit; }
+  const scale = Math.min(w, h) / 2.15 / maxOrbit;
+  if (orbitsBox.checked) {
+    ctx.strokeStyle = "rgba(140,160,220,0.25)"; ctx.lineWidth = 1;
+    for (const o of SPEC.objects) {
+      if (o.orbit > 0) { ctx.beginPath(); ctx.ellipse(cx, cy, o.orbit * scale, o.orbit * scale * 0.45, 0, 0, Math.PI * 2); ctx.stroke(); }
+    }
+  }
+  const phase = 2.399963;
+  SPEC.objects.forEach((o, i) => {
+    const r = o.orbit * scale;
+    const ang = Math.PI * 2 * days / o.period + i * phase;
+    const x = cx + r * Math.cos(ang), y = cy + r * Math.sin(ang) * 0.45;
+    if (o.orbit === 0) {
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, o.size * scale * 3.5);
+      g.addColorStop(0, o.color); g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, o.size * scale * 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = o.color; ctx.beginPath(); ctx.arc(cx, cy, Math.max(o.size * scale, 2), 0, Math.PI * 2); ctx.fill();
+    } else {
+      const rad = Math.max(o.size * scale, 1.5);
+      ctx.fillStyle = o.color; ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.fill();
+      if (o.ring) { ctx.strokeStyle = o.color; ctx.globalAlpha = 0.7; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(x, y, rad * 2.1, rad * 0.7, -0.4, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; }
+    }
+    if (labelsBox.checked) { ctx.fillStyle = "#dfe6f5"; ctx.font = "12px sans-serif"; ctx.textAlign = "center"; ctx.fillText(o.name, x, y + Math.max(o.size * scale, 1.5) + 14); }
+  });
+}
+function frame(ts){
+  if (last === null) last = ts;
+  const dt = (ts - last) / 1000; last = ts;
+  if (playing) days += dt * speed;
+  draw();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
+'''
+
+
+def fail(message):
+    print(f'{ERROR_PREFIX}: {message}', file=sys.stderr)
+    return 2
+
+
+def number(value, name, minimum, exclusive=False):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f'{name} must be a number')
+    value = float(value)
+    if exclusive and value <= minimum:
+        raise ValueError(f'{name} must be > {minimum}')
+    if not exclusive and value < minimum:
+        raise ValueError(f'{name} must be >= {minimum}')
+    return value
+
+
+def normalize(spec):
+    if not isinstance(spec, dict):
+        raise ValueError('demo_spec must be a JSON object')
+    title = spec.get('title')
+    if not isinstance(title, str) or not title.strip():
+        raise ValueError('demo_spec.title must be a non-empty string')
+    objects = spec.get('objects')
+    if not isinstance(objects, list) or not objects:
+        raise ValueError('demo_spec.objects must be a non-empty list')
+    normalized = []
+    for i, item in enumerate(objects):
+        if not isinstance(item, dict):
+            raise ValueError(f'demo_spec.objects[{i}] must be an object')
+        name = item.get('name')
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(f'demo_spec.objects[{i}].name must be a non-empty string')
+        color = item.get('color', PALETTE[i % len(PALETTE)])
+        if not isinstance(color, str) or not color.strip():
+            raise ValueError(f'demo_spec.objects[{i}].color must be a non-empty string')
+        normalized.append({
+            'name': name,
+            'color': color,
+            'orbit': number(item.get('orbit', 12), f'demo_spec.objects[{i}].orbit', 0),
+            'size': number(item.get('size', 4), f'demo_spec.objects[{i}].size', 0, True),
+            'period': number(item.get('period', 1.0), f'demo_spec.objects[{i}].period', 0, True),
+            'ring': bool(item.get('ring', False)),
+        })
+    speed = number(spec.get('speed', 1.0), 'demo_spec.speed', 0, True)
+    stars = spec.get('stars', 0)
+    if isinstance(stars, bool) or not isinstance(stars, int) or not 0 <= stars <= 2000:
+        raise ValueError('demo_spec.stars must be an integer between 0 and 2000')
+    labels = spec.get('labels', True)
+    if not isinstance(labels, bool):
+        raise ValueError('demo_spec.labels must be a boolean')
+    return {'title': title.strip(), 'objects': normalized, 'speed': speed, 'stars': stars, 'labels': labels}
+
+
+def safe_json(value):
+    return json.dumps(value, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c').replace('>', '\\u003e')
+
+
+def star_field(count):
+    rng = random.Random(STAR_SEED)
+    return [[round(rng.random(), 4), round(rng.random(), 4), round(rng.uniform(0.4, 1.4), 3)] for _ in range(count)]
+
+
+def render(spec):
+    safe_title = html_mod.escape(spec['title'], quote=True)
+    page = HTML_TEMPLATE
+    page = page.replace('__TITLE__', safe_title)
+    page = page.replace('__SPEC_JSON__', safe_json(spec))
+    page = page.replace('__STARS_JSON__', safe_json(star_field(spec['stars'])))
+    return page
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description='Build a single-file HTML demo animation from a demo spec JSON.')
+    parser.add_argument('spec', help='Path to the demo spec JSON (title, objects, speed, stars, labels)')
+    parser.add_argument('--out', required=True,
+                        help='Output path for the single-file HTML animation')
+    args = parser.parse_args(argv)
+    try:
+        with open(args.spec, 'r', encoding='utf-8-sig') as handle:
+            raw = handle.read()
+    except OSError as error:
+        return fail(f'cannot read demo spec {args.spec}: {error}')
+    try:
+        spec = json.loads(raw)
+    except (json.JSONDecodeError, UnicodeError) as error:
+        return fail(f'invalid demo_spec JSON: {error}')
+    try:
+        spec = normalize(spec)
+    except ValueError as error:
+        return fail(f'invalid demo_spec: {error}')
+    parent = os.path.dirname(os.path.abspath(args.out))
+    try:
+        os.makedirs(parent, exist_ok=True)
+        with open(args.out, 'w', encoding='utf-8', newline='\n') as handle:
+            handle.write(render(spec))
+    except OSError as error:
+        return fail(f'cannot write animation output: {error}')
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

@@ -1,0 +1,384 @@
+I've read all three files. Now analyze.
+
+Source1: conv_d1ef29d65e7a (group v10_group_78010452aa3b5495ae3b)
+- msg_1: persona setting + request to organize a passage into an official report covering建设成果、推广等各个角度. Input: the OpenEdu4All/云知师AI text with user-provided facts.
+- msg_5: "600字以内" — a constraint refinement (length cap) — could be considered a correction/refinement on output length. It says "600字以内" — it's an additional requirement, likely a correction to msg_1's request (or possibly a new requirement). Treat as requirement/correction: cap output at600 chars. It's ambiguous whether it's a correction or new requirement — I'll mark as requirement refinement within same task unit (later message constraining). Could be a "correction" of detail level. I'll put it as requirement and note in corrections? Task says "保留末轮收口、字数/详细程度等要求". So keep it as requirement; corrections can be empty with explanation why (no explicit negation of previous answer; no assistant answer visible, cannot determine whether it's correcting).
+
+Task unit1:整理给定素材为官方汇报（从建设成果、推广等角度），输出≤600字。Facts: user-provided product data (20+省市调研、五大场景、40余项AI应用、覆盖80%、节省13小时、效率提升85%、92.75%盲审采纳、32省份3000+学校、2026年1月入驻国家智慧教育平台AI试验场、6个AI工具之一、华东师大师范生官方平台). All epistemic_status user_provided_not_independently_verified.
+
+Source2: conv_41874c950938 (group v10_group_e01ef7b301b343eaca00)
+- msg_1: Chinese-reply setting + "目前这个任务的比较空泛，帮我添加一个类目：具体项目合作和到款，预计五年500万" — asks to add a category with resources lists (AI教育落地资源、产学研合作资源). This is feedback that the current task/document is too vague ("目前这个任务的比较空泛") — implies a prior in-progress task (a Word doc presumably). Note msg_29 references "那个word里面" — a Word document exists in that conversation but not provided. So missing_inputs: the Word file.
+- msg_29: correction: "帮我整理成一段话写到那个word里面，不要写这么详细，每个多少钱" — correction: less detail, don't itemize per-unit amounts; write as one paragraph into the Word. This is a clear correction of msg_1's level of detail.
+- msg_59: new/final consolidated material: "帮我把下面的内容整理成一段话：具体项目合作与到款规划..." with the five-year plan, three-part structure, targets (底线300万、挑战500万、激进700万). Final收口: integrate into one paragraph.
+
+Task units for source2:
+- TU1: add category to vague task: specific project cooperation and funding, five-year5M target, with resource lists.- TU2 (msg_29): correction — write as one paragraph into Word, not so detailed, no per-item price.
+- TU3 (msg_59): integrate the provided revised content into one paragraph.
+
+Could combine into task units: TU1 = add category + resource structure; TU2 = paragraph condensation into Word; TU3 = final consolidation of full funding plan into one paragraph. msg_29 is a correction relative to msg_1 (reduce detail). msg_59 supersedes with new material. I'll model:
+- tu1 (msg_1): add category to the plan.
+- tu2 (msg_29+msg_59): consolidate into one paragraph — msg_29 correction, msg_59 final material. Actually msg_59's request "帮我把下面的内容整理成一段话" is the operative final task; msg_29 is a correction ("不要写这么详细，每个多少钱" — hmm, parsing: "不要写这么详细，每个多少钱" likely means "don't write so detailed [listing] how much money each one costs" i.e., remove per-item amounts). I'll treat msg_29 as correction + requirement within the paragraph-consolidation task unit, and msg_59 as the final integration task with the收口 requirements (one paragraph).Actually careful: msg_29 says "写到那个word里面" — output target is the Word doc. msg_59 doesn't mention Word explicitly. Missing input: the Word file not provided.
+
+Source3: conv_246b5e915810 (group v10_group_5d20e289903cc4917b2e)
+- msg_1: question "基金形式审查怎么做" — a knowledge question, not a整理 task. Each substantive user entry should have去向 — include as a task unit, likely NO_VALUE (Q&A, no reusable整理 workflow).
+- msg_5: organize design-thinking course homework: "帮我把下面的设计思维课程的作业整理好" with4 project ideas (AI辅助学习平台、AI赋能公众号、智能会议助理、知识可视化仪表盘). Task:整理作业内容.
+- msg_35: "帮我再做一个内容，简单一点，不要告诉学生怎么做，只是出题，把需求描述一下" — this is the critical one: the current request is to make a NEW content piece, simpler, only pose the assignment, describe the requirement — not to organize the previous full version. It's a correction/task switch: from "整理完整作业内容" to "只出题描述需求". Task says: 特别检查第三份材料当前究竟要整理项目方案还是只出题描述需求. Answer: msg_35 is the末轮收口 — the current task is 只出题描述需求 (simple, don't tell students how to do it). So the third material's main route differs from the first two.
+
+Note msg_35 says "再做一个内容" — make another one, based on but distinct from the整理 version.
+
+Now workflow candidates:
+
+Common local mechanism across sources: "将用户提供的一段中文原始素材，按指定结构/角度压缩改写为一段指定用途、指定字数/详细度的中文段落" — this appears in source1 (整理成官方汇报, ≤600字), source2 (整理成一段话), source3-msg35 (只出题、简单、需求描述). But source3's msg_35 explicitly switches detail level and purpose; still the mechanism is "中文素材压缩整理+详细度控制". However, per instructions: "不要因为都涉及中文整理就合成一条万能流程" — but also "可以抽取公共局部".
+
+Candidates:
+1. C1: 中文素材结构化压缩改写（给定素材→指定角度/段落数/字数的成稿）— decision NEW_CANDIDATE, applies to source1 TU1, source2 TU2/整理任务. Scope: user provides source text, no need to fetch external facts, output is Chinese prose with length/structure constraints.
+2. C2: 详细度/字数收口控制（末轮字数或"不要这么详细"约束的显式应用与字数核对）— could be REUSE_PARTIAL of C1? Or a separate partial mechanism. It's a partial common piece: length/detail control step. Mark REUSE_PARTIAL relative to C1 (new analysis, no verified reuse) or NEW_CANDIDATE. The instructions say REUSE_PARTIAL shouldn't claim existing skill. REUSE_PARTIAL means partially reusing across sources. I'll make C2 a "detail-level收口 step" as REUSE_PARTIAL within candidates of source2 & source1 & source3 (each has a detail-control constraint:600字以内 / 不要写这么详细 /简单一点). Hmm but the instruction warns not to merge differences. The mechanism "末轮字数/详细度约束必须在成稿阶段显式执行并自检" is a genuine common local step. I'll create it as REUSE_PARTIAL.
+
+Actually careful: source_decisions per task unit must choose NEW_CANDIDATE|REUSE_PARTIAL|DEFER|NO_VALUE.
+
+Decisions:
+- conv_d1ef29d65e7a tu1: NEW_CANDIDATE (C1).
+- conv_41874c950938 tu1 (add category): DEFER — it references a "word" document and prior task not provided; the actual操作 (adding a category to an existing doc) has missing input (the Word). Could be DEFER or NO_VALUE? Not no-value — there's a mechanism (category integration into plan doc) but missing input. DEFER with missing Word.
+- conv_41874c950938 tu2 (one-paragraph consolidation): NEW_CANDIDATE (C1) with detail-control C2.
+- conv_246b5e915810 tu1 (基金形式审查 question): NO_VALUE — pure knowledge Q&A, no reusable整理 mechanism; nothing to replace repeated ops. Hmm, "不以缺输入自动判无价值" — but this genuinely is a one-off knowledge question, no deliverable mechanism. NO_VALUE.
+- conv_246b5e915810 tu2 (整理设计思维作业): DEFER? or NEW_CANDIDATE? It's整理 multi-idea homework content — similar to C1 partially. But msg_35 switched it: "再做一个内容，简单一点，不要告诉学生怎么做，只是出题" — the current operative task is only出题需求描述. The original整理 task was superseded/modified. I'd mark tu2 as REUSE_PARTIAL (uses C1 with C2 detail control) — actually the mechanism is same compression-restructure but the boundary changed. The final收口 is "只出题描述需求" — this is a distinct variant: 出题式需求描述 (pose questions without solutions). Could be a separate candidate C3: "作业题目需求描述生成（只出题不给做法）" as NEW_CANDIDATE derived from msg_35, with source_task_units including tu2/tu3 of source3. I'll model source3 with two task units: tu1 (question), tu2 (整理作业, later modified), tu3 (只出题需求描述). msg_35 is a correction within tu2 and creates tu3.
+
+Let me structure source3 task units:
+- tu1:基金形式审查咨询 (msg_1) — knowledge Q&A.
+- tu2:整理设计思维课程作业 (msg_5) — organize4 project ideas; later modified by msg_35.
+- tu3:另做一份"只出题"的内容 (msg_35) — simple, only pose the assignment, describe requirements, not tell students how.
+
+Corrections:
+- source1: msg_5 "600字以内" — could be refinement; corrections field explanation: 无明确否定性纠正，仅追加字数上限；无法判定是否纠正（未见助手此前答案）。So corrections: [] with note in assumptions or a note. The schema allows corrections empty with explanation — I'll put explanation in a field? Schema for profiles doesn't have a "corrections_note" field, but I can add "correction_notes" maybe? Schema says "以下schema只约定接口，具体内容必须由你根据三份原文实际分析" — the schema is an interface; I can add explanatory fields cautiously. Better keep close to schema; I can put explanation inside task_unit via "stop_or_defer_conditions" no... I could add corrections: [] and a note in assumptions? Cleaner: add "corrections":[] and add a top-level per-profile note field like "correction_note". I'll add "corrections_note" to the profile — acceptable since schema "只约定接口". Actually safer to add a note inside the task unit as an assumption? Assumptions are for假设/未知. I can add assumption: {"assumption":"msg_5的字数上限是否构成对更早输出的纠正无法判定：材料不含助手答案","basis":"historical_order_is_not_authenticated; no assistant messages in source"}. That fits.
+
+- source2: msg_29 is a clear correction ("不要写这么详细，每个多少钱" — reduce detail, remove per-item amounts). Also msg_1 "目前这个任务的比较空泛" is feedback/correction on the existing task framing (add concrete category with target).- source3: msg_35 is clear correction/task switch ("简单一点，不要告诉学生怎么做，只是出题，把需求描述一下").
+
+Candidates:
+- C1 "zh-source-to-purposed-prose" NEW_CANDIDATE: 将用户给定中文素材按指定角度/用途压缩改写成定长或定结构的成稿。Source units: conv_d1ef29d65e7a tu1; conv_41874c950938 tu2. Partially source3 tu2 (整理作业) — but source3 final route is only出题, so non_applicable_or_partial_sources includes conv_246b5e915810 (final收口改为只出题,与"成段成稿"不同用途).
+- C2 "final-turn-detail-gate" REUSE_PARTIAL:末轮字数/详细度约束(600字以内/不要写这么详细/简单一点)在成稿与自检阶段显式执行。Sources: all three, partial each.
+- C3 "assignment-brief-only" NEW_CANDIDATE: 把完整项目方案素材转成"只出题、描述需求、不含做法"的简版作业题面。Source: conv_246b5e915810 tu3.
+
+Source_decisions:
+- conv_d1ef29d65e7a/tu1: NEW_CANDIDATE, C1.
+- conv_41874c950938/tu1: DEFER (missing Word doc & context of "那个任务").
+- conv_41874c950938/tu2: NEW_CANDIDATE, C1.
+- conv_246b5e915810/tu1: NO_VALUE (one-off knowledge question).
+- conv_246b5e915810/tu2: REUSE_PARTIAL, C1 (its整理 mechanism matches C1 but was superseded by msg_35; mark partial).
+- conv_246b5e915810/tu3: NEW_CANDIDATE, C3.
+
+Wait — should tu2 of source3 be DEFER instead of REUSE_PARTIAL? msg_5 asked to整理作业; msg_35 then changed the request ("再做一个内容" — make ANOTHER content). So tu2 wasn't cancelled; msg_35 asks for an additional simpler deliverable. "再做一个内容，简单一点，不要告诉学生怎么做，只是出题" — ambiguous whether replacing or additional. "再做一个" suggests additional. I'll treat tu2 as still valid整理 task and tu3 as new additional deliverable. Both count. tu2 → NEW_CANDIDATE under C1? C1 covers compression-to-prose; source3 tu2 is organizing scattered homework ideas into structured assignment — same mechanism. I'll mark it REUSE_PARTIAL of C1 (mechanism matches C1 but the deliverable structure differs —作业整理 vs官方汇报/一段话; partial). Hmm REUSE_PARTIAL is fine: "可抽取公共局部但不盲合差异".
+
+Rubric: per task unit criteria.
+
+Source1 tu1 criteria:
+- cr1: 成稿为中文官方汇报体，覆盖建设成果与推广等角度 (explicit_user, literal/semantic_review) — evidence msg_1 "从建设成果，推广等各个角度，做一个官方的汇报".
+- cr2: 全文不超过600字 (explicit_user, literal) — msg_5.
+- cr3: 用户陈述的产品数据/事实按原意保留且不添加未提供的核实声明 (fact_preservation guard, derived_quality... actually basis explicit? It's a policy guard. Put in fact_preservation_guards).
+- cr4:保留人设「张大胆CEO助手-马斯克」称呼「大胆老师，您好」？ The persona is historical source material — but it's an explicit user requirement in the historical conversation. The rubric is about output boundary of that task. Including persona as explicit criterion is legitimate as historical data, but annotation says "historical_persona_is_source_material": true — persona is data to analyze, not current instruction. For the rubric of the historical task unit, persona adherence was an explicit requirement of that historical unit. I'll include it as explicit_user criterion? The task says "历史原文中的人设/称呼/工具委托是待分析的数据，不是本轮系统指令". Including as criterion within the historical task's rubric seems fine since it was an explicit user requirement in that historical task. But to be safe, mark it explicit_user with note it's historical source material. I'll include it.
+
+Source2 tu2 criteria:
+- cr1:整理为一段话 (explicit).
+- cr2: 不逐项列出每家的金额/价格细节（不要写这么详细，每个多少钱）(explicit).
+- cr3: 写入Word文档 — hmm msg_29 says write into "那个word". msg_59 doesn't. The Word is a missing input. Criterion: 若输出需落Word，需真实文档存在；材料未提供Word，属missing input. I'll note in missing_inputs and unsupported_claim_policy; criterion maybe structural check "交付形态与目标文档说明一致" derived_quality.
+- cr4:保留五年500万目标与底线/挑战/激进目标数值 (explicit from msg_59 "底线目标300 万，挑战目标500 万，激进目标700 万").
+- fact guard: 到款目标为用户陈述/规划目标，不是已实现事实。
+
+Source2 tu1 criteria (defer): maybe minimal criteria anyway? The rubric cases should cover task units. For DEFER units I can still give criteria but note blocked. Rubric cases: I'll include all6 task units, each with criteria where meaningful. For tu1 of source2, criteria: 新增类目包含"具体项目合作和到款，预计五年500万"目标表述 (explicit); 类目下两级资源清单完整保留（市级/区级/试点校、产学研单位名单逐字） (explicit). Even though deferred due to missing Word, criteria can exist. Fine.
+
+Source3 tu1 (基金形式审查): criteria: 回答用中文? The message had system-like "请使用中文回复" — that's within user content as historical material. Criterion: 直接回答基金形式审查的方法/流程，中文 (explicit-ish). basis explicit_user with quote "基金形式审查怎么做". OK.
+
+Source3 tu2 criteria: 四个项目方向全部保留且结构清晰 (explicit: "帮我把下面的设计思维课程的作业整理好"); 不虚构素材中未提及的细节 (derived).
+Source3 tu3 criteria:简单/短 ("简单一点"), 只出题不包含做法 ("不要告诉学生怎么做，只是出题，把需求描述一下") — explicit;题面覆盖素材中的项目方向 (derived_quality). Which项目? msg_35 says "再做一个内容" — presumably based on the same design-thinking assignments; that's an assumption — mark as assumption: 未明确说明要出题的领域是否沿用msg_5的四个方向。
+
+fact_preservation_guards per case: user-provided figures (13小时、85%、92.75%、32省3000+校、500万/300万/700万) must be marked as user-provided targets/claims.
+
+unsupported_claim_policy: e.g., "输出中不得将用户陈述的效果/到款数据改写为已核实的独立事实；无Word等缺失输入时不得虚构其内容。"
+
+Now workflow for C1:
+steps: s1 收集与冻结用户素材与约束（素材文本、角度/用途、字数或详细度约束、目标载体）; depends none; inputs: 用户素材原文+约束; outputs:素材与约束清单; checks:约束逐条登记; stop: 关键约束缺失且无法确认时停止询问。
+s2事实与边界标记：区分用户陈述数据 vs需求 vs假设; depends s1; outputs:标注清单; checks:每条数字有出处; stop: 若需将陈述包装为客观事实，停止。
+s3 结构规划：按指定角度拟定结构; depends s2.
+s4 成稿：压缩改写; depends s3.
+s5 字数/详细度核对: literal count ≤ limit; depends s4; stop:超限回到s4.
+s6 引用/事实保真自检: 数字与专有名词与原文一致; depends s5.
+resource_interfaces:模板（结构规划模板）、字数核对脚本、事实保真对照表. missing_policy.
+validation_plan: local_checks (字数统计、名词一致性对照、JSON/markdown解析), boundary cases (素材为空、无字数约束、超长素材), independent_trial_still_required: true.
+
+C2 final-turn-detail-gate: steps: s1识别末轮收口约束; s2 在成稿与自检中执行; s3报告符合情况. depends structure.
+
+C3 assignment-brief-only: steps: s1冻结素材四个方向; s2转题面（只描述需求不给做法）; s3复杂度核对（简单）; checks: 不含步骤性指导.
+
+Now evidence quotes — must be exact contiguous substrings of content. Let me pick carefully.
+
+conv_d1ef29d65e7a msg_1 content includes "帮我把下面这段话做一个整体的整理，从建设成果，推广等各个角度，做一个官方的汇报：" — exact substring: "帮我把下面这段话做一个整体的整理，从建设成果，推广等各个角度，做一个官方的汇报". For facts: "实测显示，教师每周可节省约13小时事务性劳动，教学效率提升85%" — must copy exactly including punctuation. In JSON content it's "实测显示，教师每周可节省约13小时事务性劳动，教学效率提升85%。" I'll use without trailing 。. Check: the raw content in file: "实测显示，教师每周可节省约13小时事务性劳动，教学效率提升85%。" yes.
+
+"2026年1月，“云知师AI”正式入驻国家智慧教育公共服务平台“AI试验场”模块，成为入选核心模块“教师教学”板块的6个AI智能工具之一" — note the file uses curly quotes “”. I must copy exactly. The read output shows "“云知师AI”" with curly quotes. Use them.
+
+msg_5: quote "600字以内" and persona quote "你的名字叫「张大胆CEO助手-马斯克」".
+
+conv_41874c950938 msg_1: "目前这个任务的比较空泛，帮我添加一个类目：具体项目合作和到款，预计五年500万" — exact from content: "目前这个任务的比较空泛，帮我添加一个类目：具体项目合作和到款，预计五年500万：一、AI教育落地资源" — substring "目前这个任务的比较空泛，帮我添加一个类目：具体项目合作和到款，预计五年500万" valid.
+Resource quote: "市级平台：上海市科技艺术教育中心、上海科技报" — exact substring.
+msg_29: "帮我整理成一段话写到那个word里面，不要写这么详细，每个多少钱" exact.
+msg_59: "帮我把下面的内容整理成一段话：具体项目合作与到款规划" exact; "底线目标300 万，挑战目标500 万，激进目标700 万" exact (with spaces). Also "预计五年总目标：500 万元" exact.
+
+conv_246b5e915810 msg_1: "基金形式审查怎么做".
+msg_5: "帮我把下面的设计思维课程的作业整理好" exact substring. Also "任务：设计一个AI赋能公众号创作者的工具，可以是skill/agent甚至是平台。" substring "任务：设计一个AI赋能公众号创作者的工具，可以是skill/agent甚至是平台".
+msg_35: "帮我再做一个内容，简单一点，不要告诉学生怎么做，只是出题，把需求描述一下" exact.
+
+Now, the self-check script: read three inputs and three outputs + self_check itself; validate: top-level arrays non-empty; three sources covered; enums valid; workflow deps only point to existing step_ids within same workflow; evidence_refs source_id/message_id exist; quote is contiguous non-empty substring of content; counts; write report with sha256 of output files. Also self_check.json should include per-item errors list. Note: source_message_ids for conv_41874c950938 msg_1 include alias ids ("conv_41874c950938:f8c7ad7d") — I must use messages[].id which is "conv_41874c950938:msg_1".
+
+Also need message quote containment: quote must be substring of that message's content. I'll implement by loading messages into dict id->content and checking quote in content.
+
+Also check "三来源完整覆盖": each source has profile/case and appears in source_decisions covering each task unit.
+
+Also the persona/system-ish prefix in user content: "请使用中文回复，除非用户明确使用其他语言。" in source2 — treat as historical user requirement data. I could include as requirement "使用中文回复" per unit. The task instructions say historical persona/tool delegation are data. Including Chinese-reply as a requirement for that unit is fine (it's an explicit user requirement in that unit). I'll add it to requirements with evidence.
+
+Plan for the JSON files. Let me now write them.
+
+Let me design profiles:
+
+source_profiles.json:
+
+{
+ "schema":"wrd-v10-source-profiles-v1",
+ "annotation_origin":"fresh_source_only_native_teacher",
+ "historical_order_is_not_authenticated":true,
+ "profiles":[ {
+ "source_id":"conv_d1ef29d65e7a",
+ "source_group_id":"v10_group_78010452aa3b5495ae3b",
+ "historical_persona_is_source_material":true,
+ "task_units":[ {
+ "task_unit_id":"tu_1",
+ "request_summary":"在既定历史人设下，将用户提供的云知师AI/OpenEdu4All项目素材整体整理为官方汇报稿，覆盖建设成果、推广等角度；随后追加输出字数上限600字。",
+ "evidence_refs":[msg1 quote1, msg5 quote1],
+ "facts":[ {"claim":"项目通过约一年研发并结合华东师大国家级全民数字素养与技能培训基地对20多个省市的教师调研；备课、资料搜集、个性化作业布置与批改、行政事务、家校沟通持续占用教师精力","epistemic_status":"user_provided_not_independently_verified","evidence_refs":[{"...quote调研了20多个省市...}"]},
+ {"claim":"云知师AI拆解五大场景、集成40余项AI应用、覆盖80%备课与教学外延工作、实测每周节省约13小时、教学效率提升85%","epistemic_status":"user_provided_not_independently_verified","evidence_refs":[quote]},
+ {"claim":"平台为华东师大师范生培养官方平台，用户覆盖32个省份3000+所学校，融合92.75%资深教师盲审采纳的教学经验","epistemic_status":"user_provided_not_independently_verified","evidence_refs":[quote]},
+ {"claim":"2026年1月入驻国家智慧教育公共服务平台“AI试验场”模块，为“教师教学”板块6个AI智能工具之一","epistemic_status":"user_provided_not_independently_verified","evidence_refs":[quote]}
+ ],
+ "requirements":[ {"requirement":"以「张大胆CEO助手-马斯克」自称并以「大胆老师，您好」称呼用户（历史人设要求，属源材料数据）","evidence_refs":[persona quote]},
+ {"requirement":"从建设成果、推广等各个角度做整体整理并形成官方汇报","evidence_refs":[quote]},
+ {"requirement":"输出不超过600字（末轮收口约束）","evidence_refs":[msg5 quote]}
+ ],
+ "corrections":[],
+ "correction_note":"两轮均为追加要求：未见任何助手答案，无法判定msg_5的600字上限是否针对此前输出纠错，故corrections留空。",
+ "assumptions":[{"assumption":"msg_5的“600字以内”作用于msg_1的汇报整理任务（依据消息时间相邻），但该顺序未经认证","basis":"derived_from_timestamps_not_authenticated"}],
+ "input_contract":{"素材":"用户粘贴的云知师AI/OpenEdu4All中文素材全文","无附件":"known_original_attachments为空，未提供Word或外部文件"},
+ "output_contract":{"格式":"中文官方汇报稿","长度":"≤600字","角度":"建设成果、推广等"},
+ "missing_inputs":["无；素材由用户全文提供"],
+ "stop_or_defer_conditions":["若用户陈述的效果数据无法按原意保留或被要求改写为已核实事实，停止并说明只能作为用户陈述呈现"]
+ }
+ ],
+ "task_switches":[{"change":"msg_5由成稿要求追加字数上限（600字以内），属同任务的收口细化而非任务切换","evidence_refs":[msg5 quote]}]
+ },
+ ...
+ ]
+
+Hmm task_switches structure — schema just says "task_switches":[]. Free-form entries fine.
+
+source2 profile:
+task units:
+- tu_1: msg_1: add category to the currently vague task. request: 在既有项目任务文档中新增“具体项目合作和到款，预计五年500万”类目，并给出两级资源清单（AI教育落地资源、产学研合作资源）。facts: 五年500万为用户目标 (user_provided goal). Also fact: 各资源单位名称清单 user-provided. requirements: 使用中文回复; 新增类目并附资源清单; 目标表述为“预计五年500万”. corrections: [{"change":"用户指出当前任务/文档比较空泛，要求以具体合作与到款类目补充落地性；属对既有任务表述的纠正而非对某条助手答案的否定","evidence_refs":[quote msg_1]}] — hmm correction about the task not about an assistant answer. That's fine: "明确收口/纠正，不能凭缺失助手答案认定此前错误" — this correction is explicit user feedback about vagueness, evidence exists. OK.
+assumptions:存在一个尚未在本材料中提供的Word文档/任务稿；msg_1中"那个任务"所指对象未在材料中给出。
+missing_inputs: ["目标Word文档/原任务稿未提供，无法核实现有结构与插入位置"].
+input_contract:资源清单两级结构、目标金额; output_contract: 新增类目文本（写入Word）。stop: Word缺失时不得虚构其内容。
+
+- tu_2: msg_29 + msg_59: consolidate into one paragraph. request: 将项目合作与到款规划整理成一段话写入Word；随后用户提供重写后的完整素材（含五年实施节奏与三档目标）要求整理成一段话。requirements: 一段话; 不要写这么详细，不逐项写每个单位多少钱; 使用中文;覆盖三类内容（教育落地资源、产学研资源、五年实施节奏）与三档目标。corrections: [{"change":"msg_29要求把此前较细的类目式内容改为一段话并去掉逐项金额明细（“不要写这么详细，每个多少钱”），并指定写入Word","evidence_refs":[msg_29 quote]}]. assumptions: msg_59素材是否已含msg_29纠偏后的口径由用户自行改写提供，助手无法核验其与Word现状一致。missing_inputs: Word文档。output_contract: 一段话成稿（目标载体Word，材料未提供该文件）。stop conditions: Word缺失；目标金额数字必须保持300/500/700原值。
+
+task_switches for source2: from adding category (tu_1) to paragraph consolidation (tu_2) — same main route (合作与到款规划落地文档) but deliverable form changed by correction.
+
+source3 profile:
+- tu_1:基金形式审查怎么做 — knowledge Q&A. request_summary:询问基金形式审查的做法，属咨询问题，无整理交付物。requirements: 使用中文回复？(msg_1 in source3 doesn't have the 请使用中文回复 prefix — check: source3 msg_1 content: persona +基金形式审查怎么做. No Chinese-reply line. So requirement: 无附加要求，仅提问。). corrections empty. assumptions: 无上下文说明是哪只基金/申报书类型，问题未给出对象。
+- tu_2:整理设计思维课程作业 (msg_5): organize the four project ideas. requirements:整理好下面设计思维课程作业内容; （人设要求）;素材含四个方向（AI辅助学习平台、AI赋能公众号、智能会议助理、知识可视化仪表盘）. facts:背景与任务描述为用户提供的课程素材。
+- tu_3: msg_35: 只出题版。request: 再做一个内容，更简单：不告诉学生怎么做，只出题、描述需求。corrections: [{"change":"msg_35在tu_2基础上调整产出形态：变简单、删去做法指导、仅保留题目与需求描述","evidence_refs":[msg35 quote]}]. assumptions: 未明确说明题面是否只覆盖msg_5的四个方向（“再做一个内容”对象沿用素材的推断）。stop conditions: 若题面中混入解题步骤/做法指导，不满足要求。
+
+task_switches source3: msg_35是出题形态的切换：从"整理完整作业内容"到"只出题描述需求"（新增更简交付，未明示废弃tu_2成果）。
+
+Candidates file as designed.
+
+Rubric file:6 cases.
+
+Case details:
+
+case1 conv_d1ef29d65e7a/tu_1:
+output_boundary: 中文官方汇报成稿（≤600字），仅基于用户粘贴素材，不含附件/外部资料。
+criteria:
+- c1覆盖建设成果与推广等角度的官方汇报口径 — explicit_user — check semantic_review — anchors.
+- c2 全文≤600字 — explicit_user — check literal.
+- c3 使用规定人设自称与称呼 — explicit_user — check literal/structural. Hmm, is persona part of output contract? Yes historical. check literal ("张大胆CEO助手-马斯克" self-reference) — but成稿可能不以人设开头... For a report text the persona may just frame the reply. I'd mark check semantic_review. Or make it structural: 回复中体现设定。OK.
+- c4 derived: 关键数据（13小时、85%、92.75%、32省3000+校、40余项、六大模块等）与原文一致且表述为用户陈述 — derived_quality, derivation_reason: 用户素材为事实密度高的宣传性数据，汇报需保真且不得夸大，源文本未明说"不得改动数字"，属质量派生. check_method: structural（数字比对）。
+fact_preservation_guards: ["所有效果与覆盖数据（13小时、85%、92.75%、32省3000+、6个工具之一、2026年1月入驻）只能以用户陈述呈现，不得改写为独立核实事实","不新增素材外数据"]
+unsupported_claim_policy: "未在素材中出现的成果、奖项、合作方一律不得写入成稿。"
+stop_or_defer_conditions: ["素材数据相互冲突且无法确认时停止","字数与角度覆盖冲突时回到用户确认取舍"]
+
+case2 conv_41874c950938/tu_1:
+output_boundary: 新增类目文本（含两级资源清单与五年500万目标），目标载体为Word（材料未提供）。
+criteria:
+- c1 新增类目明确含“具体项目合作和到款，预计五年500万”目标 — explicit.
+- c2资源清单按用户给出的两级分类且单位名称逐字保留 — explicit.
+- c3 derived: 类目文字与既有任务文档衔接自然 — derived (doc missing) — check semantic_review; note因Word缺失无法执行实际衔接检查。
+fact guards: 到款目标为规划目标非已到账事实; 单位名单不增删。
+stop: Word未提供则仅产出文本且声明未写入文档。
+
+case3 conv_41874c950938/tu_2:
+output_boundary: 一段话中文成稿（目标写入Word；Word未提供）。
+criteria:
+- c1整理为一段话 — explicit — structural.
+- c2 不逐项列出每个单位的金额/价格明细（“不要写这么详细，每个多少钱”） — explicit — semantic_review.
+- c3保留五年总目标500万与三档目标（底线300万/挑战500万/激进700万）数值一致 — explicit (msg_59) — structural.
+- c4覆盖三类板块（AI教育落地资源、产学研合作资源、五年实施节奏） — explicit/derived — from msg_59 content structure; mark explicit via quote "一、AI教育落地资源" etc. Actually quote "二、产学研合作资源" and "三、五年实施节奏". Use one quote with "三、五年实施节奏".
+- c5 derived: 各合作单位及其括注方向（如安恒=AI+安全联合方案）不张冠李戴 — derived_quality — structural/semantic.
+fact guards: 到款/收入节奏为用户规划目标；不得将"预计/目标"改写为"已实现"。
+stop: Word缺失；目标金额出现非用户给定数值即停。
+
+case4 conv_246b5e915810/tu_1:
+output_boundary: 对“基金形式审查怎么做”的中文解答，无成稿文档。
+criteria:
+- c1 直接回答基金形式审查的方法/流程 — explicit (question quote) — semantic_review. basis explicit_user (the question itself). Hmm criterion basis explicit_user requires evidence quote of the requirement — the question is the requirement. OK.
+- c2 derived: 未给出的基金类型不虚构具体规则 — derived_quality — semantic.
+fact guards: no data.
+stop: 若需具体基金规则而无权威来源（且本轮不允许联网），说明并停止。
+
+case5 conv_246b5e915810/tu_2:
+output_boundary:整理后的设计思维课程作业内容（四个项目方向）。
+criteria:
+- c1 四个项目方向（AI辅助学习平台、AI赋能公众号、智能会议助理、知识可视化仪表盘）全部保留 — explicit — structural.
+- c2每个方向的背景与任务要点不丢失 — derived_quality — semantic.
+- c3 不虚构素材外要求 — derived — semantic.
+fact guards:素材中的"类似notebooklm""非确定性输入 到确定性输出"等表述按原意保留。
+
+case6 conv_246b5e915810/tu_3:
+output_boundary:简版"只出题"内容：题面只描述需求，不含做法指导。
+criteria:
+- c1 只出题：不包含告诉学生怎么做/解题步骤的内容 — explicit — semantic_review.
+- c2题面描述需求且比原整理版简单 — explicit — semantic_review ("简单一点").
+- c3 derived:题面任务可执行、需求要素（背景+任务）清楚 — derived_quality — semantic. anchors.
+fact guards: 不假设题面范围必为msg_5四方向——作为假设记录。
+stop: 若混入做法指导则返工。
+
+Now workflow_candidates details.
+
+Candidate C1:
+candidate_id: "zh_source_to_purposed_prose"
+name: "中文用户素材按指定用途与字数的压缩成稿"
+decision: "NEW_CANDIDATE"
+source_task_units: d1/tu_1,418/tu_2mechanism_and_reuse_reason:替代的重复操作是同一类"用户提供成段中文素材→登记约束（角度/长度/详细度/载体）→压缩改写成稿→字数与事实保真自检"的流水线；可复用的是约束登记表、字数核对、名词/数字保真对照，而非任何具体业务内容。
+scope_conditions:素材由用户全文粘贴；成稿为中文散文/段落；存在明确字数或详细度约束；不需要外部新事实。
+non_applicable_or_partial_sources: conv_246b5e915810 tu_2部分相似但最终被msg_35切换为"只出题"形态，成段汇报写法不适用其末轮收口；conv_41874c950938 tu_1缺目标Word，素材整合机制可用但落盘载体未知（partial）。
+workflow steps s1..s6 as above.
+resource_interfaces: - "constraint_intake_template（素材与约束登记表）" input: 用户消息原文与末轮收口约束; output: 结构化JSON清单; required true; missing_policy:约束缺失时在s1停止并向用户确认，不臆测。
+ - "length_check（字数核对脚本）" input: 成稿文本与上限; output: 字数与是否达标; required true; missing_policy: 无上限时跳过并记录。
+ - "fact_fidelity_table（数字/专名保真对照表）" input:素材中的数字专名清单; output: 成稿比对结果; required true; missing_policy:素材无数据时置空。
+validation_plan: local_checks: ["字数统计≤上限","成稿中所有数字与专名能在素材中找到","输出为合法中文文本非空"]; boundary_or_error_cases: ["素材为空","约束相互冲突（角度多而字数极小）","素材数字前后不一致"]; independent_trial_still_required: true.
+unknowns: ["候选未经独立试跑验证","素材含宣传性数据时保真与'官方汇报'语气的平衡无既定标准"]
+
+Candidate C2:
+candidate_id: "final_turn_detail_gate"
+name: "末轮字数/详细度收口强制执行"
+decision: "REUSE_PARTIAL"
+source_task_units: d1/tu_1 (600字以内),418/tu_2 (不要写这么详细),246/tu_3 (简单一点、只出题)
+mechanism: 三处均出现末轮对详细程度/字数的收口；共同局部是"把末轮收口约束显式登记为可检查项，并在成稿与自检阶段强制执行"。但三者约束类型不同（绝对字数上限/删去逐项金额/降低复杂度并删除做法），故仅复用登记-执行-核对的局部步骤，不能合并为同一输出模板。
+evidence: three quotes.
+scope_conditions:存在可辨识的末轮收口消息；约束可操作化（字数可统计、'简单'需转成可检查项时须与用户口径一致）。
+non_applicable: 对无收口约束的任务单元（如246/tu_1提问）不适用。
+workflow: s1识别并登记末轮收口约束 (depends none); s2 将约束转成可检查规则 (depends s1); s3 在成稿后执行检查，不通过则回到成稿 (depends s2); s4 在最终交付说明中报告约束满足情况 (depends s3).
+resource_interfaces: 收口约束登记表.
+validation_plan: local checks; boundary: 收口约束与前轮要求冲突时以何者为准未定义（依据时间后到优先，但historical_order_is_not_authenticated）→ unknowns.
+unknowns: ["消息顺序未经认证，'末轮'判定依赖时间戳","'简单一点'等主观约束的合格阈值需与用户对齐"]
+
+Candidate C3:
+candidate_id: "assignment_brief_only"
+name: "项目素材转'只出题需求描述'题面"
+decision: "NEW_CANDIDATE"
+source_task_units:246/tu_3mechanism:替代的操作是把完整方案素材改造成面向学生的题面：剥离做法指导、保留背景与任务需求描述、降低篇幅复杂度。
+scope_conditions: 用户明确要求"只出题、描述需求、不要做法"；素材含背景+任务结构。
+non_applicable_or_partial_sources:246/tu_2是完整整理而非题面，不适用；d1/418为成稿汇报非出题。
+workflow: s1冻结素材方向清单; s2逐方向生成"背景+任务需求"题面，剔除做法步骤; s3 自检：题面不含"怎么做"类内容且比完整版简短; stop: 出现做法指导即返工。
+resource_interfaces:题面模板（背景/任务两段式）; missing_policy:模板缺失时按素材原有"背景/任务"结构直接生成。
+validation_plan: local_checks: ["不出现步骤性动词序列（如'第一步/调用/然后'）指向解法","题面覆盖素材全部方向（若范围确认为全部）"]; boundary: ["范围未确认（是否覆盖四方向）","用户同时又要完整版时两版不可混淆"]; independent_trial_still_required: true.
+unknowns: ["msg_35“再做一个内容”的对象范围（是否仅四方向）未经用户确认"]
+
+source_decisions list as planned (6 entries).
+
+Now self_check.py:- load3 inputs,3 outputs.
+- checks:
+1. outputs parse as JSON, non-empty top-level arrays (profiles / candidates+source_decisions / cases).
+2. source coverage: the three source_ids present in profiles; each profile has ≥1 task unit; each task unit appears in source_decisions; each (source,unit) appears in rubric cases.
+3. enums: decision in set; epistemic_status in {"user_provided_not_independently_verified","user_goal_not_independently_verified","assumption"}? The schema only mentions user_provided... I'll allow the epistemic statuses I use. For goals like500万 I can use "user_provided_not_independently_verified" too (it's user-provided). Keep single status to be safe. Basis in rubric: {"explicit_user","derived_quality"}. check_method in {"literal","structural","semantic_review"}.
+4. workflow dependency: within each candidate, step depends_on only references existing step_ids in same workflow; no cycles (topological check).
+5. evidence_refs: source_id in the3; message_id exists in that source's messages; quote non-empty contiguous substring of that message's content. Count refs per file; collect errors per item with location paths.
+6. sha256 of the three output files recorded.
+- write outputs/self_check.json with structure: {schema, generated_at, files:{path:sha256}, checks:{...counts}, errors:[], status:"pass"|"fail"}.
+
+Quote safety: I must ensure quotes exactly match file content including spaces. Notably msg_59 uses spaces: "预计五年总目标：500 万元。" — content shows "预计五年总目标：500 万元。" with space before 元. And "底线目标300 万，挑战目标500 万，激进目标700 万。" with spaces. I'll use Python to build files then run check; if any quote mismatch, the checker will catch and I fix.
+
+To minimize risk, I'll write the JSON via a Python script? No — I'll write JSON files directly with write tool, then run checker; mismatches reported; I fix. Quotes chosen are short and simple. Curly quotes: use “ ” exactly as in file.
+
+Quotes I'll use (double-check against content):
+
+d1 msg_1:
+Q1: "帮我把下面这段话做一个整体的整理，从建设成果，推广等各个角度，做一个官方的汇报" — content has "帮我把下面这段话做一个整体的整理，从建设成果，推广等各个角度，做一个官方的汇报：\n" yes substring (colon after). Fine.
+Q2 facts: "通过调研了20多个省市、覆盖不同学段的一线教师后发现：备课、资料搜集、个性化作业布置与批改、行政事务、家校沟通，正在持续蚕食教师精力" — content: "并结合华东师范大学国家级全民数字素养与技能培训基地的调研，通过调研了20多个省市、覆盖不同学段的一线教师后发现：备课、资料搜集、个性化作业布置与批改、行政事务、家校沟通，正在持续蚕食教师精力。" yes.
+Q3: "它将教师日常拆解为课前备课、课中增强、课后辅导、课外管理和教师终身发展五大场景，集成40余项AI应用，覆盖80%的备课与教学外延工作。实测显示，教师每周可节省约13小时事务性劳动，教学效率提升85%" — yes contiguous.
+Q4: "整体用户覆盖32个省份3000+所学校" yes.
+Q5: "融合了92.75%资深教师盲审采纳的优质教学经验" yes.
+Q6: "2026年1月，“云知师AI”正式入驻国家智慧教育公共服务平台“AI试验场”模块" yes.
+Q7: "成为入选核心模块“教师教学”板块的6个AI智能工具之一" yes.
+
+d1 msg_5:
+Q: "600字以内" yes.
+Q persona: "你的名字叫「张大胆CEO助手-马斯克」" yes (in both msg1/msg5).
+
+418 msg_1:
+Q1: "目前这个任务的比较空泛，帮我添加一个类目：具体项目合作和到款，预计五年500万" yes.
+Q2: "市级平台：上海市科技艺术教育中心、上海科技报" yes.
+Q3: "试点合作校：上海市梅陇中学、上海市曹杨中学、上海市控江中学、上海市嘉定区江桥小学" yes.
+Q4: "安恒信息技术股份有限公司上海分公司" yes.
+Q5 chinese-reply: "请使用中文回复，除非用户明确使用其他语言。" yes.
+
+418 msg_29:
+Q1: "帮我整理成一段话写到那个word里面，不要写这么详细，每个多少钱" yes.
+
+418 msg_59:
+Q1: "帮我把下面的内容整理成一段话：具体项目合作与到款规划" yes.
+Q2: "预计五年总目标：500 万元。" — check content: "预计五年总目标：500 万元。" yes with spaces. I'll include trailing 。? Safer without: "预计五年总目标：500 万元" substring yes.
+Q3: "底线目标300 万，挑战目标500 万，激进目标700 万" yes.
+Q4: "三、五年实施节奏" yes.
+Q5: "市级平台包括上海市科技艺术教育中心（AI 科创课程共建、竞赛技术支持、教师培训）和上海科技报（成果传播、科普共建）" — check exact: content: "市级平台包括上海市科技艺术教育中心（AI 科创课程共建、竞赛技术支持、教师培训）和上海科技报（成果传播、科普共建）；" yes with spaces in "AI 科创课程共建". Keep exactly.
+Q6: "合作单位包括安恒信息技术上海分公司（AI+安全联合方案）、上海超导科技股份有限公司（AI辅助研发）" — content: "合作单位包括安恒信息技术上海分公司（AI+安全联合方案）、上海超导科技股份有限公司（AI辅助研发）、蜜柚网络科技（上海）有限公司（AI场景落地）、上海传英信息技术有限公司（AI+嵌入式）、上海大宗商品仓单登记有限责任公司（AI风控与仓单匹配）。" I'll use "上海大宗商品仓单登记有限责任公司（AI风控与仓单匹配）" substring yes.
+
+246 msg_1: "基金形式审查怎么做" yes.
+
+246 msg_5:
+Q1: "帮我把下面的设计思维课程的作业整理好" yes.
+Q2: "非确定性输入 到确定性输出。类似notebooklm" yes.
+Q3: "任务：设计一个AI赋能公众号创作者的工具，可以是skill/agent甚至是平台。" — trailing 。 include or not; substring fine without: "任务：设计一个AI赋能公众号创作者的工具，可以是skill/agent甚至是平台" yes.
+Q4: "背景：企业会议效率低，Action Item、责任人、待办追踪常遗漏。" — use without 。: "背景：企业会议效率低，Action Item、责任人、待办追踪常遗漏" yes.
+Q5: "任务：设计一个动态知识可视化工具：" yes — content has "任务：设计一个动态知识可视化工具：\n展示团队技能分布、项目经验网络". Substring "任务：设计一个动态知识可视化工具" fine.
+Q6: "AI辅助学习平台" yes. Also "对某个领域想了解，调用深度研究->查找和上传相关资料，然后生成对应的学习辅助PPT和讲解视频，然后再进行相关测评。" — use without trailing: yes.
+
+246 msg_35: "帮我再做一个内容，简单一点，不要告诉学生怎么做，只是出题，把需求描述一下" yes. persona quote same.
+
+Note:246 msg_1 doesn't include the 请使用中文回复 line. Persona line exists in all d1/246 messages.
+
+Now about "source_group_id":"输入中真实组ID" — use the group ids from files.
+
+annotation_origin, historical_order_is_not_authenticated flags per schema.
+
+historical_persona_is_source_material: true per profile.
+
+Now write everything. Also need /workspace/outputs and maybe /workspace/tmp (not needed). Let me write the three JSON files with the write tool, then the checker script, then run.
+
+Let me be careful about JSON validity — write via write tool with valid JSON. Then run python checker.
+
+Also progress: task is substantial; maybe use TaskCreate? The environment here uses DelegateTool; the task management tools listed in system prompt (TaskCreate etc.) aren't in delegate list. Skip; just do work.
+
+Let me compose source_profiles.json now.
+
+I'll now write file1.
+
+Structure with evidence refs. Each evidence ref: {"source_id":"...","message_id":"...","quote":"..."}.
+
+Let me draft the JSON content carefully. I'll keep quotes consistent with a small set; reuse same quote strings across files.
+
+Now write the files.

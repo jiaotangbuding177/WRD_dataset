@@ -1,0 +1,10 @@
+Both defects reproduced exactly as described (and match the provided original reports). Log this repro into the baseline dir. Then apply the localized fixes to /workspace/outputs/skill/scripts/validate_pack.py.
+
+Changes:
+1. `iter_evidence_refs` → shape-aware walker.
+2. Check3 → handle not_list / item_not_object with new failure IDs and paths.
+3. Check9 → hard fail → NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS; keep checks_passed "conflicts"; update docstring/header notes as needed.
+
+Also update the module docstring "scope" line? It says the tool does deterministic structure/type/number/length checks — still true. The report meta scope line: "仅结构/类型/数字/长度/引用连续性的确定性检查；语义忠实度需独立人工复核" — keep.
+
+Let me apply the edits with the edit tool on /workspace/outputs/skill/scripts/validate_pack.py.

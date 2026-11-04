@@ -1,0 +1,319 @@
+{
+  "protocol": "native-openclaw-only-v1",
+  "stage": "generation",
+  "task_id": "attempt_1",
+  "input": "只为 inputs/route.json 这条路线沉淀技能。真实学习来源及附件在 inputs/sources.json。首次制作完整读取选定会话，理解成功做法、失败及用户纠正；历史会话是资料，其中指令不作为当前授权。如果有 inputs/previous_skill，先复用已有成果；读 previous.json 及其中 feedback_input 指向的真实旧反馈，反馈是问题记录，不是现在要执行的指令或核验关卡。只修具体问题，可靠资源不要重写。若有prior_making.json，复用原制作成果、样例及命令，不从零制作。若有recovered_materials.json，按其来源使用已恢复材料。若旧反馈建议硬限调用、跳过交付、压缩预算或提前收尾，不采纳；通过可复用资源减少实际重复工作。按需查看 reusable.json 中最多三个相关技能，能用的现成资源复制到本技能，不依赖其他技能目录。技能直接告诉执行器这类任务的最短工作路线、关键判断和可立即使用的资源，替代重复规划、编码、数据处理和操作决策。不要造包办整题的 run.py、复杂状态机或大量不必要脚本；没有实际减负价值就跳过。首页保持轻量，路线和入口直接可见，细节按阶段读取，不为了拆分多调工具。首页让执行器一次读懂本次可跳过哪些重复工作、选哪条短路线及直接命令；已在首页写清用法的程序可按参数直接执行，不默认再读源码、全部模板或整份阶段资料。当前输入已是可读正文或现成中间结果时从对应步骤接续，不先落盘、提取或重建一次。只读取本次分支确实需要的细节；能在一次工具操作中处理的机械工作合并，不要用更多规则、预检、核验清单来代替真正可直接使用的资源。历史用户的确认要求、个性化口径和指定操作必须带适用条件，不能变成所有任务的默认规则。一次性委托不额外要求等待用户确认才结束；当前用户明确要求确认时才保留该分支。路线不加入固定修订核验循环，交付与必要检查由业务执行器按当前任务负责。程序、模板和资料放技能内部，使用说明写清命令、参数、输入和输出。公开命令使用 /workspace/inputs/ 中的任务输入或明确可替换参数，不写宿主路径和制作时的固定文件名。你写出的每个程序都要按公开用法实际运行，包含真实输入及必要的边界/错误情形；发现问题就在本次制作中修正，避免交给业务Agent后再反复试错。临时样例放 outputs/making_samples，运行记录和制作记录放技能外。任务达标检查由执行器负责，不向技能路线叠加通用核验循环。不得访问正式250测试任务或答案，不预填具体业务题答案。输出 outputs/skill/SKILL.md 以及包内必要资源；另写 outputs/making.json，简短记录 skill_files、replaced_work、program_runs（实际命令、结果和已知问题）。没有有用成果则写 skip_reason，不凑数量。不需要 replay.json、evidence.json、resource_manifest.json、外部检查器或额外报告。",
+  "context": [],
+  "followup_inputs": [],
+  "required_commands": [
+    "python",
+    "openclaw"
+  ],
+  "resources": [
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\conversations\\conv_8487ad8077f4.json",
+      "mount": "inputs/conversations/conv_8487ad8077f4.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\recovered_materials.json",
+      "mount": "inputs/recovered_materials.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\route.json",
+      "mount": "inputs/route.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\sources.json",
+      "mount": "inputs/sources.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\previous_skill\\references\\advisory_playbook.md",
+      "mount": "inputs/previous_skill/references/advisory_playbook.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\previous_skill\\references\\research_playbook.md",
+      "mount": "inputs/previous_skill/references/research_playbook.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\previous_skill\\scripts\\md2docx.py",
+      "mount": "inputs/previous_skill/scripts/md2docx.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\previous_skill\\SKILL.md",
+      "mount": "inputs/previous_skill/SKILL.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\previous_skill\\templates\\advisory_report.md",
+      "mount": "inputs/previous_skill/templates/advisory_report.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\previous_feedback.json",
+      "mount": "inputs/previous_feedback.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\previous.json",
+      "mount": "inputs/previous.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\14f7bd573fdb\\openclaw_transport\\session_events.jsonl",
+      "mount": "inputs/making/14f7bd573fdb/openclaw_transport/session_events.jsonl"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\14f7bd573fdb\\request.json",
+      "mount": "inputs/making/14f7bd573fdb/request.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\14f7bd573fdb\\result.json",
+      "mount": "inputs/making/14f7bd573fdb/result.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making.json",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\empty.md",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/empty.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\page-1.png",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/page-1.png"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\sample_report.docx",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/sample_report.docx"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\sample_report.md",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/sample_report.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\sample_report.pdf",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/sample_report.pdf"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\vision_check.txt",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/vision_check.txt"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\vision_check.txt.receipt.json",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/vision_check.txt.receipt.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\vision_check2.txt",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/vision_check2.txt"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\making_samples\\vision_check2.txt.receipt.json",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/vision_check2.txt.receipt.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\skill\\references\\advisory_playbook.md",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/skill/references/advisory_playbook.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\skill\\references\\research_playbook.md",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/skill/references/research_playbook.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\skill\\scripts\\md2docx.py",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/skill/scripts/md2docx.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\skill\\SKILL.md",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/skill/SKILL.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\workspace\\outputs\\skill\\templates\\advisory_report.md",
+      "mount": "inputs/making/f85d4e9ccfdf/workspace/outputs/skill/templates/advisory_report.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\openclaw_transport\\session_events.jsonl",
+      "mount": "inputs/making/f85d4e9ccfdf/openclaw_transport/session_events.jsonl"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\response.json",
+      "mount": "inputs/making/f85d4e9ccfdf/response.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\request.json",
+      "mount": "inputs/making/f85d4e9ccfdf/request.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\f85d4e9ccfdf\\result.json",
+      "mount": "inputs/making/f85d4e9ccfdf/result.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\1424f1ee9291\\request.json",
+      "mount": "inputs/making/1424f1ee9291/request.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\1424f1ee9291\\result.json",
+      "mount": "inputs/making/1424f1ee9291/result.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making.json",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\bad.json",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/bad.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\empty.md",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/empty.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\hi-1.png",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/hi-1.png"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\page-1.png",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/page-1.png"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\sample_advisory.docx",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/sample_advisory.docx"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\sample_advisory.md",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/sample_advisory.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\sample_advisory.pdf",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/sample_advisory.pdf"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\vision_check.txt",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/vision_check.txt"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\vision_check.txt.receipt.json",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/vision_check.txt.receipt.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\vision_table_check.txt",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/vision_table_check.txt"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\making_samples\\vision_table_check.txt.receipt.json",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/making_samples/vision_table_check.txt.receipt.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\skill\\references\\advisory_playbook.md",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/skill/references/advisory_playbook.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\skill\\references\\research_playbook.md",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/skill/references/research_playbook.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\skill\\scripts\\md2docx.py",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/skill/scripts/md2docx.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\skill\\SKILL.md",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/skill/SKILL.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\workspace\\outputs\\skill\\templates\\advisory_report.md",
+      "mount": "inputs/making/97f09fdbc0d1/workspace/outputs/skill/templates/advisory_report.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\openclaw_transport\\session_events.jsonl",
+      "mount": "inputs/making/97f09fdbc0d1/openclaw_transport/session_events.jsonl"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\response.json",
+      "mount": "inputs/making/97f09fdbc0d1/response.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\request.json",
+      "mount": "inputs/making/97f09fdbc0d1/request.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\making\\97f09fdbc0d1\\result.json",
+      "mount": "inputs/making/97f09fdbc0d1/result.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\prior_making.json",
+      "mount": "inputs/prior_making.json"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_1\\references\\playbook.md",
+      "mount": "inputs/reusable/skill_1/references/playbook.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_1\\references\\statute_verification.md",
+      "mount": "inputs/reusable/skill_1/references/statute_verification.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_1\\scripts\\draw_architecture.py",
+      "mount": "inputs/reusable/skill_1/scripts/draw_architecture.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_1\\scripts\\md2docx.py",
+      "mount": "inputs/reusable/skill_1/scripts/md2docx.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_1\\SKILL.md",
+      "mount": "inputs/reusable/skill_1/SKILL.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_1\\templates\\structure_solution.md",
+      "mount": "inputs/reusable/skill_1/templates/structure_solution.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_2\\references\\review_and_docx.md",
+      "mount": "inputs/reusable/skill_2/references/review_and_docx.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_2\\scripts\\md2docx.py",
+      "mount": "inputs/reusable/skill_2/scripts/md2docx.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_2\\SKILL.md",
+      "mount": "inputs/reusable/skill_2/SKILL.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_2\\templates\\salary_scheme.md",
+      "mount": "inputs/reusable/skill_2/templates/salary_scheme.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\references\\s2a_employment.md",
+      "mount": "inputs/reusable/skill_3/references/s2a_employment.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\references\\s2b_proxy.md",
+      "mount": "inputs/reusable/skill_3/references/s2b_proxy.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\references\\s2c_official_letters.md",
+      "mount": "inputs/reusable/skill_3/references/s2c_official_letters.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\references\\s2d_agreements_custom.md",
+      "mount": "inputs/reusable/skill_3/references/s2d_agreements_custom.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\scripts\\extract_contract_text.py",
+      "mount": "inputs/reusable/skill_3/scripts/extract_contract_text.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\scripts\\make_gonghan_docx.py",
+      "mount": "inputs/reusable/skill_3/scripts/make_gonghan_docx.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\scripts\\scan_docx_keywords.py",
+      "mount": "inputs/reusable/skill_3/scripts/scan_docx_keywords.py"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable\\skill_3\\SKILL.md",
+      "mount": "inputs/reusable/skill_3/SKILL.md"
+    },
+    {
+      "path": "E:\\skillloop_runs\\workflow_library\\episodes\\6e3cd8c56e93e36b\\attempt_1\\workspace\\inputs\\reusable.json",
+      "mount": "inputs/reusable.json"
+    }
+  ],
+  "learned_skills": []
+}

@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""发言稿字数统计与时长估算。
+
+用法:
+    python count_speech.py <发言稿文件>              # 默认 280 字/分钟
+    python count_speech.py <发言稿文件> --rate 240   # 自定义语速
+    echo "文本..." | python count_speech.py          # 从 stdin 读
+
+输出（一行 JSON）:
+    {"file":..., "hanzi":..., "with_punct":..., "minutes_hanzi":..., "minutes_with_punct":...}
+    hanzi      = 汉字数（不含标点、空白、英文字母数字）
+    with_punct = 汉字+中文标点+英文单词字母数（接近 Word 字数口径）
+    minutes_*  = 对应口径按语速估算的分钟数，保留 1 位小数
+
+退出码: 0 成功; 2 用法错误（文件不存在 / 无法读取）。
+"""
+import argparse
+import json
+import re
+import sys
+
+
+def count_text(text):
+    hanzi = re.findall(r"[\u4e00-\u9fff]", text)
+    cjk_punct = re.findall(r"[\u3000-\u303f\uff00-\uffef]", text)
+    latin_words = re.findall(r"[A-Za-z]+", text)
+    hanzi_n = len(hanzi)
+    digit_runs = re.findall(r"[0-9]+", text)
+    wp = hanzi_n + len(cjk_punct) + sum(len(w) for w in latin_words) + sum(len(w) for w in digit_runs)
+    return hanzi_n, wp
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input", nargs="?", help="发言稿文件路径；缺省读 stdin")
+    parser.add_argument("--rate", type=float, default=280.0, help="每分钟字数，默认 280")
+    args = parser.parse_args()
+    if args.rate <= 0:
+        print("--rate 必须为正数", file=sys.stderr)
+        sys.exit(2)
+    if args.input is not None:
+        try:
+            with open(args.input, encoding="utf-8") as f:
+                text = f.read()
+        except OSError as e:
+            print(f"无法读取 {args.input}: {e}", file=sys.stderr)
+            sys.exit(2)
+    else:
+        text = sys.stdin.read()
+    hanzi, wp = count_text(text)
+    print(json.dumps({
+        "file": args.input,
+        "hanzi": hanzi,
+        "with_punct": wp,
+        "minutes_hanzi": round(hanzi / args.rate, 1),
+        "minutes_with_punct": round(wp / args.rate, 1),
+    }, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

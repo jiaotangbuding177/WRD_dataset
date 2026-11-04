@@ -1,0 +1,1005 @@
+{
+  "schema": "wrd-historical-R-action-feedback-causal-edge10-v1",
+  "owner_id": "5b8bc7b418d32478c5d62213",
+  "source_id": "conv_1702b763a7ee",
+  "decision": "decision_006",
+  "source_condition": "HISTORICAL_CUSTOM_EXECUTOR_NOT_NATIVE_OPENCLAW",
+  "request_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\model_calls\\decision_006\\request.raw.json",
+    "sha256": "d5164f97c79045751ab4f79828b86a46af7bb2b2e0354f28815d94492cacaaf2",
+    "bytes": 94743
+  },
+  "response_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\model_calls\\decision_006\\response.partial.raw",
+    "sha256": "ca1faea514701ff209bf92c23205989d880dd170f65dfffdfda5aa456063e2bf",
+    "bytes": 246783
+  },
+  "original_R_pin": {
+    "path": "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning\\owners\\5b8bc7b418d32478c5d62213\\ORIGINAL_R.txt",
+    "bytes": 8592,
+    "sha256": "95b10a6902b2cd483f0d1ea479070fec32d7e5c3ecc62b3abf5e883cee251fe1"
+  },
+  "original_proposal_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\proposals\\0006.json",
+    "bytes": 5249,
+    "sha256": "2d7dcd882bef61d3ae6a2f7ef55769a3dedf3f6a23b89466474156c357ca6e3a"
+  },
+  "original_proposal": {
+    "action_id": "try_w1_generality_conv1702b763a7ee",
+    "kind": "TRY",
+    "source_id": "conv_1702b763a7ee",
+    "purpose": "w1 的估值脚本此前只在单一参数组（480万/14.2012%/投前注册资本1000万）上实测过；用另一组参数与负例分支做有限对照，检验公式与断言是否真的通用而非只对本次数字成立",
+    "arguments": {
+      "mode": "single_repair",
+      "workflow_id": "conv_1702b763a7ee_w1",
+      "step_ids": [
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "resource_ids": [],
+      "existing_asset_ids": [
+        "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"
+      ],
+      "code": "import json, os\n\n\ndef compute_valuation(increase_amount, post_stake, pre_registered_capital=None, tol=1e-6):\n    \"\"\"post_money = increase / post_stake; split increase into registered capital and capital reserve.\"\"\"\n    assert increase_amount > 0, \"increase_amount must be positive\"\n    assert 0.0 < post_stake < 1.0, \"post_stake must be a decimal in (0,1)\"\n    post_money = increase_amount / post_stake\n    pre_money = post_money - increase_amount\n    assert abs(post_stake * post_money - increase_amount) <= tol * increase_amount, \"back-substitution failed\"\n    out = {\n        \"increase_amount\": increase_amount,\n        \"post_stake\": post_stake,\n        \"post_money_valuation\": post_money,\n        \"pre_money_valuation\": pre_money,\n    }\n    if pre_registered_capital is not None:\n        assert pre_registered_capital > 0, \"pre_registered_capital must be positive\"\n        assert pre_registered_capital <= pre_money + tol, \"pre_registered_capital exceeds pre-money valuation -> negative capital reserve\"\n        price_per_unit = pre_money / pre_registered_capital\n        new_registered = increase_amount / price_per_unit\n        capital_reserve = increase_amount - new_registered\n        assert abs(new_registered + capital_reserve - increase_amount) <= tol * increase_amount, \"split does not sum to increase\"\n        implied = new_registered / (pre_registered_capital + new_registered)\n        assert abs(implied - post_stake) <= 1e-6, \"implied post stake mismatch\"\n        out.update({\n            \"pre_registered_capital\": pre_registered_capital,\n            \"price_per_unit\": price_per_unit,\n            \"new_registered_capital\": new_registered,\n            \"capital_reserve\": capital_reserve,\n            \"implied_post_stake\": implied,\n        })\n    else:\n        out[\"formula\"] = {\n            \"new_registered_capital\": \"increase_amount * pre_registered_capital / pre_money_valuation\",\n            \"capital_reserve\": \"increase_amount - new_registered_capital\",\n            \"constraint\": \"pre_registered_capital <= pre_money_valuation\",\n        }\n    return out\n\n\ndef main():\n    # Generality check with a DIFFERENT parameter set than the episode's 480/14.2012%/1000.\n    r = compute_valuation(1000.0, 0.25, 2000.0)\n    assert abs(r[\"post_money_valuation\"] - 4000.0) < 1e-6, \"post-money mismatch on new params\"\n    assert abs(r[\"pre_money_valuation\"] - 3000.0) < 1e-6, \"pre-money mismatch on new params\"\n    assert abs(r[\"new_registered_capital\"] - 666.6666666667) < 1e-3, \"new registered capital mismatch\"\n    assert abs(r[\"capital_reserve\"] - 333.3333333333) < 1e-3, \"capital reserve mismatch\"\n    assert abs(r[\"implied_post_stake\"] - 0.25) < 1e-9, \"implied stake mismatch\"\n    assert abs(r[\"new_registered_capital\"] + r[\"capital_reserve\"] - 1000.0) < 1e-6, \"split not conserved\"\n\n    # Missing-parameter branch must return formula only, never a unique split.\n    r2 = compute_valuation(1000.0, 0.25, None)\n    assert \"formula\" in r2 and \"new_registered_capital\" not in r2, \"missing-param branch invented a split\"\n\n    # Negative case: pre_registered > pre_money must raise, not silently produce negative reserve.\n    raised = False\n    try:\n        compute_valuation(1000.0, 0.25, 3500.0)\n    except AssertionError:\n        raised = True\n    assert raised, \"pre_registered > pre_money must raise AssertionError\"\n\n    os.makedirs(\"outputs\", exist_ok=True)\n    with open(\"outputs/valuation_generality_check.json\", \"w\", encoding=\"utf-8\") as f:\n        json.dump({\"case\": r, \"missing_param_keys\": sorted(r2.keys()), \"negative_case_raised\": raised}, f, ensure_ascii=False, indent=2)\n    print(json.dumps({\"ok\": True, \"post_money\": r[\"post_money_valuation\"], \"new_registered\": r[\"new_registered_capital\"], \"capital_reserve\": r[\"capital_reserve\"], \"negative_raised\": raised}, ensure_ascii=False))\n\n\nif __name__ == \"__main__\":\n    main()\n",
+      "checks": [
+        "post_stake * post_money_valuation == increase_amount (relative tolerance 1e-6) on a new parameter set 1000/0.25/2000",
+        "new_registered_capital + capital_reserve == increase_amount",
+        "implied post stake new_registered/(pre_registered+new_registered) == post_stake",
+        "missing pre_registered_capital returns formula only, no unique split value",
+        "pre_registered_capital > pre_money_valuation raises AssertionError instead of yielding negative capital reserve"
+      ],
+      "reusable_asset": false
+    }
+  },
+  "target_time_state": {
+    "state": {
+      "run_id": "conv_1702b763a7ee",
+      "category": "",
+      "schema_version": "skillsloop-ewi-rl-v2",
+      "version": 10,
+      "evidence_graph_ref": "graph/",
+      "workflow_store_ref": "ewi/workflow_versions/",
+      "issue_store_ref": "ewi/issues.json",
+      "asset_ledger_ref": "assets/ledger.jsonl",
+      "remaining_budget": {
+        "model_calls": 7,
+        "tool_calls": 4,
+        "seconds": 506.90599999999904,
+        "output_tokens": 24576
+      },
+      "pending_action": null,
+      "stop_reason": null,
+      "structure_only_not_business_success": true
+    },
+    "workflows": [
+      {
+        "id": "conv_1702b763a7ee_w1",
+        "task": "给定本轮增资额与增资后持股比例，计算项目公司投后/投前估值；并在给定投前注册资本时，把增资额拆分为新增注册资本与资本公积，未给定该关键参数时只给参数化公式而不臆造唯一数值",
+        "parameters": {
+          "increase_amount": "future user input: 本轮增资额（万元）",
+          "post_stake": "future user input: 增资后持股比例（小数，如0.142012）",
+          "pre_registered_capital": "future user input(可选): 投前注册资本（万元）",
+          "output_path": "future user input: 结果输出文件路径"
+        },
+        "requirements": [
+          {
+            "text": "用中文回复，除非用户明确使用其他语言",
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "user",
+                "quote": "请使用中文回复，除非用户明确使用其他语言。"
+              }
+            ]
+          },
+          {
+            "text": "计算投后估值，并拆分进入注册资本与资本公积的金额",
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "user",
+                "quote": "增资480万元占项目公司14.2012%的股权，请问项目公司的投后估值是多少？其中进入注册资本金是多少？进入资本公积是多少？"
+              }
+            ]
+          },
+          {
+            "text": "缺少投前注册资本时不得给出注册资本/资本公积的单一确定值，应给出参数化公式与示例",
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "assistant",
+                "quote": "光靠 480万 + 14.2012% 两个数算不出来"
+              }
+            ]
+          }
+        ],
+        "conditions": [
+          "仅当提供投前注册资本时才输出新增注册资本与资本公积的唯一数值",
+          "若项目公司存在多轮融资或非人民币注册资本，需先统一口径再套用"
+        ],
+        "preserved_state": [
+          "增资额与持股比例的口径（单位、小数位）"
+        ],
+        "steps": [
+          {
+            "id": "s1",
+            "purpose": "规范化输入参数，避免百分比/小数口径错误",
+            "input_refs": [
+              "increase_amount",
+              "post_stake",
+              "pre_registered_capital"
+            ],
+            "preconditions": [],
+            "operation": "把增资额与注册资本统一为同一货币单位（默认万元）；把增资后持股比例统一为小数（14.2012% → 0.142012）；未提供投前注册资本则标记为缺失",
+            "output_refs": [
+              "parsed_params"
+            ],
+            "postconditions": [
+              "0 < post_stake < 1"
+            ],
+            "asset_ids": [],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "user",
+                "quote": "增资480万元占项目公司14.2012%的股权"
+              }
+            ],
+            "support_status": "proposed"
+          },
+          {
+            "id": "s2",
+            "purpose": "算出投后与投前估值并做回代校验",
+            "input_refs": [
+              "parsed_params"
+            ],
+            "preconditions": [
+              "post_stake 已转为小数"
+            ],
+            "operation": "投后估值 = 增资额 ÷ 增资后持股比例；投前估值 = 投后估值 − 增资额；用 增资后持股比例 × 投后估值 回代校验应等于增资额。已实测脚本资产 conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair 以命令行参数调用：python probe.py --increase <增资额> --post-stake <小数比例> --pre-registered <投前注册资本，可省略> --out outputs/valuation_result.json",
+            "output_refs": [
+              "post_money_valuation",
+              "pre_money_valuation"
+            ],
+            "postconditions": [
+              "回代校验通过"
+            ],
+            "asset_ids": [
+              "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"
+            ],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "user",
+                "quote": "请问项目公司的投后估值是多少？"
+              }
+            ],
+            "support_status": "proposed"
+          },
+          {
+            "id": "s3",
+            "purpose": "给定投前注册资本时拆分新增注册资本与资本公积",
+            "input_refs": [
+              "parsed_params",
+              "pre_money_valuation"
+            ],
+            "preconditions": [
+              "已提供投前注册资本"
+            ],
+            "operation": "每元注册资本价格 = 投前估值 ÷ 投前注册资本；新增注册资本 = 增资额 ÷ 每元注册资本价格；资本公积 = 增资额 − 新增注册资本；校验 新增注册资本 ÷ (投前注册资本 + 新增注册资本) ≈ 增资后持股比例；投前注册资本 > 投前估值 时断言失败并退回 s4。由同一脚本资产在传入 --pre-registered 时执行",
+            "output_refs": [
+              "new_registered_capital",
+              "capital_reserve"
+            ],
+            "postconditions": [
+              "新增注册资本 + 资本公积 = 增资额"
+            ],
+            "asset_ids": [
+              "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"
+            ],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "user",
+                "quote": "其中进入注册资本金是多少？进入资本公积是多少？"
+              }
+            ],
+            "support_status": "proposed"
+          },
+          {
+            "id": "s4",
+            "purpose": "缺参时给出参数化公式而非臆造数值",
+            "input_refs": [
+              "parsed_params",
+              "pre_money_valuation"
+            ],
+            "preconditions": [
+              "未提供投前注册资本"
+            ],
+            "operation": "输出 新增注册资本 = 增资额 × 投前注册资本 ÷ 投前估值 与 资本公积 = 增资额 − 新增注册资本，给出至少两组示例值，并声明约束 投前注册资本 ≤ 投前估值（否则资本公积为负）；脚本在省略 --pre-registered 时只返回 formula 字段、不返回唯一拆分值",
+            "output_refs": [
+              "formula_and_examples"
+            ],
+            "postconditions": [
+              "明确标注哪些量是参数化的"
+            ],
+            "asset_ids": [
+              "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"
+            ],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "assistant",
+                "quote": "光靠 480万 + 14.2012% 两个数算不出来"
+              }
+            ],
+            "support_status": "proposed"
+          },
+          {
+            "id": "s5",
+            "purpose": "汇总交付结果",
+            "input_refs": [
+              "post_money_valuation",
+              "pre_money_valuation",
+              "new_registered_capital",
+              "capital_reserve",
+              "formula_and_examples"
+            ],
+            "preconditions": [],
+            "operation": "以万元为单位输出投后估值、投前估值、新增注册资本、资本公积（或参数化说明），标注四舍五入口径与所用投前注册资本",
+            "output_refs": [
+              "output_path"
+            ],
+            "postconditions": [
+              "每个数值都能追溯到公式与输入"
+            ],
+            "asset_ids": [],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 1,
+                "role": "user",
+                "quote": "请问项目公司的投后估值是多少？"
+              }
+            ],
+            "support_status": "proposed"
+          }
+        ],
+        "control_flow": {
+          "dependencies": [
+            [
+              "s1",
+              "s2"
+            ],
+            [
+              "s2",
+              "s3"
+            ],
+            [
+              "s2",
+              "s4"
+            ],
+            [
+              "s3",
+              "s5"
+            ],
+            [
+              "s4",
+              "s5"
+            ]
+          ],
+          "branches": [
+            {
+              "from": "s2",
+              "to": "s3",
+              "type": "conditional",
+              "condition": "已提供投前注册资本"
+            },
+            {
+              "from": "s2",
+              "to": "s4",
+              "type": "conditional",
+              "condition": "未提供投前注册资本"
+            }
+          ],
+          "repair_loops": [
+            {
+              "from": "s5",
+              "to": "s2",
+              "max_iterations": 1,
+              "exit_condition": "回代校验通过，或一次修复后仍失败则报告剩余误差"
+            }
+          ]
+        },
+        "failure_handling": [
+          "若回代校验偏差超容差，先检查比例是否误按百分数（14.2012）代入而非小数（0.142012）",
+          "若算得资本公积为负，说明投前注册资本大于投前估值，该假设不成立，应退回 s4 输出参数化说明",
+          "脚本断言失败时保留 stderr 原文作为观察，不把 exit_code=0 当作业务正确性证明"
+        ],
+        "checks": [
+          "增资后持股比例 × 投后估值 ≈ 增资额（相对误差 ≤ 1e-6）",
+          "新增注册资本 + 资本公积 = 增资额",
+          "新增注册资本 ÷ (投前注册资本 + 新增注册资本) ≈ 增资后持股比例",
+          "未提供投前注册资本时只输出公式，不输出唯一拆分值",
+          "若给出唯一数值，必须同时说明所依据的投前注册资本"
+        ],
+        "asset_refs": [
+          "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"
+        ],
+        "evidence_refs": [
+          {
+            "source_id": "conv_1702b763a7ee",
+            "turn_index": 1,
+            "role": "user",
+            "quote": "增资480万元占项目公司14.2012%的股权，请问项目公司的投后估值是多少？"
+          }
+        ],
+        "unknowns": [
+          "项目公司是否存在多轮融资导致投前估值与投前注册资本口径不一致",
+          "注册资本币种是否为人民币",
+          "脚本仅在本次参数（480万 / 14.2012% / 投前注册资本1000万）与缺参分支上实测过，其它口径未验证"
+        ],
+        "version": 2,
+        "status": "DRAFT"
+      },
+      {
+        "id": "conv_1702b763a7ee_w2",
+        "task": "从空调线控器显示屏照片中提取可见字段与故障码，对照厂商故障码表给出故障含义、可能原因与安全处置顺序；故障码无法可靠读出时不得臆断具体代码",
+        "parameters": {
+          "image_path": "future user input: 线控器照片路径",
+          "brand": "future user input(可选): 品牌/机型"
+        },
+        "requirements": [
+          {
+            "text": "判断照片中线控器所报故障并给出原因与处置",
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 0,
+                "role": "user",
+                "quote": "这个是什么故障？"
+              }
+            ]
+          }
+        ],
+        "conditions": [
+          "仅当故障码可被可靠读出（人工或OCR复核）时才给出具体代码含义，否则请用户口述或补拍",
+          "涉及室外机强电、变频主板的操作不得建议用户自行拆机"
+        ],
+        "preserved_state": [
+          "照片中可读的品牌、运行模式、设定温度、机号、图标等字段"
+        ],
+        "steps": [
+          {
+            "id": "s1",
+            "purpose": "读取照片中的可见字段与故障码",
+            "input_refs": [
+              "image_path"
+            ],
+            "preconditions": [
+              "具备图像文字识别能力"
+            ],
+            "operation": "逐个读取品牌标识、运行模式、设定温度、机号、扳手/故障图标与两位故障码，并记录每个字段的可信度",
+            "output_refs": [
+              "display_fields"
+            ],
+            "postconditions": [
+              "每个字段标注已读/不可读"
+            ],
+            "asset_ids": [],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 0,
+                "role": "user",
+                "quote": "这个是什么故障？"
+              }
+            ],
+            "support_status": "historical_report"
+          },
+          {
+            "id": "s2",
+            "purpose": "把故障码映射为厂商定义的故障含义",
+            "input_refs": [
+              "display_fields",
+              "brand"
+            ],
+            "preconditions": [
+              "故障码已被可靠读出"
+            ],
+            "operation": "按品牌公开故障码表查该代码的定义与适用范围（如三相缺相/相序、电压检测），并说明相似字形的误读可能",
+            "output_refs": [
+              "fault_meaning"
+            ],
+            "postconditions": [
+              "含义来源可追溯"
+            ],
+            "asset_ids": [],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 0,
+                "role": "assistant",
+                "quote": "故障代码：**U2**"
+              }
+            ],
+            "support_status": "historical_report"
+          },
+          {
+            "id": "s3",
+            "purpose": "给出有安全边界的处置顺序",
+            "input_refs": [
+              "fault_meaning"
+            ],
+            "preconditions": [],
+            "operation": "按 外部电源/空开检查 → 断电复位（断开专用空开3–5分钟后合闸）→ 室内外机接线端子检查 → 联系品牌售后 的顺序输出，并明确强电风险不自行拆机",
+            "output_refs": [
+              "troubleshooting_steps"
+            ],
+            "postconditions": [
+              "含安全警示"
+            ],
+            "asset_ids": [],
+            "evidence_refs": [
+              {
+                "source_id": "conv_1702b763a7ee",
+                "turn_index": 0,
+                "role": "assistant",
+                "quote": "不要自己拆机"
+              }
+            ],
+            "support_status": "historical_report"
+          }
+        ],
+        "control_flow": {
+          "dependencies": [
+            [
+              "s1",
+              "s2"
+            ],
+            [
+              "s2",
+              "s3"
+            ]
+          ],
+          "branches": [
+            {
+              "from": "s2",
+              "to": "s3",
+              "type": "conditional",
+              "condition": "故障码含义已确定"
+            }
+          ],
+          "repair_loops": []
+        },
+        "failure_handling": [
+          "若照片模糊导致故障码不可辨识，停止推断，明确列出不可读字段并要求用户口述代码或补拍清晰照片",
+          "若无法确认品牌，只给通用排查顺序，不给具体代码定义",
+          "本环境无OCR能力时，s1 不得声称已读出故障码，只能输出『需用户口述/补拍』的降级结论"
+        ],
+        "checks": [
+          "明确列出照片中可读字段；不可读字段必须标注不确定，不得臆造代码",
+          "无OCR能力时不得声称已从照片读出故障码，必须降级为请用户口述或补拍",
+          "给出的故障码定义需可追溯到品牌公开代码表",
+          "处置建议包含强电安全边界，不包含用户自行拆机内容"
+        ],
+        "asset_refs": [],
+        "evidence_refs": [
+          {
+            "source_id": "conv_1702b763a7ee",
+            "turn_index": 0,
+            "role": "user",
+            "quote": "这个是什么故障？"
+          }
+        ],
+        "unknowns": [
+          "当前工具仅有尺寸/格式解析，无OCR：INSPECT 回执显示 image_text_unknown=true（1200x800 RGB jpeg），照片中的故障码文本无法复核",
+          "品牌与机型未由用户确认，历史回答中的大金/U2 属历史声称而非已验证",
+          "厂商故障码表不在本环境可用资源内，s2 的代码含义映射缺少可追溯来源"
+        ],
+        "version": 2,
+        "status": "DRAFT"
+      }
+    ],
+    "issues": [
+      {
+        "id": "u1",
+        "question": "照片中的两位故障码究竟是 U2 还是被误读的其它字形，能否由当前能力确证？",
+        "workflow_id": "conv_1702b763a7ee_w2",
+        "step_ids": [
+          "s1",
+          "s2"
+        ],
+        "learning_impact": "决定 s2 是按 U2 直接映射故障含义，还是必须降级为『代码不可确认，请用户补拍或口述』",
+        "alternatives": [
+          "按历史声称的 U2 处理并给出对应故障含义",
+          "标注故障码不可确认，要求用户口述代码或补拍清晰照片后再判读"
+        ],
+        "required_evidence": [
+          "可复核的图像文字识别结果，或用户口述/补拍的故障码"
+        ],
+        "blocking": true,
+        "status": "DEFERRED",
+        "evidence_refs": [
+          {
+            "source_id": "conv_1702b763a7ee",
+            "turn_index": 0,
+            "role": "assistant",
+            "quote": "故障代码：**U2**"
+          }
+        ],
+        "version": 2
+      }
+    ],
+    "related_source_ids": [
+      "conv_1702b763a7ee"
+    ],
+    "unread_ranges": [
+      {
+        "source_id": "conv_1702b763a7ee",
+        "turn_indices": [
+          0,
+          1
+        ]
+      }
+    ],
+    "recent_observations": [
+      {
+        "execution_id": "conv_1702b763a7ee:inspect_img_conv1702b763a7ee",
+        "source_id": "conv_1702b763a7ee",
+        "tool": "INSPECT",
+        "actual": true,
+        "exit_code": 0,
+        "values": [
+          {
+            "resource_id": "res_5f05e6b623e5706725c5__file_bd2d84054c0c",
+            "material_identity": "synthetic",
+            "inspection": {
+              "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\inspect_img_conv1702b763a7ee\\workspace\\inputs\\2795f40bd4e2\\IMG_6961.jpeg",
+              "sha256": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+              "bytes": 38869,
+              "format": ".jpeg",
+              "width": 1200,
+              "height": 800,
+              "mode": "RGB",
+              "image_text_unknown": true
+            }
+          }
+        ],
+        "errors": [],
+        "validation_scope": "Actual parser output only; synthetic recovery remains synthetic",
+        "wall_seconds": 0.219,
+        "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\inspect_img_conv1702b763a7ee\\observation.json",
+        "tool_return_sha256": "e19333809b1829179094a2e721207886ed4d20e59d62351794cdd0e234991d9b"
+      },
+      {
+        "execution_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair",
+        "source_id": "conv_1702b763a7ee",
+        "tool": "python",
+        "actual": true,
+        "exit_code": 0,
+        "stdout": "{\r\n  \"increase_amount\": 480.0,\r\n  \"post_stake\": 0.142012,\r\n  \"post_money_valuation\": 3379.996056671267,\r\n  \"pre_money_valuation\": 2899.996056671267,\r\n  \"pre_registered_capital\": 1000.0,\r\n  \"price_per_unit\": 2.899996056671267,\r\n  \"new_registered_capital\": 165.51746644475216,\r\n  \"capital_reserve\": 314.48253355524787,\r\n  \"implied_post_stake\": 0.142012\r\n}\r\n",
+        "stderr": "",
+        "script_path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\probe.py",
+        "script_sha256": "0dc9024ff3199b58dd7f4bc759722747106f3e7aa7806605519866e1be55303c",
+        "products": [
+          {
+            "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\workspace\\outputs\\valuation_result.json",
+            "relative_path": "outputs/valuation_result.json",
+            "sha256": "9bb6d1c8e2097bccde1cf94fe7cee2d335f07d9f6f3a631b01b4ab1948731dd0",
+            "bytes": 353
+          }
+        ],
+        "wall_seconds": 4.11,
+        "validation_scope": "Actual local Python exit; assertions are code-authored, not independently calibrated business verification",
+        "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\observation.json",
+        "tool_return_sha256": "0555dc901d9c3a178aa0543e09207a7f8a2e9d89186b9719bed80a980f7b0b8e"
+      },
+      {
+        "execution_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee",
+        "source_id": "conv_1702b763a7ee",
+        "tool": "TRY",
+        "actual": true,
+        "exit_code": 0,
+        "branches": [
+          {
+            "execution_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair",
+            "source_id": "conv_1702b763a7ee",
+            "tool": "python",
+            "actual": true,
+            "exit_code": 0,
+            "stdout": "{\r\n  \"increase_amount\": 480.0,\r\n  \"post_stake\": 0.142012,\r\n  \"post_money_valuation\": 3379.996056671267,\r\n  \"pre_money_valuation\": 2899.996056671267,\r\n  \"pre_registered_capital\": 1000.0,\r\n  \"price_per_unit\": 2.899996056671267,\r\n  \"new_registered_capital\": 165.51746644475216,\r\n  \"capital_reserve\": 314.48253355524787,\r\n  \"implied_post_stake\": 0.142012\r\n}\r\n",
+            "stderr": "",
+            "script_path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\probe.py",
+            "script_sha256": "0dc9024ff3199b58dd7f4bc759722747106f3e7aa7806605519866e1be55303c",
+            "products": [
+              {
+                "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\workspace\\outputs\\valuation_result.json",
+                "relative_path": "outputs/valuation_result.json",
+                "sha256": "9bb6d1c8e2097bccde1cf94fe7cee2d335f07d9f6f3a631b01b4ab1948731dd0",
+                "bytes": 353
+              }
+            ],
+            "wall_seconds": 4.11,
+            "validation_scope": "Actual local Python exit; assertions are code-authored, not independently calibrated business verification",
+            "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\observation.json"
+          }
+        ],
+        "known_dependency_closure": [
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5"
+        ],
+        "same_input_versions": false,
+        "historical_restore_claimed": false,
+        "validation_scope": "Actual bounded source-copy Python; code exit/check strings do not certify task fulfilment or causality",
+        "wall_seconds": 4.172,
+        "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\observation.json",
+        "tool_return_sha256": "1d43d807c407426c2b315e57e22513aa2d2465aafb93712392517bb1c240a9e6"
+      }
+    ],
+    "assets": [
+      {
+        "asset_id": "conv_1702b763a7ee:res_5f05e6b623e5706725c5__file_bd2d84054c0c",
+        "source_id": "conv_1702b763a7ee",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\objects\\eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed\\IMG_6961.jpeg",
+        "sha256": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "version": "1",
+        "origin_type": "source_material",
+        "material_identity": "synthetic",
+        "executable": false,
+        "verified": false,
+        "reusable": false,
+        "artifact_role": "input_material",
+        "historical_byte_identity_verified": false,
+        "validation_scope": "Pinned source-owned bytes; does not verify historical identity or executable behavior"
+      },
+      {
+        "asset_id": "conv_1702b763a7ee:res_d0825917d3d7d6694f6f__file_bd2d84054c0c",
+        "source_id": "conv_1702b763a7ee",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\objects\\eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed\\IMG_6961.jpeg",
+        "sha256": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "version": "1",
+        "origin_type": "source_material",
+        "material_identity": "synthetic",
+        "executable": false,
+        "verified": false,
+        "reusable": false,
+        "artifact_role": "input_material",
+        "historical_byte_identity_verified": false,
+        "validation_scope": "Pinned source-owned bytes; does not verify historical identity or executable behavior"
+      },
+      {
+        "asset_id": "conv_1702b763a7ee:res_d7aa461e6201c448da67__file_c476d37d979d",
+        "source_id": "conv_1702b763a7ee",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\objects\\eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed\\IMG_6961.jpeg",
+        "sha256": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "version": "1",
+        "origin_type": "source_material",
+        "material_identity": "synthetic",
+        "executable": false,
+        "verified": false,
+        "reusable": false,
+        "artifact_role": "input_material",
+        "historical_byte_identity_verified": false,
+        "validation_scope": "Pinned source-owned bytes; does not verify historical identity or executable behavior"
+      },
+      {
+        "asset_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair",
+        "source_id": "conv_1702b763a7ee",
+        "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\probe.py",
+        "sha256": "0dc9024ff3199b58dd7f4bc759722747106f3e7aa7806605519866e1be55303c",
+        "version": "1",
+        "origin_type": "current_executed",
+        "material_identity": "new_code",
+        "executable": true,
+        "verified": true,
+        "reusable": true,
+        "checks_declared": [
+          "post_stake * post_money_valuation == increase_amount (relative tolerance 1e-6)",
+          "new_registered_capital + capital_reserve == increase_amount",
+          "implied post stake new_registered/(pre_registered+new_registered) == post_stake",
+          "missing pre_registered_capital returns formula only, no unique split value"
+        ],
+        "validation_scope": "Actual local Python exit; assertions are code-authored, not independently calibrated business verification",
+        "execution_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair",
+        "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\observation.json"
+      },
+      {
+        "asset_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair:product:c4d4655014e6a5d7",
+        "source_id": "conv_1702b763a7ee",
+        "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\workspace\\outputs\\valuation_result.json",
+        "sha256": "9bb6d1c8e2097bccde1cf94fe7cee2d335f07d9f6f3a631b01b4ab1948731dd0",
+        "version": "1",
+        "origin_type": "current_executed",
+        "material_identity": "exploration_product",
+        "executable": false,
+        "verified": false,
+        "presence_sha_verified": true,
+        "reusable": false,
+        "execution_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair",
+        "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_valuation_conv1702b763a7ee\\repair\\observation.json",
+        "produced_by_asset_id": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair",
+        "validation_scope": "Produced actual bytes; not general reusable asset or task-success proof"
+      }
+    ],
+    "structure_is_not_semantic_or_execution_success": true,
+    "schema": "skillsloop-ewi-rl-v2",
+    "episode_status": "RUNNING",
+    "stop_reason": null,
+    "graph_version": 2,
+    "graph": {
+      "nodes": [
+        {
+          "id": "req_valuation",
+          "type": "requirement",
+          "source_ids": [
+            "conv_1702b763a7ee"
+          ],
+          "evidence_refs": [
+            {
+              "source_id": "conv_1702b763a7ee",
+              "turn_index": 1,
+              "role": "user",
+              "quote": "增资480万元占项目公司14.2012%的股权，请问项目公司的投后估值是多少？"
+            }
+          ],
+          "status": "proposed"
+        },
+        {
+          "id": "proc_valuation",
+          "type": "procedure",
+          "source_ids": [
+            "conv_1702b763a7ee"
+          ],
+          "evidence_refs": [
+            {
+              "source_id": "conv_1702b763a7ee",
+              "turn_index": 1,
+              "role": "assistant",
+              "quote": "光靠 480万 + 14.2012% 两个数算不出来"
+            }
+          ],
+          "status": "proposed"
+        },
+        {
+          "id": "req_fault",
+          "type": "requirement",
+          "source_ids": [
+            "conv_1702b763a7ee"
+          ],
+          "evidence_refs": [
+            {
+              "source_id": "conv_1702b763a7ee",
+              "turn_index": 0,
+              "role": "user",
+              "quote": "这个是什么故障？"
+            }
+          ],
+          "status": "proposed"
+        },
+        {
+          "id": "proc_fault",
+          "type": "procedure",
+          "source_ids": [
+            "conv_1702b763a7ee"
+          ],
+          "evidence_refs": [
+            {
+              "source_id": "conv_1702b763a7ee",
+              "turn_index": 0,
+              "role": "assistant",
+              "quote": "故障代码：**U2**"
+            }
+          ],
+          "status": "proposed"
+        }
+      ],
+      "edges": [
+        {
+          "from": "req_valuation",
+          "to": "proc_valuation",
+          "type": "supports",
+          "status": "proposed",
+          "evidence_refs": [
+            {
+              "source_id": "conv_1702b763a7ee",
+              "turn_index": 1,
+              "role": "user",
+              "quote": "增资480万元占项目公司14.2012%的股权，请问项目公司的投后估值是多少？"
+            }
+          ]
+        },
+        {
+          "from": "req_fault",
+          "to": "proc_fault",
+          "type": "supports",
+          "status": "proposed",
+          "evidence_refs": [
+            {
+              "source_id": "conv_1702b763a7ee",
+              "turn_index": 0,
+              "role": "user",
+              "quote": "这个是什么故障？"
+            }
+          ]
+        }
+      ]
+    },
+    "input_assets": [
+      {
+        "source_id": "conv_1702b763a7ee",
+        "resource_id": "res_5f05e6b623e5706725c5__file_bd2d84054c0c",
+        "name": "IMG_6961.jpeg",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\objects\\eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed\\IMG_6961.jpeg",
+        "mount": "对话附件/IMG_6961.jpeg",
+        "sha256_declared": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "sha256_actual": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "bytes": 38869,
+        "exists": true,
+        "sha_match": true,
+        "available_from_dispatch_index": 0,
+        "material_identity": "synthetic",
+        "provenance": "synthetic_ready",
+        "artifact_role": "input_material",
+        "source_message_ids": [
+          "conv_1702b763a7ee:b317dd3c"
+        ],
+        "historical_byte_identity_verified": false,
+        "resource_group_id": "res_5f05e6b623e5706725c5",
+        "asset_id": "conv_1702b763a7ee:res_5f05e6b623e5706725c5__file_bd2d84054c0c",
+        "sha256": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "origin_type": "captured_existing_material",
+        "presence_sha_verified": true,
+        "historical_execution_verified": false,
+        "workspace_relative": "inputs/2795f40bd4e2/IMG_6961.jpeg"
+      },
+      {
+        "source_id": "conv_1702b763a7ee",
+        "resource_id": "res_d0825917d3d7d6694f6f__file_bd2d84054c0c",
+        "name": "IMG_6961.jpeg",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\objects\\eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed\\IMG_6961.jpeg",
+        "mount": "对话附件/IMG_6961.jpeg",
+        "sha256_declared": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "sha256_actual": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "bytes": 38869,
+        "exists": true,
+        "sha_match": true,
+        "available_from_dispatch_index": 0,
+        "material_identity": "synthetic",
+        "provenance": "synthetic_ready",
+        "artifact_role": "input_material",
+        "source_message_ids": [
+          "conv_1702b763a7ee:b317dd3c"
+        ],
+        "historical_byte_identity_verified": false,
+        "resource_group_id": "res_d0825917d3d7d6694f6f",
+        "asset_id": "conv_1702b763a7ee:res_d0825917d3d7d6694f6f__file_bd2d84054c0c",
+        "sha256": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "origin_type": "captured_existing_material",
+        "presence_sha_verified": true,
+        "historical_execution_verified": false,
+        "workspace_relative": "inputs/73893ac15fed/IMG_6961.jpeg"
+      },
+      {
+        "source_id": "conv_1702b763a7ee",
+        "resource_id": "res_d7aa461e6201c448da67__file_c476d37d979d",
+        "name": "IMG_6961.jpeg",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\objects\\eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed\\IMG_6961.jpeg",
+        "mount": "合成待核输入/IMG_6961.jpeg",
+        "sha256_declared": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "sha256_actual": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "bytes": 38869,
+        "exists": true,
+        "sha_match": true,
+        "available_from_dispatch_index": 0,
+        "material_identity": "synthetic",
+        "provenance": "synthetic_ready",
+        "artifact_role": "input_material",
+        "source_message_ids": [
+          "conv_1702b763a7ee:b317dd3c"
+        ],
+        "historical_byte_identity_verified": false,
+        "resource_group_id": "res_d7aa461e6201c448da67",
+        "asset_id": "conv_1702b763a7ee:res_d7aa461e6201c448da67__file_c476d37d979d",
+        "sha256": "eb113a1d60d1ec6f863b82d122d8547a8986986f9aebc5800134bb70f09632ed",
+        "origin_type": "captured_existing_material",
+        "presence_sha_verified": true,
+        "historical_execution_verified": false,
+        "workspace_relative": "inputs/21dd03792078/IMG_6961.jpeg"
+      }
+    ],
+    "tool_catalog": {
+      "python": "Python on fresh source-owned file copies. cwd=WORKSPACE. Inputs have explicit workspace_relative paths in asset catalog; outputs/ is writable. Put assertions in code; declared check strings do not execute themselves. No historical process/service restoration; no network capabilities claimed.",
+      "inspect": "Actual file parser. XLSX: sheet names, shape, merged cells, sample first16 rows/18 columns and whole-book formula counts. PDF: extracted text. Text/JSON/CSV/MD/XML/PY/YAML: UTF-8 text. PNG/JPG: dimensions only, no OCR. Other formats: bytes/hash only. Parsing is not fulfilment verification.",
+      "history": "Read complete paired user and all corresponding public assistant segments; source reconstruction is not native historical event authentication.",
+      "READ": "Read actual allowed source turns or frozen capability docs. No hidden probe, formal evaluation or external source discovery.",
+      "INSPECT": "Actual parsing of source-owned file copies. Preserve material identity such as synthetic recovery.",
+      "REPLAY": "Run exactly recorded historical Python on source-owned copies. Historical source text is verified; historical execution state is not restored.",
+      "TRY": "Run proposed single repair or baseline/variant from independent fresh copies with explicit checks. Nonzero code exit is a learnable observation, not infrastructure failure."
+    },
+    "action_count": 5,
+    "max_actions": 12
+  },
+  "observed_post_target_event": {
+    "action_index": 6,
+    "action_id": "try_w1_generality_conv1702b763a7ee",
+    "proposal_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\proposals\\0006.json",
+    "proposal_sha256": "2d7dcd882bef61d3ae6a2f7ef55769a3dedf3f6a23b89466474156c357ca6e3a",
+    "status": "OBSERVED",
+    "observation": {
+      "execution_id": "conv_1702b763a7ee:try_w1_generality_conv1702b763a7ee",
+      "source_id": "conv_1702b763a7ee",
+      "tool": "TRY",
+      "actual": true,
+      "exit_code": 0,
+      "branches": [
+        {
+          "execution_id": "conv_1702b763a7ee:try_w1_generality_conv1702b763a7ee:repair",
+          "source_id": "conv_1702b763a7ee",
+          "tool": "python",
+          "actual": true,
+          "exit_code": 0,
+          "stdout": "{\"ok\": true, \"post_money\": 4000.0, \"new_registered\": 666.6666666666666, \"capital_reserve\": 333.33333333333337, \"negative_raised\": true}\r\n",
+          "stderr": "",
+          "script_path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_generality_conv1702b763a7ee\\repair\\probe.py",
+          "script_sha256": "548e12c38fca8dfe2ec28af0af4a28f636d943c7a9e88f672716e6b112d55f4d",
+          "products": [
+            {
+              "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_generality_conv1702b763a7ee\\repair\\workspace\\outputs\\valuation_generality_check.json",
+              "relative_path": "outputs/valuation_generality_check.json",
+              "sha256": "4067738e738960899baef1601082d01a27df9a56ed31f8a94ea6daa3193be635",
+              "bytes": 526
+            }
+          ],
+          "wall_seconds": 0.219,
+          "validation_scope": "Actual local Python exit; assertions are code-authored, not independently calibrated business verification",
+          "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_generality_conv1702b763a7ee\\repair\\observation.json"
+        }
+      ],
+      "known_dependency_closure": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "same_input_versions": false,
+      "historical_restore_claimed": false,
+      "validation_scope": "Actual bounded source-copy Python; code exit/check strings do not certify task fulfilment or causality",
+      "wall_seconds": 0.25,
+      "tool_return_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\M4\\try_w1_generality_conv1702b763a7ee\\observation.json",
+      "tool_return_sha256": "df2b90f58e3b21cc0606b8e60bf5b90686b5c844cd43a7cff3568ed58eda8026"
+    }
+  },
+  "post_target_event_not_added_to_target_input": true,
+  "event_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_1702b763a7ee\\events.jsonl",
+    "bytes": 7512,
+    "sha256": "f392f6c5b240b30d35b7c50966d6ff8af1b4de82db1902cfa2358e475e2799cb"
+  },
+  "event_match_basis": "exact proposal SHA + parsed JSON equality + unique action ID",
+  "request_identity": "exact captured request SHA and decoded JSON equality",
+  "original_action_kind": "TRY",
+  "body_code_sha256": "6148459a5481d8426a1b56a7ae191e7968c0668b94769546a0f1a98d5d2e3b05",
+  "evidence_credit": {
+    "SOURCE_FAITHFUL": "REQUIRES_CLAIM_SPECIFIC_REVIEW",
+    "LOCAL_EXECUTABLE": "NOT_INFERRED_FROM_APPLIED",
+    "CASE_VERIFIED": "NOT_PROVEN_BY_STRUCTURE",
+    "UTILITY_SUPPORTED": false,
+    "native_dispatch": false
+  },
+  "current_default_action_loss": 0,
+  "new_R_credit_this_join": 0,
+  "training_started": false
+}

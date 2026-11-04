@@ -1,0 +1,241 @@
+{
+  "status": "INDEPENDENT_RESOURCE_REPAIR_RUNTIME_TESTS_PASS_NOT_BUSINESS_APPROVAL",
+  "image": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+  "functional_tree": {
+    "SKILL.md": "0cf830281a98e4a3a650635c5f3095101317db0020007aa814d7fcd1d1b5fac4",
+    "assets/scaffold.js": "0cae30afb3675a51bed3ba30714e989cbeae11d95598988e7de3627079bc6751",
+    "examples/ball_bounce/config.json": "2e3ae1471d6eba20c3e9afa55f3fbf16c7e9fa911477e82df2af41e7f34199b6",
+    "examples/ball_bounce/topic.js": "86dbdda38adf3819d3c04c1f2fec76e02c1af677abf21d1245a9b05abe7e3a89",
+    "scripts/gen_animation.py": "78d353e8516e6b5d8c7f7c45cbcb2ece268ec7bef95d7045be0630acd8176146",
+    "scripts/verify_animation.mjs": "3878a16f6e082a229d2ba674b7aa93e4b8fa9809ddbad2aafc4b941939fbb43e"
+  },
+  "original_8_test_script_sha256_unchanged": "90689499450bcbfdda7b3b323492e3bd5fe5f81e22e9f0efd74c7e4f375bdb97",
+  "actual": {
+    "original_eight": {
+      "pass": 8,
+      "total": 8
+    },
+    "original_five_static_bad_inputs_unchanged_expectations": true,
+    "original_runtime_bad_topic_generates_then_explicit_error_layer": true,
+    "independent_renamed_false_resume_canary_rejected": true,
+    "independent_browser_and_two_different_ball_parameters": true,
+    "extra": [
+      {
+        "kind": "independent_browser",
+        "name": "maker.html",
+        "times": {
+          "a": 0.2,
+          "b": 0.5,
+          "c": 0.6,
+          "d": 0.6,
+          "e": 0.7,
+          "f": 1.1,
+          "g": 0.1,
+          "h": 0.5
+        },
+        "ok": true
+      },
+      {
+        "kind": "independent_browser",
+        "name": "ball.html",
+        "times": {
+          "a": 0.2,
+          "b": 0.5,
+          "c": 0.6,
+          "d": 0.6,
+          "e": 0.7,
+          "f": 1.1,
+          "g": 0.1,
+          "h": 0.5
+        },
+        "ok": true
+      },
+      {
+        "kind": "independent_parameter_variant",
+        "height": 1.2,
+        "mass": 0.8,
+        "start": 1.2,
+        "first": 1.2,
+        "min": 0,
+        "max": 1.2,
+        "contact": 58,
+        "bounced": true,
+        "ok": true
+      },
+      {
+        "kind": "independent_parameter_variant",
+        "height": 2.4,
+        "mass": 2,
+        "start": 2.4,
+        "first": 2.4,
+        "min": 0,
+        "max": 2.4,
+        "contact": 82,
+        "bounced": true,
+        "ok": true
+      },
+      {
+        "kind": "original_runtime_failure_layer",
+        "text": "启动失败: 缺少 physics.mass",
+        "ok": true
+      }
+    ],
+    "commands": [
+      {
+        "label": "EXACT_UNCHANGED_EIGHT_CONTRACT_TESTS",
+        "argv": [
+          "/opt/eval-venv/bin/python",
+          "/workspace/inputs/independent/repair_contract_tests.py"
+        ],
+        "rc": 0,
+        "stdout": "{\"pass\": 8, \"total\": 8}\n",
+        "stderr": ""
+      },
+      {
+        "label": "old_missing_canvas",
+        "argv": [
+          "/opt/eval-venv/bin/python",
+          "/workspace/outputs/skill/scripts/gen_animation.py",
+          "--config",
+          "/workspace/inputs/original_maker/fixtures/results/bad1.json",
+          "--topic",
+          "/workspace/outputs/fixtures/skating/topic.js",
+          "--scaffold",
+          "/workspace/outputs/skill/assets/scaffold.js",
+          "--out",
+          "/workspace/independent_results/old_missing_canvas.html"
+        ],
+        "rc": 2,
+        "stdout": "",
+        "stderr": "gen_animation: 错误: config 缺少必需字段 canvas(对象)\n",
+        "independent_ok": true
+      },
+      {
+        "label": "old_bad_JSON",
+        "argv": [
+          "/opt/eval-venv/bin/python",
+          "/workspace/outputs/skill/scripts/gen_animation.py",
+          "--config",
+          "/workspace/inputs/original_maker/fixtures/results/bad2.json",
+          "--topic",
+          "/workspace/outputs/fixtures/skating/topic.js",
+          "--scaffold",
+          "/workspace/outputs/skill/assets/scaffold.js",
+          "--out",
+          "/workspace/independent_results/old_bad_JSON.html"
+        ],
+        "rc": 2,
+        "stdout": "",
+        "stderr": "gen_animation: 错误: config 不是合法JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\n",
+        "independent_ok": true
+      },
+      {
+        "label": "old_negative_height",
+        "argv": [
+          "/opt/eval-venv/bin/python",
+          "/workspace/outputs/skill/scripts/gen_animation.py",
+          "--config",
+          "/workspace/inputs/original_maker/fixtures/results/bad3.json",
+          "--topic",
+          "/workspace/outputs/fixtures/skating/topic.js",
+          "--scaffold",
+          "/workspace/outputs/skill/assets/scaffold.js",
+          "--out",
+          "/workspace/independent_results/old_negative_height.html"
+        ],
+        "rc": 2,
+        "stdout": "",
+        "stderr": "gen_animation: 错误: config canvas.height 必须是正整数, 实际: -5\n",
+        "independent_ok": true
+      },
+      {
+        "label": "old_no_TopicSim",
+        "argv": [
+          "/opt/eval-venv/bin/python",
+          "/workspace/outputs/skill/scripts/gen_animation.py",
+          "--config",
+          "/workspace/outputs/fixtures/skating/config.json",
+          "--topic",
+          "/workspace/inputs/original_maker/fixtures/results/bad_topic.js",
+          "--scaffold",
+          "/workspace/outputs/skill/assets/scaffold.js",
+          "--out",
+          "/workspace/independent_results/old_no_TopicSim.html"
+        ],
+        "rc": 3,
+        "stdout": "",
+        "stderr": "gen_animation: 错误: topic 模块必须定义 window.TopicSim.create(...)\n",
+        "independent_ok": true
+      },
+      {
+        "label": "old_missing_config",
+        "argv": [
+          "/opt/eval-venv/bin/python",
+          "/workspace/outputs/skill/scripts/gen_animation.py",
+          "--config",
+          "/workspace/independent_results/absent.json",
+          "--topic",
+          "/workspace/outputs/fixtures/skating/topic.js",
+          "--scaffold",
+          "/workspace/outputs/skill/assets/scaffold.js",
+          "--out",
+          "/workspace/independent_results/old_missing_config.html"
+        ],
+        "rc": 2,
+        "stdout": "",
+        "stderr": "gen_animation: 错误: config 文件不存在: /workspace/independent_results/absent.json\n",
+        "independent_ok": true
+      },
+      {
+        "label": "INDEPENDENT_RENAMED_RESUME_CANARY",
+        "argv": [
+          "node",
+          "/workspace/outputs/skill/scripts/verify_animation.mjs",
+          "/workspace/independent_results/renamed_independent_artifact_7421.html",
+          "--out",
+          "/workspace/independent_results/independent_canary.json",
+          "--screenshot",
+          "/workspace/independent_results/independent_canary.png"
+        ],
+        "rc": 1,
+        "stdout": "{\n  \"url\": \"file:///workspace/independent_results/renamed_independent_artifact_7421.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 21,\n      \"f2\": 69\n    },\n    \"播放中画面内容变化\": true,\n    \"HUD 时间推进\": {\n      \"t1\": 1.4,\n      \"t2\": 2\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2,\n      \"pt2\": 2\n    },\n    \"继续后恢复播放\": false,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": false,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/independent_canary.png\"\n  },\n  \"ok\": false,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/independent_canary.png\"\n}\n",
+        "stderr": ""
+      },
+      {
+        "label": "ORIGINAL_RUNTIME_BAD_TOPIC_GENERATION",
+        "argv": [
+          "/opt/eval-venv/bin/python",
+          "/workspace/outputs/skill/scripts/gen_animation.py",
+          "--config",
+          "/workspace/outputs/fixtures/skating/config.json",
+          "--topic",
+          "/workspace/inputs/original_maker/fixtures/results/bad_runtime_topic.js",
+          "--scaffold",
+          "/workspace/outputs/skill/assets/scaffold.js",
+          "--out",
+          "/workspace/independent_results/original_runtime_error.html"
+        ],
+        "rc": 0,
+        "stdout": "gen_animation: 已生成 /workspace/independent_results/original_runtime_error.html (9634 字节)\n",
+        "stderr": ""
+      },
+      {
+        "label": "INDEPENDENT_BROWSER_AND_TWO_PARAMETER_VARIANTS",
+        "argv": [
+          "node",
+          "/workspace/independent_extra.mjs"
+        ],
+        "rc": 0,
+        "stdout": "[{\"kind\":\"independent_browser\",\"name\":\"maker.html\",\"times\":{\"a\":0.2,\"b\":0.5,\"c\":0.6,\"d\":0.6,\"e\":0.7,\"f\":1.1,\"g\":0.1,\"h\":0.5},\"ok\":true},{\"kind\":\"independent_browser\",\"name\":\"ball.html\",\"times\":{\"a\":0.2,\"b\":0.5,\"c\":0.6,\"d\":0.6,\"e\":0.7,\"f\":1.1,\"g\":0.1,\"h\":0.5},\"ok\":true},{\"kind\":\"independent_parameter_variant\",\"height\":1.2,\"mass\":0.8,\"start\":1.2,\"first\":1.2,\"min\":0,\"max\":1.2,\"contact\":58,\"bounced\":true,\"ok\":true},{\"kind\":\"independent_parameter_variant\",\"height\":2.4,\"mass\":2,\"start\":2.4,\"first\":2.4,\"min\":0,\"max\":2.4,\"contact\":82,\"bounced\":true,\"ok\":true},{\"kind\":\"original_runtime_failure_layer\",\"text\":\"启动失败: 缺少 physics.mass\",\"ok\":true}]\n",
+        "stderr": ""
+      }
+    ],
+    "physics_or_pedagogy_expert_gold": false,
+    "business_consumption_or_retention_approval": false
+  },
+  "runtime_seconds": 69.5487196999602,
+  "energy_and_cash_cost_unknown_not_zero": true,
+  "original_skill_bytes_unchanged": true,
+  "new_model_calls": 0,
+  "new_native_Agent_sessions": 0
+}

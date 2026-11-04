@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wrd:quality-cost-ledger:v1",
+  "title": "WRD quality and cost ledger definition; not experimental results",
+  "description": "Plan-only schema. Filled ledgers may contain restricted evidence and must be kept separately; this public plan contains no filled enterprise records. Unknown quantities and prices remain null.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_id", "currency", "events", "qualifications", "accounting_rules"],
+  "properties": {
+    "schema_version": {"const": "wrd-quality-cost-ledger-v1"},
+    "experiment_id": {"type": "string"},
+    "currency": {"type": ["string", "null"], "description": "Do not mix currencies without explicit dated exchange rates."},
+    "events": {"type": "array", "items": {"$ref": "#/$defs/event"}},
+    "qualifications": {"type": "array", "items": {"$ref": "#/$defs/qualification"}},
+    "accounting_rules": {
+      "type": "object",
+      "required": ["dedup_by_actual_event_id", "unknown_is_not_zero", "shared_weights_sum_to_one", "all_assigned_failures_in_numerator", "zero_KG_has_no_finite_CPQS"],
+      "properties": {
+        "dedup_by_actual_event_id": {"const": true},
+        "unknown_is_not_zero": {"const": true},
+        "shared_weights_sum_to_one": {"const": true},
+        "all_assigned_failures_in_numerator": {"const": true},
+        "zero_KG_has_no_finite_CPQS": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "nullable_nonnegative": {"type": ["number", "null"], "minimum": 0},
+    "nullable_count": {"type": ["integer", "null"], "minimum": 0},
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "phase", "arm", "assigned_source_group_id", "attempt", "status", "accounting_completeness", "measurements", "money", "allocations"],
+      "properties": {
+        "event_id": {"type": "string", "description": "Unique actual cost event; reused references must not duplicate its amount."},
+        "phase": {"enum": ["shared_data_prep", "model_compile", "profiling", "smoke_training", "main_training", "hyperparameter_selection", "screening", "making", "resource_reproduction", "resource_revision", "qualification_consumer", "qualification_judge", "human_review", "teacher_fallback", "post_delivery_use"]},
+        "arm": {"enum": ["shared", "N", "T", "B8", "S8", "B14", "S14", "S8_with_teacher_fallback", "S14_with_teacher_fallback"]},
+        "assigned_source_group_id": {"type": ["string", "null"], "description": "Anonymous study ID; no real enterprise identifiers in public output."},
+        "skill_version_id": {"type": ["string", "null"]},
+        "attempt": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["completed", "failed", "interrupted", "not_started_confirmed", "unknown"]},
+        "reused_from_event_id": {"type": ["string", "null"]},
+        "start_utc": {"type": ["string", "null"], "format": "date-time"},
+        "end_utc": {"type": ["string", "null"], "format": "date-time"},
+        "evidence_ref_restricted": {"type": ["string", "null"], "description": "Store actual private evidence references outside this public plan."},
+        "accounting_completeness": {"enum": ["complete", "partial", "unknown", "confirmed_no_execution"]},
+        "measurements": {
+          "type": "object",
+          "properties": {
+            "wall_seconds": {"$ref": "#/$defs/nullable_nonnegative"},
+            "device_hours": {"$ref": "#/$defs/nullable_nonnegative"},
+            "whole_system_energy_kwh": {"$ref": "#/$defs/nullable_nonnegative"},
+            "energy_measurement_scope": {"type": ["string", "null"]},
+            "human_minutes": {"$ref": "#/$defs/nullable_nonnegative"},
+            "model_input_tokens": {"$ref": "#/$defs/nullable_count"},
+            "cached_input_tokens": {"$ref": "#/$defs/nullable_count"},
+            "model_output_tokens": {"$ref": "#/$defs/nullable_count"},
+            "training_processed_tokens": {"$ref": "#/$defs/nullable_count"},
+            "training_supervised_tokens": {"$ref": "#/$defs/nullable_count"},
+            "training_padding_tokens": {"$ref": "#/$defs/nullable_count"},
+            "optimizer_steps": {"$ref": "#/$defs/nullable_count"},
+            "actual_model_requests": {"$ref": "#/$defs/nullable_count"},
+            "unknown_usage_requests": {"$ref": "#/$defs/nullable_count"},
+            "pytorch_peak_allocated_bytes": {"$ref": "#/$defs/nullable_nonnegative"},
+            "pytorch_peak_reserved_bytes": {"$ref": "#/$defs/nullable_nonnegative"},
+            "minimum_system_available_bytes": {"$ref": "#/$defs/nullable_nonnegative"},
+            "swap_growth_bytes": {"$ref": "#/$defs/nullable_nonnegative"}
+          }
+        },
+        "money": {
+          "type": "object",
+          "required": ["cash_total", "economic_total", "known_lower_bound", "price_basis_ref", "device_rate_includes_electricity"],
+          "properties": {
+            "cash_total": {"$ref": "#/$defs/nullable_nonnegative"},
+            "economic_total": {"$ref": "#/$defs/nullable_nonnegative"},
+            "known_lower_bound": {"$ref": "#/$defs/nullable_nonnegative"},
+            "price_basis_ref": {"type": ["string", "null"]},
+            "device_rate_includes_electricity": {"type": ["boolean", "null"]}
+          }
+        },
+        "allocations": {
+          "type": "array",
+          "description": "Weights sum to one per actual event, accounting view and scenario. Each standalone model deployment is a separate scenario. Counterfactual alternatives must not be added to actual expenditure.",
+          "items": {
+            "type": "object",
+            "required": ["arm", "weight", "view", "scenario_id"],
+            "properties": {
+              "arm": {"type": "string"},
+              "weight": {"type": "number", "minimum": 0, "maximum": 1},
+              "view": {"enum": ["actual_experiment", "standalone_deployment_counterfactual", "fallback_policy_counterfactual"]}
+              ,"scenario_id": {"type": "string", "description": "One actual experiment scenario; separate IDs for standalone or fallback alternatives."}
+            }
+          }
+        }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["arm", "assigned_source_group_id", "final_skill_version_id", "KQ", "KR", "KG", "status", "consumer_slots_assigned", "consumer_slots_started", "score_status", "cost_complete"],
+      "properties": {
+        "arm": {"enum": ["T", "B8", "S8", "B14", "S14", "S8_with_teacher_fallback", "S14_with_teacher_fallback"]},
+        "assigned_source_group_id": {"type": "string"},
+        "final_skill_version_id": {"type": ["string", "null"]},
+        "KQ": {"type": ["boolean", "null"]},
+        "KR": {"type": ["boolean", "null"]},
+        "KG": {"type": ["boolean", "null"], "description": "Three-valued AND(KQ, KR): any false -> false; both true -> true; otherwise null. Confirmed upstream making failure with no skill gives false. At most one final skill per arm/source; semantic cross-field validation required."},
+        "status": {"enum": ["qualified", "not_qualified", "pending", "upstream_making_failed"]},
+        "consumer_slots_assigned": {"type": "integer", "minimum": 0},
+        "consumer_slots_started": {"type": "integer", "minimum": 0},
+        "score_status": {"enum": ["scored_calibrated", "scored_exploratory", "no_artifact", "unscored_technical", "pending"]},
+        "quality_by_task": {"type": "array", "items": {"type": "object", "properties": {"anonymous_task_id": {"type": "string"}, "TSR": {"type": ["boolean", "null"]}, "Q": {"type": ["number", "null"], "minimum": 0, "maximum": 100}, "dimensions": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"type": ["number", "null"], "minimum": 0, "maximum": 100}}}}},
+        "resource_reliable": {"type": ["boolean", "null"]},
+        "resource_actually_used": {"type": ["boolean", "null"]},
+        "all_current_tasks_delivered": {"type": ["boolean", "null"]},
+        "cost_complete": {"type": "boolean"},
+        "all_attempt_business_tokens": {"$ref": "#/$defs/nullable_count"},
+        "all_attempt_business_calls": {"$ref": "#/$defs/nullable_count"},
+        "deduplicated_no_skill_tokens": {"$ref": "#/$defs/nullable_count"},
+        "deduplicated_no_skill_calls": {"$ref": "#/$defs/nullable_count"},
+        "failure_reasons": {"type": "array", "items": {"type": "string"}},
+        "actual_author": {"enum": ["T", "B8", "S8", "B14", "S14", "none", "unknown"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":"Now"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" syntax"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" check"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" and"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" first"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" real"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" test"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" on"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" the"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" actual"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":" PDF"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"reasoning_content":"."},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"call54ab856008914a50bd368a8a5e25348b","type":"function","function":{"name":"exec","arguments":"{\"command\":\"cd /workspace/outputs/skill/scripts && python3 -c \\\"import ast; [ast.parse(open(f).read()) for f in ('cvlib.py','cv_extract.py','evidence_check.py')]; print('syntax ok')\\\" && python3 cv_extract.py /workspace/inputs/task/materials/e474a80615c085d4.pdf --json /workspace/tmp/test_real_extract.json > /dev/null; echo \\\"exit=$?\\\"; python3 -c \\\"\\nimport json\\nr = json.load(open('/workspace/tmp/test_real_extract.json'))\\nres = r['results'][0]\\nprint('candidate_id:', res['candidate_id'], 'pages:', res['page_count'], 'errors:', r['errors'])\\nprint('identity_lines:', res['identity_lines'][:3])\\nprint('watermark removed:', all('8b35b455' not in p['text'] for p in res['pages']))\\n\\\"\"}"}}]},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793076911435","object":"chat.completion.chunk","created":1793076911,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+

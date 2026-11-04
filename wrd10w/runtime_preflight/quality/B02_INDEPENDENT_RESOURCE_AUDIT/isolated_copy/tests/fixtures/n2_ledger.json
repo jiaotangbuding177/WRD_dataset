@@ -1,0 +1,174 @@
+{
+  "schema": "wrd-fact-ledger-v1",
+  "ledger_id": "demo_ledger",
+  "_note": "测试虚构样本，非真实业务来源",
+  "facts": [
+    {
+      "fact_id": "G001",
+      "fact_type": "planned_goal",
+      "claim": "预计五年到款总目标500万元",
+      "value": "500",
+      "unit": "万元",
+      "subject": "五年到款总目标(预计)",
+      "qualifiers": "预计/目标",
+      "explicit_user": true,
+      "must_keep": true,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_1",
+          "quote": "预计五年总目标500万元"
+        }
+      ]
+    },
+    {
+      "fact_id": "G002a",
+      "fact_type": "planned_goal",
+      "claim": "2027年完成首批试点校签约（计划）",
+      "value": null,
+      "unit": null,
+      "subject": "首批试点校签约(计划)",
+      "time": "2027年",
+      "qualifiers": "计划",
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_1",
+          "quote": "2027年完成首批试点校签约"
+        }
+      ]
+    },
+    {
+      "fact_id": "G002b",
+      "fact_type": "planned_goal",
+      "claim": "2028年覆盖100所学校（计划）",
+      "value": "100",
+      "unit": "所学校",
+      "subject": "覆盖学校(计划)",
+      "time": "2028年",
+      "qualifiers": "计划",
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_1",
+          "quote": "2028年覆盖100所学校"
+        }
+      ]
+    },
+    {
+      "fact_id": "G003a",
+      "fact_type": "planned_goal",
+      "claim": "底线目标300万元",
+      "value": "300",
+      "unit": "万元",
+      "subject": "底线目标(预计)",
+      "qualifiers": "目标",
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_1",
+          "quote": "底线目标300万"
+        }
+      ]
+    },
+    {
+      "fact_id": "G003b",
+      "fact_type": "planned_goal",
+      "claim": "挑战目标500万元",
+      "value": "500",
+      "unit": "万元",
+      "subject": "挑战目标(预计)",
+      "qualifiers": "目标",
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_1",
+          "quote": "挑战目标500万"
+        }
+      ]
+    },
+    {
+      "fact_id": "G003c",
+      "fact_type": "planned_goal",
+      "claim": "激进目标700万元",
+      "value": "700",
+      "unit": "万元",
+      "subject": "激进目标(预计)",
+      "qualifiers": "目标",
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_1",
+          "quote": "激进目标700万"
+        }
+      ]
+    },
+    {
+      "fact_id": "N001",
+      "fact_type": "user_statement",
+      "claim": "合作单位包括北辰研究院、南江实验学校",
+      "value": null,
+      "unit": null,
+      "subject": null,
+      "qualifiers": null,
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_1",
+          "quote": "合作单位包括北辰研究院、南江实验学校"
+        }
+      ],
+      "task_switches": [
+        {
+          "switch_id": "s1",
+          "from_intent": "规划素材整编",
+          "to_intent": "一段话成稿",
+          "evidence_refs": [
+            {
+              "source_id": "demo_src_B",
+              "message_id": "demo_src_B:msg_2",
+              "quote": "整理成一段话"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fact_id": "R101",
+      "fact_type": "explicit_requirement",
+      "claim": "整理成一段话，目标口径保持预计",
+      "value": null,
+      "unit": null,
+      "subject": null,
+      "qualifiers": null,
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_B",
+          "message_id": "demo_src_B:msg_2",
+          "quote": "整理成一段话"
+        }
+      ]
+    }
+  ],
+  "derived_rules": [
+    {
+      "rule_id": "DR1",
+      "description": "官方汇报按角度归并，保留全部核心数字",
+      "basis": "derived_policy_not_explicit_user"
+    }
+  ]
+}

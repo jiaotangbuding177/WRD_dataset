@@ -1,0 +1,21 @@
+{
+  "name": "每日情报",
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 8 * * *",
+    "tz": "Asia/Shanghai"
+  },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "生成每日情报摘要。",
+    "timeoutSeconds": 900
+  },
+  "delivery": {
+    "mode": "announce"
+  },
+  "output": {
+    "format": "md",
+    "filename_pattern": "{date}-每日情报.md",
+    "output_dir": "成果文件/每日情报"
+  }
+}

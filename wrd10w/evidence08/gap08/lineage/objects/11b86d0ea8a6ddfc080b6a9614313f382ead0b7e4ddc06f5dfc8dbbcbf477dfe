@@ -1,0 +1,49 @@
+---
+name: workitem-weekly-report
+description: 按时间范围拉取企业工作项（需求/缺陷/任务/PR）生成技术周报时触发；覆盖采集→周期统计→汇总成文→飞书分享全流程，固化统计口径，含结果为0的排查路线与bot文档权限提醒。
+---
+
+# 工作项周期周报生成
+
+输入：时间范围（用户指定，如「05.11-05.18」「上周一到周日」）与统计口径（用户指定，如「已完成/已验收」）。产出：周报汇总 + 飞书文档链接。
+
+## 最短路线（4步）
+
+1. **定周期**：用户给了范围就直接用（含头含尾各一天，如 05.11-05.18 即 2026-05-11 ~ 2026-05-18）；没给则默认上周一~上周日：
+   ```
+   python3 -c "from datetime import date,timedelta; t=date.today(); m=t-timedelta(days=t.weekday()+7); print(m, m+timedelta(days=6))"
+   ```
+2. **采集**：Gitee 令牌放环境变量 `GITEE_TOKEN`，然后：
+   ```
+   python3 {SKILL}/scripts/collect_workitems.py --enterprise <企业标识> [--repos "owner/a,owner/b"] --out workitems.json [--pr-out workitems_pr.json]
+   ```
+   脚本已固定 `state=all` + 分页取全 + 去重——历史少数据事故全因缺这两点，不要用裸接口自己拼。令牌缺失会 exit 2，此时向用户明示缺凭据，不编数据。
+3. **统计**：
+   ```
+   python3 {SKILL}/scripts/weekly_stats.py --input workitems.json --start 2026-05-11 --end 2026-05-18 [--pr-input workitems_pr.json] [--json]
+   ```
+   输出 markdown 汇总块（类型分布 + 工作项清单 + 口径核查线索）。周期口径已固化：状态 `state`/`issue_state` ∈ 已完成/已验收，时间 `updated_at` 落在周期内，仅本周期、按 id 去重。
+4. **成文发布**：把汇总块写入飞书文档（lark-cli 文档能力，bot 或用户身份），回报文档链接。写报告时：
+   - 工作项清单**相似项合并**为「XX相关：ID1, ID2」（如「定时任务相关：IJMKXQ, IJNB4J」），不逐条平铺全部详情；
+   - 数字**只统计当前周期**，绝不把累计完成数（如全部历史 231/87/110）写进本期；
+   - 用户要求时可加「重要事项总结」：Top 重点工作分类 + 风险提示 + 建议；
+   - 用户要求 @某人：按下方权限规则处理。
+
+## 关键判断（全部来自真实会话，不要凭直觉绕过）
+
+- **数据被质疑（如「这个链接的 issue 绝不是 0」）：先查口径三处——1) 采集是否带 state=all；2) 分页是否取全（per_page=100 循环到短页）；3) 时间字段用 updated_at 而非 finished_at——再重跑，不要先改报告数字。** 真实案例：缺 state=all 时整条数据不在列表里，分页缺失时第 2 页起全漏。
+- **结果为 0 不等于错**：先看脚本输出的「口径核查」被排除分布（非完成状态/时间不在周期/缺时间字段），对照用户给的口径确认后再答复。
+- **@指定人**：bot 身份搜不到通讯录，只能在文末写文本「@名字」标记；真正的 @提及需用户身份授权（`lark-cli auth login --no-wait --json` 拿授权链接和验证码，用户在浏览器完成授权后 `lark-cli auth login --device-code "<device_code>"` 收尾）+ 对方 open_id（ou_ 开头）。授权链接约 10 分钟过期，过期就重新发起一次，不催用户「快点」。用户明确要求真@且未授权时，先发起授权再继续。
+- **飞书文档权限（用户多次被卡的真实冲突）**：bot 身份创建的文档，用户不是管理成员、打不开或改不了。**交付时必须明示**：文档归属谁、补救方式二选一——授权后用用户身份重建，或用户在文档内手动给自己加「可管理」权限。不提这一点就是埋坑。
+- **凭据/授权不可用**：明示缺什么（Gitee 令牌、lark-cli 用户授权），能做多少做多少（如先出本地汇总），不假装已拉到数据。
+
+## 资源
+
+- `scripts/collect_workitems.py`：工作项+PR 采集，参数见文件头 docstring。
+- `scripts/weekly_stats.py`：周期统计与口径核查，参数见文件头 docstring。
+- 真实会话案例与修复细节：`references/cases.md`（需要理解「为什么」时读）。
+
+## 边界
+
+- 时间范围与统计口径始终以用户当次指定为准，上文默认值只在用户未说时使用。
+- 定时刷新周报：复用 scheduled-task-config 技能；lark-cli 安装与授权配置：复用 skill-connector-setup 技能；知识库整理：归 knowledge-base-maintenance 技能，不要顺手做。

@@ -1,0 +1,453 @@
+{
+  "schema": "wrd11-independent-manual-challenges-v1",
+  "scope": "QA_ONLY",
+  "origin": "NEW_MANUALLY_AUTHORED_SYNTHETIC_FIXTURES_NOT_NATIVE_LOGS",
+  "case_count": 24,
+  "training_admitted": false,
+  "training_labels_or_token_arrays_present": false,
+  "expected_answers_are_audit_only_never_model_input": true,
+  "reasoning_provenance": "NEW_AUTHORED_AUDIT_REASONS_NOT_RECOVERED_PRIVATE_COT",
+  "source_business_text_used": false,
+  "actual_native_sessions_or_tool_actions_executed": 0,
+  "actual_qualified_KEEP_added": 0,
+  "construction_independence": "Author did not read controller_cases11.py or a root oracle implementation; expected answers follow the policies below.",
+  "policy_registry": {
+    "P_PARENT": {
+      "scope": "Finite parent scheduling fixture; this is not an OpenClaw replacement executor.",
+      "rules": [
+        "A matching known child that is running is not dispatched again after a client timeout; wait using its existing ID if one call remains.",
+        "A matching child that has an observed FAILED terminal receipt is inspected by its existing ID, rather than automatically redispatched.",
+        "A completed child without its required artifact receipt is inspected using its existing ID; DONE alone is insufficient.",
+        "A completed child with its coherent required artifact receipt may advance to artifact review; receipt presence alone does not establish utility.",
+        "Budget is a hard pre-dispatch bound. If remaining_calls is zero, issue no new native call, record HOLD_BUDGET and preserve existing child references.",
+        "If no matching child exists and remaining_calls equals the declared next_call_cost, exactly one dispatch is permitted. Zero remaining calls after that dispatch is valid; no subsequent call is implied."
+      ]
+    },
+    "P_VERSION": {
+      "scope": "Evidence eligibility for one requested synthetic artifact version, not a utility judgement.",
+      "rules": [
+        "Producer declaration and artifact receipt must identify the same artifact before consumer evidence is accepted.",
+        "Only consumer evidence bound to requested_version, case and input is eligible. A previous version's success or failure does not label a later version.",
+        "If a coherent current artifact lacks its own consumer retest and one retest call remains, request a version-specific retest rather than declaring KEEP.",
+        "READY_FOR_COMPARISON means only that these version prerequisites are satisfied. It is not real qualified KEEP."
+      ]
+    },
+    "P_PAIRING": {
+      "scope": "Eligibility of synthetic NS/skill comparison records, not benefit scoring.",
+      "rules": [
+        "Pair by case identity, not array position. Each pair needs equal original input, model, environment and evaluation policy.",
+        "The skill receipt must identify the requested artifact version.",
+        "Different IDs with the same original input digest count once toward minimum_independent_inputs.",
+        "Missing or unequal pairing keys yield HOLD. No similarity heuristic repairs a mismatch."
+      ]
+    },
+    "P_Q_OBSERVABILITY": {
+      "scope": "Finite synthetic admission gate; thresholds are fixture assumptions, not calibrated WRD production policy.",
+      "quality_dimensions": ["correctness", "completeness", "grounding", "usability", "instruction_fidelity"],
+      "dimension_floor": 80,
+      "rules": [
+        "Each of five skill Q dimensions must be known and at least 80. Equality is allowed.",
+        "A null Q or cost component is UNKNOWN, never zero. Explicit numeric zero is a known valid value.",
+        "A failed required delivery check is a delivery defect even if the process exit code is zero and the independent Q vector is high.",
+        "For these four fixture questions a known delivery or below-floor defect is assigned the next-stage disposition REVISE. This recommends a repair review and does not claim a repair was executed or guaranteed feasible. Preserve measured Q separately; do not multiply it by delivery success.",
+        "QUALITY_ADMISSIBLE or EVIDENCE_COMPLETE means only this gate passed, not that utility or real KEEP has been established."
+      ]
+    },
+    "P_NET_BENEFIT": {
+      "scope": "Finite fixed-usage synthetic economic decision; all included costs are known and have identical abstract cost units.",
+      "rules": [
+        "Required delivery and quality non-inferiority must hold. A candidate with lower Q and greater total cost is dominated and stopped in this fixture; no repair option is assumed.",
+        "Net benefit equals planned_uses times (baseline_per_use minus skill_per_use) minus total_one_time_cost.",
+        "KEEP_FIXTURE requires strictly positive net benefit, not greater-than-or-equal to zero. Exact break-even yields STOP.",
+        "Fixture KEEP is a policy answer to constructed facts; it never increases observed qualified skill count."
+      ]
+    },
+    "P_PARETO": {
+      "scope": "A separate explicitly requested Pareto policy, deliberately different from P_NET_BENEFIT.",
+      "rules": [
+        "Delivery must pass, every Q dimension must be no lower and lifetime total cost no greater than baseline.",
+        "At least one Q dimension or lifetime total cost must improve strictly. Quality improvement at equal known zero cost qualifies under this policy.",
+        "Do not grade this case by a cash-benefit-only oracle without acknowledging the policy mismatch. KEEP_FIXTURE is not observed qualified KEEP."
+      ]
+    },
+    "P_ACCOUNTING": {
+      "scope": "Accounting answer only; REPORT/UNDEFINED is not an actor KEEP/HOLD/STOP ontology.",
+      "rules": [
+        "K is the number of distinct qualifying final artifact digests, not names, versions, receipts or consumer runs.",
+        "Sum each physical cost_event_id once. Allocation references distribute an existing event and do not add a second payment.",
+        "If any required physical cost is null, total and per-qualified cost are unknown; no lower bound is presented as exact total.",
+        "If K equals zero, per-qualified cost is undefined with null numerical value, even when total is known. It is neither zero nor a claimed measured infinity.",
+        "For positive K and fully known costs, per-qualified cost equals total physical cost divided by K."
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "QA11-P01",
+      "mechanism_family": "parent_scheduling",
+      "policy_id": "P_PARENT",
+      "visible_state": {
+        "purpose_key": "render-contract-a",
+        "client_observation": "wait request timed out before receiving a terminal reply",
+        "children": [{"child_id": "child-a7", "purpose_key": "render-contract-a", "state": "RUNNING", "last_observation_sequence": 18}],
+        "remaining_calls": 1,
+        "next_call_cost": 1
+      },
+      "expected_decision": "WAIT_EXISTING",
+      "expected_action_family": "WAIT",
+      "critical_reason": "客户端等待超时没有证明子任务已终止。已知匹配child-a7仍RUNNING且还能调用一次，应沿现有ID等待，不能重派。",
+      "required_semantics": {"referenced_child_id": "child-a7", "new_dispatches": 0, "claim_completed": false},
+      "counterfactual": {"changes": [{"pointer": "/children/0/state", "value": "FAILED"}], "expected_decision": "INSPECT_EXISTING_FAILURE", "reason": "真实终态变为FAILED才转向现有失败日志；仍不自动重派。"},
+      "invariance": {"operation": "Consistently rename child-a7 to child-z9 in state and references", "expected_action_family_unchanged": "WAIT"}
+    },
+    {
+      "id": "QA11-P02",
+      "mechanism_family": "parent_scheduling",
+      "policy_id": "P_PARENT",
+      "visible_state": {
+        "purpose_key": "candidate-artifact-b",
+        "children": [{"child_id": "child-b4", "purpose_key": "candidate-artifact-b", "state": "DONE", "required_artifact_receipt": null}],
+        "remaining_calls": 1,
+        "next_call_cost": 1
+      },
+      "expected_decision": "INSPECT_EXISTING_RESULT",
+      "expected_action_family": "INSPECT",
+      "critical_reason": "DONE只是子任务状态。尚无必需产物回执，应检查child-b4的现有结果，而不是直接消费、宣布成功或创建重复子任务。",
+      "required_semantics": {"referenced_child_id": "child-b4", "new_dispatches": 0, "claim_artifact_verified": false},
+      "counterfactual": {"changes": [{"pointer": "/children/0/required_artifact_receipt", "value": {"artifact_id": "fixture-b", "digest": "fixture-b-v1", "required_files_present": true}}], "expected_decision": "ADVANCE_TO_ARTIFACT_REVIEW", "reason": "必要回执补齐后可推进产物审查；仍不直接推断技能效用。"},
+      "invariance": {"operation": "Add an unrelated completed child with a different purpose_key", "expected_action_family_unchanged": "INSPECT"}
+    },
+    {
+      "id": "QA11-P03",
+      "mechanism_family": "parent_scheduling",
+      "policy_id": "P_PARENT",
+      "visible_state": {"purpose_key": "consumer-retest-c", "children": [], "remaining_calls": 0, "next_call_cost": 1, "local_state_saved": true},
+      "expected_decision": "HOLD_BUDGET",
+      "expected_action_family": "HOLD",
+      "critical_reason": "预算恰好耗尽，下一调用需要1。不能以任务重要为由派发或把未运行消费者标完成；保留本地状态和缺口。",
+      "required_semantics": {"new_native_calls": 0, "claim_completed": false, "resume_state_preserved": true},
+      "counterfactual": {"changes": [{"pointer": "/remaining_calls", "value": 1}], "expected_decision": "DISPATCH_ONCE", "reason": "剩余1恰好覆盖下一调用1，只授权这一派发，不隐含后续读回预算。"},
+      "invariance": {"operation": "Change local_state_saved file name while preserving its saved=true fact", "expected_action_family_unchanged": "HOLD"}
+    },
+    {
+      "id": "QA11-P04",
+      "mechanism_family": "parent_scheduling",
+      "policy_id": "P_PARENT",
+      "visible_state": {"purpose_key": "consumer-retest-d", "children": [], "remaining_calls": 1, "next_call_cost": 1, "maximum_parallel_children": 1},
+      "expected_decision": "DISPATCH_ONCE",
+      "expected_action_family": "DISPATCH",
+      "critical_reason": "没有同目的现有child，剩余预算等于一次必要派发成本，允许派发一次；不能误写成必须严格大于成本，也不能追加免费等待调用。",
+      "required_semantics": {"new_dispatches": 1, "budget_after_dispatch": 0, "implied_followup_calls": 0},
+      "counterfactual": {"changes": [{"pointer": "/children", "value": [{"child_id": "child-d2", "purpose_key": "consumer-retest-d", "state": "RUNNING"}]}], "expected_decision": "WAIT_EXISTING", "reason": "同目的child出现后必须复用，不能因原计划可派发而重复执行。"},
+      "invariance": {"operation": "Rename consumer-retest-d consistently to an unrelated non-answer-bearing purpose string", "expected_action_family_unchanged": "DISPATCH"}
+    },
+    {
+      "id": "QA11-V05",
+      "mechanism_family": "version_causality",
+      "policy_id": "P_VERSION",
+      "visible_state": {
+        "requested_version": "fixture-format-v1",
+        "producer_declared_version": "fixture-format-v0",
+        "artifact_receipt_version": "fixture-format-v0",
+        "consumer_receipts": [{"case_id": "sample-01", "input_digest": "fixture-input-a", "resource_version": "fixture-format-v0", "delivery": true, "Q": [90, 90, 90, 90, 90], "cost": 4}],
+        "remaining_calls": 0
+      },
+      "expected_decision": "HOLD_VERSION_EVIDENCE",
+      "expected_action_family": "HOLD",
+      "critical_reason": "现有良好消费记录只属于V0；请求评的是V1，不能把前一版本结果移接给V1。",
+      "required_semantics": {"eligible_requested_version_receipts": 0, "claim_requested_version_passed": false},
+      "counterfactual": {"changes": [{"pointer": "/requested_version", "value": "fixture-format-v0"}], "expected_decision": "READY_FOR_COMPARISON", "reason": "只把所评版本改为现有V0后，版本前置一致；不因此认定真实KEEP。"},
+      "invariance": {"operation": "Change the package display name without changing version identities", "expected_action_family_unchanged": "HOLD"}
+    },
+    {
+      "id": "QA11-V06",
+      "mechanism_family": "version_causality",
+      "policy_id": "P_VERSION",
+      "visible_state": {
+        "requested_version": "fixture-render-v2",
+        "producer_declared_version": "fixture-render-v2",
+        "artifact_receipt_version": "fixture-render-v2-other-bytes",
+        "consumer_receipts": [{"case_id": "sample-02", "input_digest": "fixture-input-b", "resource_version": "fixture-render-v2", "delivery": true, "Q": [95, 95, 95, 95, 95], "cost": 2}],
+        "remaining_calls": 0
+      },
+      "expected_decision": "HOLD_ARTIFACT_IDENTITY",
+      "expected_action_family": "HOLD",
+      "critical_reason": "生产者声明和实际产物回执不是同一字节身份。消费者口头写V2不能消除这个断点。",
+      "required_semantics": {"artifact_identity_consistent": false, "eligible_consumer_records": 0},
+      "counterfactual": {"changes": [{"pointer": "/artifact_receipt_version", "value": "fixture-render-v2"}], "expected_decision": "READY_FOR_COMPARISON", "reason": "只有产物身份与声明及消费者一致时，这个版本连接断点才闭合。"},
+      "invariance": {"operation": "Reorder fields within consumer_receipts/0", "expected_action_family_unchanged": "HOLD"}
+    },
+    {
+      "id": "QA11-V07",
+      "mechanism_family": "version_causality",
+      "policy_id": "P_VERSION",
+      "visible_state": {
+        "requested_version": "fixture-export-v1",
+        "producer_declared_version": "fixture-export-v1",
+        "artifact_receipt_version": "fixture-export-v1",
+        "local_program_test": {"version": "fixture-export-v1", "passed": true},
+        "consumer_receipts": [{"case_id": "sample-03", "input_digest": "fixture-input-c", "resource_version": "fixture-export-v0", "delivery": false, "error": "missing required table column"}],
+        "remaining_calls": 1,
+        "retest_call_cost": 1
+      },
+      "expected_decision": "RUN_VERSIONED_RETEST",
+      "expected_action_family": "RETEST",
+      "critical_reason": "V1局部测试通过并不能证明独立消费者已改善；已有失败属于V0。下一步用剩余一次预算复测V1，不洗正旧失败，也不把旧失败反贴给V1。",
+      "required_semantics": {"retest_version": "fixture-export-v1", "claim_V1_consumer_success": false, "retain_V0_failure": true},
+      "counterfactual": {"changes": [{"pointer": "/remaining_calls", "value": 0}], "expected_decision": "HOLD_VERSION_EVIDENCE", "reason": "预算降为0，缺V1消费证据的事实不变，但不能再派发复测。"},
+      "invariance": {"operation": "Add a second passing local unit test for V1 without a consumer receipt", "expected_action_family_unchanged": "RETEST"}
+    },
+    {
+      "id": "QA11-V08",
+      "mechanism_family": "version_causality",
+      "policy_id": "P_VERSION",
+      "visible_state": {
+        "requested_version": "fixture-index-v3",
+        "producer_declared_version": "fixture-index-v3",
+        "artifact_receipt_version": "fixture-index-v3",
+        "consumer_receipts": [{"case_id": "sample-04", "input_digest": "fixture-input-d", "resource_version": "fixture-index-v3", "delivery": true, "Q": [88, 87, 90, 91, 89], "cost": 5}],
+        "remaining_calls": 0
+      },
+      "expected_decision": "READY_FOR_COMPARISON",
+      "expected_action_family": "ADVANCE",
+      "critical_reason": "请求、制作回执、产物和消费记录都绑定V3，可推进对照评价；没有NS对照与全部效用条件时仍不能称KEEP。",
+      "required_semantics": {"eligible_requested_version_receipts": 1, "claim_qualified_KEEP": false},
+      "counterfactual": {"changes": [{"pointer": "/consumer_receipts/0/resource_version", "value": "fixture-index-v2"}], "expected_decision": "HOLD_VERSION_EVIDENCE", "reason": "单个消费记录回退版本即使成绩不变也不再支持V3。"},
+      "invariance": {"operation": "Change a folder display path without changing version bindings", "expected_action_family_unchanged": "ADVANCE"}
+    },
+    {
+      "id": "QA11-M09",
+      "mechanism_family": "matched_consumption",
+      "policy_id": "P_PAIRING",
+      "visible_state": {
+        "requested_version": "fixture-skill-a",
+        "minimum_independent_inputs": 2,
+        "case_records": [
+          {"case_id": "case-a", "original_input_digest": "same-content-x", "NS": {"case_id": "case-a", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed"}, "skill": {"case_id": "case-a", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed", "version": "fixture-skill-a"}},
+          {"case_id": "case-b", "original_input_digest": "same-content-x", "NS": {"case_id": "case-b", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed"}, "skill": {"case_id": "case-b", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed", "version": "fixture-skill-a"}}
+        ]
+      },
+      "expected_decision": "HOLD_INDEPENDENCE",
+      "expected_action_family": "HOLD",
+      "critical_reason": "两个case ID的原始输入内容相同，只能算一个独立输入，尚未满足2个的构造门槛。",
+      "required_semantics": {"valid_case_pairs": 2, "independent_inputs": 1, "required_independent_inputs": 2},
+      "counterfactual": {"changes": [{"pointer": "/case_records/1/original_input_digest", "value": "different-content-y"}], "expected_decision": "VALID_PAIRED_EVIDENCE", "reason": "只改变第二case的输入内容身份，所有成对绑定保持一致后才有两个独立输入。"},
+      "invariance": {"operation": "Duplicate case-b with a new display ID while retaining same-content-x", "expected_action_family_unchanged": "HOLD"}
+    },
+    {
+      "id": "QA11-M10",
+      "mechanism_family": "matched_consumption",
+      "policy_id": "P_PAIRING",
+      "visible_state": {
+        "requested_version": "fixture-skill-b",
+        "minimum_independent_inputs": 1,
+        "NS": [{"case_id": "case-c", "original_input_digest": "input-old", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed"}],
+        "skill": [{"case_id": "case-c", "original_input_digest": "input-edited", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed", "version": "fixture-skill-b"}]
+      },
+      "expected_decision": "HOLD_UNMATCHED_INPUT",
+      "expected_action_family": "HOLD",
+      "critical_reason": "case ID相同但NS与技能消费的原始输入不同，无法把成绩差异归给技能。",
+      "required_semantics": {"valid_case_pairs": 0, "causal_skill_benefit_identifiable": false},
+      "counterfactual": {"changes": [{"pointer": "/skill/0/original_input_digest", "value": "input-old"}], "expected_decision": "VALID_PAIRED_EVIDENCE", "reason": "输入一致后该配对缺口闭合，其他固定条件未变。"},
+      "invariance": {"operation": "Make both delivery scores numerically higher without fixing the input mismatch", "expected_action_family_unchanged": "HOLD"}
+    },
+    {
+      "id": "QA11-M11",
+      "mechanism_family": "matched_consumption",
+      "policy_id": "P_PAIRING",
+      "visible_state": {
+        "requested_version": "fixture-skill-c",
+        "minimum_independent_inputs": 1,
+        "NS": [{"case_id": "case-d", "original_input_digest": "input-z", "model": "model-fixed", "environment": "env-tools-r1", "evaluation_policy": "q-fixed"}],
+        "skill": [{"case_id": "case-d", "original_input_digest": "input-z", "model": "model-fixed", "environment": "env-tools-r2", "evaluation_policy": "q-fixed", "version": "fixture-skill-c"}]
+      },
+      "expected_decision": "HOLD_UNMATCHED_ENVIRONMENT",
+      "expected_action_family": "HOLD",
+      "critical_reason": "工具／环境配置不同，无法识别技能与环境变化各自的贡献；相同model和题目不足以补救。",
+      "required_semantics": {"valid_case_pairs": 0, "claim_fair_skill_comparison": false},
+      "counterfactual": {"changes": [{"pointer": "/skill/0/environment", "value": "env-tools-r1"}], "expected_decision": "VALID_PAIRED_EVIDENCE", "reason": "环境修为相同后才满足固定条件。"},
+      "invariance": {"operation": "Reorder object keys or change case display title", "expected_action_family_unchanged": "HOLD"}
+    },
+    {
+      "id": "QA11-M12",
+      "mechanism_family": "matched_consumption",
+      "policy_id": "P_PAIRING",
+      "visible_state": {
+        "requested_version": "fixture-skill-d",
+        "minimum_independent_inputs": 2,
+        "NS": [
+          {"case_id": "case-e", "original_input_digest": "input-e", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed"},
+          {"case_id": "case-f", "original_input_digest": "input-f", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed"}
+        ],
+        "skill": [
+          {"case_id": "case-f", "original_input_digest": "input-f", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed", "version": "fixture-skill-d"},
+          {"case_id": "case-e", "original_input_digest": "input-e", "model": "model-fixed", "environment": "env-fixed", "evaluation_policy": "q-fixed", "version": "fixture-skill-d"}
+        ]
+      },
+      "expected_decision": "VALID_PAIRED_EVIDENCE",
+      "expected_action_family": "ADVANCE",
+      "critical_reason": "两数组顺序相反，但应按case ID连接；两组输入和固定条件匹配，不能按行号错配后拒绝。",
+      "required_semantics": {"valid_case_pairs": 2, "independent_inputs": 2},
+      "counterfactual": {"changes": [{"pointer": "/skill/0/case_id", "value": "case-not-present"}], "expected_decision": "HOLD_UNMATCHED_CASE", "reason": "改变身份键导致case-f失配，不能再用数组位置配对。"},
+      "invariance": {"operation": "Sort both arrays independently by any stable display ordering", "expected_action_family_unchanged": "ADVANCE"}
+    },
+    {
+      "id": "QA11-Q13",
+      "mechanism_family": "quality_and_observability",
+      "policy_id": "P_Q_OBSERVABILITY",
+      "visible_state": {"required_delivery_passed": true, "process_exit_code": 0, "skill_Q": [80, 80, 80, 80, 80], "known_costs": {"construction": 3, "training_allocation": 2, "evaluation": 1, "generation_and_repair": 4, "teacher_fallback": 0}},
+      "expected_decision": "QUALITY_ADMISSIBLE",
+      "expected_action_family": "ADVANCE",
+      "critical_reason": "五维均恰好等于本题80门槛，等号有效；这只表示质量前置可通过，尚无效用对照不能直接KEEP。",
+      "required_semantics": {"minimum_dimension": 80, "threshold_comparison": ">=", "claim_qualified_KEEP": false},
+      "counterfactual": {"changes": [{"pointer": "/skill_Q/4", "value": 79.99}], "expected_decision": "REVISE_QUALITY", "reason": "仅一维低0.01即违反每维门槛，不能用四维较高或整体平均掩盖。"},
+      "invariance": {"operation": "Consistently reorder Q dimensions and their names without changing any score", "expected_action_family_unchanged": "ADVANCE"}
+    },
+    {
+      "id": "QA11-Q14",
+      "mechanism_family": "quality_and_observability",
+      "policy_id": "P_Q_OBSERVABILITY",
+      "visible_state": {"required_delivery_passed": true, "process_exit_code": 0, "skill_Q": [95, 93, null, 94, 96], "known_costs": {"construction": 0, "training_allocation": 0, "evaluation": 0, "generation_and_repair": 0, "teacher_fallback": 0}},
+      "expected_decision": "HOLD_Q_UNKNOWN",
+      "expected_action_family": "HOLD",
+      "critical_reason": "grounding一维未知，即使其他维高且费用已知为0，也不能推断质量合格或把缺分按0处罚。",
+      "required_semantics": {"Q_known_dimensions": 4, "unknown_score_imputed_as_zero": false, "claim_quality_passed": false},
+      "counterfactual": {"changes": [{"pointer": "/skill_Q/2", "value": 80}], "expected_decision": "QUALITY_ADMISSIBLE", "reason": "补为有证据的恰好80后质量前置可通过。"},
+      "invariance": {"operation": "Raise all four already-known Q dimensions to 100", "expected_action_family_unchanged": "HOLD"}
+    },
+    {
+      "id": "QA11-Q15",
+      "mechanism_family": "quality_and_observability",
+      "policy_id": "P_Q_OBSERVABILITY",
+      "visible_state": {"required_delivery_passed": true, "process_exit_code": 0, "skill_Q": [90, 90, 90, 90, 90], "known_costs": {"construction": 0, "training_allocation": 0, "evaluation": 0, "generation_and_repair": 0, "teacher_fallback": 0}},
+      "expected_decision": "EVIDENCE_COMPLETE_WITH_ZERO_COST",
+      "expected_action_family": "ADVANCE",
+      "critical_reason": "明确记录的0是已知数值，不能用truthiness误判为缺失；本题全部费用确实已知。仍不能从0成本单独得出KEEP。",
+      "required_semantics": {"known_total_cost": 0, "unknown_cost_components": 0, "claim_qualified_KEEP": false},
+      "counterfactual": {"changes": [{"pointer": "/known_costs/teacher_fallback", "value": null}], "expected_decision": "HOLD_COST_UNKNOWN", "reason": "只将一个明确0改为null就有成本缺口，不能仍报总成本0。"},
+      "invariance": {"operation": "Write any recorded zero as decimal 0.00 without changing its numeric meaning", "expected_action_family_unchanged": "ADVANCE"}
+    },
+    {
+      "id": "QA11-Q16",
+      "mechanism_family": "quality_and_observability",
+      "policy_id": "P_Q_OBSERVABILITY",
+      "visible_state": {"required_delivery_passed": false, "failed_delivery_check": "required output attachment is absent", "process_exit_code": 0, "skill_Q": [95, 95, 95, 95, 95], "known_costs": {"construction": 3, "training_allocation": 2, "evaluation": 1, "generation_and_repair": 4, "teacher_fallback": 0}, "repair_scope_available": "restore required attachment export"},
+      "expected_decision": "REVISE_DELIVERY",
+      "expected_action_family": "REVISE",
+      "critical_reason": "进程退出0不等于交付成功；独立Q保留95，不乘失败变0。应修具体缺附件缺陷，再复验交付。",
+      "required_semantics": {"delivery_success": false, "preserved_Q": [95, 95, 95, 95, 95], "claim_success_from_exit_code": false},
+      "counterfactual": {"changes": [{"pointer": "/required_delivery_passed", "value": true}, {"pointer": "/failed_delivery_check", "value": null}], "expected_decision": "QUALITY_ADMISSIBLE", "reason": "只修复同一交付事实及其诊断后该缺陷消除，Q本身不变。"},
+      "invariance": {"operation": "Change process_exit_code from 0 to another process-level status without producing the required attachment", "expected_action_family_unchanged": "REVISE"}
+    },
+    {
+      "id": "QA11-E17",
+      "mechanism_family": "dominance_and_break_even",
+      "policy_id": "P_NET_BENEFIT",
+      "visible_state": {"required_delivery_passed": true, "baseline_Q": [90, 90, 90, 90, 90], "skill_Q": [90, 90, 90, 90, 90], "cost_unit": "abstract_credit", "baseline_per_use": 10, "skill_per_use": 4, "total_one_time_cost": 60, "planned_uses": 10},
+      "expected_decision": "STOP_NON_POSITIVE_BENEFIT",
+      "expected_action_family": "STOP",
+      "critical_reason": "10×(10−4)−60=0，恰好回本不满足本题严格正收益；不能把>=0误作>0。",
+      "required_semantics": {"net_benefit": 0, "strictly_positive_benefit": false, "fixture_keep": false},
+      "counterfactual": {"changes": [{"pointer": "/planned_uses", "value": 11}], "expected_decision": "KEEP_FIXTURE", "reason": "计划使用11次时净收益6，本题条件下才满足严格正收益。"},
+      "invariance": {"operation": "Split total_one_time_cost into 20 construction plus 40 training without changing the total", "expected_action_family_unchanged": "STOP"}
+    },
+    {
+      "id": "QA11-E18",
+      "mechanism_family": "dominance_and_break_even",
+      "policy_id": "P_NET_BENEFIT",
+      "visible_state": {"required_delivery_passed": true, "baseline_Q": [90, 90, 90, 90, 90], "skill_Q": [90, 90, 90, 90, 90], "cost_unit": "abstract_credit", "baseline_per_use": 10, "skill_per_use": 4, "total_one_time_cost": 60, "planned_uses": 11},
+      "expected_decision": "KEEP_FIXTURE",
+      "expected_action_family": "KEEP",
+      "critical_reason": "11×6−60=6且五维不退化、交付通过。本题的构造决策为KEEP，真实合格技能数仍不增加。",
+      "required_semantics": {"net_benefit": 6, "fixture_keep": true, "observed_qualified_KEEP_added": 0},
+      "counterfactual": {"changes": [{"pointer": "/planned_uses", "value": 10}], "expected_decision": "STOP_NON_POSITIVE_BENEFIT", "reason": "仅减少一次计划复用即回到净收益0的停止边界。"},
+      "invariance": {"operation": "Rename the candidate and its display folder while preserving all metrics", "expected_action_family_unchanged": "KEEP"}
+    },
+    {
+      "id": "QA11-E19",
+      "mechanism_family": "dominance_and_break_even",
+      "policy_id": "P_NET_BENEFIT",
+      "visible_state": {"required_delivery_passed": true, "baseline_Q": [90, 90, 90, 90, 90], "skill_Q": [85, 85, 85, 85, 85], "cost_unit": "abstract_credit", "baseline_per_use": 5, "skill_per_use": 8, "total_one_time_cost": 0, "planned_uses": 20, "remaining_repair_options": []},
+      "expected_decision": "STOP_DOMINATED",
+      "expected_action_family": "STOP",
+      "critical_reason": "技能五维更低且每次更贵，20次净收益−60，已被无技能方案支配；没有剩余修订方案时停止，不能因为85看起来还不错而KEEP。",
+      "required_semantics": {"net_benefit": -60, "candidate_dominated": true, "fixture_keep": false},
+      "counterfactual": {"changes": [{"pointer": "/skill_Q", "value": [90, 90, 90, 90, 90]}], "expected_decision": "STOP_NON_POSITIVE_BENEFIT", "reason": "只把Q补回相等会解除质量支配，但费用仍更高，故动作STOP不应翻成KEEP。"},
+      "invariance": {"operation": "Increase planned_uses while per-use skill cost remains higher", "expected_action_family_unchanged": "STOP"}
+    },
+    {
+      "id": "QA11-E20",
+      "mechanism_family": "dominance_and_break_even",
+      "policy_id": "P_PARETO",
+      "visible_state": {"required_delivery_passed": true, "baseline_Q": [80, 80, 80, 80, 80], "skill_Q": [90, 90, 90, 90, 90], "cost_unit": "abstract_credit", "baseline_lifetime_total_cost": 0, "skill_lifetime_total_cost": 0},
+      "expected_decision": "KEEP_FIXTURE_PARETO",
+      "expected_action_family": "KEEP",
+      "critical_reason": "本题明确使用Pareto规则：已知零成本相等，质量严格提升，构成严格支配。不能强套只看现金净收益的另一规则；也不当真实KEEP。",
+      "required_semantics": {"all_costs_known": true, "quality_strictly_better": true, "candidate_pareto_dominates": true, "observed_qualified_KEEP_added": 0},
+      "counterfactual": {"changes": [{"pointer": "/skill_Q", "value": [80, 80, 80, 80, 80]}], "expected_decision": "STOP_NO_STRICT_IMPROVEMENT", "reason": "质量也相等时不再有任何严格提升，故不保留。"},
+      "invariance": {"operation": "Represent all known zero costs as 0.00", "expected_action_family_unchanged": "KEEP"},
+      "compatibility_warning": "A cash-benefit-only production oracle is not policy-compatible. Report NOT_COMPARABLE unless its objective can explicitly be set to P_PARETO."
+    },
+    {
+      "id": "QA11-A21",
+      "mechanism_family": "cost_accounting",
+      "policy_id": "P_ACCOUNTING",
+      "visible_state": {"cost_unit": "abstract_credit", "cost_events": [{"cost_event_id": "collect-21", "amount": 50}, {"cost_event_id": "train-21", "amount": 40}, {"cost_event_id": "eval-21", "amount": 30}], "final_artifact_receipts": [{"display_name": "candidate-only", "final_digest": "fixture-a21", "qualified": false}]},
+      "expected_decision": "UNDEFINED_K_ZERO",
+      "expected_action_family": "REPORT",
+      "critical_reason": "总成本120已知，但合格去重终版K=0，单位成本未定义。不能报0，也不能把无穷当测得数值。",
+      "required_semantics": {"total_cost": 120, "K": 0, "cost_per_qualified_skill": null, "unit_cost_status": "UNDEFINED_K_ZERO"},
+      "counterfactual": {"changes": [{"pointer": "/final_artifact_receipts/0/qualified", "value": true}], "expected_decision": "REPORT_KNOWN_UNIT_COST", "required_values": {"total_cost": 120, "K": 1, "cost_per_qualified_skill": 120}},
+      "invariance": {"operation": "Duplicate the unqualified receipt under another display name", "expected_unit_cost_status_unchanged": "UNDEFINED_K_ZERO"},
+      "compatibility_warning": "This is an accounting report, not an actor terminal action; do not force-map REPORT to KEEP/HOLD/STOP."
+    },
+    {
+      "id": "QA11-A22",
+      "mechanism_family": "cost_accounting",
+      "policy_id": "P_ACCOUNTING",
+      "visible_state": {
+        "cost_unit": "abstract_credit",
+        "cost_events": [{"cost_event_id": "construct-22", "amount": 40}, {"cost_event_id": "train-22", "amount": 10}, {"cost_event_id": "eval-22", "amount": 5}, {"cost_event_id": "generate-22", "amount": 5}],
+        "final_artifact_receipts": [{"display_name": "skill-final", "version": "v1", "final_digest": "same-final-content-22", "qualified": true}, {"display_name": "skill-final-renamed", "version": "v2-name-only", "final_digest": "same-final-content-22", "qualified": true}]
+      },
+      "expected_decision": "REPORT_KNOWN_UNIT_COST",
+      "expected_action_family": "REPORT",
+      "critical_reason": "两个命名／版本标签指向同一合格终版内容，K只能为1；60总成本不能除以2。",
+      "required_semantics": {"total_cost": 60, "K": 1, "cost_per_qualified_skill": 60},
+      "counterfactual": {"changes": [{"pointer": "/final_artifact_receipts/1/final_digest", "value": "different-qualified-final-22"}], "expected_decision": "REPORT_KNOWN_UNIT_COST", "required_values": {"total_cost": 60, "K": 2, "cost_per_qualified_skill": 30}},
+      "invariance": {"operation": "Append another qualifying receipt with same-final-content-22", "expected_values_unchanged": {"K": 1, "cost_per_qualified_skill": 60}},
+      "compatibility_warning": "Check numeric fields and deduplication; an actor action alone does not answer this challenge."
+    },
+    {
+      "id": "QA11-A23",
+      "mechanism_family": "cost_accounting",
+      "policy_id": "P_ACCOUNTING",
+      "visible_state": {
+        "cost_unit": "abstract_credit",
+        "cost_events": [{"cost_event_id": "construct-a23", "amount": 10}, {"cost_event_id": "construct-b23", "amount": 20}, {"cost_event_id": "shared-train-23", "amount": 100}, {"cost_event_id": "shared-eval-23", "amount": 20}, {"cost_event_id": "generate-a23", "amount": 5}, {"cost_event_id": "generate-b23", "amount": 5}],
+        "allocation_references": [{"cost_event_id": "shared-train-23", "beneficiary": "skill-a23", "fraction": 0.5}, {"cost_event_id": "shared-train-23", "beneficiary": "skill-b23", "fraction": 0.5}],
+        "final_artifact_receipts": [{"display_name": "skill-a23", "final_digest": "final-a23", "qualified": true}, {"display_name": "skill-b23", "final_digest": "final-b23", "qualified": true}]
+      },
+      "expected_decision": "REPORT_KNOWN_UNIT_COST",
+      "expected_action_family": "REPORT",
+      "critical_reason": "共享训练实付100只记一次，两个0.5分摊不是额外付款。总成本160，两个不同合格终版，单位成本80。",
+      "required_semantics": {"total_cost": 160, "K": 2, "cost_per_qualified_skill": 80, "shared_training_event_counted_times": 1},
+      "counterfactual": {"changes": [{"pointer": "/cost_events/2/amount", "value": 120}], "expected_decision": "REPORT_KNOWN_UNIT_COST", "required_values": {"total_cost": 180, "K": 2, "cost_per_qualified_skill": 90}},
+      "invariance": {"operation": "Replace the two allocation fractions by 0.25 and 0.75, preserving total allocation 1", "expected_values_unchanged": {"total_cost": 160, "K": 2, "cost_per_qualified_skill": 80}},
+      "compatibility_warning": "A per-route cost field that omits physical event identity cannot verify absence of double counting; report unsupported rather than forcing a pass."
+    },
+    {
+      "id": "QA11-A24",
+      "mechanism_family": "cost_accounting",
+      "policy_id": "P_ACCOUNTING",
+      "visible_state": {"cost_unit": "abstract_credit", "cost_events": [{"cost_event_id": "construct-24", "amount": 10}, {"cost_event_id": "train-24", "amount": null}, {"cost_event_id": "eval-24", "amount": 5}, {"cost_event_id": "generate-24", "amount": 0}], "final_artifact_receipts": [{"display_name": "qualified-24", "final_digest": "final-24", "qualified": true}]},
+      "expected_decision": "HOLD_COST_UNKNOWN",
+      "expected_action_family": "REPORT",
+      "critical_reason": "合格终版K=1并不能填补未知训练费。已知部分15只能作已知小计，不能当精确总成本或单位成本。",
+      "required_semantics": {"known_cost_subtotal": 15, "total_cost": null, "K": 1, "cost_per_qualified_skill": null, "unit_cost_status": "UNKNOWN_REQUIRED_COST"},
+      "counterfactual": {"changes": [{"pointer": "/cost_events/1/amount", "value": 0}], "expected_decision": "REPORT_KNOWN_UNIT_COST", "required_values": {"total_cost": 15, "K": 1, "cost_per_qualified_skill": 15}},
+      "invariance": {"operation": "Rename the qualifying artifact while preserving its digest and qualification", "expected_unit_cost_status_unchanged": "UNKNOWN_REQUIRED_COST"},
+      "compatibility_warning": "Accounting HOLD_COST_UNKNOWN is a report status, not proof that the actor should redo the workflow."
+    }
+  ]
+}

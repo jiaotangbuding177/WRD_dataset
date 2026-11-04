@@ -1,0 +1,28 @@
+BLOCK 0:80
+We need to produce an ActionProposal. Let's think about what evidence we need.
+
+
+
+BLOCK 313:315
+
+
+
+
+BLOCK 757:1079
+2. Then TRY single_repair with a script that reads the xlsx, applies masking rule (keep first 2 + *** + last 2, names ≤2 chars → ***, dedupe collisions with suffix), and asserts checks. But careful: we need to know actual structure first. So INSPECT first.
+
+Actually we could do INSPECT then TRY. Let's do INSPECT first.
+
+
+
+BLOCK 1112:1336
+
+Then based on observation, write TRY.
+
+Let's start with INSPECT.
+
+Note: the action envelope requires action_id, kind, source_id, purpose, arguments.
+
+INSPECT arguments: {"resource_ids": [...], "property": "..."}.
+
+Let's go.

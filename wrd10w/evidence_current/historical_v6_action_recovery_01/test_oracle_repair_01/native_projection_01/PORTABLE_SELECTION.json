@@ -1,0 +1,634 @@
+{
+  "schema_version": "wrd-explicit-new-state-cumulative-R-native-edit-portable-entry-v1",
+  "status": "ACTUAL_ARRAYS_INDEPENDENT_QA_COMPLETE_SEMANTIC_PEER_AND_ROOT_PENDING",
+  "path_base": "All path fields below are POSIX relative to recovery_root. Join path parts, not Windows backslash substrings.",
+  "recovery_root_relative_to_this_entry": "../..",
+  "source_ids": [
+    "conv_b5e6f3d3bab9"
+  ],
+  "current_source_status": "TRAIN",
+  "canonical_R_owner": "historical_cumulative_R:4ecfa75943c1855d9ea5c82c",
+  "canonical_action_owner": "historical_v6:call2d5376f71b0e4c069acd230f8753db7a",
+  "R_and_A_have_different_recorded_original_owners": true,
+  "all_views_of_each_original_owner_mutually_exclusive": true,
+  "core_full_profiles_same_target_not_additive": true,
+  "profiles": {
+    "core7": {
+      "messages": {
+        "path": "test_oracle_repair_01/native_projection_01/native_oracle.core7.raw.jsonl.gz",
+        "bytes": 12886,
+        "sha256": "430e6d02d02de0d98ca40b5b92d3b1e83a0f568e4274505af2ba7038a6f06e91"
+      },
+      "compiled": {
+        "path": "test_oracle_repair_01/native_projection_01/native_oracle.core7.compiled.jsonl.gz",
+        "bytes": 25625,
+        "sha256": "83a81c88351beb1e2fe1fe91afe81e22153cdbe445d08b9652d46ca60b12a958"
+      },
+      "arrays": [
+        {
+          "path": "test_oracle_repair_01/native_projection_01/arrays/core7/input_ids.u32le.bin",
+          "bytes": 38412,
+          "sha256": "ce09704d3b1c00b8ff86433c6bd42c4ef8158600f7d3110ff0c7809d920952e7"
+        },
+        {
+          "path": "test_oracle_repair_01/native_projection_01/arrays/core7/labels.i64le.bin",
+          "bytes": 76824,
+          "sha256": "b74f3835f97454b14f629ad7188ffcef1be5f204c27c4d3cd257a5616eeebd1e"
+        },
+        {
+          "path": "test_oracle_repair_01/native_projection_01/arrays/core7/weights.f32le.bin",
+          "bytes": 38412,
+          "sha256": "5bbc803ad5d3aadf7ac728b13bd3339abe2799f96b62d3328a7de29713e2bf46"
+        }
+      ],
+      "sequences": 1,
+      "total_sequence_tokens": 9603,
+      "supervised_tokens": 866,
+      "by_component": {
+        "R": 409,
+        "A": 457
+      },
+      "loss_multiplier": 0.25,
+      "default_training_candidate": true,
+      "strict_future_serving": {
+        "profile": "core7",
+        "sequence_tokens": 9603,
+        "supervised_tokens": 866,
+        "by_component": {
+          "R": 409,
+          "A": 457
+        },
+        "both_tokenizers_exact_ids_and_offsets": true,
+        "all_three_binary_arrays_independently_equal": true,
+        "all_exclusion_overlap_tokens_zero": true,
+        "future_serving_input_tokens": 8712,
+        "reserved_output_tokens": 32768,
+        "strict_serving_total": 41480,
+        "pinned40960_fits": false,
+        "candidate64K_fits": true,
+        "candidate128K_fits": true
+      }
+    },
+    "full53": {
+      "messages": {
+        "path": "test_oracle_repair_01/native_projection_01/native_oracle.full53.raw.jsonl.gz",
+        "bytes": 39676,
+        "sha256": "9e1a5076c6c57b07eb638e294dd6d8f3766fe09b8421576d9406e19dc9078e56"
+      },
+      "compiled": {
+        "path": "test_oracle_repair_01/native_projection_01/native_oracle.full53.compiled.jsonl.gz",
+        "bytes": 78668,
+        "sha256": "0ad00a6d2bb5c9fdc923138932f7a929ba39b1d21b968bceec5aa31d5e81319b"
+      },
+      "arrays": [
+        {
+          "path": "test_oracle_repair_01/native_projection_01/arrays/full53/input_ids.u32le.bin",
+          "bytes": 138252,
+          "sha256": "9d38922285891a8c5e806c7368d26cc22f570ddee3255b4fb5e722d20adbaf74"
+        },
+        {
+          "path": "test_oracle_repair_01/native_projection_01/arrays/full53/labels.i64le.bin",
+          "bytes": 276504,
+          "sha256": "ecbeefb43b7ab42639ab33594958b4b1e5d73b5f55034fa7ec22a581411969a8"
+        },
+        {
+          "path": "test_oracle_repair_01/native_projection_01/arrays/full53/weights.f32le.bin",
+          "bytes": 138252,
+          "sha256": "378ce02caaac01a7d011cb98ef1462d131ea93ab2223f0c693afeda5b6ad2032"
+        }
+      ],
+      "sequences": 1,
+      "total_sequence_tokens": 34563,
+      "supervised_tokens": 866,
+      "by_component": {
+        "R": 409,
+        "A": 457
+      },
+      "loss_multiplier": 0.25,
+      "default_training_candidate": false,
+      "strict_future_serving": {
+        "profile": "full53",
+        "sequence_tokens": 34563,
+        "supervised_tokens": 866,
+        "by_component": {
+          "R": 409,
+          "A": 457
+        },
+        "both_tokenizers_exact_ids_and_offsets": true,
+        "all_three_binary_arrays_independently_equal": true,
+        "all_exclusion_overlap_tokens_zero": true,
+        "future_serving_input_tokens": 33672,
+        "reserved_output_tokens": 32768,
+        "strict_serving_total": 66440,
+        "pinned40960_fits": false,
+        "candidate64K_fits": false,
+        "candidate128K_fits": true
+      }
+    }
+  },
+  "original_R_identity": "ORIGINAL_RECORDED_CUMULATIVE_REASONING_CONTIGUOUS_EXCERPT_NEW_FUNCTIONAL_STATE_NOT_PER_TURN_FAITHFUL_COT",
+  "original_R_contiguous_excerpt": {
+    "start": 47691,
+    "end": 49287,
+    "characters": 1596,
+    "sha256": "e0960232a87febcc3bbd55c3b603f21c428d6b7cdca46f4afb871aea2f26ccbb",
+    "positive_characters": 1539,
+    "all_other_original_full_R_mask0_audit_only": true
+  },
+  "original_raw_sources": [
+    {
+      "role": "original_action_response",
+      "path": "original_raw/9564a152c45fec19283885c0/025/response.raw.json.gz",
+      "bytes": 2233,
+      "sha256": "4f3e68d95854bfc1eec87d9543f09649a42426e6e9e32d66ca866905161bbe72"
+    },
+    {
+      "role": "original_old_test_creator_response",
+      "path": "original_raw/9564a152c45fec19283885c0/024/response.raw.json.gz",
+      "bytes": 5181,
+      "sha256": "01283df14941b366146b66bf1790b739f7c341425db5b5d74988d7edc1ec1794"
+    },
+    {
+      "role": "original_asof_request",
+      "path": "original_raw/9564a152c45fec19283885c0/025/request.json.gz",
+      "bytes": 37296,
+      "sha256": "9ddc064690ee0350d99a6c7c7a081fae584dd53ba886481ca5c4fef7ea4dd8c9"
+    },
+    {
+      "role": "original_cumulative_R_response",
+      "path": "original_raw/9564a152c45fec19283885c0/028/response.raw.json.gz",
+      "bytes": 23166,
+      "sha256": "2ac8fa6e7f2e4a4cc5964175932c099ca2cdfa75dd31b3eb4b50e65967ce85a1"
+    }
+  ],
+  "source_state_and_ranges": {
+    "path": "test_oracle_repair_01/SOURCE_STATE_AND_RANGES.json",
+    "bytes": 8135,
+    "sha256": "09122161637344e6a6a211915e5b25ce05d008ac0fde74f4299bec78a1c38ce4"
+  },
+  "independent_token_mask_and_array_QA": {
+    "path": "test_oracle_repair_01/native_projection_01/INDEPENDENT_QA.json",
+    "bytes": 3006,
+    "sha256": "264930e38e6d243547cf61cc6ce38677db962372dad0a7aec4599a147fc5bd88"
+  },
+  "exact_current_526_positive_mask_dedup": {
+    "path": "test_oracle_repair_01/independent_qa_20261029_01/EXACT_POSITIVE_DEDUP.json",
+    "bytes": 571,
+    "sha256": "259d3d1199224c835cacf597018cc7dcaa29f901075477c1e72525a89fb07645"
+  },
+  "finite_resource_QA": {
+    "path": "test_oracle_repair_01/RESOURCE_QA.json",
+    "bytes": 1340,
+    "sha256": "8579005632a96d7e147eb2f84c05a15cfbfdb992dfc8c576024c1df0c51e4487"
+  },
+  "state_root": "test_oracle_repair_01/state_before_edit",
+  "state_files": [
+    {
+      "path": "test_oracle_repair_01/state_before_edit/inputs/task_contract.functional.json",
+      "bytes": 8296,
+      "sha256": "a510b4b0a0ee425c69a6ad110881cc5e3e8937fa420580c8a27cc394dfd36e4b"
+    },
+    {
+      "path": "test_oracle_repair_01/state_before_edit/outputs/candidate/scripts/run.py",
+      "bytes": 18136,
+      "sha256": "f3815290cc796ee2fabe92d5dc999ed0ac7bd022bf227489fee2f425138c8f69"
+    },
+    {
+      "path": "test_oracle_repair_01/state_before_edit/outputs/validation_history/edge_case_tests.py",
+      "bytes": 12269,
+      "sha256": "6d300f207207d163b8a5b8d9b0cfc731228943e07e0b66b7e493ab4260dd5469"
+    },
+    {
+      "path": "test_oracle_repair_01/state_before_edit/outputs/validation_history/previous_failed_run.json",
+      "bytes": 1324,
+      "sha256": "5daaa663a844745b6d9126aea9f4060f10b3366d937a415346ff3cd6b875d4b9"
+    }
+  ],
+  "all_actual_resource_bank_QA_files": [
+    {
+      "path": "test_oracle_repair_01/independent_qa_20261029_01/EXACT_POSITIVE_DEDUP.json",
+      "bytes": 571,
+      "sha256": "259d3d1199224c835cacf597018cc7dcaa29f901075477c1e72525a89fb07645"
+    },
+    {
+      "path": "test_oracle_repair_01/independent_qa_20261029_01/package.py",
+      "bytes": 4304,
+      "sha256": "6d14fe612bd5db7e12209edefcbc4b5e3642b0db0d34c002b5960b4ec682ae87"
+    },
+    {
+      "path": "test_oracle_repair_01/independent_qa_20261029_01/QA.json",
+      "bytes": 3006,
+      "sha256": "264930e38e6d243547cf61cc6ce38677db962372dad0a7aec4599a147fc5bd88"
+    },
+    {
+      "path": "test_oracle_repair_01/independent_qa_20261029_01/verify.py",
+      "bytes": 12654,
+      "sha256": "2c2794df7fe0f71902c2584e8d0833928d0f50ce6df95db553562ad2c0ce1a96"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/ACTIVE_FOR_DEDUP.original.json",
+      "bytes": 17885,
+      "sha256": "596a587e1fb5871560ad21950a3a432e80aa99dd0496210fcdc40b4a3e11f109"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/arrays/core7/input_ids.u32le.bin",
+      "bytes": 38412,
+      "sha256": "ce09704d3b1c00b8ff86433c6bd42c4ef8158600f7d3110ff0c7809d920952e7"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/arrays/core7/labels.i64le.bin",
+      "bytes": 76824,
+      "sha256": "b74f3835f97454b14f629ad7188ffcef1be5f204c27c4d3cd257a5616eeebd1e"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/arrays/core7/weights.f32le.bin",
+      "bytes": 38412,
+      "sha256": "5bbc803ad5d3aadf7ac728b13bd3339abe2799f96b62d3328a7de29713e2bf46"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/arrays/full53/input_ids.u32le.bin",
+      "bytes": 138252,
+      "sha256": "9d38922285891a8c5e806c7368d26cc22f570ddee3255b4fb5e722d20adbaf74"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/arrays/full53/labels.i64le.bin",
+      "bytes": 276504,
+      "sha256": "ecbeefb43b7ab42639ab33594958b4b1e5d73b5f55034fa7ec22a581411969a8"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/arrays/full53/weights.f32le.bin",
+      "bytes": 138252,
+      "sha256": "378ce02caaac01a7d011cb98ef1462d131ea93ab2223f0c693afeda5b6ad2032"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/BUILD.json",
+      "bytes": 987,
+      "sha256": "8311d67d92b49fa1bf7acdfe8e22b092b33bd982c17932076d582d8d93df92d1"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/CAUSAL_TEMPLATE.json",
+      "bytes": 4256,
+      "sha256": "e8be9d28d34e7d8438f57a04dbdc0ad64fb195032c165b285fff29f7518b0567"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/INDEPENDENT_QA.json",
+      "bytes": 3006,
+      "sha256": "264930e38e6d243547cf61cc6ce38677db962372dad0a7aec4599a147fc5bd88"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/native_oracle.core7.compiled.jsonl.gz",
+      "bytes": 25625,
+      "sha256": "83a81c88351beb1e2fe1fe91afe81e22153cdbe445d08b9652d46ca60b12a958"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/native_oracle.core7.raw.jsonl.gz",
+      "bytes": 12886,
+      "sha256": "430e6d02d02de0d98ca40b5b92d3b1e83a0f568e4274505af2ba7038a6f06e91"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/native_oracle.full53.compiled.jsonl.gz",
+      "bytes": 78668,
+      "sha256": "0ad00a6d2bb5c9fdc923138932f7a929ba39b1d21b968bceec5aa31d5e81319b"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/native_oracle.full53.raw.jsonl.gz",
+      "bytes": 39676,
+      "sha256": "9e1a5076c6c57b07eb638e294dd6d8f3766fe09b8421576d9406e19dc9078e56"
+    },
+    {
+      "path": "test_oracle_repair_01/native_projection_01/TOOLS_CAPTURE_53.json",
+      "bytes": 174763,
+      "sha256": "a47db18b7c6bafcfddfe4bce79ae68787303320225a1edf99457720ee1622345"
+    },
+    {
+      "path": "test_oracle_repair_01/RESOURCE_QA.json",
+      "bytes": 1340,
+      "sha256": "8579005632a96d7e147eb2f84c05a15cfbfdb992dfc8c576024c1df0c51e4487"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/EXECUTION_RECEIPT.json",
+      "bytes": 1060,
+      "sha256": "11bef7f50bb36a8d7348507c4878776a7a67fdda905ca15e957f8ce150301bbf"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/inputs/task_contract.functional.json",
+      "bytes": 8296,
+      "sha256": "a510b4b0a0ee425c69a6ad110881cc5e3e8937fa420580c8a27cc394dfd36e4b"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/candidate/scripts/run.py",
+      "bytes": 18136,
+      "sha256": "f3815290cc796ee2fabe92d5dc999ed0ac7bd022bf227489fee2f425138c8f69"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/edge_case_tests.py",
+      "bytes": 12435,
+      "sha256": "91ed3fe05b57b5df4d9f97c0df671c63f24e07eda6cb73508363a6a3a4901f62"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/previous_failed_run.json",
+      "bytes": 1324,
+      "sha256": "5daaa663a844745b6d9126aea9f4060f10b3366d937a415346ff3cd6b875d4b9"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_default_path.log",
+      "bytes": 1720,
+      "sha256": "d2ff0ab351973d1a1a360bc2c6dc621d420fa4c704a9ff6e6370723ae1f3156a"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_edge_basic.log",
+      "bytes": 1752,
+      "sha256": "3c4468ffbd9d7ee0ab29ef1c6b2aded4152784b5ef040e4d63bd2ff5b8155219"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_edge_collision.log",
+      "bytes": 1767,
+      "sha256": "9fdd02c60cc51221cfd75a96eb5097b32b969517c71bdd91bd0cda21395f0e63"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_edge_suffix0.log",
+      "bytes": 1759,
+      "sha256": "dd889033769b1fcc7492a901875e6dcdb2c71d68bef44bcea08ee624d02ca1b2"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_edge_transposed.log",
+      "bytes": 1771,
+      "sha256": "3b09809abb7083c9bab07314eca32114c6245989907ee853e234b0674bd788ef"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_err_bad_range.log",
+      "bytes": 289,
+      "sha256": "06aee682099f623d7876cdc4aa05e28a9ac03870258c925b3aa75e0bb4de2aa9"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_err_bad_schema.log",
+      "bytes": 275,
+      "sha256": "0a4d22b509f91294c805aec5f767a1ac54d6ac1d5f0bec642e62ecf42e2c99a8"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_err_dup_header.log",
+      "bytes": 271,
+      "sha256": "b83b9e5308e15f3082dfcd4e8761ddbf44d60bc89fa1c106b5a20edad50de47b"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_err_missing_header.log",
+      "bytes": 279,
+      "sha256": "13033420b6d0892f1eba63a39f15ec0a08f1c3d7dfac5c96d4ac7352c9587358"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_err_missing_sheet.log",
+      "bytes": 253,
+      "sha256": "321feab698f9c757654ecac13e94c7a361e995b487b783fe12b8177036ab468a"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/run_err_output_over_input.log",
+      "bytes": 265,
+      "sha256": "1587e88f0ecbd90cb2fe2f6120a1b1dc9414ade7750012e19ed80677476ac41e"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_basic.xlsx",
+      "bytes": 5397,
+      "sha256": "8b22055aa4d867893ce03975e1a5a8b20bbca3596c2842a564e04dde4ab807aa"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_basic_out.xlsx",
+      "bytes": 5381,
+      "sha256": "4171f0aafef730a9ef438a339be71cbd6795bf57a45765fa6bcca6b4771b8498"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_basic_report.json",
+      "bytes": 2673,
+      "sha256": "ee622c643f96280729f3fbdc3950c38220e73f476f241e263b2f94aacc685f21"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_collision.xlsx",
+      "bytes": 4899,
+      "sha256": "77028ca3f54b30fad39c0b0509d5342e871bbeec6b8f17d10f81891a54b08c39"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_collision_out.xlsx",
+      "bytes": 4890,
+      "sha256": "3feaa481eeeab67b362c271e76404453fbf1e3d3af4adf94bbbf900dd07865c6"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_collision_report.json",
+      "bytes": 2649,
+      "sha256": "118e23fe9e79891fbc1267c4089315f0325d00bde9cc9d51dd0b5ca3a0fee491"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_suffix0.xlsx",
+      "bytes": 4872,
+      "sha256": "8782145e9a4abf9f11a798548165fb7ef05499645d5f8e141b8ececc991e6396"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_suffix0_out.xlsx",
+      "bytes": 4863,
+      "sha256": "3e8244c5b24b4fa241e9dca42163a743cec7852893c7cdd2295d714a106e508b"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_suffix0_report.json",
+      "bytes": 2644,
+      "sha256": "f42e5eff61430bfdeaf1ff11b2b6a147fcb2bfd7b8af6a70ff074c199c769486"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_transposed.xlsx",
+      "bytes": 5058,
+      "sha256": "e943ce92138edb22d125bf4f2b86ebbb6bcef0b3f31948d42a26d75f8b6093ad"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_transposed_out.xlsx",
+      "bytes": 5038,
+      "sha256": "50f44d252d1132b159d3fcda6253689efcfbd09e11b88bd6118fe00ff782aeca"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/edge_transposed_report.json",
+      "bytes": 2677,
+      "sha256": "7ce7854f10ab385396598cfa58012b7685dba969b6831ccdec9b471879ca8b4e"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/err_dup_header.xlsx",
+      "bytes": 4883,
+      "sha256": "7c7c4e993fc8036528bcece1ec633b1fe2446c002992eaf2d3bb7c4576d780db"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_edge_basic.json",
+      "bytes": 615,
+      "sha256": "670d7152db619a14e071f192a135e3fbd25afa075658029b9410783e7746b1f9"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_edge_collision.json",
+      "bytes": 601,
+      "sha256": "ebacc4d3e36b7f427d60c86b7dc5089247d0d487323ca243a7471143b2518143"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_edge_suffix0.json",
+      "bytes": 594,
+      "sha256": "c416d8636805a48c05b669cba5c68d151569e8aad0c42c4be6645f3155f0af11"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_edge_transposed.json",
+      "bytes": 628,
+      "sha256": "5640b61b8a223d173544d81a83c6f4eb82b001f7a1d555be8dbd4f075b68afb8"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_err_bad_range.json",
+      "bytes": 579,
+      "sha256": "aa9faf20f31d5edfa8ec90fa8f7c3e2fcf562b72f4dcbf3f5af1e688e5118750"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_err_bad_schema.json",
+      "bytes": 561,
+      "sha256": "9e0c03fa1426a695c37ab505d1ab1bc1e35a8970b867ef916e64aa6f32f0c166"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_err_dup_header.json",
+      "bytes": 579,
+      "sha256": "ba051bb028ba576792cfc869b67b3996b3e969d0011fb7770d001a8445f6c012"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_err_missing_header.json",
+      "bytes": 582,
+      "sha256": "380f37f84b13798e6dc07ad8d576bdc66fecdab8f15bc0ea105448d3515f2829"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_err_missing_sheet.json",
+      "bytes": 587,
+      "sha256": "c6678a626ce7fd57ec94f9a706d658e11ef7c19aa8886f4c6f93166257171e75"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/req_err_output_over_input.json",
+      "bytes": 587,
+      "sha256": "cecf1b70938e69e57101d05ffe475a0c914a54627786c2754d3510c636b1d73c"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/reqdir/in.xlsx",
+      "bytes": 4889,
+      "sha256": "cd8096bd15c4923f1b62551cd88c928c41c9c73f68cb7b1b3c52c3e914cffb07"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/reqdir/request.json",
+      "bytes": 426,
+      "sha256": "d09e60b9b81e3374a7b471bf14f4e5eb1ccd38fb806f99acefb810f29f961bc1"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/reqdir/sub/out.xlsx",
+      "bytes": 4880,
+      "sha256": "5268d6a1176a8bd796ae1ec56da6969915cda1d078029e20e7ebebc87979a55b"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/outputs/validation_history/testdata/reqdir/sub/report.json",
+      "bytes": 2641,
+      "sha256": "9c3234ea6c432d6a9aeaadea847d7c73d13b7e46bdca6470fd363d4eadd52bef"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/qa_driver.py",
+      "bytes": 3101,
+      "sha256": "ad51fca2c666a211aa35c09e523df211133d476d5676c1cc9dc4f4ac4f2ab0b7"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/qa_private/edit.json",
+      "bytes": 1209,
+      "sha256": "525297976a2bb5c264905dce5ed45a5cf0945a0765e9aac9f5bc7f295e8a2059"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/qa_private/new_expected.py",
+      "bytes": 12435,
+      "sha256": "91ed3fe05b57b5df4d9f97c0df671c63f24e07eda6cb73508363a6a3a4901f62"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/qa_private/new_test_two_oracle_corrections.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/qa_private/new_test_two_oracle_corrections.stdout.txt",
+      "bytes": 920,
+      "sha256": "bd13f796981836db7adc9be9d3f1227550e6a15cbdab33388dd6e1454644ccf3"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/qa_private/old_test_two_oracle_failures.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/qa_private/old_test_two_oracle_failures.stdout.txt",
+      "bytes": 1001,
+      "sha256": "d21240d0679858c5033e1a794164b001c573faa3b0a67407a506eab6c51be57d"
+    },
+    {
+      "path": "test_oracle_repair_01/resource_qa_01/workspace/RESULT.json",
+      "bytes": 1034,
+      "sha256": "1a8ffe666c6da6085d6e43b26c22329cda708263f1ba002ce47c1121b6433af8"
+    },
+    {
+      "path": "test_oracle_repair_01/resources/actual_previous_failed_test_observation.json",
+      "bytes": 1324,
+      "sha256": "5daaa663a844745b6d9126aea9f4060f10b3366d937a415346ff3cd6b875d4b9"
+    },
+    {
+      "path": "test_oracle_repair_01/resources/native_edit.arguments.json",
+      "bytes": 1209,
+      "sha256": "525297976a2bb5c264905dce5ed45a5cf0945a0765e9aac9f5bc7f295e8a2059"
+    },
+    {
+      "path": "test_oracle_repair_01/resources/new_edge_case_tests.py",
+      "bytes": 12435,
+      "sha256": "91ed3fe05b57b5df4d9f97c0df671c63f24e07eda6cb73508363a6a3a4901f62"
+    },
+    {
+      "path": "test_oracle_repair_01/resources/old_edge_case_tests.py",
+      "bytes": 12269,
+      "sha256": "6d300f207207d163b8a5b8d9b0cfc731228943e07e0b66b7e493ab4260dd5469"
+    },
+    {
+      "path": "test_oracle_repair_01/resources/original_contiguous_cumulative_R_excerpt.txt",
+      "bytes": 1760,
+      "sha256": "e0960232a87febcc3bbd55c3b603f21c428d6b7cdca46f4afb871aea2f26ccbb"
+    },
+    {
+      "path": "test_oracle_repair_01/SOURCE_STATE_AND_RANGES.json",
+      "bytes": 8135,
+      "sha256": "09122161637344e6a6a211915e5b25ce05d008ac0fde74f4299bec78a1c38ce4"
+    },
+    {
+      "path": "test_oracle_repair_01/state_before_edit/inputs/task_contract.functional.json",
+      "bytes": 8296,
+      "sha256": "a510b4b0a0ee425c69a6ad110881cc5e3e8937fa420580c8a27cc394dfd36e4b"
+    },
+    {
+      "path": "test_oracle_repair_01/state_before_edit/outputs/candidate/scripts/run.py",
+      "bytes": 18136,
+      "sha256": "f3815290cc796ee2fabe92d5dc999ed0ac7bd022bf227489fee2f425138c8f69"
+    },
+    {
+      "path": "test_oracle_repair_01/state_before_edit/outputs/validation_history/edge_case_tests.py",
+      "bytes": 12269,
+      "sha256": "6d300f207207d163b8a5b8d9b0cfc731228943e07e0b66b7e493ab4260dd5469"
+    },
+    {
+      "path": "test_oracle_repair_01/state_before_edit/outputs/validation_history/previous_failed_run.json",
+      "bytes": 1324,
+      "sha256": "5daaa663a844745b6d9126aea9f4060f10b3366d937a415346ff3cd6b875d4b9"
+    }
+  ],
+  "new_functional_state_and_native_action_authored_by": "Codex AI silver curation; not original Teacher native condition",
+  "original_R_text_author": "Recorded historical teacher cumulative thought; excerpt unchanged, no new summary relabelled as original R",
+  "future_PASS_and_QA_not_in_prestate": true,
+  "complete_pipeline_demonstrations": 0,
+  "qualified_skills": 0,
+  "root_main_admission": false,
+  "ACTIVE_modified": false,
+  "training_started": false,
+  "weights_loaded": false,
+  "new_Agent_calls": 0
+}

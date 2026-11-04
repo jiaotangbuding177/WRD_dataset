@@ -1,0 +1,1 @@
+print(open('inputs/report_repair_feedback.json', encoding='utf-8').read()[:6000])

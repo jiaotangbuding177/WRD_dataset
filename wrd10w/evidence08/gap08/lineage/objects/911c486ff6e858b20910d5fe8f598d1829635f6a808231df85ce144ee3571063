@@ -1,0 +1,401 @@
+{
+  "candidate_gate": {
+    "candidate_plan_sha256": "edebbbe1729abf7d20f04e9c01d2b24db793d6f13ad7cf34cee9ac3845207159",
+    "checks": [
+      {
+        "name": "real_source_support",
+        "status": "PASS"
+      },
+      {
+        "name": "specific_reusable_resources",
+        "status": "PASS"
+      },
+      {
+        "name": "replaces_real_common_work",
+        "status": "PASS"
+      }
+    ],
+    "metrics": {
+      "common_steps": 2,
+      "performance_measured": false,
+      "proposed_resources": 1,
+      "real_sources": 2
+    },
+    "reasons": [],
+    "schema": "wrd-reuse-admission-v2",
+    "scope": "fixed independent development cases only; no formal250 or universal saving claim",
+    "status": "PASS",
+    "value_plan": {
+      "resources": [
+        {
+          "applicability": {
+            "conditions": [
+              "反馈表为可编辑文档/表格且字段位置可定位",
+              "评分结果已按细则生成"
+            ],
+            "unsupported": [
+              "打分判断本身（仍需按细则执行）",
+              "扫描件或手写批注",
+              "细则缺失时的自定标准"
+            ]
+          },
+          "fixture_refs": [
+            {
+              "message_ids": [
+                "conv_d296b8df4dfc:msg_1"
+              ],
+              "pin": {
+                "bytes": 33308,
+                "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_d296b8df4dfc\\conversation.json",
+                "sha256": "15a421d7b86b50308e23baad44bc65a899e2830a937e68c8868824e1279ea318"
+              },
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_ids": [
+                "conv_0945c1554661:msg_1"
+              ],
+              "pin": {
+                "bytes": 33404,
+                "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_0945c1554661\\conversation.json",
+                "sha256": "bd428bed7d0c19ec9bc28e3e346d3c6763b827c155ca168af3444ed537891c6a"
+              },
+              "source_id": "conv_0945c1554661"
+            }
+          ],
+          "id": "r1",
+          "input_contract": "结构化score_results（条目/分值/意见）加可编辑反馈表文件",
+          "kind": "program",
+          "operation": "替代把逐项评分与评语手工誊入反馈表再导出的重复填写工作",
+          "output_contract": "已填好评分与意见的反馈表成品文件"
+        }
+      ],
+      "reusable_steps": [
+        {
+          "action": "按给定评分细则对提交材料逐项打分并生成意见",
+          "id": "rs1",
+          "replaces": [
+            "multi_step_decision"
+          ],
+          "resource_ids": [
+            "r1"
+          ],
+          "support": [
+            {
+              "message_ids": [
+                "conv_d296b8df4dfc:msg_1"
+              ],
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_ids": [
+                "conv_0945c1554661:msg_1"
+              ],
+              "source_id": "conv_0945c1554661"
+            }
+          ]
+        },
+        {
+          "action": "把评分与意见填入既有反馈表对应位置并导出成品文件",
+          "id": "rs2",
+          "replaces": [
+            "data_processing",
+            "repeated_operation"
+          ],
+          "resource_ids": [
+            "r1"
+          ],
+          "support": [
+            {
+              "message_ids": [
+                "conv_d296b8df4dfc:msg_1",
+                "conv_d296b8df4dfc:msg_44"
+              ],
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_ids": [
+                "conv_0945c1554661:msg_1"
+              ],
+              "source_id": "conv_0945c1554661"
+            }
+          ]
+        }
+      ],
+      "schema": "wrd-reuse-value-plan-v2",
+      "source_ids": [
+        "conv_d296b8df4dfc",
+        "conv_0945c1554661"
+      ],
+      "workflow_id": "rubric-scored-feedback"
+    }
+  },
+  "category": "OFFICE",
+  "conditions": [
+    "评分标准由附件提供，不自行增设或放宽标准",
+    "评语写入用户指定的反馈表结构后导出",
+    "候选簇内 conv_fbed0e8da465 预览以股东会公证咨询为主、conv_edc9bbda3d45 为xlsx数据分析，与打分路线不一致，未选入"
+  ],
+  "conflicts": [],
+  "id": "rubric-scored-feedback",
+  "merge_context": {
+    "member_cards": [
+      {
+        "conditions": [
+          "评分标准由附件提供，不自行增设或放宽标准",
+          "评语写入用户指定的反馈表结构后导出",
+          "候选簇内 conv_fbed0e8da465 预览以股东会公证咨询为主、conv_edc9bbda3d45 为xlsx数据分析，与打分路线不一致，未选入"
+        ],
+        "conflicts": [],
+        "id": "rubric-scored-feedback",
+        "source_ids": [
+          "conv_d296b8df4dfc",
+          "conv_0945c1554661"
+        ]
+      }
+    ],
+    "merge_group": "grp-rubric-scored-feedback",
+    "scope": "Only representative selected real sources fully learned now. Other card evidence remains pending, not silently accepted as learned or broader applicability.",
+    "unlearned_source_ids": []
+  },
+  "name": "按评分细则打分填评语路线",
+  "proposal_ids": [
+    "homework-grading"
+  ],
+  "route_signature": {
+    "branches": [],
+    "confirmed": true,
+    "input_types": [
+      "rubric_document",
+      "submission_document_set",
+      "feedback_form_document"
+    ],
+    "output_types": [
+      "scored_feedback_form"
+    ],
+    "steps": [
+      {
+        "condition": null,
+        "depends_on": [],
+        "id": "s1",
+        "input_types": [
+          "rubric_document"
+        ],
+        "operation": "parse_rubric_criteria",
+        "output_types": [
+          "scoring_criteria"
+        ],
+        "source_evidence": [
+          {
+            "message_id": "conv_d296b8df4dfc:msg_1",
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_id": "conv_0945c1554661:msg_1",
+            "source_id": "conv_0945c1554661"
+          }
+        ]
+      },
+      {
+        "condition": null,
+        "depends_on": [
+          "s1"
+        ],
+        "id": "s2",
+        "input_types": [
+          "submission_document_set"
+        ],
+        "operation": "extract_submission_content",
+        "output_types": [
+          "structured_submissions"
+        ],
+        "source_evidence": [
+          {
+            "message_id": "conv_d296b8df4dfc:msg_1",
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_id": "conv_0945c1554661:msg_1",
+            "source_id": "conv_0945c1554661"
+          }
+        ]
+      },
+      {
+        "condition": "严格按给定细则打分，仅输出评分与意见，不做通过/录用决定",
+        "depends_on": [
+          "s2"
+        ],
+        "id": "s3",
+        "input_types": [
+          "scoring_criteria",
+          "structured_submissions"
+        ],
+        "operation": "score_against_criteria",
+        "output_types": [
+          "score_results"
+        ],
+        "source_evidence": [
+          {
+            "message_id": "conv_d296b8df4dfc:msg_1",
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_id": "conv_0945c1554661:msg_1",
+            "source_id": "conv_0945c1554661"
+          }
+        ]
+      },
+      {
+        "condition": "意见写入指定反馈表对应位置并按需导出副本",
+        "depends_on": [
+          "s3"
+        ],
+        "id": "s4",
+        "input_types": [
+          "score_results",
+          "feedback_form_document"
+        ],
+        "operation": "fill_feedback_form_and_export",
+        "output_types": [
+          "scored_feedback_form"
+        ],
+        "source_evidence": [
+          {
+            "message_id": "conv_d296b8df4dfc:msg_1",
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_id": "conv_d296b8df4dfc:msg_44",
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_id": "conv_0945c1554661:msg_1",
+            "source_id": "conv_0945c1554661"
+          }
+        ]
+      }
+    ]
+  },
+  "source_evidence": [
+    {
+      "message_id": "conv_d296b8df4dfc:msg_1",
+      "source_id": "conv_d296b8df4dfc"
+    },
+    {
+      "message_id": "conv_0945c1554661:msg_1",
+      "source_id": "conv_0945c1554661"
+    },
+    {
+      "message_id": "conv_d296b8df4dfc:msg_44",
+      "source_id": "conv_d296b8df4dfc"
+    }
+  ],
+  "source_ids": [
+    "conv_d296b8df4dfc",
+    "conv_0945c1554661"
+  ],
+  "value_plan": {
+    "resources": [
+      {
+        "applicability": {
+          "conditions": [
+            "反馈表为可编辑文档/表格且字段位置可定位",
+            "评分结果已按细则生成"
+          ],
+          "unsupported": [
+            "打分判断本身（仍需按细则执行）",
+            "扫描件或手写批注",
+            "细则缺失时的自定标准"
+          ]
+        },
+        "fixture_refs": [
+          {
+            "message_ids": [
+              "conv_d296b8df4dfc:msg_1"
+            ],
+            "pin": {
+              "bytes": 33308,
+              "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_d296b8df4dfc\\conversation.json",
+              "sha256": "15a421d7b86b50308e23baad44bc65a899e2830a937e68c8868824e1279ea318"
+            },
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_ids": [
+              "conv_0945c1554661:msg_1"
+            ],
+            "pin": {
+              "bytes": 33404,
+              "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_0945c1554661\\conversation.json",
+              "sha256": "bd428bed7d0c19ec9bc28e3e346d3c6763b827c155ca168af3444ed537891c6a"
+            },
+            "source_id": "conv_0945c1554661"
+          }
+        ],
+        "id": "r1",
+        "input_contract": "结构化score_results（条目/分值/意见）加可编辑反馈表文件",
+        "kind": "program",
+        "operation": "替代把逐项评分与评语手工誊入反馈表再导出的重复填写工作",
+        "output_contract": "已填好评分与意见的反馈表成品文件"
+      }
+    ],
+    "reusable_steps": [
+      {
+        "action": "按给定评分细则对提交材料逐项打分并生成意见",
+        "id": "rs1",
+        "replaces": [
+          "multi_step_decision"
+        ],
+        "resource_ids": [
+          "r1"
+        ],
+        "support": [
+          {
+            "message_ids": [
+              "conv_d296b8df4dfc:msg_1"
+            ],
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_ids": [
+              "conv_0945c1554661:msg_1"
+            ],
+            "source_id": "conv_0945c1554661"
+          }
+        ]
+      },
+      {
+        "action": "把评分与意见填入既有反馈表对应位置并导出成品文件",
+        "id": "rs2",
+        "replaces": [
+          "data_processing",
+          "repeated_operation"
+        ],
+        "resource_ids": [
+          "r1"
+        ],
+        "support": [
+          {
+            "message_ids": [
+              "conv_d296b8df4dfc:msg_1",
+              "conv_d296b8df4dfc:msg_44"
+            ],
+            "source_id": "conv_d296b8df4dfc"
+          },
+          {
+            "message_ids": [
+              "conv_0945c1554661:msg_1"
+            ],
+            "source_id": "conv_0945c1554661"
+          }
+        ]
+      }
+    ],
+    "schema": "wrd-reuse-value-plan-v2",
+    "source_ids": [
+      "conv_d296b8df4dfc",
+      "conv_0945c1554661"
+    ],
+    "workflow_id": "rubric-scored-feedback"
+  }
+}

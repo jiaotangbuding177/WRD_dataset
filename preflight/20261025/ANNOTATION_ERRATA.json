@@ -1,0 +1,37 @@
+{
+  "schema_version": "wrd-annotation-errata-v1",
+  "date": "2026-10-25",
+  "scope": "Metadata overlay; immutable historical reviews, compiled inputs and SFT artifacts remain byte-identical",
+  "corrections": [
+    {
+      "id": "c87e2acebe31b14583ca4d0f",
+      "historical_decision": "reject",
+      "effective_semantic_decision": "needs_context",
+      "reason": "Second review/adjudication incorrectly called timeout=90000 a schema maximum violation. The fixed schema has no maximum; the native description states higher waits are clamped to30000ms. Timing preference needs review; this is not a protocol-schema rejection.",
+      "evidence_path": "protocol/native_coding_tools_97a0.json",
+      "evidence_sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3",
+      "schema_json_pointer": "/6/parameters/properties/timeout",
+      "schema_has_maximum": false,
+      "final_admitted_before": false,
+      "final_admitted_after": false,
+      "requires_new_semantic_evidence_before_positive_admission": true,
+      "documented_native_clamp_ms": 30000
+    }
+  ],
+  "historical_adjudicated_counts": {
+    "pass": 250,
+    "reject": 62,
+    "needs_context": 113
+  },
+  "effective_counts_after_overlay": {
+    "pass": 250,
+    "reject": 61,
+    "needs_context": 114
+  },
+  "historical_review_not_deleted": true,
+  "final_positive_ids_masks_tokens_unchanged": true,
+  "precompile_positive_count_unchanged": 134,
+  "final_sft_count_unchanged": 93,
+  "no_retokenization_required": true,
+  "training_started": false
+}

@@ -1,0 +1,38 @@
+{
+  "task": "Create one candidate WRD skill from the single real Maker task (cv_M0: CV PDF + JD -> interview recommendation)",
+  "inputs_used": [
+    "/workspace/inputs/protocol/maker_brief.json",
+    "/workspace/inputs/task/source_input.json",
+    "/workspace/inputs/task/materials/e474a80615c085d4.pdf (2-page real CV, sha256 e474a806...18121)"
+  ],
+  "maker_task_solved_first": true,
+  "solution_artifact": "/workspace/outputs/maker_solution_cv_M0.md (per-requirement evidence table, verdict: conditional interview recommendation; salary 50-80K/Shenzhen vs 30-35K/Guangzhou mismatch flagged; robot-industry hiring case evidence absent in CV)",
+  "repeated_work_identified": [
+    "PDF bytes/page/text extraction with identity bookkeeping per candidate",
+    "content-anchored candidate identity vs filename conventions",
+    "literal quote/page validation of cited evidence"
+  ],
+  "skill_package": "/workspace/outputs/skill/",
+  "skill_contents": [
+    "SKILL.md (workflow: extract -> semantic match -> quote validation -> task-sized output; boundaries incl. no protected-attribute criteria, no auto qualification)",
+    "scripts/cvlib.py (shared extraction/quote library, explicit ExtractError)",
+    "scripts/cv_extract.py (CLI, batch, content-hash candidate_id)",
+    "scripts/evidence_check.py (CLI, claims array, page-anchored quote validation)"
+  ],
+  "design_decisions": {
+    "minimalism": "no full-ledger forcing, no classifier, no universal schema, no mandatory human-review step; report only when requested",
+    "explicit_failure": "empty/corrupt/missing/zero-page PDFs raise named errors with exit 2/3; never fabricated empty success",
+    "identity": "sha256-based candidate_id; renamed file test proves filename-independence; batch test proves no cross-mixing",
+    "semantic_split": "scripts do only mechanical extraction/validation; hiring-fit interpretation stays with the model, stated in SKILL.md"
+  },
+  "testing": "22/22 assertions pass (/workspace/tmp/test_report.txt); fixtures synthetic + renamed real copy, all outside the package",
+  "constraints_respected": {
+    "single_skill_only": true,
+    "no_consumption_cases_read": true,
+    "no_subagents_no_training": true,
+    "no_external_sends_or_publishing": true,
+    "case_material_not_in_package": true
+  },
+  "open_items": "see resource_validation.json known_limits_and_unknowns (OCR fallback unimplemented, page-boundary quotes, watermark heuristic, encrypted PDFs untested)",
+  "claims_scope": "local resource correctness only; no business benefit, retained, or semantic-correctness claims made"
+}

@@ -1,0 +1,80 @@
+BLOCK 0:210
+Let me understand the state. We have W1 created (DRAFT v1). Issue u1 OPEN: whether openpyxl available; INSPECT failed with ModuleNotFoundError. We have 5 tool calls left, 10 model calls, 2 execution branches.
+
+
+
+BLOCK 827:2170
+
+```python
+import os, sys, zipfile, re, json
+from xml.etree import ElementTree as ET
+
+WS = os.environ.get("WORKSPACE", ".")
+# find input xlsx
+cands = []
+for root, dirs, files in os.walk(WS):
+    for f in files:
+        if f.endswith(".xlsx") and not f.startswith("~$"):
+            cands.append(os.path.join(root, f))
+assert cands, "no xlsx found in workspace"
+path = sorted(cands)[0]
+print("input:", path)
+
+# probe openpyxl
+try:
+    import openpyxl
+    has_openpyxl = True
+except Exception as e:
+    has_openpyxl = False
+print("openpyxl available:", has_openpyxl)
+
+NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+      "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
+z = zipfile.ZipFile(path)
+names = z.namelist()
+assert "xl/workbook.xml" in names
+wb = ET.fromstring(z.read("xl/workbook.xml"))
+sheets = [(s.get("name"), s.get("sheetId")) for s in wb.findall(".//m:sheets/m:sheet", NS)]
+print("sheets:", sheets)
+assert len(sheets) >= 1
+# shared strings
+shared = []
+if "xl/sharedStrings.xml" in names:
+    ss = ET.fromstring(z.read("xl/sharedStrings.xml"))
+    for si in ss.findall("m:si", NS):
+        shared.append("".join(t.text or "" for t in si.iter("{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t")))
+print("shared strings:", len(shared))
+# read first sheet rows
+...
+```
+
+
+
+BLOCK 5743:5744
+
+
+
+BLOCK 9445:9843
+
+Wait: header row might not be row 0 if there are title rows. Fine.
+
+One concern: `NS = {"m": MAIN[1:-1]}` — MAIN is "{http://...}main", MAIN[1:-1] gives "http://...". Good.
+
+Also `rels` root tag is Relationships without namespace; `r.get("Id")` works.
+
+Also target may be "worksheets/sheet1.xml" relative to xl/. Handled.
+
+Also the workbook rels file might be "xl/_rels/workbook.xml.rels" — yes.
+
+
+
+BLOCK 10195:10531
+
+
+Also the file might have no sharedStrings (inline). Fine.
+
+checks list: describe assertions.
+
+Now the TRY arguments: mode single_repair, workflow_id conv_b5e6f3d3bab9_w1, step_ids ["s1"], resource_ids ["res_805618df9963d72d3961__file_e5bb9fd758ae"], existing_asset_ids [], code, checks, reusable_asset true.
+
+Let's produce the action.

@@ -1,0 +1,205 @@
+"""Offline explicit native material closure/CAS. Never walk an Agent workspace."""
+from pathlib import Path
+from datetime import datetime, timezone
+from collections import Counter
+import gzip
+import hashlib
+import json
+import re
+import shutil
+import stat
+
+ROOT=Path('D:/skillloop')
+BASE=ROOT/'output/20261027_wrd_main_v10'
+RUN=BASE/'runtime_preflight'
+OUT=Path(__file__).resolve().parent/'material_set_01'
+EPISODES=['technical_native_child_capture_probe','A_screen_narrative_01','B_make_report_01','B_make_report_02','B_revision_report_01','C_L_no_skill_01','C_L_skill_01','C_E_skill_01','C_E_no_skill_01','C_review_report_01','A_phase2_source_screen_01','B_phase2_cv_01','B_phase2_html_01','B_phase2_cv_revision_01','B_phase2_html_revision_01','C_phase2_cv_E1_no_skill_01','C_phase2_cv_E1_skill_01','C_phase2_cv_E2_skill_01','C_phase2_cv_E2_no_skill_01','C_phase2_cv_review_01']
+NEW_SIX=EPISODES[-6:]
+RECORD_SUBDIRS={'raw_recovery','file_versions_01','resource_use_01','exec_literal_versions_01','copy_seed_and_edit_01','copy_seed_and_edit_02','fixture_and_exec_versions_01'}
+DENIED_PARTS={'private','private_credential_audit','.claude','.git','sdk_traces','sdk_trace','sdk_wire','sdk_logs'}
+DENIED_SUFFIXES={'.sqlite','.sqlite3','.db','.sql','.pyc'}
+SECRET=re.compile(rb'(?i)["\x27](api[_-]?key|access[_-]?token|gateway[_-]?token|password|secret)["\x27]\s*:\s*["\x27]([^"\x27\r\n]{8,})["\x27]|authorization\s*:\s*bearer\s+([A-Za-z0-9._-]{20,})')
+
+def load(p):return json.loads(Path(p).read_text(encoding='utf-8-sig'))
+def digest(data):return hashlib.sha256(data).hexdigest()
+def sha(p):return digest(Path(p).read_bytes())
+def save(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+class Collector:
+    def __init__(self):self.entries={};self.missing=[];self.excluded=[];self.integrity=[];self.selected_jobs={};self.loaded_receipts=set()
+    def add(self,path,category,expected=None,required=False):
+        path=Path(path).absolute();key=str(path).casefold()
+        if not path.is_relative_to(ROOT):self.excluded.append({'path':str(path),'reason':'outside_explicit_workspace_root'});return
+        rel=path.relative_to(ROOT).as_posix()
+        if set(x.lower() for x in path.parts)&DENIED_PARTS or path.suffix.lower() in DENIED_SUFFIXES:
+            self.excluded.append({'path':rel,'reason':'private_SQL_SDK_alias_or_compiled_cache_path_not_opened'});return
+        if not path.is_file():
+            self.missing.append({'path':rel,'category':category,'expected_sha256':expected,'required':required});return
+        for node in [path,*list(path.parents)]:
+            if node==ROOT:break
+            s=node.lstat()
+            if node.is_symlink() or getattr(s,'st_file_attributes',0)&stat.FILE_ATTRIBUTE_REPARSE_POINT:
+                self.excluded.append({'path':rel,'reason':'symlink_or_reparse_not_followed'});return
+        h=sha(path)
+        if expected and h!=expected:
+            self.integrity.append({'path':rel,'category':category,'expected_sha256':expected,'actual_sha256':h});return
+        if key in self.entries:self.entries[key]['categories'].add(category);return
+        self.entries[key]={'source_path':str(path),'restore_relative_path':rel,'sha256':h,'bytes':path.stat().st_size,'categories':{category},'training_role':'audit_only_preserved_original_not_automatic_positive_loss','required':required}
+    def flat(self,path,category,suffixes=None):
+        p=Path(path)
+        if not p.is_dir():return
+        for f in sorted(p.iterdir()):
+            if f.is_file() and (suffixes is None or f.suffix.lower() in suffixes):self.add(f,category)
+    def receipt(self,path,expected=None):
+        path=Path(path);self.add(path,'source_ancestry_receipt',expected,True)
+        key=str(path).casefold()
+        if key in self.loaded_receipts or not path.is_file():return
+        if expected and sha(path)!=expected:return
+        self.loaded_receipts.add(key);x=load(path)
+        for row in x.get('files',[]):
+            if isinstance(row,dict) and row.get('path') and row.get('sha256'):self.add(row['path'],'explicit_ancestor_resource_bytes',row['sha256'],True)
+        for name,hname in [('parent_allowlist_path','parent_allowlist_sha256'),('parent_full_source_closure','parent_full_source_closure_sha256'),('parent_CV_source_allowlist','parent_CV_source_allowlist_sha256'),('source_allowlist_receipt','source_allowlist_sha256')]:
+            if isinstance(x.get(name),str):self.receipt(x[name],x.get(hname))
+    def job(self,path):
+        path=Path(path);self.add(path,'exact_frozen_native_job',required=True)
+        if not path.is_file():return
+        x=load(path);self.selected_jobs[x['job_id']]=x
+        for key,hkey in [('source_allowlist_receipt','source_allowlist_sha256'),('resource_ancestry_receipt','resource_ancestry_sha256')]:
+            if isinstance(x.get(key),str):self.receipt(x[key],x.get(hkey))
+        for row in x.get('resources',[]):self.add(row['path'],'exact_mounted_original_input',row.get('sha256'),True)
+    def freeze(self,path):
+        path=Path(path);self.add(path,'execution_freeze_and_authorization',required=True)
+        if not path.is_file():return
+        x=load(path)
+        for row in x.get('pins',x.get('frozen_reference_pins',[])):
+            f=row.get('frozen_path');h=row.get('sha256')
+            if f:self.add(f,'actual_execution_frozen_public_snapshot',h,True)
+        for row in x.get('jobs',[]):
+            if row.get('path'):self.add(row['path'],'frozen_release_job',row.get('sha256'),True)
+
+def parse_http(folder):
+    receipt=load(folder/'receipt.json') if (folder/'receipt.json').is_file() else {};req=folder/'request.raw.json';request=load(req) if req.is_file() else {};response=folder/'response.raw.sse'
+    if not response.exists():response=folder/'response.raw.json'
+    blob=response.read_bytes() if response.exists() else b'';R=[];C=[];done=0;fin=[];bad=[];message=None
+    if blob and (receipt.get('response_mode')=='JSON' or response.suffix=='.json'):
+        try:
+            z=json.loads(blob);ch=z.get('choices',[{}])[0];message=ch.get('message',{});R.append(message.get('reasoning_content')or'');C.append(message.get('content')or'');fin.append(ch.get('finish_reason'))
+        except (ValueError,IndexError,AttributeError):bad.append('invalid_JSON_response')
+    else:
+        try:text=blob.decode('utf-8')
+        except UnicodeDecodeError:text=blob.decode('utf-8',errors='replace');bad.append('partial_invalid_UTF8_kept_raw')
+        for i,block in enumerate(text.replace('\r\n','\n').split('\n\n')):
+            payload='\n'.join(v[5:].lstrip(' ') for v in block.splitlines() if v.startswith('data:'))
+            if not payload:continue
+            if payload=='[DONE]':done+=1;continue
+            try:z=json.loads(payload)
+            except ValueError:bad.append({'invalid_or_incomplete_frame':i,'payload_chars':len(payload)});continue
+            for ch in z.get('choices',[]):
+                if ch.get('index',0)!=0:continue
+                d=ch.get('delta',{});R.append(d.get('reasoning_content')or'');C.append(d.get('content')or'')
+                if ch.get('finish_reason') is not None:fin.append(ch['finish_reason'])
+    complete=receipt.get('status')=='COMPLETE' and receipt.get('http_status')==200
+    supported=complete and ((done==1 and fin and fin[-1] in ['stop','tool_calls']) or (receipt.get('response_mode')=='JSON' and fin and fin[-1] in ['stop','tool_calls']))
+    status='supported_complete' if supported else ('COMPLETE_length_not_stop' if complete and done==1 and fin and fin[-1]=='length' else 'original_partial_or_other_nonstandard')
+    sys='\n'.join(m.get('content','') for m in request.get('messages',[]) if m.get('role')=='system' and isinstance(m.get('content'),str))
+    role='native_compatible_main_or_child'
+    if not request.get('tools') and 'OpenClaw' not in sys:role='non_native_compatible_helper_separate_credit'
+    return {'call_id':folder.name,'request_path':str(req),'request_sha256':sha(req) if req.is_file() else None,'response_path':str(response),'response_sha256':digest(blob),'original_receipt_status':receipt.get('status'),'original_http_status':receipt.get('http_status'),'classification':status,'actual_DONE_count':done,'actual_finish_reasons':fin,'explicit_original_R_chars':sum(len(x) for x in R),'content_chars':sum(len(x) for x in C),'bad_or_partial_frames':bad,'response_role':role,'compatible_HTTP_not_paid_generation_count':True}
+
+def verify_Q():
+    ep=RUN/'episodes/C_phase2_cv_review_01';audit=load(RUN/'quality/C_PHASE2_CV_REVIEW_AUDIT_02/AUDIT.json');errata=RUN/'quality/C_PHASE2_CV_REVIEW_AUDIT_02/Q_SEMANTIC_ERRATA.json';q=load(ep/'workspace/outputs/blind_quality.json');rows=[]
+    assert sha(ep/'workspace/outputs/blind_quality.json')==audit['original_quality_sha256']
+    for case,v in q['cases'].items():
+        for label,obj in v['arms'].items():
+            total=0;dims=[]
+            for dim,w in [('D1',30),('D2',20),('D3',20),('D4',20),('D5',10)]:
+                key=next(k for k in obj if k.startswith(dim+'_'));d=obj[key];scores=[i['score'] for i in d['items']];assert all(type(s) in (int,float) and s in [0,.5,1] for s in scores);actual=sum(scores);total+=w*actual/len(scores);dims.append({'dimension':dim,'actual_item_sum':actual,'original_reported_sum':d['score'],'matches':actual==d['score']})
+            rows.append({'case':case,'label':label,'dimensions':dims,'raw_item_arithmetic_only':total,'original_reported_total':obj['weighted_total_100'],'matches':total==obj['weighted_total_100'],'not_a_new_corrected_Q':True})
+    assert next(x for x in rows if x['case']=='E2' and x['label']=='A')['raw_item_arithmetic_only']==88.75
+    proof=audit['date_evidence'];request=load(proof['request_path']);text=request['messages'][proof['message_index']]['content'];assert text[proof['character_start']:proof['character_end']]==proof['exact_text']=='Current date: 2026-10-27';assert sha(Path(proof['request_path']))==proof['request_sha256']
+    writer=audit['actual_blind_writer'];first=audit['first_actual_phase2_read'];assert writer['call_id'].startswith('0014_') and first['call_id'].startswith('0016_');assert audit['only_one_original_blind_write'] and audit['unchanged_quality_after_unblinding'];assert int(writer['actual_observation']['first_delivered_in_call_id'][:4])<int(first['call_id'][:4])
+    return {'status':'INDEPENDENT_OFFLINE_RECHECK_ORDER_PASS_LIMITED_BLIND_Q_SEMANTICS_AND_ARITHMETIC_HOLD','original_audit_sha256':sha(RUN/'quality/C_PHASE2_CV_REVIEW_AUDIT_02/AUDIT.json'),'original_errata_sha256':sha(errata),'score_arithmetic':rows,'actual_model_visible_date_proof':proof,'actual_blind_write_and_successful_ack':writer,'first_actual_phase2_read':first,'ratio_correction':{'S':739012,'N_known':360358,'N_unknown_usage_calls':1,'correct_relation':'S/N <= 739012/360358; no useful positive lower bound or exact ratio is established','upper_bound':739012/360358},'Q_original_files_not_modified':True,'original_REVISE_not_a_verified_label_or_new_task_go':True,'all_C_default_audit_only':True,'new_native_Agent_model_training_calls':0}
+
+def main():
+    OUT.mkdir(exist_ok=False);(OUT/'objects').mkdir();c=Collector();http=[]
+    for jobid in EPISODES:
+        ep=RUN/'episodes'/jobid;c.job(ep/'job.json')
+        for name in ['dispatch.json','execution.json','process.json','request.json','response.json','result.json','usage.json','outer_recording_receipt.json','native_events.jsonl','CONSUMPTION_AUDIT.json']:
+            c.add(ep/name,'original_native_episode_metadata_or_meter',required=name in ['job.json','dispatch.json'])
+        for name in ['host_receipt.json','container_receipt.json','all_session_events.jsonl','session_events.jsonl','skill_reads.json','runtime_observation.json']:
+            c.add(ep/'openclaw_transport'/name,'redacted_native_event_JSONL_or_execution_receipt_not_SQL_database')
+        api=ep/'api_audit';c.add(api/'audit_manifest.jsonl','actual_API_capture_receipt_index')
+        if api.is_dir():
+            for folder in sorted(p for p in api.iterdir() if p.is_dir()):
+                row=parse_http(folder);row['episode_id']=jobid;http.append(row)
+                for name in ['request.raw.json','response.raw.sse','response.raw.json','receipt.json']:c.add(folder/name,'original_compatible_API_bytes_no_HTTP_headers',required=name in ['request.raw.json','receipt.json'])
+        if (ep/'response.json').is_file():
+            for rel in load(ep/'response.json').get('artifacts',[]):
+                p=ep/'workspace'/rel
+                if p.absolute().is_relative_to((ep/'workspace').absolute()):c.add(p,'exact_native_declared_task_artifact_audit_only')
+                else:c.excluded.append({'path':str(p),'reason':'artifact_reference_outside_its_workspace'})
+        record=BASE/'native_records'/jobid
+        for sub in RECORD_SUBDIRS:
+            d=record/sub;c.flat(d,'preserved_raw_recovery_or_exact_lineage_audit',{'.json','.jsonl','.gz','.md'})
+            objects=d/'objects'
+            if objects.is_dir():
+                for obj in sorted(objects.iterdir()):
+                    if obj.is_file() and re.fullmatch('[0-9a-f]{64}',obj.name):c.add(obj,'referenced_exact_ancestor_CAS_object',obj.name,True)
+    assert len(http)==339,('actual_HTTP_count_not_assumed',len(http))
+    for dirname in ['phase2_B_release_01','B_phase2_cv_revision_release_01','phase2_five_release_01','C_phase2_cv_review_release_01','phase2_A_release_01']:
+        d=RUN/'jobs'/dirname;c.flat(d,'root_scope_execution_and_gate_pause_receipts',{'.json','.md','.py'});c.freeze(d/'EXECUTION_FREEZE.json')
+        c.flat(d/'frozen_snapshot','frozen_public_execution_inputs_not_live_private_config')
+    for dirname in ['phase2_cv_C_01','C_phase2_cv_review_01_preparation','phase2_mechanisms_02','B_phase2_cv_revision_01_preparation_03','B_phase2_html_revision_01_preparation_02']:
+        d=RUN/'jobs'/dirname;c.flat(d,'original_preparation_protocol_and_blind_registration',{'.json','.md','.py'})
+    c.flat(RUN/'jobs','root_explicit_scope_receipts',{'.json'})
+    c.add(RUN/'jobs/phase2_mechanisms_02/cases/cv_E2/original_two_user_messages.audit_only.json','original_RAG_full_user_messages_preserved_NOT_training_view')
+    for dirname in ['FIRST_CHAIN_INDEPENDENT_REVIEW','B_INTERRUPTION_20261027','B_PHASE2_CV_RESOURCE_AUDIT_01','B_PHASE2_CV_REVISION_AUDIT_01','B_PHASE2_HTML_RESOURCE_AUDIT_01','B_PHASE2_HTML_REVISION_AUDIT_01','C_PHASE2_CV_REVIEW_AUDIT_01','C_PHASE2_CV_REVIEW_AUDIT_02']:
+        d=RUN/'quality'/dirname;c.flat(d,'bounded_independent_audit_and_original_errata',{'.json','.md','.txt'})
+        c.flat(d/'isolated_copy/independent_results','exact_offline_QA_observations_and_PNG_not_perception_gold',{'.json','.txt','.png'})
+        for name in ['independent_checks.py','independent_browser.mjs','second_probes.mjs']:c.add(d/'isolated_copy'/name,'authored_offline_QA_source_not_Teacher_trace')
+    for jobid in ['B_revision_report_01','B_phase2_cv_revision_01','B_phase2_html_revision_01']:c.flat(RUN/'delivery_views'/jobid,'byte_preserving_delivery_projection_receipt',{'.json'})
+    c.add(RUN/'OPERATOR_NOTES.md','operator_history_including_true_gate_pause_and_negative_results')
+    # Fixed public runtime source files only, never the runtime/private trees.
+    prepared=load(RUN/'jobs/C_phase2_cv_review_release_01/frozen_snapshot/05_PREPARED_LANE.json')
+    for row in prepared['runtime']:c.add(RUN/'runtime_10'/row['file'],'individual_fixed_public_runtime_source',row['prepared_sha256'])
+    for field in ['preparation_script','native_adapter','audit_relay']:
+        row=prepared[field];c.add(row['path'],'optional_public_processing_source_missing_restored_elsewhere',row['sha256'])
+    c.add(Path(__file__),'new_offline_explicit_material_builder_source')
+    qcheck=verify_Q();save(OUT/'Q_RECHECK_20261029.json',qcheck)
+    first=load(RUN/'quality/FIRST_CHAIN_INDEPENDENT_REVIEW/ACTUAL_COST_RECONCILIATION.json');later=[load(RUN/'episodes'/j/'usage.json') for j in EPISODES[10:]]
+    cost={'first10_authoritative_deduplicated_receipt':{'path':str(RUN/'quality/FIRST_CHAIN_INDEPENDENT_REVIEW/ACTUAL_COST_RECONCILIATION.json'),'sha256':sha(RUN/'quality/FIRST_CHAIN_INDEPENDENT_REVIEW/ACTUAL_COST_RECONCILIATION.json')},'outer_dispatches':20,'native_sessions_including_probe_child':21,'known_total_tokens':first['known_total_tokens']+sum(x['known_total_tokens'] for x in later),'actual_request_identities':first['actual_request_identities']+sum(x['model_calls'] for x in later),'unknown_usage_calls':first['unknown_usage_calls']+sum(x['unknown_usage_calls'] for x in later),'qualified_retained_skills':0,'cost_per_qualified':'UNDEFINED','cash_curation_CPU_energy':'UNKNOWN_NOT_ZERO','no_new_native_or_training':True}
+    assert (cost['known_total_tokens'],cost['actual_request_identities'],cost['unknown_usage_calls'])==(22156371,286,3)
+    counts=Counter(x['classification'] for x in http);rchars=sum(x['explicit_original_R_chars'] for x in http);save(OUT/'RAW_HTTP_CENSUS.json',{'actual_compatible_HTTP_count':len(http),'response_roles':dict(Counter(x['response_role'] for x in http)),'completion_classes':dict(counts),'explicit_original_R_chars_from_actual_frames':rchars,'HTTPs_are_not_paid_generations':True,'calls':http});save(OUT/'COST_CENSUS.json',cost)
+    output=[];quarantine=[];seen=set()
+    for i,entry in enumerate(sorted(c.entries.values(),key=lambda x:x['restore_relative_path'].casefold()),1):
+        p=Path(entry['source_path']);blob=p.read_bytes();assert digest(blob)==entry['sha256']
+        scan=blob
+        if p.suffix.lower()=='.gz':
+            try:scan=gzip.decompress(blob)
+            except (OSError,EOFError):pass
+        suspect=[]
+        for match in SECRET.finditer(scan):
+            value=match.group(2) or match.group(3) or b''
+            if re.search(rb'(?i)redact|placeholder|example|dummy|not.configured|your_|[<>\[\]$]',value):continue
+            suspect.append({'matched_value_sha256':digest(value),'offset':match.start(),'pattern':'credential-shaped_literal_no_value_printed'})
+        if suspect:quarantine.append({'path':entry['restore_relative_path'],'sha256':entry['sha256'],'reason':'credential_shaped_literal_requires_root_review_not_copied','matches':suspect});continue
+        target=OUT/'objects'/entry['sha256']
+        if target.exists():assert sha(target)==entry['sha256']
+        else:shutil.copyfile(p,target);assert sha(target)==entry['sha256']
+        entry['categories']=sorted(entry['categories']);entry['cas_relative_path']='objects/'+entry['sha256'];entry['byte_copy_and_reread_SHA_verified']=True;output.append(entry);seen.add(entry['sha256'])
+        if i%300==0:print(json.dumps({'copied_entries':i,'unique_objects':len(seen)}),flush=True)
+    with (OUT/'ALLOWLIST.jsonl').open('w',encoding='utf-8',newline='\n') as f:
+        for row in output:f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
+    save(OUT/'MISSING_OR_MISMATCHED.json',{'missing_explicit_paths':c.missing,'integrity_mismatches':c.integrity});save(OUT/'EXCLUSIONS.json',{'paths_excluded_without_opening':c.excluded,'credential_shaped_files_not_copied':quarantine,'private_credentials_not_opened_for_scanning':True,'no_SQL_databases_or_SDK_wire_traces_or_recursive_workspace_runtime_archive':True})
+    # Include derived census/errata reports in the same actual-byte CAS closure.
+    for name in ['Q_RECHECK_20261029.json','RAW_HTTP_CENSUS.json','COST_CENSUS.json','MISSING_OR_MISMATCHED.json','EXCLUSIONS.json']:
+        p=OUT/name;h=sha(p);target=OUT/'objects'/h
+        if not target.exists():shutil.copyfile(p,target)
+        assert sha(target)==h;output.append({'source_path':str(p),'restore_relative_path':'native_materials05/'+name,'sha256':h,'bytes':p.stat().st_size,'categories':['new_offline_verified_audit_not_original_Teacher'],'training_role':'audit_only','cas_relative_path':'objects/'+h,'byte_copy_and_reread_SHA_verified':True});seen.add(h)
+    with (OUT/'ALLOWLIST.jsonl').open('w',encoding='utf-8',newline='\n') as f:
+        for row in output:f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
+    unique_bytes=sum((OUT/'objects'/h).stat().st_size for h in seen)
+    manifest={'schema':'wrd-checkpoint05-explicit-native-materials-CAS-v1','status':'EXPLICIT_ORIGINAL_BYTES_CAS_COPIED_AND_REREAD_NOT_GIT_PACK_OR_TRAINING_ADMISSION','at':datetime.now(timezone.utc).isoformat(),'logical_files':len(output),'unique_CAS_objects':len(seen),'unique_CAS_bytes':unique_bytes,'allowlist_sha256':sha(OUT/'ALLOWLIST.jsonl'),'all_objects_re_read_SHA_verified':all(sha(OUT/'objects'/h)==h for h in seen),'raw_compatible_HTTP_count':len(http),'raw_completion_classes':dict(counts),'explicit_original_R_chars':rchars,'cost':cost,'all_C_default_audit_only':True,'C_Q_order_valid_but_limited_blind':True,'original_Q_arithmetic_and_semantic_errors_preserved_not_fixed_to_pass':True,'missing_path_count':len(c.missing),'required_missing_count':sum(x['required'] for x in c.missing),'integrity_mismatch_count':len(c.integrity),'quarantined_credential_shaped_file_count':len(quarantine),'no_whole_workspace_or_runtime_recursive_tar':True,'no_private_SQL_SDK_credentials_read_or_published':True,'builder_source_sha256':sha(Path(__file__)),'root_must_perform_final05_pack_restore_loader_and_Git_checks':True,'new_native_Agent_training_calls':0}
+    save(OUT/'MANIFEST.json',manifest);print(json.dumps({'manifest':str(OUT/'MANIFEST.json'),'manifest_sha256':sha(OUT/'MANIFEST.json'),**{k:manifest[k] for k in ['logical_files','unique_CAS_objects','unique_CAS_bytes','raw_compatible_HTTP_count','raw_completion_classes','explicit_original_R_chars','required_missing_count','integrity_mismatch_count','quarantined_credential_shaped_file_count']}},ensure_ascii=False),flush=True)
+
+if __name__=='__main__':main()

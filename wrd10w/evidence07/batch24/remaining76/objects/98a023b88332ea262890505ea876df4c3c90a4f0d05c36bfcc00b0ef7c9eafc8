@@ -1,0 +1,186 @@
+#!/usr/bin/env python3
+"""定位 docx 表格单元格并整体替换其文字内容，保留单元格原有格式。
+
+用法（原样可执行）:
+  python3 fill_cell.py <文件.docx> --find "<目标单元格内唯一子串>" \
+      (--text-file <新内容.txt> | --text "<新内容，可含换行>") \
+      --out <输出.docx> [--copy-format-from "<格式基准段落文本子串>"]
+
+行为:
+- 在全文档所有 <w:tc> 单元格中查找文字含 --find 子串的单元格；命中必须恰好 1 个，
+  否则报错并列出候选（表序号+文字预览），不猜第一处。
+- 新内容每行一段（空行也成段）；单元格属性 <w:tcPr> 原样保留，其余段落重建。
+- 格式基准：默认取目标单元格内第一个有文字的段落的 pPr+rPr（占位文字本身常带
+  基准字体，如楷体）；--copy-format-from 可改用文档中其他段落的格式
+  （如标题行、邻格），按唯一子串定位。
+- 自校验：重解析 XML 并确认输出中目标单元格文字与新内容一致，不一致即报错退出。
+- 退出码: 0 成功; 2 输入/用法/定位错误。不联网。
+限制: 不支持嵌套表格内定位；表格行以 <w:tc> 平铺解析（常规合同/TS 文档够用）。
+"""
+import argparse
+import os
+import re
+import sys
+import tempfile
+import zipfile
+from pathlib import Path
+from xml.parsers import expat
+
+P_RE = re.compile(r"<w:p(?:\s[^>]*)?(?:/>|>.*?</w:p>)", re.S)
+TC_RE = re.compile(r"<w:tc(?:\s[^>]*)?>.*?</w:tc>", re.S)
+
+
+def unescape(text):
+    return (text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+                .replace("&quot;", '"').replace("&apos;", "'"))
+
+
+def escape(text):
+    return (text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+
+
+def para_text(p_xml):
+    return unescape("".join(re.findall(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", p_xml, re.S)))
+
+
+def tc_text(tc_xml):
+    return "".join(para_text(p) for p in P_RE.findall(tc_xml))
+
+
+def parse_xml_ok(xml):
+    p = expat.ParserCreate()
+    try:
+        # OOXML 带命名空间属性，expat 默认可解析；遇到非法结构抛错
+        p.Parse(xml, True)
+        return True
+    except expat.ExpatError as e:
+        print("fill_cell error: 输出 XML 解析失败: %s" % e, file=sys.stderr)
+        return False
+
+
+def extract_ppr_rpr(p_xml):
+    """返回 (pPr 字符串, rPr 字符串)，均不含包裹标签；无则空串。"""
+    m = re.search(r"<w:pPr\b[^>]*>(.*?)</w:pPr>", p_xml, re.S)
+    ppr = m.group(1) if m else ""
+    rpr = ""
+    for run in re.finditer(r"<w:r(?:\s[^>]*)?>.*?</w:r>", p_xml, re.S):
+        rm = re.search(r"<w:rPr\b[^>]*>(.*?)</w:rPr>", run.group(0), re.S)
+        if rm:
+            rpr = rm.group(1)
+            break
+    return ppr, rpr
+
+
+def find_template_paragraph(doc_xml, needle):
+    """按唯一子串找格式基准段落；命中非 1 个则报错退出。"""
+    hits = [p for p in P_RE.findall(doc_xml) if needle in para_text(p)]
+    if len(hits) != 1:
+        previews = [para_text(p)[:40] for p in hits[:8]]
+        print("fill_cell error: --copy-format-from %r 命中 %d 个段落（需恰好 1 个）；候选: %s"
+              % (needle, len(hits), previews), file=sys.stderr)
+        return None
+    return hits[0]
+
+
+def build_cell(tc_xml, lines, ppr, rpr):
+    tc_m = re.search(r"<w:tcPr\b[^>]*/>", tc_xml) or re.search(r"<w:tcPr\b[^>]*>.*?</w:tcPr>", tc_xml, re.S)
+    tcpr = tc_m.group(0) if tc_m else ""
+    parts = ["<w:tc>", tcpr]
+    for line in lines:
+        if line.strip():
+            run = "<w:r>%s<w:t xml:space=\"preserve\">%s</w:t></w:r>" % (
+                "<w:rPr>%s</w:rPr>" % rpr if rpr else "", escape(line))
+        else:
+            run = ""
+        parts.append("<w:p>%s%s</w:p>" % ("<w:pPr>%s</w:pPr>" % ppr if ppr else "", run))
+    parts.append("</w:tc>")
+    return "".join(parts)
+
+
+def main():
+    ap = argparse.ArgumentParser(description="定位并替换 docx 表格单元格内容（保留单元格格式）")
+    ap.add_argument("input", help=".docx 文件")
+    ap.add_argument("--find", required=True, help="目标单元格内的唯一子串")
+    g = ap.add_mutually_exclusive_group(required=True)
+    g.add_argument("--text-file", help="新内容文本文件，每行一段")
+    g.add_argument("--text", help="新内容，换行分段")
+    ap.add_argument("--out", required=True, help="输出 docx 路径")
+    ap.add_argument("--copy-format-from", help="格式基准段落的唯一文本子串（默认用目标单元格首段格式）")
+    args = ap.parse_args()
+
+    src = Path(args.input)
+    try:
+        if not src.is_file() or src.suffix.lower() != ".docx":
+            raise ValueError("input must be an existing .docx: %s" % src)
+        lines = (Path(args.text_file).read_text(encoding="utf-8") if args.text_file
+                 else args.text).splitlines()
+    except (OSError, ValueError) as e:
+        print("fill_cell error: %s" % e, file=sys.stderr)
+        return 2
+    if not any(l.strip() for l in lines):
+        print("fill_cell error: 新内容为空", file=sys.stderr)
+        return 2
+
+    with zipfile.ZipFile(src) as z:
+        doc_xml = z.read("word/document.xml").decode("utf-8", "replace")
+        other = {n: z.read(n) for n in z.namelist() if n != "word/document.xml"}
+
+    cells = TC_RE.findall(doc_xml)
+    hits = [(i, c) for i, c in enumerate(cells) if args.find in tc_text(c)]
+    if len(hits) != 1:
+        previews = [(i, tc_text(c)[:50]) for i, c in hits[:8]]
+        print("fill_cell error: --find %r 命中 %d 个单元格（需恰好 1 个）；候选: %s"
+              % (args.find, len(hits), previews), file=sys.stderr)
+        return 2
+    idx, cell_xml = hits[0]
+
+    if args.copy_format_from:
+        tmpl = find_template_paragraph(doc_xml, args.copy_format_from)
+        if tmpl is None:
+            return 2
+    else:
+        with_text = [p for p in P_RE.findall(cell_xml) if para_text(p).strip()]
+        if not with_text:
+            print("fill_cell error: 目标单元格内无带文字段落可作格式基准，请用 --copy-format-from", file=sys.stderr)
+            return 2
+        tmpl = with_text[0]
+    ppr, rpr = extract_ppr_rpr(tmpl)
+
+    new_cell = build_cell(cell_xml, lines, ppr, rpr)
+    pos = doc_xml.find(cell_xml)
+    new_doc = doc_xml[:pos] + new_cell + doc_xml[pos + len(cell_xml):]
+    if not parse_xml_ok(new_doc):
+        return 2
+
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(suffix=".docx", dir=str(out.parent))
+    os.close(fd)
+    try:
+        with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as z:
+            for name, data in other.items():
+                z.writestr(name, data)
+            z.writestr("word/document.xml", new_doc)
+        # 自校验：重读输出，确认目标单元格文字与新内容一致
+        with zipfile.ZipFile(tmp) as z:
+            check = z.read("word/document.xml").decode("utf-8", "replace")
+        got = "".join(tc_text(c) for c in TC_RE.findall(check)
+                      if all(l in tc_text(c) for l in lines if l.strip()))
+        want = "".join(l for l in lines)
+        if want not in got:
+            print("fill_cell error: 自校验失败，输出单元格文字与新内容不一致", file=sys.stderr)
+            os.unlink(tmp)
+            return 2
+        os.replace(tmp, out)
+    finally:
+        if os.path.exists(tmp):
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+    print("cell#%d replaced (%d paragraphs) -> %s" % (idx, len(lines), out))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

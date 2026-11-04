@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+"""把补写段落插入 docx 指定位置，继承邻段格式并去除高亮，写回新文件。
+
+用法（原样可执行）:
+  python3 backfill_apply.py <原文档.docx> --insert-after "锚点段文本子串" \
+      --text-file <补充段落.txt> --out <输出.docx> [--copy-format-from "格式基准段文本子串"] \
+      [--clear-highlight] [--drop-empty-after]
+
+行为:
+- 锚点段 = 正文文本包含 --insert-after 子串的段落（须恰好命中一段，多个或零个报错）。
+  新段落逐个插到锚点段之后；--text-file 每个非空行 = 一个新段落。
+- 格式默认继承锚点段的 pPr；指定 --copy-format-from 时改从该段复制 pPr 与首个文字 run
+  的 rPr（如锚点是标题而正文格式应以相邻正文段为准）。
+- --drop-empty-after：删除锚点段之后紧连的空白占位段（标记空缺的空段，可多个）。
+- --clear-highlight：去掉锚点段及上述紧连空白段内所有 w:highlight（清理标记空缺的黄底）。
+  新段落 run 一律不带高亮。批注/修订与其余正文原样保留。
+- 写出后自校验：XML 可解析、逐行核对插入文本已存在，失败退出 2 并删除坏输出。
+
+退出码: 0 成功; 1 参数/定位错误（输出文件不动）; 2 写出后自校验失败。
+"""
+import argparse
+import re
+import sys
+import zipfile
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+
+P_RE = re.compile(r"<w:p(?:\s[^>]*)?(?:/>|>.*?</w:p>)", re.S)
+
+
+def unescape(text):
+    return (text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+                .replace("&quot;", '"').replace("&apos;", "'"))
+
+
+def escape(text):
+    return (text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                .replace('"', "&quot;"))
+
+
+def para_text(p_xml):
+    return unescape("".join(re.findall(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", p_xml, re.S)))
+
+
+def find_paragraph(xml, needle):
+    """返回正文文本包含 needle 的唯一段落 span；0 或多个命中时报错返回 None。"""
+    hits = [m for m in P_RE.finditer(xml) if needle in para_text(m.group(0))]
+    if not hits:
+        return None, "no paragraph contains anchor text: %r" % needle
+    if len(hits) > 1:
+        texts = [para_text(m.group(0))[:60] for m in hits]
+        return None, "anchor matches %d paragraphs, extend the text to be unique: %s" % (len(hits), texts)
+    return hits[0], None
+
+
+def trailing_empty_spans(xml, anchor_end):
+    """锚点段之后紧连的空白占位段 span 列表（遇非空段即停）。"""
+    spans = []
+    pos = anchor_end
+    while True:
+        m = P_RE.match(xml, pos)
+        if not m or para_text(m.group(0)).strip():
+            break
+        spans.append(m.span())
+        pos = m.end()
+    return spans
+
+
+def strip_highlight(xml):
+    return re.sub(r"<w:highlight\b[^>]*/>", "", xml)
+
+
+def copy_format(xml, span):
+    """取该段的 pPr 与首个文字 run 的 rPr（去高亮）。"""
+    p_xml = span.group(0)
+    m = re.search(r"<w:pPr\b[^>]*>.*?</w:pPr>", p_xml, re.S)
+    ppr = strip_highlight(m.group(0)) if m else ""
+    rpr = ""
+    for run in re.finditer(r"<w:r(?:\s[^>]*)?>.*?</w:r>", p_xml, re.S):
+        r_xml = run.group(0)
+        if not re.search(r"<w:t(?:\s[^>]*)?>", r_xml):
+            continue
+        m2 = re.search(r"<w:rPr\b[^>]*>.*?</w:rPr>", r_xml, re.S)
+        if m2:
+            rpr = strip_highlight(m2.group(0))
+        break
+    return ppr, rpr
+
+
+def build_paragraph(ppr, rpr, text):
+    runs = "".join("<w:r>%s<w:t xml:space=\"preserve\">%s</w:t></w:r>" % (rpr, escape(line))
+                   for line in text.split("\n"))
+    return "<w:p>%s%s</w:p>" % (ppr, runs)
+
+
+def rewrite_docx(src, doc_xml, out_path):
+    tmp = out_path.with_suffix(out_path.suffix + ".tmp")
+    with zipfile.ZipFile(src) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            if item.filename == "word/document.xml":
+                zout.writestr(item, doc_xml)
+            else:
+                zout.writestr(item, zin.read(item.filename))
+    tmp.replace(out_path)
+
+
+def main():
+    ap = argparse.ArgumentParser(description="向 docx 锚点段后插入补写段落（继承格式、去高亮）")
+    ap.add_argument("input", help="原文档 .docx")
+    ap.add_argument("--insert-after", required=True, help="锚点段文本子串，新段落插在其后")
+    ap.add_argument("--text-file", required=True, help="补充段落文本，每个非空行=一个新段落")
+    ap.add_argument("--out", required=True, help="输出 docx 路径")
+    ap.add_argument("--copy-format-from", help="格式基准段文本子串；缺省继承锚点段格式")
+    ap.add_argument("--clear-highlight", action="store_true",
+                    help="去掉锚点段及紧连空白段的 w:highlight")
+    ap.add_argument("--drop-empty-after", action="store_true",
+                    help="删除锚点段后紧连的空白占位段")
+    args = ap.parse_args()
+    src = Path(args.input)
+    out = Path(args.out)
+    if not src.is_file() or src.suffix.lower() != ".docx":
+        print("backfill_apply error: input not found or not .docx: %s" % src, file=sys.stderr)
+        return 1
+    tf = Path(args.text_file)
+    if not tf.is_file():
+        print("backfill_apply error: text file not found: %s" % tf, file=sys.stderr)
+        return 1
+    lines = [ln.strip() for ln in tf.read_text(encoding="utf-8-sig").splitlines() if ln.strip()]
+    if not lines:
+        print("backfill_apply error: text file has no non-empty lines", file=sys.stderr)
+        return 1
+    try:
+        doc_xml = zipfile.ZipFile(src).read("word/document.xml").decode("utf-8", "replace")
+    except (OSError, zipfile.BadZipFile, KeyError) as e:
+        print("backfill_apply error: cannot read document.xml: %s" % e, file=sys.stderr)
+        return 1
+
+    span, err = find_paragraph(doc_xml, args.insert_after)
+    if err:
+        print("backfill_apply error: %s" % err, file=sys.stderr)
+        return 1
+    fmt_span = span
+    if args.copy_format_from:
+        fmt_span, err = find_paragraph(doc_xml, args.copy_format_from)
+        if err:
+            print("backfill_apply error: %s" % err, file=sys.stderr)
+            return 1
+    ppr, rpr = copy_format(doc_xml, fmt_span)
+    new_xml = "".join(build_paragraph(ppr, rpr, ln) for ln in lines)
+
+    empties = trailing_empty_spans(doc_xml, span.end())
+    drop_end = empties[-1][1] if (args.drop_empty_after and empties) else span.end()
+    updated = doc_xml[:span.end()] + new_xml + doc_xml[drop_end:]
+    if args.clear_highlight:
+        clear_to = (empties[-1][1] if empties else span.end())
+        updated = (updated[:span.start()]
+                   + strip_highlight(updated[span.start():clear_to])
+                   + updated[clear_to:])
+
+    try:
+        ET.fromstring(updated)
+    except ET.ParseError as e:
+        print("backfill_apply error: resulting XML not well-formed: %s" % e, file=sys.stderr)
+        return 1
+    rewrite_docx(src, updated, out)
+
+    # 自校验：重读输出，逐行核对插入文本存在
+    try:
+        check = zipfile.ZipFile(out).read("word/document.xml").decode("utf-8", "replace")
+    except (OSError, zipfile.BadZipFile, KeyError) as e:
+        print("backfill_apply error: cannot re-read output: %s" % e, file=sys.stderr)
+        return 2
+    body = "\n".join(para_text(m.group(0)) for m in P_RE.finditer(check))
+    missing = [ln for ln in lines if ln not in body]
+    if missing:
+        out.unlink(missing_ok=True)
+        print("backfill_apply error: lines missing after write: %s" % missing, file=sys.stderr)
+        return 2
+    dropped = len(empties) if (args.drop_empty_after and empties) else 0
+    print("inserted %d paragraph(s) after anchor %r, dropped %d empty placeholder(s) -> %s"
+          % (len(lines), args.insert_after, dropped, out))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

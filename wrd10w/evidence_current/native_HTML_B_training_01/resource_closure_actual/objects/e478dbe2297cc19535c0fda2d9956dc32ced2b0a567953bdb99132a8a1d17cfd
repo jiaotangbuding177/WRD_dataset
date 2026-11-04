@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "docker",
+    "run",
+    "--rm",
+    "--name",
+    "wrd-phase2-html-second-probe",
+    "--network",
+    "none",
+    "--memory",
+    "1g",
+    "--cpus",
+    "1",
+    "--shm-size",
+    "1g",
+    "--mount",
+    "type=bind,source=D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B_PHASE2_HTML_RESOURCE_AUDIT_01\\isolated_copy,target=/workspace",
+    "--entrypoint",
+    "node",
+    "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+    "/workspace/outputs/skill/scripts/verify_animation.mjs",
+    "/workspace/independent_results/maker_resume_disabled_canary.html",
+    "--out",
+    "/workspace/independent_results/MAKER_RESUME_CANARY_PUBLIC_VERIFY.json",
+    "--screenshot",
+    "/workspace/independent_results/MAKER_RESUME_CANARY.png"
+  ],
+  "rc": 0,
+  "stdout": "{\n  \"url\": \"file:///workspace/independent_results/maker_resume_disabled_canary.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 28,\n      \"f2\": 77\n    },\n    \"播放中画面内容变化\": true,\n    \"HUD 时间推进\": {\n      \"t1\": 1.5,\n      \"t2\": 2.1\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2.2,\n      \"pt2\": 2.2\n    },\n    \"继续后恢复播放\": true,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": true,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/MAKER_RESUME_CANARY.png\"\n  },\n  \"ok\": true,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/MAKER_RESUME_CANARY.png\"\n}\n",
+  "stderr": "",
+  "host_available_before": 8136728576
+}

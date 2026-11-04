@@ -1,0 +1,11 @@
+# 导出docx细则（仅用户要文件时）
+
+1. **格式参照以用户当次给的文件为准**：用户给了既往面试提纲文件→先读其结构，按其骨架成文，不擅自增删模块（历史成功做法：完全对齐"面试说明+3个Part+时间分配表"，连评分表都去掉）；没提供就用 `templates/outline.template.md` 默认结构。
+2. 按模板末尾的 outline.json 形状填好后生成：
+
+```sh
+python {SKILL}/scripts/build_outline_docx.py <outline.json> --out <输出目录>/{日期}_面试提纲_{姓名}[_{N}分钟版].docx
+soffice --headless --convert-to pdf --outdir <输出目录> <生成的.docx>   # 渲染检查中文显示与表格
+```
+
+3. 必填字段校验与退出码见脚本头注释；生成后必须转PDF渲染检查显示文字，再交付。

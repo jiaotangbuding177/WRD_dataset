@@ -1,0 +1,600 @@
+{
+  "schema": "wrd-independent-CV-Q-causal-silver-audit-v1",
+  "issues": [
+    {
+      "id": "Q_DATE_ASOF",
+      "decision": "WITHDRAW_FALSE_FUTURE_DATE_CLAIMS_AND_DESCENDANTS",
+      "reason": "2026-02/03/04 precede the model-visible 2026-10-27. These are not future endpoints. The same alleged defect is charged in both D1 and D2 and propagated to F3.",
+      "original_targets": [
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/A/D1_正确性与依据_30/items/3",
+          "original_value": {
+            "text": "遗漏可核实的口径问题：纵天华简历自述'3年经验'但个人优势写'近4年'的内部矛盾未指出（A标其'4年'）；各简历普遍存在的未来截止日期（纵天华2026-04、王俊涛2026-03、梁勇其项目2026.02）未提示核实",
+            "score": 0.5,
+            "evidence": "纵天华PDF P1 '工作年限 3 年经验'与'近4年'; 王俊涛PDF 2023.09-2026.03; 梁勇其PDF项目2025.07-2026.02",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/A/D2_覆盖充分性_20/items/3",
+          "original_value": {
+            "text": "JD产品线'快应用'本身在6份简历中均无证据，未作任何提示；多处未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF均无'快应用'字样; E2_A 全文",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/B/D1_正确性与依据_30/items/3",
+          "original_value": {
+            "text": "遗漏口径核实点：纵天华简历'3年经验'与'近4年'内部矛盾未指出（B标'约4年'）；未来截止日期（纵天华2026-04、王俊涛2026-03、李萍2024.11-2026.3）未提示核实；王俊涛'约3.5年'与文件名'4年'的口径差也未提",
+            "score": 0.5,
+            "evidence": "纵天华PDF P1、王俊涛PDF工作经历、李萍PDF项目2024.11-2026.3",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/B/D2_覆盖充分性_20/items/3",
+          "original_value": {
+            "text": "JD'快应用'产品线在6份简历均无证据未作提示；未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF; E2_B 全文",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "feedback.json",
+          "json_pointer": "/current_version_concrete_defects/2",
+          "original_value": {
+            "id": "F3",
+            "where": "SKILL.md Step 2 (semantic match) — missing guidance",
+            "defect": "no step asks the model to reconcile self-claimed total experience against the date-sum of listed jobs, or to flag future-dated end dates before delivery",
+            "evidence_from_this_run": "E1 skill-arm output first states '累计约 2 年' then '实际约 1.5–2 年' in the same answer (internal inconsistency); both arms left future-dated employment (e.g. 2026-03/2026-04 ends) unflagged; the no-skill arm in E1 handled tenure accounting better than the skill arm",
+            "severity": "process gap consistent with an observed quality defect of the skill arm; fixing is a hypothesis to re-test, not a proven gain"
+          }
+        }
+      ],
+      "actual_source_evidence": [
+        {
+          "actual_first_request": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0001_5d8c04ba1b7c439a9d33081ffb0c5059\\request.raw.json",
+            "bytes": 125135,
+            "sha256": "50f060c189c26f8d6f36613891a2682f10bf1a62d264b59246248a323d7c8f0d"
+          },
+          "message_index": 0,
+          "role": "system",
+          "start": 11837,
+          "end": 11861,
+          "text": "Current date: 2026-10-27",
+          "text_sha256_utf8": "3f637d0d5d7abe2bb65887289d81cf923be5ae5203791d175dddc8b056ec660b"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\96f97ee12f59ed80.pdf",
+            "bytes": 1077275,
+            "sha256": "96f97ee12f59ed8041a98cd4c2fd189f38237abd8e0dc4f5999657e81a700a7c"
+          },
+          "page": 1,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "be5fc7920a0e7cf44a52567606a6ae07d1fea212bd4965d5e346e0412e8048dc",
+          "start": 1052,
+          "end": 1069,
+          "text": "2023-12 ～ 2026-04",
+          "text_sha256_utf8": "7415254f5aac902373dbdf38d0e4543830896522f1ee3c19c42fc4751a521c62"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\8ad152dae625eda9.pdf",
+            "bytes": 990199,
+            "sha256": "8ad152dae625eda93513dda5cf8f1e73b177a3f702daa9fa148339b658f64648"
+          },
+          "page": 1,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "f1dc32be7b8e3d80d361ed81197e85455cd628a4b2d91f84b559bfa378a0cd70",
+          "start": 385,
+          "end": 402,
+          "text": "2023.09 - 2026.03",
+          "text_sha256_utf8": "e0e59ef766c2db5c7558c5cf0bc303bd7e32ef85b6fce8d0708647af42dda027"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\6ce6df1590fed877.pdf",
+            "bytes": 315703,
+            "sha256": "6ce6df1590fed87775890d99a8a517f7bb40857b72baeaf2cc1cb899ee8ab3f3"
+          },
+          "page": 2,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "59839e5b4f6126667f63492a57ce70a6ca95d6ce58edabb7d75ec2c841f45dc8",
+          "start": 871,
+          "end": 886,
+          "text": "2025.07-2026.02",
+          "text_sha256_utf8": "1ab6e8db898e7eb04b7a04f9185bc8f26a753f0c27578b34dbc58989ae823616"
+        }
+      ],
+      "scope_limits": "Do not infer future defects from the filename, historical source date, or later audit clock. Remaining self-claimed tenure discrepancies require separate checks; no automatic full credit.",
+      "positive_training_credit": false
+    },
+    {
+      "id": "Q_OPTIONAL_HARDENING",
+      "decision": "WITHDRAW_ALL_THREE_CROSS_PLATFORM_AND_UNIAPP_TARO_HARD_GATE",
+      "reason": "The actual JD calls cross-platform experience preferred and Uniapp/Taro better. No evidence of all three platforms is not a hard failure. WebSocket is explicitly required and remains independently evaluable.",
+      "original_targets": [
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/A/D2_覆盖充分性_20/items/0",
+          "original_value": {
+            "text": "6份简历全部评估并给出分层结论（推荐3/备选1/不建议2），JD各硬性条目（1年经验、跨端、Uniapp/Taro、WebSocket、Vue/React、Node.js、工程化）均有对照",
+            "score": 1,
+            "evidence": "E2_A 结构与各小节",
+            "classification": "explicit_user"
+          }
+        },
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/A/D2_覆盖充分性_20/items/3",
+          "original_value": {
+            "text": "JD产品线'快应用'本身在6份简历中均无证据，未作任何提示；多处未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF均无'快应用'字样; E2_A 全文",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/B/D2_覆盖充分性_20/items/3",
+          "original_value": {
+            "text": "JD'快应用'产品线在6份简历均无证据未作提示；未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF; E2_B 全文",
+            "classification": "derived_quality"
+          }
+        }
+      ],
+      "actual_source_evidence": [
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\tasks\\E2.json",
+            "bytes": 4361,
+            "sha256": "363065ef10345091fdaeb87692faee0891bfb5d04dbd8984de00e35af69ec22c"
+          },
+          "json_pointer": "/current_original_request/content",
+          "start": 207,
+          "end": 247,
+          "text": "有跨端开发经验（小程序/快应用/H5）者优先，熟悉Uniapp/Taro框架更佳",
+          "text_sha256_utf8": "35b8dc6caa300fd1455b2e88ac26f5bb508ff43f07a2a022614a2307a6e9dee4"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\tasks\\E2.json",
+            "bytes": 4361,
+            "sha256": "363065ef10345091fdaeb87692faee0891bfb5d04dbd8984de00e35af69ec22c"
+          },
+          "json_pointer": "/current_original_request/content",
+          "start": 274,
+          "end": 293,
+          "text": "具备WebSocket通信协议开发经验",
+          "text_sha256_utf8": "fb65f6983e1796d8a3ed3883712a22dc92b64802bfb8460a91388610f664ff6a"
+        }
+      ],
+      "scope_limits": "Cross-platform can still be a job-related preferred differentiator. Evidence absence, actual inexperience and mandatory failure must remain distinct; no hiring decision certified.",
+      "positive_training_credit": false
+    },
+    {
+      "id": "Q_WANG_CONCURRENT_PROJECT",
+      "decision": "HOLD_UNSUPPORTED_DEFINITIVE_FRONTEND_TENURE_REDUCTION",
+      "reason": "Both arm outputs and Q assert actual frontend tenure ~3 years by excluding the operations-title period. The same already-received PDF P2 lists a 2021.07–2023.07 frontend dashboard project. Job title alone cannot erase this project.",
+      "original_targets": [
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/A/D1_正确性与依据_30/items/2",
+          "original_value": {
+            "text": "对王丹'5年开发经验'的核减准确：2021.07-2023.06为法院信息化运维岗，实际前端约3年；对梁勇其期望杭州12-14K与岗位上海的冲突识别正确",
+            "score": 1,
+            "evidence": "E2_A 王丹/梁勇其条; 王丹PDF工作经历、梁勇其PDF P1",
+            "classification": "explicit_user"
+          }
+        },
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/B/D1_正确性与依据_30/items/2",
+          "original_value": {
+            "text": "未给页码或原文引用，可核性弱于A；所幸抽查未发现错误转述或错配",
+            "score": 1,
+            "evidence": "E2_B 全文无P标引; 六份PDF比对",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "E2_A.txt",
+          "start": 844,
+          "end": 881,
+          "text": "2021.07-2023.06 为法院信息化运维岗，实际前端开发约 3 年",
+          "text_sha256_utf8": "9a39874c42853ae34d952eb6888bf967474c11decb47b3a12608daf7fd593c8c"
+        },
+        {
+          "file": "E2_B.txt",
+          "start": 675,
+          "end": 690,
+          "text": "王丹（前端约3年+，自称5年）",
+          "text_sha256_utf8": "c1374d03d79154f95d47ef1d288922e5069ac40d0a7b3e66372d480ede1e0a95"
+        }
+      ],
+      "actual_source_evidence": [
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\9c667aab99eaada6.pdf",
+            "bytes": 171034,
+            "sha256": "9c667aab99eaada6382c6c60b478fc5925aadf05a76696fe44479f9f13ef11a8"
+          },
+          "page": 2,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "97e7d5d1232b889efa71d11fcf6de12b0cc3dcdf3d81edba7d023cab6f336c10",
+          "start": 279,
+          "end": 304,
+          "text": "2021.07-2023.06\n某法院信息化支持岗",
+          "text_sha256_utf8": "45c9801601d1beb5b4239393749aad67a809c0dff200055bc9c50d9c79f1f025"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\9c667aab99eaada6.pdf",
+            "bytes": 171034,
+            "sha256": "9c667aab99eaada6382c6c60b478fc5925aadf05a76696fe44479f9f13ef11a8"
+          },
+          "page": 2,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "97e7d5d1232b889efa71d11fcf6de12b0cc3dcdf3d81edba7d023cab6f336c10",
+          "start": 911,
+          "end": 963,
+          "text": "2021.07-2023.07\n停车资源数据看板\n技术栈：Vue3、TypeScript、ECharts",
+          "text_sha256_utf8": "b24047a8617a6bf3b814bd65a0362a6c167fb3362cf39159a4ec0d6f26c3185a"
+        },
+        {
+          "request": {
+            "path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0014_8a42d6aff4d4471bb51b7fbffd815c7f\\request.raw.json",
+            "bytes": 307384,
+            "sha256": "7e9d48ef2b97934ae7f8f04a55da069335c18da68c6ff7e2f741b720f61ce906"
+          },
+          "message_index": 19,
+          "role": "tool",
+          "known_before_quality_write": true,
+          "date_segment": {
+            "start": 12120,
+            "end": 12135,
+            "text": "2021.07-2023.07",
+            "text_sha256_utf8": "97cf67595817680e600a61cbd6cd1d06d3aee0b36526e3dcd082aad4e10f295b"
+          },
+          "project_segment": {
+            "start": 12214,
+            "end": 12222,
+            "text": "停车资源数据看板",
+            "text_sha256_utf8": "4807aedf0586dcf4b31739ef75a651eeaea521cff9d38ad3548d4c6f043a174e"
+          },
+          "stack_segment": {
+            "start": 12513,
+            "end": 12536,
+            "text": "Vue3、TypeScript、ECharts",
+            "text_sha256_utf8": "6d49e5154991e15f7f7733fd33d158e95cdba604834423471e849414f95f6614"
+          }
+        }
+      ],
+      "scope_limits": "Concurrent project does not prove full-time frontend employment or validate five years. Preserve both job and project and ask clarification about duration/intensity; no replacement tenure total is assigned.",
+      "positive_training_credit": false
+    },
+    {
+      "id": "Q_APPROX_INTERVAL",
+      "decision": "WITHDRAW_INTERNAL_CONTRADICTION_REASON_HOLD_ABSOLUTE_SUM",
+      "reason": "Approximately2 years and approximately1.5–2 years overlap. Their wording alone does not establish an internal contradiction. Reviewer also claims listed spans total under2 years without fixing the asof for the ongoing job.",
+      "original_targets": [
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E1/arms/A/D1_正确性与依据_30/items/3",
+          "original_value": {
+            "text": "年限核算基本正确且主动指出简历自述'3年'(P1)与实际累计约1.5-2年的口径差，但同一答复内先写'累计约 2 年'后写'实际约 1.5–2 年'，内部口径轻微不一致",
+            "score": 0.5,
+            "evidence": "E1_A 第8行'累计约 2 年，但中间有空档' vs 末尾'按月份累计实际约 1.5–2 年'; PDF三段经历合计不足2年（视'至今'而定）",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "decision.json",
+          "json_pointer": "/quality_vs_cost_reading/E1",
+          "original_value": "skill arm slightly LOWER blind Q (93.75 vs 97.5, driven by D1 internal year-accounting inconsistency and a D2 coverage gap) at ~2.85x tokens and ~1.30x wall: case evidence runs against the skill, but delta is small and single-train-case"
+        },
+        {
+          "file": "feedback.json",
+          "json_pointer": "/current_version_concrete_defects/2",
+          "original_value": {
+            "id": "F3",
+            "where": "SKILL.md Step 2 (semantic match) — missing guidance",
+            "defect": "no step asks the model to reconcile self-claimed total experience against the date-sum of listed jobs, or to flag future-dated end dates before delivery",
+            "evidence_from_this_run": "E1 skill-arm output first states '累计约 2 年' then '实际约 1.5–2 年' in the same answer (internal inconsistency); both arms left future-dated employment (e.g. 2026-03/2026-04 ends) unflagged; the no-skill arm in E1 handled tenure accounting better than the skill arm",
+            "severity": "process gap consistent with an observed quality defect of the skill arm; fixing is a hypothesis to re-test, not a proven gain"
+          }
+        }
+      ],
+      "actual_source_evidence": [
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\3f8a1c51032c2b97.pdf",
+            "bytes": 401958,
+            "sha256": "3f8a1c51032c2b97b153e295e485216b46e9f95b6e03f0e8bd6df565ef505c3a"
+          },
+          "page": 1,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "2bbcd8bda1000e3f08d0a2dda4c329d2d87a0db4cfd6aef202cf35d98b7e9c04",
+          "start": 0,
+          "end": 9,
+          "text": "2025.8-至今",
+          "text_sha256_utf8": "f49b55bdb500b3cb1c4cbb24b8b835401915854e575ece5d7f8c3be262192819"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\3f8a1c51032c2b97.pdf",
+            "bytes": 401958,
+            "sha256": "3f8a1c51032c2b97b153e295e485216b46e9f95b6e03f0e8bd6df565ef505c3a"
+          },
+          "page": 1,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "2bbcd8bda1000e3f08d0a2dda4c329d2d87a0db4cfd6aef202cf35d98b7e9c04",
+          "start": 234,
+          "end": 247,
+          "text": "2024.5-2024.9",
+          "text_sha256_utf8": "752e65a874bed1d72526507c4dd8e5c433577b4634892aa8469adceb088ce599"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\3f8a1c51032c2b97.pdf",
+            "bytes": 401958,
+            "sha256": "3f8a1c51032c2b97b153e295e485216b46e9f95b6e03f0e8bd6df565ef505c3a"
+          },
+          "page": 1,
+          "extraction": "PyMuPDF 1.28.2",
+          "extracted_page_text_sha256": "2bbcd8bda1000e3f08d0a2dda4c329d2d87a0db4cfd6aef202cf35d98b7e9c04",
+          "start": 401,
+          "end": 415,
+          "text": "2023.2-2023.12",
+          "text_sha256_utf8": "64f3698b440192f96d39517d4f276dcd1830570380b4d9e120d800c3e5a9a705"
+        },
+        {
+          "file": "E1_A.txt",
+          "start": 386,
+          "end": 393,
+          "text": "累计约 2 年",
+          "text_sha256_utf8": "bd2e337873da1af7baa0cb8dceb923ff65b2fbc5aa5b4e33aa425c836b54586a"
+        },
+        {
+          "file": "E1_A.txt",
+          "start": 1089,
+          "end": 1100,
+          "text": "实际约 1.5–2 年",
+          "text_sha256_utf8": "1ae0aca13c94091dfffb1cae287b6847a430b0a310b16b1e9e2cb618c65baa22"
+        }
+      ],
+      "scope_limits": "If ongoing employment is evaluated at 2026-10, month-difference arithmetic gives10+4+14=28 months (endpoint conventions change the number); below2 years is not supported under that assumption. Resume snapshot date/continued employment are not authenticated, so this is a diagnostic conditional calculation, not a new exact tenure gold. Both arms need the same asof policy.",
+      "positive_training_credit": false
+    },
+    {
+      "id": "Q_ARITHMETIC",
+      "decision": "WITHDRAW_REPORTED_E2_A_SCORE_AND_Q_DEPENDENT_TIE",
+      "reason": "E2A D2 items sum2.5, stored3. Raw-item arithmetic yields88.75, not91.25. Underlying semantic items also require correction;88.75 is not a replacement correct Q.",
+      "original_targets": [
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E2/arms/A",
+          "arithmetic_diagnostic": {
+            "case": "E2",
+            "arm": "A",
+            "dimensions": [
+              {
+                "dimension": "D1",
+                "item_sum": 3.5,
+                "n_items": 4,
+                "reported_dimension_score": 3.5,
+                "matches": true
+              },
+              {
+                "dimension": "D2",
+                "item_sum": 2.5,
+                "n_items": 4,
+                "reported_dimension_score": 3,
+                "matches": false
+              },
+              {
+                "dimension": "D3",
+                "item_sum": 4,
+                "n_items": 4,
+                "reported_dimension_score": 4,
+                "matches": true
+              },
+              {
+                "dimension": "D4",
+                "item_sum": 4,
+                "n_items": 4,
+                "reported_dimension_score": 4,
+                "matches": true
+              },
+              {
+                "dimension": "D5",
+                "item_sum": 4,
+                "n_items": 4,
+                "reported_dimension_score": 4,
+                "matches": true
+              }
+            ],
+            "raw_items_weighted_total_100": 88.75,
+            "reported_total_100": 91.25,
+            "is_new_correct_quality_score": false
+          }
+        },
+        {
+          "file": "decision.json",
+          "json_pointer": "/quality_vs_cost_reading/E2",
+          "original_value": "blind Q tied (91.25 vs 91.25) with different strengths: skill arm uniquely delivered page-verifiable citations (independently re-verified correct by this review); no_skill arm covered qiankun/React evidence the skill arm missed; cost comparison inconclusive due to NS interruption and unknown-usage call"
+        },
+        {
+          "file": "decision.json",
+          "json_pointer": "/frozen_blind_quality/scores/E2",
+          "original_value": {
+            "A": 91.25,
+            "B": 91.25
+          }
+        }
+      ],
+      "actual_source_evidence": [],
+      "scope_limits": "Preserve original score and failure. Do not simply substitute arithmetic score or train equal-quality conclusion.",
+      "positive_training_credit": false
+    },
+    {
+      "id": "Q_COST_BOUND_DIRECTION",
+      "decision": "WITHDRAW_FLOOR_AND_2_05_TO_2_85_PREMIUM_CONCLUSION",
+      "reason": "E2 S cost complete739012; N cost unknown subtotal360358. N>=360358 gives S/N<=2.050771732554848, not >=2.05. No exact E2 premium is established.",
+      "original_targets": [
+        {
+          "file": "decision.json",
+          "json_pointer": "/costs_actual/E2/readable_ratios",
+          "original_value": {
+            "known_token_floor_ratio_skill_over_no_skill": 2.05,
+            "note": "NS subtotal is NOT a complete cost (1 unknown-usage call; usage missing is not zero); precise ratio not computable and not fabricated; wall difference includes the genuine mid-run interruption (FORWARDING receipt, 0 DONE, 160 partial chars, counterfactual no-interruption latency unknown) and cannot be attributed wholly to reusable resources"
+          }
+        },
+        {
+          "file": "decision.json",
+          "json_pointer": "/recommendation/basis/1",
+          "original_value": "blind Q shows no semantic quality gain for the skill (one case slightly lower, one tied), so the ~2.05-2.85x token premium is currently unjustified by measured benefit"
+        }
+      ],
+      "actual_source_evidence": [
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\phase2_arm_costs.json",
+            "bytes": 20059,
+            "sha256": "2a6d8eb6d453708cfdcd9ef85d8c53212dba26898861db1a87e2c57f16535bbb"
+          },
+          "json_pointer": "/case_arm_map_and_actual_cost/E2",
+          "S_complete": {
+            "measurement_status": "complete",
+            "known_input_tokens": 731385,
+            "known_output_tokens": 7627,
+            "known_total_tokens": 739012,
+            "model_calls": 10,
+            "unknown_usage_calls": 0,
+            "seconds": 241.65599999995902
+          },
+          "N_partial": {
+            "measurement_status": "partial",
+            "known_input_tokens": 357174,
+            "known_output_tokens": 3184,
+            "known_total_tokens": 360358,
+            "model_calls": 7,
+            "unknown_usage_calls": 1,
+            "seconds": 444.46899999998277
+          },
+          "S_over_N_upper_bound": 2.050771732554848
+        }
+      ],
+      "scope_limits": "E1 measured token ratio remains468104/164470≈2.846744. Token is not cash. E2 interrupted wall time is not attributable wholly to the skill. Cost of qualified skill remains undefined with zero qualified skills.",
+      "positive_training_credit": false
+    },
+    {
+      "id": "Q_DUTIES_FULL_MATRIX",
+      "decision": "HOLD_DERIVED_COVERAGE_DEDUCTION_NO_MANDATORY_MATRIX",
+      "reason": "The original E1 task requests an interview recommendation, not a full duty matrix. Mapping material duties can be relevant; a deduction requires identifying a material missing ability or resulting decision weakness instead of requiring every JD line by format.",
+      "original_targets": [
+        {
+          "file": "blind_quality.json",
+          "json_pointer": "/cases/E1/arms/A/D2_覆盖充分性_20/items/3",
+          "original_value": {
+            "text": "岗位职责1-6条（实验执行、发酵检测、记录归档、平台物料、文献汇报、技术协同）未做任何映射，仅覆盖任职要求部分",
+            "score": 0.5,
+            "evidence": "E1_A 全文无JD岗位职责对应分析; 对照E1_B对JD第5/6条有印证",
+            "classification": "derived_quality"
+          }
+        },
+        {
+          "file": "feedback.json",
+          "json_pointer": "/current_version_concrete_defects/3",
+          "original_value": {
+            "id": "F4",
+            "where": "SKILL.md Step 4 (deliverable) — missing guidance",
+            "defect": "no reminder to map findings back to JD duties (not only 任职要求) and to surface salary/location fit when the JD states them",
+            "evidence_from_this_run": "E1 skill-arm output omitted JD duty mapping (its D2 item scored 0.5); it did cover salary/location — while E2 skill arm missed one candidate's React evidence that the no-skill arm caught; coverage is uneven across runs",
+            "severity": "minor coverage variance; one-line addition, effect unproven"
+          }
+        }
+      ],
+      "actual_source_evidence": [
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\tasks\\E1.json",
+            "bytes": 4083,
+            "sha256": "fbb373461e5ba3dfcbc920c88f6a98d91332ae601e15b24fc3bc2296cb278f55"
+          },
+          "json_pointer": "/current_original_request/content",
+          "request": "是否可推荐面试"
+        },
+        {
+          "file": {
+            "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\source_only_quality_protocol.json",
+            "bytes": 3349,
+            "sha256": "1ba209ae5122d529b97f52c6ecffe60ccb12a8fe1016dae67c6180a662463262"
+          },
+          "json_pointer": "/source_based_criteria/no_forced_output"
+        }
+      ],
+      "scope_limits": "This is a hold for criterion justification, not proof every omitted duty is irrelevant or score should be full. Original reviewer did classify the deduction as derived_quality.",
+      "positive_training_credit": false
+    },
+    {
+      "id": "Q_METHOD_CAUSALITY",
+      "decision": "HOLD_CAUSAL_BENEFIT_WORDING_RETAIN_LOCAL_OUTPUT_OBSERVATION",
+      "reason": "Both skill outputs visibly supply page references and both baselines do not. The two limited-blind development cases do not isolate a causal skill contribution or establish semantic hiring gain.",
+      "original_targets": [
+        {
+          "file": "decision.json",
+          "json_pointer": "/quality_vs_cost_reading/skill_genuine_distinct_benefit",
+          "original_value": "both skill-arm outputs carried page-anchored quotes that this review independently confirmed 100% correct against the PDFs; no_skill arms gave no page citations, reducing auditability. This is a real mechanical contribution of the skill's evidence_check workflow, not a semantic hiring gain"
+        },
+        {
+          "file": "decision.json",
+          "json_pointer": "/recommendation/basis/0",
+          "original_value": "skill shows one demonstrable, independently verified advantage (page-verifiable literal citations) that the no-skill baseline lacked in both cases"
+        }
+      ],
+      "actual_source_evidence": [
+        {
+          "four_original_output_pins": [
+            {
+              "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\outputs\\E1_A.txt",
+              "bytes": 2652,
+              "sha256": "15a40251fbc509fa330421cf75982f0545d3a3ee824583645581950c844866cc"
+            },
+            {
+              "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\outputs\\E1_B.txt",
+              "bytes": 2227,
+              "sha256": "f758ef350e903c674526e79d9a780fa36836195c6eda4939f815d457e4cbc639"
+            },
+            {
+              "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\outputs\\E2_A.txt",
+              "bytes": 3860,
+              "sha256": "24d0ef2aa2532e0535d7ffc678122ceda4f70ec804cabdfb50a74422d5683ec3"
+            },
+            {
+              "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\review\\outputs\\E2_B.txt",
+              "bytes": 2882,
+              "sha256": "08c4c2429278df09669431f319424223721ba34633f8a6b36113a16351944d1c"
+            }
+          ]
+        }
+      ],
+      "scope_limits": "Actual full native skill reads/version match establish availability and consumption, not benefit; literal/page correctness is separate from meaning and hiring correctness. Output method cues prevent complete blinding.",
+      "positive_training_credit": false
+    }
+  ],
+  "original_labels_preserved": true,
+  "any_new_Q_numeric_rescore": false,
+  "any_positive_training_admission": false
+}

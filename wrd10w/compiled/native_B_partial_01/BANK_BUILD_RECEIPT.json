@@ -1,0 +1,163 @@
+{
+  "schema": "wrd-v10-B-partial-bank-build-receipt-v1",
+  "created_at_utc": "2026-10-27T02:43:25.148606+00:00",
+  "status": "PASS",
+  "scope": "R-only root-reviewed union ranges; conservative uniform multiplier .25; no whole B approval",
+  "actual": {
+    "unique_sequences": 1,
+    "unique_target_messages": 1,
+    "input_tokens": 30296,
+    "supervised_R_tokens": 2460,
+    "weighted_supervised_token_equivalents": 615.0,
+    "16k_sequences": 0,
+    "32k_sequences": 1,
+    "compiled_approved_R_characters": 11146,
+    "approved_characters_with_any_positive_token": 11130,
+    "approved_characters_without_fully_contained_token": 16,
+    "held_approved_characters": 2777,
+    "source_ids": [
+      "conv_246b5e915810",
+      "conv_41874c950938",
+      "conv_d1ef29d65e7a"
+    ],
+    "source_groups": [
+      "v10_native_group_a6a1c69fa6400f282a9a"
+    ],
+    "all_positive_components": [
+      "R"
+    ],
+    "all_sample_multipliers": [
+      0.25
+    ],
+    "all_other_loss_zero": true
+  },
+  "held_counts": {
+    "GT32K_NO_SILENT_TRUNCATION": 3,
+    "TOOL_ARGUMENT_SCHEMA_INVALID": 1
+  },
+  "review_cutoff": {
+    "calls": 21,
+    "R_characters": 78698,
+    "positive_original_ranges": 21,
+    "union_ranges": 19,
+    "approved_characters": 13923,
+    "final_three_calls_not_approved_R_characters": 1869
+  },
+  "raw_full_episode": {
+    "calls": 24,
+    "R_characters": 80567,
+    "new_original_ledger_equals_preexisting_raw_recovery": true,
+    "existing_raw_recovery_sha256": "e493ce96b013d36864c10071319ee398a98abe99bf7ae75aa9641084cf07a2b5"
+  },
+  "commands_executed": [
+    "python research/data_prep/wrd_main_v10/build_b_partial_reasoning_01.py",
+    "python research/data_prep/wrd_main_v10/extract_native_main.py --episode output/20261027_wrd_main_v10/runtime_preflight/episodes/B_make_report_02 --review output/20261027_wrd_main_v10/native_records/B_make_report_02/B_PARTIAL_REASONING_REVIEW_V1.json --output output/20261027_wrd_main_v10/native_records/B_make_report_02/partial_reviewed_01",
+    "python research/data_prep/wrd_main_v10/compile_main.py --input output/20261027_wrd_main_v10/native_records/B_make_report_02/partial_reviewed_01/reviewed.student_views.jsonl.gz --output output/20261027_wrd_main_v10/compiled/native_B_partial_01",
+    "python research/data_prep/wrd_main_v10/verify_compilation.py --compiled output/20261027_wrd_main_v10/compiled/native_B_partial_01 --out output/20261027_wrd_main_v10/compiled/native_B_partial_01/SCOPED_TOKEN_QA.json",
+    "python research/data_prep/wrd_main_v10/audit_b_partial_bank_01.py"
+  ],
+  "files": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\B01_RAW_MASK_COVERAGE_QA.json",
+      "bytes": 15639,
+      "sha256": "4f616127833ae7c4a1bfa4a66f7c2ba88b7cd635a9a41b911a88af51175ca0d7"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\CAUSAL_TEMPLATE.json",
+      "bytes": 5957,
+      "sha256": "61e27579ef79a3482634bec53cf52990e7f8ab0e57c137ca4a086713f76b02b9"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\COMPILATION_REPORT.json",
+      "bytes": 3788,
+      "sha256": "bafaee706479ff482398e11425f3fa752c97f6e0bd81310a6df613d479a6cccf"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\held.jsonl.gz",
+      "bytes": 269,
+      "sha256": "8956b09961f5593ddc24f57fa3326ec4ad8ca07bfc3e0cf0fcd5bb1132b5b327"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\LENGTH_HOLD_CLARIFICATION.json",
+      "bytes": 1793,
+      "sha256": "1ec988e3da1274b4cd01b7fa4f57dc39eda54c6d30c7bc9e0fb133da045f9d24"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\native_wrd_main.train.32k.jsonl.gz",
+      "bytes": 97409,
+      "sha256": "216bf6c81a21f0b80dea43a5ed3e6770502b8844f70a82bc254c964d8d4d7074"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\README.md",
+      "bytes": 2715,
+      "sha256": "6207fcf741cc55cea8a1728f45e921b43afc57746c6899c4e63552de6bbd88f8"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\compiled\\native_B_partial_01\\SCOPED_TOKEN_QA.json",
+      "bytes": 1041,
+      "sha256": "328687b174cad8038d9eb33dfec65d84f4ee0ce4a6b67206e0149c7d7c942e63"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\B_make_report_02\\B_PARTIAL_PREPARATION_RECEIPT_V1.json",
+      "bytes": 7629,
+      "sha256": "598e162b55dcac4260a2a98499f5b3b0d8bfbed91337ff6361f62af0701824b1"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\B_make_report_02\\B_PARTIAL_REASONING_REVIEW_V1.json",
+      "bytes": 26192,
+      "sha256": "1256645f694b0684df588314c71ebae0edb05bf3eac34cac999ec8078d7b5cdd"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\B_make_report_02\\partial_reviewed_01\\EXTRACTION_REPORT.json",
+      "bytes": 3178,
+      "sha256": "55624b949606484c4e68e7ed5fa3c8dddf029345d028208db8dca2d5efc93f5a"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\B_make_report_02\\partial_reviewed_01\\provider_responses.original.jsonl.gz",
+      "bytes": 1484935,
+      "sha256": "566b84295012a9b007eebfed129d559279e93f3b703691c9b6594b10acc59282"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\B_make_report_02\\partial_reviewed_01\\README.md",
+      "bytes": 728,
+      "sha256": "5b6d95a8bc29daa6aa12e977ba84c97fea8ab40b0426fa02df1ae3435394609d"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\B_make_report_02\\partial_reviewed_01\\reviewed.student_views.jsonl.gz",
+      "bytes": 230935,
+      "sha256": "565cd67ae11c6f6654bf731dae68d2c6c44166e1912511c111c0921089f133a6"
+    },
+    {
+      "path": "D:\\skillloop\\research\\data_prep\\wrd_main_v10\\audit_b_partial_bank_01.py",
+      "bytes": 12457,
+      "sha256": "bf4595268586752c2e0da44bcbb36160bc49b0ac189eff16682983a7c87fccc7"
+    },
+    {
+      "path": "D:\\skillloop\\research\\data_prep\\wrd_main_v10\\build_b_partial_reasoning_01.py",
+      "bytes": 9029,
+      "sha256": "eb0191317ad543fe32e0389cbe36d61e29fbfc38e5f7a6e9aabf0ceb95bd787c"
+    },
+    {
+      "path": "D:\\skillloop\\research\\data_prep\\wrd_main_v10\\compile_main.py",
+      "bytes": 16675,
+      "sha256": "caa4449936c9705f17d50c09e27923d7cbd572d369e26e36bc8f8a4f27fb496f"
+    },
+    {
+      "path": "D:\\skillloop\\research\\data_prep\\wrd_main_v10\\extract_native_main.py",
+      "bytes": 9199,
+      "sha256": "9aba21d7b98215d4cc0921f9caf7eb1cf5264a9c7f896391a137001e335561e2"
+    },
+    {
+      "path": "D:\\skillloop\\research\\data_prep\\wrd_main_v10\\verify_compilation.py",
+      "bytes": 14282,
+      "sha256": "34831540c1a5de105c19631776a804cd6bdeadfe2a5b30ac9bec43548fa62c6e"
+    }
+  ],
+  "active_modified": false,
+  "plans_or_dual_designs_modified": false,
+  "native_workspace_read_or_written": false,
+  "new_teacher_actor_or_training_calls": 0,
+  "cost": "UNKNOWN_NOT_ZERO",
+  "training_started": false,
+  "weights_loaded": false
+}

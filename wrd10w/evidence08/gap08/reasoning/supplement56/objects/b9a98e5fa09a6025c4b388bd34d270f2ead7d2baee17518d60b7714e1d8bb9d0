@@ -1,0 +1,41 @@
+{
+  "protocol": "task-group-pipeline-v1",
+  "stage": "evaluation",
+  "task_id": "T0112",
+  "input": "技术转移中心需要汇总 inputs/成果转化.xlsx，请交付 成果赋权与转化分析.xlsx 和 成果转化摘要.docx，按技术领域、转化金额档位（0至100万元，含100；超过100万元至300万元，含300；超过300万元）、去重公司数及融资披露状态统计；洽谈中项目不计已实现转化金额，“无披露”不等于未融资。报告四段分别不超过400字，给可核的图表。",
+  "context": {
+    "workspace_inputs": "/workspace/inputs",
+    "delivery_directory": "/workspace/outputs",
+    "instruction": "按清单name读取本题输入；所有交付文件保存到/workspace/outputs，保留委托指定名称；一次用户委托，无后轮。"
+  },
+  "followup_inputs": [],
+  "resources": [
+    {
+      "name": "inputs/成果转化.xlsx",
+      "path": "D:\\skillloop\\output\\20261020_one_request_wrd\\T0112_pattern_wrd_r3\\workspace\\inputs\\成果转化.xlsx",
+      "sha256": "9edd8e62d7de7df979b9c4762a8be27fb7001c942daf04deb37ac698611b317b",
+      "mount": "inputs/成果转化.xlsx"
+    }
+  ],
+  "learned_skills": [
+    {
+      "id": "structured-excel-parameterized-analysis",
+      "source_package_id": "wrd-t0112",
+      "path": "D:\\skillloop\\output\\20261020_one_request_wrd\\T0112_pattern_wrd_r3\\workspace\\learned_skills\\structured-excel-parameterized-analysis",
+      "files": {
+        "assets/report_template.md": "eac2f2bf4e63704c336bb686dd3f157073e86521883a8592830313d4fbcc858d",
+        "request.template.json": "f7f0af0ace2f0b099a68f91c2d7432d7e66a107b13625a4329dbe2189d1ad1c5",
+        "scripts/run.py": "7749f52b476474f88c257efb6f384deb8bcecef5121afa1d7333c3336052b990",
+        "SKILL.md": "be8cccd91e168babc0bed2e4e77938cbdea47724d71ee789f45891441e5dc85c",
+        "workflow.json": "7b876f63014eef860125fc94a4ab79844d4b2d051d8db54554bc021fe99a5084"
+      }
+    }
+  ],
+  "required_commands": [
+    "python",
+    "node",
+    "libreoffice",
+    "pdftoppm"
+  ],
+  "runtime_observation_seconds": 0
+}

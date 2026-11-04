@@ -1,0 +1,119 @@
+{
+ "schema": "wrd-three-local-HTML-repairs-revision-v1",
+ "date": "2026-10-27",
+ "scope": "仅局修三个已实证缺陷；未运行任何消费者/旧业务任务、未训练、未建子Agent、未外发、未全局安装。",
+ "sealing_before_repair": {
+  "verbatim_copies": "/workspace/outputs/skill/ 与 /workspace/outputs/fixtures/ 均为逐字复制；6个技能功能文件SHA与 ACTUAL_COUNTEREXAMPLES.json 记录一致",
+  "original_versions_sha256": "outputs/before_repair/original_versions.sha256",
+  "repaired_versions_sha256": "outputs/before_repair/repaired_versions.sha256",
+  "byte_identical_after_repair": 12,
+  "changed_files": [
+   "skill/scripts/verify_animation.mjs",
+   "skill/examples/ball_bounce/topic.js",
+   "skill/scripts/gen_animation.py"
+  ]
+ },
+ "reproduced_before_failures": [
+  {
+   "id": "VERIFIER_FALSE_RESUME",
+   "evidence": "outputs/before_repair/resume_disabled_canary.html (字节复制maker页+捕获阶段吞掉第2次toggle点击) 用原验证器: exit 0, ok=true —— 独立探针已证实际恢复时间0.5→0.5不变, 原验证器假绿复现",
+   "artifacts": [
+    "before_repair/CANARY_ORIGINAL_VERIFY.json",
+    "before_repair/maker.html"
+   ]
+  },
+  {
+   "id": "SYNTHETIC_EXAMPLE_HEIGHT_SIGN",
+   "evidence": "原topic.js dropHeight=3.2: HUD高度3.20 m, 1/120s步进后高度0.00 m且地面冲击力=作用中 (y>=0即判触地, 正y同时被画成向下), 与独立记录一致",
+   "artifacts": [
+    "before_repair/BALL_FIRST_STEP_PROBE.json"
+   ]
+  },
+  {
+   "id": "OPTIONAL_FIELD_TYPE_TRACEBACK",
+   "evidence": "subtitle=42: exit 1 + TypeError traceback (非文档约定的exit 2), 无输出文件",
+   "artifacts": [
+    "before_repair/SUBTITLE_ORIGINAL.log",
+    "before_repair/subtitle_nonstring.json"
+   ]
+  }
+ ],
+ "repairs": [
+  {
+   "id": "VERIFIER_FALSE_RESUME",
+   "file": "skill/scripts/verify_animation.mjs",
+   "change": "『继续后恢复播放』与『重置后仍在播放』改用HUD模拟时间推进判定(r2>r1, z2>z1), 替换原rAF帧数判据; 暂停冻结判据(画布像素+HUD时间)与播放中帧数/画面变化判据保留。原文件头注释同步说明: 暂停时rAF仍重画, 帧数不能证明模拟恢复/重置后推进。",
+   "rejected_shortcuts": "未删除resume/reset检查, 未放宽为总是通过, 未用帧数或测量判据冒充物理进度"
+  },
+  {
+   "id": "SYNTHETIC_EXAMPLE_HEIGHT_SIGN",
+   "file": "skill/examples/ball_bounce/topic.js",
+   "change": "统一坐标约定: 高度=离地距离向上为正。step改为 s.y -= s.v*dt 且触地判据 s.y<=0; draw改为 by=groundY - r - s.y*pxPerM(正高度画在地面之上, 与每米刻度线一致)。dropHeight保持3.2, 反弹/压缩逻辑未删。",
+   "post_repair_probe": {
+    "start": 3.2,
+    "first_after_1/120s": 3.2,
+    "contactIndex": 94,
+    "min": 0,
+    "max": 3.2,
+    "bounced": true,
+    "artifact": "before_repair/BALL_FIXED_PROBE.json"
+   },
+   "rejected_shortcuts": "未把初高改为0, 未删除反弹, 未删改任何测例"
+  },
+  {
+   "id": "OPTIONAL_FIELD_TYPE_TRACEBACK",
+   "file": "skill/scripts/gen_animation.py",
+   "change": "validate() 对出现即必须为字符串的subtitle与lang增加类型检查, 坏类型 fail(2, 'config.subtitle 必须是字符串(可省略), 实际类型: int'), 不做str()强行拼接。",
+   "post_repair": {
+    "rc": 2,
+    "stderr": "gen_animation: 错误: config.subtitle 必须是字符串(可省略), 实际类型: int",
+    "no_output_file": true
+   }
+  }
+ ],
+ "post_repair_verifications": [
+  {
+   "check": "maker基线(修复后验证器)",
+   "result": "exit 0, ok=true, 无console/页面错误",
+   "artifact": "before_repair/maker_fixed_verify.json"
+  },
+  {
+   "check": "合成ball基线(修复后验证器)",
+   "result": "exit 0, ok=true, 实际画面变化/暂停冻结/恢复时间推进/重置归零且推进",
+   "artifact": "before_repair/ball_fixed_verify.json"
+  },
+  {
+   "check": "resume禁用金丝雀×修复后验证器",
+   "result": "exit 1, ok=false, 失败项=『继续后恢复播放』『重置后仍在播放』(按被禁功能命名, 非无关像素)",
+   "artifact": "before_repair/CANARY_FIXED_VERIFY.json"
+  },
+  {
+   "check": "reset禁用金丝雀×修复后验证器(自补时序反例)",
+   "result": "exit 1, ok=false, 失败项=『重置后 HUD 时间归零』",
+   "artifact": "before_repair/RESET_CANARY_FIXED_VERIFY.json"
+  },
+  {
+   "check": "原5例静态坏输入重测(不改正确预期)",
+   "result": "T1/T2/T3/T5=exit2, T4=exit3, 均无输出文件且无traceback",
+   "artifact": "before_repair/badinput_retest/RETEST_BADINPUT.json"
+  },
+  {
+   "check": "运行时错误层T6重测",
+   "result": "页面内显示『启动失败: 缺少 physics.mass』错误层, 非静默白屏",
+   "artifact": "fixtures/results/bad_runtime.html + runtime_err_check.mjs 输出 {errorShown:true}"
+  },
+  {
+   "check": "独立契约测试 repair_contract_tests.py",
+   "result": "8/8 通过, exit 0; 未见与本题原真实需求冲突项, 未改动该测试文件",
+   "artifact": "independent_retest/RESULTS.json"
+  }
+ ],
+ "remaining_unknowns_and_limits": [
+  "修复后验证器仍只证明『可加载、画面相关、控制真实生效、无错』; 暂停冻结依赖0.1s粒度HUD时间与像素比对, 对亚0.1s抖动的暂停泄漏不敏感——未测。",
+  "HUD时间为toFixed(1)粒度, 恢复/重置推进判据要求约>0.1s的真实推进; 更慢帧率/极端节流环境未测。",
+  "合成ball的物理为页面明示的简化示意(压缩期0.08s恒定反弹), 非物理精确gold, 亦非任何企业个案答案。",
+  "未测不同DPR/小屏/移动端/长时(>1分钟)稳定性。",
+  "本次仅做源内封闭局修; 未读取E1/E2或旧Teacher答案, 未据源内角色扩大授权, 中文偏好保留。"
+ ],
+ "no_business_benefit_claimed": true
+}

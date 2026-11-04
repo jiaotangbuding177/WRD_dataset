@@ -1,0 +1,27 @@
+{
+  "id": "chatcmpl-1793079236539",
+  "model": "glm-5.3-flash",
+  "usage": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Before-state reproduced exactly as observed (P1 literal rc=2, P2 silent-empty rc=0, P3 tracebacks rc=1 / page true+float rc=0; original22 ALL PASS). Let me capture key before evidence, then apply the local fixes.",
+        "tool_calls": [
+          {
+            "id": "callcce99508431f4e74b15d0d01ebbb1ffa",
+            "type": "function",
+            "function": {
+              "name": "exec",
+              "arguments": "{\"command\":\"cd /workspace/tmp/evidence\\npython3 - <<'EOF'\\nimport json\\np1=json.load(open('before_P1_literal.json'))\\nprint('P1 literal reason:', p1['claims'][0].get('reason'))\\ne=json.load(open('before_P1_extract_raw.json'))\\nprint('P1 extract page text:', e['results'][0]['pages'][0]['text'])\\np2=json.load(open('before_P2_imageonly.json'))\\nprint('P2 imageonly:', json.dumps(p2)[:160])\\nprint('P3 page_true:', open('before_P3_page_true.json').read()[:200])\\nprint('P3 page_is_string stderr head:', open('before_P3_page_is_string.stderr').read()[-160:])\\nEOF\",\"workdir\":\"/workspace\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ],
+  "_inspection_only_reconstructed_from_SSE": true,
+  "_event_count": 178
+}

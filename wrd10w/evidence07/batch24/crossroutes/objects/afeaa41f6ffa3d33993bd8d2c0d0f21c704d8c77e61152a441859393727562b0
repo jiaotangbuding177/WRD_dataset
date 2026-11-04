@@ -1,0 +1,37 @@
+---
+name: docx-standardize-export
+name_zh: 材料整理规范DOCX
+description: 用户提供材料（md/docx/pdf/txt）并要求整理成规范DOCX（封面、目录、一级/二级标题、表格统一、页眉页脚、关键结论加粗、不改事实数据）时使用；按内容结构化→docx-js生成→目录后处理→渲染核验路线交付。从零撰写业务内容、以PDF为主产物不适用。
+---
+
+# 材料整理规范DOCX最短路线
+
+输入：给定材料 + 版式要求（默认封面/目录/两级标题/表格统一/页眉页脚/关键结论加粗）。产出：规范 DOCX。铁律：**只动版式与层级，不改写事实数据**。
+
+## 路线
+
+1. **读材料提内容**：md/txt 直接读；docx/pdf/doc 用
+   `python3 {SKILL}/scripts/extract_texts.py 材料文件 --out {OUT}/extracted`
+   （退出 3=有文件提取失败，错误在 index.json）。提取内容是唯一事实来源。
+2. **结构化成 content.json**：复制 `templates/content.example.json`，把材料内容逐字摆进 sections/blocks（p / h2 / list / table）。关键判断：
+   - **关键结论加粗**：需加粗的原文子串填入 `boldTerms`（正文与表格自动命中加粗）；整段结论用 `"bold": true`；关键结论汇总表用 `"boldAllCells": true`。只改字重，不改文字。
+   - **不改事实数据**：数字、名称、口径原样搬运；允许的只有版式归整（散行归进表格时文字仍取原文）。
+   - 目录序号（一、/1.1）按原文照抄，不要自创编号。
+3. **生成DOCX**：`node {SKILL}/scripts/make_docx.js content.json OUTPUT.docx`
+   （报 Cannot find module 'docx' 时先 `NODE_PATH=$(npm root -g)`）。脚本已固化历史经验：封面独立节无页眉页脚；目录独占一页且标题用非标题样式；正文节页码从 1 起算、页眉右上+分隔线、页脚「第 X 页」（不用 NUMPAGES，LibreOffice 会误算）；一级/二级标题字号拉开（16pt/14pt 深蓝/蓝）；表格浅蓝加粗表头+斑马纹+细边框。特殊版式要求（如页眉文字、字体、配色）在 content.json 或脚本顶部改，不动结构。
+4. **目录后处理（必须跑）**：`python3 {SKILL}/scripts/fix_toc.py OUTPUT.docx OUTPUT_final.docx`
+   一条命令完成：注入标题书签 → 去 sdt 包裹并注入带点线+PAGEREF 域的目录条目 → LibreOffice 实测页码回填 → settings.xml 写 updateFields（Word 打开自动刷新）。退出码 2=输入问题（无 TOC 域/无标题/文件不存在），3=中间失败看 stderr；对输出重跑结果不变（幂等）。分节与默认不同时用 `--offset N` 调整页码偏移。
+5. **核验交付**：fix_toc 会打印页数与「目录条目 -> 页码」映射；渲染 PDF 抽查封面（无页眉页脚）、目录（点线+页码、无域代码字样）、正文（页眉页脚/标题层级/表格样式），并对照材料核对关键事实仍在（可用步骤 1 的 extract_texts.py 提取成品后逐项比对）。核验由当次任务负责，不叠加固定循环。
+
+## 关键判断（历史翻车点，勿重蹈）
+
+- **不要用 LibreOffice 宏刷新目录域**：不稳定且常失败；直接走 fix_toc.py 的 XML 注入。
+- **不要用 docx-js 的 Bookmark 类**：有 bug，所有 w:id 都是 1；书签由 fix_toc.py 后处理注入。
+- **目录条目会改变分页**：fix_toc.py 先注入条目再测页码，故页码不会偏；若改动分节结构注意重跑。
+- 生成 docx 后必须实际渲染检查，不能只看文件存在或字段值。
+
+## 入口（按需读取）
+
+- `references/stage_notes.md` — 各判断的来源依据（带历史会话消息ID），需要追溯时读。
+- `scripts/` — make_docx.js / fix_toc.py / extract_texts.py，用法见上方路线与文件头 docstring。
+- `templates/content.example.json` — content.json 字段说明样例。

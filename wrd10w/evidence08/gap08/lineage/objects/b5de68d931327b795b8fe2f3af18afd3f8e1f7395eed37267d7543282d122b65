@@ -1,0 +1,42 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/jd_resume_branch.md",
+    "outputs/skill/references/docx_export.md",
+    "outputs/skill/scripts/extract_resumes.py",
+    "outputs/skill/scripts/build_outline_docx.py",
+    "outputs/skill/templates/outline.template.md"
+  ],
+  "replaced_work": "复用 previous_skill（与最近一轮通过审查的制作版逐字节一致，diff 确认 IDENTICAL）的全部可靠资源：references/、scripts/、templates/ 原样照搬，不重写；reusable.json 三个技能检查后无新增可用资源（skill_1 的 extract_resumes.py 与本技能同名脚本相同，其余为筛选/流程/JD起草路线，与面试提纲路线不重叠）。本次只修 previous_feedback.json 指出的唯一资源问题：原首页第4条'首回合并行读取'夹在步骤列表末尾、约束力弱，业务试用中执行者第1回合只读需求文件、第2回合才读技能页，读取拆成两回合，成本反超 no_skill 基线。已按反馈建议将其提升为'最短路线'第0条页首硬性首行动作：'首行动作（发出任何其他工具调用前）：在同一回合并行 read 本技能页与需求文件（JD/简历/既往提纲/口述需求文件）；禁止先读其一、禁止 ls、禁止检查输出目录、不把读取拆成多回合'，并删除原第4条重复表述，保持页内单一来源。SKILL.md sha256 由 a97de807… 变为 d2b62f6d…，其余文件字节未动。未采纳旧反馈以外的任何改动，未加核验循环、新脚本或硬限调用。",
+  "program_runs": [
+    {
+      "cmd": "diff -r /workspace/inputs/previous_skill /workspace/inputs/making/09590596cfc4/workspace/outputs/skill",
+      "result": "IDENTICAL——确认 previous_skill 即最近一轮通过审查的制作版，作为复用基线"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/extract_resumes.py resume_yang.pdf scanned.pdf --out resume_extract（样例PDF复用prior_making样例，置于outputs/making_samples）",
+      "result": "exit 0；resume_yang.pdf clean(cjk=95)，scanned.pdf low_text_or_garbled(cjk=0)，index.json与texts/正常"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/extract_resumes.py nonexistent.pdf --out resume_extract2",
+      "result": "exit 2，stderr指名路径不存在（错误分支）"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/build_outline_docx.py outline_yang30.json --out 2026-08-12_面试提纲_杨佳晨_30分钟版.docx（outline.json复用真实会话30分钟版样例）",
+      "result": "exit 0，无分钟不一致警告"
+    },
+    {
+      "cmd": "soffice --headless --convert-to pdf --outdir . 2026-08-12_面试提纲_杨佳晨_30分钟版.docx && pdftoppm -r 100 -png <pdf> render",
+      "result": "PDF/PNG渲染成功；vision探针核验第1页（vision_check1.txt，receipt在档）：中文无乱码缺字、头部信息表三行完整、Part标题与每题【Xmin】时间标签清晰"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/build_outline_docx.py bad_outline.json --out bad_test.docx",
+      "result": "exit 2，报缺少必填字段parts（错误分支；临时产物已清理）"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/build_outline_docx.py mismatch.json --out mismatch_test.docx",
+      "result": "exit 0，stderr打出分钟不一致警告（30 vs 15）"
+    }
+  ],
+  "known_issues": "无未决问题。references/、scripts/、templates/ 未改动，上一轮制作记录（inputs/making/09590596cfc4）中的全部实跑（含scanned.pdf OCR兜底、错误分支、双页渲染核验）结论继续有效。"
+}

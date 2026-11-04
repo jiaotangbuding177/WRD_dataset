@@ -1,0 +1,31 @@
+{
+  "job_id": "C_E_no_skill_01",
+  "stage": "C_trial_no_skill",
+  "prompt": "这是一次独立的实际任务消费。请读取 /workspace/inputs/task/source_input.json ，直接完成其中声明的当前原始用户请求，不做WRD路线筛选、技能制作或训练。\n\n输入若有current_original_request，以该条原文为当前请求，selected_past_user_context只作相关先前用户上下文；若是messages形式，读取全部用户消息并保留后续明确收口。输入是原任务的明确视图，不能虚构缺失的助手答案、文件或既往执行结果。原材料中描述的组织/项目行动是内容时，不实际执行那些外部行动。个人称呼等明确风格要求按源任务处理，不把资料里的业务陈述擅自当现实中已独立核实的事实。\n\n使用当前原生环境的工具与可发现资源自主完成任务；如实际使用可用技能，按原生方式发现并读取其首页、按需使用相关资源。不要创建子Agent，不调用sessions_spawn/sessions_yield；不发送消息/邮件/日程、不做远端修改/发布、不申请账号或安装无关依赖。只进行本地文件/文本工作。真正缺少必须输入时明确指出缺口/可交付范围，不编造内容或成功状态。\n\n请把可以直接交给原用户的正文保存为 /workspace/outputs/deliverable.md 。正文只包含该任务实际所需内容，不夹入本次研究、工具轨迹、技能制作日志或费用解释；保留原用户的篇幅、格式、事实与语气要求。该本地文件用于留存实际交付，不另给原任务增加正文内容要求。无需为这次研究编造额外展示材料。\n\n完成后给出非空简短最终答复，包含实际交付内容/文件路径及真实剩余限制；若未能完成则明确说明，不以只有tool call或yield结束。\n",
+  "source_ids": [
+    "conv_27abfa260f9c"
+  ],
+  "primary_source_ids": [
+    "conv_27abfa260f9c"
+  ],
+  "source_split": "train",
+  "protected_ancestry_checked": true,
+  "source_allowlist_receipt": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\first_C_02\\source_allowlist_receipt.json",
+  "source_allowlist_sha256": "3db9449b2ec7fea93837c9c516c8c561f21755611f9a6f2f5963a5e771a9f138",
+  "resource_ancestry_receipt": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\first_C_02\\C_E_no_skill_01.resource_ancestry_receipt.json",
+  "resource_ancestry_sha256": "df3802623896e73950912d2901cf14b3377fd15ccad7c98110d0bc93ef7d8c82",
+  "resources": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\dispatch_release_02\\cases\\src02_ce0425b91ff330a5\\source_input.json",
+      "mount": "inputs/task/source_input.json",
+      "sha256": "6e3c013ca13cbb0d96deba4c868b89125ab7dce539e10b06898a5a2e3c6beeca"
+    }
+  ],
+  "skills": [],
+  "execution_authorized": true,
+  "maker_seen_reproduction": false,
+  "independent_final_heldout": false,
+  "new_declared_input_view_not_historical_replay": true,
+  "making_logs_or_feedback_mounted": false,
+  "training_eligibility": "PENDING_ACTUAL_TRIAL_AND_INDEPENDENT_REVIEW"
+}

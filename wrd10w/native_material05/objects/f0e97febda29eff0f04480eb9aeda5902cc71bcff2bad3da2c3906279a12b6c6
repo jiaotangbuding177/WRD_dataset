@@ -1,0 +1,27 @@
+{
+  "schema": "wrd-static-initial-control-label-scope-review-v1",
+  "at": "2026-10-27T06:22:09.361450+00:00",
+  "status": "STATIC_INITIAL_LABEL_INITIALIZATION_DEFECT_PRECLICK_DOM_CAPTURE_NOT_AVAILABLE",
+  "original_scaffold_sha256": "0cae30afb3675a51bed3ba30714e989cbeae11d95598988e7de3627079bc6751",
+  "repaired_scaffold_sha256": "0cae30afb3675a51bed3ba30714e989cbeae11d95598988e7de3627079bc6751",
+  "scaffold_unchanged": true,
+  "source_evidence": {
+    "button_creation": "toggleBtn is created with document.createElement(button), no initial textContent/innerHTML/aria-label assigned.",
+    "single_label_assignment": "toggleBtn.textContent assignment is inside syncToggle only.",
+    "call_sites": "syncToggle called only inside click/keydown handlers; makeControls returns controls without initialization. BOOT calls makeControls then loop.start, no later initialization path.",
+    "generated_selfcontained_HTML_path": "Generator includes that exact scaffold and BOOT; original topic code does not set control button labels.",
+    "no_initial_static_css_button_content": "Styles do not add a button text pseudo-element."
+  },
+  "runtime_coverage_limit": "Existing public/independent control JSON checks label only after first click. Existing PNGs used here are captured after pause/resume/reset sequences, so visible labels there do not establish the before-first-click state. No fresh container/Agent was launched.",
+  "original_eight_and_independent_parameter_green_scope": "They establish tested dynamics and post-click controls, not initial button labeling or complete usability.",
+  "immutable_candidate_has_known_static_UI_issue": true,
+  "candidate_or_native_tool_bytes_modified": false,
+  "helper_vision_not_gold": {
+    "original_helper_paid_tokens_5030_already_in_original29_calls": true,
+    "original_helper_R_admits_cannot_actually_see_and_infers_typical_page": true,
+    "original_helper_visual_content_credit": 0,
+    "rendered_pixels_exist_is_distinct_from_helper_perception_correctness": true
+  },
+  "new_model_calls": 0,
+  "new_containers": 0
+}

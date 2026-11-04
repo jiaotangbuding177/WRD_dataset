@@ -1,0 +1,50 @@
+[
+  {
+    "record_id": "resource10-meeting-original27-partial",
+    "start": 8133,
+    "end": 8162,
+    "text_sha256": "fdbdd4008d1918732b6edc1547d4f4e2cba213472bb9f0751679dd34ecc078bf",
+    "text": "and get no first-line indent.",
+    "message_index": 2,
+    "field": "serialized_tool_arguments",
+    "subfield": "content",
+    "tool_call_id": "callcbde219b793541edaf887fb6159eab30",
+    "reason": "Preindented heading counterexample retains300 firstLineChars; unconditional claim false."
+  },
+  {
+    "record_id": "resource10-meeting-original27-partial",
+    "start": 9039,
+    "end": 9212,
+    "text_sha256": "64d96fd1d0e1e94a0d9a9845d1880108bbd4d76b1d8403ae152abc829b1476f4",
+    "text": "    for run in paragraph.runs:\\n        if skip <= 0:\\n            break\\n        take = min(skip, len(run.text))\\n        run.text = run.text[take:]\\n        skip -= take\\n",
+    "message_index": 2,
+    "field": "serialized_tool_arguments",
+    "subfield": "content",
+    "tool_call_id": "callcbde219b793541edaf887fb6159eab30",
+    "reason": "Hyperlink prefix corrupts unrelated visible text; run.text assignment destroys existing field nodes."
+  },
+  {
+    "record_id": "resource10-meeting-original27-partial",
+    "start": 9544,
+    "end": 9834,
+    "text_sha256": "98af0b9fa6848a4d756e2321705dcd817a4c2a8a7f5bef5c08eaefcc372582b6",
+    "text": "def set_first_line_indent_chars(paragraph, chars):\\n    pPr = paragraph._element.get_or_add_pPr()\\n    ind = pPr.get_or_add_ind()\\n    if ind.get(qn(\\\"w:firstLine\\\")) is not None:\\n        del ind.attrib[qn(\\\"w:firstLine\\\")]\\n    ind.set(qn(\\\"w:firstLineChars\\\"), str(int(chars * 100)))\\n\\n",
+    "message_index": 2,
+    "field": "serialized_tool_arguments",
+    "subfield": "content",
+    "tool_call_id": "callcbde219b793541edaf887fb6159eab30",
+    "reason": "Existing hanging indent is retained alongside requested firstLineChars; insufficient reset logic."
+  },
+  {
+    "record_id": "resource10-meeting-original27-partial",
+    "start": 11862,
+    "end": 12003,
+    "text_sha256": "43ba2638cad6155dc80567aa33ddbbf2868740be99bc4872e8d6a11264778f6d",
+    "text": "        if not heading and args.first_line_indent > 0 and p.text.strip():\\n            set_first_line_indent_chars(p, args.first_line_indent)",
+    "message_index": 2,
+    "field": "serialized_tool_arguments",
+    "subfield": "content",
+    "tool_call_id": "callcbde219b793541edaf887fb6159eab30",
+    "reason": "This branch never clears existing heading indent and skips explicit zero-indent reset."
+  }
+]

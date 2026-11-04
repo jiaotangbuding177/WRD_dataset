@@ -1,0 +1,322 @@
+{
+  "batch": "batch_007",
+  "card_id": "scheduled-task-config",
+  "derived_card": {
+    "bytes": 6422,
+    "path": "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\route_recovery\\batch_007\\card_02\\derived_card.json",
+    "sha256": "f657e733158a450ae1f275cb06d9b76f533b9eeefae8d3478f6a1d0f167fc500"
+  },
+  "model_calls": 0,
+  "normalization_attempted": true,
+  "original_checked_cards": {
+    "bytes": 16297,
+    "path": "D:\\skillloop\\output\\20261021_workflow_library_parallel4_recovery1\\route_reviews\\batch_007\\checked_cards.json",
+    "sha256": "bb0febb50d6d4e4447335506ece0fbf450a4afcb152c014280d71a6ac2bed848"
+  },
+  "original_json_pointer": "/holds/1/raw_card",
+  "original_rejection": "Unconfirmed route {'status': 'HOLD', 'route_hash': None, 'signature': None, 'reasons': ['Step evidence absent from card source evidence'], 'requires_native_review': True}",
+  "raw_card": {
+    "bytes": 6215,
+    "path": "D:\\skillloop\\output\\20261021_pipeline_infra_audit\\route_recovery\\batch_007\\card_02\\raw_card.json",
+    "sha256": "2b8cf8dd7d1e43c4499bc14fe612337df90daa6d305f9c1f6544bf78a8e4068f"
+  },
+  "semantic_content_unchanged": true,
+  "skill_edits": 0,
+  "skill_generated": false,
+  "status": "PASS",
+  "transformations": [
+    {
+      "canonical_conversation": {
+        "bytes": 19311,
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_7be8a0b341b5\\conversation.json",
+        "sha256": "a9359dc05978924177b34357dc9a4bda487af9e5fd0cd714f73138cbfd7a7705"
+      },
+      "canonical_source_record_sha256": "9c151303e76d7eb26df1d0f0f1fddf78fff323e2ba474b85ad642c029fe73a57",
+      "from_pointer": "/route_signature/steps/1/source_evidence/1",
+      "operation": "copy_existing_exact_step_reference_to_top_level",
+      "to_pointer": "/source_evidence/4",
+      "value": {
+        "message_id": "conv_7be8a0b341b5:msg_13",
+        "source_id": "conv_7be8a0b341b5"
+      }
+    },
+    {
+      "canonical_conversation": {
+        "bytes": 209812,
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_f4b82e638325\\conversation.json",
+        "sha256": "cfa8a8cbfeb8232eafbefe11643be21a4dcb2b4bd3998d26eff76b031f58686e"
+      },
+      "canonical_source_record_sha256": "c705205c8e479df5d30aa50d2290ff91f1a366bf9a7ec0abecbfab4798906343",
+      "from_pointer": "/route_signature/steps/2/source_evidence/0",
+      "operation": "copy_existing_exact_step_reference_to_top_level",
+      "to_pointer": "/source_evidence/5",
+      "value": {
+        "message_id": "conv_f4b82e638325:msg_1",
+        "source_id": "conv_f4b82e638325"
+      }
+    }
+  ],
+  "validation": {
+    "candidate_gate": {
+      "candidate_plan_sha256": "999ee0eba41d02bc05501b46ebbf3fb1e2c674b24d70c0fc90281876389aefc4",
+      "checks": [
+        {
+          "name": "real_source_support",
+          "status": "PASS"
+        },
+        {
+          "name": "specific_reusable_resources",
+          "status": "PASS"
+        },
+        {
+          "name": "replaces_real_common_work",
+          "status": "PASS"
+        }
+      ],
+      "metrics": {
+        "common_steps": 1,
+        "performance_measured": false,
+        "proposed_resources": 1,
+        "real_sources": 4
+      },
+      "reasons": [],
+      "schema": "wrd-reuse-admission-v2",
+      "scope": "fixed independent development cases only; no formal250 or universal saving claim",
+      "status": "PASS",
+      "value_plan": {
+        "resources": [
+          {
+            "applicability": {
+              "conditions": [
+                "平台内定时任务能力可用",
+                "任务为周期性检索/汇总/导出类"
+              ],
+              "unsupported": [
+                "需要外部账号认证的服务",
+                "一次性非周期任务",
+                "平台不支持的自定义触发逻辑"
+              ]
+            },
+            "fixture_refs": [
+              {
+                "message_ids": [
+                  "conv_6802694e2036:msg_1"
+                ],
+                "pin": {
+                  "bytes": 38564,
+                  "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_6802694e2036\\conversation.json",
+                  "sha256": "095f854e90a99c38bf591e7216f873f292e6814c5db9eb2ef1385caca30f7bcc"
+                },
+                "source_id": "conv_6802694e2036"
+              },
+              {
+                "message_ids": [
+                  "conv_7be8a0b341b5:msg_1"
+                ],
+                "pin": {
+                  "bytes": 19311,
+                  "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_7be8a0b341b5\\conversation.json",
+                  "sha256": "a9359dc05978924177b34357dc9a4bda487af9e5fd0cd714f73138cbfd7a7705"
+                },
+                "source_id": "conv_7be8a0b341b5"
+              }
+            ],
+            "id": "r1",
+            "input_contract": "任务目标描述 + 执行周期（如每周一07:00/每日12:00）+ 输出格式（md/pdf/图片）",
+            "kind": "route",
+            "operation": "假设可替代每次重复手工执行周期性检索汇总、或反复重新描述任务配置与执行计划的工作，实际减负待完整学习与无技能对照验证",
+            "output_contract": "已创建或更新的定时任务配置，以及执行后的产物文档可直接交付"
+          }
+        ],
+        "reusable_steps": [
+          {
+            "action": "把周期性检索/汇总需求转成定时任务配置并跟踪执行产物（收益待验证假设）",
+            "id": "periodic-task-config-route",
+            "replaces": [
+              "repeated_operation",
+              "planning"
+            ],
+            "resource_ids": [
+              "r1"
+            ],
+            "support": [
+              {
+                "message_ids": [
+                  "conv_6802694e2036:msg_1"
+                ],
+                "source_id": "conv_6802694e2036"
+              },
+              {
+                "message_ids": [
+                  "conv_7be8a0b341b5:msg_1",
+                  "conv_7be8a0b341b5:msg_13"
+                ],
+                "source_id": "conv_7be8a0b341b5"
+              }
+            ]
+          }
+        ],
+        "schema": "wrd-reuse-value-plan-v2",
+        "source_ids": [
+          "conv_6802694e2036",
+          "conv_7be8a0b341b5",
+          "conv_f4b82e638325",
+          "conv_526e4b625656"
+        ],
+        "workflow_id": "scheduled-task-config"
+      }
+    },
+    "canonical": {
+      "reasons": [],
+      "route_hash": "eb5d30f5f7cc4d612226143d88acb03f8134017cfced32c6aadeacf5a8b012a4",
+      "signature": {
+        "branches": [],
+        "input_types": [
+          "schedule_spec",
+          "task_requirement_text"
+        ],
+        "output_types": [
+          "scheduled_task_config",
+          "task_run_artifact"
+        ],
+        "steps": [
+          {
+            "condition": null,
+            "depends_on": [],
+            "input_types": [
+              "task_requirement_text"
+            ],
+            "operation": "clarify_task_payload",
+            "output_types": [
+              "task_spec"
+            ]
+          },
+          {
+            "condition": "新建或更新既有任务，更新时保留用户未要求变更的字段",
+            "depends_on": [
+              0
+            ],
+            "input_types": [
+              "schedule_spec",
+              "task_spec"
+            ],
+            "operation": "configure_scheduled_task",
+            "output_types": [
+              "scheduled_task_config"
+            ]
+          },
+          {
+            "condition": "用户查看或更新产物时触发",
+            "depends_on": [
+              1
+            ],
+            "input_types": [
+              "scheduled_task_config"
+            ],
+            "operation": "inspect_task_artifacts",
+            "output_types": [
+              "task_run_artifact"
+            ]
+          }
+        ]
+      },
+      "source_evidence": [
+        {
+          "message_id": "conv_526e4b625656:msg_1",
+          "source_id": "conv_526e4b625656"
+        },
+        {
+          "message_id": "conv_6802694e2036:msg_1",
+          "source_id": "conv_6802694e2036"
+        },
+        {
+          "message_id": "conv_7be8a0b341b5:msg_1",
+          "source_id": "conv_7be8a0b341b5"
+        },
+        {
+          "message_id": "conv_7be8a0b341b5:msg_13",
+          "source_id": "conv_7be8a0b341b5"
+        },
+        {
+          "message_id": "conv_f4b82e638325:msg_1",
+          "source_id": "conv_f4b82e638325"
+        },
+        {
+          "message_id": "conv_f4b82e638325:msg_14",
+          "source_id": "conv_f4b82e638325"
+        }
+      ],
+      "status": "CONFIRMED",
+      "step_evidence": [
+        {
+          "source_evidence": [
+            {
+              "message_id": "conv_6802694e2036:msg_1",
+              "source_id": "conv_6802694e2036"
+            },
+            {
+              "message_id": "conv_7be8a0b341b5:msg_1",
+              "source_id": "conv_7be8a0b341b5"
+            }
+          ],
+          "step_index": 0
+        },
+        {
+          "source_evidence": [
+            {
+              "message_id": "conv_6802694e2036:msg_1",
+              "source_id": "conv_6802694e2036"
+            },
+            {
+              "message_id": "conv_7be8a0b341b5:msg_13",
+              "source_id": "conv_7be8a0b341b5"
+            },
+            {
+              "message_id": "conv_f4b82e638325:msg_14",
+              "source_id": "conv_f4b82e638325"
+            }
+          ],
+          "step_index": 1
+        },
+        {
+          "source_evidence": [
+            {
+              "message_id": "conv_526e4b625656:msg_1",
+              "source_id": "conv_526e4b625656"
+            },
+            {
+              "message_id": "conv_f4b82e638325:msg_1",
+              "source_id": "conv_f4b82e638325"
+            }
+          ],
+          "step_index": 2
+        }
+      ]
+    },
+    "checks": [
+      {
+        "name": "original_card_source_checks",
+        "status": "PASS"
+      },
+      {
+        "name": "original_canonical_route",
+        "status": "PASS"
+      },
+      {
+        "name": "original_candidate_value_gate",
+        "status": "PASS"
+      },
+      {
+        "name": "original_route_value_source_identity",
+        "status": "PASS"
+      }
+    ],
+    "status": "PASS"
+  },
+  "verified_source_ids": [
+    "conv_6802694e2036",
+    "conv_7be8a0b341b5",
+    "conv_f4b82e638325",
+    "conv_526e4b625656"
+  ]
+}

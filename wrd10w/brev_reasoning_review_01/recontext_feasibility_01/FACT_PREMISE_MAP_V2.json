@@ -1,0 +1,402 @@
+{
+  "schema": "wrd-call17-recontext-concrete-premise-facts-v2",
+  "status": "FEASIBILITY_PREMISE_REVIEW_PENDING_ROOT",
+  "new_state_input_sha256": "24314ba49561941475e0955290e27f083727d8db93de5f5da16f21862e80b20d",
+  "original_review_sha256": "7f5ff85c2a6cf7b328b768ad5f9e84a97c8485b3dac9fabc4fbed30809037233",
+  "original_input_not_equivalent_to_new_state": true,
+  "facts": [
+    {
+      "id": "F_RUNNER_LAYOUT",
+      "necessary_fact": "The unchanged runner resolves ../skill/scripts/validate_pack.py and writes test_run_log.json relative to HERE.",
+      "input_location": "resource_views[12].content",
+      "old_source_path": "/workspace/inputs/previous_tests/run_tests.py",
+      "source_lines": [
+        14,
+        19
+      ],
+      "delivered_text_character_range": [
+        272,
+        528
+      ],
+      "exact_quote": "HERE = os.path.dirname(os.path.abspath(__file__))\nFIX = os.path.join(HERE, \"fixtures\")\nREPORTS = os.path.join(HERE, \"reports\")\nSKILL_CLI = os.path.join(HERE, \"..\", \"skill\", \"scripts\", \"validate_pack.py\")\nLOG_PATH = os.path.join(HERE, \"test_run_log.json\")\n\n",
+      "exact_quote_sha256": "9962db2159762300e5d6a8ab0e647c32f477cf739f2be0d11504d8a8a77d2e20",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_BASELINE_OVERWRITE",
+      "necessary_fact": "The original runner records counts/results and overwrites its own log path; preserve the prior log before rerun.",
+      "input_location": "resource_views[12].content",
+      "old_source_path": "/workspace/inputs/previous_tests/run_tests.py",
+      "source_lines": [
+        193,
+        201
+      ],
+      "delivered_text_character_range": [
+        10641,
+        11093
+      ],
+      "exact_quote": "        else:\n            n_pass += 1\n        log[\"cases\"].append(entry)\n\n    log[\"summary\"] = {\"total\": len(log[\"cases\"]), \"passed\": n_pass, \"failed\": n_fail,\n                       \"interpretation_limit\": \"测试通过仅证明这些局部结构检查有效，不构成语义正确或技能质量/复用收益的批准\"}\n    with open(LOG_PATH, \"w\", encoding=\"utf-8\") as f:\n        json.dump(log, f, ensure_ascii=False, indent=2)\n    print(\"TEST SUMMARY: total=%d passed=%d failed=%d\" % (len(log[\"cases\"]), n_pass, n_fail))\n",
+      "exact_quote_sha256": "cbf228ee71c6d822daec6ba9a8e46cb5d08817281f26a252991810617c9ea6ad",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_PRECISE_ASSERTIONS",
+      "necessary_fact": "The original evaluator checks specific exit/verdict/failure/review/decision conditions, rather than any nonzero exit.",
+      "input_location": "resource_views[12].content",
+      "old_source_path": "/workspace/inputs/previous_tests/run_tests.py",
+      "source_lines": [
+        126,
+        169
+      ],
+      "delivered_text_character_range": [
+        7559,
+        9480
+      ],
+      "exact_quote": "def evaluate(case, exit_code, report_obj, assertions):\n    exp = case[\"expects\"]\n    ok = True\n\n    def check(desc, cond):\n        nonlocal ok\n        assertions.append({\"desc\": desc, \"passed\": bool(cond)})\n        if not cond:\n            ok = False\n\n    check(\"exit_code==%s\" % exp.get(\"exit\"), exit_code == exp.get(\"exit\"))\n    if \"verdict\" in exp:\n        check(\"verdict==%s\" % exp[\"verdict\"], (report_obj or {}).get(\"verdict\") == exp[\"verdict\"])\n    if \"decision\" in exp:\n        check(\"decision==%s\" % exp[\"decision\"], (report_obj or {}).get(\"decision\") == exp[\"decision\"])\n    if exp.get(\"no_failures\"):\n        check(\"failures==[]\", (report_obj or {}).get(\"failures\") == [])\n    for fid in exp.get(\"fail_present\", []):\n        check(\"fail_present:%s\" % fid,\n              any(f.get(\"id\") == fid for f in (report_obj or {}).get(\"failures\", [])))\n    for sub in exp.get(\"fail_path_contains\", []):\n        check(\"fail_path_contains:%s\" % sub,\n              any(sub in (f.get(\"path\", \"\") + f.get(\"detail\", \"\")) for f in (report_obj or {}).get(\"failures\", [])))\n    for sub in exp.get(\"notes_contains\", []):\n        check(\"notes_contains:%s\" % sub,\n              any(sub in n for n in (report_obj or {}).get(\"notes\", [])))\n    for sub in exp.get(\"review_contains\", []):\n        check(\"review_contains:%s\" % sub,\n              any(sub in (it.get(\"id\", \"\") + it.get(\"detail\", \"\")) for it in (report_obj or {}).get(\"needs_semantic_review\", [])))\n    return ok\n\n\ndef main():\n    # 0) 重新生成夹具（可复现）\n    gen = subprocess.run([sys.executable, os.path.join(HERE, \"make_fixtures.py\")],\n                         capture_output=True, text=True)\n    if gen.returncode != 0:\n        print(\"FIXTURE GENERATION FAILED:\", gen.stderr)\n        return 2\n\n    log = {\"schema\": \"wrd-b-test-run-log-v1\",\n           \"runner\": \"run_tests.py\",\n           \"cli_under_test\": os.path.abspath(SKILL_CLI),\n           \"cli_sha256\": sha256(SKILL_CLI),\n",
+      "exact_quote_sha256": "93c2b3f25d9fc8649c52e8492ad45bde020ccd592728b4203aba1731061c221e",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_CONFLICT_PREDICATE",
+      "necessary_fact": "The old conflict key excludes time and fails solely when subject/value/unit group has more than one fact_type.",
+      "input_location": "resource_views[2].content",
+      "old_source_path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "source_lines": [
+        420,
+        435
+      ],
+      "delivered_text_character_range": [
+        16250,
+        16896
+      ],
+      "exact_quote": "    # ---------- 9) 事实类型冲突（同主体+数值+单位但类型不同） ----------\n    ok = True\n    seen = {}\n    for fid, f in fact_map.items():\n        if f.get(\"value\") is None:\n            continue\n        key = (norm(str(f.get(\"subject\") or \"\")), norm(str(f.get(\"value\"))), norm(str(f.get(\"unit\") or \"\")))\n        seen.setdefault(key, []).append((fid, f.get(\"fact_type\")))\n    for key, entries in seen.items():\n        types = {t for _, t in entries}\n        if len(types) > 1:\n            fail(\"fact_type_conflict\",\n                 \"同一主体/数值/单位存在冲突类型声明: %s -> %s\" % (entries, sorted(types)))\n            ok = False\n    if ok:\n        checks_passed.append(\"conflicts\")\n",
+      "exact_quote_sha256": "67ec3a96ea877c1a2c973bf2f42bcd2ce78af8c73ae856604c5f1f13c683f7ca",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_OLD_WALKER_SKIP",
+      "necessary_fact": "The old walker emits refs only for list-valued evidence_refs and dict items; the supplied string/[42] cases are skipped.",
+      "input_location": "resource_views[2].content",
+      "old_source_path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "source_lines": [
+        64,
+        80
+      ],
+      "delivered_text_character_range": [
+        1839,
+        2527
+      ],
+      "exact_quote": "def iter_evidence_refs(node, path=\"$\"):\n    \"\"\"递归遍历 JSON 树，产出 (path, ref)。\n\n    任何键名恰为 evidence_refs 的列表，其每个 dict 元素都被独立校验。\n    这保证嵌套结构（如 task_switches 等自定义字段）内的引用不会漏检。\n    \"\"\"\n    if isinstance(node, dict):\n        for k, v in node.items():\n            if k == \"evidence_refs\" and isinstance(v, list):\n                for i, ref in enumerate(v):\n                    if isinstance(ref, dict):\n                        yield \"%s.evidence_refs[%d]\" % (path, i), ref\n            else:\n                yield from iter_evidence_refs(v, path + \".\" + str(k))\n    elif isinstance(node, list):\n        for i, v in enumerate(node):\n            yield from iter_evidence_refs(v, \"%s[%d]\" % (path, i))\n",
+      "exact_quote_sha256": "618d15e9832523fd20ae63a3c2d320c9571848408a1bbcacdedcefaf83e4feb1",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_EXISTING_REF_FIELDS",
+      "necessary_fact": "Existing source_id/message_id string checks and nonempty-string quote validation already exist and are to be preserved.",
+      "input_location": "resource_views[2].content",
+      "old_source_path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "source_lines": [
+        236,
+        266
+      ],
+      "delivered_text_character_range": [
+        8112,
+        9567
+      ],
+      "exact_quote": "    ok = True\n    for root_name, root in ((\"ledger\", ledger), (\"draft\", draft)):\n        for path, ref in iter_evidence_refs(root):\n            sid = ref.get(\"source_id\")\n            mid = ref.get(\"message_id\")\n            quote = ref.get(\"quote\")\n            if not (isinstance(sid, str) and sid and isinstance(mid, str) and mid):\n                fail(\"evidence_ref_invalid\", \"缺少 source_id 或 message_id\", \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if sid not in index:\n                fail(\"evidence_unknown_source\", \"未知 source_id: %s\" % sid, \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if mid not in index[sid]:\n                fail(\"evidence_unknown_message\", \"source %s 下未知 message_id: %s\" % (sid, mid),\n                     \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if not isinstance(quote, str) or not quote.strip():\n                fail(\"evidence_ref_invalid\", \"quote 必须是非空字符串\", \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if quote not in index[sid][mid]:\n                fail(\"evidence_quote_not_contiguous\",\n                     \"quote 不是源消息的连续原文子串: source=%s message=%s quote=%r\" % (sid, mid, quote),\n                     \"%s:%s\" % (root_name, path))\n                ok = False\n    if ok and index:\n        checks_passed.append(\"evidence_refs\")\n\n",
+      "exact_quote_sha256": "57e112b839e0a87e341c995a95e0e980e47a7368b6269c5be8d6b19642d4fc70",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_OPTIONAL_VS_REQUIRED",
+      "necessary_fact": "Non-list fact refs fail ledger_basics at $.facts[i]; required fact types with empty refs separately fail missing_required_evidence at $.facts[i].evidence_refs.",
+      "input_location": "resource_views[2].content",
+      "old_source_path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "source_lines": [
+        182,
+        191
+      ],
+      "delivered_text_character_range": [
+        5749,
+        6258
+      ],
+      "exact_quote": "        refs = f.get(\"evidence_refs\")\n        if not isinstance(refs, list):\n            fail(\"ledger_basics\", \"fact %s 缺少 evidence_refs 列表\" % fid, \"$.facts[%d]\" % i)\n            ok = False\n            refs = []\n            f[\"evidence_refs\"] = refs\n        if ftype in (\"user_statement\", \"planned_goal\", \"explicit_requirement\") and not refs:\n            fail(\"missing_required_evidence\",\n                 \"fact %s（%s）缺少必需证据 evidence_refs 为空\" % (fid, ftype),\n                 \"$.facts[%d].evidence_refs\" % i)\n",
+      "exact_quote_sha256": "cabed5d5c18fe168d9ac2eebed92acc233499a2de2b78c13e069aa8d2403a208",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_PLANNED_ROLE_MAPPING",
+      "necessary_fact": "planned_goal is allowed only as planned_goal, while new_assumption is context.",
+      "input_location": "resource_views[2].content",
+      "old_source_path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "source_lines": [
+        29,
+        35
+      ],
+      "delivered_text_character_range": [
+        979,
+        1167
+      ],
+      "exact_quote": "TYPE_TO_AS = {\n    \"user_statement\": {\"achieved_fact\", \"context\"},\n    \"planned_goal\": {\"planned_goal\"},\n    \"explicit_requirement\": {\"requirement\"},\n    \"new_assumption\": {\"context\"},\n}\n\n",
+      "exact_quote_sha256": "4f9ae95004ceb1def3de6f2c25e22ff769a8c3868c6654b745c01db2fde006df",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_PLANNED_ROLE_REJECTION",
+      "necessary_fact": "The old type rule explicitly rejects planned_goal as achieved_fact; this check must survive local conflict repair.",
+      "input_location": "resource_views[2].content",
+      "old_source_path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "source_lines": [
+        296,
+        314
+      ],
+      "delivered_text_character_range": [
+        10765,
+        11597
+      ],
+      "exact_quote": "    for i, r in enumerate(fact_refs):\n        fid = r.get(\"fact_id\")\n        f = fact_map.get(fid)\n        if not f:\n            continue\n        as_t = r.get(\"as_type\")\n        allowed = TYPE_TO_AS.get(f.get(\"fact_type\"))\n        if allowed is not None and as_t not in allowed:\n            if f.get(\"fact_type\") == \"planned_goal\" and as_t == \"achieved_fact\":\n                fail(\"type_mismatch_planned_goal_as_achieved\",\n                     \"规划目标 %s 被声明为已实现事实（as_type=achieved_fact）；目标口径必须保持\" % fid,\n                     \"$.fact_refs[%d]\" % i)\n            else:\n                fail(\"type_mismatch\",\n                     \"fact %s（%s）不允许 as_type=%s（允许 %s）\" % (fid, f.get(\"fact_type\"), as_t, sorted(allowed)),\n                     \"$.fact_refs[%d]\" % i)\n            ok = False\n    if ok:\n        checks_passed.append(\"type_rules\")\n",
+      "exact_quote_sha256": "76c1b90073993e938e44429b2c566ee700467348c59bc3c691cd4a96ab4d0097",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_DRAFT_AND_LEDGER_ROOTS",
+      "necessary_fact": "Recursive reference validation is applied to both ledger and draft roots, supporting a concrete draft-side malformed-ref regression.",
+      "input_location": "resource_views[2].content",
+      "old_source_path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "source_lines": [
+        234,
+        240
+      ],
+      "delivered_text_character_range": [
+        8046,
+        8323
+      ],
+      "exact_quote": "\n    # ---------- 3) 递归校验全部 evidence_refs（账本+成稿，含任意嵌套） ----------\n    ok = True\n    for root_name, root in ((\"ledger\", ledger), (\"draft\", draft)):\n        for path, ref in iter_evidence_refs(root):\n            sid = ref.get(\"source_id\")\n            mid = ref.get(\"message_id\")\n",
+      "exact_quote_sha256": "028548e913d10e12779ec6a7c2e5880817c0d39d39cb55ebdb8cec3da7cc1094",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_BAD_NESTED_QUOTE_FIXTURE",
+      "necessary_fact": "The original generator has an E3 bad nested task_switches quote and E5 goal-as-achieved fixture; both must retain their rejection expectations.",
+      "input_location": "resource_views[15].content",
+      "old_source_path": "/workspace/inputs/previous_tests/make_fixtures.py",
+      "source_lines": [
+        272,
+        286
+      ],
+      "delivered_text_character_range": [
+        13356,
+        13999
+      ],
+      "exact_quote": "    # ---------- 错误 E3：嵌套 task_switches 中引文不是连续原文 ----------\n    e3_facts = json.loads(json.dumps(n2_facts, ensure_ascii=False))\n    for f in e3_facts:\n        if f[\"fact_id\"] == \"N001\":\n            f[\"task_switches\"][0][\"evidence_refs\"][0][\"quote\"] = \"整理成三段话\"\n    write(\"e3_ledger.json\", ledger(e3_facts))\n\n    # ---------- 错误 E5：planned_goal 声明成 achieved_fact ----------\n    e5 = draft(n2_text, fact_refs=n2_refs, declared=n2_declared, kind=\"one_paragraph\")\n    for r in e5[\"fact_refs\"]:\n        if r[\"fact_id\"] == \"G001\":\n            r[\"as_type\"] = \"achieved_fact\"\n    e5[\"draft_id\"] = \"e5_goal_as_achieved\"\n    write(\"e5_draft.json\", e5)\n\n",
+      "exact_quote_sha256": "a874c0e05049820e0db25f7c4bedb34ce6100fcc27fd9ae6b19d164163ea4c2c",
+      "fact_kind": "ACTUAL_PRE17_DELIVERED_CODE_OR_REPORT"
+    },
+    {
+      "id": "F_FEEDBACK_1",
+      "necessary_fact": "Do not infer contradiction just from equal subject/value/unit and differing fact_type, even when equal year actual and target100 coexist. Preserve distinct temporal/claim meaning; uncertain conflicts may require semantic review rather than unsupported hard failure. Keep real planned_goal→achieved_fact reference mismatch rejection.",
+      "input_location": "resource_views[0].content -> parsed JSON actual_defects[0]",
+      "old_source_path": "/workspace/inputs/independent/actual_repair_feedback.json",
+      "exact_delivered_json_object": {
+        "id": "OVERSTRONG_TEMPORAL_CONFLICT",
+        "actual": "Legal independent source: 2025 actual training100 people; 2026 planned training100 people. Separate supported facts have same subject/value/unit and distinct time/type. Actual original validator exits1 fact_type_conflict.",
+        "required_behavior": "Do not infer contradiction just from equal subject/value/unit and differing fact_type, even when equal year actual and target100 coexist. Preserve distinct temporal/claim meaning; uncertain conflicts may require semantic review rather than unsupported hard failure. Keep real planned_goal→achieved_fact reference mismatch rejection.",
+        "evidence": [
+          "inputs/independent/legal_sources.json",
+          "inputs/independent/legal_ledger.json",
+          "inputs/independent/legal_draft.json",
+          "inputs/independent/temporal_original_report.json"
+        ]
+      },
+      "object_canonical_sha256": "7ccd2d47c5e916bda9fe60667c416c22ecf9e29209131dba1bc9fc0cadbf8b3d",
+      "fact_kind": "ACTUAL_PRE17_SUPPLIED_INDEPENDENT_FEEDBACK_NOT_POSTFIX_RESULT"
+    },
+    {
+      "id": "F_FEEDBACK_2",
+      "necessary_fact": "Every encountered evidence_refs must have valid list/object/reference shape. Malformed top-level or arbitrary nested evidence_refs must produce a specific structural/input error, with location. Preserve valid empty optional lists and all original valid nested quote behavior.",
+      "input_location": "resource_views[0].content -> parsed JSON actual_defects[1]",
+      "old_source_path": "/workspace/inputs/independent/actual_repair_feedback.json",
+      "exact_delivered_json_object": {
+        "id": "MALFORMED_NESTED_REFS_SKIPPED",
+        "actual": "Valid ledger with task_switches[0].evidence_refs as a string, or [42], both exit0 with no structural failures. iter_evidence_refs ignores invalid type and invalid list items.",
+        "required_behavior": "Every encountered evidence_refs must have valid list/object/reference shape. Malformed top-level or arbitrary nested evidence_refs must produce a specific structural/input error, with location. Preserve valid empty optional lists and all original valid nested quote behavior.",
+        "evidence": [
+          "inputs/independent/nested_refs_not_list.json",
+          "inputs/independent/nested_refs_non_object_item.json",
+          "inputs/independent/valid_single_draft.json",
+          "inputs/independent/nested_refs_not_list_original_report.json",
+          "inputs/independent/nested_refs_non_object_item_original_report.json"
+        ]
+      },
+      "object_canonical_sha256": "61c908543a58241680a9e0c5691ff24bec15a0b58ca273134bda66cc2e582788",
+      "fact_kind": "ACTUAL_PRE17_SUPPLIED_INDEPENDENT_FEEDBACK_NOT_POSTFIX_RESULT"
+    },
+    {
+      "id": "F_OLD_BASELINE21",
+      "necessary_fact": "The previous unmodified candidate had 21 cases, all passing, without proving full semantic correctness or reuse benefit.",
+      "input_location": "resource_views[13].projection",
+      "case_names": [
+        "N1_normal_official_report",
+        "N2_normal_one_paragraph_nested_ok",
+        "B1a_length_exactly_at_limit",
+        "B1b_length_over_by_one",
+        "B2a_omit_optional_detail_numbers_ok",
+        "B2b_must_keep_number_altered",
+        "B3a_no_word_target_text_only",
+        "C1_classify_official_report_ok",
+        "C2_classify_question_only_defer",
+        "C3_classify_no_materials_needs_evidence",
+        "C4_classify_one_paragraph_ok",
+        "C5_classify_unclear_needs_evidence_not_no_value",
+        "E1_unknown_fact_id",
+        "E2_quote_not_contiguous",
+        "E3_nested_task_switches_bad_quote",
+        "E4a_declared_unit_mismatch",
+        "E4b_declared_subject_mismatch",
+        "E5_planned_goal_as_achieved",
+        "E6_missing_required_evidence",
+        "E7_undeclared_number_needs_semantic_review",
+        "E8_missing_ledger_file_input_error"
+      ],
+      "summary": {
+        "total": 21,
+        "passed": 21,
+        "failed": 0,
+        "interpretation_limit": "测试通过仅证明这些局部结构检查有效，不构成语义正确或技能质量/复用收益的批准"
+      },
+      "old_cli_sha256": "6a1e951540750ded9fb1f8b688efe25e065352184f07e28c938081159473433a",
+      "fact_kind": "EXPLICIT_NEW_DETERMINISTIC_PROJECTION_OF_ACTUAL_PRE17_OLD_BASELINE_LOG",
+      "source_full_log_wrapper_sha256": "d5e9dd760c4ef3dca741740cfc53f0e156d2408790b7d0479a0264d599cc6357"
+    },
+    {
+      "id": "F_TASK_SCOPE",
+      "necessary_fact": "Local repair only; preserve original expectations, use public CLI, forbid hardcoded values; reuse benefit remains untested.",
+      "input_location": "goal",
+      "full_goal_sha256": "2fbd79c03f6ad0d370ea76d15b17f97f3a5899f9fe511754e72c70cfb6b212ce",
+      "exact_relevant_quotes": [
+        "只局部修改实际错误的冲突判定与嵌套evidence_refs形状核验及必要说明，不删功能、不放宽已有goal类型/数字/原文quote/字数/Word状态检查。",
+        "既有预期不能为了变绿被改。",
+        "不要为了本次反例硬编码年份、数值、subject或文件名。",
+        "收益仍未独立业务试跑，不宣称retained/已入库。"
+      ],
+      "fact_kind": "EXPLICIT_NEW_INPUT_RESTATES_THE_ACTUAL_PRE17_USER_TASK"
+    }
+  ],
+  "range_edges": [
+    {
+      "original_range_id": "BREV_R004",
+      "original_R_text_sha256": "6804754db4009bdc0eb76387aed21b447d7bc5e618048261ccc00507e63991a7",
+      "necessary_fact_ids": [
+        "F_RUNNER_LAYOUT",
+        "F_BASELINE_OVERWRITE",
+        "F_OLD_BASELINE21"
+      ],
+      "speech_act": "PRESERVATION_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R005",
+      "original_R_text_sha256": "8d0b4b7da87b24f640bc4c3e540d5d4be72c86d36c2b82c95c5f6b449fd98958",
+      "necessary_fact_ids": [
+        "F_TASK_SCOPE",
+        "F_FEEDBACK_1",
+        "F_FEEDBACK_2",
+        "F_CONFLICT_PREDICATE",
+        "F_OLD_WALKER_SKIP"
+      ],
+      "speech_act": "REPRODUCTION_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R006",
+      "original_R_text_sha256": "79994de6d490d792c410ac7fc8e54b68a06d42d4867262657a9580ebdafb8f2b",
+      "necessary_fact_ids": [
+        "F_CONFLICT_PREDICATE",
+        "F_FEEDBACK_1"
+      ],
+      "speech_act": "SUPPORTED_DEFECT_DIAGNOSIS",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R007",
+      "original_R_text_sha256": "99a7b4ab0b950dc74075db2bf6891b234329478e1e595616d36e084d459ab109",
+      "necessary_fact_ids": [
+        "F_OLD_WALKER_SKIP",
+        "F_FEEDBACK_2"
+      ],
+      "speech_act": "SUPPORTED_DEFECT_DIAGNOSIS",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R008",
+      "original_R_text_sha256": "753bb8ba574d4b018ef930006da96bdfe9fdda758a5a7de026685f59c6468071",
+      "necessary_fact_ids": [
+        "F_FEEDBACK_2",
+        "F_EXISTING_REF_FIELDS"
+      ],
+      "speech_act": "LOCAL_FIX_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R009",
+      "original_R_text_sha256": "1f27f3ff185399bfe5c3537b9f9cf91c7a9668a43f099e170fe8fa228b79327b",
+      "necessary_fact_ids": [
+        "F_PRECISE_ASSERTIONS",
+        "F_TASK_SCOPE"
+      ],
+      "speech_act": "VALIDATION_METHOD_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R010",
+      "original_R_text_sha256": "a7070c3018b7993625fde6004e83c80c5c53b990526a0051519e0b9aa1e16911",
+      "necessary_fact_ids": [
+        "F_PLANNED_ROLE_MAPPING",
+        "F_PLANNED_ROLE_REJECTION",
+        "F_BAD_NESTED_QUOTE_FIXTURE",
+        "F_FEEDBACK_1",
+        "F_FEEDBACK_2",
+        "F_TASK_SCOPE"
+      ],
+      "speech_act": "REGRESSION_AND_BOUNDARY_TEST_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R011",
+      "original_R_text_sha256": "ee7bb2aad1d77b794448c44ec4d13d5dcc8cad90cffcc965321e08793190d6dc",
+      "necessary_fact_ids": [
+        "F_TASK_SCOPE",
+        "F_FEEDBACK_1"
+      ],
+      "speech_act": "BOUNDED_TEST_VARIATION_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R012",
+      "original_R_text_sha256": "4d232aa2e159ce9e691aa0d3b1d80cdafb95b54598d0be3ec1afa7681c1906d7",
+      "necessary_fact_ids": [
+        "F_DRAFT_AND_LEDGER_ROOTS",
+        "F_FEEDBACK_2"
+      ],
+      "speech_act": "ADDITIONAL_BOUNDARY_TEST_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    },
+    {
+      "original_range_id": "BREV_R013",
+      "original_R_text_sha256": "ca5759e8c4b967e738a280ea718356cc8f1ed62c2987e1636ee2b63c6521707c",
+      "necessary_fact_ids": [
+        "F_OLD_BASELINE21",
+        "F_TASK_SCOPE",
+        "F_RUNNER_LAYOUT",
+        "F_PRECISE_ASSERTIONS"
+      ],
+      "speech_act": "REGRESSION_AND_LIMITS_PLAN",
+      "bounded_relevance": "Diagnosis/plan only, not already-executed repair or positive utility."
+    }
+  ],
+  "future_observation_count": 0,
+  "old_log_is_parent_B02_baseline_only": true,
+  "new_state_arrays_compiled": false,
+  "training_started": false,
+  "script_sha256": "361e0813ba50a7c1445bbeca66d95df92d2522edebe9e4c3d48e93e0b7ee4d32"
+}

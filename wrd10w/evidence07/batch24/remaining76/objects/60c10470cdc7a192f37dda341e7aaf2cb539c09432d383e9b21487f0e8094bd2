@@ -1,0 +1,27 @@
+---
+name: paper-review
+description: 审查论文稿件并产出带原文位置的问题清单与标准化审查报告。触发：审核论文、检查稿件数据一致性、表格数值核对、科研诚信风险提示。
+---
+
+# 论文多维度审查路线
+
+## 最短路线
+
+1. 提取稿件文本（文件或目录，支持 pptx/docx/doc/pdf/md/txt；扫描版 PDF 需先 OCR）：
+
+    python {SKILL}/scripts/extract_texts.py {INPUT}/manuscript --out {OUT}/extracts
+
+2. 按维度核查，并在 .docx 稿件中定位关键词上下文作为原文位置标注：
+
+    python {SKILL}/scripts/scan_docx_keywords.py {INPUT}/manuscript.docx --keywords 南移,CMIP6 --out {OUT}/keyword_hits.json
+
+3. 复制 {SKILL}/templates/review_report.md 并按占位符填写，生成最终审查报告。
+
+## 关键判断
+
+- 审查维度以用户指定为准；未指定时用默认清单（源数据一致性、表格数值、方法可复现性、不确定性展示、诚信风险提示）并在报告中写明所用维度。
+- 每条问题必须标注原文位置与依据；位置以 scan_docx_keywords 的上下文输出或提取文本的段落/表格位置为准，不凭记忆写位置。
+- 不给学术定性结论，不认定造假或抄袭；诚信风险只作提示；报告末尾必须写明 AI 判断需人工复核。
+- 证据不足的项记为"无法核实"，不迎合任何预期结论。
+
+维度顺序、问题清单格式与报告段式见 {SKILL}/references/stage_notes.md。

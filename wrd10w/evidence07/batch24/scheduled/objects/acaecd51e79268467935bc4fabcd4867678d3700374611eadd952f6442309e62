@@ -1,0 +1,14 @@
+# 只制作本次已选路线，不展开全库
+
+先读 inputs/new_route/task.json、inputs/route_card.json、inputs/making_input_index.json 和 inputs/generation.md。这个入口不授权自动逐卡制作；外层先完成语义合并和单任务声明，已有四份候选由局部修复入口接续，不能重新生成。
+
+完整接收本候选全部真实会话，先原样执行：
+python /workspace/inputs/making_tools/read_source.py --source /workspace/inputs/conversations/conv_6802694e2036.json /workspace/inputs/conversations/conv_7be8a0b341b5.json /workspace/inputs/conversations/conv_f4b82e638325.json /workspace/inputs/conversations/conv_526e4b625656.json --max-bytes 6500
+
+如 complete 为 false，保持相同 --source 顺序并加 --cursor <next_cursor> 接着读到 complete。每次最多6500 UTF8字节，不能以短前缀、哈希、摘要、文件被脚本读过或自报 full_read 代替模型接收。实际容器附件路径见 making_input_index 与 source_bindings.materials.native_path；宿主机路径不等于容器路径。所有用户纠正、冲突条件和适用范围保留真实来源消息，来源缺失就明确 HOLD。
+
+先查 resource_catalog。已有可靠资源尽量复用原字节和公开接口；存在资源依赖时一并保留声明的相对路径及全部依赖字节，不能只拷一个脚本。无可靠资源不强制造程序。路线是最短工作步骤、直接资源入口与必要判断；不包办每种产物，不造大 run.py/状态机，不给业务Agent增加反复核验。首页轻量，细节按阶段读取。
+
+使用当前合同制作全部 program/template/reference/route 的真实来源、完整可用说明、正常边界错误复现。制作/验证记录放技能外。所有程序实际运行、检查完整输出，预期从真实来源独立推导，不能手工迎合输出或删失败；静态 preflight 通过不是程序通过，更不是实际减负。外层在统一原生OpenClaw与预算下比较真实业务任务，达到相同交付线且Actor Token与调用次数都下降才冻结。不读正式250或答案，不改工具/环境/预算/检查器。
+
+合并背景在 inputs/merge_context.json，仅供制作查看：其他原卡的条件、冲突、来源尚未完整学习，不能据它们扩大技能适用范围、删除条件或假称已读全文。本次只学习代表原卡的已投递来源；可靠减负后追加学习应更新同一技能版本，不能新造同路线别名。

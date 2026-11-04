@@ -1,0 +1,461 @@
+{
+  "all_executables_covered": true,
+  "checks": [],
+  "complete_reproduction": false,
+  "derived_replay_pin": {
+    "bytes": 12688,
+    "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\declared_replay.json",
+    "sha256": "b8ef4560e076814e34f68bd8b4fc14c84bd0c1b2e659a2cb68d132aa17effe07"
+  },
+  "documented_usage_verified": false,
+  "image_id": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+  "independent_replay": true,
+  "limitations": [
+    "Finite tested inputs do not prove correctness for every future input.",
+    "Generated fixture source/message references are verified; derivation is a declared making-side operation, not authenticated historical bytes.",
+    "These checks establish resource execution evidence, not Actor token or model-call savings."
+  ],
+  "metadata_conversion_pin": {
+    "bytes": 3843,
+    "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\metadata_path_conversions.json",
+    "sha256": "cbded29b57afcd371a98755034c3a8b198d40f66618f4791f33f3e889d8882f2"
+  },
+  "native_agent_modified": false,
+  "no_model_calls": true,
+  "non_executable_resources": [],
+  "optional_fixture_root_absent": false,
+  "original_replay_pin": {
+    "bytes": 11978,
+    "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\replay_original.json",
+    "sha256": "ab2a629b51bcfecfb8607f0431d79250bd5fe49508227d4ed44c22d41a80be45"
+  },
+  "package_sha256": {
+    "SKILL.md": "b410ac7f40752649cc9169ab61aa9be0d3d26336131c4b74699b2268d2ac2b1f",
+    "references/stage_notes.md": "9dc95fbab091233c725e80e58f722cc60345ee1dc3c077dc42d16b5060a0cba9",
+    "scripts/build_animation.py": "264fad122ccade905aa4e63699151104d277892217eb82eb3ed40ba6c002d969",
+    "templates/demo_spec.template.json": "1cefdc6a8bef809bfb9033c1ec25a3bec5ac321c379e54194dabc3f2e0ccb168"
+  },
+  "programs": [
+    {
+      "cases": [
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_animation.py",
+            "{INPUT}/demo_spec.json",
+            "--out",
+            "{OUT}/demo.html"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "fixture_message_evidence_invalid",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 0,
+          "full_input": false,
+          "full_output": false,
+          "id": "0001",
+          "kind": "normal",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "fixture_message_evidence_invalid"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_animation.py",
+            "{INPUT}/boundary_spec.json",
+            "--out",
+            "{OUT}/boundary.html"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "generated_alias_requires_unchanged_normal_public_or_composition_command",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 0,
+          "full_input": false,
+          "full_output": false,
+          "id": "0002",
+          "kind": "boundary",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "generated_alias_requires_unchanged_normal_public_or_composition_command"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "absence_observation": null,
+          "actual_argv": [
+            "python",
+            "{SKILL}/scripts/build_animation.py",
+            "{FIXTURE}/invalid.json",
+            "--out",
+            "{OUT}/demo.html"
+          ],
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_animation.py",
+            "{FIXTURE}/invalid.json",
+            "--out",
+            "{OUT}/demo.html"
+          ],
+          "checks": [
+            {
+              "kind": "execution",
+              "output_pins": [
+                {
+                  "bytes": 2932,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.json",
+                  "sha256": "36f7d7a5c9e6e9a453c4c1da4bf281110035437ca6893d2ca8d45942b4349da7"
+                },
+                {
+                  "bytes": 0,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "bytes": 123,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+                  "sha256": "ab1dc7c09269e87eccb9fb37750c859c1ce941386281a341dcefdd2cae48b440"
+                }
+              ],
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "assertion_kind": "contains",
+              "exhaustive": false,
+              "kind": "content",
+              "output_pins": [
+                {
+                  "bytes": 123,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+                  "sha256": "ab1dc7c09269e87eccb9fb37750c859c1ce941386281a341dcefdd2cae48b440"
+                }
+              ],
+              "path": "$stderr",
+              "status": "PASS"
+            }
+          ],
+          "commands": [
+            {
+              "actual_argv": [
+                "python",
+                "{SKILL}/scripts/build_animation.py",
+                "{FIXTURE}/invalid.json",
+                "--out",
+                "{OUT}/demo.html"
+              ],
+              "argv": [
+                "python",
+                "{SKILL}/scripts/build_animation.py",
+                "{FIXTURE}/invalid.json",
+                "--out",
+                "{OUT}/demo.html"
+              ],
+              "binding_changes_test_input_location_only": true,
+              "docker_argv": [
+                "docker",
+                "run",
+                "--rm",
+                "--name",
+                "wrd-resource-replay-307e181cd6f042d6815327d5f961650e",
+                "--label",
+                "wrd.resource-replay=307e181cd6f042d6815327d5f961650e",
+                "--network",
+                "none",
+                "--read-only",
+                "--cap-drop",
+                "ALL",
+                "--security-opt",
+                "no-new-privileges",
+                "--pids-limit",
+                "128",
+                "--tmpfs",
+                "/tmp:rw,nosuid,nodev,size=256m",
+                "-e",
+                "PYTHONDONTWRITEBYTECODE=1",
+                "-e",
+                "HOME=/tmp",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\candidate\\skill:/skill:ro",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\inputs:/input:ro",
+                "-v",
+                "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\out:/out",
+                "--workdir",
+                "/out",
+                "-v",
+                "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs:/fixtures:ro",
+                "--entrypoint",
+                "python",
+                "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+                "/skill/scripts/build_animation.py",
+                "/fixtures/invalid.json",
+                "--out",
+                "/out/demo.html"
+              ],
+              "docker_lifecycle": null,
+              "execution_boundary": {
+                "reason_code": "observed_resource_process_result",
+                "resource_fault_exonerated": false,
+                "status": "RESOURCE_RESULT"
+              },
+              "execution_record": {
+                "bytes": 2932,
+                "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.json",
+                "sha256": "36f7d7a5c9e6e9a453c4c1da4bf281110035437ca6893d2ca8d45942b4349da7"
+              },
+              "expanded_argv": [
+                "python",
+                "/skill/scripts/build_animation.py",
+                "/fixtures/invalid.json",
+                "--out",
+                "/out/demo.html"
+              ],
+              "expected_exit": 2,
+              "host_spawn_error": null,
+              "original_argv": [
+                "python",
+                "{SKILL}/scripts/build_animation.py",
+                "{FIXTURE}/invalid.json",
+                "--out",
+                "{OUT}/demo.html"
+              ],
+              "owned_timeout_cleanup": null,
+              "program": "scripts/build_animation.py",
+              "raw_public_argv_preserved": true,
+              "resolved_argv": [
+                "python",
+                "/skill/scripts/build_animation.py",
+                "/fixtures/invalid.json",
+                "--out",
+                "/out/demo.html"
+              ],
+              "returncode": 2,
+              "seconds": 1.704,
+              "stderr": {
+                "bytes": 123,
+                "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+                "sha256": "ab1dc7c09269e87eccb9fb37750c859c1ce941386281a341dcefdd2cae48b440"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "temporary_input_bindings": null,
+              "timed_out": false
+            }
+          ],
+          "expanded_argv": [
+            "python",
+            "/skill/scripts/build_animation.py",
+            "/fixtures/invalid.json",
+            "--out",
+            "/out/demo.html"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "data_origin_declaration": {
+              "derivation": "把合法演示规格破坏为非法JSON（花括号未闭合、键名未加引号），检验程序以退出码2报错且不产出文件。",
+              "generated": true,
+              "message_ids": [
+                "conv_bb5fd9d54d25:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "path": "invalid.json",
+              "pin": {
+                "bytes": 23,
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+                "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+              },
+              "purpose": "invalid_input",
+              "source_id": "conv_bb5fd9d54d25"
+            },
+            "derivation": "把合法演示规格破坏为非法JSON（花括号未闭合、键名未加引号），检验程序以退出码2报错且不产出文件。",
+            "generated": true,
+            "message_ids": [
+              "conv_bb5fd9d54d25:msg_1"
+            ],
+            "origin": "generated_fixture",
+            "pin": {
+              "bytes": 23,
+              "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+              "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+            },
+            "purpose": "invalid_input",
+            "source_id": "conv_bb5fd9d54d25",
+            "source_record_sha256": "cabb48bb742f5f0123587ae2b0d2d358a774148c6369fd9718dbd5c158b8870f",
+            "usage_source_reference": {
+              "derivation": "把合法演示规格破坏为非法JSON（花括号未闭合、键名未加引号），检验程序以退出码2报错且不产出文件。",
+              "generated": true,
+              "message_ids": [
+                "conv_bb5fd9d54d25:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 23,
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+                "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+              },
+              "purpose": "invalid_input",
+              "source_id": "conv_bb5fd9d54d25"
+            },
+            "whole_file_bytes_supplied": true
+          },
+          "fixture_refs": [
+            {
+              "data_origin_declaration": {
+                "derivation": "把合法演示规格破坏为非法JSON（花括号未闭合、键名未加引号），检验程序以退出码2报错且不产出文件。",
+                "generated": true,
+                "message_ids": [
+                  "conv_bb5fd9d54d25:msg_1"
+                ],
+                "origin": "generated_fixture",
+                "path": "invalid.json",
+                "pin": {
+                  "bytes": 23,
+                  "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+                  "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+                },
+                "purpose": "invalid_input",
+                "source_id": "conv_bb5fd9d54d25"
+              },
+              "derivation": "把合法演示规格破坏为非法JSON（花括号未闭合、键名未加引号），检验程序以退出码2报错且不产出文件。",
+              "generated": true,
+              "message_ids": [
+                "conv_bb5fd9d54d25:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 23,
+                "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+                "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+              },
+              "purpose": "invalid_input",
+              "source_id": "conv_bb5fd9d54d25",
+              "source_record_sha256": "cabb48bb742f5f0123587ae2b0d2d358a774148c6369fd9718dbd5c158b8870f",
+              "usage_source_reference": {
+                "derivation": "把合法演示规格破坏为非法JSON（花括号未闭合、键名未加引号），检验程序以退出码2报错且不产出文件。",
+                "generated": true,
+                "message_ids": [
+                  "conv_bb5fd9d54d25:msg_1"
+                ],
+                "origin": "generated_fixture",
+                "pin": {
+                  "bytes": 23,
+                  "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+                  "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+                },
+                "purpose": "invalid_input",
+                "source_id": "conv_bb5fd9d54d25"
+              },
+              "whole_file_bytes_supplied": true
+            }
+          ],
+          "full_input": true,
+          "full_output": true,
+          "id": "0003",
+          "input_pin": {
+            "bytes": 23,
+            "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+            "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+          },
+          "input_pin_role": "actual_file_input",
+          "input_pins": [
+            {
+              "bytes": 23,
+              "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\reproduction_inputs\\invalid.json",
+              "sha256": "c754034ca7bf079fd9e36ad399ada4e13158407ee66281e792d22d6c8a2c3112"
+            }
+          ],
+          "kind": "invalid_input",
+          "outputs": [],
+          "public_usage_executed": false,
+          "returncode": 2,
+          "status": "PASS",
+          "stderr": {
+            "bytes": 123,
+            "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stderr",
+            "sha256": "ab1dc7c09269e87eccb9fb37750c859c1ce941386281a341dcefdd2cae48b440"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "E:\\skillloop_runs\\w10\\rep\\web-html-prototype\\r1\\check\\runs\\run_01\\cases\\0003\\command_01.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "documented_usage": "python {SKILL}/scripts/build_animation.py {INPUT}/demo_spec.json --out {OUT}/demo.html",
+      "path": "scripts/build_animation.py",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/build_animation.py",
+        "{INPUT}/demo_spec.json",
+        "--out",
+        "{OUT}/demo.html"
+      ],
+      "sha256": "264fad122ccade905aa4e63699151104d277892217eb82eb3ed40ba6c002d969"
+    }
+  ],
+  "reasons": [
+    "one_or_more_program_cases_failed"
+  ],
+  "resource_reports": [],
+  "schema": "wrd-library-reproduction-v7",
+  "skill_tree_pins": {
+    "SKILL.md": {
+      "bytes": 1042,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\candidate\\skill\\SKILL.md",
+      "sha256": "b410ac7f40752649cc9169ab61aa9be0d3d26336131c4b74699b2268d2ac2b1f"
+    },
+    "references/stage_notes.md": {
+      "bytes": 1897,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\candidate\\skill\\references\\stage_notes.md",
+      "sha256": "9dc95fbab091233c725e80e58f722cc60345ee1dc3c077dc42d16b5060a0cba9"
+    },
+    "scripts/build_animation.py": {
+      "bytes": 10016,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\candidate\\skill\\scripts\\build_animation.py",
+      "sha256": "264fad122ccade905aa4e63699151104d277892217eb82eb3ed40ba6c002d969"
+    },
+    "templates/demo_spec.template.json": {
+      "bytes": 830,
+      "path": "E:\\skillloop_runs\\w10\\native_episodes\\web-html-prototype__make1\\workspace\\outputs\\candidate\\skill\\templates\\demo_spec.template.json",
+      "sha256": "1cefdc6a8bef809bfb9033c1ec25a3bec5ac321c379e54194dabc3f2e0ccb168"
+    }
+  },
+  "source_evidence_verified": false,
+  "status": "HOLD",
+  "validator": {
+    "bytes": 9037,
+    "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v15\\reproduction.py",
+    "sha256": "62a558c3deccd6764e7746035758691ebf66cb6259ab5af29579dfe51b3f4e6f"
+  },
+  "verified_source_ids": [
+    "conv_bb5fd9d54d25",
+    "conv_c1ce48280769"
+  ]
+}

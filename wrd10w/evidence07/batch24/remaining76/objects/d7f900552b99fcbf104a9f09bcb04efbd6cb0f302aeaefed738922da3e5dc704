@@ -1,0 +1,48 @@
+{
+  "programs": [],
+  "fixtures": [],
+  "non_executable_resources": [
+    {
+      "path": "templates/legal_document_skeleton.md",
+      "assertions": [
+        {"kind": "contains", "path": "templates/legal_document_skeleton.md", "value": "〔待补："},
+        {"kind": "contains", "path": "templates/legal_document_skeleton.md", "value": "版式一：非全日制用工劳动合同（兼职）"},
+        {"kind": "contains", "path": "templates/legal_document_skeleton.md", "value": "版式二：委托书"},
+        {"kind": "contains", "path": "templates/legal_document_skeleton.md", "value": "每周累计不超过二十四小时"},
+        {"kind": "contains", "path": "templates/legal_document_skeleton.md", "value": "不得低于当地最低小时工资标准"},
+        {"kind": "contains", "path": "templates/legal_document_skeleton.md", "value": "法律后果由委托人承担"},
+        {"kind": "contains", "path": "templates/legal_document_skeleton.md", "value": "{{非全日制用工劳动合同 / 委托书}}"}
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_f7ae916abc7a",
+          "message_ids": ["conv_f7ae916abc7a:916e8b6b", "conv_f7ae916abc7a:756ff1f2", "conv_f7ae916abc7a:41ee1343"],
+          "source_record_sha256": "d057706795ff84c6ffb136558bb988e12d59756685191c3d90892b8be33a3b34",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_f7ae916abc7a.json",
+            "sha256": "89ce048a48771701ff1531ec80c0379f940d0a82f760ed9e2e3d57d1a254ea3c",
+            "bytes": 10407
+          }
+        },
+        {
+          "source_id": "conv_f7e2139afd98",
+          "message_ids": ["conv_f7e2139afd98:d6f2f71c", "conv_f7e2139afd98:0f2356a4"],
+          "source_record_sha256": "6ea526386741cdc4a0dccc1ac6b60f3a918340818e5bddaefa26502b8492dd62",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_f7e2139afd98.json",
+            "sha256": "83ee81cebada8827e6c59d9fff5348ccaa3c657ea1c1c9cdc6097f908e4559c1",
+            "bytes": 9835
+          }
+        }
+      ]
+    }
+  ],
+  "no_program_reason": "本路线两条可复用步骤均为模型按模板完成的起草动作：s1 要素整理与 s2 模板成文没有确定性业务程序；来源会话中出现的 docx 生成与 pandoc 校验属当时环境工具行为而非可复用逻辑（见 references/stage_notes.md 边界与纪律节），故无程序可复现，模板是唯一可复用资源并以 contains 断言核验其版式、硬约束与待补机制在包内实际存在。",
+  "limitations": [
+    "模板为起草骨架，成文质量与法律要点复述由业务Agent按来源纪律把握；本replay不执行模型推理。",
+    "无生成fixture，故无 reproduction_inputs 样例；公开输入入口沿用真实会话文件目录。",
+    "制作、来源证据与验证记录均在 outputs 根目录，未进入技能包。"
+  ]
+}

@@ -1,0 +1,44 @@
+Now I have the full picture. Let me plan the work.
+
+Task: Build Stage B skill package at /workspace/outputs/skill/ containing:
+1. SKILL.md - lightweight: applicability, resource index, short workflow, public invocation, validation, stop conditions.
+2. Generic fact ledger/schema - fact IDs, types (user_statement / planned_goal / explicit_requirement / new_assumption), value/unit/time/subject/qualifiers, source_id/message_id/verbatim quote refs, explicit_user flag. Distinguish derived quality rules vs explicit_user.
+3. Reusable section templates - official report & one-paragraph prose light branches; input/output fields, ledger/citation interface; no hardcoded enterprise names/product effects/funding targets. If target Word not provided, only text and explicit "not written to Word".
+4. Executable validation script (stdlib preferred): recursively check all evidence_refs' source messages & verbatim contiguous quotes; ledger/prose fact ID closure vs sources; length/paragraph constraints; missing facts, unknown refs, conflicts/missing inputs explicitly reported. planned_goal must not become achieved_fact. Honest about what's program-checkable vs needing semantic review.
+
+Tests in /workspace/outputs/tests/: fixtures normal/boundary/error, run through public CLI interface, assert specific expectations (not just nonzero exit). Keep record of each command, SHA, results.
+
+Outputs: resource_validation.json, making_summary.json with resource paths/SHAs, test matrix, failure→fix→retest chain, how A's six feedback items were handled.
+
+Design:
+
+Skill directory: /workspace/outputs/skill/
+- SKILL.md- schemas/fact_ledger.schema.json (or document schema in markdown + JSON schema)
+- templates/sections.md (official report + one-paragraph)
+- scripts/validate_ledger.py — validate ledger JSON: schema checks, quote verification against source messages file, fact ID closure, type rules (planned_goal not achieved_fact), explicit_user vs derived flags.
+- scripts/check_draft.py — check draft: length constraints (chars), paragraph count, fact IDs used exist in ledger, numbers appearing in draft must be present in ledger? That's a stretch; better: draft contains "fact_ids_used" list; validator checks closure and that each used fact's key numbers... Semantic check limited. We'll check: quoted numbers in draft vs ledger — hard. Instead we can check explicit mapping: draft JSON metadata includes used_fact_ids and word_limit etc. And numbers check: extract numbers from draft text, verify each number appears in at least one ledger fact's numeric_values (as string tokens). That's a structural check, honest that it's not full semantics.
+
+Maybe unify into one CLI: scripts/validate.py with subcommands `ledger` and `draft`, plus `--sources` file. Public interface:python /workspace/outputs/skill/scripts/validate.py ledger --ledger ledger.json --sources sources.jsonpython .../validate.py draft --draft draft.json --ledger ledger.json --sources sources.jsonWhere sources.json is a file mapping source_id -> {messages: [{id, content}]}. But evidence_refs reference source_id and message_id; validator needs source content. So inputs: a "source bundle" JSON with schema wrd-source-bundle-v1: {sources: {source_id: {"messages": {"message_id": "content"}}}}. Generic, not bound to the3 conversations.
+
+Ledger JSON schema (wrd-fact-ledger-v1):
+{
+ "schema": "wrd-fact-ledger-v1",
+ "facts": [
+ {
+ "fact_id": "F001",
+ "fact_type": "user_statement | planned_goal | explicit_requirement | new_assumption | achieved_fact",
+ "value": "...", // claim text "unit": "万元" optional,
+ "time": "2026-01" optional,
+ "subject": "..." optional,
+ "qualifiers": ["预计","约"] optional,
+ "explicit_user": true/false, // user explicitly required to preserve "derived_quality": "preserve_numbers_no_error" etc optional,
+ "evidence_refs": [{"source_id":..., "message_id":..., "quote": "..."}],
+ "status": "confirmed | needs_evidence | defer" optional }
+ ]
+}
+
+Types: user_statement (用户陈述的事实性内容), planned_goal (规划/预计目标), explicit_requirement (明确要求：字数、格式、一段话), achieved_fact — hmm. The rule: "规划目标不能被类型改成已实现事实" — meaning a planned_goal fact must not be relabeled achieved_fact. So allowed types include: user_statement, planned_goal, explicit_requirement, new_assumption, achieved_fact? Actually original data: 用户陈述事实 like "已上线" — those are user_statement, epistemic user-provided. I'll define fact_type enum: "user_statement", "planned_goal", "explicit_requirement", "new_assumption", "achieved_fact". Validator rule: a fact with evidence quote containing预计/目标 markers? No — semantic. Instead rule: if fact_type is "achieved_fact" or "user_statement" but its value/qualifiers contain planning markers like "预计", "目标", "规划" in the value or a "planning_marker" qualifier... That's keyword-based, which the task says not to fake full semantic judgment with keyword matching. But structural check can be: fact_type "achieved_fact" requires explicit user wording claiming completion. Hmm.
+
+Better approach: validator checks structurally: if fact_type == "planned_goal", then in the draft, it must be rendered with planning qualifiers (预计/目标 present in draft's rendering?) — can't reliably. The program-checkable rule: fact type reclassification — a fact cannot be typed "achieved_fact" unless its evidence quote contains a completion assertion... that's keyword again.
+
+Honest design: validator checks a declared field: each fact has "epistemic_status" and optional "planning_markers" (verbatim planning words from quote like "预计"). Rule: fact_type == "achieved_fact" is forbidden if the fact's declared "hedged_as_plan": true (a flag the

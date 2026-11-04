@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/qa_driver.py", line 21, in <module>
+    cost.append(run('fixed_evidence_check',['/bin/bash','-c',actions['verify_exec']],0))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/qa_driver.py", line 8, in run
+    assert r.returncode==expected,(name,r.returncode,r.stdout,r.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('fixed_evidence_check', 1, '{"status": "FAIL", "valid_cases": 7, "invalid_cases": 2, "failure_count": 7}\n', '')

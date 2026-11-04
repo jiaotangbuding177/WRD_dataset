@@ -1,0 +1,194 @@
+{
+  "schema_version": "wrd_curation09_writer_recovery_v1",
+  "canonical_owner_id": "605cdf7450ad2d3ae8563788",
+  "writer_original": {
+    "canonical_owner_id": "605cdf7450ad2d3ae8563788",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_7016a6cc331a90778bac",
+    "role": "actor",
+    "route_id": "ppt-deck-generation",
+    "source_ids": [
+      "conv_97579cceae5e"
+    ],
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "original_tool_call_id": "call428c5cb2e9bd4da692a58b494bdc3880",
+    "native_path": "/workspace/tmp/make_ppt.py",
+    "original_content_utf8_SHA256": "7773a7602313b71fad3d5117ea887bb0e0b7dd5086e8196633a8796b79b44efe",
+    "characters": 3364,
+    "whole_tool_write_content_recovered": true,
+    "original_body_ref": {
+      "context_episode_id": "ep_7016a6cc331a90778bac",
+      "message_index": 5,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "syntax_or_business_correctness_not_approved": true,
+    "positive_loss": 0,
+    "full_code": "# -*- coding: utf-8 -*-\nfrom pptx import Presentation\nfrom pptx.util import Inches, Pt, Emu\nfrom pptx.dml.color import RGBColor\nfrom pptx.enum.text import PP_ALIGN, MSO_ANCHOR\nfrom pptx.oxml.ns import qn\n\nFONT = \"Noto Sans CJK SC\"\n\ndef set_font(run, size, bold=False, color=RGBColor(0x33,0x33,0x33)):\n    f = run.font\n    f.size = Pt(size); f.bold = bold; f.color.rgb = color; f.name = FONT\n    rPr = run._r.get_or_add_rPr()\n    ea = rPr.find(qn('a:ea'))\n    if ea is None:\n        ea = rPr.makeelement(qn('a:ea'), {}); rPr.append(ea)\n    ea.set('typeface', FONT)\n\nprs = Presentation()\nprs.slide_width = Inches(13.333)\nprs.slide_height = Inches(7.5)\nslide = prs.slides.add_slide(prs.slide_layouts[6])\n\n# background\nbg = slide.shapes.add_shape(1, 0, 0, prs.slide_width, prs.slide_height)\nbg.fill.solid(); bg.fill.fore_color.rgb = RGBColor(0xF7,0xF9,0xFC); bg.line.fill.background()\nbg.shadow.inherit = False\n\n# title\ntb = slide.shapes.add_textbox(Inches(0.5), Inches(0.28), Inches(12.33), Inches(0.8))\ntf = tb.text_frame; tf.word_wrap = True\np = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER\nr = p.add_run(); r.text = \"核心场景\"; set_font(r, 34, True, RGBColor(0x1F,0x4E,0x79))\n\nscenarios = [\n    (\"场景一：成果评估\", RGBColor(0x2E,0x75,0xB6), [\n        \"导入模板/接口上传，校验解析入库\",\n        \"智能体引擎：检索·归证·研判·评分·报告\",\n        \"实时展示进度，按分/置信度/风险筛选候选\",\n    ]),\n    (\"场景二：AI评分辅助评审\", RGBColor(0x00,0x8B,0x8B), [\n        \"同时查看申报材料与智能体建议、证据、风险\",\n        \"专家独立评分，可调建议分并填差异说明\",\n        \"预评、评分、意见全程留痕，供复核审计\",\n    ]),\n    (\"场景三：项目跟进与管理\", RGBColor(0xC0,0x5B,0x11), [\n        \"“我的项目”工作台，查看授权项目与阶段\",\n        \"更新进展、上传成果、记录里程碑\",\n        \"滞后自动预警；无权修改专家最终评分\",\n    ]),\n    (\"场景四：全局监控与预警\", RGBColor(0x70,0x30,0xA0), [\n        \"全局看板按区域/领域/阶段汇总状态\",\n        \"阈值标记滞后，可催办并下钻查看详情\",\n        \"过程监督与异常协调，不改评审分数\",\n    ]),\n]\n\nx0, y0 = Inches(0.5), Inches(1.25)\nw, h = Inches(6.1), Inches(2.85)\ngx, gy = Inches(0.15), Inches(0.2)\nfor i, (title, color, items) in enumerate(scenarios):\n    x = x0 + (w + gx) * (i % 2)\n    y = y0 + (h + gy) * (i // 2)\n    card = slide.shapes.add_shape(1, x, y, w, h)  # rounded rect -> use MSO_SHAPE.ROUNDED_RECTANGLE\n    card.fill.solid(); card.fill.fore_color.rgb = RGBColor(0xFF,0xFF,0xFF)\n    card.line.color.rgb = color; card.line.width = Pt(1.25)\n    card.shadow.inherit = False\n    try:\n        from pptx.enum.shapes import MSO_SHAPE\n        # replace with rounded rect: easier to just keep rect\n        pass\n    except Exception:\n        pass\n    # header bar\n    hdr = slide.shapes.add_shape(1, x, y, w, Inches(0.55))\n    hdr.fill.solid(); hdr.fill.fore_color.rgb = color; hdr.line.fill.background()\n    hdr.shadow.inherit = False\n    htf = hdr.text_frame; htf.margin_left = Inches(0.15); htf.margin_right = Inches(0.05)\n    htf.margin_top = Inches(0.02); htf.margin_bottom = Inches(0.02)\n    htf.vertical_anchor = MSO_ANCHOR.MIDDLE\n    hp = htf.paragraphs[0]\n    hr = hp.add_run(); hr.text = title; set_font(hr, 17, True, RGBColor(0xFF,0xFF,0xFF))\n    # body\n    btb = slide.shapes.add_textbox(x + Inches(0.18), y + Inches(0.62), w - Inches(0.36), h - Inches(0.72))\n    btf = btb.text_frame; btf.word_wrap = True\n    for j, it in enumerate(items):\n        bp = btf.paragraphs[0] if j == 0 else btf.add_paragraph()\n        bp.space_after = Pt(6)\n        br = bp.add_run(); br.text = \"• \" + it; set_font(br, 13)\n\nout = \"/workspace/outputs/核心场景一页PPT.pptx\"\nprs.save(out)\nprint(out)\n"
+  },
+  "owner_proof_original": {
+    "canonical_owner_id": "605cdf7450ad2d3ae8563788",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_7016a6cc331a90778bac",
+    "native_session_id": "cfd96a9c-b295-4432-9865-fc8a30d221b8",
+    "source_message_index": 5,
+    "source_event_line": 12,
+    "original_message_sha256_sorted": "d10ead41bf7669cfd38126823b152b369224a0f35956afa251b43566959d8baa",
+    "original_message_sha256_insertion_order": "40a5db7ebb0869e7054e503570dbee3da9786b504f8e7ba927ef67c46b952ed9",
+    "original_content_sha256_sorted": "ee07ec3965bb29d43bc7d74c48e042908a31965c0b52fafbde70e64c54537e48",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\7f\\7f19ccf49a011764c701992204dc11d6ad4d3dd108ae042cd2cde74665642d57",
+      "bytes": 43387,
+      "sha256": "7f19ccf49a011764c701992204dc11d6ad4d3dd108ae042cd2cde74665642d57"
+    },
+    "original_body_ref": {
+      "context_episode_id": "ep_7016a6cc331a90778bac",
+      "message_index": 5,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "historical_role": "actor",
+    "route_id": "ppt-deck-generation",
+    "source_ids": [
+      "conv_97579cceae5e"
+    ],
+    "current_source_statuses": {
+      "conv_97579cceae5e": "TRAIN"
+    },
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "old_source_admission": "ADMIT",
+    "old_source_scope_proof_id": "f4003691af3ccc42de9195eac30fadc75aef7ebab110fe7fb47b8e8a8e19f721",
+    "late_protected_overlay": null,
+    "old_preflight_eligibility": null,
+    "v9_protocol_disposition": {
+      "id": "605cdf7450ad2d3ae8563788",
+      "episode_id": "ep_7016a6cc331a90778bac",
+      "source_message_index": 5,
+      "stage": "actor",
+      "route_id": "ppt-deck-generation",
+      "source_admission": "ADMIT",
+      "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+      "source_ids": [
+        "conv_97579cceae5e"
+      ],
+      "supervision_tier": null,
+      "loss_multiplier": 0.0,
+      "mask_reasons": [
+        "NO_ADMITTED_OUTCOME_OR_SEMANTIC_SUPERVISION"
+      ],
+      "original_message_sha256": "40a5db7ebb0869e7054e503570dbee3da9786b504f8e7ba927ef67c46b952ed9",
+      "original_content_sha256": "98b8274f3a6ad62eb618ba55f7bbdc708b5933e37a4738e88de28bf80cabd6a5",
+      "quality_is_not_inferred_from_done_retain_or_exit0": true,
+      "training_started": false,
+      "student_response_end_tokens": 5212,
+      "admitted_in_common_32k": false,
+      "owned_spans_before_length_filter": [],
+      "length_filter_never_truncates_source_prefix_or_target": true
+    },
+    "maker405_static_byte_review": null,
+    "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "target_call_ids": [
+      "call428c5cb2e9bd4da692a58b494bdc3880"
+    ],
+    "native_response_id": "chatcmpl-1792755888844",
+    "native_readable_R_blocks": 0,
+    "current_view_claims": [],
+    "withdrawn_view_claims": [],
+    "original_R_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "original_A_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "semantics": "NOT_INFERRED_FROM_SOURCE_ADMIT_DONE_RETAIN_OR_EXIT0",
+    "no_new_positive_loss": true,
+    "current_disposition": "SOURCE_CLOSED_SEMANTIC_PENDING"
+  },
+  "context_ref": "episodes/ep_7016a6cc331a90778bac.context.original.json",
+  "timeline_ref": "episodes/ep_7016a6cc331a90778bac.timeline.json",
+  "code_ref": "code/605cdf7450ad2d3ae8563788.py",
+  "code_utf8_sha256": "7773a7602313b71fad3d5117ea887bb0e0b7dd5086e8196633a8796b79b44efe",
+  "original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "python-pptx 可用。现在生成一页 PPT（2×2 四场景布局，文字精简）。",
+        "textSignature": "{\"v\":1,\"id\":\"commentary-0-c4cfa1154a90441595dbd6fb\",\"phase\":\"commentary\"}"
+      },
+      {
+        "type": "toolCall",
+        "id": "call428c5cb2e9bd4da692a58b494bdc3880",
+        "name": "write",
+        "arguments": {
+          "content": "# -*- coding: utf-8 -*-\nfrom pptx import Presentation\nfrom pptx.util import Inches, Pt, Emu\nfrom pptx.dml.color import RGBColor\nfrom pptx.enum.text import PP_ALIGN, MSO_ANCHOR\nfrom pptx.oxml.ns import qn\n\nFONT = \"Noto Sans CJK SC\"\n\ndef set_font(run, size, bold=False, color=RGBColor(0x33,0x33,0x33)):\n    f = run.font\n    f.size = Pt(size); f.bold = bold; f.color.rgb = color; f.name = FONT\n    rPr = run._r.get_or_add_rPr()\n    ea = rPr.find(qn('a:ea'))\n    if ea is None:\n        ea = rPr.makeelement(qn('a:ea'), {}); rPr.append(ea)\n    ea.set('typeface', FONT)\n\nprs = Presentation()\nprs.slide_width = Inches(13.333)\nprs.slide_height = Inches(7.5)\nslide = prs.slides.add_slide(prs.slide_layouts[6])\n\n# background\nbg = slide.shapes.add_shape(1, 0, 0, prs.slide_width, prs.slide_height)\nbg.fill.solid(); bg.fill.fore_color.rgb = RGBColor(0xF7,0xF9,0xFC); bg.line.fill.background()\nbg.shadow.inherit = False\n\n# title\ntb = slide.shapes.add_textbox(Inches(0.5), Inches(0.28), Inches(12.33), Inches(0.8))\ntf = tb.text_frame; tf.word_wrap = True\np = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER\nr = p.add_run(); r.text = \"核心场景\"; set_font(r, 34, True, RGBColor(0x1F,0x4E,0x79))\n\nscenarios = [\n    (\"场景一：成果评估\", RGBColor(0x2E,0x75,0xB6), [\n        \"导入模板/接口上传，校验解析入库\",\n        \"智能体引擎：检索·归证·研判·评分·报告\",\n        \"实时展示进度，按分/置信度/风险筛选候选\",\n    ]),\n    (\"场景二：AI评分辅助评审\", RGBColor(0x00,0x8B,0x8B), [\n        \"同时查看申报材料与智能体建议、证据、风险\",\n        \"专家独立评分，可调建议分并填差异说明\",\n        \"预评、评分、意见全程留痕，供复核审计\",\n    ]),\n    (\"场景三：项目跟进与管理\", RGBColor(0xC0,0x5B,0x11), [\n        \"“我的项目”工作台，查看授权项目与阶段\",\n        \"更新进展、上传成果、记录里程碑\",\n        \"滞后自动预警；无权修改专家最终评分\",\n    ]),\n    (\"场景四：全局监控与预警\", RGBColor(0x70,0x30,0xA0), [\n        \"全局看板按区域/领域/阶段汇总状态\",\n        \"阈值标记滞后，可催办并下钻查看详情\",\n        \"过程监督与异常协调，不改评审分数\",\n    ]),\n]\n\nx0, y0 = Inches(0.5), Inches(1.25)\nw, h = Inches(6.1), Inches(2.85)\ngx, gy = Inches(0.15), Inches(0.2)\nfor i, (title, color, items) in enumerate(scenarios):\n    x = x0 + (w + gx) * (i % 2)\n    y = y0 + (h + gy) * (i // 2)\n    card = slide.shapes.add_shape(1, x, y, w, h)  # rounded rect -> use MSO_SHAPE.ROUNDED_RECTANGLE\n    card.fill.solid(); card.fill.fore_color.rgb = RGBColor(0xFF,0xFF,0xFF)\n    card.line.color.rgb = color; card.line.width = Pt(1.25)\n    card.shadow.inherit = False\n    try:\n        from pptx.enum.shapes import MSO_SHAPE\n        # replace with rounded rect: easier to just keep rect\n        pass\n    except Exception:\n        pass\n    # header bar\n    hdr = slide.shapes.add_shape(1, x, y, w, Inches(0.55))\n    hdr.fill.solid(); hdr.fill.fore_color.rgb = color; hdr.line.fill.background()\n    hdr.shadow.inherit = False\n    htf = hdr.text_frame; htf.margin_left = Inches(0.15); htf.margin_right = Inches(0.05)\n    htf.margin_top = Inches(0.02); htf.margin_bottom = Inches(0.02)\n    htf.vertical_anchor = MSO_ANCHOR.MIDDLE\n    hp = htf.paragraphs[0]\n    hr = hp.add_run(); hr.text = title; set_font(hr, 17, True, RGBColor(0xFF,0xFF,0xFF))\n    # body\n    btb = slide.shapes.add_textbox(x + Inches(0.18), y + Inches(0.62), w - Inches(0.36), h - Inches(0.72))\n    btf = btb.text_frame; btf.word_wrap = True\n    for j, it in enumerate(items):\n        bp = btf.paragraphs[0] if j == 0 else btf.add_paragraph()\n        bp.space_after = Pt(6)\n        br = bp.add_run(); br.text = \"• \" + it; set_font(br, 13)\n\nout = \"/workspace/outputs/核心场景一页PPT.pptx\"\nprs.save(out)\nprint(out)\n",
+          "path": "/workspace/tmp/make_ppt.py"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792755888815,
+    "responseId": "chatcmpl-1792755888844",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "01c37791-6fb2-4faa-b87e-f7a7f6f2497b"
+    }
+  },
+  "original_write_ack": [
+    {
+      "index": 6,
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call428c5cb2e9bd4da692a58b494bdc3880",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote 3878 bytes to /workspace/tmp/make_ppt.py"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "changed",
+            "created",
+            "diff",
+            "patch",
+            "firstChangedLine"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792755923388,
+        "__openclaw": {
+          "runId": "01c37791-6fb2-4faa-b87e-f7a7f6f2497b"
+        }
+      }
+    }
+  ],
+  "native_ref": "native/7f19ccf49a011764c701992204dc11d6ad4d3dd108ae042cd2cde74665642d57.jsonl",
+  "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+  "original_prefix_equivalence_claimed": false,
+  "holdout_reservation_checked": false,
+  "semantic_training_admission": false,
+  "training_admitted": false,
+  "semantic_status": "RECOVERED_UNREVIEWED",
+  "cost": {
+    "new_business_teacher_actor_calls": 0,
+    "training_started": false,
+    "ai_cpu_curation_cost": "UNKNOWN_NOT_ZERO"
+  }
+}

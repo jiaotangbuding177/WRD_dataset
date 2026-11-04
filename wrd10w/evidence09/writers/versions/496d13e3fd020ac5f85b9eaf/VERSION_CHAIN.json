@@ -1,0 +1,68 @@
+{
+  "owner_id": "496d13e3fd020ac5f85b9eaf",
+  "source_ids": [
+    "conv_2f75e4f55a18"
+  ],
+  "reserved_source_intersection": [],
+  "reservation_sha256": "afbe3f655ecbb87eb5ca18b6141a4dd694d0b26422f0d74a246731390438e0c8",
+  "operations": [
+    {
+      "message_index": 89,
+      "call_original": {
+        "type": "toolCall",
+        "id": "calle80533f1732d4d509180ca4b02f4caae",
+        "name": "edit",
+        "arguments": {
+          "edits": [
+            {
+              "newText": "    vf = (f\"scale={W*2}:{H*2}:force_original_aspect_ratio=increase,\"\n          f\"crop={W*2}:{H*2},\"\n          f\"zoompan=z='{z}':x='{x}':y='{y}':d={D}:s={W}x{H}:fps={FPS},\"\n          f\"format=yuv420p\")\n    run([\"ffmpeg\", \"-y\", \"-i\", img,\n         \"-vf\", vf, \"-frames:v\", str(D), \"-r\", str(FPS),\n         \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n         \"-an\", out])",
+              "oldText": "    vf = (f\"scale={W*2}:{H*2}:force_original_aspect_ratio=increase,\"\n          f\"crop={W*2}:{H*2},\"\n          f\"zoompan=z='{z}':x='{x}':y='{y}':d={D}:s={W}x{H}:fps={FPS},\"\n          f\"format=yuv420p\")\n    run([\"ffmpeg\", \"-y\", \"-loop\", \"1\", \"-i\", img, \"-t\", f\"{dur:.3f}\",\n         \"-vf\", vf, \"-r\", str(FPS), \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n         \"-an\", out])"
+            },
+            {
+              "newText": "    out = os.path.join(ROOT, \"clips\", f\"shot_{sid}.mp4\")\n    if ndur > 0:",
+              "oldText": "    out = os.path.join(ROOT, \"clips\", f\"shot_{sid}.mp4\")\n    if ndur > 0:\n        ac = (f\"[1:a]adelay=400|400,apad[a];\"\n              f\"[0:v]{','.join(filters)}[v];[v][a]vout\")\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in, \"-i\", aud,\n               \"-filter_complex\", ac.replace(\"vout\", \"out\"),\n               \"-map\", \"[out]\", \"-map\", \"[a]\".replace(\"a\", \"v\") if False else \"[out]\"],\n        # simpler: map labels explicitly below\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in, \"-i\", aud,\n               \"-filter_complex\","
+            }
+          ],
+          "path": "/workspace/tmp/build_clips.py"
+        }
+      },
+      "receipt_indices": [
+        90
+      ],
+      "ack_not_error": true,
+      "outcome": "EXACT_LITERAL_EDIT_WITH_NATIVE_ACK",
+      "before_code_sha256": "62dfeca637eb456f5cc86cd16def6e390a8e41c2923c08f1db2b0db3d0211856",
+      "after_code_sha256": "ab677a9ab769c8c89ce8d3fec14dd69bb4c1052bc78f086b3f3d44a95491db47",
+      "after_code_ref": "versions/496d13e3fd020ac5f85b9eaf/089_after.py"
+    },
+    {
+      "message_index": 95,
+      "call_original": {
+        "type": "toolCall",
+        "id": "callb554b03fdaa74c8f8da1168f7e1b2c58",
+        "name": "edit",
+        "arguments": {
+          "edits": [
+            {
+              "newText": "    if ndur > 0:\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in, \"-i\", aud,\n               \"-filter_complex\",\n               f\"[0:v]{','.join(filters)}[v];[1:a]adelay=400|400,apad[a]\",",
+              "oldText": "    if ndur > 0:\n               f\"[0:v]{','.join(filters)}[v];[1:a]adelay=400|400,apad[a]\","
+            }
+          ],
+          "path": "/workspace/tmp/build_clips.py"
+        }
+      },
+      "receipt_indices": [
+        96
+      ],
+      "ack_not_error": true,
+      "outcome": "EXACT_LITERAL_EDIT_WITH_NATIVE_ACK",
+      "before_code_sha256": "ab677a9ab769c8c89ce8d3fec14dd69bb4c1052bc78f086b3f3d44a95491db47",
+      "after_code_sha256": "b9cbde0b8677d4d916d5688316f899301915b13d65052a495bf220a0c730d91e",
+      "after_code_ref": "versions/496d13e3fd020ac5f85b9eaf/095_after.py"
+    }
+  ],
+  "latest_exact_code_sha256": "b9cbde0b8677d4d916d5688316f899301915b13d65052a495bf220a0c730d91e",
+  "latest_exact_code_ref": "versions/496d13e3fd020ac5f85b9eaf/latest_exact.py",
+  "not_executed_by_this_recovery": true,
+  "training_admitted": false
+}

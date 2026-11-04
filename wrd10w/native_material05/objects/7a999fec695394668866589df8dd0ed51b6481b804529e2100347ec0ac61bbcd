@@ -1,0 +1,417 @@
+{
+  "schema": "wrd-original-CV-Q-scoped-semantic-errata-v1",
+  "all_original_Q_R_decision_feedback_unchanged": true,
+  "numeric_Q_not_gold_or_semantically_approved": true,
+  "confirmed_issues": [
+    {
+      "id": "E_SCORE_SUM",
+      "status": "CONFIRMED_ARITHMETIC_ERROR_NOT_A_REPLACEMENT_QUALITY_SCORE",
+      "affected_original_files": [
+        "blind_quality.json",
+        "decision.json",
+        "original final answer and matching reasoning/tool arguments"
+      ],
+      "json_pointers": [
+        "/cases/E2/arms/A/D2_覆盖充分性_20/score",
+        "/cases/E2/arms/A/weighted_total_100"
+      ],
+      "actual_item_sums_and_totals": [
+        {
+          "case": "E1",
+          "arm": "A",
+          "dimensions": [
+            {
+              "dimension": "D1",
+              "item_count": 4,
+              "item_sum": 3.5,
+              "reported_dimension_sum": 3.5,
+              "matches": true
+            },
+            {
+              "dimension": "D2",
+              "item_count": 4,
+              "item_sum": 3.5,
+              "reported_dimension_sum": 3.5,
+              "matches": true
+            },
+            {
+              "dimension": "D3",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D4",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D5",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            }
+          ],
+          "computed_weighted_total_100": 93.75,
+          "original_weighted_total_100": 93.75,
+          "matches": true
+        },
+        {
+          "case": "E1",
+          "arm": "B",
+          "dimensions": [
+            {
+              "dimension": "D1",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D2",
+              "item_count": 4,
+              "item_sum": 3.5,
+              "reported_dimension_sum": 3.5,
+              "matches": true
+            },
+            {
+              "dimension": "D3",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D4",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D5",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            }
+          ],
+          "computed_weighted_total_100": 97.5,
+          "original_weighted_total_100": 97.5,
+          "matches": true
+        },
+        {
+          "case": "E2",
+          "arm": "A",
+          "dimensions": [
+            {
+              "dimension": "D1",
+              "item_count": 4,
+              "item_sum": 3.5,
+              "reported_dimension_sum": 3.5,
+              "matches": true
+            },
+            {
+              "dimension": "D2",
+              "item_count": 4,
+              "item_sum": 2.5,
+              "reported_dimension_sum": 3,
+              "matches": false
+            },
+            {
+              "dimension": "D3",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D4",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D5",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            }
+          ],
+          "computed_weighted_total_100": 88.75,
+          "original_weighted_total_100": 91.25,
+          "matches": false
+        },
+        {
+          "case": "E2",
+          "arm": "B",
+          "dimensions": [
+            {
+              "dimension": "D1",
+              "item_count": 4,
+              "item_sum": 3.5,
+              "reported_dimension_sum": 3.5,
+              "matches": true
+            },
+            {
+              "dimension": "D2",
+              "item_count": 4,
+              "item_sum": 3.0,
+              "reported_dimension_sum": 3,
+              "matches": true
+            },
+            {
+              "dimension": "D3",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D4",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            },
+            {
+              "dimension": "D5",
+              "item_count": 4,
+              "item_sum": 4,
+              "reported_dimension_sum": 4,
+              "matches": true
+            }
+          ],
+          "computed_weighted_total_100": 91.25,
+          "original_weighted_total_100": 91.25,
+          "matches": true
+        }
+      ],
+      "correction": "E2_A D2 items sum2.5, not the reported3; weighted arithmetic over unchanged original items yields88.75, not91.25. This mechanical diagnostic does NOT approve the underlying items or supply a corrected gold Q. Original tie/downstream inference cannot inherit numeric correctness."
+    },
+    {
+      "id": "E_RATIO_BOUND",
+      "affected_original_files": [
+        "decision.json",
+        "feedback.json",
+        "original final answer and matching original reasoning/tool arguments"
+      ],
+      "json_pointers": [
+        "/costs_actual/E2/readable_ratios/known_token_floor_ratio_skill_over_no_skill",
+        "/recommendation/basis/1"
+      ],
+      "original_error": "Unknown usage is in the denominator. Original calls the2.05 known quotient a lower/floor bound and extends it into a2.05–2.85 token premium.",
+      "actual_input_evidence": {
+        "skill_complete_total": 739012,
+        "NS_known_subtotal": 360358,
+        "NS_unknown_usage_calls": 1,
+        "source": "Frozen phase2_arm_costs.json and original usage.json receipts"
+      },
+      "correction": {
+        "relation": "N>=360358, S=739012 => S/N<=739012/360358",
+        "upper_bound": 2.050771732554848,
+        "positive_lower_bound_or_precise_ratio_known": false,
+        "unjustified_E2_premium_claim_withdrawn": true
+      },
+      "no_edited_Q_or_decision_replacement": true
+    },
+    {
+      "id": "E_FUTURE_DATE",
+      "status": "CONFIRMED_AGAINST_ACTUAL_MODEL_VISIBLE_SYSTEM_DATE",
+      "actual_model_visible_date": {
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0001_5d8c04ba1b7c439a9d33081ffb0c5059\\request.raw.json",
+        "request_sha256": "50f060c189c26f8d6f36613891a2682f10bf1a62d264b59246248a323d7c8f0d",
+        "message_index": 0,
+        "role": "system",
+        "character_start": 11837,
+        "character_end": 11861,
+        "exact_text": "Current date: 2026-10-27",
+        "text_sha256_utf8": "3f637d0d5d7abe2bb65887289d81cf923be5ae5203791d175dddc8b056ec660b",
+        "date_not_taken_from_later_clock_or_metadata": true
+      },
+      "affected_items": [
+        {
+          "json_pointer": "/cases/E2/arms/A/D1_正确性与依据_30/items/3",
+          "original_item": {
+            "text": "遗漏可核实的口径问题：纵天华简历自述'3年经验'但个人优势写'近4年'的内部矛盾未指出（A标其'4年'）；各简历普遍存在的未来截止日期（纵天华2026-04、王俊涛2026-03、梁勇其项目2026.02）未提示核实",
+            "score": 0.5,
+            "evidence": "纵天华PDF P1 '工作年限 3 年经验'与'近4年'; 王俊涛PDF 2023.09-2026.03; 梁勇其PDF项目2025.07-2026.02",
+            "classification": "derived_quality"
+          },
+          "dimension": "D1",
+          "case": "E2",
+          "arm": "A"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/A/D2_覆盖充分性_20/items/3",
+          "original_item": {
+            "text": "JD产品线'快应用'本身在6份简历中均无证据，未作任何提示；多处未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF均无'快应用'字样; E2_A 全文",
+            "classification": "derived_quality"
+          },
+          "dimension": "D2",
+          "case": "E2",
+          "arm": "A"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/B/D1_正确性与依据_30/items/3",
+          "original_item": {
+            "text": "遗漏口径核实点：纵天华简历'3年经验'与'近4年'内部矛盾未指出（B标'约4年'）；未来截止日期（纵天华2026-04、王俊涛2026-03、李萍2024.11-2026.3）未提示核实；王俊涛'约3.5年'与文件名'4年'的口径差也未提",
+            "score": 0.5,
+            "evidence": "纵天华PDF P1、王俊涛PDF工作经历、李萍PDF项目2024.11-2026.3",
+            "classification": "derived_quality"
+          },
+          "dimension": "D1",
+          "case": "E2",
+          "arm": "B"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/B/D2_覆盖充分性_20/items/3",
+          "original_item": {
+            "text": "JD'快应用'产品线在6份简历均无证据未作提示；未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF; E2_B 全文",
+            "classification": "derived_quality"
+          },
+          "dimension": "D2",
+          "case": "E2",
+          "arm": "B"
+        }
+      ],
+      "descendant_feedback": "feedback.current_version_concrete_defects[F3] future-date claim and corresponding revision basis",
+      "correction": "2026-02/03/04 precede actual visible2026-10-27. No earlier as-of was supplied by the task. Do not claim these dates are future or penalize their absence as warnings. Do not replace this with a new tenure penalty."
+    },
+    {
+      "id": "E_DUPLICATE_PENALTY",
+      "affected_items": [
+        {
+          "json_pointer": "/cases/E2/arms/A/D1_正确性与依据_30/items/3",
+          "original_item": {
+            "text": "遗漏可核实的口径问题：纵天华简历自述'3年经验'但个人优势写'近4年'的内部矛盾未指出（A标其'4年'）；各简历普遍存在的未来截止日期（纵天华2026-04、王俊涛2026-03、梁勇其项目2026.02）未提示核实",
+            "score": 0.5,
+            "evidence": "纵天华PDF P1 '工作年限 3 年经验'与'近4年'; 王俊涛PDF 2023.09-2026.03; 梁勇其PDF项目2025.07-2026.02",
+            "classification": "derived_quality"
+          },
+          "dimension": "D1",
+          "case": "E2",
+          "arm": "A"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/A/D2_覆盖充分性_20/items/3",
+          "original_item": {
+            "text": "JD产品线'快应用'本身在6份简历中均无证据，未作任何提示；多处未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF均无'快应用'字样; E2_A 全文",
+            "classification": "derived_quality"
+          },
+          "dimension": "D2",
+          "case": "E2",
+          "arm": "A"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/B/D1_正确性与依据_30/items/3",
+          "original_item": {
+            "text": "遗漏口径核实点：纵天华简历'3年经验'与'近4年'内部矛盾未指出（B标'约4年'）；未来截止日期（纵天华2026-04、王俊涛2026-03、李萍2024.11-2026.3）未提示核实；王俊涛'约3.5年'与文件名'4年'的口径差也未提",
+            "score": 0.5,
+            "evidence": "纵天华PDF P1、王俊涛PDF工作经历、李萍PDF项目2024.11-2026.3",
+            "classification": "derived_quality"
+          },
+          "dimension": "D1",
+          "case": "E2",
+          "arm": "B"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/B/D2_覆盖充分性_20/items/3",
+          "original_item": {
+            "text": "JD'快应用'产品线在6份简历均无证据未作提示；未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF; E2_B 全文",
+            "classification": "derived_quality"
+          },
+          "dimension": "D2",
+          "case": "E2",
+          "arm": "B"
+        }
+      ],
+      "correction": "Future-date omission is repeated in both D1 and D2 for each E2 arm, contradicting the protocol and report own one-primary-dimension policy. Remove correctness credit for this duplicate/invalid rationale; do not silently recompute a passing aggregate."
+    },
+    {
+      "id": "E_APPROXIMATION_CONTRADICTION",
+      "affected_items": [
+        {
+          "json_pointer": "/cases/E1/arms/A/D1_正确性与依据_30/items/3",
+          "original_item": {
+            "text": "年限核算基本正确且主动指出简历自述'3年'(P1)与实际累计约1.5-2年的口径差，但同一答复内先写'累计约 2 年'后写'实际约 1.5–2 年'，内部口径轻微不一致",
+            "score": 0.5,
+            "evidence": "E1_A 第8行'累计约 2 年，但中间有空档' vs 末尾'按月份累计实际约 1.5–2 年'; PDF三段经历合计不足2年（视'至今'而定）",
+            "classification": "derived_quality"
+          },
+          "dimension": "D1",
+          "case": "E1",
+          "arm": "A"
+        }
+      ],
+      "actual_input_evidence": "Original E1_A uses approximately2 years and approximately1.5–2 years; their ranges overlap and no precision standard was required.",
+      "correction": "No established internal logical contradiction. This does not validate either absolute tenure estimate; actual as-of and original dates need separate source-based review. Do not turn it into an invented fresh deduction."
+    }
+  ],
+  "requires_root_semantic_review": [
+    {
+      "id": "H_RUBRIC_INFLATION",
+      "affected_items": [
+        {
+          "json_pointer": "/cases/E1/arms/A/D2_覆盖充分性_20/items/3",
+          "original_item": {
+            "text": "岗位职责1-6条（实验执行、发酵检测、记录归档、平台物料、文献汇报、技术协同）未做任何映射，仅覆盖任职要求部分",
+            "score": 0.5,
+            "evidence": "E1_A 全文无JD岗位职责对应分析; 对照E1_B对JD第5/6条有印证",
+            "classification": "derived_quality"
+          },
+          "dimension": "D2",
+          "case": "E1",
+          "arm": "A"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/A/D2_覆盖充分性_20/items/3",
+          "original_item": {
+            "text": "JD产品线'快应用'本身在6份简历中均无证据，未作任何提示；多处未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF均无'快应用'字样; E2_A 全文",
+            "classification": "derived_quality"
+          },
+          "dimension": "D2",
+          "case": "E2",
+          "arm": "A"
+        },
+        {
+          "json_pointer": "/cases/E2/arms/B/D2_覆盖充分性_20/items/3",
+          "original_item": {
+            "text": "JD'快应用'产品线在6份简历均无证据未作提示；未来日期未提示核实",
+            "score": 0.5,
+            "evidence": "六份PDF; E2_B 全文",
+            "classification": "derived_quality"
+          },
+          "dimension": "D2",
+          "case": "E2",
+          "arm": "B"
+        }
+      ],
+      "actual_source_contract": "Original task asks for interview recommendation, not a full JD-duty matrix. Cross-platform experience (small-program/quick-app/H5) is preferred, not a mandatory all-three proof; WebSocket is explicit and must not be substituted by SSE alone.",
+      "no_automatic_new_score_or_green": true
+    },
+    {
+      "id": "H_CAUSAL_ATTRIBUTION",
+      "json_pointer": "/quality_vs_cost_reading/skill_genuine_distinct_benefit",
+      "scope": "Observed page citations and independent source verification can be described as local outputs. This two-case comparison does not isolate a general causal benefit; Q saw native full-read/version data, not the separately stored complete C script-execution evidence. External later audit cannot be backfilled into original R."
+    }
+  ],
+  "original_REVISE_is_advice_not_new_execution_authorization": true,
+  "training_role": "audit_only_until_root_range_review"
+}

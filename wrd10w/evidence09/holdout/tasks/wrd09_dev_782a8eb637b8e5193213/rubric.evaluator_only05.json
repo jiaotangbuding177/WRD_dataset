@@ -1,0 +1,95 @@
+{
+  "schema": "wrd09-evaluator-rubric-v1",
+  "task_id": "wrd09_dev_782a8eb637b8e5193213",
+  "annotation_author": "/root/scheduled_batch24 (new offline annotation)",
+  "evaluation_level": "COMPONENT_OR_CONSUMPTION",
+  "not_original_teacher_reasoning_or_tool_feedback": true,
+  "source_basis": [
+    {
+      "source_id": "conv_589813f393e6",
+      "user_occurrence_index": 0,
+      "message_id": "conv_589813f393e6:msg_1",
+      "full_original_content_sha256": "2369b78cc75d48e0ea480daae467b9933383abe1f7a9a2517c9e6e480b4a06e8",
+      "selected_text_sha256": "2369b78cc75d48e0ea480daae467b9933383abe1f7a9a2517c9e6e480b4a06e8",
+      "extraction": "verbatim full original user occurrence"
+    }
+  ],
+  "task_specific_criteria": [
+    "交付可离线打开的HTML游戏；jtml按上下文作为可能笔误，若直接按HTML处理须说明。",
+    "实际游戏可开始、控制移动、吃食物增长、碰撞结束并可重开，另由运行评测验证。",
+    "不能仅有静态页面或声称测试通过而无执行证据。"
+  ],
+  "quality_dimensions": [
+    {
+      "id": "source_fidelity",
+      "name": "事实与来源忠实",
+      "weight": 20,
+      "anchors": {
+        "0": "出现关键捏造/错归属",
+        "2": "基本正确但关键证据或限定缺失",
+        "4": "关键事实、引文和未知项均忠实可核"
+      }
+    },
+    {
+      "id": "requirement_coverage",
+      "name": "需求覆盖",
+      "weight": 20,
+      "anchors": {
+        "0": "未回应核心委托",
+        "2": "覆盖部分要求",
+        "4": "核心要求和明确纠正均覆盖"
+      }
+    },
+    {
+      "id": "functional_usability",
+      "name": "交付可用性",
+      "weight": 20,
+      "anchors": {
+        "0": "没有真实交付或不可用",
+        "2": "有限可用/主要功能待证",
+        "4": "目标格式/功能在实际运行或人工核验中可用"
+      }
+    },
+    {
+      "id": "organization_presentation",
+      "name": "组织与表达",
+      "weight": 20,
+      "anchors": {
+        "0": "难以理解或严重版式问题",
+        "2": "基本清楚有明显冗余/层次问题",
+        "4": "清晰、有序、适配受众与格式"
+      }
+    },
+    {
+      "id": "evidence_boundaries",
+      "name": "证据边界与判断",
+      "weight": 20,
+      "anchors": {
+        "0": "无证成功/权限/法律或业务确定性",
+        "2": "部分区分事实和建议",
+        "4": "推断、条件、未知和实际执行状态区分清楚"
+      }
+    }
+  ],
+  "quality_formula": "Q=sum(weight*dimension_score/4), each dimension 0..4; report all five separately and missing dimensions UNKNOWN; not multiplied by TSR.",
+  "threshold_status": "UNCALIBRATED_NEW_RUBRIC_DEV_ONLY_CALIBRATION_REQUIRED",
+  "qualified_skill_threshold": null,
+  "student_quality_observed": null,
+  "TSR_observed": null,
+  "business_completion_denominator_eligible": true,
+  "clarification_scoring_separate_from_business_TSR": false,
+  "no_exact_reference_answer_or_ranking_fabricated": true,
+  "checks_that_require_future_execution": true,
+  "full_autonomous_WRD_or_KEEP_evidence_created": false,
+  "cost_fields_to_record": [
+    "request/response usage including unknown",
+    "all tool execution elapsed time",
+    "retries/failures",
+    "model and runtime identity",
+    "energy if metered",
+    "cash if known",
+    "human/AI curation cost not zero"
+  ],
+  "historical226_H12_static_results_used_to_choose_thresholds": false,
+  "review_protocol": "Freeze before any student output. Development may calibrate a later version; keep original rubric immutable. Blind test outputs must not drive training/threshold changes."
+}

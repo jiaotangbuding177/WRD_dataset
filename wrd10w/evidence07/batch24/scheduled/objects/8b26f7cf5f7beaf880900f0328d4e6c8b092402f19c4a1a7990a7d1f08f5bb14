@@ -1,0 +1,215 @@
+{
+  "accepted_card_sha256": "4fd6f5b4c22b1307ec6da6f66b0cdc87650ff73ffc81091fe9d8e565d59ab95f",
+  "all_failures_and_costs_retained": true,
+  "attempt": 1,
+  "change_id": "ALG-20261021-39",
+  "design_revision": "4.2.146",
+  "dispatch": false,
+  "formal250_included": false,
+  "idempotency_key": "729fde74ae6463a7709b6fdc430ca1a0a20695f455ffc6fcc1ba7672902dfcba",
+  "learning_coverage": "Only the representative card selected sources are fully supplied; other merged cards/sources are unlearned context, not evidence of completed learning.",
+  "making_implementation_pins": {
+    "builder": {
+      "bytes": 14056,
+      "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v9\\generation.py",
+      "sha256": "22b614bafa9816875242bbb9a9d0839d67b01c24786066d0b70af9bd9eac395c"
+    },
+    "contract": {
+      "bytes": 38990,
+      "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v4\\contract.py",
+      "sha256": "50bf01fbf8ac7633dfb2149c604c8a61a4226cfa5be7538a845665ff5f4f29de"
+    },
+    "literal_source_reader": {
+      "bytes": 5578,
+      "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v4\\read_source.py",
+      "sha256": "607112098d9c685505411d858f15a1cb2c8191e5f972320f8560b8cf7def422b"
+    },
+    "packaging": {
+      "bytes": 38521,
+      "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v5\\repair.py",
+      "sha256": "e993d96aea01706150b0893124a0d96eb636420257601a65f94efb511d13d341"
+    },
+    "preflight": {
+      "bytes": 850,
+      "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v4\\preflight.py",
+      "sha256": "c8c392854a5938de7b90db35d51f2634203254f022226e146ee9ab9e9ee4b658"
+    },
+    "resource_validator": {
+      "bytes": 66067,
+      "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v5\\reproduction.py",
+      "sha256": "2bbe6d86c73ac6b3e345d91f6b29c78578a88505667dfa2cc5d05574c322cb6e"
+    }
+  },
+  "max_content_attempts": 2,
+  "merge_context": {
+    "member_cards": [
+      {
+        "conditions": [
+          "依赖平台内定时任务能力，不涉及外部系统账号",
+          "任务内容、执行周期与输出格式需在创建/更新时明确",
+          "任务执行失败需排查原因后修复重试，不自动覆盖用户已有配置"
+        ],
+        "conflicts": [],
+        "id": "scheduled-task-config",
+        "source_ids": [
+          "conv_6802694e2036",
+          "conv_7be8a0b341b5",
+          "conv_f4b82e638325",
+          "conv_526e4b625656"
+        ]
+      }
+    ],
+    "merge_group": "grp-scheduled-task-config",
+    "scope": "Only representative selected real sources fully learned now. Other card evidence remains pending, not silently accepted as learned or broader applicability.",
+    "unlearned_source_ids": []
+  },
+  "model_calls": 0,
+  "previous_candidate": null,
+  "resource_benefit_and_admission_not_claimed": true,
+  "route_hash": "eb5d30f5f7cc4d612226143d88acb03f8134017cfced32c6aadeacf5a8b012a4",
+  "schema": "wrd-new-route-generation-v4",
+  "selected_source_ids": [
+    "conv_6802694e2036",
+    "conv_7be8a0b341b5",
+    "conv_f4b82e638325",
+    "conv_526e4b625656"
+  ],
+  "semantic_merge_must_be_completed_by_outer_dispatcher": true,
+  "shared_resource_snapshot": {
+    "resources": 0,
+    "status": "NO_SNAPSHOT_SUPPLIED"
+  },
+  "source_pins": {
+    "conv_526e4b625656": {
+      "bytes": 49114,
+      "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_526e4b625656\\conversation.json",
+      "sha256": "ce739cfc51dac9f559dbe05ffc7284e5fede7a3b2d08a428a79afb22167bbad2"
+    },
+    "conv_6802694e2036": {
+      "bytes": 38564,
+      "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_6802694e2036\\conversation.json",
+      "sha256": "095f854e90a99c38bf591e7216f873f292e6814c5db9eb2ef1385caca30f7bcc"
+    },
+    "conv_7be8a0b341b5": {
+      "bytes": 19311,
+      "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_7be8a0b341b5\\conversation.json",
+      "sha256": "a9359dc05978924177b34357dc9a4bda487af9e5fd0cd714f73138cbfd7a7705"
+    },
+    "conv_f4b82e638325": {
+      "bytes": 209812,
+      "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_f4b82e638325\\conversation.json",
+      "sha256": "cfa8a8cbfeb8232eafbefe11643be21a4dcb2b4bd3998d26eff76b031f58686e"
+    }
+  },
+  "source_reader_command": "python /workspace/inputs/making_tools/read_source.py --source /workspace/inputs/conversations/conv_6802694e2036.json /workspace/inputs/conversations/conv_7be8a0b341b5.json /workspace/inputs/conversations/conv_f4b82e638325.json /workspace/inputs/conversations/conv_526e4b625656.json --max-bytes 6500",
+  "value_gate_is_hypothesis_not_benefit": {
+    "candidate_plan_sha256": "999ee0eba41d02bc05501b46ebbf3fb1e2c674b24d70c0fc90281876389aefc4",
+    "checks": [
+      {
+        "name": "real_source_support",
+        "status": "PASS"
+      },
+      {
+        "name": "specific_reusable_resources",
+        "status": "PASS"
+      },
+      {
+        "name": "replaces_real_common_work",
+        "status": "PASS"
+      }
+    ],
+    "metrics": {
+      "common_steps": 1,
+      "performance_measured": false,
+      "proposed_resources": 1,
+      "real_sources": 4
+    },
+    "reasons": [],
+    "schema": "wrd-reuse-admission-v2",
+    "scope": "fixed independent development cases only; no formal250 or universal saving claim",
+    "status": "PASS",
+    "value_plan": {
+      "resources": [
+        {
+          "applicability": {
+            "conditions": [
+              "平台内定时任务能力可用",
+              "任务为周期性检索/汇总/导出类"
+            ],
+            "unsupported": [
+              "需要外部账号认证的服务",
+              "一次性非周期任务",
+              "平台不支持的自定义触发逻辑"
+            ]
+          },
+          "fixture_refs": [
+            {
+              "message_ids": [
+                "conv_6802694e2036:msg_1"
+              ],
+              "pin": {
+                "bytes": 38564,
+                "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_6802694e2036\\conversation.json",
+                "sha256": "095f854e90a99c38bf591e7216f873f292e6814c5db9eb2ef1385caca30f7bcc"
+              },
+              "source_id": "conv_6802694e2036"
+            },
+            {
+              "message_ids": [
+                "conv_7be8a0b341b5:msg_1"
+              ],
+              "pin": {
+                "bytes": 19311,
+                "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_7be8a0b341b5\\conversation.json",
+                "sha256": "a9359dc05978924177b34357dc9a4bda487af9e5fd0cd714f73138cbfd7a7705"
+              },
+              "source_id": "conv_7be8a0b341b5"
+            }
+          ],
+          "id": "r1",
+          "input_contract": "任务目标描述 + 执行周期（如每周一07:00/每日12:00）+ 输出格式（md/pdf/图片）",
+          "kind": "route",
+          "operation": "假设可替代每次重复手工执行周期性检索汇总、或反复重新描述任务配置与执行计划的工作，实际减负待完整学习与无技能对照验证",
+          "output_contract": "已创建或更新的定时任务配置，以及执行后的产物文档可直接交付"
+        }
+      ],
+      "reusable_steps": [
+        {
+          "action": "把周期性检索/汇总需求转成定时任务配置并跟踪执行产物（收益待验证假设）",
+          "id": "periodic-task-config-route",
+          "replaces": [
+            "repeated_operation",
+            "planning"
+          ],
+          "resource_ids": [
+            "r1"
+          ],
+          "support": [
+            {
+              "message_ids": [
+                "conv_6802694e2036:msg_1"
+              ],
+              "source_id": "conv_6802694e2036"
+            },
+            {
+              "message_ids": [
+                "conv_7be8a0b341b5:msg_1",
+                "conv_7be8a0b341b5:msg_13"
+              ],
+              "source_id": "conv_7be8a0b341b5"
+            }
+          ]
+        }
+      ],
+      "schema": "wrd-reuse-value-plan-v2",
+      "source_ids": [
+        "conv_6802694e2036",
+        "conv_7be8a0b341b5",
+        "conv_f4b82e638325",
+        "conv_526e4b625656"
+      ],
+      "workflow_id": "scheduled-task-config"
+    }
+  },
+  "workflow_id": "scheduled-task-config"
+}

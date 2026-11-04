@@ -1,0 +1,51 @@
+---
+name: questionnaire-clone-html
+description: 复刻外部问卷（问卷星等链接）为可记录提交人的本地HTML交互问卷时使用：抓取解析→生成→自检冒烟。
+---
+
+# 外部问卷复刻为可记录提交人的交互问卷
+
+三步路线：抓取解析原问卷 → 生成实名记录版 HTML → 自检+冒烟。{SKILL}=本技能根目录，{OUT}=当次成果目录，均为可替换参数。
+
+## 第1步 抓取解析原问卷
+
+```
+python {SKILL}/scripts/parse_wjx.py <问卷URL或已保存的HTML路径> --out {OUT}/spec_raw.json
+```
+
+- 输入问卷星分享链接（或用户另存的网页 HTML 文件）；输出 spec_raw.json：标题、说明、题目列表（type: radio/checkbox/text，required、options）。解析要点见 `references/wjx_page_structure.md`。
+- 抓取失败（403/验证码/问卷已停止）或退出码 2：明示用户，请其提供题目内容或另存网页 HTML 再解析；不硬造结构。
+- 退出码 1 = 页面抓到了但没有题目（非问卷页/需登录），同样转告用户。
+- warnings 里有 `type=other` 的题型（矩阵/排序/评分）：人工转成 radio/checkbox/text 三类之一，或按用户口径舍弃。
+
+## 第2步 改文案并生成问卷 HTML
+
+原问卷题目仅作结构参考：在 spec_raw.json 基础上改写 title/intro/options 为用户新场景文案（题量、题型结构可沿用），另存 `{OUT}/spec.json`，字段格式见 `templates/spec.example.json`。然后：
+
+```
+python {SKILL}/scripts/build_questionnaire.py {OUT}/spec.json --out {OUT}/<问卷名>.html
+```
+
+生成单文件 HTML，可直接双击在浏览器打开，已内置：开头提交人信息（姓名/部门等，字段与必填性按当次用户要求定）、提交自动生成记录编号+提交时间并保存本机、底部"提交记录管理"（管理密码在 spec 的 cfg.admin_password，默认 666888，交付时告知用户可改）、导出 CSV/JSON、受访者下载答卷回执+管理页导入回执去重合并、现场连续提交自动累加、打印视图。
+
+关键判断：
+- 交付说明必须写清记录存在哪（填写设备浏览器本机）、怎么汇总（管理页导出或回执回收）。
+- 用户要"各自在手机上填、后台自动汇总"的真在线追踪：本地 HTML 做不到，主动建议改用问卷平台实名/登录设置（见 references/stage_notes.md 的历史建议话术），本技能不建后端。
+
+## 第3步 自检 + 冒烟测试
+
+```
+python {SKILL}/scripts/check_questionnaire.py {OUT}/<问卷名>.html --spec {OUT}/spec.json
+python {SKILL}/scripts/smoke_test.py {OUT}/<问卷名>.html --spec {OUT}/spec.json
+```
+
+- check：标签配对、每段 `<script>` 过 node --check、必备功能齐全、嵌入配置与 spec 一致；退出 0 通过、1 有问题（修完重跑）、2 用法/读取错误。
+- smoke：无头 Chromium 真实模拟——空提交被拦截、填写提交后记录入库（编号/提交人/答案）、连续提交累加、CSV 导出表头+逐行、管理面板密码校验、回执合并去重。退出 0 全部通过；1 有失败项（按 FAIL 行定位修复后重跑）。
+- 交付时向用户报告两项检查结果，不省略。
+
+## 资源入口（按需读取）
+
+- `templates/spec.example.json`：spec 字段示例（radio/checkbox+max/text、实名字段、cfg）
+- `references/wjx_page_structure.md`：问卷星页面解析要点（属性标记、题型映射、req 与"选填"陷阱）
+- `references/stage_notes.md`：来源会话成功做法、边界（本地记录 vs 在线追踪）、历史口径适用条件
+- `scripts/parse_wjx.py` / `build_questionnaire.py` / `check_questionnaire.py` / `smoke_test.py`

@@ -1,0 +1,502 @@
+{
+  "schema": "wrd-b-resource-validation-v1",
+  "generated_at_utc": "2026-10-27",
+  "skill_dir": "outputs/skill",
+  "resources": [
+    {
+      "path": "skill/SKILL.md",
+      "sha256": "6604ae142be3f84e433c71b14bc631ddeb62cf90cd518ca4d1df7d6589eb5fd2"
+    },
+    {
+      "path": "skill/schemas/fact_ledger.schema.json",
+      "sha256": "8986e1d100621ee6356d19f8e950305aa633a07d8599bae94b15c343fb975a65"
+    },
+    {
+      "path": "skill/schemas/draft.schema.json",
+      "sha256": "20db9fe2b2d31979cb9e403e2aa442d6de7cde37eed286b9bec50f797d5fa418"
+    },
+    {
+      "path": "skill/templates/section_templates.md",
+      "sha256": "a1aa78e0039bc3f7f4c314bb9113f567e6b78142c1671529dd00033c97b77412"
+    },
+    {
+      "path": "skill/scripts/validate_pack.py",
+      "sha256": "6a1e951540750ded9fb1f8b688efe25e065352184f07e28c938081159473433a"
+    },
+    {
+      "path": "tests/make_fixtures.py",
+      "sha256": "a2b3eecf91b079f780aa11a367641ea86e8c144cfa2a5095b1a3cd181a343a42"
+    },
+    {
+      "path": "tests/run_tests.py",
+      "sha256": "c22027e126f5f394b6d2a8f6b6f34fe4011753ad3c29931763035157fc7d2d9b"
+    },
+    {
+      "path": "tests/test_run_log.json",
+      "sha256": "26d0004a35e604706669c4bb18772925de88b0ea2f75b4e8ddadf828edd0ab2c"
+    }
+  ],
+  "cli_resolvability_check": {
+    "validate_pack_help": "OK",
+    "skill_md_relative_refs": [
+      "schemas/fact_ledger.schema.json",
+      "schemas/draft.schema.json",
+      "templates/section_templates.md",
+      "scripts/validate_pack.py"
+    ],
+    "all_refs_resolve": true,
+    "fixtures_generation": "tests/make_fixtures.py rerun OK before final test run"
+  },
+  "test_matrix": {
+    "runner": "tests/run_tests.py (subprocess via public CLI, no CLI modification for tests)",
+    "cli_under_test_sha256": "/workspace/outputs/skill/scripts/validate_pack.py",
+    "fixture_note": "全部夹具为明确虚构样本（蓝星云课堂/蓝星教育等），置于技能包外 tests/fixtures，非真实业务来源",
+    "summary": {
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "interpretation_limit": "测试通过仅证明这些局部结构检查有效，不构成语义正确或技能质量/复用收益的批准"
+    },
+    "cases": [
+      {
+        "case": "N1_normal_official_report",
+        "category": "N1",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/n1_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/N1_normal_official_report_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "N2_normal_one_paragraph_nested_ok",
+        "category": "N2",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n2_ledger.json --draft /workspace/outputs/tests/fixtures/n2_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/N2_normal_one_paragraph_nested_ok_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "B1a_length_exactly_at_limit",
+        "category": "B1a",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/b1a_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/B1a_length_exactly_at_limit_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:LENGTH_EXACTLY_AT_LIMIT",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "B1b_length_over_by_one",
+        "category": "B1b",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/b1b_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/B1b_length_over_by_one_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:length_over_limit",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "B2a_omit_optional_detail_numbers_ok",
+        "category": "B2a",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/b2a_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/B2a_omit_optional_detail_numbers_ok_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:OMITTED_NON_MUST_KEEP_FACTS",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:F005",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "B2b_must_keep_number_altered",
+        "category": "B2b",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/b2b_ledger.json --draft /workspace/outputs/tests/fixtures/b2b_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/B2b_must_keep_number_altered_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:declared_number_value_mismatch",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "B3a_no_word_target_text_only",
+        "category": "B3a",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/b3a_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/B3a_no_word_target_text_only_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:TEXT_ONLY_NO_WORD_TARGET",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "C1_classify_official_report_ok",
+        "category": "C1",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py classify --request /workspace/outputs/tests/fixtures/c1_request.json --report /workspace/outputs/tests/reports/C1_classify_official_report_ok_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==PROCEED_OFFICIAL_REPORT",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "C2_classify_question_only_defer",
+        "category": "C2",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py classify --request /workspace/outputs/tests/fixtures/c2_request.json --report /workspace/outputs/tests/reports/C2_classify_question_only_defer_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==OUT_OF_SCOPE_DEFER",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "C3_classify_no_materials_needs_evidence",
+        "category": "C3",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py classify --request /workspace/outputs/tests/fixtures/c3_request.json --report /workspace/outputs/tests/reports/C3_classify_no_materials_needs_evidence_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==NEEDS_EVIDENCE",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "C4_classify_one_paragraph_ok",
+        "category": "C4",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py classify --request /workspace/outputs/tests/fixtures/c4_request.json --report /workspace/outputs/tests/reports/C4_classify_one_paragraph_ok_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==PROCEED_ONE_PARAGRAPH",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "C5_classify_unclear_needs_evidence_not_no_value",
+        "category": "C5",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py classify --request /workspace/outputs/tests/fixtures/c5_request.json --report /workspace/outputs/tests/reports/C5_classify_unclear_needs_evidence_not_no_value_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==NEEDS_EVIDENCE",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E1_unknown_fact_id",
+        "category": "E1",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/e1_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E1_unknown_fact_id_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:unknown_fact_reference",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E2_quote_not_contiguous",
+        "category": "E2",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/e2_ledger.json --draft /workspace/outputs/tests/fixtures/n1_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E2_quote_not_contiguous_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:evidence_quote_not_contiguous",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E3_nested_task_switches_bad_quote",
+        "category": "E3",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/e3_ledger.json --draft /workspace/outputs/tests/fixtures/n2_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E3_nested_task_switches_bad_quote_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:evidence_quote_not_contiguous",
+            "passed": true
+          },
+          {
+            "desc": "fail_path_contains:task_switches",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E4a_declared_unit_mismatch",
+        "category": "E4a",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/e4a_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E4a_declared_unit_mismatch_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:declared_number_unit_mismatch",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E4b_declared_subject_mismatch",
+        "category": "E4b",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/e4b_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E4b_declared_subject_mismatch_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:declared_number_subject_mismatch",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E5_planned_goal_as_achieved",
+        "category": "E5",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n2_ledger.json --draft /workspace/outputs/tests/fixtures/e5_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E5_planned_goal_as_achieved_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:type_mismatch_planned_goal_as_achieved",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E6_missing_required_evidence",
+        "category": "E6",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/e6_ledger.json --draft /workspace/outputs/tests/fixtures/n1_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E6_missing_required_evidence_report.json",
+        "exit_code": 1,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:missing_required_evidence",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E7_undeclared_number_needs_semantic_review",
+        "category": "E7",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/n1_ledger.json --draft /workspace/outputs/tests/fixtures/e7_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E7_undeclared_number_needs_semantic_review_report.json",
+        "exit_code": 0,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:UNDECLARED_NUMBERS",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:90",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      },
+      {
+        "case": "E8_missing_ledger_file_input_error",
+        "category": "E8",
+        "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures/nonexistent_ledger.json --draft /workspace/outputs/tests/fixtures/n1_draft.json --sources /workspace/outputs/tests/fixtures/sources_demo.json --report /workspace/outputs/tests/reports/E8_missing_ledger_file_input_error_report.json",
+        "exit_code": 2,
+        "case_result": "PASS",
+        "assertions": [
+          {
+            "desc": "exit_code==2",
+            "passed": true
+          },
+          {
+            "desc": "verdict==INPUT_ERROR",
+            "passed": true
+          }
+        ],
+        "failure_reason": null
+      }
+    ]
+  },
+  "failure_fix_retest_chain": [
+    {
+      "event": "fixture_generator_cleanup",
+      "detail": "首次完整测试运行21/21通过；随后发现 tests/make_fixtures.py B1a 生成逻辑中残留死代码（不可达裁剪分支），局部修除该死代码，未改动技能包资源，同一公开CLI接口复测21/21通过。无测试失败→修复→重测项；无被删除或伪造的失败记录。"
+    }
+  ],
+  "limitations": [
+    "测试全部通过仅证明这些局部结构/数字/类型/引文连续性检查有效，不批准整个技能质量或复用收益",
+    "未做真实独立试跑（无真实用户素材端到端成稿），复用收益未验证",
+    "NEEDS_SEMANTIC_REVIEW 项（用户陈述未经外部核实、目标口径措辞、未声明数字、Word写入宣称）需真实语义审阅",
+    "校验器不解析 Word/DOCX 文件内容；written=true 的宣称只能人工/渲染验证",
+    "字数口径为声明制（默认 non_whitespace），中文『字』的实际口径需与用户确认"
+  ]
+}

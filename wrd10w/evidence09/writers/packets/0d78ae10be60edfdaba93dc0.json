@@ -1,0 +1,182 @@
+{
+  "schema_version": "wrd_curation09_writer_recovery_v1",
+  "canonical_owner_id": "0d78ae10be60edfdaba93dc0",
+  "writer_original": {
+    "canonical_owner_id": "0d78ae10be60edfdaba93dc0",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_9f2cec3715a01fc16617",
+    "role": "legacy_business_actor",
+    "route_id": "contract-review-revision",
+    "source_ids": [
+      "conv_6bbfd6c2fbe3"
+    ],
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "original_tool_call_id": "call7e7f8c7a9ad948349102857e4302702d",
+    "native_path": "/workspace/tmp/make_letter.py",
+    "original_content_utf8_SHA256": "05ef7d0a78cc1322e52af763e5e91b902bbd577c4ccb03ca833a44e9c08505d1",
+    "characters": 1852,
+    "whole_tool_write_content_recovered": true,
+    "original_body_ref": {
+      "context_episode_id": "ep_9f2cec3715a01fc16617",
+      "message_index": 7,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "syntax_or_business_correctness_not_approved": true,
+    "positive_loss": 0,
+    "full_code": "# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, Cm\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING\nfrom docx.oxml.ns import qn\nimport os\n\nos.makedirs(\"/workspace/outputs\", exist_ok=True)\n\ndoc = Document()\n\n# 全局字体：中文宋体，西文 Times New Roman\nstyle = doc.styles[\"Normal\"]\nstyle.font.name = \"Times New Roman\"\nstyle.font.size = Pt(12)\nstyle.element.rPr.rFonts.set(qn(\"w:eastAsia\"), \"宋体\")\n\ndef set_para(p, align=None, indent=True, spacing=1.5):\n    if align is not None:\n        p.alignment = align\n    pf = p.paragraph_format\n    pf.line_spacing_rule = WD_LINE_SPACING.MULTIPLE\n    pf.line_spacing = spacing\n    if indent:\n        pf.first_line_indent = Cm(0.74)\n    return p\n\ndef add_run(p, text, bold=False, size=12, font_ea=\"宋体\"):\n    r = p.add_run(text)\n    r.font.name = \"Times New Roman\"\n    r.element.rPr.rFonts.set(qn(\"w:eastAsia\"), font_ea)\n    r.font.size = Pt(size)\n    r.bold = bold\n    return r\n\n# 标题\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.CENTER, indent=False)\nadd_run(p, \"投资承诺函\", bold=True, size=16, font_ea=\"黑体\")\np.paragraph_format.space_after = Pt(18)\n\n# 称谓\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.LEFT, indent=False)\nadd_run(p, \"致：西安戴维新材料有限公司\")\n\n# 正文\nbody = [\n    \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）（以下简称“本合伙企业”）就参与贵公司本轮融资事宜，郑重承诺如下：\",\n    \"一、本合伙企业同意参与西安戴维新材料有限公司本轮融资。\",\n    \"二、本合伙企业拟投资金额初步确定为不超过人民币3,000万元，对应西安戴维新材料有限公司投前估值不超过人民币6亿元。\",\n    \"三、本承诺函所载投资金额、估值等均为初步安排，具体以双方最终达成的交易文件为准。\",\n]\nfor t in body:\n    p = doc.add_paragraph()\n    set_para(p)\n    add_run(p, t)\n\n# 落款\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\np.paragraph_format.space_before = Pt(24)\nadd_run(p, \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）\")\n\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\nadd_run(p, \"年　　月　　日\")\n\ndoc.save(\"/workspace/outputs/投资承诺函.docx\")\nprint(\"saved\")\n"
+  },
+  "owner_proof_original": {
+    "canonical_owner_id": "0d78ae10be60edfdaba93dc0",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_9f2cec3715a01fc16617",
+    "native_session_id": "5d5cf195-9993-4a7e-95a0-0fd6d09fb505",
+    "source_message_index": 7,
+    "source_event_line": 15,
+    "original_message_sha256_sorted": "9e4413aa5102f640b36868002d531d334cdd6bb3d2b05df6c28ce6b81374311f",
+    "original_message_sha256_insertion_order": "ff93873eac75dbec09022ce59a6fbc2d27cbc731d3c809db680daab4e64270bb",
+    "original_content_sha256_sorted": "479523bb70e801a2798c34ed442be30e523d20fc87310f994ad5ea5bba5c00c8",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\f5\\f52189daadaaefacb2c22a095c861f8a3e74fb9845e02ab25aa58e3d9ee37f3f",
+      "bytes": 58892,
+      "sha256": "f52189daadaaefacb2c22a095c861f8a3e74fb9845e02ab25aa58e3d9ee37f3f"
+    },
+    "original_body_ref": {
+      "context_episode_id": "ep_9f2cec3715a01fc16617",
+      "message_index": 7,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "historical_role": "legacy_business_actor",
+    "route_id": "contract-review-revision",
+    "source_ids": [
+      "conv_6bbfd6c2fbe3"
+    ],
+    "current_source_statuses": {
+      "conv_6bbfd6c2fbe3": "TRAIN"
+    },
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "old_source_admission": "ADMIT",
+    "old_source_scope_proof_id": "d3984189728012bd48552edbbd25cc17cd66e9da52454834ff43fe495797e65b",
+    "late_protected_overlay": null,
+    "old_preflight_eligibility": null,
+    "v9_protocol_disposition": {
+      "id": "0d78ae10be60edfdaba93dc0",
+      "episode_id": "ep_9f2cec3715a01fc16617",
+      "source_message_index": 7,
+      "stage": "legacy_business_actor",
+      "route_id": "contract-review-revision",
+      "source_admission": "ADMIT",
+      "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+      "source_ids": [
+        "conv_6bbfd6c2fbe3"
+      ],
+      "supervision_tier": null,
+      "loss_multiplier": 0.0,
+      "mask_reasons": [
+        "CURRENT_TOOL_NOT_IN_FIXED_CORE7_VERIFIED_SCHEMA"
+      ],
+      "original_message_sha256": "ff93873eac75dbec09022ce59a6fbc2d27cbc731d3c809db680daab4e64270bb",
+      "original_content_sha256": "159893cdd3bafff8378dc6b0eb5ed1b529c8bf357ff8502defa6f094d8364b16",
+      "quality_is_not_inferred_from_done_retain_or_exit0": true,
+      "training_started": false,
+      "admitted_in_common_32k": false
+    },
+    "maker405_static_byte_review": null,
+    "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "target_call_ids": [
+      "call7e7f8c7a9ad948349102857e4302702d"
+    ],
+    "native_response_id": "chatcmpl-1792598131098",
+    "native_readable_R_blocks": 0,
+    "current_view_claims": [],
+    "withdrawn_view_claims": [],
+    "original_R_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "original_A_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "semantics": "NOT_INFERRED_FROM_SOURCE_ADMIT_DONE_RETAIN_OR_EXIT0",
+    "no_new_positive_loss": true,
+    "current_disposition": "SOURCE_CLOSED_SEMANTIC_PENDING"
+  },
+  "context_ref": "episodes/ep_9f2cec3715a01fc16617.context.original.json",
+  "timeline_ref": "episodes/ep_9f2cec3715a01fc16617.timeline.json",
+  "code_ref": "code/0d78ae10be60edfdaba93dc0.py",
+  "code_utf8_sha256": "05ef7d0a78cc1322e52af763e5e91b902bbd577c4ccb03ca833a44e9c08505d1",
+  "original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call7e7f8c7a9ad948349102857e4302702d",
+        "name": "write",
+        "arguments": {
+          "path": "/workspace/tmp/make_letter.py",
+          "content": "# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, Cm\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING\nfrom docx.oxml.ns import qn\nimport os\n\nos.makedirs(\"/workspace/outputs\", exist_ok=True)\n\ndoc = Document()\n\n# 全局字体：中文宋体，西文 Times New Roman\nstyle = doc.styles[\"Normal\"]\nstyle.font.name = \"Times New Roman\"\nstyle.font.size = Pt(12)\nstyle.element.rPr.rFonts.set(qn(\"w:eastAsia\"), \"宋体\")\n\ndef set_para(p, align=None, indent=True, spacing=1.5):\n    if align is not None:\n        p.alignment = align\n    pf = p.paragraph_format\n    pf.line_spacing_rule = WD_LINE_SPACING.MULTIPLE\n    pf.line_spacing = spacing\n    if indent:\n        pf.first_line_indent = Cm(0.74)\n    return p\n\ndef add_run(p, text, bold=False, size=12, font_ea=\"宋体\"):\n    r = p.add_run(text)\n    r.font.name = \"Times New Roman\"\n    r.element.rPr.rFonts.set(qn(\"w:eastAsia\"), font_ea)\n    r.font.size = Pt(size)\n    r.bold = bold\n    return r\n\n# 标题\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.CENTER, indent=False)\nadd_run(p, \"投资承诺函\", bold=True, size=16, font_ea=\"黑体\")\np.paragraph_format.space_after = Pt(18)\n\n# 称谓\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.LEFT, indent=False)\nadd_run(p, \"致：西安戴维新材料有限公司\")\n\n# 正文\nbody = [\n    \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）（以下简称“本合伙企业”）就参与贵公司本轮融资事宜，郑重承诺如下：\",\n    \"一、本合伙企业同意参与西安戴维新材料有限公司本轮融资。\",\n    \"二、本合伙企业拟投资金额初步确定为不超过人民币3,000万元，对应西安戴维新材料有限公司投前估值不超过人民币6亿元。\",\n    \"三、本承诺函所载投资金额、估值等均为初步安排，具体以双方最终达成的交易文件为准。\",\n]\nfor t in body:\n    p = doc.add_paragraph()\n    set_para(p)\n    add_run(p, t)\n\n# 落款\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\np.paragraph_format.space_before = Pt(24)\nadd_run(p, \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）\")\n\np = doc.add_paragraph()\nset_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\nadd_run(p, \"年　　月　　日\")\n\ndoc.save(\"/workspace/outputs/投资承诺函.docx\")\nprint(\"saved\")\n"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792598131053,
+    "responseId": "chatcmpl-1792598131098",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "755c8a19-090b-45e0-a280-be899124d59c"
+    }
+  },
+  "original_write_ack": [
+    {
+      "index": 8,
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call7e7f8c7a9ad948349102857e4302702d",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote 2352 bytes to /workspace/tmp/make_letter.py"
+          }
+        ],
+        "details": {
+          "changed": true,
+          "created": true,
+          "diff": "+ 1 # -*- coding: utf-8 -*-\n+ 2 from docx import Document\n+ 3 from docx.shared import Pt, Cm\n+ 4 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING\n+ 5 from docx.oxml.ns import qn\n+ 6 import os\n+ 7 \n+ 8 os.makedirs(\"/workspace/outputs\", exist_ok=True)\n+ 9 \n+10 doc = Document()\n+11 \n+12 # 全局字体：中文宋体，西文 Times New Roman\n+13 style = doc.styles[\"Normal\"]\n+14 style.font.name = \"Times New Roman\"\n+15 style.font.size = Pt(12)\n+16 style.element.rPr.rFonts.set(qn(\"w:eastAsia\"), \"宋体\")\n+17 \n+18 def set_para(p, align=None, indent=True, spacing=1.5):\n+19     if align is not None:\n+20         p.alignment = align\n+21     pf = p.paragraph_format\n+22     pf.line_spacing_rule = WD_LINE_SPACING.MULTIPLE\n+23     pf.line_spacing = spacing\n+24     if indent:\n+25         pf.first_line_indent = Cm(0.74)\n+26     return p\n+27 \n+28 def add_run(p, text, bold=False, size=12, font_ea=\"宋体\"):\n+29     r = p.add_run(text)\n+30     r.font.name = \"Times New Roman\"\n+31     r.element.rPr.rFonts.set(qn(\"w:eastAsia\"), font_ea)\n+32     r.font.size = Pt(size)\n+33     r.bold = bold\n+34     return r\n+35 \n+36 # 标题\n+37 p = doc.add_paragraph()\n+38 set_para(p, WD_ALIGN_PARAGRAPH.CENTER, indent=False)\n+39 add_run(p, \"投资承诺函\", bold=True, size=16, font_ea=\"黑体\")\n+40 p.paragraph_format.space_after = Pt(18)\n+41 \n+42 # 称谓\n+43 p = doc.add_paragraph()\n+44 set_para(p, WD_ALIGN_PARAGRAPH.LEFT, indent=False)\n+45 add_run(p, \"致：西安戴维新材料有限公司\")\n+46 \n+47 # 正文\n+48 body = [\n+49     \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）（以下简称“本合伙企业”）就参与贵公司本轮融资事宜，郑重承诺如下：\",\n+50     \"一、本合伙企业同意参与西安戴维新材料有限公司本轮融资。\",\n+51     \"二、本合伙企业拟投资金额初步确定为不超过人民币3,000万元，对应西安戴维新材料有限公司投前估值不超过人民币6亿元。\",\n+52     \"三、本承诺函所载投资金额、估值等均为初步安排，具体以双方最终达成的交易文件为准。\",\n+53 ]\n+54 for t in body:\n+55     p = doc.add_paragraph()\n+56     set_para(p)\n+57     add_run(p, t)\n+58 \n+59 # 落款\n+60 p = doc.add_paragraph()\n+61 set_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\n+62 p.paragraph_format.space_before = Pt(24)\n+63 add_run(p, \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）\")\n+64 \n+65 p = doc.add_paragraph()\n+66 set_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\n+67 add_run(p, \"年　　月　　日\")\n+68 \n+69 doc.save(\"/workspace/outputs/投资承诺函.docx\")\n+70 print(\"saved\")",
+          "patch": "--- /workspace/tmp/make_letter.py\n+++ /workspace/tmp/make_letter.py\n@@ -0,0 +1,70 @@\n+# -*- coding: utf-8 -*-\n+from docx import Document\n+from docx.shared import Pt, Cm\n+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING\n+from docx.oxml.ns import qn\n+import os\n+\n+os.makedirs(\"/workspace/outputs\", exist_ok=True)\n+\n+doc = Document()\n+\n+# 全局字体：中文宋体，西文 Times New Roman\n+style = doc.styles[\"Normal\"]\n+style.font.name = \"Times New Roman\"\n+style.font.size = Pt(12)\n+style.element.rPr.rFonts.set(qn(\"w:eastAsia\"), \"宋体\")\n+\n+def set_para(p, align=None, indent=True, spacing=1.5):\n+    if align is not None:\n+        p.alignment = align\n+    pf = p.paragraph_format\n+    pf.line_spacing_rule = WD_LINE_SPACING.MULTIPLE\n+    pf.line_spacing = spacing\n+    if indent:\n+        pf.first_line_indent = Cm(0.74)\n+    return p\n+\n+def add_run(p, text, bold=False, size=12, font_ea=\"宋体\"):\n+    r = p.add_run(text)\n+    r.font.name = \"Times New Roman\"\n+    r.element.rPr.rFonts.set(qn(\"w:eastAsia\"), font_ea)\n+    r.font.size = Pt(size)\n+    r.bold = bold\n+    return r\n+\n+# 标题\n+p = doc.add_paragraph()\n+set_para(p, WD_ALIGN_PARAGRAPH.CENTER, indent=False)\n+add_run(p, \"投资承诺函\", bold=True, size=16, font_ea=\"黑体\")\n+p.paragraph_format.space_after = Pt(18)\n+\n+# 称谓\n+p = doc.add_paragraph()\n+set_para(p, WD_ALIGN_PARAGRAPH.LEFT, indent=False)\n+add_run(p, \"致：西安戴维新材料有限公司\")\n+\n+# 正文\n+body = [\n+    \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）（以下简称“本合伙企业”）就参与贵公司本轮融资事宜，郑重承诺如下：\",\n+    \"一、本合伙企业同意参与西安戴维新材料有限公司本轮融资。\",\n+    \"二、本合伙企业拟投资金额初步确定为不超过人民币3,000万元，对应西安戴维新材料有限公司投前估值不超过人民币6亿元。\",\n+    \"三、本承诺函所载投资金额、估值等均为初步安排，具体以双方最终达成的交易文件为准。\",\n+]\n+for t in body:\n+    p = doc.add_paragraph()\n+    set_para(p)\n+    add_run(p, t)\n+\n+# 落款\n+p = doc.add_paragraph()\n+set_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\n+p.paragraph_format.space_before = Pt(24)\n+add_run(p, \"嘉兴湃圃春之阳创业投资合伙企业（有限合伙）\")\n+\n+p = doc.add_paragraph()\n+set_para(p, WD_ALIGN_PARAGRAPH.RIGHT, indent=False)\n+add_run(p, \"年　　月　　日\")\n+\n+doc.save(\"/workspace/outputs/投资承诺函.docx\")\n+print(\"saved\")\n",
+          "firstChangedLine": 1
+        },
+        "isError": false,
+        "timestamp": 1792598146271,
+        "__openclaw": {
+          "runId": "755c8a19-090b-45e0-a280-be899124d59c"
+        }
+      }
+    }
+  ],
+  "native_ref": "native/f52189daadaaefacb2c22a095c861f8a3e74fb9845e02ab25aa58e3d9ee37f3f.jsonl",
+  "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+  "original_prefix_equivalence_claimed": false,
+  "holdout_reservation_checked": false,
+  "semantic_training_admission": false,
+  "training_admitted": false,
+  "semantic_status": "RECOVERED_UNREVIEWED",
+  "cost": {
+    "new_business_teacher_actor_calls": 0,
+    "training_started": false,
+    "ai_cpu_curation_cost": "UNKNOWN_NOT_ZERO"
+  }
+}

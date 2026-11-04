@@ -1,0 +1,1656 @@
+{
+  "schema": "wrd09-exact-owner-review-packet",
+  "owner": {
+    "owner_id": "eac4e09f91ac70e157ee8873",
+    "queue": "other_business_semantic_pending",
+    "episode_id": "ep_40fe04430de96def738c",
+    "source_message_index": 3,
+    "route_id": "jd-resume-screening",
+    "source_ids": [
+      "conv_495ce24cf535"
+    ],
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "current_source_statuses": {
+      "conv_495ce24cf535": "TRAIN"
+    },
+    "original_owner_ledger": {
+      "canonical_owner_id": "eac4e09f91ac70e157ee8873",
+      "population": "V9_OLD1763",
+      "episode_id": "ep_40fe04430de96def738c",
+      "native_session_id": "5e257a9e-116a-4ea1-b078-4f003607e399",
+      "source_message_index": 3,
+      "source_event_line": 9,
+      "original_message_sha256_sorted": "a05e691a0932420d40b36259a8ead1f39294469e04128bf8ea6ad63b98130e58",
+      "original_message_sha256_insertion_order": "70a3c6443ec28faca2a7093d9a4adaa909df8bdb946c50ccfa7e0043a80635c2",
+      "original_content_sha256_sorted": "d407853d10e2226e2aaff9fc626678780a86a8ff506cb91db38af37e7cab7213",
+      "source_native": {
+        "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\8e\\8efb4c04aa47136bbd0902a096e44b6bf60d73493ab163c1c7927d9d631f1b69",
+        "bytes": 79728,
+        "sha256": "8efb4c04aa47136bbd0902a096e44b6bf60d73493ab163c1c7927d9d631f1b69"
+      },
+      "original_body_ref": {
+        "context_episode_id": "ep_40fe04430de96def738c",
+        "message_index": 3,
+        "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+      },
+      "historical_role": "actor",
+      "route_id": "jd-resume-screening",
+      "source_ids": [
+        "conv_495ce24cf535"
+      ],
+      "current_source_statuses": {
+        "conv_495ce24cf535": "TRAIN"
+      },
+      "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+      "old_source_admission": "ADMIT",
+      "old_source_scope_proof_id": "f256ad1fb4ff3bfe7712829f8296f45127ea61b4158f50b27118712ae19efc40",
+      "late_protected_overlay": null,
+      "old_preflight_eligibility": null,
+      "v9_protocol_disposition": {
+        "id": "eac4e09f91ac70e157ee8873",
+        "episode_id": "ep_40fe04430de96def738c",
+        "source_message_index": 3,
+        "stage": "actor",
+        "route_id": "jd-resume-screening",
+        "source_admission": "ADMIT",
+        "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+        "source_ids": [
+          "conv_495ce24cf535"
+        ],
+        "supervision_tier": null,
+        "loss_multiplier": 0.0,
+        "mask_reasons": [
+          "NO_ADMITTED_OUTCOME_OR_SEMANTIC_SUPERVISION"
+        ],
+        "original_message_sha256": "70a3c6443ec28faca2a7093d9a4adaa909df8bdb946c50ccfa7e0043a80635c2",
+        "original_content_sha256": "34e4072c270e5514bf9f0eb954ca41a3ab0194d20f811083e3ed515c7c17e400",
+        "quality_is_not_inferred_from_done_retain_or_exit0": true,
+        "training_started": false,
+        "admitted_in_common_32k": false
+      },
+      "maker405_static_byte_review": null,
+      "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+      "target_call_ids": [
+        "call80ba32b316da4cedaa4541f1d2c6ebf2"
+      ],
+      "native_response_id": "chatcmpl-1792692949439",
+      "native_readable_R_blocks": 0,
+      "current_view_claims": [],
+      "withdrawn_view_claims": [],
+      "original_R_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+      "original_A_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+      "semantics": "NOT_INFERRED_FROM_SOURCE_ADMIT_DONE_RETAIN_OR_EXIT0",
+      "no_new_positive_loss": true,
+      "current_disposition": "SOURCE_CLOSED_SEMANTIC_PENDING"
+    },
+    "target_message_original": {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call80ba32b316da4cedaa4541f1d2c6ebf2",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\nimport pdfplumber\nfor name in [\"5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\", \"6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\"]:\n    path = f\"/workspace/inputs/materials/conv_495ce24cf535/{name}\"\n    print(\"=\"*80)\n    print(\"FILE:\", name)\n    print(\"=\"*80)\n    with pdfplumber.open(path) as pdf:\n        for i, page in enumerate(pdf.pages):\n            print(f\"--- page {i+1} ---\")\n            print(page.extract_text() or \"(no text)\")\nEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792692949401,
+      "responseId": "chatcmpl-1792692949439",
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    "target_original_SHA256_sorted": "a05e691a0932420d40b36259a8ead1f39294469e04128bf8ea6ad63b98130e58",
+    "input_context_ref": {
+      "file": "ORIGINAL_CONTEXTS_343.audit.jsonl.gz",
+      "episode_id": "ep_40fe04430de96def738c",
+      "messages_prefix_end_exclusive": 3
+    },
+    "immediate_original_tool_feedback": [
+      {
+        "message_index": 4,
+        "message": {
+          "role": "toolResult",
+          "toolCallId": "call80ba32b316da4cedaa4541f1d2c6ebf2",
+          "toolName": "exec",
+          "content": [
+            {
+              "type": "text",
+              "text": "================================================================================\nFILE: 5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n================================================================================\n--- page 1 ---\nh h\nxl xl\nP P\n_\nV ef1ad7112452a1cb1HNy0t-0ElRXxoq3VPOXWOeimP_VPx_lhV\nP P\nm m\nei ei\nO O\nW 宋先生 W\nX X\nO O\nP P\nV V\n3 3\nq q\no o\nX x 男 | 45岁 13922275937 X x\nR R\nEl El\n0t- 0 4年工作经验 | 供应链总监 | 期望薪资：30-50K | 期望城市：广州 0t- 0\ny y\nN N\nH H\n1 1\nb b\nc c\n1 1\n2 a 个人优势 2 a\n5 5\n4 4\n2 2\n1 1\n1 1\nd 7 自我优势 d 7\na a\n1 1\nef ef\n1、10多年大型企业的供应链、生产运营管理经验；\n2、优秀的行业分析能力及洞察力；良好的风险管理能力,对项目建设有丰富的经验\n3、优秀的项目团队领导，擅长团队打造，人才培养；\n4、较强的谈判能力及技巧、沟通协调能力、问题解决；\n工作经历 xl h\nP\nV\n_\nP\n广州市万世德智能装备科技有限公司\ne i\nm生产运营总监 2023.11-至今\nO\nW\n公司介绍：广州万世德是国家级高新技术企O业X、专精特新中小企业，专注于液态包装机械及二次包装设备制造。 主要产品包\nP\nV\n括二次包装设备：码垛机（产能达85包q 3/分钟）、热收缩膜包机、纸箱裹包机、装卸箱机，卡包机等，适用于饮料、啤酒、\no\nx\nX\n食用油等行业； El R\n0\n汇报对象：公司董事长 y\n0t-\nN\nH\n1\n下属人数：110人 c b\n1\na\n2\n工作内容：1.统筹4公5司生产运营管理，对整体产品交付负责，包括管理项目、生产计划、制造、采购、质量、仓库、装配7个\n2\n1\n1\n部门； 2.参与d 7制定公司的发展战略与年度经营计划，主导组织并实施生产运营中心年度战略规划；3.作为公司质量体系第一\na\n1\nef\n负责人，不断完善公司质量管理体系，不断提升产品交付质量，提高公司产品市场竞争力； 4.不断完善生产运营中心管理体\n系，打造柔性供应链体系，不断提高产品交付效率；5.优化装配薪酬结构，主导设计并实施了一套按劳计酬的装配薪酬制\n度，打破了吃大锅饭的局面，大大提升了装配效率；6.推动采购以项目成本闭环计奖金的分配制度，大大节省采购成本并提\n升了采购人员的工作主动性； 7.主导公司新的ERP和WMS系统上线； 8.协调董事长公司管理：协助董事长组织各中心负责人\n讨论制定公司年度战略目标并分解为各中心kpi，月度复盘结果。\n中集德立物流系统（苏州）有限公司 供应链总监 2018.11-2023.10\nh h\nxl xl\nP P\nV V\nP _ 公司介绍：中集德立为中集集团旗下空港板块位于华东区域的生产基地，目标是打造行业内先进的自动化装备制造基地，也P _\nm m\nei ei\nO 是进一步开拓中国物流系统市场的战略规划的实施中心；公司业务涵盖机场物流处理系统、快递输送系统集成、电商物O流处\nW W\nX X\nO O\nP 理系统、仓储自动化系统解决方案、定制自动化系统解决方案等。主要客户包括顺丰、德邦、京东等国内知名的快P递电商物\nV V\n3 3\nq q\nx o 流企业。汇报对象：常务副总 下属人数：120 工作内容：1.统筹公司供应链管理，包括采购、物流、仓储、x质o量、售前支持\nX X\nR R\n0 El 五个部门； 2.参与制定公司的发展战略与年度经营计划，组织制定并实施供应链战备规划；3.设计并改0 E善 l 公司供应链系统，\n0t- 0t-\ny y\nH N 制定并完善切实可行的供应链管理工作流程，实施监控和管理，确保产品质量，并根据业务的变化H N不断优化； 4.建立采购相\n1 1\nb b\nc c\n1 关流程、制度及供应商管理体系、不断优化采购流程；5.主导供应链评估标准、考核标准制定1，能最大限度管理好供应商，\na a\n2 2\n5 5\n4 4\n2 并对供应商进行优胜劣汰； 6.推动采购创新项目，节省采购成本； 7.优化库存结构，提2升仓储工作效率，供货仓储管理体\n1 1\n1 1\n7 7\nd d\na 系；8.销售售前支持，包括投标前成本分析、利润分析、报价分析等； 9.中心内部a管理：通过公司战略目标分解为各部门\n1 1\nef ef\nkpi，结合部门职责，明确各部门的工作目标，整理为部门工作计划及进度表，制定可执行的实施方案。\n广州王老吉药业股份有限公司 采购经理/主管 2006.11-2018.10\n1、 全面负责公司供应链的开发与管理，分派和处理本部门的日常工作包括公司供应链的总体规划、部门日常工作开展及总\n结、采购计划的编排、物料的订购与交货期的控制 、部门员工的管理与培训、与供应商以及公司内部其他部门的沟通协调；\n2、 负责组织决策大型物料（包括原辅包材及生产设备和工程）招标采购。直接上级为公司副总经理,每月均以书面形式向副\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nhlxPV_PmieOWXOPV3qoxXRlE0-t0yNH1bc1a2542117da1fe\n--- page 2 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nei m 总作工作汇报和对采购部进行绩效考核.对采购部持续稳定发展、采购成本控制、采购规划的制定和实施均有自己的独特 e 见i m解\nO O\nW W\nX 和方法. X\nO O\nP P\nV V\n3 3\nq q\no o\nX x 广州樱泰汽车饰件有限公司 采购专员/助理 X2x002.07-2006.10\nR R\nEl El\n0 0\n0t- 1、主要负责设备、工程和维修服务的采购.同时也负责非生产性物料采购。 0t-\ny y\nN N\nH H\n1 2、曾在2005年被公司派往日本总公司学习丰田生产管理模式，对于零库存状态下的物料采购及1快速安全为生产服务的方针\nb b\nc c\n1 1\na a\n2 有较深刻的认识。 2\n5 5\n4 4\n2 2\n1 1\n1 3、保证公司生产为前提下尽量降低公司采购成本，曾在2005年被樱泰公司评为年度先1进工作者，并于2005年7月晋升为采\n7 7\nd d\na a\n1 1\nef 购系长。 ef\n教育经历\n合肥工业大学 本科 机械设计制造及其自动化 1998-2002\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nX X\nO O\nP P\nV V\n3 3\nq q\no o\nx x\nX X\nR R\nEl El\n0 0\n0t- 0t-\ny y\nN N\nH H\n1 1\nb b\nc c\n1 1\na a\n2 2\n5 5\n4 4\n2 2\n1 1\n1 1\n7 7\nd d\na a\n1 1\nef ef\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nhlxPV_PmieOWXOPV3qoxXRlE0-t0yNH1bc1a2542117da1fe\n================================================================================\nFILE: 6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\n================================================================================\n--- page 1 ---\nh h\nxl xl\nP P\nV V\n_ 6743771fd60be5971HNz3t64EFNWwI66UfiWWOeimP_VPx_lh\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN N\nF 个 人 简 历 F\nE E\n4 4\n6 6\n3t 3t\nz z\nN N\nH H\n1 1\n7 7\n9 9\n5 5\ne e\n0 b 基 本 信 息 0 b\n6 6\nd d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\n姓 名：黄和芳 性 别：男\n户 籍：湖南 年 龄：38岁\n学 历：本科 民 族：汉族\n婚姻状况：已婚 身 高：173CM\n应聘职务: 制造总监/生产总监 联系电话：13650945186\nh\nxl\n自我评价和技能 P\nV\n_\nP\nm\nei\nO\nW\nW\n自我评价： Ufi\n6\n6\n本人性格开朗随和，具备较w强I的统筹管理能力和规划能力以及沟通协调能力。从事制造业管理工\nW\nN\n作16年，先后在国有上E F市，港资，民营企业等工作。以ISO质量管理体系为基础，全面推进精益生\n4\n6\n产管理模式降本增z效3t\n。全盘系统化组织管理，策划，跟进，落实公司生产战略，建立完善的生产系统\nN\nH\n（包含：生产\n9\n7，1 PMC，采购，品质，工程技术，仓库，售后）等部门的统筹管理。掌握全盘生产现\n5\ne\n场管理的0 b手法，掌握推行精益化生产的知识及方法，根据生产现场制订各类管理制度及改善方案，善\n6\nd\n于运7 1用 f 科学的管理手段7s现场管理。熟悉ISO9001，IATF16949，ISO13485，GMP质量管理体系运\n7\n3\n4\n6 7作，以 5M1E人，机，料，法，环，测，可行性措施的执行管理，简单有效的生产计划和物料物流\n控制管理，绩效考核管理等，参与新产品的开发和投产按排，同时对生产进度进行监督管理，处理解\n决生产制程中生产与采购的异常情况，进行部门内外的组织协调沟通管理，检讨改善各项未能达标的\n工作事务，举行生产协调会议，确保生产体系能正常运行，同时对生产现场的各项生产资源进行合理\n调配，监督生产安全，生产品质，劳动纪律，设备管理和生产环境的各项政策执行状况，组织人员培\n训与绩校考核，制定各项生产制度进行量化管理，精益生产管理，确保订单如期交付和生产成本的有\n效控制，推行节约型生产管理方针、生产效率品质提升、控制生产成本等有丰富的管理经验。\nh h\nP xl 职业技能： P xl\nV V\n_ _\nm P （1）本人擅长布局规划，体系管理，生产管理，质量管理，采购管理，供应商管理，仓储管理， m P\nei ei\nO O\nW 具备丰富的实操经验。 W\nW W\nUfi\n（2）本人擅长体系建设 如ISO9001，ISO13485，GMP，IATF16949等质量管理体系文件的制定、\nUfi\n6 6\n6 6\nwI wI\nW 实施、推进。 W\nN N\nF F\n4 E （3）本人擅长团队打造和流程再造，根据过往的实操经验对现有的组织架构进行从新设计4 E调整，\n6 6\n3t 3t\nN z 生产工序的优化，最终降低成本，提高工作效率。 N z\nH H\n1 1\n9 7 （4）本人擅长绩效考核和执行力打造，通过年度月度和每周及每日的目标管理结9 7果进行绩效考\n5 5\ne e\nb b\n6 0 核及执行力检查，确保绩效考核指标的有效性和公平性。 6 0\nd d\n1f 1f\n7 7 （5）本人擅长生产部的企业文化建设和搭建企业培训机制，为企业培训7 7人才及营造一个学习的\n3 3\n4 4\n7 7\n6 氛围和搭建乐捐的奖惩机制，为企业降低运营成本的同时，提高员6工的品质意识和生产效率。\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 2 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN N\nF （6）精通 五金，机加件，PCBA，塑胶，制造工艺，电子插件，电子元件组装，测试，包装F，部\nE E\n4 4\n6 6\n3t 件冲压，部件丝印，喷涂，电镀，元件的焊接，原材料测试，半成品测试，成品测试。3t\nz z\nN N\nH （7）精通各类统计工具和检测仪器的使用QC七大手法，五大工具：APQP、FMEA，SPCH、MSA、PPAP、\n1 1\n7 7\n9 9\ne\n5 二次元，晶体管测试仪，医用漏电流测试仪，示波器，医用耐压测试仪，医用e接5地电阻测试仪，\nb b\n0 0\n6 6\nd 卡尺，千分尺，角度尺，高度尺，色差仪，厚度仪等。 d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\n教 育 经 历\n2002年09月～2005年07月 宜章六中 高中\n2005年09月～2009年07月 华南理工大学 专业：机电一体化\n电工技术、电子技术、机械设计基础、机械加工机床、数控加工工艺、互换性与测量技术、液压\n与气动技术、数控编程、电器控制技术、机电转动控制、单片机原理与应用、电器控制及PLC、\nh\n计算机绘图CAD P xl\nV\n_\nP\nm\nei\nO\n培 训 经 历 W\nW\nUfi\n6\n6\nwI\nW\nN\n2022年10月～2022年F10月 DAB Groups德标认证-TUV ISO9001：2015 内审员\nE\n4\n6\n2022年10月～2032t2年10月 DAB Groups德标认证-TUV IATF16949：2016 内审员\nz\nN\n2020年5月～1 H2020年5月 广东省医疗器械管理学会 ISO13485：2016 内审员\n7\n9\n5\n2020年7e月～2020年7月 广东省医疗器械管理学会 医疗企业管理者代表\nb\n0\n6\nd\n1f\n7\n7\n3\n7 4 工 作 经 历\n6\n■ 东莞市雷宇激光设备有限公司（2022年5月～至今）\n公司性质：民营\n工作地点：东莞\n任职部门：制造中心\n职位名称：制造总监\nh h\nP\nxl\n汇报对象：总经理 P\nxl\nV V\n_ _\nm P 公司描述： m P\nei ei\nW O 东莞市雷宇激光设备有限公司是一家研产销服务于一体的公司，主要生产 CO2激光切割机，激 W O\nW W\nUfi 光雕刻机，激光打标机，3D金属打印机、金属切割机等产品。雷宇激光以东南亚，北美，欧洲， Ufi\n6 6\n6 6\nwI 澳洲，国内中高校，为五大核心市场，业务遍及全球30多个国家和地区。 wI\nW W\nN N\nF 工作描述： F\nE E\n4 4\n6 6\n3t （1）体系建设：建立和优化制造中心各部门的体系文件，流程，制度，规范等。 3t\nz z\nN N\n1 H （2）部门管理：全面负责PMC部，生产部，质量部，生产工程技术部，仓储部，售1 H后部 等相关\n7 7\n9 9\n5 5\ne 部门的统筹管理，协调各部门及时对接，顺利达成目标。 e\nb b\n0 0\n6 6\n1f d （3）生产管理：负责下达生产计划和任务，及时跟踪生产情况确保产能达 1f d成目标。负责产线制\n7 7\n7 7\n3 造工艺流程和工序优化，建立完善的生产制造体系。 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 3 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN （4）质量管理：通过导入质量管理体系,团队建设SQE,IQC,IPQC,OQC等相关岗位人员，以及N采\nF F\nE E\n4 4\n6 取质量控制手段，提升来料、制程、成品合格率，降低客诉率，确保新产品直通率，达成6整体质\n3t 3t\nz z\nN N\nH 量目标99%。 H\n1 1\n7 7\n9 9\n5 （5）工程项目管理：主导CCD项目和非标产品的样机试制，测试，生产，交付5。\ne e\nb b\n0 0\nd\n6 （6）售后管理：根据市场反馈和内部各部门反馈的设备异常，售后人员及d时6了解异常情况及时\n1f 1f\n7 7\n7 跟进处理，建立完善的知识库，各类异常文档，为客户提供更方便快捷7的服务。\n3 3\n4 4\n7 7\n6 6\n■ 广州南雪医疗器械有限公司（2017年5月～2022年5月）\n公司性质：港资\n工作地点：广州\n任职部门：制造中心\n职位名称：生产总监\n汇报对象：总经理\nh\n公司描述： xl\nP\nV\n南雪集团南雪药业成立于2003年，P由_南雪国际（香港）药业有限公司，广州南雪药业有限\nm\n公司，广州南雪医疗器械有限公司，O广ei\n东林和药业有限公司和广东林和药业连锁有限公司共5\nW\nW\n大子公司组成。 Ufi\n6\n主要生产（二类有源）\nw\n多I 6参数检测仪体检机，红外额温计，臂式电子血压计，血糖血压测\nW\n试仪，电子体温计等产品N，研发生产销售于一体的公司。\nF\nE\n4\n工作描述： 3t 6\nz\nN\n（1）战略规划H：根据公司的发展战略目标拟定制造中心年度生产计划以及预算，提出本部门年\n1\n7\n9\n度的人力需5求，培训需求，设备需求，费用支出并监控实施。\ne\nb\n0\n（2）体d 6系建设：全面负责推进ISO13485医疗器械生产质量管理体系的运行并组织内审，外审和\n1f\n7\n管7理评审工作。\n3\n4\n7\n6（3）部门管理：全面负责PMC，生产，品质，采购，设备工艺部，仓库等各部门的统筹管理协\n调各部门及时对接，顺利达成目标。\n（4）生产管理：负责下达生产计划和任务，及时跟踪生产情况确保产能达成目标。\n（5）过程管理：全面负责工厂的运营管理工作，重点运用5M1E(人、机、料、法、环、测)，确\n保生产各项活动符合《医疗器械生产质量管理规范》的法规要求。\n（6）质量管理：通过导入质量管理体系（ISO13485/ISO9001）建立质量标准与要求与质量规划，\n通过质量控制图、 SPC/MSA/FMEA 等质量工 具及质量控制手段，提升来料、制程、出货合格率，\nh h\nxl 降低客诉率，确保新产品直通率，达成整体质量目标98.5%。 xl\nP P\nV V\nP _ 团队管理： 根据公司发展战略及价值导向，通过职业规划、培训学习、绩效考核、轮岗、激励 P _\nm m\nei ei\nO 与奖励等手法, 以确保团队的高效 运作和达成目标以及人才梯队的建设与培养。 O\nW W\nW W\nUfi （7）供应链管理：组织选择、评估和管理供应商，建立良好的合作关系，保证供应链的稳定供 Ufi\n6 6\nwI 6 应和质量控制，运用成本预测、数据分 析、供应链整合等手段监控成本绩效，组织经济订购、 wI 6\nW W\nF N 存量控制、 集中采购、流程优化、工艺迭代更新等手法实现供应链管理与 成本控制，消除F瓶N颈\nE E\n4 4\n3t 6 供应商，储备关键供应商3家以上。 3t 6\nz z\nN N\nH （8）产品交付：根据市场需求和销售预测对订单交付计划进行审核并对交付执行过H程进行管控，\n1 1\n7 7\n9 9\n5 通过推动订单预测、订单管理、外协 分包、供需分析、工艺流程再造等管理手5法产品交付计划\ne e\nb b\n0 0\nd 6 达成率由87%提升至 97.5% 。 d 6\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 4 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN ■ 广州一康医疗设备实业有限公司（2014年6月～2017年5月） N\nF F\nE E\n4 4\n6 公司性质：民营 6\n3t 3t\nz z\nN N\nH 工作地点：广州 H\n1 1\n7 7\n9 9\n5 任职部门：制造中心 5\ne e\nb b\n0 0\nd 6 职位名称：生产经理 d 6\n1f 1f\n7 7\n7 汇报对象：总经理 7\n3 3\n4 4\n7 7\n6 公司描述： 6\n广州一康医疗设备有限公司于2000年09月30日成立，主要生产（二类有源）上下肢体康\n复医疗器械产品，手指机器人，手臂机器人，踏步机器人，裸关节机器人，坐立机器人，坐式\n四肢机器人，卧式四肢机器人，康复评定仪，理疗床，研发生产销售于一体的公司。\n工作描述：\n（1）战略规划：根据公司的战略发展规划，制定制造中心年度生产目标计划，并推进实施。\n（2）体系建设：全面负责推进ISO13485医疗器械生产质量管理体系的运行并组织内审，外审和\nh\n管理评审工作。 xl\nP\nV\n（3）部门管理：全面负责 PMC,生产，品P _质，采购，仓库等各部门的统筹管理工作。\nm\n（4）生产计划：负责制定生产计划O，e将 i 订单和需求转化为具体的生产任务，组织资源进行生产，\nW\nW\n年度计划达成率目标值 97%，实 Ufi际达 成值 99.4%。\n6\n（5）过程管控： 监督和控\nw\n制I 6生产过程，确保生产过程顺利进行，协调解决生产中的问题和异常\nW\n情况， 保障过程管控有N效性，月度生产 效率目标值 98%，月均达成 98.3%。\nF\nE\n4\n（6）现场管理：\n3\n负t 6责组织和管理生产现场的运作，确保生产现场的安全、整洁和高效，分析生\nz\nN\n产过程，查询产H品的制造进度，及时落 实订单查询，调整生产计划，提高生产效率。\n1\n7\n9\n（7）降本增5效：控制和降低生产成本，通过优化生产流程、减少浪费和和优化生产所需的人力、\ne\nb\n0\n设备、d 6原材料等资源，提高资源利用率和生产效率，降低成本，产品良率目标 97%，实际达成值\n1f\n7\n987.5%。\n3\n4\n7\n6（8）质量安全： 落实公司下达的质量目标，配合质量部门对质量问题进行整改；组织协调生产\n安全隐患排查、工业事故预防、应急处 置方式建立工作，并督导部门严格落实安全生产责任，\n月度安全事故 0 起。\n（9）团队管理： 落实生产团队的招聘、培训、激励和绩效等各项管理，提升团队的工作能力和\n凝聚力。\n■ 广州艾颜佳美容美发设备有限公司（2013年05月～2014年6月）\nh h\nxl 公司性质：港资 xl\nP P\nV V\nP _ 工作地点：广州 P _\nm m\nei ei\nO 任职部门：生产部 O\nW W\nW W\nUfi 职位名称：生产经理 Ufi\n6 6\nwI 6 汇报对象：副总 wI 6\nW W\nF N 公司描述： F N\nE E\n4 4\n3t 6 广州艾颜佳美容美发设备有限公司成立于2010年,是一家集研发，生产，销售于一 3 体t 6的先进\nz z\nN N\nH 美容仪器设备集团公司。生产产品有：IPL光子治疗仪，红蓝光治疗仪，二氧化碳激H光治疗仪，\n1 1\n7 7\n9 9\n5 全能魔指健胸仪，瘦身仪，私密护理仪，量子美肤仪，纯氧抗衰仪，光能美肤仪5，面部SPA仪\ne e\nb b\n0 0\nd 6 等。 d 6\n1f 1f\n7 7\n3 7 工作描述： 3 7\n4 4\n7 7\n6 （1）全面负责生产部的日常管理和规划以及协调工作； 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 5 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN （2）负责制定生产目标，生产计划，组织建立和完善生产指挥体系，确保完成生产任务。N\nF F\nE E\n4 4\n6 （3）负责各个车间的生产看板的导入，负责各个车间的车间管理制度的优化及监督实6施，最\n3t 3t\nz z\nN N\nH 终品质保证和交期达成。 H\n1 1\n7 7\n9 9\n5 （4）负责各个车间的精细化生产，对生产工序或工艺进行调整或优化，对制5程异常，客诉问\ne e\nb b\n0 0\nd 6 题进行追溯，验证及分析原因进行针对性改善，闭环等工作，防止再发生d 6。\n1f 1f\n7 7\n7 （5）负责组织安全生产的教育和培训，防止生产事故的发生。 7\n3 3\n4 4\n7 7\n6 （6）负责牵头成立稽核办，注重流程作业和按标准作业，在职期6间稽核办的工作开展，确实\n很出色，有效的解决了生产的5S和全公司员工遵守纪律，按规程作业的习惯。\n（7）负责监督各个车间的招聘，考核，奖惩，固定资产管理，并不定期开展对管理和员工进\n行技能的培训提升。\n（8）完成上级领导交办的其他工作。\n■ 广州广日电气设备有限公司（2009年08月～2013年05月）\nh\n公司性质：国营企业 xl\nP\nV\n工作地点：广州 P _\nm\n任职部门：生产部 O\nei\nW\nW\n职位名称：生产主管 Ufi\n6\n汇报对象：副总 wI 6\nW\n公司描述： N\nF\nE\n4\n广州广日电气设备\n3\n有t 6限公司是一家国有企业，上市公司（股票代码：600894），规模约1700人，\nz\nN\n主要生产电梯控H制柜，扶梯控制柜，变压器，线束等产品。\n1\n7\n9\n本人20095年7月份毕业后进入本公司实习，前期工作主要以结构设计及电控测试为主，2011\ne\nb\n0\n年8月d 6份调入制造中心《担任生产组长》，2012年3月份担任《生产主管》。\n1f\n7\n工7作描述：\n3\n4\n7\n6（1）全面负责生产管理工作，根据公司战略规划及发展目标，制定生产部目标，年度生产计划，\n组织建立和完善生产指挥体系，确保完成生产任务。\n（2）根据生产计划掌控生产进度，全面协调车间工作，对生产作业过程进行监督，指导，同事\n保证生产质量和提高产能。\n（3）定期召开生产会议，分析生产情况并制定相对应的解决办法及改进措施。\n（4）制定各项设备的操作标准及工艺操作规程以及执行管控，制定改进方案，定期维修保养，\n确保设备有效运行，提升设备的利用率。\nh h\nxl （5）负责推动相关部门对生产异常的迅速解决，保障生产的顺利进行，提高产品直通率。 xl\nP P\nV V\nP _ （6）负责排查安全隐患，按期完成不合格整改，实现安全生产零事故。 P _\nm m\nei ei\nO （7）主导早会对现场异常情况进行说明，按要求实施对现场异常和客诉制定的进行纠正预防措 O\nW W\nW W\nUfi 施，实现产品质量零缺陷。 Ufi\n6 6\nwI 6 （8）主导对员工的培训，以满足现场交付，品质的要求。 wI 6\nW W\nF N （9）主导开展现场5S活动，确保现场管理水平达到要求。 F N\nE E\n4 4\n3t 6 （10）完成上级领导交办的其他工作。 3t 6\nz z\nN N\nH H\n1 1\n7 7\n9 9\n5 5\ne e\nb b\n0 0\n6 6\nd d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476"
+            }
+          ],
+          "details": {
+            "persistedDetailsTruncated": true,
+            "originalDetailsBytesAtLeast": 8193,
+            "originalDetailKeys": [
+              "status",
+              "exitCode",
+              "exitSignal",
+              "exitReason",
+              "durationMs",
+              "aggregated",
+              "noOutputTimedOut",
+              "cwd"
+            ],
+            "status": "completed",
+            "cwd": "/workspace",
+            "exitCode": 0,
+            "exitSignal": null
+          },
+          "isError": false,
+          "timestamp": 1792692957022,
+          "__openclaw": {
+            "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+          }
+        },
+        "message_sha256": "ada97091a576ba1c8c1e70b8e89ad77e76da9706881bf65726ec1ea5bd996249"
+      }
+    ],
+    "following_messages_remain_in_original_context": true,
+    "literal_target_classification": "EXEC_WITH_EXACT_INLINE_RESOURCE_BODY",
+    "actual_tool_names": [
+      "exec"
+    ],
+    "literal_inline_programs": [
+      {
+        "destination_if_explicit": null,
+        "language": "python",
+        "command_unicode_start": 34,
+        "command_unicode_end": 444,
+        "text_sha256": "b65e40366a0bca5dec286fcbdef54d0793b80f6d935cb9b199b68054cdb64e49",
+        "characters": 410,
+        "syntax": "AST_PARSE_PASS_ONLY_NOT_EXECUTION",
+        "path": "D:\\skillloop\\output\\20261031_wrd_curation09\\process\\inline_programs\\eac4e09f91ac70e157ee8873\\0.py",
+        "owner_id": "eac4e09f91ac70e157ee8873",
+        "call_id": "call80ba32b316da4cedaa4541f1d2c6ebf2",
+        "episode_id": "ep_40fe04430de96def738c",
+        "source_ids": [
+          "conv_495ce24cf535"
+        ],
+        "route_id": "jd-resume-screening"
+      }
+    ],
+    "native_readable_reasoning_blocks": 0,
+    "text_characters": 0,
+    "semantic_status": "NOT_INFERRED_FROM_LITERAL_CLASSIFICATION_OR_EXIT_STATUS",
+    "training_admitted": false,
+    "positive_loss": 0
+  },
+  "original_context": {
+    "schema_version": "wrd-v9-native-input-recovery-1.0",
+    "episode_id": "ep_40fe04430de96def738c",
+    "old_canonical_episode_id": "ep_40fe04430de96def738c",
+    "native_session_id": "5e257a9e-116a-4ea1-b078-4f003607e399",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\8e\\8efb4c04aa47136bbd0902a096e44b6bf60d73493ab163c1c7927d9d631f1b69",
+      "bytes": 79728,
+      "sha256": "8efb4c04aa47136bbd0902a096e44b6bf60d73493ab163c1c7927d9d631f1b69"
+    },
+    "source_original_path": "E:\\skillloop_runs\\workflow_library\\actor__jd-resume-screening__c2__no_skill\\attempt_1\\openclaw_transport\\session_events.jsonl",
+    "messages": [
+      {
+        "role": "user",
+        "content": "实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。以下命令客户端（包括local-asr、remotion和ecnu_tools.py）均通过exec执行，不是额外的原生工具名。要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。Playwright Chromium executable_path=/usr/bin/chromium，launch args=[\"--no-sandbox\"]。原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。网络访问可用；用户要求下载的材料和skills请在任务中真实下载。当前ecnu-plus的文本与图片理解已通过独立接口探针；未提供额外搜索API密钥；公开网页可使用browser或HTTP读取。图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n公开参考skill的实际目录是 /workspace/skills/<名称>，脚本相对该skill根解析。兼容目录 /workspace/.claude/skills 指向同一目录；CLAUDE_PLUGIN_ROOT=/workspace。需要CLAUDE_SKILL_DIR的命令可用exec运行 python /opt/eval-adapter/runtime_compat.py run-skill --skill <名称> -- <命令及参数>，该变量只针对本条命令，不在多个skill之间共享固定值。跨包参考正文如果本题准入，会放在 /workspace/reference_support，作为依赖资料而非新增active skill；可运行 python /opt/eval-adapter/runtime_compat.py reference-path --skill <名称> --reference \"<SKILL中原相对引用>\" 查询真实存在的位置，再用read读取；不存在就报告缺项。GetNotes参考SDK的原缓存含跨平台开发依赖，从该skill的scripts目录可运行 getnote-tsx <tsx参数> 使用固定Linux兼容loader；这只修本地加载，不提供账号认证。agent-browser和lark-cli是通过exec运行的公共CLI，不是新增原生工具名；agent-browser使用本容器/usr/bin/chromium，外部Lark/邮件/GetNotes服务仍以实际认证结果为准。\n\n本题提供的文件：\n- /workspace/inputs/materials/conv_495ce24cf535/5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n- /workspace/inputs/materials/conv_495ce24cf535/6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\n- /workspace/inputs/user_requests/conv_495ce24cf535.json\n\n用户提供的上下文：\n\n\n用户任务：\n请使用中文完成以下招聘评估任务。\n\n我司国巡机器人正在招聘核心高管岗位：生产制造运营总监。公司背景：复杂恶劣场景机器人巡检的开创者，全国出货量第一，复杂恶劣场景市场占有率超60%，集团正处于科创板上市准备阶段；拥有广州（总部）、山东临沂（新建）、安徽淮北（成熟运行）三个生产场地，正处于从初创期向成长期转型阶段，这是一份“从混乱中建体系”的工作，而非“接手成熟团队做优化”的工作。\n\n岗位概览：汇报对象为公司CEO/总裁（核心高管序列），参与公司运营战略制定与执行；工作地点广州（常驻总部），高频出差山东临沂、安徽淮北两个生产基地（出差比例约20%左右）；管理范围为三个生产场地的生产管理、仓库管理、生产计划（PMC）、物料采购统筹、来料品质管控（IQC）、成品品质管控（OQC）；下属团队为三场地生产管理团队、仓库管理团队、生产计划团队、品质管理团队（现有+规划合计约20-30人），另需统筹协调现有采购人员；到岗时间越快越好（前任生产运营总监已离任，岗位急需补位，期望1个月内到岗）。\n\n岗位职责：全面负责三个生产场地的生产运营管理体系搭建与日常管理（精力占比约35%）：设计“双轨制”生产管理模式——生产I（广州模式）为研发主导的柔性生产，界定研发人员与生产技术人员在生产各环节的职责边界，广州仅保留仓管+少量资深现场技术人员编制，建立工艺与质量全程跟踪记录机制；生产II（临沂+淮北模式）为规模化标准化生产，临沂从零搭建生产及管理团队、规划工艺布局与产线、打造全国可复制模板，淮北优化现有标准化生产流程、根据订单灵活扩缩。从零建立PMC职能：销售订单→生产排程→物料需求（MRP）→采购协同→车间生产→入库→出货全链路管理，建立订单分配决策机制（明确“哪类订单去哪个场地”）与产能评估及三场地负载平衡机制。统筹仓库管理与跨场地物料调度、品质管控、采购统筹。信息系统建设（精力占比约10%）：全面评估现有ERP/WMS系统的能力与缺口，主导系统升级或替换的选型、实施、上线、推广全流程，确保系统落地后支撑三场地库存实时同步、跨场地物料调拨、生产计划排程、采购协同、品质数据采集。团队建设与人才培养（精力占比约15%）：生产计划（PMC）、品质管理（QC）等关键岗位从零招聘与培养，建立各场地生产人员的培训体系与技能矩阵，建立周例会/月度经营分析等例会、报表、复盘机制，为公司培养储备未来的生产基地管理人才。向上管理与跨部门协同（精力占比约5%）：直接向CEO/总裁汇报生产运营状况与改革进展，与研发部门建立深度协作机制，与销售部门对接订单需求与交付承诺，与财务部门协同成本核算与库存资产盘点。\n\n任职要求（硬性要求，必须全部满足）：\n1. 学历本科以上（二本及以上），专业不限，工业工程、机械制造、自动化、管理工程类优先；\n2. 15年以上生产制造管理经验，含大型企业规范化管理经验+中小型高科技机械/装备企业柔性生产管理经验，两种经验缺一不可；\n3. 有从0到1搭建生产运营体系的亲身经历：非接手成熟体系做维护，而是主导过流程、制度、团队的从零建设，并能提供可验证的成果；\n4. 多场地/多工厂生产管理经验：有至少2个以上生产场地协同管理的实际经验，理解跨场地调度与物料平衡；\n5. 柔性生产（多品种小批量+定制化）管理能力：理解研发型/定制型生产与标准化生产的本质差异，有同时管理两种模式的经验；\n6. 有生产管理信息系统（ERP/WMS/MES）选型或实施经验：亲自主导过系统上线，而非仅作为系统使用者；\n7. 接受常驻广州+30%-40%出差，高频出差山东临沂、安徽淮北，能适应初创成长期企业的工作节奏。\n优先条件（满足越多越好）：有机器人、智能装备、精密仪器、特种设备等高科技机械行业背景；有防爆产品/煤安认证产品/特种行业（电力、石化、矿山）设备生产管理经验；有精益生产（Lean）或六西格玛落地实践经验；有在场地受限条件下做产线优化的实战经验；有品质体系（ISO9001等）认证或维护经验；经历过企业从初创期向成长期转型阶段，理解转型期的混乱与不确定性，能在制度不完善的环境中快速建立秩序。\n\n候选人简历如下，请逐份完整阅读：\n1. 宋先生：/workspace/inputs/materials/conv_495ce24cf535/5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n2. 黄和芳：/workspace/inputs/materials/conv_495ce24cf535/6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\n\n请分别判断两位候选人与上述生产制造运营总监岗位是否匹配、是否可推荐面试，并请生成两份候选人的评估报告（每人一份，Word文档）：宋先生的报告保存为 outputs/候选人评估报告_宋先生_生产制造运营总监.docx，黄和芳的报告保存为 outputs/候选人评估报告_黄和芳_生产制造运营总监.docx。评估必须基于简历真实内容与岗位要求逐项对照，简历中没有覆盖的信息请如实说明信息不足，不要编造。",
+        "timestamp": 1792692928233,
+        "idempotencyKey": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59:user",
+        "__openclaw": {
+          "senderIsOwner": true
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "我先读取两份简历PDF的内容。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-a8cf29530f0e43eda6377b8a\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call43f4308519574a99a982c158bfdde083",
+            "name": "exec",
+            "arguments": {
+              "command": "ls -la \"/workspace/inputs/materials/conv_495ce24cf535/\" && python -c \"import pdfplumber; print('ok')\" 2>&1 | tail -1"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792692928845,
+        "responseId": "chatcmpl-1792692935148",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call43f4308519574a99a982c158bfdde083",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "total 376\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 .\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 ..\n-rwxrwxrwx 1 root root 137492 Oct 22 18:15 5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n-rwxrwxrwx 1 root root 242048 Oct 22 18:15 6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\nok"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 221,
+          "aggregated": "total 376\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 .\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 ..\n-rwxrwxrwx 1 root root 137492 Oct 22 18:15 5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n-rwxrwxrwx 1 root root 242048 Oct 22 18:15 6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\nok",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792692949373,
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call80ba32b316da4cedaa4541f1d2c6ebf2",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python - <<'EOF'\nimport pdfplumber\nfor name in [\"5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\", \"6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\"]:\n    path = f\"/workspace/inputs/materials/conv_495ce24cf535/{name}\"\n    print(\"=\"*80)\n    print(\"FILE:\", name)\n    print(\"=\"*80)\n    with pdfplumber.open(path) as pdf:\n        for i, page in enumerate(pdf.pages):\n            print(f\"--- page {i+1} ---\")\n            print(page.extract_text() or \"(no text)\")\nEOF"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792692949401,
+        "responseId": "chatcmpl-1792692949439",
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call80ba32b316da4cedaa4541f1d2c6ebf2",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "================================================================================\nFILE: 5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n================================================================================\n--- page 1 ---\nh h\nxl xl\nP P\n_\nV ef1ad7112452a1cb1HNy0t-0ElRXxoq3VPOXWOeimP_VPx_lhV\nP P\nm m\nei ei\nO O\nW 宋先生 W\nX X\nO O\nP P\nV V\n3 3\nq q\no o\nX x 男 | 45岁 13922275937 X x\nR R\nEl El\n0t- 0 4年工作经验 | 供应链总监 | 期望薪资：30-50K | 期望城市：广州 0t- 0\ny y\nN N\nH H\n1 1\nb b\nc c\n1 1\n2 a 个人优势 2 a\n5 5\n4 4\n2 2\n1 1\n1 1\nd 7 自我优势 d 7\na a\n1 1\nef ef\n1、10多年大型企业的供应链、生产运营管理经验；\n2、优秀的行业分析能力及洞察力；良好的风险管理能力,对项目建设有丰富的经验\n3、优秀的项目团队领导，擅长团队打造，人才培养；\n4、较强的谈判能力及技巧、沟通协调能力、问题解决；\n工作经历 xl h\nP\nV\n_\nP\n广州市万世德智能装备科技有限公司\ne i\nm生产运营总监 2023.11-至今\nO\nW\n公司介绍：广州万世德是国家级高新技术企O业X、专精特新中小企业，专注于液态包装机械及二次包装设备制造。 主要产品包\nP\nV\n括二次包装设备：码垛机（产能达85包q 3/分钟）、热收缩膜包机、纸箱裹包机、装卸箱机，卡包机等，适用于饮料、啤酒、\no\nx\nX\n食用油等行业； El R\n0\n汇报对象：公司董事长 y\n0t-\nN\nH\n1\n下属人数：110人 c b\n1\na\n2\n工作内容：1.统筹4公5司生产运营管理，对整体产品交付负责，包括管理项目、生产计划、制造、采购、质量、仓库、装配7个\n2\n1\n1\n部门； 2.参与d 7制定公司的发展战略与年度经营计划，主导组织并实施生产运营中心年度战略规划；3.作为公司质量体系第一\na\n1\nef\n负责人，不断完善公司质量管理体系，不断提升产品交付质量，提高公司产品市场竞争力； 4.不断完善生产运营中心管理体\n系，打造柔性供应链体系，不断提高产品交付效率；5.优化装配薪酬结构，主导设计并实施了一套按劳计酬的装配薪酬制\n度，打破了吃大锅饭的局面，大大提升了装配效率；6.推动采购以项目成本闭环计奖金的分配制度，大大节省采购成本并提\n升了采购人员的工作主动性； 7.主导公司新的ERP和WMS系统上线； 8.协调董事长公司管理：协助董事长组织各中心负责人\n讨论制定公司年度战略目标并分解为各中心kpi，月度复盘结果。\n中集德立物流系统（苏州）有限公司 供应链总监 2018.11-2023.10\nh h\nxl xl\nP P\nV V\nP _ 公司介绍：中集德立为中集集团旗下空港板块位于华东区域的生产基地，目标是打造行业内先进的自动化装备制造基地，也P _\nm m\nei ei\nO 是进一步开拓中国物流系统市场的战略规划的实施中心；公司业务涵盖机场物流处理系统、快递输送系统集成、电商物O流处\nW W\nX X\nO O\nP 理系统、仓储自动化系统解决方案、定制自动化系统解决方案等。主要客户包括顺丰、德邦、京东等国内知名的快P递电商物\nV V\n3 3\nq q\nx o 流企业。汇报对象：常务副总 下属人数：120 工作内容：1.统筹公司供应链管理，包括采购、物流、仓储、x质o量、售前支持\nX X\nR R\n0 El 五个部门； 2.参与制定公司的发展战略与年度经营计划，组织制定并实施供应链战备规划；3.设计并改0 E善 l 公司供应链系统，\n0t- 0t-\ny y\nH N 制定并完善切实可行的供应链管理工作流程，实施监控和管理，确保产品质量，并根据业务的变化H N不断优化； 4.建立采购相\n1 1\nb b\nc c\n1 关流程、制度及供应商管理体系、不断优化采购流程；5.主导供应链评估标准、考核标准制定1，能最大限度管理好供应商，\na a\n2 2\n5 5\n4 4\n2 并对供应商进行优胜劣汰； 6.推动采购创新项目，节省采购成本； 7.优化库存结构，提2升仓储工作效率，供货仓储管理体\n1 1\n1 1\n7 7\nd d\na 系；8.销售售前支持，包括投标前成本分析、利润分析、报价分析等； 9.中心内部a管理：通过公司战略目标分解为各部门\n1 1\nef ef\nkpi，结合部门职责，明确各部门的工作目标，整理为部门工作计划及进度表，制定可执行的实施方案。\n广州王老吉药业股份有限公司 采购经理/主管 2006.11-2018.10\n1、 全面负责公司供应链的开发与管理，分派和处理本部门的日常工作包括公司供应链的总体规划、部门日常工作开展及总\n结、采购计划的编排、物料的订购与交货期的控制 、部门员工的管理与培训、与供应商以及公司内部其他部门的沟通协调；\n2、 负责组织决策大型物料（包括原辅包材及生产设备和工程）招标采购。直接上级为公司副总经理,每月均以书面形式向副\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nhlxPV_PmieOWXOPV3qoxXRlE0-t0yNH1bc1a2542117da1fe\n--- page 2 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nei m 总作工作汇报和对采购部进行绩效考核.对采购部持续稳定发展、采购成本控制、采购规划的制定和实施均有自己的独特 e 见i m解\nO O\nW W\nX 和方法. X\nO O\nP P\nV V\n3 3\nq q\no o\nX x 广州樱泰汽车饰件有限公司 采购专员/助理 X2x002.07-2006.10\nR R\nEl El\n0 0\n0t- 1、主要负责设备、工程和维修服务的采购.同时也负责非生产性物料采购。 0t-\ny y\nN N\nH H\n1 2、曾在2005年被公司派往日本总公司学习丰田生产管理模式，对于零库存状态下的物料采购及1快速安全为生产服务的方针\nb b\nc c\n1 1\na a\n2 有较深刻的认识。 2\n5 5\n4 4\n2 2\n1 1\n1 3、保证公司生产为前提下尽量降低公司采购成本，曾在2005年被樱泰公司评为年度先1进工作者，并于2005年7月晋升为采\n7 7\nd d\na a\n1 1\nef 购系长。 ef\n教育经历\n合肥工业大学 本科 机械设计制造及其自动化 1998-2002\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nX X\nO O\nP P\nV V\n3 3\nq q\no o\nx x\nX X\nR R\nEl El\n0 0\n0t- 0t-\ny y\nN N\nH H\n1 1\nb b\nc c\n1 1\na a\n2 2\n5 5\n4 4\n2 2\n1 1\n1 1\n7 7\nd d\na a\n1 1\nef ef\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nhlxPV_PmieOWXOPV3qoxXRlE0-t0yNH1bc1a2542117da1fe\n================================================================================\nFILE: 6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\n================================================================================\n--- page 1 ---\nh h\nxl xl\nP P\nV V\n_ 6743771fd60be5971HNz3t64EFNWwI66UfiWWOeimP_VPx_lh\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN N\nF 个 人 简 历 F\nE E\n4 4\n6 6\n3t 3t\nz z\nN N\nH H\n1 1\n7 7\n9 9\n5 5\ne e\n0 b 基 本 信 息 0 b\n6 6\nd d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\n姓 名：黄和芳 性 别：男\n户 籍：湖南 年 龄：38岁\n学 历：本科 民 族：汉族\n婚姻状况：已婚 身 高：173CM\n应聘职务: 制造总监/生产总监 联系电话：13650945186\nh\nxl\n自我评价和技能 P\nV\n_\nP\nm\nei\nO\nW\nW\n自我评价： Ufi\n6\n6\n本人性格开朗随和，具备较w强I的统筹管理能力和规划能力以及沟通协调能力。从事制造业管理工\nW\nN\n作16年，先后在国有上E F市，港资，民营企业等工作。以ISO质量管理体系为基础，全面推进精益生\n4\n6\n产管理模式降本增z效3t\n。全盘系统化组织管理，策划，跟进，落实公司生产战略，建立完善的生产系统\nN\nH\n（包含：生产\n9\n7，1 PMC，采购，品质，工程技术，仓库，售后）等部门的统筹管理。掌握全盘生产现\n5\ne\n场管理的0 b手法，掌握推行精益化生产的知识及方法，根据生产现场制订各类管理制度及改善方案，善\n6\nd\n于运7 1用 f 科学的管理手段7s现场管理。熟悉ISO9001，IATF16949，ISO13485，GMP质量管理体系运\n7\n3\n4\n6 7作，以 5M1E人，机，料，法，环，测，可行性措施的执行管理，简单有效的生产计划和物料物流\n控制管理，绩效考核管理等，参与新产品的开发和投产按排，同时对生产进度进行监督管理，处理解\n决生产制程中生产与采购的异常情况，进行部门内外的组织协调沟通管理，检讨改善各项未能达标的\n工作事务，举行生产协调会议，确保生产体系能正常运行，同时对生产现场的各项生产资源进行合理\n调配，监督生产安全，生产品质，劳动纪律，设备管理和生产环境的各项政策执行状况，组织人员培\n训与绩校考核，制定各项生产制度进行量化管理，精益生产管理，确保订单如期交付和生产成本的有\n效控制，推行节约型生产管理方针、生产效率品质提升、控制生产成本等有丰富的管理经验。\nh h\nP xl 职业技能： P xl\nV V\n_ _\nm P （1）本人擅长布局规划，体系管理，生产管理，质量管理，采购管理，供应商管理，仓储管理， m P\nei ei\nO O\nW 具备丰富的实操经验。 W\nW W\nUfi\n（2）本人擅长体系建设 如ISO9001，ISO13485，GMP，IATF16949等质量管理体系文件的制定、\nUfi\n6 6\n6 6\nwI wI\nW 实施、推进。 W\nN N\nF F\n4 E （3）本人擅长团队打造和流程再造，根据过往的实操经验对现有的组织架构进行从新设计4 E调整，\n6 6\n3t 3t\nN z 生产工序的优化，最终降低成本，提高工作效率。 N z\nH H\n1 1\n9 7 （4）本人擅长绩效考核和执行力打造，通过年度月度和每周及每日的目标管理结9 7果进行绩效考\n5 5\ne e\nb b\n6 0 核及执行力检查，确保绩效考核指标的有效性和公平性。 6 0\nd d\n1f 1f\n7 7 （5）本人擅长生产部的企业文化建设和搭建企业培训机制，为企业培训7 7人才及营造一个学习的\n3 3\n4 4\n7 7\n6 氛围和搭建乐捐的奖惩机制，为企业降低运营成本的同时，提高员6工的品质意识和生产效率。\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 2 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN N\nF （6）精通 五金，机加件，PCBA，塑胶，制造工艺，电子插件，电子元件组装，测试，包装F，部\nE E\n4 4\n6 6\n3t 件冲压，部件丝印，喷涂，电镀，元件的焊接，原材料测试，半成品测试，成品测试。3t\nz z\nN N\nH （7）精通各类统计工具和检测仪器的使用QC七大手法，五大工具：APQP、FMEA，SPCH、MSA、PPAP、\n1 1\n7 7\n9 9\ne\n5 二次元，晶体管测试仪，医用漏电流测试仪，示波器，医用耐压测试仪，医用e接5地电阻测试仪，\nb b\n0 0\n6 6\nd 卡尺，千分尺，角度尺，高度尺，色差仪，厚度仪等。 d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\n教 育 经 历\n2002年09月～2005年07月 宜章六中 高中\n2005年09月～2009年07月 华南理工大学 专业：机电一体化\n电工技术、电子技术、机械设计基础、机械加工机床、数控加工工艺、互换性与测量技术、液压\n与气动技术、数控编程、电器控制技术、机电转动控制、单片机原理与应用、电器控制及PLC、\nh\n计算机绘图CAD P xl\nV\n_\nP\nm\nei\nO\n培 训 经 历 W\nW\nUfi\n6\n6\nwI\nW\nN\n2022年10月～2022年F10月 DAB Groups德标认证-TUV ISO9001：2015 内审员\nE\n4\n6\n2022年10月～2032t2年10月 DAB Groups德标认证-TUV IATF16949：2016 内审员\nz\nN\n2020年5月～1 H2020年5月 广东省医疗器械管理学会 ISO13485：2016 内审员\n7\n9\n5\n2020年7e月～2020年7月 广东省医疗器械管理学会 医疗企业管理者代表\nb\n0\n6\nd\n1f\n7\n7\n3\n7 4 工 作 经 历\n6\n■ 东莞市雷宇激光设备有限公司（2022年5月～至今）\n公司性质：民营\n工作地点：东莞\n任职部门：制造中心\n职位名称：制造总监\nh h\nP\nxl\n汇报对象：总经理 P\nxl\nV V\n_ _\nm P 公司描述： m P\nei ei\nW O 东莞市雷宇激光设备有限公司是一家研产销服务于一体的公司，主要生产 CO2激光切割机，激 W O\nW W\nUfi 光雕刻机，激光打标机，3D金属打印机、金属切割机等产品。雷宇激光以东南亚，北美，欧洲， Ufi\n6 6\n6 6\nwI 澳洲，国内中高校，为五大核心市场，业务遍及全球30多个国家和地区。 wI\nW W\nN N\nF 工作描述： F\nE E\n4 4\n6 6\n3t （1）体系建设：建立和优化制造中心各部门的体系文件，流程，制度，规范等。 3t\nz z\nN N\n1 H （2）部门管理：全面负责PMC部，生产部，质量部，生产工程技术部，仓储部，售1 H后部 等相关\n7 7\n9 9\n5 5\ne 部门的统筹管理，协调各部门及时对接，顺利达成目标。 e\nb b\n0 0\n6 6\n1f d （3）生产管理：负责下达生产计划和任务，及时跟踪生产情况确保产能达 1f d成目标。负责产线制\n7 7\n7 7\n3 造工艺流程和工序优化，建立完善的生产制造体系。 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 3 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN （4）质量管理：通过导入质量管理体系,团队建设SQE,IQC,IPQC,OQC等相关岗位人员，以及N采\nF F\nE E\n4 4\n6 取质量控制手段，提升来料、制程、成品合格率，降低客诉率，确保新产品直通率，达成6整体质\n3t 3t\nz z\nN N\nH 量目标99%。 H\n1 1\n7 7\n9 9\n5 （5）工程项目管理：主导CCD项目和非标产品的样机试制，测试，生产，交付5。\ne e\nb b\n0 0\nd\n6 （6）售后管理：根据市场反馈和内部各部门反馈的设备异常，售后人员及d时6了解异常情况及时\n1f 1f\n7 7\n7 跟进处理，建立完善的知识库，各类异常文档，为客户提供更方便快捷7的服务。\n3 3\n4 4\n7 7\n6 6\n■ 广州南雪医疗器械有限公司（2017年5月～2022年5月）\n公司性质：港资\n工作地点：广州\n任职部门：制造中心\n职位名称：生产总监\n汇报对象：总经理\nh\n公司描述： xl\nP\nV\n南雪集团南雪药业成立于2003年，P由_南雪国际（香港）药业有限公司，广州南雪药业有限\nm\n公司，广州南雪医疗器械有限公司，O广ei\n东林和药业有限公司和广东林和药业连锁有限公司共5\nW\nW\n大子公司组成。 Ufi\n6\n主要生产（二类有源）\nw\n多I 6参数检测仪体检机，红外额温计，臂式电子血压计，血糖血压测\nW\n试仪，电子体温计等产品N，研发生产销售于一体的公司。\nF\nE\n4\n工作描述： 3t 6\nz\nN\n（1）战略规划H：根据公司的发展战略目标拟定制造中心年度生产计划以及预算，提出本部门年\n1\n7\n9\n度的人力需5求，培训需求，设备需求，费用支出并监控实施。\ne\nb\n0\n（2）体d 6系建设：全面负责推进ISO13485医疗器械生产质量管理体系的运行并组织内审，外审和\n1f\n7\n管7理评审工作。\n3\n4\n7\n6（3）部门管理：全面负责PMC，生产，品质，采购，设备工艺部，仓库等各部门的统筹管理协\n调各部门及时对接，顺利达成目标。\n（4）生产管理：负责下达生产计划和任务，及时跟踪生产情况确保产能达成目标。\n（5）过程管理：全面负责工厂的运营管理工作，重点运用5M1E(人、机、料、法、环、测)，确\n保生产各项活动符合《医疗器械生产质量管理规范》的法规要求。\n（6）质量管理：通过导入质量管理体系（ISO13485/ISO9001）建立质量标准与要求与质量规划，\n通过质量控制图、 SPC/MSA/FMEA 等质量工 具及质量控制手段，提升来料、制程、出货合格率，\nh h\nxl 降低客诉率，确保新产品直通率，达成整体质量目标98.5%。 xl\nP P\nV V\nP _ 团队管理： 根据公司发展战略及价值导向，通过职业规划、培训学习、绩效考核、轮岗、激励 P _\nm m\nei ei\nO 与奖励等手法, 以确保团队的高效 运作和达成目标以及人才梯队的建设与培养。 O\nW W\nW W\nUfi （7）供应链管理：组织选择、评估和管理供应商，建立良好的合作关系，保证供应链的稳定供 Ufi\n6 6\nwI 6 应和质量控制，运用成本预测、数据分 析、供应链整合等手段监控成本绩效，组织经济订购、 wI 6\nW W\nF N 存量控制、 集中采购、流程优化、工艺迭代更新等手法实现供应链管理与 成本控制，消除F瓶N颈\nE E\n4 4\n3t 6 供应商，储备关键供应商3家以上。 3t 6\nz z\nN N\nH （8）产品交付：根据市场需求和销售预测对订单交付计划进行审核并对交付执行过H程进行管控，\n1 1\n7 7\n9 9\n5 通过推动订单预测、订单管理、外协 分包、供需分析、工艺流程再造等管理手5法产品交付计划\ne e\nb b\n0 0\nd 6 达成率由87%提升至 97.5% 。 d 6\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 4 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN ■ 广州一康医疗设备实业有限公司（2014年6月～2017年5月） N\nF F\nE E\n4 4\n6 公司性质：民营 6\n3t 3t\nz z\nN N\nH 工作地点：广州 H\n1 1\n7 7\n9 9\n5 任职部门：制造中心 5\ne e\nb b\n0 0\nd 6 职位名称：生产经理 d 6\n1f 1f\n7 7\n7 汇报对象：总经理 7\n3 3\n4 4\n7 7\n6 公司描述： 6\n广州一康医疗设备有限公司于2000年09月30日成立，主要生产（二类有源）上下肢体康\n复医疗器械产品，手指机器人，手臂机器人，踏步机器人，裸关节机器人，坐立机器人，坐式\n四肢机器人，卧式四肢机器人，康复评定仪，理疗床，研发生产销售于一体的公司。\n工作描述：\n（1）战略规划：根据公司的战略发展规划，制定制造中心年度生产目标计划，并推进实施。\n（2）体系建设：全面负责推进ISO13485医疗器械生产质量管理体系的运行并组织内审，外审和\nh\n管理评审工作。 xl\nP\nV\n（3）部门管理：全面负责 PMC,生产，品P _质，采购，仓库等各部门的统筹管理工作。\nm\n（4）生产计划：负责制定生产计划O，e将 i 订单和需求转化为具体的生产任务，组织资源进行生产，\nW\nW\n年度计划达成率目标值 97%，实 Ufi际达 成值 99.4%。\n6\n（5）过程管控： 监督和控\nw\n制I 6生产过程，确保生产过程顺利进行，协调解决生产中的问题和异常\nW\n情况， 保障过程管控有N效性，月度生产 效率目标值 98%，月均达成 98.3%。\nF\nE\n4\n（6）现场管理：\n3\n负t 6责组织和管理生产现场的运作，确保生产现场的安全、整洁和高效，分析生\nz\nN\n产过程，查询产H品的制造进度，及时落 实订单查询，调整生产计划，提高生产效率。\n1\n7\n9\n（7）降本增5效：控制和降低生产成本，通过优化生产流程、减少浪费和和优化生产所需的人力、\ne\nb\n0\n设备、d 6原材料等资源，提高资源利用率和生产效率，降低成本，产品良率目标 97%，实际达成值\n1f\n7\n987.5%。\n3\n4\n7\n6（8）质量安全： 落实公司下达的质量目标，配合质量部门对质量问题进行整改；组织协调生产\n安全隐患排查、工业事故预防、应急处 置方式建立工作，并督导部门严格落实安全生产责任，\n月度安全事故 0 起。\n（9）团队管理： 落实生产团队的招聘、培训、激励和绩效等各项管理，提升团队的工作能力和\n凝聚力。\n■ 广州艾颜佳美容美发设备有限公司（2013年05月～2014年6月）\nh h\nxl 公司性质：港资 xl\nP P\nV V\nP _ 工作地点：广州 P _\nm m\nei ei\nO 任职部门：生产部 O\nW W\nW W\nUfi 职位名称：生产经理 Ufi\n6 6\nwI 6 汇报对象：副总 wI 6\nW W\nF N 公司描述： F N\nE E\n4 4\n3t 6 广州艾颜佳美容美发设备有限公司成立于2010年,是一家集研发，生产，销售于一 3 体t 6的先进\nz z\nN N\nH 美容仪器设备集团公司。生产产品有：IPL光子治疗仪，红蓝光治疗仪，二氧化碳激H光治疗仪，\n1 1\n7 7\n9 9\n5 全能魔指健胸仪，瘦身仪，私密护理仪，量子美肤仪，纯氧抗衰仪，光能美肤仪5，面部SPA仪\ne e\nb b\n0 0\nd 6 等。 d 6\n1f 1f\n7 7\n3 7 工作描述： 3 7\n4 4\n7 7\n6 （1）全面负责生产部的日常管理和规划以及协调工作； 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 5 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN （2）负责制定生产目标，生产计划，组织建立和完善生产指挥体系，确保完成生产任务。N\nF F\nE E\n4 4\n6 （3）负责各个车间的生产看板的导入，负责各个车间的车间管理制度的优化及监督实6施，最\n3t 3t\nz z\nN N\nH 终品质保证和交期达成。 H\n1 1\n7 7\n9 9\n5 （4）负责各个车间的精细化生产，对生产工序或工艺进行调整或优化，对制5程异常，客诉问\ne e\nb b\n0 0\nd 6 题进行追溯，验证及分析原因进行针对性改善，闭环等工作，防止再发生d 6。\n1f 1f\n7 7\n7 （5）负责组织安全生产的教育和培训，防止生产事故的发生。 7\n3 3\n4 4\n7 7\n6 （6）负责牵头成立稽核办，注重流程作业和按标准作业，在职期6间稽核办的工作开展，确实\n很出色，有效的解决了生产的5S和全公司员工遵守纪律，按规程作业的习惯。\n（7）负责监督各个车间的招聘，考核，奖惩，固定资产管理，并不定期开展对管理和员工进\n行技能的培训提升。\n（8）完成上级领导交办的其他工作。\n■ 广州广日电气设备有限公司（2009年08月～2013年05月）\nh\n公司性质：国营企业 xl\nP\nV\n工作地点：广州 P _\nm\n任职部门：生产部 O\nei\nW\nW\n职位名称：生产主管 Ufi\n6\n汇报对象：副总 wI 6\nW\n公司描述： N\nF\nE\n4\n广州广日电气设备\n3\n有t 6限公司是一家国有企业，上市公司（股票代码：600894），规模约1700人，\nz\nN\n主要生产电梯控H制柜，扶梯控制柜，变压器，线束等产品。\n1\n7\n9\n本人20095年7月份毕业后进入本公司实习，前期工作主要以结构设计及电控测试为主，2011\ne\nb\n0\n年8月d 6份调入制造中心《担任生产组长》，2012年3月份担任《生产主管》。\n1f\n7\n工7作描述：\n3\n4\n7\n6（1）全面负责生产管理工作，根据公司战略规划及发展目标，制定生产部目标，年度生产计划，\n组织建立和完善生产指挥体系，确保完成生产任务。\n（2）根据生产计划掌控生产进度，全面协调车间工作，对生产作业过程进行监督，指导，同事\n保证生产质量和提高产能。\n（3）定期召开生产会议，分析生产情况并制定相对应的解决办法及改进措施。\n（4）制定各项设备的操作标准及工艺操作规程以及执行管控，制定改进方案，定期维修保养，\n确保设备有效运行，提升设备的利用率。\nh h\nxl （5）负责推动相关部门对生产异常的迅速解决，保障生产的顺利进行，提高产品直通率。 xl\nP P\nV V\nP _ （6）负责排查安全隐患，按期完成不合格整改，实现安全生产零事故。 P _\nm m\nei ei\nO （7）主导早会对现场异常情况进行说明，按要求实施对现场异常和客诉制定的进行纠正预防措 O\nW W\nW W\nUfi 施，实现产品质量零缺陷。 Ufi\n6 6\nwI 6 （8）主导对员工的培训，以满足现场交付，品质的要求。 wI 6\nW W\nF N （9）主导开展现场5S活动，确保现场管理水平达到要求。 F N\nE E\n4 4\n3t 6 （10）完成上级领导交办的其他工作。 3t 6\nz z\nN N\nH H\n1 1\n7 7\n9 9\n5 5\ne e\nb b\n0 0\n6 6\nd d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "status",
+            "exitCode",
+            "exitSignal",
+            "exitReason",
+            "durationMs",
+            "aggregated",
+            "noOutputTimedOut",
+            "cwd"
+          ],
+          "status": "completed",
+          "cwd": "/workspace",
+          "exitCode": 0,
+          "exitSignal": null
+        },
+        "isError": false,
+        "timestamp": 1792692957022,
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "两份简历内容已完整提取。现在核对岗位要求并生成评估报告。先确认 python-docx 可用。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-65d12b90d17e487c8d048c45\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call6e2e3f02efce48188e9409dbd2872898",
+            "name": "exec",
+            "arguments": {
+              "command": "python -c \"import docx; print(docx.__version__)\" && mkdir -p /workspace/outputs /workspace/tmp"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792692957035,
+        "responseId": "chatcmpl-1792692957062",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call6e2e3f02efce48188e9409dbd2872898",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "1.2.0"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 106,
+          "aggregated": "1.2.0",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792693005772,
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": ""
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "stopReason": "aborted",
+        "errorMessage": "LLM idle timeout (300s): no response from model",
+        "timestamp": 1792693348965,
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "继续任务。简历内容已提取完毕，python-docx 已确认可用。现在生成两份评估报告。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-1ce7d3b21ab64d6b843f84e7\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call1cbdaae5643d4b708048a5c99c0ec043",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python - <<'PYEOF'\n# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, RGBColor\nfrom docx.oxml.ns import qn\nimport os\n\nos.makedirs('/workspace/outputs', exist_ok=True)\n\ndef set_east(run, name='宋体'):\n    run.font.name = 'Calibri'\n    rpr = run._element.get_or_add_rPr()\n    rpr.rFonts.set(qn('w:eastAsia'), name)\n\ndef para(doc, text, bold=False, size=10.5, space_after=4):\n    p = doc.add_paragraph()\n    r = p.add_run(text)\n    r.bold = bold\n    r.font.size = Pt(size)\n    set_east(r)\n    p.paragraph_format.space_after = Pt(space_after)\n    return p\n\ndef heading(doc, text, size=13):\n    p = doc.add_paragraph()\n    r = p.add_run(text)\n    r.bold = True\n    r.font.size = Pt(size)\n    r.font.color.rgb = RGBColor(0x1F, 0x3B, 0x63)\n    set_east(r, '微软雅黑')\n    p.paragraph_format.space_before = Pt(10)\n    p.paragraph_format.space_after = Pt(6)\n    return p\n\ndef table(doc, headers, rows):\n    t = doc.add_table(rows=1, cols=len(headers))\n    t.style = 'Table Grid'\n    hdr = t.rows[0].cells\n    for i, h in enumerate(headers):\n        hdr[i].text = ''\n        r = hdr[i].paragraphs[0].add_run(h)\n        r.bold = True\n        r.font.size = Pt(10)\n        set_east(r)\n    for row in rows:\n        cells = t.add_row().cells\n        for i, v in enumerate(row):\n            cells[i].text = ''\n            r = cells[i].paragraphs[0].add_run(str(v))\n            r.font.size = Pt(9.5)\n            set_east(r)\n    doc.add_paragraph()\n    return t\n\ndef base_doc(title, subtitle):\n    doc = Document()\n    st = doc.styles['Normal']\n    st.font.size = Pt(10.5)\n    st.font.name = 'Calibri'\n    st.element.get_or_add_rPr().get_or_add_rFonts().set(qn('w:eastAsia'), '宋体')\n    p = doc.add_paragraph()\n    r = p.add_run(title)\n    r.bold = True\n    r.font.size = Pt(18)\n    set_east(r, '微软雅黑')\n    p.alignment = 1\n    p2 = doc.add_paragraph()\n    r2 = p2.add_run(subtitle)\n    r2.font.size = Pt(11)\n    r2.bold = True\n    set_east(r2, '微软雅黑')\n    p2.alignment = 1\n    doc.add_paragraph()\n    return doc\n\nHARD_HEADERS = ['序号', '岗位硬性要求', '候选人简历对应情况（仅依据简历实际内容）', '判定']\nPREF_HEADERS = ['优先条件', '候选人对应情况', '命中']\n\n# ============ 宋先生 ============\ndoc = base_doc('候选人评估报告', '应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：宋先生｜评估日期：2026-10-22')\n\nheading(doc, '一、岗位评估基准（摘要）')\npara(doc, '本报告依据岗位说明书对候选人进行逐项对照。岗位关键背景：公司为国巡机器人（复杂恶劣场景巡检机器人，全国出货量第一，科创板上市准备期），设广州/山东临沂/安徽淮北三生产基地，处于初创期向成长期转型，本岗为“从混乱中建体系”；汇报CEO/总裁；常驻广州+约20%-40%出差（临沂、淮北）；管辖三场地生产、仓库、PMC、采购统筹、IQC/OQC，团队20-30人；期望1个月内到岗。硬性要求共7条，须全部满足。')\n\nheading(doc, '二、候选人基本情况（摘自简历）')\nfor line in [\n    '宋先生，男，45岁，现居广州，手机13922275937；简历标注“4年工作经验”，期望薪资30-50K，期望城市广州。',\n    '教育背景：合肥工业大学（211高校）本科，机械设计制造及其自动化，1998-2002。专业对口（工业工程/机械制造类优先项命中）。',\n    '工作经历（连续，约24年）：',\n    '① 广州樱泰汽车饰件有限公司（2002.07-2006.10）采购专员→采购系长；2005年赴日本总公司学习丰田生产管理模式（TPS/零库存）。',\n    '② 广州王老吉药业股份有限公司（2006.11-2018.10）采购经理/主管，约12年，负责供应链规划、大型物料招标采购，直接向副总经理汇报。',\n    '③ 中集德立物流系统（苏州）有限公司（2018.11-2023.10）供应链总监，下属120人，统管采购、物流、仓储、质量、售前支持五个部门；中集集团旗下自动化装备制造基地（机场物流、快递输送、定制自动化系统，客户含顺丰、京东等）。',\n    '④ 广州市万世德智能装备科技有限公司（2023.11-至今）生产运营总监，下属110人，向董事长汇报；统管项目、生产计划、制造、采购、质量、仓库、装配7个部门；公司质量体系第一负责人；主导新ERP和WMS系统上线；设计装配按劳计酬薪酬制与采购成本闭环奖金制；液态包装机械及二次包装设备（码垛机等）制造，国家级高新技术企业、专精特新。',\n]:\n    para(doc, line)\n\nheading(doc, '三、硬性要求逐项对照')\ntable(doc, HARD_HEADERS, [\n    ['1', '本科以上（二本及以上），专业不限，工业工程/机械制造/自动化/管理工程类优先', '合肥工业大学（211）本科，机械设计制造及其自动化，专业直接对口', '满足'],\n    ['2', '15年以上生产制造管理经验；大型企业规范化+中小型高科技机械/装备企业柔性生产，两种缺一不可', '制造相关从业约24年。大型规范化：王老吉12年+中集德立5年（中集为集团上市体系）；中小型高科技装备：万世德智能装备（专精特新）近3年任生产运营总监。注意：直接“生产制造管理”年限约3年（万世德），此前主线为采购/供应链（樱泰4年+王老吉12年+中集供应链总监5年）；简历自述“10多年大型企业供应链、生产运营管理经验”。生产制造直接管理深度与年限需核实', '基本满足/存疑'],\n    ['3', '有从0到1搭建生产运营体系的亲身经历，可验证', '简历体现“不断完善生产运营中心管理体系”“打造柔性供应链体系”，属优化完善性质；未见明确的从零搭建流程/制度/团队的可验证成果描述', '证据不足'],\n    ['4', '多场地/多工厂（2个以上生产场地）协同管理经验', '各段经历均为单一工厂任职（中集德立为集团华东基地之一，但简历未体现跨基地统管）；未见跨场地调度与物料平衡经验', '未体现'],\n    ['5', '柔性生产（多品种小批量+定制化）管理能力，同时管理研发型与标准化两种模式', '万世德：定制化液态包装/二次包装机械，明确“打造柔性供应链体系”；中集德立：定制自动化系统解决方案（项目制、多品种小批量）。有定制化装备生产管理经验；研发主导型柔性生产与标准化量产双轨并行管理的直接证据有限', '基本满足'],\n    ['6', '有ERP/WMS/MES选型或实施经验，亲自主导系统上线', '万世德任职期间“主导公司新的ERP和WMS系统上线”，明确命中', '满足'],\n    ['7', '接受常驻广州+30%-40%出差（临沂、淮北），适应初创成长期节奏', '期望城市广州，现居广州并在穗工作多年，地理匹配；出差接受度与到岗时间简历未提及，需确认。45岁应聘初创转型期高强度岗位，意愿与节奏适应性需面谈评估', '待确认'],\n])\n\nheading(doc, '四、优先条件对照')\ntable(doc, PREF_HEADERS, [\n    ['机器人/智能装备/精密仪器等高科技机械行业背景', '万世德（智能装备、专精特新）+中集德立（自动化物流装备），行业背景契合', '命中'],\n    ['防爆/煤安认证/特种行业（电力石化矿山）设备生产管理经验', '简历未体现（行业为食品饮料、汽车饰件、包装机械、物流装备）', '未命中'],\n    ['精益生产（Lean）或六西格玛落地实践', '2005年赴日学习丰田生产模式，对零库存物料采购有实践认知；但简历中缺少系统推行精益/六西格玛项目的落地成果描述', '部分命中'],\n    ['场地受限条件下产线优化实战', '简历未体现', '未命中'],\n    ['品质体系（ISO9001等）认证或维护经验', '万世德公司质量体系第一负责人，负责体系完善与交付质量提升', '命中'],\n    ['经历初创期向成长期转型', '无明确证据；万世德与中集德立的具体发展阶段未在简历说明', '未体现'],\n])\n\nheading(doc, '五、综合优势')\nfor line in [\n    '1. 生产运营+供应链+采购全链条管理视野：从采购专员到供应链总监再到生产运营总监，对岗位管辖的PMC、采购统筹、仓储物流职能有完整的一线与统筹经验，利于从零搭建PMC与采购协同链路。',\n    '2. ERP/WMS主导上线经验明确（硬性要求6直接命中），契合公司信息系统建设与升级选型需求（精力占比约10%）。',\n    '3. 大型上市集团规范化背景（中集集团、王老吉12年），熟悉流程制度、供应商体系、KPI分解与月度复盘机制，具备体系化方法论。',\n    '4. 机制设计能力有实例：装配按劳计酬薪酬改革打破大锅饭、采购项目成本闭环奖金制，显示其在“混乱中建机制”的实际手法，与本岗转型期属性契合。',\n    '5. 质量体系第一负责人经历，覆盖岗位IQC/OQC品质管控统筹要求。',\n    '6. 管理规模匹配：现管110人、7个部门，曾管120人，高于本岗20-30人编制的统筹跨度要求。',\n    '7. 期望薪资30-50K与岗位25-35K存在重叠区间（30-35K），具备谈判空间。',\n]:\n    para(doc, line)\n\nheading(doc, '六、风险与不足')\nfor line in [\n    '1. 经验结构偏供应链：直接生产制造管理年限约3年，岗位硬性要求“15年以上生产制造管理经验”，若用人部门按严格口径衡量，其生产管理深度（排产、工艺、产线、车间现场）可能弱于供应链板块，为最大匹配风险。',\n    '2. 无多场地/多工厂协同管理经验（硬性要求4未体现），而本岗核心难点之一即三场地负载平衡与跨场地物料调度。',\n    '3. 从0到1搭建体系的可验证成果不足（硬性要求3），现有描述偏“优化完善”而非“从零建设”。',\n    '4. 简历自述“4年工作经验”与实际24年连续从业年限明显不一致，疑为平台统计口径（现职年限），需核实有无隐情或履历空窗。',\n    '5. 期望薪资上限50K高于岗位预算上限35K；若候选人锚定45-50K，谈判存在失败风险。',\n    '6. 到岗时间未在简历体现，与岗位“1个月内到岗”的紧迫要求需立即确认。',\n    '7. 现任为向董事长汇报的生产运营总监，降薪/降层级来初创企业就职的动机与稳定性需评估。',\n]:\n    para(doc, line)\n\nheading(doc, '七、简历未覆盖/信息不足事项（如实说明）')\npara(doc, '① 出差接受度与家庭安排；② 可到岗时间；③ 从0到1搭建体系的具体案例与可验证成果；④ 是否有任何多基地协同经历；⑤ ERP/WMS项目的预算规模、模块范围、实施成败细节；⑥ 生产现场管理（工艺、产线布局、产能规划）的具体深度；⑦ 期望薪资的可谈下限。以上均为简历未提供信息，本报告不作推测。')\n\nheading(doc, '八、建议面试重点核实问题')\nfor line in [\n    '1. 生产管理深度：在万世德实际主导的排产模式、产能规划、产线与工艺管理细节；如何界定生产计划与制造的职责分工。',\n    '2. ERP/WMS上线：选型过程、需求梳理、实施方管理、上线后效果量化（库存准确率、结账周期等）、踩坑与改进。',\n    '3. 从0到1案例：任一授权其从零建立流程/制度/团队的经历及可验证成果。',\n    '4. “4年工作经验”标注的解释与完整履历核对。',\n    '5. 多场地场景模拟题：三场地订单分配与负载平衡如何设计决策机制（考察方法论迁移能力）。',\n    '6. 出差（约20%-40%往返临沂/淮北）、到岗时间、薪资在35K内的接受度。',\n]:\n    para(doc, line)\n\nheading(doc, '九、结论与推荐意见')\npara(doc, '综合判定：有条件推荐面试（建议推进）。', bold=True)\npara(doc, '理由：7条硬性要求中，学历（1）、ERP/WMS主导上线（6）明确满足；柔性生产双模式（5）基本满足；两种企业形态经验（2）形式满足但生产制造直接年限存疑；从0到1（3）、多场地（4）证据不足；出差意愿（7）待确认。其行业背景（智能装备/自动化）、全链条职能覆盖（生产+计划+采购+仓库+品质）、机制设计与信息系统落地能力与本岗高度相关，属于本批候选人中值得面试验证的对象。建议面试聚焦验证：生产制造直接管理深度、从0到1经历真实性、多场地场景的方法论迁移能力，以及35K内薪资与到岗时间。若上述核实通过，可进入下一轮；若生产管理深度经面谈仍不足，则不建议录用。')\n\ndoc.save('/workspace/outputs/候选人评估报告_宋先生_生产制造运营总监.docx')\nprint('saved song')\n\n# ============ 黄和芳 ============\ndoc = base_doc('候选人评估报告', '应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：黄和芳｜评估日期：2026-10-22')\n\nheading(doc, '一、岗位评估基准（摘要）')\npara(doc, '本报告依据岗位说明书对候选人进行逐项对照。岗位关键背景：公司为国巡机器人（复杂恶劣场景巡检机器人，全国出货量第一，科创板上市准备期），设广州/山东临沂/安徽淮北三生产基地，处于初创期向成长期转型，本岗为“从混乱中建体系”；汇报CEO/总裁；常驻广州+约20%-40%出差（临沂、淮北）；管辖三场地生产、仓库、PMC、采购统筹、IQC/OQC，团队20-30人；期望1个月内到岗。硬性要求共7条，须全部满足。')\n\nheading(doc, '二、候选人基本情况（摘自简历）')\nfor line in [\n    '黄和芳，男，38岁，籍贯湖南，现于东莞工作，手机13650945186；应聘职务制造总监/生产总监；简历未标注期望薪资。招聘渠道档案标注“10年以上”经验，简历自述从事制造业管理工作16年。',\n    '教育背景：华南理工大学本科，机电一体化，2005.09-2009.07（专业对口，985高校）。',\n    '培训/认证：ISO9001:2015、IATF16949:2016、ISO13485:2016内审员；医疗企业管理者代表。',\n    '工作经历（约16年）：',\n    '① 广州广日电气设备有限公司（2009.08-2013.05，国企上市公司，约1700人）实习→结构设计/电控测试→生产组长→生产主管；电梯控制柜、扶梯控制柜、变压器、线束。',\n    '② 广州艾颜佳美容美发设备有限公司（2013.05-2014.06，港资）生产经理；美容仪器设备。',\n    '③ 广州一康医疗设备实业有限公司（2014.06-2017.05，民营）生产经理；康复机器人等二类有源医疗器械；年度计划达成率99.4%，良率98.5%（简历原文“987.5%”应为笔误），月度安全事故0起。',\n    '④ 广州南雪医疗器械有限公司（2017.05-2022.05，港资）生产总监；多参数检测仪、红外额温计、血压计等二类有源器械；推进ISO13485体系运行；交付计划达成率由87%提升至97.5%；统筹PMC、生产、品质、采购、设备工艺、仓库。',\n    '⑤ 东莞市雷宇激光设备有限公司（2022.05-至今，民营）制造总监，向总经理汇报；CO2激光切割机、激光雕刻机、3D金属打印机等，销往全球30多国；统筹PMC、生产、质量、生产工程、仓储、售后；质量目标99%；主导CCD项目和非标产品样机试制、测试、生产、交付。',\n]:\n    para(doc, line)\n\nheading(doc, '三、硬性要求逐项对照')\ntable(doc, HARD_HEADERS, [\n    ['1', '本科以上（二本及以上），专业不限，工业工程/机械制造/自动化/管理工程类优先', '华南理工大学（985）本科，机电一体化，专业直接对口', '满足'],\n    ['2', '15年以上生产制造管理经验；大型企业规范化+中小型高科技机械/装备企业柔性生产，两种缺一不可', '2009年至今约16-17年制造业管理，主线始终在生产/制造管理岗。大型规范化：广日电气（国企上市，1700人）约4年（其中生产主管约1年余）；中小型高科技机械：艾颜佳、一康（康复机器人）、南雪（医疗器械）、雷宇（激光设备）合计约12年。两种形态均具备；大型企业阶段职级相对偏低（生产主管）', '满足'],\n    ['3', '有从0到1搭建生产运营体系的亲身经历，可验证', '简历多处“体系建设”“建立和优化制造中心各部门体系文件、流程、制度”，自述擅长“流程再造、组织架构重新设计”；但均为建立/优化表述，未见明确的从零搭建新工厂/新体系及可验证成果的案例', '证据不足'],\n    ['4', '多场地/多工厂（2个以上生产场地）协同管理经验', '五段经历均为单一工厂任职；未见任何跨场地调度与物料平衡经验', '未体现'],\n    ['5', '柔性生产（多品种小批量+定制化）管理能力，同时管理研发型与标准化两种模式', '雷宇激光：多品种激光设备、全球30多国市场、非标产品样机试制与CCD项目管理；一康：多品种康复机器人。有定制化/多品种中小批量生产经验；“同时管理研发主导型与标准化规模量产双模式”的明确证据有限', '基本满足'],\n    ['6', '有ERP/WMS/MES选型或实施经验，亲自主导系统上线', '简历全文未提及任何ERP/WMS/MES等信息系统选型、实施或上线经历；仅述及统计工具与检测仪器', '不满足（无证据）'],\n    ['7', '接受常驻广州+30%-40%出差（临沂、淮北），适应初创成长期节奏', '长期在广州、东莞工作，地理上匹配广州常驻；出差接受度、到岗时间简历均未提及，需确认', '待确认'],\n])\n\nheading(doc, '四、优先条件对照')\ntable(doc, PREF_HEADERS, [\n    ['机器人/智能装备/精密仪器等高科技机械行业背景', '一康（康复机器人）、雷宇（激光设备）、南雪（有源医疗器械），高科技机械背景契合', '命中'],\n    ['防爆/煤安认证/特种行业（电力石化矿山）设备生产管理经验', '简历未体现；其法规经验集中在医疗器械领域（ISO13485/GMP），与防爆/煤安/电力石化矿山不对应', '未命中'],\n    ['精益生产（Lean）或六西格玛落地实践', '自述“以ISO质量管理体系为基础，全面推进精益生产管理模式降本增效”，掌握5M1E、QC七大手法、五大工具；有车间精细化、看板导入、5S稽核等落地描述', '命中'],\n    ['场地受限条件下产线优化实战', '简历未明确体现（有工序优化、产线制造工艺流程优化的一般性描述）', '部分命中/证据弱'],\n    ['品质体系（ISO9001等）认证或维护经验', '很强：ISO9001/IATF16949/ISO13485内审员+医疗企业管理者代表，南雪、一康期间主导体系运行、内审外审管评', '强命中'],\n    ['经历初创期向成长期转型', '无明确证据；任职企业均为成型中小制造企业', '未体现'],\n])\n\nheading(doc, '五、综合优势')\nfor line in [\n    '1. 16年制造管理经历连续且主线清晰，岗位管辖职能面（生产、PMC、品质、采购、仓储、工艺）与岗位职责几乎一一对应，职能覆盖完整度高。',\n    '2. 质量体系能力突出（多体系内审员+管理者代表），IQC/IPQC/OQC岗位搭建有实操（雷宇期间组建SQE/IQC/IPQC/OQC），对岗位来料与成品品质管控统筹有利。',\n    '3. 精益生产与现场管理功底扎实：5S、看板、稽核办、5M1E、QC工具，交付达成率87%→97.5%、良率98.5%、安全事故0等量化成果。',\n    '4. 高科技机械/医疗器械行业背景与巡检机器人产品形态（机电一体化+有源设备）相近。',\n    '5. 38岁、职业上升期，长期任总监岗，团队建设、培训机制、绩效考核有系统方法。',\n]:\n    para(doc, line)\n\nheading(doc, '六、风险与不足')\nfor line in [\n    '1. 硬性要求6（主导ERP/WMS/MES选型或实施）在简历中完全无证据，按“必须全部满足”的口径判定为不满足；信息系统建设占本岗约10%精力且为三场地协同的关键支撑，此缺口为实质性短板。',\n    '2. 无多场地/多工厂管理经验（硬性要求4未体现），本岗需同时统管广州、临沂、淮北三地并做订单分配与负载平衡，为另一关键缺口。',\n    '3. 从0到1搭建体系的可验证案例不足（硬性要求3证据不足）；其经历多是在既有工厂内做体系完善与流程再造，与“临沂从零搭建团队、打造可复制模板”的要求存在差距。',\n    '4. 任职企业以中小型为主，最大为1700人的国企（其时任生产主管，层级较低）；缺乏大型企业核心生产管理岗的规范化熏陶深度。',\n    '5. 简历存在细节笔误（如“987.5%”“SPCH”等），文档严谨度一般；自我评价篇幅冗长、条理性欠佳，与其总监层级的表达要求有一定差距。',\n    '6. 期望薪资、到岗时间、出差接受度均未知，需确认；现居东莞，若常驻广州需评估通勤/搬迁安排。',\n]:\n    para(doc, line)\n\nheading(doc, '七、简历未覆盖/信息不足事项（如实说明）')\npara(doc, '① 任何ERP/WMS/MES系统相关经历（简历完全未提及）；② 多场地/多基地协同经验；③ 从0到1搭建新工厂或新体系的可验证案例；④ 期望薪资；⑤ 到岗时间；⑥ 出差接受度；⑦ 临沂式“异地从零建厂建团队”经验。以上均为简历未提供信息，本报告不作推测。')\n\nheading(doc, '八、建议面试重点核实问题（如进入面试）')\nfor line in [\n    '1. 信息系统：是否实际参与过ERP/WMS/MES的选型、实施或二次开发（即便以配合角色），能否描述系统上线中的具体工作与结果。',\n    '2. 从0到1：是否有新厂房投产、新产线导入、新团队组建的完整案例及可验证成果。',\n    '3. 多场地场景模拟题：三场地订单分配、产能评估与跨场地物料调拨如何设计机制。',\n    '4. 简历笔误与量化数据口径核对（良率98.5%等）。',\n    '5. 薪资期望、到岗时间、广州常驻与20%-40%出差安排。',\n]:\n    para(doc, line)\n\nheading(doc, '九、结论与推荐意见')\npara(doc, '综合判定：暂不推荐面试（建议列为备选）。', bold=True)\npara(doc, '理由：对照7条硬性要求，学历（1）、双形态经验（2）满足，柔性生产（5）基本满足，但硬性要求6（主导ERP/WMS/MES上线）在简历中无任何证据、按岗位“必须全部满足”口径判定不满足，硬性要求4（多场地管理）亦未体现，硬性要求3（从0到1）证据不足。其核心能力集中在质量体系与精益生产落地，与本岗的品质与体系板块契合，但与本岗最稀缺的三项要求（多场地统筹、信息系统主导、从零建设）存在明显缺口。建议：① 若用人部门愿意放宽系统经验（例如公司另有IT团队主导选型、本岗只需配合），可将其作为备选面试验证；② 其画像更适配公司品质总监/体系与精益改善负责人等岗位，可向人才库归档并转荐。')\n\ndoc.save('/workspace/outputs/候选人评估报告_黄和芳_生产制造运营总监.docx')\nprint('saved huang')\nPYEOF",
+              "workdir": "/workspace"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792693350433,
+        "responseId": "chatcmpl-1792693352373",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call1cbdaae5643d4b708048a5c99c0ec043",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "saved song\nsaved huang"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 442,
+          "aggregated": "saved song\nsaved huang",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792693552389,
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "两份报告已生成，验证文件完整性与内容可读性。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-772b0afd2b7f46dabdcde90c\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "calld97d505766984717aa1693b3d5e9f54a",
+            "name": "exec",
+            "arguments": {
+              "command": "ls -la /workspace/outputs/ && python - <<'PYEOF'\nfrom docx import Document\nfor f in ['/workspace/outputs/候选人评估报告_宋先生_生产制造运营总监.docx','/workspace/outputs/候选人评估报告_黄和芳_生产制造运营总监.docx']:\n    d = Document(f)\n    paras = [p.text for p in d.paragraphs if p.text.strip()]\n    tables = len(d.tables)\n    print(f.split('/')[-1], '| 段落数:', len(paras), '| 表格数:', tables)\n    print('  标题:', paras[0], '|', paras[1])\n    # spot check table content\n    t = d.tables[0]\n    print('  硬性对照表行数:', len(t.rows), '判定列:', [r.cells[3].text for r in t.rows[1:]])\nPYEOF"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792693552403,
+        "responseId": "chatcmpl-1792693552439",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "calld97d505766984717aa1693b3d5e9f54a",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "total 88\ndrwxr-xr-x 1 node node  4096 Oct 22 18:25 .\ndrwxrwxrwx 1 root root  4096 Oct 22 18:16 ..\n-rw-r--r-- 1 node node 42179 Oct 22 18:25 候选人评估报告_宋先生_生产制造运营总监.docx\n-rw-r--r-- 1 node node 42272 Oct 22 18:25 候选人评估报告_黄和芳_生产制造运营总监.docx\n候选人评估报告_宋先生_生产制造运营总监.docx | 段落数: 42 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：宋先生｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '基本满足/存疑', '证据不足', '未体现', '基本满足', '满足', '待确认']\n候选人评估报告_黄和芳_生产制造运营总监.docx | 段落数: 40 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：黄和芳｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '满足', '证据不足', '未体现', '基本满足', '不满足（无证据）', '待确认']"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 155,
+          "aggregated": "total 88\ndrwxr-xr-x 1 node node  4096 Oct 22 18:25 .\ndrwxrwxrwx 1 root root  4096 Oct 22 18:16 ..\n-rw-r--r-- 1 node node 42179 Oct 22 18:25 候选人评估报告_宋先生_生产制造运营总监.docx\n-rw-r--r-- 1 node node 42272 Oct 22 18:25 候选人评估报告_黄和芳_生产制造运营总监.docx\n候选人评估报告_宋先生_生产制造运营总监.docx | 段落数: 42 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：宋先生｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '基本满足/存疑', '证据不足', '未体现', '基本满足', '满足', '待确认']\n候选人评估报告_黄和芳_生产制造运营总监.docx | 段落数: 40 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：黄和芳｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '满足', '证据不足', '未体现', '基本满足', '不满足（无证据）', '待确认']",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792693558613,
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "任务完成。两份评估报告已生成并验证可读：\n\n**交付文件**\n- `outputs/候选人评估报告_宋先生_生产制造运营总监.docx`\n- `outputs/候选人评估报告_黄和芳_生产制造运营总监.docx`\n\n每份报告含九个部分：岗位评估基准、候选人基本情况、硬性要求7条逐项对照表、优先条件对照表、综合优势、风险与不足、简历未覆盖事项（如实标注不作推测）、面试重点核实问题、结论与推荐意见。\n\n**核心结论**\n\n**宋先生 —— 有条件推荐面试**\n- 硬性满足：学历（合肥工业大学211本科，机械专业对口）、ERP/WMS主导上线（万世德“主导公司新的ERP和WMS系统上线”，硬性6直接命中）、柔性生产基本满足\n- 主要风险：直接生产制造管理年限仅约3年（主线为采购/供应链17年），与“15年以上生产制造管理经验”存疑；无多场地经验；从0到1证据不足；简历自述“4年工作经验”与实际24年从业矛盾需核实；期望30-50K上限超岗位预算\n- 面试重点验证：生产管理深度、从0到1真实性、多场地方法论迁移、35K内薪资与到岗时间\n\n**黄和芳 —— 暂不推荐，列备选**\n- 硬性不满足第6条：简历全文无任何ERP/WMS/MES选型实施经历；多场地经验（第4条）也未体现；从0到1证据不足\n- 优势在质量体系（ISO9001/IATF16949/ISO13485内审员+管理者代表）与精益落地（交付达成率87%→97.5%），职能面与岗位高度重合，更适配品质/体系类岗位\n\n两位均无多场地管理经验（硬性4），报告中已如实标注；简历未覆盖的信息（出差接受度、到岗时间、期望薪资等）均如实说明，未做编造。"
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1792693558621,
+        "responseId": "chatcmpl-1792693558643",
+        "__openclaw": {
+          "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+        }
+      }
+    ],
+    "source_event_lines": [
+      5,
+      6,
+      7,
+      9,
+      10,
+      12,
+      13,
+      16,
+      18,
+      19,
+      21,
+      22,
+      24
+    ],
+    "messages_original_unmodified": true,
+    "parse_error_line_numbers": [],
+    "stage": "actor",
+    "route_id": "jd-resume-screening",
+    "old_episode_source_ids_metadata": [
+      "conv_0471e84eb55a",
+      "conv_050cdce318d9",
+      "conv_0581d60474f4",
+      "conv_05a433473107",
+      "conv_06d3b452f1d2",
+      "conv_071f0f0277ac",
+      "conv_0c7af9f7e430",
+      "conv_0df36094b90c",
+      "conv_0f4134832d8a",
+      "conv_104632b01333",
+      "conv_12fc39ca6b57",
+      "conv_13e38f017a30",
+      "conv_15e56f4ac60b",
+      "conv_165f28715224",
+      "conv_194d78b87905",
+      "conv_1c5e6b392159",
+      "conv_207fc3b8f038",
+      "conv_2134ac4116e5",
+      "conv_221003603779",
+      "conv_222c1d76547a",
+      "conv_23c04b59afa6",
+      "conv_279b5eb3a290",
+      "conv_2b8fd8fdd8bc",
+      "conv_2c50af66823f",
+      "conv_2e198f6ce53c",
+      "conv_2e5ebc80c255",
+      "conv_3cf0f7358f02",
+      "conv_45f703ea1ccc",
+      "conv_495ce24cf535",
+      "conv_4a378f051f47",
+      "conv_4dff386a54ac",
+      "conv_60936d7d143e",
+      "conv_61f48b530b7b",
+      "conv_66a8dc558785",
+      "conv_692eb36fe8af",
+      "conv_6f9964f1a35e",
+      "conv_7280f3693c03",
+      "conv_73c2457a4444",
+      "conv_7538f7469cbe",
+      "conv_778bb56fc693",
+      "conv_815933aa43c7",
+      "conv_842792a28ee8",
+      "conv_85e569be9d66",
+      "conv_8c0acf0215b8",
+      "conv_8d9fc90a248a",
+      "conv_946d32d6e89b",
+      "conv_9a4530fee647",
+      "conv_a47df5b9e92d",
+      "conv_a9304334a810",
+      "conv_a96d4e307332",
+      "conv_a9ed333e7694",
+      "conv_b4bfa1b742fd",
+      "conv_b52657b688df",
+      "conv_bb67b3039ec2",
+      "conv_bebf10fc7e18",
+      "conv_c452502dba53",
+      "conv_c4dc1412df06",
+      "conv_c65151b56d23",
+      "conv_c72721b62d56",
+      "conv_cc0954e39572",
+      "conv_cc1fb6784019",
+      "conv_cde87bf0074c",
+      "conv_d85b915effeb",
+      "conv_da1f7d904ff2",
+      "conv_db09358aab86",
+      "conv_de8e5263bc49",
+      "conv_e0cc09d72959",
+      "conv_e1268e2d935d",
+      "conv_e17409b249a6",
+      "conv_e31e2cb7678b",
+      "conv_e410ae458ee3",
+      "conv_e5eadb9c491f",
+      "conv_e71276ba785b",
+      "conv_e97e4ded4556",
+      "conv_ec3c504c57ab",
+      "conv_f01a04f4059d",
+      "conv_f53a77925865",
+      "conv_f71f86e2f9f4",
+      "conv_f7c708bf6afb",
+      "conv_f8a56f4505e3",
+      "conv_fb33437938a8"
+    ],
+    "old_native_verified_metadata": true,
+    "execution_condition": {
+      "image": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+      "openclaw_version": "2026.9.5",
+      "model": "glm-5.3-flash",
+      "backend": "native",
+      "custom_agent_loop": false
+    },
+    "system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "system_messages_original": [],
+    "system_capture_candidates": [
+      {
+        "status": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\55\\55efc4d3b538ed27d791dc17cbd4a4383289a0a46b962bacfac5f243fb4692e9",
+          "bytes": 2015,
+          "sha256": "55efc4d3b538ed27d791dc17cbd4a4383289a0a46b962bacfac5f243fb4692e9"
+        },
+        "messages": [
+          {
+            "role": "system",
+            "content": "<!-- openclaw:attempt:STABLE -->\nYou are a personal assistant running inside OpenClaw.\n## Tooling\nTools policy-filtered. Names case-sensitive; call exact.\n- read: Read files\n- write: Write files\n- edit: Exact file edits\n- apply_patch: Patch files\n- ls: List directories\n- exec: Run shell; pty for TTY CLIs\n- process: Control background exec\n- web_search: Web search\n- web_fetch: Fetch/extract URL\n- browser: Control browser\n- terminal: List/read/resize/close operator-opened session terminals; input follows exec policy and may require exact-input approval; never open shells\n- canvas: Present/eval/snapshot Canvas\n- nodes: Paired node status/control/media\n- automations: Schedule/wake. Reminder text must read as reminder when fired; mention reminder for delayed gaps; include useful recent context. This feature is called automations; never call it cron.\n- message: Message/channel actions\n- conversations_list: List exact external conversation addresses\n- conversations_send: Send directly to an external conversation\n- conversations_turn: Send and wait for one correlated external reply\n- openclaw: Gateway restart/system setup/config\n- gateway: Read this Gateway's config/schema; owner-only self-update on explicit request; automatic restart and completion notice\n- agents_list: List allowed subagent ids\n- sessions_list: List visible sessions; filters/last\n- sessions_history: Read visible session/subagent history\n- sessions_search: Search past sessions; use sessionKey with sessions_history\n- sessions_send: Message other session/subagent\n- sessions_spawn: Spawn subagent; clean context: context=\"isolated\"; transcript: context=\"fork\"\n- sessions_yield: End turn; await subagent events\n- subagents: Subagent status; never wait-loop\n- session_status: Session/model/usage/time/status; model override\n- skill_workshop: Author reusable skills\n- agents_wait\n- ask_user\n- create_goal\n- dashboard\n- dir_fetch\n- dir_list\n- file_fetch\n- file_write\n- get_goal\n- intent\n- memory_get\n- memory_search\n- mob...<truncated>\n"
+          }
+        ],
+        "complete": false
+      }
+    ],
+    "tools_supported": [
+      {
+        "name": "agents_list",
+        "description": "List configured agent ids with name/model/runtime metadata, allowed as `sessions_spawn(runtime:\"subagent\")` targets.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "apply_patch",
+        "description": "Patch one/many files. Input requires *** Begin Patch and *** End Patch.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "input"
+          ],
+          "properties": {
+            "input": {
+              "type": "string",
+              "description": "Patch content using the *** Begin Patch/End Patch format."
+            }
+          }
+        }
+      },
+      {
+        "name": "edit",
+        "description": "Exact single-file replacements. oldText unique/non-overlapping against original. Merge nearby changes; omit large unchanged spans.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "path",
+            "edits"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "File path; relative/absolute."
+            },
+            "edits": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "oldText",
+                  "newText"
+                ],
+                "properties": {
+                  "oldText": {
+                    "type": "string",
+                    "description": "Exact original text; unique and non-overlapping in this call."
+                  },
+                  "newText": {
+                    "type": "string",
+                    "description": "Replacement text."
+                  }
+                }
+              },
+              "description": "Targeted replacements against original file; no overlap/nesting. Merge nearby changes."
+            }
+          }
+        }
+      },
+      {
+        "name": "exec",
+        "description": "Run shell now; background continuation supported. Completed calls return command output directly. Use process only when exec reports running with a sessionId; output text alone is not a process handle. Long run: automatic completion wake when enabled and output/failure occurs; otherwise process confirms completion. TTY CLI/UI/coding agent: pty=true. Quote arguments containing shell metacharacters, including URL query strings with `?` or `&`.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "command"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "Every call: short purpose; never claim success. No secrets."
+            },
+            "command": {
+              "type": "string",
+              "description": "Shell command."
+            },
+            "workdir": {
+              "type": "string",
+              "description": "Omit/empty string: default; whitespace-only invalid."
+            },
+            "env": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string"
+                }
+              },
+              "description": "Literal overrides; no expansion. Omit to inherit."
+            },
+            "yieldMs": {
+              "type": "number",
+              "description": "Milliseconds before backgrounding; default 10000."
+            },
+            "background": {
+              "type": "boolean",
+              "description": "Background now; timeoutSeconds applies."
+            },
+            "timeoutSeconds": {
+              "type": "number",
+              "description": "Process lifetime in seconds; 0 disables."
+            },
+            "pty": {
+              "type": "boolean",
+              "description": "PTY for TTY-required CLIs/coding agents."
+            },
+            "elevated": {
+              "type": "boolean",
+              "description": "Host elevation if allowed."
+            },
+            "host": {
+              "enum": [
+                "auto",
+                "sandbox",
+                "gateway",
+                "node"
+              ],
+              "type": "string",
+              "description": "Omit/auto: inherit configured host."
+            },
+            "ask": {
+              "type": "string",
+              "description": "Requests stricter approvals under tools.exec.mode and host policy; channel-origin calls cannot override host ask=off."
+            },
+            "node": {
+              "type": "string",
+              "description": "Node id/name for host=node."
+            }
+          }
+        }
+      },
+      {
+        "name": "ls",
+        "description": "List directory entries in binary filename order, including dotfiles and links. Names are JSON-quoted; / marks actual directories. Pass the returned after cursor with the same path to continue.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Directory; default cwd."
+            },
+            "limit": {
+              "type": "number",
+              "description": "Max entries; default 500."
+            },
+            "after": {
+              "type": "string",
+              "description": "Filename cursor returned by the previous page."
+            }
+          }
+        }
+      },
+      {
+        "name": "process",
+        "description": "Control existing exec: list, poll, log, write, send-keys, submit, paste, kill. poll/log: status, output, quiet success, completion without auto-wake, input hints. Others: input/intervention.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "poll",
+                "log",
+                "write",
+                "send-keys",
+                "submit",
+                "paste",
+                "kill",
+                "clear",
+                "remove"
+              ],
+              "description": "Process action (list|poll|log|write|send-keys|submit|paste|kill|clear|remove)"
+            },
+            "sessionId": {
+              "type": "string",
+              "description": "Required for every action except list."
+            },
+            "data": {
+              "type": "string",
+              "description": "Data to write for write"
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Key tokens to send for send-keys"
+            },
+            "hex": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Hex bytes to send for send-keys"
+            },
+            "literal": {
+              "type": "string",
+              "description": "Literal string for send-keys"
+            },
+            "text": {
+              "type": "string",
+              "description": "Text to paste for paste"
+            },
+            "bracketed": {
+              "type": "boolean",
+              "description": "Wrap paste in bracketed mode"
+            },
+            "eof": {
+              "type": "boolean",
+              "description": "Close stdin after write"
+            },
+            "offset": {
+              "type": "number",
+              "description": "Log offset"
+            },
+            "limit": {
+              "type": "number",
+              "description": "Log length"
+            },
+            "timeout": {
+              "type": "number",
+              "description": "For poll: wait up to this many milliseconds before returning; max 30000 ms, higher values are clamped to 30000",
+              "minimum": 0
+            }
+          }
+        }
+      },
+      {
+        "name": "read",
+        "description": "Read text/image file (jpg/png/gif/webp/bmp); images attach to model context. Text caps 2000 lines or 50KB. Continue with offset/limit, or cursor within a long line.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "File path; relative/absolute."
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Start line; 1-based."
+            },
+            "limit": {
+              "type": "number",
+              "description": "Max lines."
+            },
+            "cursor": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Character position within the start line; 0-based."
+            },
+            "optional": {
+              "type": "boolean",
+              "const": true,
+              "description": "Missing paths return structured not_found instead of failing."
+            }
+          }
+        }
+      },
+      {
+        "name": "write",
+        "description": "Write/overwrite file; creates parent directories.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "path",
+            "content"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "File path; relative/absolute."
+            },
+            "content": {
+              "type": "string",
+              "description": "File content."
+            }
+          }
+        }
+      }
+    ],
+    "tool_schema_provenance": [
+      {
+        "name": "agents_list",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\6f\\6f253362b67e5d07ad979c5d7588bd6f7084e3c404ebf68cced2a01bec5c5a4d",
+          "bytes": 3574,
+          "sha256": "6f253362b67e5d07ad979c5d7588bd6f7084e3c404ebf68cced2a01bec5c5a4d"
+        }
+      },
+      {
+        "name": "apply_patch",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\6f\\6f253362b67e5d07ad979c5d7588bd6f7084e3c404ebf68cced2a01bec5c5a4d",
+          "bytes": 3574,
+          "sha256": "6f253362b67e5d07ad979c5d7588bd6f7084e3c404ebf68cced2a01bec5c5a4d"
+        }
+      },
+      {
+        "name": "edit",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "exec",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "ls",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "process",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "read",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "write",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      }
+    ],
+    "original_tool_schema_incomplete_entries": [
+      "agents_wait",
+      "ask_user",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER"
+    ],
+    "called_tool_names": [
+      "exec"
+    ],
+    "called_tools_missing_supported_schema": [],
+    "pinned_factory_schema_reconstruction_allowed": true,
+    "same_episode_API_capture_count": 0,
+    "api_request_captures": [],
+    "readable_reasoning_original_native": [],
+    "reasoning_overlays_same_response_id": [],
+    "source_admission": "NOT_PERFORMED_HERE_PROTECTED_AND_UNKNOWN_REMAIN_FOR_PARENT_REVIEW",
+    "training_admitted_by_this_recovery": false
+  },
+  "state_before_target": [
+    {
+      "role": "user",
+      "content": "实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。以下命令客户端（包括local-asr、remotion和ecnu_tools.py）均通过exec执行，不是额外的原生工具名。要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。Playwright Chromium executable_path=/usr/bin/chromium，launch args=[\"--no-sandbox\"]。原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。网络访问可用；用户要求下载的材料和skills请在任务中真实下载。当前ecnu-plus的文本与图片理解已通过独立接口探针；未提供额外搜索API密钥；公开网页可使用browser或HTTP读取。图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n公开参考skill的实际目录是 /workspace/skills/<名称>，脚本相对该skill根解析。兼容目录 /workspace/.claude/skills 指向同一目录；CLAUDE_PLUGIN_ROOT=/workspace。需要CLAUDE_SKILL_DIR的命令可用exec运行 python /opt/eval-adapter/runtime_compat.py run-skill --skill <名称> -- <命令及参数>，该变量只针对本条命令，不在多个skill之间共享固定值。跨包参考正文如果本题准入，会放在 /workspace/reference_support，作为依赖资料而非新增active skill；可运行 python /opt/eval-adapter/runtime_compat.py reference-path --skill <名称> --reference \"<SKILL中原相对引用>\" 查询真实存在的位置，再用read读取；不存在就报告缺项。GetNotes参考SDK的原缓存含跨平台开发依赖，从该skill的scripts目录可运行 getnote-tsx <tsx参数> 使用固定Linux兼容loader；这只修本地加载，不提供账号认证。agent-browser和lark-cli是通过exec运行的公共CLI，不是新增原生工具名；agent-browser使用本容器/usr/bin/chromium，外部Lark/邮件/GetNotes服务仍以实际认证结果为准。\n\n本题提供的文件：\n- /workspace/inputs/materials/conv_495ce24cf535/5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n- /workspace/inputs/materials/conv_495ce24cf535/6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\n- /workspace/inputs/user_requests/conv_495ce24cf535.json\n\n用户提供的上下文：\n\n\n用户任务：\n请使用中文完成以下招聘评估任务。\n\n我司国巡机器人正在招聘核心高管岗位：生产制造运营总监。公司背景：复杂恶劣场景机器人巡检的开创者，全国出货量第一，复杂恶劣场景市场占有率超60%，集团正处于科创板上市准备阶段；拥有广州（总部）、山东临沂（新建）、安徽淮北（成熟运行）三个生产场地，正处于从初创期向成长期转型阶段，这是一份“从混乱中建体系”的工作，而非“接手成熟团队做优化”的工作。\n\n岗位概览：汇报对象为公司CEO/总裁（核心高管序列），参与公司运营战略制定与执行；工作地点广州（常驻总部），高频出差山东临沂、安徽淮北两个生产基地（出差比例约20%左右）；管理范围为三个生产场地的生产管理、仓库管理、生产计划（PMC）、物料采购统筹、来料品质管控（IQC）、成品品质管控（OQC）；下属团队为三场地生产管理团队、仓库管理团队、生产计划团队、品质管理团队（现有+规划合计约20-30人），另需统筹协调现有采购人员；到岗时间越快越好（前任生产运营总监已离任，岗位急需补位，期望1个月内到岗）。\n\n岗位职责：全面负责三个生产场地的生产运营管理体系搭建与日常管理（精力占比约35%）：设计“双轨制”生产管理模式——生产I（广州模式）为研发主导的柔性生产，界定研发人员与生产技术人员在生产各环节的职责边界，广州仅保留仓管+少量资深现场技术人员编制，建立工艺与质量全程跟踪记录机制；生产II（临沂+淮北模式）为规模化标准化生产，临沂从零搭建生产及管理团队、规划工艺布局与产线、打造全国可复制模板，淮北优化现有标准化生产流程、根据订单灵活扩缩。从零建立PMC职能：销售订单→生产排程→物料需求（MRP）→采购协同→车间生产→入库→出货全链路管理，建立订单分配决策机制（明确“哪类订单去哪个场地”）与产能评估及三场地负载平衡机制。统筹仓库管理与跨场地物料调度、品质管控、采购统筹。信息系统建设（精力占比约10%）：全面评估现有ERP/WMS系统的能力与缺口，主导系统升级或替换的选型、实施、上线、推广全流程，确保系统落地后支撑三场地库存实时同步、跨场地物料调拨、生产计划排程、采购协同、品质数据采集。团队建设与人才培养（精力占比约15%）：生产计划（PMC）、品质管理（QC）等关键岗位从零招聘与培养，建立各场地生产人员的培训体系与技能矩阵，建立周例会/月度经营分析等例会、报表、复盘机制，为公司培养储备未来的生产基地管理人才。向上管理与跨部门协同（精力占比约5%）：直接向CEO/总裁汇报生产运营状况与改革进展，与研发部门建立深度协作机制，与销售部门对接订单需求与交付承诺，与财务部门协同成本核算与库存资产盘点。\n\n任职要求（硬性要求，必须全部满足）：\n1. 学历本科以上（二本及以上），专业不限，工业工程、机械制造、自动化、管理工程类优先；\n2. 15年以上生产制造管理经验，含大型企业规范化管理经验+中小型高科技机械/装备企业柔性生产管理经验，两种经验缺一不可；\n3. 有从0到1搭建生产运营体系的亲身经历：非接手成熟体系做维护，而是主导过流程、制度、团队的从零建设，并能提供可验证的成果；\n4. 多场地/多工厂生产管理经验：有至少2个以上生产场地协同管理的实际经验，理解跨场地调度与物料平衡；\n5. 柔性生产（多品种小批量+定制化）管理能力：理解研发型/定制型生产与标准化生产的本质差异，有同时管理两种模式的经验；\n6. 有生产管理信息系统（ERP/WMS/MES）选型或实施经验：亲自主导过系统上线，而非仅作为系统使用者；\n7. 接受常驻广州+30%-40%出差，高频出差山东临沂、安徽淮北，能适应初创成长期企业的工作节奏。\n优先条件（满足越多越好）：有机器人、智能装备、精密仪器、特种设备等高科技机械行业背景；有防爆产品/煤安认证产品/特种行业（电力、石化、矿山）设备生产管理经验；有精益生产（Lean）或六西格玛落地实践经验；有在场地受限条件下做产线优化的实战经验；有品质体系（ISO9001等）认证或维护经验；经历过企业从初创期向成长期转型阶段，理解转型期的混乱与不确定性，能在制度不完善的环境中快速建立秩序。\n\n候选人简历如下，请逐份完整阅读：\n1. 宋先生：/workspace/inputs/materials/conv_495ce24cf535/5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n2. 黄和芳：/workspace/inputs/materials/conv_495ce24cf535/6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\n\n请分别判断两位候选人与上述生产制造运营总监岗位是否匹配、是否可推荐面试，并请生成两份候选人的评估报告（每人一份，Word文档）：宋先生的报告保存为 outputs/候选人评估报告_宋先生_生产制造运营总监.docx，黄和芳的报告保存为 outputs/候选人评估报告_黄和芳_生产制造运营总监.docx。评估必须基于简历真实内容与岗位要求逐项对照，简历中没有覆盖的信息请如实说明信息不足，不要编造。",
+      "timestamp": 1792692928233,
+      "idempotencyKey": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59:user",
+      "__openclaw": {
+        "senderIsOwner": true
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "我先读取两份简历PDF的内容。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-a8cf29530f0e43eda6377b8a\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "call43f4308519574a99a982c158bfdde083",
+          "name": "exec",
+          "arguments": {
+            "command": "ls -la \"/workspace/inputs/materials/conv_495ce24cf535/\" && python -c \"import pdfplumber; print('ok')\" 2>&1 | tail -1"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792692928845,
+      "responseId": "chatcmpl-1792692935148",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call43f4308519574a99a982c158bfdde083",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "total 376\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 .\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 ..\n-rwxrwxrwx 1 root root 137492 Oct 22 18:15 5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n-rwxrwxrwx 1 root root 242048 Oct 22 18:15 6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\nok"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 221,
+        "aggregated": "total 376\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 .\ndrwxrwxrwx 1 root root   4096 Oct 22 18:15 ..\n-rwxrwxrwx 1 root root 137492 Oct 22 18:15 5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n-rwxrwxrwx 1 root root 242048 Oct 22 18:15 6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\nok",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792692949373,
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    }
+  ],
+  "target_and_following_messages": [
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call80ba32b316da4cedaa4541f1d2c6ebf2",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\nimport pdfplumber\nfor name in [\"5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\", \"6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\"]:\n    path = f\"/workspace/inputs/materials/conv_495ce24cf535/{name}\"\n    print(\"=\"*80)\n    print(\"FILE:\", name)\n    print(\"=\"*80)\n    with pdfplumber.open(path) as pdf:\n        for i, page in enumerate(pdf.pages):\n            print(f\"--- page {i+1} ---\")\n            print(page.extract_text() or \"(no text)\")\nEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792692949401,
+      "responseId": "chatcmpl-1792692949439",
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call80ba32b316da4cedaa4541f1d2c6ebf2",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "================================================================================\nFILE: 5_【生产运营总监_广州 25-35K】宋先生 4年.pdf\n================================================================================\n--- page 1 ---\nh h\nxl xl\nP P\n_\nV ef1ad7112452a1cb1HNy0t-0ElRXxoq3VPOXWOeimP_VPx_lhV\nP P\nm m\nei ei\nO O\nW 宋先生 W\nX X\nO O\nP P\nV V\n3 3\nq q\no o\nX x 男 | 45岁 13922275937 X x\nR R\nEl El\n0t- 0 4年工作经验 | 供应链总监 | 期望薪资：30-50K | 期望城市：广州 0t- 0\ny y\nN N\nH H\n1 1\nb b\nc c\n1 1\n2 a 个人优势 2 a\n5 5\n4 4\n2 2\n1 1\n1 1\nd 7 自我优势 d 7\na a\n1 1\nef ef\n1、10多年大型企业的供应链、生产运营管理经验；\n2、优秀的行业分析能力及洞察力；良好的风险管理能力,对项目建设有丰富的经验\n3、优秀的项目团队领导，擅长团队打造，人才培养；\n4、较强的谈判能力及技巧、沟通协调能力、问题解决；\n工作经历 xl h\nP\nV\n_\nP\n广州市万世德智能装备科技有限公司\ne i\nm生产运营总监 2023.11-至今\nO\nW\n公司介绍：广州万世德是国家级高新技术企O业X、专精特新中小企业，专注于液态包装机械及二次包装设备制造。 主要产品包\nP\nV\n括二次包装设备：码垛机（产能达85包q 3/分钟）、热收缩膜包机、纸箱裹包机、装卸箱机，卡包机等，适用于饮料、啤酒、\no\nx\nX\n食用油等行业； El R\n0\n汇报对象：公司董事长 y\n0t-\nN\nH\n1\n下属人数：110人 c b\n1\na\n2\n工作内容：1.统筹4公5司生产运营管理，对整体产品交付负责，包括管理项目、生产计划、制造、采购、质量、仓库、装配7个\n2\n1\n1\n部门； 2.参与d 7制定公司的发展战略与年度经营计划，主导组织并实施生产运营中心年度战略规划；3.作为公司质量体系第一\na\n1\nef\n负责人，不断完善公司质量管理体系，不断提升产品交付质量，提高公司产品市场竞争力； 4.不断完善生产运营中心管理体\n系，打造柔性供应链体系，不断提高产品交付效率；5.优化装配薪酬结构，主导设计并实施了一套按劳计酬的装配薪酬制\n度，打破了吃大锅饭的局面，大大提升了装配效率；6.推动采购以项目成本闭环计奖金的分配制度，大大节省采购成本并提\n升了采购人员的工作主动性； 7.主导公司新的ERP和WMS系统上线； 8.协调董事长公司管理：协助董事长组织各中心负责人\n讨论制定公司年度战略目标并分解为各中心kpi，月度复盘结果。\n中集德立物流系统（苏州）有限公司 供应链总监 2018.11-2023.10\nh h\nxl xl\nP P\nV V\nP _ 公司介绍：中集德立为中集集团旗下空港板块位于华东区域的生产基地，目标是打造行业内先进的自动化装备制造基地，也P _\nm m\nei ei\nO 是进一步开拓中国物流系统市场的战略规划的实施中心；公司业务涵盖机场物流处理系统、快递输送系统集成、电商物O流处\nW W\nX X\nO O\nP 理系统、仓储自动化系统解决方案、定制自动化系统解决方案等。主要客户包括顺丰、德邦、京东等国内知名的快P递电商物\nV V\n3 3\nq q\nx o 流企业。汇报对象：常务副总 下属人数：120 工作内容：1.统筹公司供应链管理，包括采购、物流、仓储、x质o量、售前支持\nX X\nR R\n0 El 五个部门； 2.参与制定公司的发展战略与年度经营计划，组织制定并实施供应链战备规划；3.设计并改0 E善 l 公司供应链系统，\n0t- 0t-\ny y\nH N 制定并完善切实可行的供应链管理工作流程，实施监控和管理，确保产品质量，并根据业务的变化H N不断优化； 4.建立采购相\n1 1\nb b\nc c\n1 关流程、制度及供应商管理体系、不断优化采购流程；5.主导供应链评估标准、考核标准制定1，能最大限度管理好供应商，\na a\n2 2\n5 5\n4 4\n2 并对供应商进行优胜劣汰； 6.推动采购创新项目，节省采购成本； 7.优化库存结构，提2升仓储工作效率，供货仓储管理体\n1 1\n1 1\n7 7\nd d\na 系；8.销售售前支持，包括投标前成本分析、利润分析、报价分析等； 9.中心内部a管理：通过公司战略目标分解为各部门\n1 1\nef ef\nkpi，结合部门职责，明确各部门的工作目标，整理为部门工作计划及进度表，制定可执行的实施方案。\n广州王老吉药业股份有限公司 采购经理/主管 2006.11-2018.10\n1、 全面负责公司供应链的开发与管理，分派和处理本部门的日常工作包括公司供应链的总体规划、部门日常工作开展及总\n结、采购计划的编排、物料的订购与交货期的控制 、部门员工的管理与培训、与供应商以及公司内部其他部门的沟通协调；\n2、 负责组织决策大型物料（包括原辅包材及生产设备和工程）招标采购。直接上级为公司副总经理,每月均以书面形式向副\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nhlxPV_PmieOWXOPV3qoxXRlE0-t0yNH1bc1a2542117da1fe\n--- page 2 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nei m 总作工作汇报和对采购部进行绩效考核.对采购部持续稳定发展、采购成本控制、采购规划的制定和实施均有自己的独特 e 见i m解\nO O\nW W\nX 和方法. X\nO O\nP P\nV V\n3 3\nq q\no o\nX x 广州樱泰汽车饰件有限公司 采购专员/助理 X2x002.07-2006.10\nR R\nEl El\n0 0\n0t- 1、主要负责设备、工程和维修服务的采购.同时也负责非生产性物料采购。 0t-\ny y\nN N\nH H\n1 2、曾在2005年被公司派往日本总公司学习丰田生产管理模式，对于零库存状态下的物料采购及1快速安全为生产服务的方针\nb b\nc c\n1 1\na a\n2 有较深刻的认识。 2\n5 5\n4 4\n2 2\n1 1\n1 3、保证公司生产为前提下尽量降低公司采购成本，曾在2005年被樱泰公司评为年度先1进工作者，并于2005年7月晋升为采\n7 7\nd d\na a\n1 1\nef 购系长。 ef\n教育经历\n合肥工业大学 本科 机械设计制造及其自动化 1998-2002\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nX X\nO O\nP P\nV V\n3 3\nq q\no o\nx x\nX X\nR R\nEl El\n0 0\n0t- 0t-\ny y\nN N\nH H\n1 1\nb b\nc c\n1 1\na a\n2 2\n5 5\n4 4\n2 2\n1 1\n1 1\n7 7\nd d\na a\n1 1\nef ef\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nX\nO\nP\nV\n3\nq\no\nx\nX\nR\nEl\n0\n0t-\ny\nN\nH\n1\nb\nc\n1\na\n2\n5\n4\n2\n1\n1\n7\nd\na\n1\nef\nhlxPV_PmieOWXOPV3qoxXRlE0-t0yNH1bc1a2542117da1fe\n================================================================================\nFILE: 6_【生产运营总监_广州 25-35K】黄和芳 10年以上.pdf\n================================================================================\n--- page 1 ---\nh h\nxl xl\nP P\nV V\n_ 6743771fd60be5971HNz3t64EFNWwI66UfiWWOeimP_VPx_lh\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN N\nF 个 人 简 历 F\nE E\n4 4\n6 6\n3t 3t\nz z\nN N\nH H\n1 1\n7 7\n9 9\n5 5\ne e\n0 b 基 本 信 息 0 b\n6 6\nd d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\n姓 名：黄和芳 性 别：男\n户 籍：湖南 年 龄：38岁\n学 历：本科 民 族：汉族\n婚姻状况：已婚 身 高：173CM\n应聘职务: 制造总监/生产总监 联系电话：13650945186\nh\nxl\n自我评价和技能 P\nV\n_\nP\nm\nei\nO\nW\nW\n自我评价： Ufi\n6\n6\n本人性格开朗随和，具备较w强I的统筹管理能力和规划能力以及沟通协调能力。从事制造业管理工\nW\nN\n作16年，先后在国有上E F市，港资，民营企业等工作。以ISO质量管理体系为基础，全面推进精益生\n4\n6\n产管理模式降本增z效3t\n。全盘系统化组织管理，策划，跟进，落实公司生产战略，建立完善的生产系统\nN\nH\n（包含：生产\n9\n7，1 PMC，采购，品质，工程技术，仓库，售后）等部门的统筹管理。掌握全盘生产现\n5\ne\n场管理的0 b手法，掌握推行精益化生产的知识及方法，根据生产现场制订各类管理制度及改善方案，善\n6\nd\n于运7 1用 f 科学的管理手段7s现场管理。熟悉ISO9001，IATF16949，ISO13485，GMP质量管理体系运\n7\n3\n4\n6 7作，以 5M1E人，机，料，法，环，测，可行性措施的执行管理，简单有效的生产计划和物料物流\n控制管理，绩效考核管理等，参与新产品的开发和投产按排，同时对生产进度进行监督管理，处理解\n决生产制程中生产与采购的异常情况，进行部门内外的组织协调沟通管理，检讨改善各项未能达标的\n工作事务，举行生产协调会议，确保生产体系能正常运行，同时对生产现场的各项生产资源进行合理\n调配，监督生产安全，生产品质，劳动纪律，设备管理和生产环境的各项政策执行状况，组织人员培\n训与绩校考核，制定各项生产制度进行量化管理，精益生产管理，确保订单如期交付和生产成本的有\n效控制，推行节约型生产管理方针、生产效率品质提升、控制生产成本等有丰富的管理经验。\nh h\nP xl 职业技能： P xl\nV V\n_ _\nm P （1）本人擅长布局规划，体系管理，生产管理，质量管理，采购管理，供应商管理，仓储管理， m P\nei ei\nO O\nW 具备丰富的实操经验。 W\nW W\nUfi\n（2）本人擅长体系建设 如ISO9001，ISO13485，GMP，IATF16949等质量管理体系文件的制定、\nUfi\n6 6\n6 6\nwI wI\nW 实施、推进。 W\nN N\nF F\n4 E （3）本人擅长团队打造和流程再造，根据过往的实操经验对现有的组织架构进行从新设计4 E调整，\n6 6\n3t 3t\nN z 生产工序的优化，最终降低成本，提高工作效率。 N z\nH H\n1 1\n9 7 （4）本人擅长绩效考核和执行力打造，通过年度月度和每周及每日的目标管理结9 7果进行绩效考\n5 5\ne e\nb b\n6 0 核及执行力检查，确保绩效考核指标的有效性和公平性。 6 0\nd d\n1f 1f\n7 7 （5）本人擅长生产部的企业文化建设和搭建企业培训机制，为企业培训7 7人才及营造一个学习的\n3 3\n4 4\n7 7\n6 氛围和搭建乐捐的奖惩机制，为企业降低运营成本的同时，提高员6工的品质意识和生产效率。\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 2 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN N\nF （6）精通 五金，机加件，PCBA，塑胶，制造工艺，电子插件，电子元件组装，测试，包装F，部\nE E\n4 4\n6 6\n3t 件冲压，部件丝印，喷涂，电镀，元件的焊接，原材料测试，半成品测试，成品测试。3t\nz z\nN N\nH （7）精通各类统计工具和检测仪器的使用QC七大手法，五大工具：APQP、FMEA，SPCH、MSA、PPAP、\n1 1\n7 7\n9 9\ne\n5 二次元，晶体管测试仪，医用漏电流测试仪，示波器，医用耐压测试仪，医用e接5地电阻测试仪，\nb b\n0 0\n6 6\nd 卡尺，千分尺，角度尺，高度尺，色差仪，厚度仪等。 d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\n教 育 经 历\n2002年09月～2005年07月 宜章六中 高中\n2005年09月～2009年07月 华南理工大学 专业：机电一体化\n电工技术、电子技术、机械设计基础、机械加工机床、数控加工工艺、互换性与测量技术、液压\n与气动技术、数控编程、电器控制技术、机电转动控制、单片机原理与应用、电器控制及PLC、\nh\n计算机绘图CAD P xl\nV\n_\nP\nm\nei\nO\n培 训 经 历 W\nW\nUfi\n6\n6\nwI\nW\nN\n2022年10月～2022年F10月 DAB Groups德标认证-TUV ISO9001：2015 内审员\nE\n4\n6\n2022年10月～2032t2年10月 DAB Groups德标认证-TUV IATF16949：2016 内审员\nz\nN\n2020年5月～1 H2020年5月 广东省医疗器械管理学会 ISO13485：2016 内审员\n7\n9\n5\n2020年7e月～2020年7月 广东省医疗器械管理学会 医疗企业管理者代表\nb\n0\n6\nd\n1f\n7\n7\n3\n7 4 工 作 经 历\n6\n■ 东莞市雷宇激光设备有限公司（2022年5月～至今）\n公司性质：民营\n工作地点：东莞\n任职部门：制造中心\n职位名称：制造总监\nh h\nP\nxl\n汇报对象：总经理 P\nxl\nV V\n_ _\nm P 公司描述： m P\nei ei\nW O 东莞市雷宇激光设备有限公司是一家研产销服务于一体的公司，主要生产 CO2激光切割机，激 W O\nW W\nUfi 光雕刻机，激光打标机，3D金属打印机、金属切割机等产品。雷宇激光以东南亚，北美，欧洲， Ufi\n6 6\n6 6\nwI 澳洲，国内中高校，为五大核心市场，业务遍及全球30多个国家和地区。 wI\nW W\nN N\nF 工作描述： F\nE E\n4 4\n6 6\n3t （1）体系建设：建立和优化制造中心各部门的体系文件，流程，制度，规范等。 3t\nz z\nN N\n1 H （2）部门管理：全面负责PMC部，生产部，质量部，生产工程技术部，仓储部，售1 H后部 等相关\n7 7\n9 9\n5 5\ne 部门的统筹管理，协调各部门及时对接，顺利达成目标。 e\nb b\n0 0\n6 6\n1f d （3）生产管理：负责下达生产计划和任务，及时跟踪生产情况确保产能达 1f d成目标。负责产线制\n7 7\n7 7\n3 造工艺流程和工序优化，建立完善的生产制造体系。 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 3 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN （4）质量管理：通过导入质量管理体系,团队建设SQE,IQC,IPQC,OQC等相关岗位人员，以及N采\nF F\nE E\n4 4\n6 取质量控制手段，提升来料、制程、成品合格率，降低客诉率，确保新产品直通率，达成6整体质\n3t 3t\nz z\nN N\nH 量目标99%。 H\n1 1\n7 7\n9 9\n5 （5）工程项目管理：主导CCD项目和非标产品的样机试制，测试，生产，交付5。\ne e\nb b\n0 0\nd\n6 （6）售后管理：根据市场反馈和内部各部门反馈的设备异常，售后人员及d时6了解异常情况及时\n1f 1f\n7 7\n7 跟进处理，建立完善的知识库，各类异常文档，为客户提供更方便快捷7的服务。\n3 3\n4 4\n7 7\n6 6\n■ 广州南雪医疗器械有限公司（2017年5月～2022年5月）\n公司性质：港资\n工作地点：广州\n任职部门：制造中心\n职位名称：生产总监\n汇报对象：总经理\nh\n公司描述： xl\nP\nV\n南雪集团南雪药业成立于2003年，P由_南雪国际（香港）药业有限公司，广州南雪药业有限\nm\n公司，广州南雪医疗器械有限公司，O广ei\n东林和药业有限公司和广东林和药业连锁有限公司共5\nW\nW\n大子公司组成。 Ufi\n6\n主要生产（二类有源）\nw\n多I 6参数检测仪体检机，红外额温计，臂式电子血压计，血糖血压测\nW\n试仪，电子体温计等产品N，研发生产销售于一体的公司。\nF\nE\n4\n工作描述： 3t 6\nz\nN\n（1）战略规划H：根据公司的发展战略目标拟定制造中心年度生产计划以及预算，提出本部门年\n1\n7\n9\n度的人力需5求，培训需求，设备需求，费用支出并监控实施。\ne\nb\n0\n（2）体d 6系建设：全面负责推进ISO13485医疗器械生产质量管理体系的运行并组织内审，外审和\n1f\n7\n管7理评审工作。\n3\n4\n7\n6（3）部门管理：全面负责PMC，生产，品质，采购，设备工艺部，仓库等各部门的统筹管理协\n调各部门及时对接，顺利达成目标。\n（4）生产管理：负责下达生产计划和任务，及时跟踪生产情况确保产能达成目标。\n（5）过程管理：全面负责工厂的运营管理工作，重点运用5M1E(人、机、料、法、环、测)，确\n保生产各项活动符合《医疗器械生产质量管理规范》的法规要求。\n（6）质量管理：通过导入质量管理体系（ISO13485/ISO9001）建立质量标准与要求与质量规划，\n通过质量控制图、 SPC/MSA/FMEA 等质量工 具及质量控制手段，提升来料、制程、出货合格率，\nh h\nxl 降低客诉率，确保新产品直通率，达成整体质量目标98.5%。 xl\nP P\nV V\nP _ 团队管理： 根据公司发展战略及价值导向，通过职业规划、培训学习、绩效考核、轮岗、激励 P _\nm m\nei ei\nO 与奖励等手法, 以确保团队的高效 运作和达成目标以及人才梯队的建设与培养。 O\nW W\nW W\nUfi （7）供应链管理：组织选择、评估和管理供应商，建立良好的合作关系，保证供应链的稳定供 Ufi\n6 6\nwI 6 应和质量控制，运用成本预测、数据分 析、供应链整合等手段监控成本绩效，组织经济订购、 wI 6\nW W\nF N 存量控制、 集中采购、流程优化、工艺迭代更新等手法实现供应链管理与 成本控制，消除F瓶N颈\nE E\n4 4\n3t 6 供应商，储备关键供应商3家以上。 3t 6\nz z\nN N\nH （8）产品交付：根据市场需求和销售预测对订单交付计划进行审核并对交付执行过H程进行管控，\n1 1\n7 7\n9 9\n5 通过推动订单预测、订单管理、外协 分包、供需分析、工艺流程再造等管理手5法产品交付计划\ne e\nb b\n0 0\nd 6 达成率由87%提升至 97.5% 。 d 6\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 4 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN ■ 广州一康医疗设备实业有限公司（2014年6月～2017年5月） N\nF F\nE E\n4 4\n6 公司性质：民营 6\n3t 3t\nz z\nN N\nH 工作地点：广州 H\n1 1\n7 7\n9 9\n5 任职部门：制造中心 5\ne e\nb b\n0 0\nd 6 职位名称：生产经理 d 6\n1f 1f\n7 7\n7 汇报对象：总经理 7\n3 3\n4 4\n7 7\n6 公司描述： 6\n广州一康医疗设备有限公司于2000年09月30日成立，主要生产（二类有源）上下肢体康\n复医疗器械产品，手指机器人，手臂机器人，踏步机器人，裸关节机器人，坐立机器人，坐式\n四肢机器人，卧式四肢机器人，康复评定仪，理疗床，研发生产销售于一体的公司。\n工作描述：\n（1）战略规划：根据公司的战略发展规划，制定制造中心年度生产目标计划，并推进实施。\n（2）体系建设：全面负责推进ISO13485医疗器械生产质量管理体系的运行并组织内审，外审和\nh\n管理评审工作。 xl\nP\nV\n（3）部门管理：全面负责 PMC,生产，品P _质，采购，仓库等各部门的统筹管理工作。\nm\n（4）生产计划：负责制定生产计划O，e将 i 订单和需求转化为具体的生产任务，组织资源进行生产，\nW\nW\n年度计划达成率目标值 97%，实 Ufi际达 成值 99.4%。\n6\n（5）过程管控： 监督和控\nw\n制I 6生产过程，确保生产过程顺利进行，协调解决生产中的问题和异常\nW\n情况， 保障过程管控有N效性，月度生产 效率目标值 98%，月均达成 98.3%。\nF\nE\n4\n（6）现场管理：\n3\n负t 6责组织和管理生产现场的运作，确保生产现场的安全、整洁和高效，分析生\nz\nN\n产过程，查询产H品的制造进度，及时落 实订单查询，调整生产计划，提高生产效率。\n1\n7\n9\n（7）降本增5效：控制和降低生产成本，通过优化生产流程、减少浪费和和优化生产所需的人力、\ne\nb\n0\n设备、d 6原材料等资源，提高资源利用率和生产效率，降低成本，产品良率目标 97%，实际达成值\n1f\n7\n987.5%。\n3\n4\n7\n6（8）质量安全： 落实公司下达的质量目标，配合质量部门对质量问题进行整改；组织协调生产\n安全隐患排查、工业事故预防、应急处 置方式建立工作，并督导部门严格落实安全生产责任，\n月度安全事故 0 起。\n（9）团队管理： 落实生产团队的招聘、培训、激励和绩效等各项管理，提升团队的工作能力和\n凝聚力。\n■ 广州艾颜佳美容美发设备有限公司（2013年05月～2014年6月）\nh h\nxl 公司性质：港资 xl\nP P\nV V\nP _ 工作地点：广州 P _\nm m\nei ei\nO 任职部门：生产部 O\nW W\nW W\nUfi 职位名称：生产经理 Ufi\n6 6\nwI 6 汇报对象：副总 wI 6\nW W\nF N 公司描述： F N\nE E\n4 4\n3t 6 广州艾颜佳美容美发设备有限公司成立于2010年,是一家集研发，生产，销售于一 3 体t 6的先进\nz z\nN N\nH 美容仪器设备集团公司。生产产品有：IPL光子治疗仪，红蓝光治疗仪，二氧化碳激H光治疗仪，\n1 1\n7 7\n9 9\n5 全能魔指健胸仪，瘦身仪，私密护理仪，量子美肤仪，纯氧抗衰仪，光能美肤仪5，面部SPA仪\ne e\nb b\n0 0\nd 6 等。 d 6\n1f 1f\n7 7\n3 7 工作描述： 3 7\n4 4\n7 7\n6 （1）全面负责生产部的日常管理和规划以及协调工作； 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476\n--- page 5 ---\nh h\nxl xl\nP P\nV V\n_ _\nP P\nm m\nei ei\nO O\nW W\nW W\nUfi Ufi\n6 6\n6 6\nwI wI\nW W\nN （2）负责制定生产目标，生产计划，组织建立和完善生产指挥体系，确保完成生产任务。N\nF F\nE E\n4 4\n6 （3）负责各个车间的生产看板的导入，负责各个车间的车间管理制度的优化及监督实6施，最\n3t 3t\nz z\nN N\nH 终品质保证和交期达成。 H\n1 1\n7 7\n9 9\n5 （4）负责各个车间的精细化生产，对生产工序或工艺进行调整或优化，对制5程异常，客诉问\ne e\nb b\n0 0\nd 6 题进行追溯，验证及分析原因进行针对性改善，闭环等工作，防止再发生d 6。\n1f 1f\n7 7\n7 （5）负责组织安全生产的教育和培训，防止生产事故的发生。 7\n3 3\n4 4\n7 7\n6 （6）负责牵头成立稽核办，注重流程作业和按标准作业，在职期6间稽核办的工作开展，确实\n很出色，有效的解决了生产的5S和全公司员工遵守纪律，按规程作业的习惯。\n（7）负责监督各个车间的招聘，考核，奖惩，固定资产管理，并不定期开展对管理和员工进\n行技能的培训提升。\n（8）完成上级领导交办的其他工作。\n■ 广州广日电气设备有限公司（2009年08月～2013年05月）\nh\n公司性质：国营企业 xl\nP\nV\n工作地点：广州 P _\nm\n任职部门：生产部 O\nei\nW\nW\n职位名称：生产主管 Ufi\n6\n汇报对象：副总 wI 6\nW\n公司描述： N\nF\nE\n4\n广州广日电气设备\n3\n有t 6限公司是一家国有企业，上市公司（股票代码：600894），规模约1700人，\nz\nN\n主要生产电梯控H制柜，扶梯控制柜，变压器，线束等产品。\n1\n7\n9\n本人20095年7月份毕业后进入本公司实习，前期工作主要以结构设计及电控测试为主，2011\ne\nb\n0\n年8月d 6份调入制造中心《担任生产组长》，2012年3月份担任《生产主管》。\n1f\n7\n工7作描述：\n3\n4\n7\n6（1）全面负责生产管理工作，根据公司战略规划及发展目标，制定生产部目标，年度生产计划，\n组织建立和完善生产指挥体系，确保完成生产任务。\n（2）根据生产计划掌控生产进度，全面协调车间工作，对生产作业过程进行监督，指导，同事\n保证生产质量和提高产能。\n（3）定期召开生产会议，分析生产情况并制定相对应的解决办法及改进措施。\n（4）制定各项设备的操作标准及工艺操作规程以及执行管控，制定改进方案，定期维修保养，\n确保设备有效运行，提升设备的利用率。\nh h\nxl （5）负责推动相关部门对生产异常的迅速解决，保障生产的顺利进行，提高产品直通率。 xl\nP P\nV V\nP _ （6）负责排查安全隐患，按期完成不合格整改，实现安全生产零事故。 P _\nm m\nei ei\nO （7）主导早会对现场异常情况进行说明，按要求实施对现场异常和客诉制定的进行纠正预防措 O\nW W\nW W\nUfi 施，实现产品质量零缺陷。 Ufi\n6 6\nwI 6 （8）主导对员工的培训，以满足现场交付，品质的要求。 wI 6\nW W\nF N （9）主导开展现场5S活动，确保现场管理水平达到要求。 F N\nE E\n4 4\n3t 6 （10）完成上级领导交办的其他工作。 3t 6\nz z\nN N\nH H\n1 1\n7 7\n9 9\n5 5\ne e\nb b\n0 0\n6 6\nd d\n1f 1f\n7 7\n7 7\n3 3\n4 4\n7 7\n6 6\nh\nxl\nP\nV\n_\nP\nm\nei\nO\nW\nW\nUfi\n6\n6\nwI\nW\nN\nF\nE\n4\n6\n3t\nz\nN\nH\n1\n7\n9\n5\ne\nb\n0\n6\nd\n1f\n7\n7\n3\n4\n7\n6\nhlxPV_PmieOWWifU66IwWNFE46t3zNH1795eb06df1773476"
+        }
+      ],
+      "details": {
+        "persistedDetailsTruncated": true,
+        "originalDetailsBytesAtLeast": 8193,
+        "originalDetailKeys": [
+          "status",
+          "exitCode",
+          "exitSignal",
+          "exitReason",
+          "durationMs",
+          "aggregated",
+          "noOutputTimedOut",
+          "cwd"
+        ],
+        "status": "completed",
+        "cwd": "/workspace",
+        "exitCode": 0,
+        "exitSignal": null
+      },
+      "isError": false,
+      "timestamp": 1792692957022,
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "两份简历内容已完整提取。现在核对岗位要求并生成评估报告。先确认 python-docx 可用。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-65d12b90d17e487c8d048c45\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "call6e2e3f02efce48188e9409dbd2872898",
+          "name": "exec",
+          "arguments": {
+            "command": "python -c \"import docx; print(docx.__version__)\" && mkdir -p /workspace/outputs /workspace/tmp"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792692957035,
+      "responseId": "chatcmpl-1792692957062",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call6e2e3f02efce48188e9409dbd2872898",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "1.2.0"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 106,
+        "aggregated": "1.2.0",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792693005772,
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": ""
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "stopReason": "aborted",
+      "errorMessage": "LLM idle timeout (300s): no response from model",
+      "timestamp": 1792693348965,
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "继续任务。简历内容已提取完毕，python-docx 已确认可用。现在生成两份评估报告。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-1ce7d3b21ab64d6b843f84e7\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "call1cbdaae5643d4b708048a5c99c0ec043",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'PYEOF'\n# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, RGBColor\nfrom docx.oxml.ns import qn\nimport os\n\nos.makedirs('/workspace/outputs', exist_ok=True)\n\ndef set_east(run, name='宋体'):\n    run.font.name = 'Calibri'\n    rpr = run._element.get_or_add_rPr()\n    rpr.rFonts.set(qn('w:eastAsia'), name)\n\ndef para(doc, text, bold=False, size=10.5, space_after=4):\n    p = doc.add_paragraph()\n    r = p.add_run(text)\n    r.bold = bold\n    r.font.size = Pt(size)\n    set_east(r)\n    p.paragraph_format.space_after = Pt(space_after)\n    return p\n\ndef heading(doc, text, size=13):\n    p = doc.add_paragraph()\n    r = p.add_run(text)\n    r.bold = True\n    r.font.size = Pt(size)\n    r.font.color.rgb = RGBColor(0x1F, 0x3B, 0x63)\n    set_east(r, '微软雅黑')\n    p.paragraph_format.space_before = Pt(10)\n    p.paragraph_format.space_after = Pt(6)\n    return p\n\ndef table(doc, headers, rows):\n    t = doc.add_table(rows=1, cols=len(headers))\n    t.style = 'Table Grid'\n    hdr = t.rows[0].cells\n    for i, h in enumerate(headers):\n        hdr[i].text = ''\n        r = hdr[i].paragraphs[0].add_run(h)\n        r.bold = True\n        r.font.size = Pt(10)\n        set_east(r)\n    for row in rows:\n        cells = t.add_row().cells\n        for i, v in enumerate(row):\n            cells[i].text = ''\n            r = cells[i].paragraphs[0].add_run(str(v))\n            r.font.size = Pt(9.5)\n            set_east(r)\n    doc.add_paragraph()\n    return t\n\ndef base_doc(title, subtitle):\n    doc = Document()\n    st = doc.styles['Normal']\n    st.font.size = Pt(10.5)\n    st.font.name = 'Calibri'\n    st.element.get_or_add_rPr().get_or_add_rFonts().set(qn('w:eastAsia'), '宋体')\n    p = doc.add_paragraph()\n    r = p.add_run(title)\n    r.bold = True\n    r.font.size = Pt(18)\n    set_east(r, '微软雅黑')\n    p.alignment = 1\n    p2 = doc.add_paragraph()\n    r2 = p2.add_run(subtitle)\n    r2.font.size = Pt(11)\n    r2.bold = True\n    set_east(r2, '微软雅黑')\n    p2.alignment = 1\n    doc.add_paragraph()\n    return doc\n\nHARD_HEADERS = ['序号', '岗位硬性要求', '候选人简历对应情况（仅依据简历实际内容）', '判定']\nPREF_HEADERS = ['优先条件', '候选人对应情况', '命中']\n\n# ============ 宋先生 ============\ndoc = base_doc('候选人评估报告', '应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：宋先生｜评估日期：2026-10-22')\n\nheading(doc, '一、岗位评估基准（摘要）')\npara(doc, '本报告依据岗位说明书对候选人进行逐项对照。岗位关键背景：公司为国巡机器人（复杂恶劣场景巡检机器人，全国出货量第一，科创板上市准备期），设广州/山东临沂/安徽淮北三生产基地，处于初创期向成长期转型，本岗为“从混乱中建体系”；汇报CEO/总裁；常驻广州+约20%-40%出差（临沂、淮北）；管辖三场地生产、仓库、PMC、采购统筹、IQC/OQC，团队20-30人；期望1个月内到岗。硬性要求共7条，须全部满足。')\n\nheading(doc, '二、候选人基本情况（摘自简历）')\nfor line in [\n    '宋先生，男，45岁，现居广州，手机13922275937；简历标注“4年工作经验”，期望薪资30-50K，期望城市广州。',\n    '教育背景：合肥工业大学（211高校）本科，机械设计制造及其自动化，1998-2002。专业对口（工业工程/机械制造类优先项命中）。',\n    '工作经历（连续，约24年）：',\n    '① 广州樱泰汽车饰件有限公司（2002.07-2006.10）采购专员→采购系长；2005年赴日本总公司学习丰田生产管理模式（TPS/零库存）。',\n    '② 广州王老吉药业股份有限公司（2006.11-2018.10）采购经理/主管，约12年，负责供应链规划、大型物料招标采购，直接向副总经理汇报。',\n    '③ 中集德立物流系统（苏州）有限公司（2018.11-2023.10）供应链总监，下属120人，统管采购、物流、仓储、质量、售前支持五个部门；中集集团旗下自动化装备制造基地（机场物流、快递输送、定制自动化系统，客户含顺丰、京东等）。',\n    '④ 广州市万世德智能装备科技有限公司（2023.11-至今）生产运营总监，下属110人，向董事长汇报；统管项目、生产计划、制造、采购、质量、仓库、装配7个部门；公司质量体系第一负责人；主导新ERP和WMS系统上线；设计装配按劳计酬薪酬制与采购成本闭环奖金制；液态包装机械及二次包装设备（码垛机等）制造，国家级高新技术企业、专精特新。',\n]:\n    para(doc, line)\n\nheading(doc, '三、硬性要求逐项对照')\ntable(doc, HARD_HEADERS, [\n    ['1', '本科以上（二本及以上），专业不限，工业工程/机械制造/自动化/管理工程类优先', '合肥工业大学（211）本科，机械设计制造及其自动化，专业直接对口', '满足'],\n    ['2', '15年以上生产制造管理经验；大型企业规范化+中小型高科技机械/装备企业柔性生产，两种缺一不可', '制造相关从业约24年。大型规范化：王老吉12年+中集德立5年（中集为集团上市体系）；中小型高科技装备：万世德智能装备（专精特新）近3年任生产运营总监。注意：直接“生产制造管理”年限约3年（万世德），此前主线为采购/供应链（樱泰4年+王老吉12年+中集供应链总监5年）；简历自述“10多年大型企业供应链、生产运营管理经验”。生产制造直接管理深度与年限需核实', '基本满足/存疑'],\n    ['3', '有从0到1搭建生产运营体系的亲身经历，可验证', '简历体现“不断完善生产运营中心管理体系”“打造柔性供应链体系”，属优化完善性质；未见明确的从零搭建流程/制度/团队的可验证成果描述', '证据不足'],\n    ['4', '多场地/多工厂（2个以上生产场地）协同管理经验', '各段经历均为单一工厂任职（中集德立为集团华东基地之一，但简历未体现跨基地统管）；未见跨场地调度与物料平衡经验', '未体现'],\n    ['5', '柔性生产（多品种小批量+定制化）管理能力，同时管理研发型与标准化两种模式', '万世德：定制化液态包装/二次包装机械，明确“打造柔性供应链体系”；中集德立：定制自动化系统解决方案（项目制、多品种小批量）。有定制化装备生产管理经验；研发主导型柔性生产与标准化量产双轨并行管理的直接证据有限', '基本满足'],\n    ['6', '有ERP/WMS/MES选型或实施经验，亲自主导系统上线', '万世德任职期间“主导公司新的ERP和WMS系统上线”，明确命中', '满足'],\n    ['7', '接受常驻广州+30%-40%出差（临沂、淮北），适应初创成长期节奏', '期望城市广州，现居广州并在穗工作多年，地理匹配；出差接受度与到岗时间简历未提及，需确认。45岁应聘初创转型期高强度岗位，意愿与节奏适应性需面谈评估', '待确认'],\n])\n\nheading(doc, '四、优先条件对照')\ntable(doc, PREF_HEADERS, [\n    ['机器人/智能装备/精密仪器等高科技机械行业背景', '万世德（智能装备、专精特新）+中集德立（自动化物流装备），行业背景契合', '命中'],\n    ['防爆/煤安认证/特种行业（电力石化矿山）设备生产管理经验', '简历未体现（行业为食品饮料、汽车饰件、包装机械、物流装备）', '未命中'],\n    ['精益生产（Lean）或六西格玛落地实践', '2005年赴日学习丰田生产模式，对零库存物料采购有实践认知；但简历中缺少系统推行精益/六西格玛项目的落地成果描述', '部分命中'],\n    ['场地受限条件下产线优化实战', '简历未体现', '未命中'],\n    ['品质体系（ISO9001等）认证或维护经验', '万世德公司质量体系第一负责人，负责体系完善与交付质量提升', '命中'],\n    ['经历初创期向成长期转型', '无明确证据；万世德与中集德立的具体发展阶段未在简历说明', '未体现'],\n])\n\nheading(doc, '五、综合优势')\nfor line in [\n    '1. 生产运营+供应链+采购全链条管理视野：从采购专员到供应链总监再到生产运营总监，对岗位管辖的PMC、采购统筹、仓储物流职能有完整的一线与统筹经验，利于从零搭建PMC与采购协同链路。',\n    '2. ERP/WMS主导上线经验明确（硬性要求6直接命中），契合公司信息系统建设与升级选型需求（精力占比约10%）。',\n    '3. 大型上市集团规范化背景（中集集团、王老吉12年），熟悉流程制度、供应商体系、KPI分解与月度复盘机制，具备体系化方法论。',\n    '4. 机制设计能力有实例：装配按劳计酬薪酬改革打破大锅饭、采购项目成本闭环奖金制，显示其在“混乱中建机制”的实际手法，与本岗转型期属性契合。',\n    '5. 质量体系第一负责人经历，覆盖岗位IQC/OQC品质管控统筹要求。',\n    '6. 管理规模匹配：现管110人、7个部门，曾管120人，高于本岗20-30人编制的统筹跨度要求。',\n    '7. 期望薪资30-50K与岗位25-35K存在重叠区间（30-35K），具备谈判空间。',\n]:\n    para(doc, line)\n\nheading(doc, '六、风险与不足')\nfor line in [\n    '1. 经验结构偏供应链：直接生产制造管理年限约3年，岗位硬性要求“15年以上生产制造管理经验”，若用人部门按严格口径衡量，其生产管理深度（排产、工艺、产线、车间现场）可能弱于供应链板块，为最大匹配风险。',\n    '2. 无多场地/多工厂协同管理经验（硬性要求4未体现），而本岗核心难点之一即三场地负载平衡与跨场地物料调度。',\n    '3. 从0到1搭建体系的可验证成果不足（硬性要求3），现有描述偏“优化完善”而非“从零建设”。',\n    '4. 简历自述“4年工作经验”与实际24年连续从业年限明显不一致，疑为平台统计口径（现职年限），需核实有无隐情或履历空窗。',\n    '5. 期望薪资上限50K高于岗位预算上限35K；若候选人锚定45-50K，谈判存在失败风险。',\n    '6. 到岗时间未在简历体现，与岗位“1个月内到岗”的紧迫要求需立即确认。',\n    '7. 现任为向董事长汇报的生产运营总监，降薪/降层级来初创企业就职的动机与稳定性需评估。',\n]:\n    para(doc, line)\n\nheading(doc, '七、简历未覆盖/信息不足事项（如实说明）')\npara(doc, '① 出差接受度与家庭安排；② 可到岗时间；③ 从0到1搭建体系的具体案例与可验证成果；④ 是否有任何多基地协同经历；⑤ ERP/WMS项目的预算规模、模块范围、实施成败细节；⑥ 生产现场管理（工艺、产线布局、产能规划）的具体深度；⑦ 期望薪资的可谈下限。以上均为简历未提供信息，本报告不作推测。')\n\nheading(doc, '八、建议面试重点核实问题')\nfor line in [\n    '1. 生产管理深度：在万世德实际主导的排产模式、产能规划、产线与工艺管理细节；如何界定生产计划与制造的职责分工。',\n    '2. ERP/WMS上线：选型过程、需求梳理、实施方管理、上线后效果量化（库存准确率、结账周期等）、踩坑与改进。',\n    '3. 从0到1案例：任一授权其从零建立流程/制度/团队的经历及可验证成果。',\n    '4. “4年工作经验”标注的解释与完整履历核对。',\n    '5. 多场地场景模拟题：三场地订单分配与负载平衡如何设计决策机制（考察方法论迁移能力）。',\n    '6. 出差（约20%-40%往返临沂/淮北）、到岗时间、薪资在35K内的接受度。',\n]:\n    para(doc, line)\n\nheading(doc, '九、结论与推荐意见')\npara(doc, '综合判定：有条件推荐面试（建议推进）。', bold=True)\npara(doc, '理由：7条硬性要求中，学历（1）、ERP/WMS主导上线（6）明确满足；柔性生产双模式（5）基本满足；两种企业形态经验（2）形式满足但生产制造直接年限存疑；从0到1（3）、多场地（4）证据不足；出差意愿（7）待确认。其行业背景（智能装备/自动化）、全链条职能覆盖（生产+计划+采购+仓库+品质）、机制设计与信息系统落地能力与本岗高度相关，属于本批候选人中值得面试验证的对象。建议面试聚焦验证：生产制造直接管理深度、从0到1经历真实性、多场地场景的方法论迁移能力，以及35K内薪资与到岗时间。若上述核实通过，可进入下一轮；若生产管理深度经面谈仍不足，则不建议录用。')\n\ndoc.save('/workspace/outputs/候选人评估报告_宋先生_生产制造运营总监.docx')\nprint('saved song')\n\n# ============ 黄和芳 ============\ndoc = base_doc('候选人评估报告', '应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：黄和芳｜评估日期：2026-10-22')\n\nheading(doc, '一、岗位评估基准（摘要）')\npara(doc, '本报告依据岗位说明书对候选人进行逐项对照。岗位关键背景：公司为国巡机器人（复杂恶劣场景巡检机器人，全国出货量第一，科创板上市准备期），设广州/山东临沂/安徽淮北三生产基地，处于初创期向成长期转型，本岗为“从混乱中建体系”；汇报CEO/总裁；常驻广州+约20%-40%出差（临沂、淮北）；管辖三场地生产、仓库、PMC、采购统筹、IQC/OQC，团队20-30人；期望1个月内到岗。硬性要求共7条，须全部满足。')\n\nheading(doc, '二、候选人基本情况（摘自简历）')\nfor line in [\n    '黄和芳，男，38岁，籍贯湖南，现于东莞工作，手机13650945186；应聘职务制造总监/生产总监；简历未标注期望薪资。招聘渠道档案标注“10年以上”经验，简历自述从事制造业管理工作16年。',\n    '教育背景：华南理工大学本科，机电一体化，2005.09-2009.07（专业对口，985高校）。',\n    '培训/认证：ISO9001:2015、IATF16949:2016、ISO13485:2016内审员；医疗企业管理者代表。',\n    '工作经历（约16年）：',\n    '① 广州广日电气设备有限公司（2009.08-2013.05，国企上市公司，约1700人）实习→结构设计/电控测试→生产组长→生产主管；电梯控制柜、扶梯控制柜、变压器、线束。',\n    '② 广州艾颜佳美容美发设备有限公司（2013.05-2014.06，港资）生产经理；美容仪器设备。',\n    '③ 广州一康医疗设备实业有限公司（2014.06-2017.05，民营）生产经理；康复机器人等二类有源医疗器械；年度计划达成率99.4%，良率98.5%（简历原文“987.5%”应为笔误），月度安全事故0起。',\n    '④ 广州南雪医疗器械有限公司（2017.05-2022.05，港资）生产总监；多参数检测仪、红外额温计、血压计等二类有源器械；推进ISO13485体系运行；交付计划达成率由87%提升至97.5%；统筹PMC、生产、品质、采购、设备工艺、仓库。',\n    '⑤ 东莞市雷宇激光设备有限公司（2022.05-至今，民营）制造总监，向总经理汇报；CO2激光切割机、激光雕刻机、3D金属打印机等，销往全球30多国；统筹PMC、生产、质量、生产工程、仓储、售后；质量目标99%；主导CCD项目和非标产品样机试制、测试、生产、交付。',\n]:\n    para(doc, line)\n\nheading(doc, '三、硬性要求逐项对照')\ntable(doc, HARD_HEADERS, [\n    ['1', '本科以上（二本及以上），专业不限，工业工程/机械制造/自动化/管理工程类优先', '华南理工大学（985）本科，机电一体化，专业直接对口', '满足'],\n    ['2', '15年以上生产制造管理经验；大型企业规范化+中小型高科技机械/装备企业柔性生产，两种缺一不可', '2009年至今约16-17年制造业管理，主线始终在生产/制造管理岗。大型规范化：广日电气（国企上市，1700人）约4年（其中生产主管约1年余）；中小型高科技机械：艾颜佳、一康（康复机器人）、南雪（医疗器械）、雷宇（激光设备）合计约12年。两种形态均具备；大型企业阶段职级相对偏低（生产主管）', '满足'],\n    ['3', '有从0到1搭建生产运营体系的亲身经历，可验证', '简历多处“体系建设”“建立和优化制造中心各部门体系文件、流程、制度”，自述擅长“流程再造、组织架构重新设计”；但均为建立/优化表述，未见明确的从零搭建新工厂/新体系及可验证成果的案例', '证据不足'],\n    ['4', '多场地/多工厂（2个以上生产场地）协同管理经验', '五段经历均为单一工厂任职；未见任何跨场地调度与物料平衡经验', '未体现'],\n    ['5', '柔性生产（多品种小批量+定制化）管理能力，同时管理研发型与标准化两种模式', '雷宇激光：多品种激光设备、全球30多国市场、非标产品样机试制与CCD项目管理；一康：多品种康复机器人。有定制化/多品种中小批量生产经验；“同时管理研发主导型与标准化规模量产双模式”的明确证据有限', '基本满足'],\n    ['6', '有ERP/WMS/MES选型或实施经验，亲自主导系统上线', '简历全文未提及任何ERP/WMS/MES等信息系统选型、实施或上线经历；仅述及统计工具与检测仪器', '不满足（无证据）'],\n    ['7', '接受常驻广州+30%-40%出差（临沂、淮北），适应初创成长期节奏', '长期在广州、东莞工作，地理上匹配广州常驻；出差接受度、到岗时间简历均未提及，需确认', '待确认'],\n])\n\nheading(doc, '四、优先条件对照')\ntable(doc, PREF_HEADERS, [\n    ['机器人/智能装备/精密仪器等高科技机械行业背景', '一康（康复机器人）、雷宇（激光设备）、南雪（有源医疗器械），高科技机械背景契合', '命中'],\n    ['防爆/煤安认证/特种行业（电力石化矿山）设备生产管理经验', '简历未体现；其法规经验集中在医疗器械领域（ISO13485/GMP），与防爆/煤安/电力石化矿山不对应', '未命中'],\n    ['精益生产（Lean）或六西格玛落地实践', '自述“以ISO质量管理体系为基础，全面推进精益生产管理模式降本增效”，掌握5M1E、QC七大手法、五大工具；有车间精细化、看板导入、5S稽核等落地描述', '命中'],\n    ['场地受限条件下产线优化实战', '简历未明确体现（有工序优化、产线制造工艺流程优化的一般性描述）', '部分命中/证据弱'],\n    ['品质体系（ISO9001等）认证或维护经验', '很强：ISO9001/IATF16949/ISO13485内审员+医疗企业管理者代表，南雪、一康期间主导体系运行、内审外审管评', '强命中'],\n    ['经历初创期向成长期转型', '无明确证据；任职企业均为成型中小制造企业', '未体现'],\n])\n\nheading(doc, '五、综合优势')\nfor line in [\n    '1. 16年制造管理经历连续且主线清晰，岗位管辖职能面（生产、PMC、品质、采购、仓储、工艺）与岗位职责几乎一一对应，职能覆盖完整度高。',\n    '2. 质量体系能力突出（多体系内审员+管理者代表），IQC/IPQC/OQC岗位搭建有实操（雷宇期间组建SQE/IQC/IPQC/OQC），对岗位来料与成品品质管控统筹有利。',\n    '3. 精益生产与现场管理功底扎实：5S、看板、稽核办、5M1E、QC工具，交付达成率87%→97.5%、良率98.5%、安全事故0等量化成果。',\n    '4. 高科技机械/医疗器械行业背景与巡检机器人产品形态（机电一体化+有源设备）相近。',\n    '5. 38岁、职业上升期，长期任总监岗，团队建设、培训机制、绩效考核有系统方法。',\n]:\n    para(doc, line)\n\nheading(doc, '六、风险与不足')\nfor line in [\n    '1. 硬性要求6（主导ERP/WMS/MES选型或实施）在简历中完全无证据，按“必须全部满足”的口径判定为不满足；信息系统建设占本岗约10%精力且为三场地协同的关键支撑，此缺口为实质性短板。',\n    '2. 无多场地/多工厂管理经验（硬性要求4未体现），本岗需同时统管广州、临沂、淮北三地并做订单分配与负载平衡，为另一关键缺口。',\n    '3. 从0到1搭建体系的可验证案例不足（硬性要求3证据不足）；其经历多是在既有工厂内做体系完善与流程再造，与“临沂从零搭建团队、打造可复制模板”的要求存在差距。',\n    '4. 任职企业以中小型为主，最大为1700人的国企（其时任生产主管，层级较低）；缺乏大型企业核心生产管理岗的规范化熏陶深度。',\n    '5. 简历存在细节笔误（如“987.5%”“SPCH”等），文档严谨度一般；自我评价篇幅冗长、条理性欠佳，与其总监层级的表达要求有一定差距。',\n    '6. 期望薪资、到岗时间、出差接受度均未知，需确认；现居东莞，若常驻广州需评估通勤/搬迁安排。',\n]:\n    para(doc, line)\n\nheading(doc, '七、简历未覆盖/信息不足事项（如实说明）')\npara(doc, '① 任何ERP/WMS/MES系统相关经历（简历完全未提及）；② 多场地/多基地协同经验；③ 从0到1搭建新工厂或新体系的可验证案例；④ 期望薪资；⑤ 到岗时间；⑥ 出差接受度；⑦ 临沂式“异地从零建厂建团队”经验。以上均为简历未提供信息，本报告不作推测。')\n\nheading(doc, '八、建议面试重点核实问题（如进入面试）')\nfor line in [\n    '1. 信息系统：是否实际参与过ERP/WMS/MES的选型、实施或二次开发（即便以配合角色），能否描述系统上线中的具体工作与结果。',\n    '2. 从0到1：是否有新厂房投产、新产线导入、新团队组建的完整案例及可验证成果。',\n    '3. 多场地场景模拟题：三场地订单分配、产能评估与跨场地物料调拨如何设计机制。',\n    '4. 简历笔误与量化数据口径核对（良率98.5%等）。',\n    '5. 薪资期望、到岗时间、广州常驻与20%-40%出差安排。',\n]:\n    para(doc, line)\n\nheading(doc, '九、结论与推荐意见')\npara(doc, '综合判定：暂不推荐面试（建议列为备选）。', bold=True)\npara(doc, '理由：对照7条硬性要求，学历（1）、双形态经验（2）满足，柔性生产（5）基本满足，但硬性要求6（主导ERP/WMS/MES上线）在简历中无任何证据、按岗位“必须全部满足”口径判定不满足，硬性要求4（多场地管理）亦未体现，硬性要求3（从0到1）证据不足。其核心能力集中在质量体系与精益生产落地，与本岗的品质与体系板块契合，但与本岗最稀缺的三项要求（多场地统筹、信息系统主导、从零建设）存在明显缺口。建议：① 若用人部门愿意放宽系统经验（例如公司另有IT团队主导选型、本岗只需配合），可将其作为备选面试验证；② 其画像更适配公司品质总监/体系与精益改善负责人等岗位，可向人才库归档并转荐。')\n\ndoc.save('/workspace/outputs/候选人评估报告_黄和芳_生产制造运营总监.docx')\nprint('saved huang')\nPYEOF",
+            "workdir": "/workspace"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792693350433,
+      "responseId": "chatcmpl-1792693352373",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call1cbdaae5643d4b708048a5c99c0ec043",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "saved song\nsaved huang"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 442,
+        "aggregated": "saved song\nsaved huang",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792693552389,
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "两份报告已生成，验证文件完整性与内容可读性。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-772b0afd2b7f46dabdcde90c\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "calld97d505766984717aa1693b3d5e9f54a",
+          "name": "exec",
+          "arguments": {
+            "command": "ls -la /workspace/outputs/ && python - <<'PYEOF'\nfrom docx import Document\nfor f in ['/workspace/outputs/候选人评估报告_宋先生_生产制造运营总监.docx','/workspace/outputs/候选人评估报告_黄和芳_生产制造运营总监.docx']:\n    d = Document(f)\n    paras = [p.text for p in d.paragraphs if p.text.strip()]\n    tables = len(d.tables)\n    print(f.split('/')[-1], '| 段落数:', len(paras), '| 表格数:', tables)\n    print('  标题:', paras[0], '|', paras[1])\n    # spot check table content\n    t = d.tables[0]\n    print('  硬性对照表行数:', len(t.rows), '判定列:', [r.cells[3].text for r in t.rows[1:]])\nPYEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792693552403,
+      "responseId": "chatcmpl-1792693552439",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "calld97d505766984717aa1693b3d5e9f54a",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "total 88\ndrwxr-xr-x 1 node node  4096 Oct 22 18:25 .\ndrwxrwxrwx 1 root root  4096 Oct 22 18:16 ..\n-rw-r--r-- 1 node node 42179 Oct 22 18:25 候选人评估报告_宋先生_生产制造运营总监.docx\n-rw-r--r-- 1 node node 42272 Oct 22 18:25 候选人评估报告_黄和芳_生产制造运营总监.docx\n候选人评估报告_宋先生_生产制造运营总监.docx | 段落数: 42 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：宋先生｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '基本满足/存疑', '证据不足', '未体现', '基本满足', '满足', '待确认']\n候选人评估报告_黄和芳_生产制造运营总监.docx | 段落数: 40 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：黄和芳｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '满足', '证据不足', '未体现', '基本满足', '不满足（无证据）', '待确认']"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 155,
+        "aggregated": "total 88\ndrwxr-xr-x 1 node node  4096 Oct 22 18:25 .\ndrwxrwxrwx 1 root root  4096 Oct 22 18:16 ..\n-rw-r--r-- 1 node node 42179 Oct 22 18:25 候选人评估报告_宋先生_生产制造运营总监.docx\n-rw-r--r-- 1 node node 42272 Oct 22 18:25 候选人评估报告_黄和芳_生产制造运营总监.docx\n候选人评估报告_宋先生_生产制造运营总监.docx | 段落数: 42 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：宋先生｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '基本满足/存疑', '证据不足', '未体现', '基本满足', '满足', '待确认']\n候选人评估报告_黄和芳_生产制造运营总监.docx | 段落数: 40 | 表格数: 2\n  标题: 候选人评估报告 | 应聘岗位：生产制造运营总监（广州·核心高管序列）｜候选人：黄和芳｜评估日期：2026-10-22\n  硬性对照表行数: 8 判定列: ['满足', '满足', '证据不足', '未体现', '基本满足', '不满足（无证据）', '待确认']",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792693558613,
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "任务完成。两份评估报告已生成并验证可读：\n\n**交付文件**\n- `outputs/候选人评估报告_宋先生_生产制造运营总监.docx`\n- `outputs/候选人评估报告_黄和芳_生产制造运营总监.docx`\n\n每份报告含九个部分：岗位评估基准、候选人基本情况、硬性要求7条逐项对照表、优先条件对照表、综合优势、风险与不足、简历未覆盖事项（如实标注不作推测）、面试重点核实问题、结论与推荐意见。\n\n**核心结论**\n\n**宋先生 —— 有条件推荐面试**\n- 硬性满足：学历（合肥工业大学211本科，机械专业对口）、ERP/WMS主导上线（万世德“主导公司新的ERP和WMS系统上线”，硬性6直接命中）、柔性生产基本满足\n- 主要风险：直接生产制造管理年限仅约3年（主线为采购/供应链17年），与“15年以上生产制造管理经验”存疑；无多场地经验；从0到1证据不足；简历自述“4年工作经验”与实际24年从业矛盾需核实；期望30-50K上限超岗位预算\n- 面试重点验证：生产管理深度、从0到1真实性、多场地方法论迁移、35K内薪资与到岗时间\n\n**黄和芳 —— 暂不推荐，列备选**\n- 硬性不满足第6条：简历全文无任何ERP/WMS/MES选型实施经历；多场地经验（第4条）也未体现；从0到1证据不足\n- 优势在质量体系（ISO9001/IATF16949/ISO13485内审员+管理者代表）与精益落地（交付达成率87%→97.5%），职能面与岗位高度重合，更适配品质/体系类岗位\n\n两位均无多场地管理经验（硬性4），报告中已如实标注；简历未覆盖的信息（出差接受度、到岗时间、期望薪资等）均如实说明，未做编造。"
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "stop",
+      "timestamp": 1792693558621,
+      "responseId": "chatcmpl-1792693558643",
+      "__openclaw": {
+        "runId": "59f7dc87-bb5d-4cdc-bc6f-b7cdd0f7dd59"
+      }
+    }
+  ],
+  "future_observations_for_grading_only_not_input": true,
+  "training_admitted": false,
+  "source_scope_not_rechecked_by_this_literal_recovery": true
+}

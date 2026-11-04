@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+"""按 主题+风格+条目 组织批量生成计划：逐条提示词与未生成清单。
+
+方法：读取主题规格 JSON（theme/clarified/style/items），为每个条目合成一条
+确定性的生成提示词，输出计划 plan.json（prompts + pending 全量未生成清单）。
+主题含专有名词/代号且未澄清（clarified 不为 true）时拒绝组织提示词，
+对应来源纠正：conv_0066cb5f2347:6bdc2cf0（“牛高达”曾被按字面拆分生成）。
+输入：spec.json（主题规格）；输出：plan.json（生成计划）。
+"""
+import argparse
+import json
+import sys
+
+
+def fail(code, message, exit_code=2):
+    print(f"{code}: {message}", file=sys.stderr)
+    raise SystemExit(exit_code)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="把主题规格组织为批量生成计划（提示词+未生成清单）")
+    parser.add_argument("spec", help="主题规格 JSON 路径")
+    parser.add_argument("--out", required=True, help="输出计划 plan.json 路径")
+    parser.add_argument("--revision", type=int, default=1,
+                        help="计划版本号，默认 1")
+    args = parser.parse_args()
+    try:
+        with open(args.spec, encoding="utf-8-sig") as handle:
+            spec = json.load(handle)
+    except OSError as error:
+        fail("spec_read_error", str(error))
+    except UnicodeError as error:
+        fail("spec_read_error", f"spec is not valid UTF-8: {error}")
+    except json.JSONDecodeError as error:
+        fail("spec_load_error",
+             f"invalid JSON in {args.spec}: line {error.lineno} column {error.colno}")
+    if not isinstance(spec, dict):
+        fail("spec_type_error", "spec root must be a JSON object")
+    theme = spec.get("theme")
+    if not isinstance(theme, str) or not theme.strip():
+        fail("theme_missing", "spec.theme must be a non-empty string")
+    if spec.get("clarified") is not True:
+        fail("theme_not_clarified",
+             "theme contains proper nouns/codenames not clarified with the user; "
+             "ask first, then compose prompts (source: conv_0066cb5f2347:6bdc2cf0)", 3)
+    style = spec.get("style", {})
+    if not isinstance(style, dict):
+        fail("style_type_error", "spec.style must be an object")
+    items = spec.get("items", [])
+    if not isinstance(items, list):
+        fail("items_type_error", "spec.items must be a list")
+    ratio = style.get("ratio", "2048x1152")
+    quality = style.get("quality", "high quality")
+    extra = style.get("extra", "")
+    ids, prompts = [], []
+    for item in items:
+        if not isinstance(item, dict):
+            fail("item_type_error", "every spec.items entry must be an object")
+        item_id = item.get("id")
+        if not isinstance(item_id, str) or not item_id.strip():
+            fail("item_id_missing", "every item needs a non-empty string id")
+        if item_id in ids:
+            fail("item_id_duplicate", f"duplicate item id: {item_id}")
+        ids.append(item_id)
+        title = item.get("title", item_id)
+        desc = item.get("desc", "")
+        parts = [f"主题：{theme}", f"条目：{title}"]
+        if desc:
+            parts.append(f"内容：{desc}")
+        parts.append(f"比例：{ratio}；质量：{quality}")
+        if extra:
+            parts.append(f"附加约束：{extra}")
+        prompts.append({"id": item_id, "title": title,
+                        "status": "pending", "prompt": "；".join(parts)})
+    plan = {"theme": theme, "clarified": True, "style": style,
+            "revision": args.revision, "prompts": prompts, "pending": ids}
+    with open(args.out, "w", encoding="utf-8") as handle:
+        json.dump(plan, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+    print(f"composed {len(prompts)} prompts -> {args.out}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

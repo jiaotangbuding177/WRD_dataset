@@ -1,0 +1,53 @@
+<|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "apply_patch", "description": "Patch one/many files. Input requires *** Begin Patch and *** End Patch.", "parameters": {"type": "object", "required": ["input"], "properties": {"input": {"type": "string", "description": "Patch content using the *** Begin Patch/End Patch format."}}}}}
+{"type": "function", "function": {"name": "edit", "description": "Exact single-file replacements. oldText unique/non-overlapping against original. Merge nearby changes; omit large unchanged spans.", "parameters": {"type": "object", "required": ["path", "edits"], "properties": {"path": {"type": "string", "description": "File path; relative/absolute."}, "edits": {"type": "array", "items": {"type": "object", "required": ["oldText", "newText"], "properties": {"oldText": {"type": "string", "description": "Exact original text; unique and non-overlapping in this call."}, "newText": {"type": "string", "description": "Replacement text."}}}, "description": "Targeted replacements against original file; no overlap/nesting. Merge nearby changes."}}}}}
+{"type": "function", "function": {"name": "exec", "description": "Run shell now; background continuation supported. Completed calls return command output directly. Use process only when exec reports running with a sessionId; output text alone is not a process handle. Long run: automatic completion wake when enabled and output/failure occurs; otherwise process confirms completion. No sleep loops for reminders/follow-ups; use automations. TTY CLI/UI/coding agent: pty=true. Quote arguments containing shell metacharacters, including URL query strings with `?` or `&`.", "parameters": {"type": "object", "required": ["command"], "properties": {"title": {"type": "string", "maxLength": 120, "description": "Every call: short purpose; never claim success. No secrets."}, "command": {"type": "string", "description": "Shell command."}, "workdir": {"type": "string", "description": "Omit/empty string: default; whitespace-only invalid."}, "env": {"type": "object", "patternProperties": {"^.*$": {"type": "string"}}, "description": "Literal overrides; no expansion. Omit to inherit."}, "yieldMs": {"type": "number", "description": "Milliseconds before backgrounding; default 10000."}, "background": {"type": "boolean", "description": "Background now; timeoutSeconds applies."}, "timeoutSeconds": {"type": "number", "description": "Process lifetime in seconds; 0 disables."}, "pty": {"type": "boolean", "description": "PTY for TTY-required CLIs/coding agents."}, "elevated": {"type": "boolean", "description": "Host elevation if allowed."}, "host": {"enum": ["auto", "sandbox", "gateway", "node"], "type": "string", "description": "Omit/auto: inherit configured host."}, "ask": {"type": "string", "description": "Requests stricter approvals under tools.exec.mode and host policy; channel-origin calls cannot override host ask=off."}, "node": {"type": "string", "description": "Node id/name for host=node."}}}}}
+{"type": "function", "function": {"name": "ls", "description": "List directory entries in binary filename order, including dotfiles and links. Names are JSON-quoted; / marks actual directories. Pass the returned after cursor with the same path to continue.", "parameters": {"type": "object", "properties": {"path": {"type": "string", "description": "Directory; default cwd."}, "limit": {"type": "number", "description": "Max entries; default 500."}, "after": {"type": "string", "description": "Filename cursor returned by the previous page."}}}}}
+{"type": "function", "function": {"name": "process", "description": "Control existing exec: list, poll, log, write, send-keys, submit, paste, kill. poll/log: status, output, quiet success, completion without auto-wake, input hints. Others: input/intervention. No polling as timer/reminder; scheduled follow-up uses automations.", "parameters": {"type": "object", "required": ["action"], "properties": {"action": {"type": "string", "enum": ["list", "poll", "log", "write", "send-keys", "submit", "paste", "kill", "clear", "remove"], "description": "Process action (list|poll|log|write|send-keys|submit|paste|kill|clear|remove)"}, "sessionId": {"type": "string", "description": "Required for every action except list."}, "data": {"type": "string", "description": "Data to write for write"}, "keys": {"type": "array", "items": {"type": "string"}, "description": "Key tokens to send for send-keys"}, "hex": {"type": "array", "items": {"type": "string"}, "description": "Hex bytes to send for send-keys"}, "literal": {"type": "string", "description": "Literal string for send-keys"}, "text": {"type": "string", "description": "Text to paste for paste"}, "bracketed": {"type": "boolean", "description": "Wrap paste in bracketed mode"}, "eof": {"type": "boolean", "description": "Close stdin after write"}, "offset": {"type": "number", "description": "Log offset"}, "limit": {"type": "number", "description": "Log length"}, "timeout": {"type": "number", "description": "For poll: wait up to this many milliseconds before returning; max 30000 ms, higher values are clamped to 30000", "minimum": 0}}}}}
+{"type": "function", "function": {"name": "read", "description": "Read text/image file (jpg/png/gif/webp/bmp); images attach to model context. Text caps 2000 lines or 50KB. Continue with offset/limit, or cursor within a long line.", "parameters": {"type": "object", "required": ["path"], "properties": {"path": {"type": "string", "description": "File path; relative/absolute."}, "offset": {"type": "integer", "minimum": 1, "description": "Start line; 1-based."}, "limit": {"type": "number", "description": "Max lines."}, "cursor": {"type": "integer", "minimum": 0, "description": "Character position within the start line; 0-based."}, "optional": {"type": "boolean", "const": true, "description": "Missing paths return structured not_found instead of failing."}}}}}
+{"type": "function", "function": {"name": "write", "description": "Write/overwrite file; creates parent directories.", "parameters": {"type": "object", "required": ["path", "content"], "properties": {"path": {"type": "string", "description": "File path; relative/absolute."}, "content": {"type": "string", "description": "File content."}}}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+请使用中文回复，除非用户明确使用其他语言。
+
+请帮我整理一份我的个人使用画像，用途是让我在不同 AI 工具之间保持一致的协作体验。请基于你当前能访问到的、与我相关的长期信息和本次会话上下文进行整理。在涉及我的指令和偏好时，请尽量保留我原本的表述方式，不要过度改写。
+
+分类（按以下顺序输出）
+
+指令：我明确要求遵循的规则，包括语气、格式、风格、"始终做 X"、"绝不做 Y" 以及对助手行为的纠正。仅整理可从长期记忆中明确识别并客观存在的规则，不临时新增、不强加、不脑补未明确提出的要求。
+
+身份：姓名、年龄、所在地、教育背景、家庭、人际关系、语言能力和个人兴趣（仅包含我主动分享过的非敏感信息，不输出证件号、联系方式、账号等隐私数据）。
+
+职业：当前和过往的职位、公司以及主要技能领域。
+
+项目：我实际参与构建或投入精力的项目。每个项目一条。包含项目功能、当前状态以及关键决策。以项目名称或简短描述作为条目开头。
+
+偏好：广泛适用的观点、品味和工作风格偏好。
+
+格式
+
+使用分类标题作为每个类别的节标题。每个类别内，每行一条记录，按日期从早到晚排列。每行格式：
+
+[YYYY-MM-DD] - 条目内容
+
+如果日期未知，使用 [unknown] 代替。
+
+输出
+
+将整个画像包裹在一个代码块中，方便我复制。
+
+代码块之后，简要说明：这是否已覆盖你当前能整理出的全部相关信息；若还有未纳入的维度或你不确定的条目，请列出来，由我判断是否补充。
+
+本次环境没有提供长期记忆或个人知识库，只能使用这条请求中明确出现的信息。<|im_end|>
+<|im_start|>assistant

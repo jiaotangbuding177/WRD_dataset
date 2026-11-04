@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+"""Build a self-contained interactive questionnaire HTML from a spec JSON.
+
+Public usage:
+    python {SKILL}/scripts/build_questionnaire.py {OUT}/spec.json --out {OUT}/<问卷名>.html
+
+Input spec JSON:
+{
+  "title": "问卷标题",
+  "intro": "开头说明文字（可空）",
+  "cfg": {"admin_password": "666888", "submitter_note": "可选，提交人说明", "storage_key": "可选，本地存储键"},
+  "submitter_fields": [{"label": "姓名", "required": true}, ...],
+  "questions": [
+    {"type": "radio",    "title": "...", "required": true, "options": ["A、...", "B、..."]},
+    {"type": "checkbox", "title": "...", "required": true, "options": ["..."], "max": 3},
+    {"type": "text",     "title": "...", "required": false, "placeholder": "..."}
+  ]
+}
+Output: one self-contained HTML file (UTF-8) with submitter info, submission records,
+        admin panel, CSV/JSON export, receipt download/import, print view.
+Errors: exit 2 with single-line "build_questionnaire_error: ..." on stderr.
+"""
+from __future__ import annotations
+
+import argparse
+import html
+import json
+import sys
+from pathlib import Path
+
+TEMPLATE_PATH = Path(__file__).resolve().parent.parent / "templates" / "questionnaire.template.html"
+KNOWN_TYPES = {"radio", "checkbox", "text"}
+
+
+class BuildError(Exception):
+    pass
+
+
+def validate(spec: dict) -> None:
+    if not isinstance(spec, dict):
+        raise BuildError("spec must be a JSON object")
+    title = spec.get("title")
+    if not isinstance(title, str) or not title.strip():
+        raise BuildError("missing or empty field: title")
+    questions = spec.get("questions")
+    if not isinstance(questions, list) or not questions:
+        raise BuildError("missing or empty field: questions")
+    fields = spec.get("submitter_fields")
+    if not isinstance(fields, list) or not fields:
+        raise BuildError("missing or empty field: submitter_fields (at least one submitter field is required)")
+    for i, f in enumerate(fields):
+        if not isinstance(f, dict) or not isinstance(f.get("label"), str) or not f["label"].strip():
+            raise BuildError(f"submitter_fields[{i}] needs a non-empty label")
+    for i, q in enumerate(questions):
+        if not isinstance(q, dict):
+            raise BuildError(f"questions[{i}] must be an object")
+        if q.get("type") not in KNOWN_TYPES:
+            raise BuildError(f"questions[{i}] has unknown type: {q.get('type')!r} (supported: radio/checkbox/text)")
+        if not isinstance(q.get("title"), str) or not q["title"].strip():
+            raise BuildError(f"questions[{i}] needs a non-empty title")
+        if q["type"] in ("radio", "checkbox"):
+            options = q.get("options")
+            if not isinstance(options, list) or len(options) < 2:
+                raise BuildError(f"questions[{i}] ({q['type']}) needs an options list with >= 2 items")
+        if "max" in q and q["type"] == "checkbox":
+            if not isinstance(q["max"], int) or q["max"] < 1 or q["max"] > len(q["options"]):
+                raise BuildError(f"questions[{i}] max must be an integer in 1..{len(q['options'])}")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Build a self-contained questionnaire HTML from a spec.")
+    parser.add_argument("spec", help="spec JSON file (see module docstring for the format)")
+    parser.add_argument("--out", required=True, help="path of the HTML file to write")
+    args = parser.parse_args()
+    try:
+        try:
+            raw = open(args.spec, "rb").read()
+        except OSError as error:
+            raise BuildError(f"cannot read spec file: {error}")
+        try:
+            spec = json.loads(raw.decode("utf-8-sig"))
+        except (UnicodeError, json.JSONDecodeError) as error:
+            raise BuildError(f"invalid JSON in spec: {error}")
+        validate(spec)
+        if not TEMPLATE_PATH.is_file():
+            raise BuildError(f"template not found next to the skill scripts: {TEMPLATE_PATH}")
+        template = TEMPLATE_PATH.read_text(encoding="utf-8")
+        qdata = {
+            "title": spec["title"].strip(),
+            "intro": spec.get("intro", ""),
+            "cfg": spec.get("cfg", {}) or {},
+            "submitter_fields": spec["submitter_fields"],
+            "questions": spec["questions"],
+        }
+        embedded = json.dumps(qdata, ensure_ascii=False).replace("</", "<\\/")
+        page = (
+            template.replace("{{QDATA_JSON}}", embedded)
+            .replace("{{TITLE}}", html.escape(spec["title"].strip(), quote=True))
+            .replace("{{INTRO}}", html.escape(spec.get("intro", "")))
+        )
+        try:
+            with open(args.out, "w", encoding="utf-8") as handle:
+                handle.write(page)
+        except OSError as error:
+            raise BuildError(f"cannot write output file: {error}")
+    except BuildError as error:
+        print(f"build_questionnaire_error: {error}", file=sys.stderr)
+        return 2
+    print(f"wrote {args.out} ({len(spec['questions'])} questions)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

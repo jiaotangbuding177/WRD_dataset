@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+"""Generate boundary fixture minimal.docx (no 南移/CMIP6 keywords) and run all replay cases for real."""
+import hashlib, json, os, shutil, subprocess, sys
+
+ROOT = "/workspace"
+FIX = f"{ROOT}/outputs/reproduction_inputs"
+REC = f"{ROOT}/outputs/making_records"
+SKILL = f"{ROOT}/outputs/candidate/skill"
+
+# 1. boundary docx fixture: one paragraph, no scan keywords
+def build_minimal_docx():
+    import docx
+    d = docx.Document()
+    d.add_paragraph("ENSO 指数变化与盐度重构方法概述。")
+    d.save(f"{FIX}/minimal.docx")
+    raw = open(f"{FIX}/minimal.docx", "rb").read()
+    return {"path": f"{FIX}/minimal.docx", "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+
+minimal_pin = build_minimal_docx()
+print("minimal.docx", json.dumps(minimal_pin))
+
+def run_case(cid, program, input_file, out_dir, expect_exit, keywords=None):
+    """Bind input_file at the case input path, run the public command, capture actuals."""
+    bind = f"{REC}/bindings/{cid}"
+    shutil.rmtree(bind, ignore_errors=True)
+    os.makedirs(f"{bind}/input", exist_ok=True)
+    os.makedirs(f"{bind}/out", exist_ok=True)
+    bound_name = os.path.basename(input_file)
+    shutil.copyfile(input_file, f"{bind}/input/{bound_name}")
+    argv = ["python", f"{SKILL}/{program}", f"{bind}/input/{bound_name}"]
+    if keywords:
+        argv += ["--keywords", keywords]
+    argv += ["--out", f"{bind}/out/{out_dir}"]
+    r = subprocess.run(argv, capture_output=True, text=True)
+    out_files = {}
+    for root, _dirs, names in os.walk(f"{bind}/out"):
+        for n in sorted(names):
+            p = os.path.join(root, n)
+            rel = os.path.relpath(p, f"{bind}/out")
+            raw = open(p, "rb").read()
+            out_files[rel] = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+    result = {
+        "case": cid, "program": program, "argv": argv,
+        "expected_exit": expect_exit, "returncode": r.returncode,
+        "stdout": r.stdout, "stderr": r.stderr,
+        "outputs": out_files,
+    }
+    ok = r.returncode == expect_exit
+    result["status"] = "PASS" if ok else "FAIL"
+    print(json.dumps(result, ensure_ascii=False))
+    return result
+
+results = [minimal_pin]
+results.append(run_case("extract_normal", "scripts/extract_texts.py", f"{FIX}/manuscript.txt", "extracts", 0))
+results.append(run_case("extract_boundary", "scripts/extract_texts.py", f"{FIX}/tiny.txt", "out_boundary", 0))
+results.append(run_case("extract_docx", "scripts/extract_texts.py", f"{FIX}/manuscript.docx", "out_docx", 0))
+results.append(run_case("scan_normal", "scripts/scan_docx_keywords.py", f"{FIX}/manuscript.docx", "kh", 0, keywords="南移,CMIP6"))
+results.append(run_case("scan_boundary", "scripts/scan_docx_keywords.py", f"{FIX}/minimal.docx", "kh_boundary", 0, keywords="南移,CMIP6"))
+
+# absent-path invalid cases: no file supplied
+for cid, program in (("extract_absent", "scripts/extract_texts.py"), ("scan_absent", "scripts/scan_docx_keywords.py")):
+    bind = f"{REC}/bindings/{cid}"
+    shutil.rmtree(bind, ignore_errors=True)
+    os.makedirs(f"{bind}/input", exist_ok=True)
+    os.makedirs(f"{bind}/out", exist_ok=True)
+    argv = ["python", f"{SKILL}/{program}", f"{bind}/input/absent.docx"]
+    if program.endswith("scan_docx_keywords.py"):
+        argv += ["--keywords", "南移,CMIP6"]
+    argv += ["--out", f"{bind}/out/out_invalid"]
+    r = subprocess.run(argv, capture_output=True, text=True)
+    results.append({"case": cid, "program": program, "argv": argv, "expected_exit": 2,
+                    "returncode": r.returncode, "stdout": r.stdout, "stderr": r.stderr,
+                    "outputs": {}, "status": "PASS" if r.returncode == 2 else "FAIL"})
+    print(json.dumps(results[-1], ensure_ascii=False))
+
+with open(f"{REC}/run_results.json", "w", encoding="utf-8") as f:
+    json.dump(results, f, ensure_ascii=False, indent=1)
+bad = [r for r in results if isinstance(r, dict) and r.get("status") == "FAIL"]
+print("FAILURES:", len(bad))
+sys.exit(1 if bad else 0)

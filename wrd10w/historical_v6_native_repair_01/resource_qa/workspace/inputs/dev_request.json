@@ -1,0 +1,16 @@
+{
+  "schema_version": "data_field_mask_request_v1",
+  "input_workbook": "dev_input.xlsx",
+  "output_workbook": "dev_outputs/masked.xlsx",
+  "report_file": "dev_outputs/masking_report.json",
+  "worksheets": [
+    {
+      "name": "待脱敏记录",
+      "header_row": 1,
+      "data_start_row": 2,
+      "data_end_row": 17,
+      "columns": ["客户名称", "联系人姓名", "联系电话", "证件号码", "电子邮箱", "联系地址"]
+    }
+  ],
+  "masking": {"prefix_chars": 2, "suffix_chars": 2, "replacement": "***"}
+}

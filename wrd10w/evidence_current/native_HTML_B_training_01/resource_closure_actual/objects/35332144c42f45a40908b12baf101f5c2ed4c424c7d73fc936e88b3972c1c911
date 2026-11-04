@@ -1,0 +1,101 @@
+[
+  {
+    "label": "REGENERATE_MAKER",
+    "argv": [
+      "/opt/eval-venv/bin/python",
+      "/workspace/outputs/skill/scripts/gen_animation.py",
+      "--config",
+      "/workspace/outputs/fixtures/skating/config.json",
+      "--topic",
+      "/workspace/outputs/fixtures/skating/topic.js",
+      "--scaffold",
+      "/workspace/outputs/skill/assets/scaffold.js",
+      "--out",
+      "/workspace/independent_results/maker.html"
+    ],
+    "rc": 0,
+    "stdout": "gen_animation: 已生成 /workspace/independent_results/maker.html (14920 字节)\n",
+    "stderr": ""
+  },
+  {
+    "label": "EXACT_PUBLIC_MAKER_VERIFY",
+    "argv": [
+      "node",
+      "/workspace/outputs/skill/scripts/verify_animation.mjs",
+      "/workspace/independent_results/maker.html",
+      "--out",
+      "/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.json",
+      "--screenshot",
+      "/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.png"
+    ],
+    "rc": 0,
+    "stdout": "{\n  \"url\": \"file:///workspace/independent_results/maker.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 28,\n      \"f2\": 76\n    },\n    \"播放中画面内容变化\": true,\n    \"HUD 时间推进\": {\n      \"t1\": 1.6,\n      \"t2\": 2.2\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2.3,\n      \"pt2\": 2.3\n    },\n    \"继续后恢复播放\": true,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": true,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.png\"\n  },\n  \"ok\": true,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.png\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "label": "REGENERATE_SYNTHETIC_BALL",
+    "argv": [
+      "/opt/eval-venv/bin/python",
+      "/workspace/outputs/skill/scripts/gen_animation.py",
+      "--config",
+      "/workspace/outputs/skill/examples/ball_bounce/config.json",
+      "--topic",
+      "/workspace/outputs/skill/examples/ball_bounce/topic.js",
+      "--scaffold",
+      "/workspace/outputs/skill/assets/scaffold.js",
+      "--out",
+      "/workspace/independent_results/ball.html"
+    ],
+    "rc": 0,
+    "stdout": "gen_animation: 已生成 /workspace/independent_results/ball.html (11547 字节)\n",
+    "stderr": ""
+  },
+  {
+    "label": "EXACT_PUBLIC_BALL_VERIFY",
+    "argv": [
+      "node",
+      "/workspace/outputs/skill/scripts/verify_animation.mjs",
+      "/workspace/independent_results/ball.html",
+      "--out",
+      "/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.json",
+      "--screenshot",
+      "/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.png"
+    ],
+    "rc": 1,
+    "stdout": "{\n  \"url\": \"file:///workspace/independent_results/ball.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 23,\n      \"f2\": 71\n    },\n    \"播放中画面内容变化\": false,\n    \"HUD 时间推进\": {\n      \"t1\": 1.5,\n      \"t2\": 2.1\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2.1,\n      \"pt2\": 2.1\n    },\n    \"继续后恢复播放\": true,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": true,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.png\"\n  },\n  \"ok\": false,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.png\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "label": "VERIFIER_FALSE_RESUME_CANARY",
+    "argv": [
+      "node",
+      "/workspace/outputs/skill/scripts/verify_animation.mjs",
+      "/workspace/independent_results/resume_disabled_canary.html",
+      "--out",
+      "/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.json",
+      "--screenshot",
+      "/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.png"
+    ],
+    "rc": 1,
+    "stdout": "{\n  \"url\": \"file:///workspace/independent_results/resume_disabled_canary.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 24,\n      \"f2\": 73\n    },\n    \"播放中画面内容变化\": false,\n    \"HUD 时间推进\": {\n      \"t1\": 1.4,\n      \"t2\": 2\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2,\n      \"pt2\": 2\n    },\n    \"继续后恢复播放\": true,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": true,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.png\"\n  },\n  \"ok\": false,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.png\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "label": "BAD_OPTIONAL_SUBTITLE_TYPE",
+    "argv": [
+      "/opt/eval-venv/bin/python",
+      "/workspace/outputs/skill/scripts/gen_animation.py",
+      "--config",
+      "/workspace/independent_results/subtitle_nonstring.json",
+      "--topic",
+      "/workspace/outputs/skill/examples/ball_bounce/topic.js",
+      "--scaffold",
+      "/workspace/outputs/skill/assets/scaffold.js",
+      "--out",
+      "/workspace/independent_results/bad_subtitle.html"
+    ],
+    "rc": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/outputs/skill/scripts/gen_animation.py\", line 159, in <module>\n    main()\n  File \"/workspace/outputs/skill/scripts/gen_animation.py\", line 136, in main\n    \"<!DOCTYPE html>\\n<html lang=\\\"\" + cfg.get(\"lang\", \"zh\") + \"\\\">\\n<head>\\n\"\nTypeError: can only concatenate str (not \"int\") to str\n"
+  }
+]

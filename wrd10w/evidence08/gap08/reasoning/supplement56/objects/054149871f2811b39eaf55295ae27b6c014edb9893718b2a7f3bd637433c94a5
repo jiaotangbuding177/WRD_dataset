@@ -1,0 +1,42 @@
+{
+  "protocol": "task-group-pipeline-v1",
+  "stage": "evaluation",
+  "task_id": "T0112",
+  "input": "技术转移中心需要汇总 inputs/成果转化.xlsx，请交付 成果赋权与转化分析.xlsx 和 成果转化摘要.docx，按技术领域、转化金额档位（0至100万元，含100；超过100万元至300万元，含300；超过300万元）、去重公司数及融资披露状态统计；洽谈中项目不计已实现转化金额，“无披露”不等于未融资。报告四段分别不超过400字，给可核的图表。",
+  "context": {
+    "workspace_inputs": "/workspace/inputs",
+    "delivery_directory": "/workspace/outputs",
+    "instruction": "按清单name读取本题输入；所有交付文件保存到/workspace/outputs，保留委托指定名称；一次用户委托，无后轮。"
+  },
+  "followup_inputs": [],
+  "resources": [
+    {
+      "name": "inputs/成果转化.xlsx",
+      "path": "D:\\skillloop\\output\\20261020_one_request_wrd\\T0112_wrd\\workspace\\inputs\\成果转化.xlsx",
+      "sha256": "9edd8e62d7de7df979b9c4762a8be27fb7001c942daf04deb37ac698611b317b",
+      "mount": "inputs/成果转化.xlsx"
+    }
+  ],
+  "learned_skills": [
+    {
+      "id": "workbook-mask",
+      "source_package_id": "wrd-t0112",
+      "path": "D:\\skillloop\\output\\20261020_one_request_wrd\\T0112_wrd\\workspace\\learned_skills\\workbook-mask",
+      "files": {
+        "assets/report_template.md": "c3dbd7467424cad43cd51ab52ac48b870b66ab6a40019965461660ab50a48513",
+        "README.md": "3827acc05e976edfb977958e5faf1b2d7b24aacdae803645cbb9a1159105e710",
+        "request.template.json": "5df3a63334b6ab5404534c8dc2500c6be946361e98709bf5be5f2ca424ef80fc",
+        "scripts/run.py": "2b1636386c48f302418e5bc2187f38cdbbcb705f07b72195d2a91302a7689221",
+        "SKILL.md": "fd879903d3c9060f27d4fe75af2b5e81010aee8688b16b253756cbf0a2097938",
+        "workflow.json": "24770ded08be456ad2a75442e2200f31861efcbeaa197218857daf85e5ba2795"
+      }
+    }
+  ],
+  "required_commands": [
+    "python",
+    "node",
+    "libreoffice",
+    "pdftoppm"
+  ],
+  "runtime_observation_seconds": 0
+}

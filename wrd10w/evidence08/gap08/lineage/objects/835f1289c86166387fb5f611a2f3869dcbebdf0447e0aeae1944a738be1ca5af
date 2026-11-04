@@ -1,0 +1,55 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/stage_notes.md",
+    "outputs/skill/templates/poc_report_template.md",
+    "outputs/skill/templates/poc_report_technical_template.md",
+    "outputs/skill/scripts/extract_texts.py",
+    "outputs/skill/scripts/ocr_pdf.py",
+    "outputs/skill/scripts/scan_numeric_refs.py",
+    "outputs/skill/scripts/check_scores.py",
+    "outputs/skill/scripts/export_digest.py",
+    "outputs/skill/scripts/export_pdf.py"
+  ],
+  "replaced_work": [
+    "复用 reusable/skill_1 (doc-review-report) 的 extract_texts.py、scan_numeric_refs.py、export_digest.py 原样复制，未改写；该技能的提取-扫描-导出管线与本路线 s1/s3 完全同构",
+    "未复用 skill_2（论文数据智审，维度与本路线不符）与 skill_3（新闻摘要，仅其 export_digest 来源与 skill_1 相同）",
+    "新建 ocr_pdf.py：4 条历史会话中 2 条上传扫描版 PDF 需手工 pdftoppm+tesseract，固化为一条命令并输出页码标记",
+    "新建 check_scores.py：历史两次评分加总不一致（50 vs 63、67 vs 70）与改分后全文残留旧分数（conv_61a472bf9ac9:msg_143），固化为加总/满分/期望总分/残留四项校验",
+    "新建 export_pdf.py：历史 PDF 中文字体渲染翻车（conv_ef03550765dd:msg_86），固化为 docx 中转 + pdftotext 中文回读校验，--keep-docx 顺带产出 Word 版",
+    "新建两份模板：全角度 9 节骨架（4 条成功交付的共同结构）与技术路线视角骨架（conv_61a472bf9ac9:msg_161 重构成功案例）",
+    "stage_notes.md 记录：扫描件 OCR 是常态、角度由用户指定不套默认、改分流程、评级档位用户自定义不硬编码、文件名禁用中文引号（conv_ef03550765dd:msg_65 找不到文件）"
+  ],
+  "program_runs": [
+    {
+      "command": "python3 skill/scripts/extract_texts.py sample_report.md sample_scan.pdf --out extracted",
+      "result": "exit=3（符合设计）：md 提取成功，sample_scan.pdf 报'PDF 无文本层'并写入 index.json.errors，提示转 OCR"
+    },
+    {
+      "command": "python3 skill/scripts/ocr_pdf.py sample_scan.pdf --out extracted/sample_scan.txt；python3 skill/scripts/ocr_pdf.py missing.pdf --out /tmp/x.txt",
+      "result": "exit=0，1 页中文 OCR 成功（合成扫描件）；missing 输入 exit=2。已知问题：OCR 有识别噪声（'直接'误作'宣接'），已在 SKILL.md 关键判断中要求关键数字核对原图"
+    },
+    {
+      "command": "python3 skill/scripts/scan_numeric_refs.py extracted/sample_report.txt --out scan.json",
+      "result": "exit=0，scan.json 正常产出"
+    },
+    {
+      "command": "python3 skill/scripts/check_scores.py sample_report.md --out check_pass.json；check_scores.py sample_bad.md --stale \"32分,68分\" --expect-total 42；check_scores.py sample_forms.md",
+      "result": "通过样例 exit=0（3 指标和=总分）；坏样例 exit=3 并正确报出 加总不符/总分≠期望/残留旧分数 三项；'N/M' 与 '| 总分 | | **42/100** |' 两种表格形态均正确解析"
+    },
+    {
+      "command": "python3 skill/scripts/export_digest.py sample_report.md --format docx --out sample_report2.docx",
+      "result": "exit=0（pandoc 引擎，内置回读校验通过）"
+    },
+    {
+      "command": "python3 skill/scripts/export_pdf.py sample_report.md --out sample_report.pdf --keep-docx keep_report.docx",
+      "result": "exit=0，产出 PDF（约1页，pdftotext 回读中文字符 111，中文渲染正常）与中间 docx"
+    }
+  ],
+  "known_issues": [
+    "本机无 xelatex/weasyprint，PDF 统一走 pandoc→docx→soffice 中转，已实测可用",
+    "OCR 文本存在识别噪声，报告引用关键数字前须对照原图核对（已写入技能关键判断）",
+    "check_scores.py 依赖评分表为标准 markdown 表格（表头含'指标'/'维度'，总分行首列含'总分'）；非标准手写表格会报'未识别'并提示人工确认，属预期行为",
+    "样例中的合成扫描件与评分坏样例仅用于制作期验证，放在 outputs/making_samples，不代表业务数据"
+  ]
+}

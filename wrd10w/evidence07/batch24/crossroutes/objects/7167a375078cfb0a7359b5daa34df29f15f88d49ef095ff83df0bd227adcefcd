@@ -1,0 +1,33 @@
+{
+  "prior_review": {
+    "decision": "revise",
+    "reason": "当前候选（value-revision版本，与试用挂载版本逐字一致）有真实业务试用：workflow臂完整读取SKILL.md（cases/1/workflow/openclaw_transport/session_events.jsonl:10，全文2952字符送达）并实际使用——按快路径把8镜头分镜转pages.json，4次调用scripts/make_video.py，最终成片由该脚本实际产出（outputs/.video_tmp/segs/p01-p08.mp4+timings+concat，session_events.jsonl:202显示8页全部[ok]、duration 45.57s）。交付达线：ffprobe核实outputs/攻防箭小游戏_动画宣传.mp4为1920x1080 h264+aac、45.57s，8镜头按分镜顺序、旁白取分镜稿原文（ASR回听session_events.jsonl:207）、字幕与画面经vision抽查（:213）。资源可靠且确被复用。但不能retain：complete_cost_pairs=true且按全部完整记录计cost_reduced=false——workflow 5,601,560 tokens/74次调用均高于no_skill 3,288,133/53，Token与调用数双升。增量主因有具体可修点：本环境默认TTS端点ecnu_tools.py speech 404，而脚本逐句3次重试把死端点放大成重试风暴（session_events.jsonl:64，连续3次404重试后才报video_error退出）；--tts-cmd子进程丢失PYTHONPATH致gtts ModuleNotFoundError再3次重试（:106）；gTTS随后429（:115,:124）；每次运行都现场手写wrapper，piper裸输出exit=0但文件无效又3次重试（:175,:178），并临时pip安装piper、从HF下载onnx音色（:151,:153）。这些属可局部修复的问题，且合成管线确有替代公共工作的价值，故revise而非reject；材料与试用齐全，不defer。",
+    "replaced_work": "把静态分镜/介绍图转动效解说视频的公共流程：分镜文本转pages.json、逐句TTS配音与断点续传、Ken Burns推拉平移、页间淡入淡出、逐句同步中文字幕、分段缓存与单页重做、拼接成16:9 1080p MP4——替代每次从头手写ffmpeg/ASS合成脚本与逐页调度。",
+    "resource_reliable": true,
+    "delivery_passed": true,
+    "resource_used": true,
+    "evidence_refs": [
+      "inputs/review_input.json (cases[0].arms: no_skill 3288133/53 vs workflow 5601560/74, cost_reduced=false, complete_cost_pairs=true)",
+      "inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:9-10 (SKILL.md全文成功读取，内容与candidate/SKILL.md逐字一致，试用测的是当前候选版本)",
+      "inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:54,93 (make_video.py两次exec调用), :64,106,115,124,175,178 (TTS 404/ModuleNotFound/429/裸输出重试风暴), :202 (8页segs全[ok]，成片45.57s), :207 (ASR确认旁白原文), :213 (vision确认字幕画面)",
+      "inputs/cases/1/workflow/workspace/outputs/攻防箭小游戏_动画宣传.mp4 + .video_tmp/segs/p01-p08.mp4 (ffprobe核实1080p h264+aac 45.57s，脚本实际产出)",
+      "inputs/cases/1/no_skill/response.json (对照组同样404后走gTTS本地回退，82.9s成片，说明部分增量来自技能侧TTS回退成本而非任务本身)",
+      "inputs/candidate/SKILL.md (含--tts-cmd回退指引与'404不探测'教训，但脚本内逐句3次重试与该教训相悖)"
+    ],
+    "case_findings": [
+      {
+        "case_id": "case_conv_2f75e4f55a18--value-revision",
+        "delivery": "pass",
+        "reason": "workflow臂交付真实可播mp4（ffprobe: 1920x1080 h264+aac 45.57s，非占位），8镜头按用户分镜顺序，旁白逐字取分镜稿原文并经ASR回听、字幕经vision抽查；轨迹内可见完整构建过程与验收动作，非仅凭completed判定。"
+      }
+    ],
+    "repair_notes": [
+      "tts_page.py/make_video.py --auto-tts：对404/not_found类端点错误不应逐句3次重试（本试用每句白烧3次404，session_events.jsonl:64），应在首个该类错误即整页fail-fast报video_error退出，交由--tts-cmd回退；与SKILL.md'404不探测直接切'的自有教训对齐。",
+      "--tts-cmd子进程环境：make_video调用自定义TTS命令时丢失PYTHONPATH，gtts装到--target目录即ModuleNotFoundError（:106）；在spawn命令时显式透传PYTHONPATH或在文档中写明--tts-cmd包装脚本需自带sys.path处理。",
+      "在scripts/内置一个已验证的本地回退wrapper（优先piper并自动处理raw→WAV头，gTTS作次选并提示429风险），避免每次试用现场手写tts_cmd.py两版、piper裸输出exit=0但文件无效仍3次重试（:175,:178）及临时pip安装+HF下载音色（:151,:153）的重复开销。",
+      "修复后需在TTS端点可用的真实环境重跑一次业务试用并按全部完整记录重算Token/调用，当前cost_reduced=false（Token+70%、调用+39%）不满足retain门槛。"
+    ]
+  },
+  "repair_scope": "本轮用户授权沿现有成果继续局部修复；修订次数不是结束理由。先复用旧制作记录、可靠资源和已完成结果。只修能替代公共操作/反复规划/编码/处理的具体资源或入口；不采纳硬限制调用、提前收尾或新核验关卡。若没有可修复的具体工作，保留原资源并明确无新修复，不改出相同包后再跑业务。实际程序必须按公开用法完整复现。原配对真实委托不变，无技能基线能复用即复用。",
+  "instruction": "沿现有资源只修具体重复工作；直接用程序，不默认全读、等确认或加核验循环。制作记录留包外，所有公开程序完整复现。"
+}

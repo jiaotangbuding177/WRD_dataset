@@ -1,0 +1,230 @@
+#!/usr/bin/env python3
+"""按确认口径的维度-字段 JSON 生成字段体系 md + xlsx 采集表。
+
+用法:
+  python3 build_field_system.py DIMENSIONS.json --out-dir OUT [--name 文档主标题] [--md-scores] [--html-rowspan]
+
+输入 JSON 结构见 templates/dimensions.template.json。
+退出码: 0 成功; 2 输入读取/解析失败; 3 输入结构不合法; 4 输出写出失败。
+"""
+import argparse
+import html
+import json
+import sys
+from pathlib import Path
+
+
+def fail(code, msg):
+    print(f"错误(退出{code}): {msg}", file=sys.stderr)
+    sys.exit(code)
+
+
+def load_input(path):
+    p = Path(path)
+    if not p.is_file():
+        fail(2, f"输入文件不存在: {p}")
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except Exception as e:
+        fail(2, f"JSON 解析失败: {e}")
+    if not isinstance(data, dict) or not isinstance(data.get("boards"), list) or not data["boards"]:
+        fail(3, '输入需为 {"boards": [...]}，boards 为非空数组')
+    for i, b in enumerate(data["boards"]):
+        if not isinstance(b, dict) or not b.get("name"):
+            fail(3, f"boards[{i}] 缺 name")
+        if b.get("kind") not in ("score", "support"):
+            fail(3, f"boards[{i}].kind 必须是 score 或 support")
+        sls = b.get("second_levels")
+        if not isinstance(sls, list) or not sls:
+            fail(3, f"boards[{i}]({b['name']}) 缺非空 second_levels")
+        for j, sl in enumerate(sls):
+            if not isinstance(sl, dict) or not sl.get("name"):
+                fail(3, f"boards[{i}].second_levels[{j}] 缺 name")
+            fs = sl.get("fields")
+            if not isinstance(fs, list):
+                fail(3, f"二级维度 {sl['name']} 缺 fields 数组(可为空数组)")
+            for k, f in enumerate(fs):
+                if not isinstance(f, dict) or not f.get("name"):
+                    fail(3, f"{sl['name']}.fields[{k}] 缺 name")
+    return data
+
+
+def totals(data):
+    score_boards = [b for b in data["boards"] if b["kind"] == "score"]
+    n_sl = sum(len(b["second_levels"]) for b in data["boards"])
+    n_f = sum(len(sl["fields"]) for b in data["boards"] for sl in b["second_levels"])
+    return score_boards, n_sl, n_f
+
+
+def md_cell(text):
+    return str(text if text is not None else "").replace("|", "\\|").replace("\n", " ")
+
+
+def md_table(headers, rows):
+    out = ["| " + " | ".join(headers) + " |", "|" + "|".join(["---"] * len(headers)) + "|"]
+    for r in rows:
+        out.append("| " + " | ".join(md_cell(c) for c in r) + " |")
+    return "\n".join(out)
+
+
+def html_table(headers, rows, spans):
+    """spans: 每行列表，元素为 None(被上方 rowspan 吞并) 或 (text, rowspan)。"""
+    out = ["<table>", "<thead><tr>" + "".join(f"<th>{html.escape(str(h))}</th>" for h in headers) + "</tr></thead>", "<tbody>"]
+    for r in rows:
+        cells = ["<tr>"]
+        for v in r:
+            if v is None:
+                continue
+            text, rs = v
+            attr = f' rowspan="{rs}"' if rs > 1 else ""
+            cells.append(f"<td{attr}>{html.escape(str(text))}</td>")
+        cells.append("</tr>")
+        out.append("".join(cells))
+    out.append("</tbody></table>")
+    return "\n".join(out)
+
+
+def build_markdown(data, name, md_scores, html_rowspan):
+    score_boards, n_sl, n_f = totals(data)
+    n_score, n_support = len(score_boards), len(data["boards"]) - len(score_boards)
+    L = [f"# {name}", "",
+         f"字段统计：{len(data['boards'])} 个板块（{n_score} 评分 + {n_support} 支撑）、{n_sl} 个二级维度、{n_f} 个字段",
+         "", "## 一、评分框架总览", ""]
+    ov_rows = []
+    for b in score_boards:
+        for j, sl in enumerate(b["second_levels"]):
+            if html_rowspan:
+                ov_rows.append([(b["name"], len(b["second_levels"])) if j == 0 else None,
+                                (sl["name"], 1)])
+            else:
+                ov_rows.append([b["name"] if j == 0 else "", sl["name"]])
+    ov_headers = ["一级维度", "二级维度"] + (["满分"] if md_scores else [])
+    if html_rowspan:
+        L.append(html_table(["一级维度", "二级维度"], ov_rows, True))
+    else:
+        rows = []
+        for b in score_boards:
+            for j, sl in enumerate(b["second_levels"]):
+                rows.append([b["name"] if j == 0 else "", sl["name"]] + ([sl.get("score", "")] if md_scores else []))
+        L.append(md_table(ov_headers, rows))
+    L += ["", "## 二、字段清单", ""]
+    for b in data["boards"]:
+        L += [f"### {b['name']}", ""]
+        rows, hrows = [], []
+        for sl in b["second_levels"]:
+            if not sl["fields"]:
+                rows.append([sl["name"], "（本维度暂未挂字段，按用户确认口径补充）", "", "", ""])
+                hrows.append([[(sl["name"], 1)], None, None, None, None])
+            for f in sl["fields"]:
+                rows.append([sl["name"], f["name"], f.get("desc", ""), f.get("evidence", ""), f.get("required", "")])
+                hrows.append([[(sl["name"], len(sl["fields"]))] if f is sl["fields"][0] else [None],
+                              None, None, None, None])
+        if html_rowspan:
+            fixed = []
+            for sl_i, sl in enumerate(b["second_levels"]):
+                fl = sl["fields"] or [None]
+                for fi, f in enumerate(fl):
+                    if f is None:
+                        fixed.append([("（待补充）", 1), ("本维度暂未挂字段，按用户确认口径补充", 1), ("", 1), ("", 1), ("", 1)])
+                    else:
+                        fixed.append([((sl["name"], len(sl["fields"])) if fi == 0 else None),
+                                      (f["name"], 1), (f.get("desc", ""), 1), (f.get("evidence", ""), 1), (f.get("required", ""), 1)])
+            L.append(html_table(["二级维度", "字段名", "说明", "佐证材料", "必填性"], fixed, True))
+        else:
+            L.append(md_table(["二级维度", "字段名", "说明", "佐证材料", "必填性"], rows))
+        L.append("")
+    L += ["## 三、评分表", ""]
+    sc_headers = ["一级维度", "二级维度"] + (["满分"] if md_scores else []) + ["得分", "评分说明"]
+    sc_rows = []
+    for b in score_boards:
+        for j, sl in enumerate(b["second_levels"]):
+            sc_rows.append([b["name"] if j == 0 else "", sl["name"]]
+                           + ([sl.get("score", "")] if md_scores else []) + ["", ""])
+    L.append(md_table(sc_headers, sc_rows))
+    stds = data.get("rating_standards")
+    if stds:
+        L += ["", "评级标准", ""]
+        L += [f"- {s}" for s in stds]
+    return "\n".join(L) + "\n"
+
+
+def build_xlsx(data, name, out_dir):
+    try:
+        from openpyxl import Workbook
+        from openpyxl.styles import Font
+        from openpyxl.utils import get_column_letter
+    except ImportError:
+        print("警告: 未安装 openpyxl，跳过 xlsx 生成（仅输出 md）")
+        return None
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "字段清单"
+    headers = ["序号", "板块", "一级维度", "二级维度", "满分", "字段名", "说明", "佐证材料", "必填性"]
+    ws.append(headers)
+    for c in range(1, len(headers) + 1):
+        ws.cell(row=1, column=c).font = Font(bold=True)
+    idx = 0
+    for b in data["boards"]:
+        for sl in b["second_levels"]:
+            for f in sl["fields"]:
+                idx += 1
+                ws.append([idx, b["name"], b["name"], sl["name"],
+                           sl.get("score", "") if b["kind"] == "score" else "",
+                           f["name"], f.get("desc", ""), f.get("evidence", ""), f.get("required", "")])
+    for col, w in zip("ABCDEFGHI", [6, 16, 16, 20, 8, 24, 40, 24, 10]):
+        ws.column_dimensions[col].width = w
+    ws.freeze_panes = "A2"
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{ws.max_row}"
+    ws2 = wb.create_sheet("评分表")
+    h2 = ["一级维度", "二级维度", "满分", "得分", "评分说明"]
+    ws2.append(h2)
+    for c in range(1, len(h2) + 1):
+        ws2.cell(row=1, column=c).font = Font(bold=True)
+    for b in data["boards"]:
+        if b["kind"] != "score":
+            continue
+        for sl in b["second_levels"]:
+            ws2.append([b["name"], sl["name"], sl.get("score", ""), "", ""])
+    r = ws2.max_row + 2
+    for s in data.get("rating_standards", []):
+        ws2.cell(row=r, column=1, value=s)
+        r += 1
+    for col, w in zip("ABCDE", [18, 24, 8, 8, 50]):
+        ws2.column_dimensions[col].width = w
+    ws2.freeze_panes = "A2"
+    xlsx_path = out_dir / f"{name}.xlsx"
+    wb.save(xlsx_path)
+    return xlsx_path
+
+
+def main():
+    ap = argparse.ArgumentParser(description="按确认口径生成字段体系 md+xlsx")
+    ap.add_argument("dimensions", help="维度-字段 JSON 路径")
+    ap.add_argument("--out-dir", required=True, help="输出目录")
+    ap.add_argument("--name", default=None, help="文档主标题，默认取 JSON 的 title")
+    ap.add_argument("--md-scores", action="store_true", help="md 正文保留满分/分数列（默认按历史口径去除，仅 xlsx 带分）")
+    ap.add_argument("--html-rowspan", action="store_true", help="字段清单用 HTML rowspan 表格实现合并单元格效果")
+    args = ap.parse_args()
+    data = load_input(args.dimensions)
+    name = args.name or data.get("title") or "评估信息字段体系"
+    out_dir = Path(args.out_dir)
+    try:
+        out_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        fail(4, f"无法创建输出目录 {out_dir}: {e}")
+    md = build_markdown(data, name, args.md_scores, args.html_rowspan)
+    md_path = out_dir / f"{name}.md"
+    try:
+        md_path.write_text(md, encoding="utf-8")
+    except Exception as e:
+        fail(4, f"写出 md 失败: {e}")
+    score_boards, n_sl, n_f = totals(data)
+    print(f"OK md: {md_path}")
+    print(f"统计: {len(score_boards)} 个评分一级维度 / {n_sl} 个二级维度 / {n_f} 个字段")
+    xlsx = build_xlsx(data, name, out_dir)
+    if xlsx:
+        print(f"OK xlsx: {xlsx}")
+
+
+if __name__ == "__main__":
+    main()

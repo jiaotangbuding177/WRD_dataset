@@ -1,0 +1,52 @@
+---
+name: credential-safe-hardening
+description: 用户要求排查并加固代码中的凭据泄漏（CLI密钥参数、日志/异常/输出回显Secret或token）、收紧接口最小权限（如仅允许创建草稿、禁发布/群发）、准备凭据环境注入、或做真实联调前的就绪检测（固定出口IP、IP白名单、readiness报告）时使用。产出：加固后的代码与 credential-readiness 报告。
+---
+
+# 凭据安全加固与就绪检测
+
+输入：一段已有接口/发布类代码。产出：脱敏加固后的代码 + 就绪检测记录 + readiness 报告。离线加固与检测可直接执行；真实 API 联调只在用户明确发起、凭据已由运行环境注入、且出口 IP 与白名单验证通过后进行——不满足就明示阻塞并停，不请求凭据。
+
+## 路线（5步）
+
+1. **泄漏点排查（离线扫描先行）**
+   ```
+   python {SKILL}/scripts/readiness_check.py scan <目标代码目录> --forbid-literal=--旧密钥参数名
+   ```
+   命中是线索不是结论，逐条看上下文判定：CLI 密钥参数→整段删除，改环境变量优先；print/日志/异常带密钥→出口统一过 `redact()`；`input()` 收密钥→删；发布/群发端点引用→删。文档与注释里也不许出现旧参数字面量——“全仓库 grep 不到该字面量”才是强信号。扫描报出 `.env` 只说明文件存在（内容不读），提醒不入库。tests/ 默认排除防误伤，收尾用 `--include-tests` 复核一遍。
+
+2. **按用途拆分接口实现，不简单复用**
+   先读实现确认语义差异再动手。真实案例：封面素材上传（type=thumb，返回 thumb_media_id）与正文图片上传（type=image，返回 url）必须独立函数独立实现，可用代码路径/字节码比对确认没有复用。
+
+3. **最小权限（代码级，不是口头承诺）**
+   所有 HTTP 请求发出前过权限闸：`from redact import assert_draft_only`（默认拦 message/mass、sendall、freepublish、custom/send、tags/message），并确保仓库里不存在任何发布/群发脚本。脱敏接线：`redact(str(err), extra_secrets=[本进程可能持有的密钥原文])`，必须兜底 `except Exception`——只捕 RequestException 时其他异常会绕过脱敏层。
+
+4. **凭据只由运行环境注入**
+   配置读取顺序：环境变量优先，`.env`（chmod 600）兜底；禁止 CLI 参数 / Prompt / 聊天传 Secret。Agent 不读不回显原文，只报 CONFIGURED / NOT_CONFIGURED。如实评估隔离度：Agent 与目标进程共享同一环境变量与文件权限时，标 `CREDENTIAL_ISOLATION = PARTIAL`，不得宣称“Agent 读不到 Secret”。环境无 Vault 时给注入方案：运维在服务/进程层注入环境变量（或写入 chmod 600 的 .env）。
+
+5. **就绪检测 + 报告（真实联调前的闸门）**
+   ```
+   python {SKILL}/scripts/readiness_check.py egress --expect-ip <用户指定的固定出口IP>
+   python {SKILL}/scripts/readiness_check.py probe --token-url '<token接口URL，不含appid/secret>'
+   ```
+   出口 IP：>=3 源取 >=2 一致才算稳定；正式报告前用独立进程再跑一遍，双路一致才写 PASS。IP 与目标不一致→立即停真实联调，标 `BLOCKED_BY_UNSTABLE_EGRESS_IP`。白名单探测用假凭据：errcode 40013/40125＝IP 已过白名单（假凭据被拒属预期），40164＝IP 未过白名单（先加白名单），其余/网络失败＝无法判定，如实报。离线项全部通过才请求用户配置凭据。报告按 `references/readiness-report-template.md` 写。
+
+## 真实联调（仅当用户明确发起）
+
+最小闭环即停：access_token → 测试封面(thumb) → 测试正文图(image) → 建一篇测试草稿 → 停止，等人工在平台后台核验。全程禁 mass/群发/freepublish/删素材/改设置/读用户信息。token 不得出现在任何输出、日志、报告、邮件；报告只留 HTTP status、errcode、errmsg、media_id、CDN URL、时间戳，endpoint 记录须去掉 token。凭据未注入＝`WAITING_FOR_CREDENTIAL_INJECTION`，继续等待注入，不请求原文。
+
+## 关键判断（全部来自真实会话）
+
+- **只捕 RequestException 会绕过脱敏**：其他异常类型会原样带出含 token 的 URL，出口处兜底 `except Exception` 后统一 redact。
+- **文档/注释里的旧参数字面量会让“grep 不到”失效**：写“已禁用旧密钥参数”时措辞绕开字面量本身，再用 `--forbid-literal` 复核。
+- **扫描命中≠问题**：测试文件自身含关键字、文档“已禁用”说明、变量名带 token 都会命中；看上下文人工判定，不盲改。
+- **出口 IP 单源会抖**：ipify 曾瞬断、ifconfig.me 可能返回 IPv6——多源取多数一致，单源失败不下结论。
+- **白名单探测不需要真凭据**：假 appid/secret 打 token 接口，凭 errcode 区分 IP 是否已过白名单（40013/40125 过了，40164 没过）。
+- **离线全 mock 测试通过只能判 CREDENTIAL_READY = PASS**；DRAFT_LIVE 必须真实联调 + 人工核验草稿后才能判，两者在报告里分开写。
+- **同一消息块对同一文件的多处编辑可能竞态丢失**：改完自查关键行，不轻信“已应用”回执。
+
+## 资源
+
+- `scripts/redact.py` — 脱敏 + 草稿-only 权限闸（库 + CLI，零依赖，可直接复制进目标项目）。CLI：`--text` / `--file` / `--redact-value <密钥原文>`（可重复）/ `--check-url`（命中禁用端点退出码 3）。
+- `scripts/readiness_check.py` — 三项检测：`scan <目录> [--forbid-literal=X] [--include-tests] [--json]`、`egress [--expect-ip IP]`、`probe --token-url URL`。退出码见文件头 docstring。
+- `references/readiness-report-template.md` — readiness 报告模板、真实联调报告字段口径与结论判定标准。

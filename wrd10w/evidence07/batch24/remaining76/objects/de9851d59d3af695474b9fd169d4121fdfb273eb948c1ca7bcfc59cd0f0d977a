@@ -1,0 +1,44 @@
+{
+  "_usage": "结构示例：boards[].kind 为 score(参与评分) 或 support(支撑板块)；每个二级维度挂 fields 数组，字段项含 name/desc/evidence/required。分数只在 xlsx 与加 --md-scores 时的 md 出现；维度名称、分数、字段均为占位示例，使用时整体替换为当次用户确认的口径，禁止沿用历史会话的维度当作默认答案。",
+  "title": "XX评估信息字段体系",
+  "boards": [
+    {
+      "name": "维度A",
+      "kind": "score",
+      "second_levels": [
+        {
+          "name": "二级维度A1",
+          "score": 10,
+          "fields": [
+            {"name": "字段名", "desc": "字段含义与采集口径", "evidence": "佐证材料类型", "required": "★必填"},
+            {"name": "字段名2", "desc": "...", "evidence": "...", "required": "☆建议"}
+          ]
+        },
+        {
+          "name": "二级维度A2",
+          "score": 5,
+          "fields": [
+            {"name": "字段名3", "desc": "...", "evidence": "...", "required": "○可选"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "项目基础信息",
+      "kind": "support",
+      "second_levels": [
+        {
+          "name": "基础信息",
+          "fields": [
+            {"name": "项目名称", "desc": "...", "evidence": "...", "required": "★必填"}
+          ]
+        }
+      ]
+    }
+  ],
+  "rating_standards": [
+    "<70：...（档位描述按用户确认口径填）",
+    "70-84：...",
+    "85-100：..."
+  ]
+}

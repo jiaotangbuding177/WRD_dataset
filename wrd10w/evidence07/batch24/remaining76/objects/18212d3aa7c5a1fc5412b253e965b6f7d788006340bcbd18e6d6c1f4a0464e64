@@ -1,0 +1,30 @@
+import json, hashlib, subprocess, sys
+from pathlib import Path
+
+REP = Path('/workspace/outputs/reproduction_inputs')
+conv = json.loads(Path('/workspace/inputs/conversations/conv_b8618dade74b.json').read_text(encoding='utf-8-sig'))
+msg = [m for m in conv['messages'] if m['id']=='2dd9b116-c054-4bf5-9418-ce8ed60ebbf7'][0]
+leaf = msg['content']
+assert isinstance(leaf, str)
+# manuscript.txt: full real leaf text as the extractable manuscript surrogate
+(REP/'manuscript.txt').write_text(leaf, encoding='utf-8')
+# boundary: minimal single-token file derived from the paper topic in the same message
+(REP/'tiny.txt').write_text('ENSO', encoding='utf-8')
+# invalid: real bytes under an unsupported extension
+(REP/'unsupported.xyz').write_bytes((REP/'manuscript.txt').read_bytes())
+# invalid: truncated PDF header from the real report title page text
+(REP/'broken.pdf').write_bytes(b'%PDF-1.4\n' + leaf[:64].encode('utf-8'))
+# manuscript.docx: same real leaf text, one paragraph per non-empty line
+import docx
+d = docx.Document()
+for line in leaf.splitlines():
+    if line.strip():
+        d.add_paragraph(line)
+d.save(REP/'manuscript.docx')
+
+def pin(p):
+    p = Path(p); raw = p.read_bytes()
+    return {'path': str(p), 'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)}
+
+for name in ['manuscript.txt','tiny.txt','unsupported.xyz','broken.pdf','manuscript.docx']:
+    print(name, json.dumps(pin(REP/name), ensure_ascii=False))

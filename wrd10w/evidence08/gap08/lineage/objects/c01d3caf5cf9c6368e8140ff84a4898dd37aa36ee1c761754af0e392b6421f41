@@ -1,0 +1,135 @@
+{
+  "schema": "wrd-resource-manifest-v1",
+  "resources": [
+    {
+      "id": "build_slide_plan",
+      "path": "scripts/build_slide_plan.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/build_slide_plan.py {INPUT}/ppt_request.json --out {OUT}/slide_plan.json",
+        "inputs": [
+          "PPT 请求 JSON：topic 非空字符串、pages 整数 1..50、可选 style 字符串与 confirm_free 布尔"
+        ],
+        "outputs": [
+          "slide 计划 JSON 骨架：topic/pages/style/aspect/image_width/image_height/needs_confirmation/slides（含页序 image_path）"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_70cad24899f6",
+          "message_id": "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+        },
+        {
+          "source_id": "conv_80c0ba2c2e7e",
+          "message_id": "cd55fc0f-1213-4c32-b60a-64e9ca938c4a"
+        }
+      ]
+    },
+    {
+      "id": "assemble_image_ppt",
+      "path": "scripts/assemble_image_ppt.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/assemble_image_ppt.py {INPUT}/slide_plan.json --images {INPUT}/images --out {OUT}/result.pptx",
+        "inputs": [
+          "slide 计划 JSON（pages 与 slides 一致，每页含安全相对 image_path）与 images 目录内的 PNG/JPEG 页图"
+        ],
+        "outputs": [
+          "16:9（12192000x6858000 EMU）整页图片式 PPTX，页序与计划一致，字节级确定"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_80c0ba2c2e7e",
+          "message_id": "69874714-91e7-4d1c-a218-cd8270ea4903"
+        },
+        {
+          "source_id": "conv_84d107e9e67a",
+          "message_id": "b7ef8128-8ba2-470f-a50b-1921476c1ac8"
+        }
+      ]
+    },
+    {
+      "id": "slide_prompt_plan_template",
+      "path": "templates/slide_prompt_plan.template.md",
+      "kind": "template",
+      "interface": {
+        "kind": "template",
+        "contract_version": "1",
+        "usage": "按 templates/slide_prompt_plan.template.md 填写逐页画面提示词表",
+        "inputs": [
+          "slide 计划骨架（主题/页数/风格）"
+        ],
+        "outputs": [
+          "逐页画面提示词表（填回计划 title/image_prompt）"
+        ]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {
+          "source_id": "conv_743a2a4ed77e",
+          "message_id": "39fd01e5-d375-49ec-b26c-b4abdcf1c470"
+        },
+        {
+          "source_id": "conv_80c0ba2c2e7e",
+          "message_id": "69874714-91e7-4d1c-a218-cd8270ea4903"
+        }
+      ]
+    },
+    {
+      "id": "stage_notes",
+      "path": "references/stage_notes.md",
+      "kind": "material",
+      "interface": {
+        "kind": "material",
+        "contract_version": "1",
+        "usage": "查阅 references/stage_notes.md 获取分阶段细节与程序说明",
+        "inputs": [
+          "按阶段查询"
+        ],
+        "outputs": [
+          "s1-s4 阶段细节、来源依据与程序说明"
+        ]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {
+          "source_id": "conv_70cad24899f6",
+          "message_id": "a43ada7e-1777-41ff-b373-5980e0a8b99f"
+        },
+        {
+          "source_id": "conv_743a2a4ed77e",
+          "message_id": "39fd01e5-d375-49ec-b26c-b4abdcf1c470"
+        },
+        {
+          "source_id": "conv_80c0ba2c2e7e",
+          "message_id": "69874714-91e7-4d1c-a218-cd8270ea4903"
+        },
+        {
+          "source_id": "conv_84d107e9e67a",
+          "message_id": "b7ef8128-8ba2-470f-a50b-1921476c1ac8"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "wrd-resource-validation-v2",
+  "validated_at": "2026-10-27",
+  "resource_under_test": "/workspace/outputs/skill/scripts/validate_pack.py",
+  "cli_sha256_after": "86336921615cb2d15ae7c7c531fa81a457ea201e353223e79de4900445b59f58",
+  "cli_sha256_before": "6a1e951540750ded9fb1f8b688efe25e065352184f07e28c938081159473433a",
+  "feedback_source": "/workspace/inputs/independent/actual_repair_feedback.json",
+  "reproduction_before_fix": {
+    "cli": "/workspace/inputs/previous_skill/scripts/validate_pack.py (unmodified copy, sha256 6a1e9515...433a)",
+    "OVERSTRONG_TEMPORAL_CONFLICT": {
+      "inputs": ["/workspace/inputs/independent/legal_sources.json", "/workspace/inputs/independent/legal_ledger.json", "/workspace/inputs/independent/legal_draft.json"],
+      "observed": {"exit_code": 1, "verdict": "STRUCTURAL_FAIL", "failure_id": "fact_type_conflict"},
+      "matches_feedback": true,
+      "report": "/workspace/outputs/tests/independent_baseline/repro_temporal_legal_report.json"
+    },
+    "MALFORMED_NESTED_REFS_SKIPPED": {
+      "nested_refs_not_list": {
+        "observed": {"exit_code": 0, "verdict": "STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING", "failures": 0},
+        "matches_feedback": true,
+        "report": "/workspace/outputs/tests/independent_baseline/repro_nested_not_list_report.json"
+      },
+      "nested_refs_non_object_item": {
+        "observed": {"exit_code": 0, "verdict": "STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING", "failures": 0},
+        "matches_feedback": true,
+        "report": "/workspace/outputs/tests/independent_baseline/repro_nested_non_object_report.json"
+      }
+    }
+  },
+  "verification_after_fix": {
+    "OVERSTRONG_TEMPORAL_CONFLICT": {
+      "same_inputs_as_repro": true,
+      "observed": {"exit_code": 0, "verdict": "STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING", "failures": 0,
+                   "new_semantic_review_item": "NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS"},
+      "report": "/workspace/outputs/tests/independent_baseline/fixed_temporal_legal_report.json"
+    },
+    "MALFORMED_NESTED_REFS_SKIPPED": {
+      "nested_refs_not_list": {"observed": {"exit_code": 1, "failure_id": "evidence_refs_not_list", "path": "ledger:$.task_switches[0].evidence_refs"},
+                                "report": "/workspace/outputs/tests/independent_baseline/fixed_nested_not_list_report.json"},
+      "nested_refs_non_object_item": {"observed": {"exit_code": 1, "failure_id": "evidence_refs_item_not_object", "path": "ledger:$.task_switches[0].evidence_refs[0]"},
+                                       "report": "/workspace/outputs/tests/independent_baseline/fixed_nested_non_object_report.json"}
+    }
+  },
+  "original_21_test_suite": {
+    "runner": "/workspace/outputs/tests/run_tests.py (unmodified)",
+    "fixture_generator": "/workspace/outputs/tests/make_fixtures.py (unmodified)",
+    "expected_outcomes_modified": false,
+    "result_before_revision": {"total": 21, "passed": 21, "failed": 0, "source": "/workspace/outputs/tests/original_run_log_preserved.json"},
+    "result_after_revision": {"total": 21, "passed": 21, "failed": 0, "source": "/workspace/outputs/tests/test_run_log.json"}
+  },
+  "supplementary_tests": {
+    "runner": "/workspace/outputs/tests/run_tests_extra.py",
+    "fixtures": "/workspace/outputs/tests/fixtures_extra/ (explicitly synthetic, not real business data)",
+    "result": {"total": 12, "passed": 12, "failed": 0, "source": "/workspace/outputs/tests/extra_test_log.json"},
+    "coverage": [
+      "X1 不同年份 actual/goal 同值合法（无 fact_type_conflict，进 FACT_TYPE_AMBIGUOUS 语义复核）",
+      "X2 同一年 actual 完成值与 goal 目标同值合法共存",
+      "X3 planned_goal 引用为 achieved_fact 仍硬拒 type_mismatch_planned_goal_as_achieved",
+      "X4 嵌套 evidence_refs 为字符串 -> evidence_refs_not_list + 路径（failures 恰为1）",
+      "X5 嵌套 evidence_refs 列表元素非对象 -> evidence_refs_item_not_object + 路径（failures 恰为1）",
+      "X6 嵌套 evidence_refs 为对象 -> evidence_refs_not_list",
+      "X7 合法嵌套 quote 继续通过",
+      "X8 嵌套错误 quote 继续拒绝 evidence_quote_not_contiguous（含 task_switches 路径）",
+      "X9 空的可选引用列表合法（new_assumption 空列表+嵌套空列表，无 missing_required_evidence）",
+      "X10 必需事实空引用列表仍拒绝 missing_required_evidence",
+      "X11 成稿侧嵌套畸形 evidence_refs（draft 根）拒绝且路径含 attachments",
+      "X12 账本事实级 evidence_refs 非列表拒绝且路径含 $.facts[0].evidence_refs"
+    ]
+  },
+  "package_integrity": {
+    "unchanged_files": ["SKILL.md", "schemas/draft.schema.json", "schemas/fact_ledger.schema.json", "templates/section_templates.md"],
+    "no_fixtures_or_logs_inside_skill_package": true,
+    "skill_dir_listing": ["SKILL.md", "schemas/", "scripts/", "templates/"]
+  },
+  "honest_limits": [
+    "测试通过仅证明局部结构检查有效；语义忠实度永远需要独立人工复核（工具自身输出 NEEDS_SEMANTIC_REVIEW，不宣称语义通过）",
+    "收益未经独立真实业务试跑；不宣称 retained/已入库",
+    "FACT_TYPE_AMBIGUOUS 将类型口径分歧交给人工，程序本身无法判定真矛盾"
+  ]
+}

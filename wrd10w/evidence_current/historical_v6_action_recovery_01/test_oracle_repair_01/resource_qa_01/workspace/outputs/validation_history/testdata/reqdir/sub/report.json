@@ -1,0 +1,75 @@
+{
+  "schema_version": "data_field_mask_report_v1",
+  "input_sha256": "cd8096bd15c4923f1b62551cd88c928c41c9c73f68cb7b1b3c52c3e914cffb07",
+  "output_sha256": "5268d6a1176a8bd796ae1ec56da6969915cda1d078029e20e7ebebc87979a55b",
+  "masking": {
+    "prefix_chars": 2,
+    "suffix_chars": 2,
+    "replacement": "***"
+  },
+  "sheets": [
+    {
+      "name": "S",
+      "header_row": 1,
+      "data_start_row": 2,
+      "data_end_row": 2,
+      "columns": [
+        "客户名称"
+      ],
+      "counts": {
+        "selected_cells": 1,
+        "changed_cells": 1,
+        "unchanged_text_cells": 0,
+        "blank_cells": 0,
+        "non_text_cells": 0,
+        "formula_cells": 0
+      }
+    }
+  ],
+  "totals": {
+    "selected_cells": 1,
+    "changed_cells": 1,
+    "unchanged_text_cells": 0,
+    "blank_cells": 0,
+    "non_text_cells": 0,
+    "formula_cells": 0
+  },
+  "checks": [
+    {
+      "name": "target_cells_match_expected",
+      "status": "PASS",
+      "evidence": "重开 /workspace/outputs/validation_history/testdata/reqdir/sub/out.xlsx 核对 1 个选择单元格的目标值与预期一致；不一致 0 处"
+    },
+    {
+      "name": "non_target_values_preserved",
+      "status": "PASS",
+      "evidence": "全簿 1 个工作表逐格比对 2 个单元格，非目标值保持一致；不一致 0 处"
+    },
+    {
+      "name": "styles_and_layout_preserved",
+      "status": "PASS",
+      "evidence": "比对 2 个单元格的字体/填充/边框/对齐/数字格式，及表顺序、表状态、合并区域、冻结窗格、行列宽高；不一致 0 处"
+    },
+    {
+      "name": "input_unchanged",
+      "status": "PASS",
+      "evidence": "处理前后输入SHA256一致: cd8096bd15c4923f1b62551cd88c928c41c9c73f68cb7b1b3c52c3e914cffb07"
+    },
+    {
+      "name": "deliverable_hash_recorded",
+      "status": "PASS",
+      "evidence": "交付工作簿 SHA256: 5268d6a1176a8bd796ae1ec56da6969915cda1d078029e20e7ebebc87979a55b（实际交付路径: /workspace/outputs/validation_history/testdata/reqdir/sub/out.xlsx）"
+    },
+    {
+      "name": "counting_identity",
+      "status": "PASS",
+      "evidence": "changed 1 + unchanged_text 0 + blank 0 + non_text 0 + formula 0 = selected 1"
+    }
+  ],
+  "uncovered": [
+    "未在原生Excel应用程序中做视觉渲染验证；样式保留结论来自openpyxl属性级比对",
+    "未验证ZIP元数据与XML序列化顺序（契约R09明确不要求）",
+    "公式仅在xlsx定义层面识别与保留（R06），未做重算引擎结果验证",
+    "图表、图片、数据透视表等富对象不在本次契约与测试范围内，未验证其逐字节保真"
+  ]
+}

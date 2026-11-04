@@ -1,0 +1,194 @@
+{
+  "schema_version": "wrd_curation09_writer_recovery_v1",
+  "canonical_owner_id": "496d13e3fd020ac5f85b9eaf",
+  "writer_original": {
+    "canonical_owner_id": "496d13e3fd020ac5f85b9eaf",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_fafc316d09ddfcce0b34",
+    "role": "actor",
+    "route_id": "storyboard-video-clips",
+    "source_ids": [
+      "conv_2f75e4f55a18"
+    ],
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "original_tool_call_id": "call54051218734449e18aeffa129fc72a02",
+    "native_path": "/workspace/tmp/build_clips.py",
+    "original_content_utf8_SHA256": "62dfeca637eb456f5cc86cd16def6e390a8e41c2923c08f1db2b0db3d0211856",
+    "characters": 5471,
+    "whole_tool_write_content_recovered": true,
+    "original_body_ref": {
+      "context_episode_id": "ep_fafc316d09ddfcce0b34",
+      "message_index": 15,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "syntax_or_business_correctness_not_approved": true,
+    "positive_loss": 0,
+    "full_code": "#!/usr/bin/env python3\n\"\"\"Build per-shot video clips from generated frames + narration, per storyboard.\"\"\"\nimport json, subprocess, sys, os, math\n\nFPS = 25\nW, H = 1280, 720\nROOT = \"/workspace/outputs\"\nTMP = \"/workspace/tmp/subclips\"\nos.makedirs(TMP, exist_ok=True)\n\ndef run(cmd):\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        print(r.stderr[-3000:])\n        raise SystemExit(f\"cmd failed: {' '.join(cmd[:6])}...\")\n\ndef duration_of(path):\n    r = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\",\n                        \"-of\", \"default=nw=1:nk=1\", path], capture_output=True, text=True)\n    return float(r.stdout.strip())\n\ndef fontfile():\n    r = subprocess.run([\"fc-match\", \"-f\", \"%{file}\", \"Noto Sans CJK SC\"], capture_output=True, text=True)\n    return r.stdout.strip()\n\nFONT = fontfile()\n\ndef kenburns(img, dur, out, mode=0):\n    \"\"\"Animate a still image into a dur-seconds 1280x720 clip (zoom/pan variants).\"\"\"\n    frames = int(round(dur * FPS))\n    D = frames  # zoompan per-frame count\n    if mode % 3 == 0:   # zoom in center\n        z = f\"1+0.14*on/{D-1}\"\n        x = \"(iw-iw/zoom)/2\"; y = \"(ih-ih/zoom)/2\"\n    elif mode % 3 == 1: # zoom in toward left (action pull)\n        z = f\"1+0.18*on/{D-1}\"\n        x = \"(iw-iw/zoom)/4\"; y = \"(ih-ih/zoom)/2\"\n    else:               # slow pan right\n        z = \"1.08\"\n        x = f\"(iw-iw/zoom)*on/{D-1}\"; y = \"(ih-ih/zoom)/2\"\n    vf = (f\"scale={W*2}:{H*2}:force_original_aspect_ratio=increase,\"\n          f\"crop={W*2}:{H*2},\"\n          f\"zoompan=z='{z}':x='{x}':y='{y}':d={D}:s={W}x{H}:fps={FPS},\"\n          f\"format=yuv420p\")\n    run([\"ffmpeg\", \"-y\", \"-loop\", \"1\", \"-i\", img, \"-t\", f\"{dur:.3f}\",\n         \"-vf\", vf, \"-r\", str(FPS), \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n         \"-an\", out])\n\ndef text_filter(text, fontsize, y_expr, start, end):\n    alpha = f\"if(lt(t,{start}+0.5),0,if(lt(t,{start}+1.0),(t-{start}-0.5)/0.5,if(gt(t,{end}-0.6),max(0,({end}-t)/0.6),1)))\"\n    return (f\"drawtext=fontfile={FONT}:text='{text}':fontsize={fontsize}:\"\n            f\"fontcolor=white:borderw=5:bordercolor=0xE23A3A:shadowx=3:shadowy=3:\"\n            f\"shadowcolor=black@0.6:x=(w-text_w)/2:y={y_expr}:alpha='{alpha}'\")\n\ndef build_shot(shot):\n    sid = shot[\"id\"]\n    imgs = [os.path.join(ROOT, \"frames\", f\"{n}.png\") for n in shot[\"images\"]]\n    for p in imgs:\n        if not os.path.isfile(p) or os.path.getsize(p) == 0:\n            raise SystemExit(f\"missing frame: {p}\")\n    aud = os.path.join(ROOT, \"audio\", f\"n{sid:02d}.wav\")\n    ndur = duration_of(aud) if os.path.isfile(aud) else 0.0\n    dur = max(shot[\"dur\"], ndur + 1.2)\n    # split duration across images\n    n = len(imgs)\n    parts = [dur / n] * n\n    # round to frames, fix rounding residue on last part\n    pf = [int(round(p * FPS)) for p in parts]\n    pf[-1] = int(round(dur * FPS)) - sum(pf[:-1])\n    subs = []\n    for i, (img, f) in enumerate(zip(imgs, pf)):\n        out = os.path.join(TMP, f\"s{sid}_{i}.mp4\")\n        kenburns(img, f / FPS, out, mode=i + sid)\n        subs.append(out)\n    # concat subclips (same codec/size) then overlays, fades, narration\n    full = os.path.join(TMP, f\"s{sid}_full.mp4\")\n    if len(subs) == 1:\n        full_in = subs[0]\n    else:\n        lst = os.path.join(TMP, f\"s{sid}.txt\")\n        with open(lst, \"w\") as fh:\n            for s in subs:\n                fh.write(f\"file '{s}'\\n\")\n        run([\"ffmpeg\", \"-y\", \"-f\", \"concat\", \"-safe\", \"0\", \"-i\", lst, \"-c\", \"copy\", full])\n        full_in = full\n    filters = [\"fade=t=in:st=0:d=0.3\", f\"fade=t=out:st={dur-0.35:.2f}:d=0.35\"]\n    t = shot.get(\"overlay\", \"\")\n    if t:\n        if sid == 1:\n            filters.append(text_filter(t, 96, \"h*0.10\", 0.2, dur))\n        elif sid == 6:\n            filters.append(text_filter(t, 130, \"h*0.32\", dur * 0.55, dur))\n        elif sid == 7:\n            filters.append(text_filter(t, 64, \"h*0.08\", 0.2, dur))\n        elif sid == 8:\n            filters.append(text_filter(t, 78, \"h*0.76\", 0.4, dur))\n    out = os.path.join(ROOT, \"clips\", f\"shot_{sid}.mp4\")\n    if ndur > 0:\n        ac = (f\"[1:a]adelay=400|400,apad[a];\"\n              f\"[0:v]{','.join(filters)}[v];[v][a]vout\")\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in, \"-i\", aud,\n               \"-filter_complex\", ac.replace(\"vout\", \"out\"),\n               \"-map\", \"[out]\", \"-map\", \"[a]\".replace(\"a\", \"v\") if False else \"[out]\"],\n        # simpler: map labels explicitly below\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in, \"-i\", aud,\n               \"-filter_complex\",\n               f\"[0:v]{','.join(filters)}[v];[1:a]adelay=400|400,apad[a]\",\n               \"-map\", \"[v]\", \"-map\", \"[a]\", \"-t\", f\"{dur:.3f}\",\n               \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n               \"-c:a\", \"aac\", \"-b:a\", \"160k\", \"-ar\", \"44100\",\n               \"-movflags\", \"+faststart\", out]\n    else:\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in,\n               \"-vf\", \",\".join(filters), \"-t\", f\"{dur:.3f}\",\n               \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n               \"-movflags\", \"+faststart\", out]\n    run(cmd)\n    print(f\"shot {sid}: dur={dur:.2f}s narration={ndur:.2f}s -> {out}\")\n\ndef main():\n    with open(\"/workspace/tmp/prompts.json\") as f:\n        shots = json.load(f)[\"shots\"]\n    only = sys.argv[1:] if len(sys.argv) > 1 else None\n    for s in shots:\n        if only and str(s[\"id\"]) not in only:\n            continue\n        build_shot(s)\n\nif __name__ == \"__main__\":\n    main()\n"
+  },
+  "owner_proof_original": {
+    "canonical_owner_id": "496d13e3fd020ac5f85b9eaf",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_fafc316d09ddfcce0b34",
+    "native_session_id": "0ef64b9e-7ed3-466b-8f04-590a6237464e",
+    "source_message_index": 15,
+    "source_event_line": 27,
+    "original_message_sha256_sorted": "bf217e11702c66980f3ba50da62cb690a1d897b3330a21cc898fe8f791ffe0b1",
+    "original_message_sha256_insertion_order": "ca631d9123a4c968eb8230cdc37533c432ba9eb849a357afbf59187c9008799c",
+    "original_content_sha256_sorted": "19fa1ead1c4be77624884aeb590d4bdf10e1e7464ad428f7dd7dfe090b4a3ff6",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\ba\\ba8f2de2476d30bfba67cc7e5bda7801db2b03b1473c5a76ff55cbe5c264f214",
+      "bytes": 618226,
+      "sha256": "ba8f2de2476d30bfba67cc7e5bda7801db2b03b1473c5a76ff55cbe5c264f214"
+    },
+    "original_body_ref": {
+      "context_episode_id": "ep_fafc316d09ddfcce0b34",
+      "message_index": 15,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "historical_role": "actor",
+    "route_id": "storyboard-video-clips",
+    "source_ids": [
+      "conv_2f75e4f55a18"
+    ],
+    "current_source_statuses": {
+      "conv_2f75e4f55a18": "TRAIN"
+    },
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "old_source_admission": "ADMIT",
+    "old_source_scope_proof_id": "cc7a8757a36d5bfb6b02307d8f467876ae2ca859010323bf69f76cf96f1bd1c3",
+    "late_protected_overlay": null,
+    "old_preflight_eligibility": null,
+    "v9_protocol_disposition": {
+      "id": "496d13e3fd020ac5f85b9eaf",
+      "episode_id": "ep_fafc316d09ddfcce0b34",
+      "source_message_index": 15,
+      "stage": "actor",
+      "route_id": "storyboard-video-clips",
+      "source_admission": "ADMIT",
+      "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+      "source_ids": [
+        "conv_2f75e4f55a18"
+      ],
+      "supervision_tier": null,
+      "loss_multiplier": 0.0,
+      "mask_reasons": [
+        "NO_ADMITTED_OUTCOME_OR_SEMANTIC_SUPERVISION"
+      ],
+      "original_message_sha256": "ca631d9123a4c968eb8230cdc37533c432ba9eb849a357afbf59187c9008799c",
+      "original_content_sha256": "e33bec54b69cfde35eb79197630a2f2d9a45dc8a65a3466ba640edc7c6829956",
+      "quality_is_not_inferred_from_done_retain_or_exit0": true,
+      "training_started": false,
+      "student_response_end_tokens": 10380,
+      "admitted_in_common_32k": false,
+      "owned_spans_before_length_filter": [],
+      "length_filter_never_truncates_source_prefix_or_target": true
+    },
+    "maker405_static_byte_review": null,
+    "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "target_call_ids": [
+      "call54051218734449e18aeffa129fc72a02"
+    ],
+    "native_response_id": "chatcmpl-1792758515062",
+    "native_readable_R_blocks": 0,
+    "current_view_claims": [],
+    "withdrawn_view_claims": [],
+    "original_R_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "original_A_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "semantics": "NOT_INFERRED_FROM_SOURCE_ADMIT_DONE_RETAIN_OR_EXIT0",
+    "no_new_positive_loss": true,
+    "current_disposition": "SOURCE_CLOSED_SEMANTIC_PENDING"
+  },
+  "context_ref": "episodes/ep_fafc316d09ddfcce0b34.context.original.json",
+  "timeline_ref": "episodes/ep_fafc316d09ddfcce0b34.timeline.json",
+  "code_ref": "code/496d13e3fd020ac5f85b9eaf.py",
+  "code_utf8_sha256": "62dfeca637eb456f5cc86cd16def6e390a8e41c2923c08f1db2b0db3d0211856",
+  "original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "素材生成已在后台运行。趁此时间我先编写逐镜头合成脚本（Ken Burns 动效 + 字幕 + 旁白混音）。",
+        "textSignature": "{\"v\":1,\"id\":\"commentary-0-19155e0356ff422b83a887eb\",\"phase\":\"commentary\"}"
+      },
+      {
+        "type": "toolCall",
+        "id": "call54051218734449e18aeffa129fc72a02",
+        "name": "write",
+        "arguments": {
+          "content": "#!/usr/bin/env python3\n\"\"\"Build per-shot video clips from generated frames + narration, per storyboard.\"\"\"\nimport json, subprocess, sys, os, math\n\nFPS = 25\nW, H = 1280, 720\nROOT = \"/workspace/outputs\"\nTMP = \"/workspace/tmp/subclips\"\nos.makedirs(TMP, exist_ok=True)\n\ndef run(cmd):\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        print(r.stderr[-3000:])\n        raise SystemExit(f\"cmd failed: {' '.join(cmd[:6])}...\")\n\ndef duration_of(path):\n    r = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\",\n                        \"-of\", \"default=nw=1:nk=1\", path], capture_output=True, text=True)\n    return float(r.stdout.strip())\n\ndef fontfile():\n    r = subprocess.run([\"fc-match\", \"-f\", \"%{file}\", \"Noto Sans CJK SC\"], capture_output=True, text=True)\n    return r.stdout.strip()\n\nFONT = fontfile()\n\ndef kenburns(img, dur, out, mode=0):\n    \"\"\"Animate a still image into a dur-seconds 1280x720 clip (zoom/pan variants).\"\"\"\n    frames = int(round(dur * FPS))\n    D = frames  # zoompan per-frame count\n    if mode % 3 == 0:   # zoom in center\n        z = f\"1+0.14*on/{D-1}\"\n        x = \"(iw-iw/zoom)/2\"; y = \"(ih-ih/zoom)/2\"\n    elif mode % 3 == 1: # zoom in toward left (action pull)\n        z = f\"1+0.18*on/{D-1}\"\n        x = \"(iw-iw/zoom)/4\"; y = \"(ih-ih/zoom)/2\"\n    else:               # slow pan right\n        z = \"1.08\"\n        x = f\"(iw-iw/zoom)*on/{D-1}\"; y = \"(ih-ih/zoom)/2\"\n    vf = (f\"scale={W*2}:{H*2}:force_original_aspect_ratio=increase,\"\n          f\"crop={W*2}:{H*2},\"\n          f\"zoompan=z='{z}':x='{x}':y='{y}':d={D}:s={W}x{H}:fps={FPS},\"\n          f\"format=yuv420p\")\n    run([\"ffmpeg\", \"-y\", \"-loop\", \"1\", \"-i\", img, \"-t\", f\"{dur:.3f}\",\n         \"-vf\", vf, \"-r\", str(FPS), \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n         \"-an\", out])\n\ndef text_filter(text, fontsize, y_expr, start, end):\n    alpha = f\"if(lt(t,{start}+0.5),0,if(lt(t,{start}+1.0),(t-{start}-0.5)/0.5,if(gt(t,{end}-0.6),max(0,({end}-t)/0.6),1)))\"\n    return (f\"drawtext=fontfile={FONT}:text='{text}':fontsize={fontsize}:\"\n            f\"fontcolor=white:borderw=5:bordercolor=0xE23A3A:shadowx=3:shadowy=3:\"\n            f\"shadowcolor=black@0.6:x=(w-text_w)/2:y={y_expr}:alpha='{alpha}'\")\n\ndef build_shot(shot):\n    sid = shot[\"id\"]\n    imgs = [os.path.join(ROOT, \"frames\", f\"{n}.png\") for n in shot[\"images\"]]\n    for p in imgs:\n        if not os.path.isfile(p) or os.path.getsize(p) == 0:\n            raise SystemExit(f\"missing frame: {p}\")\n    aud = os.path.join(ROOT, \"audio\", f\"n{sid:02d}.wav\")\n    ndur = duration_of(aud) if os.path.isfile(aud) else 0.0\n    dur = max(shot[\"dur\"], ndur + 1.2)\n    # split duration across images\n    n = len(imgs)\n    parts = [dur / n] * n\n    # round to frames, fix rounding residue on last part\n    pf = [int(round(p * FPS)) for p in parts]\n    pf[-1] = int(round(dur * FPS)) - sum(pf[:-1])\n    subs = []\n    for i, (img, f) in enumerate(zip(imgs, pf)):\n        out = os.path.join(TMP, f\"s{sid}_{i}.mp4\")\n        kenburns(img, f / FPS, out, mode=i + sid)\n        subs.append(out)\n    # concat subclips (same codec/size) then overlays, fades, narration\n    full = os.path.join(TMP, f\"s{sid}_full.mp4\")\n    if len(subs) == 1:\n        full_in = subs[0]\n    else:\n        lst = os.path.join(TMP, f\"s{sid}.txt\")\n        with open(lst, \"w\") as fh:\n            for s in subs:\n                fh.write(f\"file '{s}'\\n\")\n        run([\"ffmpeg\", \"-y\", \"-f\", \"concat\", \"-safe\", \"0\", \"-i\", lst, \"-c\", \"copy\", full])\n        full_in = full\n    filters = [\"fade=t=in:st=0:d=0.3\", f\"fade=t=out:st={dur-0.35:.2f}:d=0.35\"]\n    t = shot.get(\"overlay\", \"\")\n    if t:\n        if sid == 1:\n            filters.append(text_filter(t, 96, \"h*0.10\", 0.2, dur))\n        elif sid == 6:\n            filters.append(text_filter(t, 130, \"h*0.32\", dur * 0.55, dur))\n        elif sid == 7:\n            filters.append(text_filter(t, 64, \"h*0.08\", 0.2, dur))\n        elif sid == 8:\n            filters.append(text_filter(t, 78, \"h*0.76\", 0.4, dur))\n    out = os.path.join(ROOT, \"clips\", f\"shot_{sid}.mp4\")\n    if ndur > 0:\n        ac = (f\"[1:a]adelay=400|400,apad[a];\"\n              f\"[0:v]{','.join(filters)}[v];[v][a]vout\")\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in, \"-i\", aud,\n               \"-filter_complex\", ac.replace(\"vout\", \"out\"),\n               \"-map\", \"[out]\", \"-map\", \"[a]\".replace(\"a\", \"v\") if False else \"[out]\"],\n        # simpler: map labels explicitly below\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in, \"-i\", aud,\n               \"-filter_complex\",\n               f\"[0:v]{','.join(filters)}[v];[1:a]adelay=400|400,apad[a]\",\n               \"-map\", \"[v]\", \"-map\", \"[a]\", \"-t\", f\"{dur:.3f}\",\n               \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n               \"-c:a\", \"aac\", \"-b:a\", \"160k\", \"-ar\", \"44100\",\n               \"-movflags\", \"+faststart\", out]\n    else:\n        cmd = [\"ffmpeg\", \"-y\", \"-i\", full_in,\n               \"-vf\", \",\".join(filters), \"-t\", f\"{dur:.3f}\",\n               \"-c:v\", \"libx264\", \"-preset\", \"fast\", \"-crf\", \"19\",\n               \"-movflags\", \"+faststart\", out]\n    run(cmd)\n    print(f\"shot {sid}: dur={dur:.2f}s narration={ndur:.2f}s -> {out}\")\n\ndef main():\n    with open(\"/workspace/tmp/prompts.json\") as f:\n        shots = json.load(f)[\"shots\"]\n    only = sys.argv[1:] if len(sys.argv) > 1 else None\n    for s in shots:\n        if only and str(s[\"id\"]) not in only:\n            continue\n        build_shot(s)\n\nif __name__ == \"__main__\":\n    main()\n",
+          "path": "/workspace/tmp/build_clips.py"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792758515039,
+    "responseId": "chatcmpl-1792758515062",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "b9fe83d2-9bcc-48dd-969f-ea327c92ab51"
+    }
+  },
+  "original_write_ack": [
+    {
+      "index": 16,
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call54051218734449e18aeffa129fc72a02",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote 5471 bytes to /workspace/tmp/build_clips.py"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "changed",
+            "created",
+            "diff",
+            "patch",
+            "firstChangedLine"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792758598934,
+        "__openclaw": {
+          "runId": "b9fe83d2-9bcc-48dd-969f-ea327c92ab51"
+        }
+      }
+    }
+  ],
+  "native_ref": "native/ba8f2de2476d30bfba67cc7e5bda7801db2b03b1473c5a76ff55cbe5c264f214.jsonl",
+  "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+  "original_prefix_equivalence_claimed": false,
+  "holdout_reservation_checked": false,
+  "semantic_training_admission": false,
+  "training_admitted": false,
+  "semantic_status": "RECOVERED_UNREVIEWED",
+  "cost": {
+    "new_business_teacher_actor_calls": 0,
+    "training_started": false,
+    "ai_cpu_curation_cost": "UNKNOWN_NOT_ZERO"
+  }
+}

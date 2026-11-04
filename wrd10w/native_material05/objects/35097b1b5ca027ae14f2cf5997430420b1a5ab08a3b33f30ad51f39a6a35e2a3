@@ -1,0 +1,8 @@
+data: {"id":"chatcmpl-1793083831641","object":"chat.completion.chunk","created":1793083831,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793083831641","object":"chat.completion.chunk","created":1793083831,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"call5d2cc9a1ddb744749f90c8c51a2cffba","type":"function","function":{"name":"exec","arguments":"{\"command\":\"python -c \\\"import json; d=json.load(open('/workspace/outputs/blind_quality.json')); print('valid JSON'); print('cases:', list(d['cases'].keys())); print('E1', {a:d['cases']['E1']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('E2', {a:d['cases']['E2']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('cues:', [(c['case'],c['arm']) for c in d['blinding']['method_cues']])\\\"\"}"}}]},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793083831641","object":"chat.completion.chunk","created":1793083831,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+

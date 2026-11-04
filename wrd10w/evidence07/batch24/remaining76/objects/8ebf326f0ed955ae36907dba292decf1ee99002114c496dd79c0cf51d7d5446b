@@ -1,0 +1,94 @@
+"""Making-side fixture generator. Builds reproduction inputs OUTSIDE the skill.
+
+feedback_form_normal.docx / feedback_form_vmerge.docx reconstruct the editable
+feedback-form structure described in the selected real conversations
+(12-indicator scoring table with per-row score cells + expert opinion table).
+The vmerge variant reproduces the real template defect both conversations hit:
+the score cells of two adjacent indicator rows are vertically merged (vMerge).
+Indicator names and scores come from conv_0945c1554661:ec306910 and
+conv_d296b8df4dfc:msg_41 (78/100 scoring). Original attachments were not
+supplied (attachment_count: 0), so this is a declared reconstruction, not the
+historical bytes.
+"""
+import json
+from pathlib import Path
+
+from docx import Document
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+
+INDICATORS = [
+    "国家战略需求匹配度", "产业政策契合度", "成果转化路径清晰度",
+    "技术自主可控程度", "技术先进性", "技术创新性",
+    "市场需求与市场规模", "规模化可行性", "产业化转化价值",
+    "验证实施方案完整性", "经费预算合理性", "验收交付成果完备性",
+]
+OPINIONS = ["必要性", "预算合理性", "实施方案可行性", "评审结果"]
+SCORES = {"国家战略需求匹配度": "7", "产业政策契合度": "7.5", "成果转化路径清晰度": "7",
+          "技术自主可控程度": "6.5", "技术先进性": "6.5", "技术创新性": "6.5",
+          "市场需求与市场规模": "6.5", "规模化可行性": "6", "产业化转化价值": "6.5",
+          "验证实施方案完整性": "6.5", "经费预算合理性": "7", "验收交付成果完备性": "4.5"}
+
+
+def vmerge(tc, mode):
+    tc_pr = tc.find(qn("w:tcPr"))
+    if tc_pr is None:
+        tc_pr = OxmlElement("w:tcPr")
+        tc.insert(0, tc_pr)
+    vm = OxmlElement("w:vMerge")
+    if mode == "restart":
+        vm.set(qn("w:val"), "restart")
+    tc_pr.append(vm)
+
+
+def build_form(path, merge_rows=None):
+    merge_rows = merge_rows or []
+    doc = Document()
+    table = doc.add_table(rows=1 + len(INDICATORS) + 1, cols=3)
+    header = table.rows[0]
+    for i, text in enumerate(["评价维度", "指标", "得分"]):
+        header.cells[i].text = text
+    for r, name in enumerate(INDICATORS, start=1):
+        row = table.rows[r]
+        row.cells[0].text = ""
+        row.cells[1].text = name
+        row.cells[2].text = ""
+    total_row = table.rows[-1]
+    total_row.cells[0].text = "总分"
+    total_row.cells[1].text = ""
+    total_row.cells[2].text = ""
+    for r in merge_rows:
+        tcs = table.rows[r]._tr.findall(qn("w:tc"))
+        vmerge(tcs[2], "restart" if r == merge_rows[0] else "continue")
+    opinions = doc.add_table(rows=1 + len(OPINIONS), cols=2)
+    oh = opinions.rows[0]
+    oh.cells[0].text = "评审项目"
+    oh.cells[1].text = "意见"
+    for r, name in enumerate(OPINIONS, start=1):
+        opinions.rows[r].cells[0].text = name
+        opinions.rows[r].cells[1].text = ""
+    doc.save(str(path))
+
+
+def main():
+    out = Path("/workspace/outputs/reproduction_inputs")
+    out.mkdir(parents=True, exist_ok=True)
+    build_form(out / "feedback_form_normal.docx")
+    # Real defect: rows 10 and 11 (验证实施方案完整性 / 经费预算合理性) merged.
+    build_form(out / "feedback_form_vmerge.docx", merge_rows=[10, 11])
+    rows = [{"label": name, "value": SCORES[name]} for name in INDICATORS]
+    rows += [{"label": name, "value": value} for name, value in [
+        ("必要性", "高，战略卡脖子环节，同意开展概念验证"),
+        ("预算合理性", "预算偏紧，建议补充测算依据"),
+        ("实施方案可行性", "工艺方案成熟，需补充实验验证阶段排期"),
+        ("评审结果", "是")]]
+    payload = {"rows": rows, "total": {"label": "总分", "value": "78"}}
+    (out / "score_results_normal.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (out / "score_results_invalid.json").write_text(
+        '{"rows": [{"label": "国家战略需求匹配度", "value": "7"}', encoding="utf-8")
+    print("fixtures written")
+
+
+if __name__ == "__main__":
+    main()

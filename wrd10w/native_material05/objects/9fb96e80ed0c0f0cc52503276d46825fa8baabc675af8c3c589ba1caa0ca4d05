@@ -1,0 +1,127 @@
+{
+  "schema": "wrd-native-rebuild-job-v1",
+  "job_id": "C_phase2_cv_review_01",
+  "stage": "C_review",
+  "prompt": "执行一场独立原生评审，先盲质量、再解盲成本并给C/D建议。不要子Agent、训练、外发、远端修改、全局安装、修订或重跑业务；不实际封装/入生产库。\n第一阶段只读 /workspace/inputs/review/source_only_quality_protocol.json 和 phase1_manifest.json，然后实际读取E1/E2完整原任务、同7份真实PDF、各A/B全部原始交付文本及如有明确引用的交付附件。此阶段不要读phase2_arm_costs.json、candidate_skill/或猜臂别。原输出完全未为隐藏方法而改写；如有自述方法线索，记录有限盲，不改原文也不假装完全盲。两例是train发展案例，不叫正式unseen/最终留出。\n按协议分别给各case A/B独立五维Q：D1正确性与依据30、D2覆盖充分性20、D3要求适配与跨轮一致性20、D4专业业务可用性20、D5表达呈现10；每维1—4个具体条目，score只0/.5/1，每条引用原要求/PDF页/原输出的具体依据并区分explicit_user与derived_quality。同一缺陷主要扣一次，不按长文、文件数、技能自称或完成状态加分。招聘只按工作相关证据，不用年龄/性别等；必需/优先、缺证/反证、关键词/已证实际经历要分开。没要求quote表或正式报告不能强加；如果给了quote/page就须对正确人/文件/页。不能用单纯字面匹配证明全部语义/录用正确。TSR与Q分开；文本回答可完成任务，不因没有额外文件就判失败。原PDF读证故障如实UNSCORED，不补0。\n将完整结果实际写 /workspace/outputs/blind_quality.json，确认写入成功且完整后才进入第二阶段。第一阶段记录method_cue/blinding_limit、事实核验及未知；AI评估未人工或招聘专家校准，是探索银标，不是gold。\n第二阶段才读 /workspace/inputs/review/phase2_arm_costs.json 和 candidate_skill/必要原资源，结合已经冻结的盲Q、原生真实读用/版本及实际成本，写 /workspace/outputs/decision.json 与 feedback.json，给RETAIN/REVISE/STOP/DEFER建议。质量不能被成本低掩盖，程序测试绿不能替代业务质量；语义更好但更贵的权衡、两例方向不同和证据不足要明说，不强行保留或全局淘汰。E2NS有真实partial和缺usage，已知subtotal不是完整Token费用，耗时也含该中断；不能补估0、虚构精确比值或把全部时间差归因技能。记录制作、真实修订、全部消费/失败、共享筛选与未知标注/CPU费用；零合格成本分母未定义。Token不是现金，Teacher结果不是14B/8B学生效果。若提修订须指向当前同版本具体缺陷，不能假装已经修或把新版本套旧消费。此场仅建议，不封包、不改候选，不追加Agent/复测/训练。\n保留完整工具/推理与实际读写顺序证据；最后非空简短如实答复。",
+  "source_ids": [
+    "conv_2b8fd8fdd8bc",
+    "conv_66a8dc558785",
+    "conv_fb33437938a8"
+  ],
+  "source_split": "train",
+  "protected_ancestry_checked": true,
+  "source_allowlist_receipt": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\source_allowlist_receipt.json",
+  "source_allowlist_sha256": "6ae9fb1a64dcdfc4c7f8ac4ec772efb7a28bd94608c3c9d3a12ed51831847737",
+  "resource_ancestry_receipt": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\resource_ancestry_receipt.json",
+  "resource_ancestry_sha256": "1cd4e8962c48ec1a7180520a5b8aa43e52806b46d601157360cc6bc89527f7e9",
+  "resources": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\inputs\\source_only_quality_protocol.json",
+      "mount": "inputs/review/source_only_quality_protocol.json",
+      "sha256": "1ba209ae5122d529b97f52c6ecffe60ccb12a8fe1016dae67c6180a662463262"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E1\\source_input.json",
+      "mount": "inputs/review/tasks/E1.json",
+      "sha256": "fbb373461e5ba3dfcbc920c88f6a98d91332ae601e15b24fc3bc2296cb278f55"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E1\\materials\\3f8a1c51032c2b97.pdf",
+      "mount": "inputs/task/materials/3f8a1c51032c2b97.pdf",
+      "sha256": "3f8a1c51032c2b97b153e295e485216b46e9f95b6e03f0e8bd6df565ef505c3a"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\inputs\\outputs\\E1_A.txt",
+      "mount": "inputs/review/outputs/E1_A.txt",
+      "sha256": "15a40251fbc509fa330421cf75982f0545d3a3ee824583645581950c844866cc"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\inputs\\outputs\\E1_B.txt",
+      "mount": "inputs/review/outputs/E1_B.txt",
+      "sha256": "f758ef350e903c674526e79d9a780fa36836195c6eda4939f815d457e4cbc639"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E2\\source_input.json",
+      "mount": "inputs/review/tasks/E2.json",
+      "sha256": "363065ef10345091fdaeb87692faee0891bfb5d04dbd8984de00e35af69ec22c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E2\\materials\\6ce6df1590fed877.pdf",
+      "mount": "inputs/task/materials/6ce6df1590fed877.pdf",
+      "sha256": "6ce6df1590fed87775890d99a8a517f7bb40857b72baeaf2cc1cb899ee8ab3f3"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E2\\materials\\b4fd3bee09b14b32.pdf",
+      "mount": "inputs/task/materials/b4fd3bee09b14b32.pdf",
+      "sha256": "b4fd3bee09b14b32b70363796c52e4cd2c16b53d04ea0f8fcb402a6746417292"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E2\\materials\\9c667aab99eaada6.pdf",
+      "mount": "inputs/task/materials/9c667aab99eaada6.pdf",
+      "sha256": "9c667aab99eaada6382c6c60b478fc5925aadf05a76696fe44479f9f13ef11a8"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E2\\materials\\91162cf64d5ec403.pdf",
+      "mount": "inputs/task/materials/91162cf64d5ec403.pdf",
+      "sha256": "91162cf64d5ec4036760d8f4f8db13fc8d9ccfc9198398b45ded180578d661cb"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E2\\materials\\8ad152dae625eda9.pdf",
+      "mount": "inputs/task/materials/8ad152dae625eda9.pdf",
+      "sha256": "8ad152dae625eda93513dda5cf8f1e73b177a3f702daa9fa148339b658f64648"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\phase2_mechanisms_02\\cases\\cv_E2\\materials\\96f97ee12f59ed80.pdf",
+      "mount": "inputs/task/materials/96f97ee12f59ed80.pdf",
+      "sha256": "96f97ee12f59ed8041a98cd4c2fd189f38237abd8e0dc4f5999657e81a700a7c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\inputs\\outputs\\E2_A.txt",
+      "mount": "inputs/review/outputs/E2_A.txt",
+      "sha256": "24d0ef2aa2532e0535d7ffc678122ceda4f70ec804cabdfb50a74422d5683ec3"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\inputs\\outputs\\E2_B.txt",
+      "mount": "inputs/review/outputs/E2_B.txt",
+      "sha256": "08c4c2429278df09669431f319424223721ba34633f8a6b36113a16351944d1c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\inputs\\phase1_manifest.json",
+      "mount": "inputs/review/phase1_manifest.json",
+      "sha256": "4a276dadba09de1b521d6efaa362fbade0e49238025101634810496f2f69a222"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\C_phase2_cv_review_01_preparation\\inputs\\phase2_arm_costs.json",
+      "mount": "inputs/review/phase2_arm_costs.json",
+      "sha256": "2a6d8eb6d453708cfdcd9ef85d8c53212dba26898861db1a87e2c57f16535bbb"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\delivery_views\\B_phase2_cv_revision_01\\skill_clean_01\\scripts\\cv_extract.py",
+      "mount": "inputs/review/candidate_skill/scripts/cv_extract.py",
+      "sha256": "e24ef61ea3066d9b05a47136bb213517e6a1f2c850073ffe9c2e30ef3969f347"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\delivery_views\\B_phase2_cv_revision_01\\skill_clean_01\\scripts\\cvlib.py",
+      "mount": "inputs/review/candidate_skill/scripts/cvlib.py",
+      "sha256": "1e0b24f57ea7d2303e6b7513f821a9f759b7de3359c9a503b47f7b86833a53f9"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\delivery_views\\B_phase2_cv_revision_01\\skill_clean_01\\scripts\\evidence_check.py",
+      "mount": "inputs/review/candidate_skill/scripts/evidence_check.py",
+      "sha256": "cb6c3e6e438ff039e7faf2105308757e48ec2250fae558c29ef300ae2914027c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\delivery_views\\B_phase2_cv_revision_01\\skill_clean_01\\SKILL.md",
+      "mount": "inputs/review/candidate_skill/SKILL.md",
+      "sha256": "c7563d6965de1352f807afa051436ae726649c5cac3ebf9bb4a6b627dd853349"
+    }
+  ],
+  "skills": [],
+  "execution_authorized": false,
+  "status": "PREPARED_FALSE_ROOT_REVIEW_REQUIRED",
+  "native_child_agents_authorized": false,
+  "business_remote_side_effects_authorized": false,
+  "parent_candidate_job_id": "B_phase2_cv_revision_01",
+  "proposed_logical_D_advice_only": true,
+  "training_eligibility": "PENDING_ACTUAL_BLIND_SEQUENCE_AND_INDEPENDENT_SEMANTIC_REVIEW"
+}

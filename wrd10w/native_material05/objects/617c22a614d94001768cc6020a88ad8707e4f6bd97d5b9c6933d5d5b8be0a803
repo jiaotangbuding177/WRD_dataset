@@ -1,0 +1,50 @@
+[
+ {
+  "name": "T1_missing_canvas",
+  "rc": 2,
+  "expected": 2,
+  "no_output": true,
+  "ok": true,
+  "stderr": "gen_animation: 错误: config 缺少必需字段 canvas(对象)"
+ },
+ {
+  "name": "T2_invalid_json",
+  "rc": 2,
+  "expected": 2,
+  "no_output": true,
+  "ok": true,
+  "stderr": "gen_animation: 错误: config 不是合法JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+ },
+ {
+  "name": "T3_negative_height",
+  "rc": 2,
+  "expected": 2,
+  "no_output": true,
+  "ok": true,
+  "stderr": "gen_animation: 错误: config canvas.height 必须是正整数, 实际: -5"
+ },
+ {
+  "name": "T4_no_TopicSim",
+  "rc": 3,
+  "expected": 3,
+  "no_output": true,
+  "ok": true,
+  "stderr": "gen_animation: 错误: topic 模块必须定义 window.TopicSim.create(...)"
+ },
+ {
+  "name": "T5_no_such_config",
+  "rc": 2,
+  "expected": 2,
+  "no_output": true,
+  "ok": true,
+  "stderr": "gen_animation: 错误: config 文件不存在: fixtures/results/nope.json"
+ },
+ {
+  "name": "T6_runtime_layer",
+  "ok": true,
+  "**t6": {
+   "rc": 0,
+   "output_exists": true
+  }
+ }
+]

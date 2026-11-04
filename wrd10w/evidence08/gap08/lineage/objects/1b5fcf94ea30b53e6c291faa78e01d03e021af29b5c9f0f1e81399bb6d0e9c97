@@ -1,0 +1,27 @@
+{
+  "skill": "grant-formal-review-checklist",
+  "source": "沿 previous_skill（与 prior_making attempt_2 产出逐字节一致，diff IDENTICAL）复用，不从零制作",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/review_dimensions.md",
+    "outputs/skill/templates/checklist.md",
+    "outputs/skill/scripts/extract_texts.py"
+  ],
+  "replaced_work": "按申报类型梳理形式审查要点+按章节分组成可勾选word清单+按反馈增删条目：维度归纳由 references/review_dimensions.md 底版替代，清单版式由 templates/checklist.md 骨架（图例/填空/说明行）替代，指南文本提取由 scripts/extract_texts.py 替代。本轮唯一改动：按旧反馈 repair_notes 补一条跨域清单处理判断（非基金领域只借模板骨架与图例，不引用基金专用维度底版），对应上市Checklist试用中执行器误读后按基金口径白耗web核验的具体问题；其余资源经旧审核确认可靠，未重写。",
+  "program_runs": [
+    {
+      "command": "python3 outputs/skill/scripts/extract_texts.py outputs/making_samples/sample_guide.docx outputs/making_samples/sample_checklist.docx --out outputs/making_samples/extracts",
+      "result": "exit 0，extracted=2 errors=0，extracts/index.json 在位"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/extract_texts.py nonexistent.docx --out e1 / sample_guide.docx note.xyz --out e3 / corrupt.docx 批次 --out e4（corrupt.docx 为损坏docx）",
+      "result": "不存在/不支持类型 exit 2；批次内损坏文件记入 errors 后继续处理其余文件并 exit 3，errors 数组记录源文件与错误信息——退出码与 SKILL.md 文档一致"
+    },
+    {
+      "command": "pandoc outputs/skill/templates/checklist.md -o roundtrip_test.docx 后 python-docx 读回",
+      "result": "☐ 条目10个，图例 ☑/✗ 在位，模板转word无丢失（测试文件已清理）"
+    }
+  ],
+  "known_issues": [],
+  "samples": "outputs/making_samples/（复用 prior making 的 sample_guide.docx/sample_checklist.docx 及本次 extracts/）"
+}

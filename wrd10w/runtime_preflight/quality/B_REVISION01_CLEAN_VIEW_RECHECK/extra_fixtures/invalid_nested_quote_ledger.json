@@ -1,0 +1,55 @@
+{
+  "schema": "wrd-fact-ledger-v1",
+  "ledger_id": "independent_valid_temporal_coexistence",
+  "facts": [
+    {
+      "fact_id": "F1",
+      "fact_type": "user_statement",
+      "claim": "2025年实际培训100人",
+      "value": "100",
+      "unit": "人",
+      "subject": "培训人数",
+      "time": "2025",
+      "explicit_user": true,
+      "must_keep": true,
+      "evidence_refs": [
+        {
+          "source_id": "independent_synthetic",
+          "message_id": "m1",
+          "quote": "2025年实际培训100人"
+        }
+      ]
+    },
+    {
+      "fact_id": "F2",
+      "fact_type": "planned_goal",
+      "claim": "2026年计划培训100人",
+      "value": "100",
+      "unit": "人",
+      "subject": "培训人数",
+      "time": "2026",
+      "explicit_user": true,
+      "must_keep": true,
+      "evidence_refs": [
+        {
+          "source_id": "independent_synthetic",
+          "message_id": "m1",
+          "quote": "2026年计划培训100人"
+        }
+      ]
+    }
+  ],
+  "derived_rules": [],
+  "_note": "New explicitly synthetic independent audit, not real enterprise evidence.",
+  "task_switches": [
+    {
+      "evidence_refs": [
+        {
+          "source_id": "independent_synthetic",
+          "message_id": "m1",
+          "quote": "not-a-source-substring"
+        }
+      ]
+    }
+  ]
+}

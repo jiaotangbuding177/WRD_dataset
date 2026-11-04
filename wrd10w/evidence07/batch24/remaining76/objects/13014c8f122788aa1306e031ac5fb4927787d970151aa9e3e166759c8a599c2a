@@ -1,0 +1,132 @@
+{
+  "schema": "wrd-resource-manifest-v1",
+  "resources": [
+    {
+      "id": "extract_texts",
+      "path": "scripts/extract_texts.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/extract_texts.py {INPUT}/manuscript --out {OUT}/extracts",
+        "inputs": [
+          "论文/评审材料目录或文件（.pptx/.docx/.doc/.pdf/.md/.txt；.pptx 需 python-pptx，.docx 需 python-docx，.doc 需 soffice，.pdf 需 pdftotext）"
+        ],
+        "outputs": [
+          "每个源一个同名 .txt 提取件",
+          "index.json（源 sha256、bytes、sections、chars、errors 索引）",
+          "$stdout JSON {\"extracted\": n, \"errors\": m}"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_b8618dade74b",
+          "message_id": "8554d421-5488-4c80-aaef-a205bb39c502"
+        },
+        {
+          "source_id": "conv_c19f3434fa4f",
+          "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0"
+        }
+      ]
+    },
+    {
+      "id": "scan_docx_keywords",
+      "path": "scripts/scan_docx_keywords.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/scan_docx_keywords.py {INPUT}/manuscript.docx --keywords 南移,CMIP6 --out {OUT}/keyword_hits.json",
+        "inputs": [
+          ".docx 稿件",
+          "逗号分隔关键词"
+        ],
+        "outputs": [
+          "keyword_hits.json（关键词、member、±12字上下文、计数）",
+          "$stdout 命中摘要行"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_b8618dade74b",
+          "message_id": "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+        },
+        {
+          "source_id": "conv_c19f3434fa4f",
+          "message_id": "59d46b9f-b3af-4317-b2ba-f320d297bc2c"
+        }
+      ]
+    },
+    {
+      "id": "review_report_template",
+      "path": "templates/review_report.md",
+      "kind": "template",
+      "interface": {
+        "kind": "template",
+        "contract_version": "1",
+        "usage": "复制 {SKILL}/templates/review_report.md 并按占位符填写，生成最终审查报告。",
+        "inputs": [
+          "阶段2问题清单（含编号/维度/严重性/位置/依据）",
+          "论文信息与总体裁定"
+        ],
+        "outputs": [
+          "标准化审查报告 .md，含人工复核提示"
+        ]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {
+          "source_id": "conv_b8618dade74b",
+          "message_id": "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+        },
+        {
+          "source_id": "conv_c19f3434fa4f",
+          "message_id": "59d46b9f-b3af-4317-b2ba-f320d297bc2c"
+        }
+      ]
+    },
+    {
+      "id": "stage_notes",
+      "path": "references/stage_notes.md",
+      "kind": "material",
+      "interface": {
+        "kind": "material",
+        "contract_version": "1",
+        "usage": "维度顺序、问题清单格式与报告段式见 {SKILL}/references/stage_notes.md。",
+        "inputs": [
+          "extracts/ 提取件与 keyword_hits.json 定位输出"
+        ],
+        "outputs": [
+          "默认维度顺序、问题清单行格式、报告填写与诚信边界"
+        ]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {
+          "source_id": "conv_b8618dade74b",
+          "message_id": "2dd9b116-c054-4bf5-9418-ce8ed60ebbf7"
+        },
+        {
+          "source_id": "conv_c19f3434fa4f",
+          "message_id": "59d46b9f-b3af-4317-b2ba-f320d297bc2c"
+        }
+      ]
+    }
+  ]
+}

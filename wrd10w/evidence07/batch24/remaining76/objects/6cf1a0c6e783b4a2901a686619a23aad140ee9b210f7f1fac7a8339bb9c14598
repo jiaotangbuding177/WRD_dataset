@@ -1,0 +1,228 @@
+#!/usr/bin/env python3
+"""就绪检测三件事（无第三方依赖，stdlib only）。
+
+用法:
+  1) 凭据泄漏点扫描（离线，不动目标文件）
+     python readiness_check.py scan <目标代码目录> [--forbid-literal STR ...] [--include-tests] [--json]
+
+  2) 公网出口 IP 检测（>=3 源取 >=2 一致才算稳定）
+     python readiness_check.py egress [--expect-ip x.x.x.x] [--json]
+
+  3) IP 白名单探测（假凭据，无需真实 AppSecret）
+     python readiness_check.py probe --token-url <token接口URL> [--json]
+     # 例: --token-url "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
+
+退出码: scan 0=干净 1=有发现 2=用法/目录错误; egress 0=稳定且(如给定)匹配 1=不稳定/不匹配 2=全部源不可达;
+        probe 0=IP已过白名单 1=IP未过白名单 2=无法判定。
+输出永不回显密钥值：命中行统一先过 redact() 再打印。
+"""
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import urllib.request
+import urllib.error
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from redact import redact, BLOCKED_ENDPOINTS  # noqa: E402
+
+# 检测器：CLI 密钥参数 / 输出密钥 / input 密钥 / 禁用端点
+_SECRET_NAME = re.compile(r"(?i)(app_?secret|access_token|secret|api_?key|apikey|password|passwd|auth_code|token)")
+_CLI_PARAM = re.compile(r"add_argument\(\s*['\"](--[\w-]+)['\"]")
+_OUTPUT_CALL = re.compile(r"\b(print|logging\.\w+|logger\.\w+|sys\.stderr\.write|sys\.stdout\.write)\s*\(")
+_INPUT_CALL = re.compile(r"\binput\s*\(")
+_SKIP_LINE = re.compile(r"\bredact\b|\*\*\*")  # 已脱敏/已打码的行不算发现
+
+EGRESS_SOURCES = (
+    "https://ipinfo.io/ip",
+    "https://ifconfig.me/ip",
+    "https://api.ipify.org",
+)
+
+# 假凭据探测的 errcode 解读（来自真实会话实测）
+PROBE_VERDICT = {
+    40164: ("fail", "IP 不在公众号白名单（40164）——先加白名单，不请求凭据"),
+    40013: ("pass", "假 appid 被识别为无效（40013）——IP 已过白名单"),
+    40125: ("pass", "假 secret 被识别为无效（40125）——IP 已过白名单"),
+}
+
+
+def _iter_files(root, include_tests):
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in (".git", "__pycache__", "node_modules")]
+        if not include_tests and any(p in ("tests", "test") for p in dirpath[len(root):].split(os.sep)):
+            continue
+        for fn in filenames:
+            path = os.path.join(dirpath, fn)
+            try:
+                if os.path.getsize(path) > 2 * 1024 * 1024:
+                    continue
+                with open(path, "rb") as f:
+                    if b"\0" in f.read(4096):
+                        continue
+            except OSError:
+                continue
+            yield path
+
+
+def _findings_for_line(line):
+    """返回该行命中的规则 id 列表。"""
+    rules = []
+    for m in _CLI_PARAM.finditer(line):
+        if _SECRET_NAME.search(m.group(1)):
+            rules.append("cli_secret_param")
+    if _OUTPUT_CALL.search(line) and _SECRET_NAME.search(line) and not _SKIP_LINE.search(line):
+        rules.append("output_secret")
+    if _INPUT_CALL.search(line) and _SECRET_NAME.search(line):
+        rules.append("input_secret")
+    low = line.lower()
+    for frag in BLOCKED_ENDPOINTS:
+        if frag in low:
+            rules.append("blocked_endpoint:" + frag)
+    return rules
+
+
+def cmd_scan(args):
+    root = os.path.abspath(args.dir)
+    if not os.path.isdir(root):
+        print("ERROR: not a directory: %s" % root)
+        return 2
+    findings = []
+    env_files = []
+    for path in _iter_files(root, args.include_tests):
+        rel = os.path.relpath(path, root)
+        if os.path.basename(path) == ".env":
+            env_files.append(rel)  # 只报存在，绝不读内容
+            continue
+        try:
+            with open(path, "r", encoding="utf-8", errors="replace") as f:
+                content = f.read()
+            for i, line in enumerate(content.splitlines(), 1):
+                for rule in _findings_for_line(line):
+                    findings.append({"file": rel, "line": i, "rule": rule,
+                                     "context": redact(line.strip())[:200]})
+        except OSError:
+            continue
+        for lit in args.forbid_literal:
+            if lit in content:
+                findings.append({"file": rel, "line": 0, "rule": "forbid_literal",
+                                 "context": "字面量必须全仓库消失: %r" % lit})
+    if args.json:
+        print(json.dumps({"dir": root, "findings": findings, "env_files": env_files},
+                         ensure_ascii=False, indent=2))
+    else:
+        if env_files:
+            for e in env_files:
+                print("ENV_FILE  %s（内容未读取；确认是否应存在/是否 chmod 600，且不入库）" % e)
+        for fd in findings:
+            loc = "%s:%s" % (fd["file"], fd["line"] if fd["line"] else "-")
+            print("%s  %s  %s" % (fd["rule"], loc, fd["context"]))
+        print("---")
+        print("findings=%d env_files=%d（tests/ 默认排除，--include-tests 开启；命中只是线索，按上下文人工判定，不盲改）"
+              % (len(findings), len(env_files)))
+    return 1 if findings else 0
+
+
+def _http_get(url, timeout=8):
+    req = urllib.request.Request(url, headers={"User-Agent": "curl/8.0"})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return resp.read().decode("utf-8", "replace").strip()
+
+
+def cmd_egress(args):
+    ips = []
+    details = []
+    for src in EGRESS_SOURCES:
+        try:
+            ip = _http_get(src)
+            ok = re.match(r"^\d{1,3}(\.\d{1,3}){3}$", ip)
+            details.append({"source": src, "ip": ip if ok else None, "ok": bool(ok),
+                            "error": None if ok else "bad response: %r" % ip[:40]})
+            if ok:
+                ips.append(ip)
+        except Exception as e:  # noqa: BLE001 —— 单源失败只记录，不影响其他源
+            details.append({"source": src, "ip": None, "ok": False, "error": "%s: %s" % (type(e).__name__, e)})
+    stable = None
+    if ips:
+        counts = {}
+        for ip in ips:
+            counts[ip] = counts.get(ip, 0) + 1
+        best, n = max(counts.items(), key=lambda kv: kv[1])
+        if n >= 2:
+            stable = best
+    result = {"stable": stable, "sources": details}
+    if stable is None:
+        result["verdict"] = "INCONCLUSIVE"
+        result["reason"] = "有效源不足 2 个一致（单源会抖动，不能单源下结论）"
+        rc = 2
+    elif args.expect_ip and stable != args.expect_ip:
+        result["verdict"] = "FAIL"
+        result["reason"] = "出口 IP 与目标不一致——立即停真实联调，标记 BLOCKED_BY_UNSTABLE_EGRESS_IP，不请求凭据"
+        rc = 1
+    else:
+        result["verdict"] = "PASS"
+        result["reason"] = "出口 IP 稳定" + ("且与目标一致" if args.expect_ip else "（未提供 --expect-ip，仅报稳定值）")
+        rc = 0
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        print("EGRESS_IP_STABLE:", result["verdict"], "|", result.get("reason", ""))
+        for d in details:
+            print("  source=%s ip=%s ok=%s err=%s" % (d["source"], d["ip"], d["ok"], d["error"]))
+        print("提示: 正式报告前再用独立进程跑一遍本命令，双路一致才算双路验证。")
+    return rc
+
+
+def cmd_probe(args):
+    url = args.token_url
+    sep = "&" if "?" in url else "?"
+    probe_url = "%s%sappid=DUMMY_APPID&secret=DUMMY_SECRET_0123456789" % (url, sep)
+    try:
+        body = _http_get(probe_url)
+    except Exception as e:  # noqa: BLE001
+        print(json.dumps({"verdict": "inconclusive", "error": "%s: %s" % (type(e).__name__, e)}, ensure_ascii=False))
+        return 2
+    try:
+        data = json.loads(body)
+    except ValueError:
+        data = {"raw": redact(body)[:200]}
+    errcode = data.get("errcode")
+    verdict, reason = PROBE_VERDICT.get(errcode, ("inconclusive",
+        "errcode=%s 非 40164/40013/40125，人工判读 errmsg（假凭据不应成功换取 token）" % errcode))
+    out = {"verdict": verdict, "errcode": errcode, "errmsg": data.get("errmsg"), "reason": reason,
+           "probe_url": redact(probe_url)}
+    print(json.dumps(out, ensure_ascii=False, indent=2))
+    return {"pass": 0, "fail": 1, "inconclusive": 2}[verdict]
+
+
+def main():
+    ap = argparse.ArgumentParser(description="凭据就绪检测（scan / egress / probe）")
+    sub = ap.add_subparsers(dest="cmd", required=True)
+
+    p1 = sub.add_parser("scan", help="凭据泄漏点扫描")
+    p1.add_argument("dir")
+    p1.add_argument("--forbid-literal", action="append", default=[],
+                    help="要求全仓库不出现的字面量（如旧 CLI 密钥参数名），可重复")
+    p1.add_argument("--include-tests", action="store_true", help="扫描 tests/ 目录（默认排除）")
+    p1.add_argument("--json", action="store_true")
+    p1.set_defaults(fn=cmd_scan)
+
+    p2 = sub.add_parser("egress", help="公网出口 IP 多源检测")
+    p2.add_argument("--expect-ip", help="目标固定出口 IP；不一致即 FAIL")
+    p2.add_argument("--json", action="store_true")
+    p2.set_defaults(fn=cmd_egress)
+
+    p3 = sub.add_parser("probe", help="IP 白名单探测（假凭据）")
+    p3.add_argument("--token-url", required=True, help="token 接口 URL（不带 appid/secret）")
+    p3.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    p3.set_defaults(fn=cmd_probe)
+
+    args = ap.parse_args()
+    sys.exit(args.fn(args))
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,80 @@
+{
+  "_说明": "minimal 模式（纯格式转换：不添加封面/目录/页眉页脚）专用样例 + 字段总表。命令：node make_docx.js 本文件 OUTPUT.docx --minimal。本文件列出 minimal 分支支持的全部字段，照表摆内容即可，不必读 make_docx.js 源码或完整模板 content.example.json。脚本内置委托通用默认版式：正文宋体小四(12pt)/1.5倍行距、中西文字体分离（西文 Times New Roman）、标题黑体加粗纯黑（一级三号/二级四号，西文 Arial）；委托有特殊字体要求时用下方 font* 字段覆盖。",
+  "_字段总表": {
+    "顶层": {
+      "minimal": "true（或命令行 --minimal，二者等价）",
+      "fontEastAsia": "正文中文字体，缺省 宋体",
+      "fontAscii": "正文西文字体，缺省 Times New Roman",
+      "headingFontEastAsia": "标题中文字体，缺省 黑体",
+      "headingFontAscii": "标题西文字体，缺省 Arial",
+      "boldTerms": "数组：原文子串，出现在正文/列表/表格文本中自动加粗（写了 runs 的块不命中）",
+      "title": "仅兜底字段，minimal 模式不生成封面，可省略"
+    },
+    "section": {
+      "h1": "一级标题文字（原文序号照抄，不自创编号）",
+      "align": "可选：一级标题对齐 center / right / left / both（写在 section 上，缺省按标题样式左对齐）",
+      "fontSize": "可选：一级标题字号，单位 pt（缺省样式内置黑体三号）",
+      "blocks": "块数组，见下"
+    },
+    "块通用字段（p/h2/list项/table 均可用）": {
+      "type": "p | h2 | list | table",
+      "align": "可选：center / right / left / both（对齐；h2 上会覆盖标题样式对齐）",
+      "fontSize": "可选：字号，单位 pt（如 10.5、12）；table 上作用于全表单元格与表题",
+      "bold": "可选：true 整段/整项加粗（与 text 搭配；写了 runs 时忽略，改在 runs 里逐段标 bold）"
+    },
+    "各类型专有字段": {
+      "p": {
+        "text": "正文文字；boldTerms 子串自动加粗；上标直接写标记 10^{6}",
+        "runs": "可选数组 [{text, bold?, italic?, super?, sub?}]：逐 run 保留原文格式；写了 runs 忽略 text/boldTerms",
+        "small": "可选：true → 9pt 灰字（原文档页脚信息按正文保留）"
+      },
+      "h2": { "text": "二级标题文字（样式已内置黑体四号加粗纯黑）" },
+      "list": { "items": "字符串或对象数组；对象支持 text/bold/runs/align/fontSize" },
+      "table": {
+        "headers": "表头数组（内置浅蓝底加粗表头）",
+        "rows": "二维数组；单元格文本同样支持 ^{上标} 标记与 boldTerms",
+        "widths": "可选：各列宽度比例数组（和为 1），缺省均分",
+        "boldCol": "可选：整列加粗的列下标（0 起）",
+        "boldAllCells": "可选：true 全表加粗（关键结论汇总表）",
+        "caption": "可选：表题，渲染为表上方居中加粗一行",
+        "fontSize": "可选：全表字号（pt），表题随同"
+      }
+    },
+    "不支持的字段": "minimal 分支不出封面(meta/subtitle/headerText)/目录/页眉页脚；上述未列的样式字段需改脚本顶部常量"
+  },
+  "minimal": true,
+  "fontEastAsia": "宋体",
+  "fontAscii": "Times New Roman",
+  "headingFontEastAsia": "黑体",
+  "headingFontAscii": "Arial",
+  "boldTerms": ["关键结论示例"],
+  "title": "文档标题（minimal 模式不用于封面，仅兜底）",
+  "sections": [
+    {
+      "h1": "一、一级标题（原文序号照抄）",
+      "align": "center",
+      "blocks": [
+        { "type": "p", "text": "普通段落；关键结论示例自动加粗；上标直接写标记：菌落总数 10^{6} CFU/g。" },
+        { "type": "p", "text": "居中段落示例（如落款单位）。", "align": "center" },
+        { "type": "p", "text": "指定字号示例（10.5pt 五号）。", "fontSize": 10.5 },
+        { "type": "p", "runs": [
+            { "text": "需逐 run 保留原文格式时用 runs：" },
+            { "text": "原斜体术语", "italic": true },
+            { "text": "; run 级加粗", "bold": true },
+            { "text": "; 单位上标 m", "bold": true }, { "text": "2", "super": true },
+            { "text": "; 下标 H" }, { "text": "2", "sub": true }, { "text": "O。" }
+          ] },
+        { "type": "p", "text": "原文档页脚信息按正文保留，例如：文档编号 XX-QP-001 · 版本 V2.0", "small": true },
+        { "type": "h2", "text": "1.1 二级标题" },
+        { "type": "h2", "text": "1.2 居中二级标题示例", "align": "center" },
+        { "type": "list", "items": [
+            "列表项一",
+            { "text": "列表项二（居中示例）", "align": "center" },
+            { "text": "列表项三（指定字号）", "fontSize": 10.5 }
+          ] },
+        { "type": "table", "caption": "表1 产品信息（表题示例）", "headers": ["字段", "内容"], "widths": [0.3, 0.7], "rows": [["产品名", "示例值"], ["规格", "10^{6} CFU/g"]], "boldCol": 1, "fontSize": 10.5 },
+        { "type": "table", "headers": ["关键结论", "说明"], "rows": [["关键结论示例", "备注"]], "boldAllCells": true }
+      ]
+    }
+  ]
+}

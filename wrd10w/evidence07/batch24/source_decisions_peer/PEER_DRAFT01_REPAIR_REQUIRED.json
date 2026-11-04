@@ -1,0 +1,662 @@
+{
+  "schema": "wrd-source-only-decisions-independent-semantic-peer-v1",
+  "status": "REPAIR_OR_GENERATION_PENDING",
+  "reviewed_script": {
+    "path": "D:\\skillloop\\output\\20261029_wrd_batch24\\build_source_decisions.py",
+    "sha256": "0772ef86517532c8163cce39f2b02ea93842043f073b8405a55fa541fd5bdda9",
+    "bytes": 14970
+  },
+  "raw_pin": {
+    "path": "D:\\skillloop\\output\\20261029_wrd_batch24\\source_decisions\\decisions.raw.jsonl.gz",
+    "sha256": "3f7eb206fcbcbc2443c3d17b288f2c7a839a7252fe975f5819f4257024e0f27e",
+    "bytes": 9260
+  },
+  "reviewed_targets": 13,
+  "distinct_sources": 6,
+  "records": [
+    {
+      "id": "batch24_source_decision:knowledge_start",
+      "source_id": "conv_1e8e6e53ac34",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_1e8e6e53ac34\\conversation.json",
+        "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c",
+        "bytes": 11295
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_1e8e6e53ac34:msg_1",
+          "full_content_chars": 28,
+          "full_content_sha256": "edb87ff56bb10d6bad3e52a8abe5c25e9cefabb6ed34b87932da57b253b85e26",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_1e8e6e53ac34",
+        "status": "TRAIN",
+        "original_source_group": "fc_a863704a92d1a009",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_a863704a92d1a0096062",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "A_source_only_entry_decision",
+      "new_rationale_sha256": "5d7206e24c1f609e04346c5c654414eacb96de8516c0e27b2b46612025e2d1be",
+      "new_decision_canonical_sha256": "66c7719d18a5d6db53ca468aea3f00f03730d46463f16166cb03932ee40f08bb",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:docx_material_first",
+      "source_id": "conv_1ec77749aa65",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_1ec77749aa65\\conversation.json",
+        "sha256": "a490bd2c55b82664fe707fe690d44cdb261ff9adf9b9524741815924df8fea1b",
+        "bytes": 42045
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_1ec77749aa65:msg_1",
+          "full_content_chars": 224,
+          "full_content_sha256": "04ccc33ea9cf2767ecb7ea7358851816b6128ec0329b9b15a19fc1957ea45ec2",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_1ec77749aa65",
+        "status": "TRAIN",
+        "original_source_group": "fc_fb9b68c1ef403ca2",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_fb9b68c1ef403ca20a6d",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "B_source_only_dependency_decision",
+      "new_rationale_sha256": "5abedaa034758afdd6378c623d683824ab3e5694b204af52fa24050bde21179f",
+      "new_decision_canonical_sha256": "1bef36e7a4eb79979fd2bf99d6f87fbaa21626c5791f3ac6ffd9f59a2bbb3900",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:funding_initial",
+      "source_id": "conv_526e4b625656",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_526e4b625656\\conversation.json",
+        "sha256": "ce739cfc51dac9f559dbe05ffc7284e5fede7a3b2d08a428a79afb22167bbad2",
+        "bytes": 49114
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_526e4b625656:msg_1",
+          "full_content_chars": 74,
+          "full_content_sha256": "36cee0474d4e12f05b04e80f6311bf15134e70251acb8f67a3a33af9c606dfb1",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_526e4b625656",
+        "status": "TRAIN",
+        "original_source_group": "fc_2f7ac7212b24d390",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_2f7ac7212b24d390850b",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "B_source_only_dependency_decision",
+      "new_rationale_sha256": "603b2360a99ecac69aae495c3d74c4d1b607d72c21dc99ae1764ad8ea8417cc6",
+      "new_decision_canonical_sha256": "aa162aef84c4dbddf2b0fdcb80d79c26ef1eb40a597a025a79d985b87bbcee91",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:funding_visual_failure",
+      "source_id": "conv_526e4b625656",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_526e4b625656\\conversation.json",
+        "sha256": "ce739cfc51dac9f559dbe05ffc7284e5fede7a3b2d08a428a79afb22167bbad2",
+        "bytes": 49114
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_526e4b625656:msg_1",
+          "full_content_chars": 74,
+          "full_content_sha256": "36cee0474d4e12f05b04e80f6311bf15134e70251acb8f67a3a33af9c606dfb1",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 1,
+          "message_id": "conv_526e4b625656:msg_31",
+          "full_content_chars": 76,
+          "full_content_sha256": "b16445e05fd83c437dcee27d71a589776ee7c140868ac72ca48331ce209d4bef",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_526e4b625656",
+        "status": "TRAIN",
+        "original_source_group": "fc_2f7ac7212b24d390",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_2f7ac7212b24d390850b",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "C_source_only_feedback_diagnosis",
+      "new_rationale_sha256": "03f3a0101ba8f1ed92e0e595f78ebaa38ade621e7ced40b02eda0712e9ee1cb7",
+      "new_decision_canonical_sha256": "d1a4ad55129ec7dd132872f926d68d57d76c8753a3c21f7bfa51826b78b4e0fd",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:funding_content_failure",
+      "source_id": "conv_526e4b625656",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_526e4b625656\\conversation.json",
+        "sha256": "ce739cfc51dac9f559dbe05ffc7284e5fede7a3b2d08a428a79afb22167bbad2",
+        "bytes": 49114
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_526e4b625656:msg_1",
+          "full_content_chars": 74,
+          "full_content_sha256": "36cee0474d4e12f05b04e80f6311bf15134e70251acb8f67a3a33af9c606dfb1",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 1,
+          "message_id": "conv_526e4b625656:msg_31",
+          "full_content_chars": 76,
+          "full_content_sha256": "b16445e05fd83c437dcee27d71a589776ee7c140868ac72ca48331ce209d4bef",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 2,
+          "message_id": "conv_526e4b625656:msg_69",
+          "full_content_chars": 71,
+          "full_content_sha256": "76583e91ed248360c954f59e254aeacd95bf529598e4ece6f693f2b5f56a4e06",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_526e4b625656",
+        "status": "TRAIN",
+        "original_source_group": "fc_2f7ac7212b24d390",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_2f7ac7212b24d390850b",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "C_source_only_feedback_diagnosis",
+      "new_rationale_sha256": "ce54d39f6de33c73f2c6c923cdd25ecb16c018a6dcd205816b46833bf76c6140",
+      "new_decision_canonical_sha256": "dd34745c54b1420a191daf72114c2a90c82aa98333b1e65efd5141ddf6b4c308",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:funding_merge_regression",
+      "source_id": "conv_526e4b625656",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_526e4b625656\\conversation.json",
+        "sha256": "ce739cfc51dac9f559dbe05ffc7284e5fede7a3b2d08a428a79afb22167bbad2",
+        "bytes": 49114
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_526e4b625656:msg_1",
+          "full_content_chars": 74,
+          "full_content_sha256": "36cee0474d4e12f05b04e80f6311bf15134e70251acb8f67a3a33af9c606dfb1",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 2,
+          "message_id": "conv_526e4b625656:msg_69",
+          "full_content_chars": 71,
+          "full_content_sha256": "76583e91ed248360c954f59e254aeacd95bf529598e4ece6f693f2b5f56a4e06",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 3,
+          "message_id": "conv_526e4b625656:msg_82",
+          "full_content_chars": 48,
+          "full_content_sha256": "dd149df0ff0ebc3c8df9cf96c3227fb49eb59d32879ab4c9490f1de7eecfe055",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 4,
+          "message_id": "conv_526e4b625656:msg_92",
+          "full_content_chars": 48,
+          "full_content_sha256": "dd0de4a6e510114e397e34c4074d332e4ba5ed922e0113e049c56b5a764fdae2",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_526e4b625656",
+        "status": "TRAIN",
+        "original_source_group": "fc_2f7ac7212b24d390",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_2f7ac7212b24d390850b",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "C_source_only_revision_decision",
+      "new_rationale_sha256": "a1062dbe87c16ba823b949210425093333f45cb5a3da118a0d6708ba65765655",
+      "new_decision_canonical_sha256": "a417735f17f088937e3cc6d98ceab9c544168b15f6509622fa754512188de84c",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:funding_glyph_regression",
+      "source_id": "conv_526e4b625656",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_526e4b625656\\conversation.json",
+        "sha256": "ce739cfc51dac9f559dbe05ffc7284e5fede7a3b2d08a428a79afb22167bbad2",
+        "bytes": 49114
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_526e4b625656:msg_1",
+          "full_content_chars": 74,
+          "full_content_sha256": "36cee0474d4e12f05b04e80f6311bf15134e70251acb8f67a3a33af9c606dfb1",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 2,
+          "message_id": "conv_526e4b625656:msg_69",
+          "full_content_chars": 71,
+          "full_content_sha256": "76583e91ed248360c954f59e254aeacd95bf529598e4ece6f693f2b5f56a4e06",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 3,
+          "message_id": "conv_526e4b625656:msg_82",
+          "full_content_chars": 48,
+          "full_content_sha256": "dd149df0ff0ebc3c8df9cf96c3227fb49eb59d32879ab4c9490f1de7eecfe055",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 4,
+          "message_id": "conv_526e4b625656:msg_92",
+          "full_content_chars": 48,
+          "full_content_sha256": "dd0de4a6e510114e397e34c4074d332e4ba5ed922e0113e049c56b5a764fdae2",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 5,
+          "message_id": "conv_526e4b625656:msg_106",
+          "full_content_chars": 64,
+          "full_content_sha256": "9c8dd00ca1a25966be94481668105fcbeea55cfddfe52558ee82ee72898925e1",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 6,
+          "message_id": "905d5510-1f2e-4520-be3b-e98de5f3d008",
+          "full_content_chars": 71,
+          "full_content_sha256": "411580e43e1014a7b24fe22d6971f3cd4a32fafbb3f75738cc3047c802311511",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_526e4b625656",
+        "status": "TRAIN",
+        "original_source_group": "fc_2f7ac7212b24d390",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_2f7ac7212b24d390850b",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "C_source_only_revision_decision",
+      "new_rationale_sha256": "9f5ff2e7e736638de3933d051a00800fd7df8fc1ba5effae368d8b9db58aef42",
+      "new_decision_canonical_sha256": "63451bfa495b40aaf80e8a13cb15da41e0a4bae576daf59955c2b7ce5eeab510",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:funding_job_update",
+      "source_id": "conv_526e4b625656",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_526e4b625656\\conversation.json",
+        "sha256": "ce739cfc51dac9f559dbe05ffc7284e5fede7a3b2d08a428a79afb22167bbad2",
+        "bytes": 49114
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_526e4b625656:msg_1",
+          "full_content_chars": 74,
+          "full_content_sha256": "36cee0474d4e12f05b04e80f6311bf15134e70251acb8f67a3a33af9c606dfb1",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 2,
+          "message_id": "conv_526e4b625656:msg_69",
+          "full_content_chars": 71,
+          "full_content_sha256": "76583e91ed248360c954f59e254aeacd95bf529598e4ece6f693f2b5f56a4e06",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 3,
+          "message_id": "conv_526e4b625656:msg_82",
+          "full_content_chars": 48,
+          "full_content_sha256": "dd149df0ff0ebc3c8df9cf96c3227fb49eb59d32879ab4c9490f1de7eecfe055",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 4,
+          "message_id": "conv_526e4b625656:msg_92",
+          "full_content_chars": 48,
+          "full_content_sha256": "dd0de4a6e510114e397e34c4074d332e4ba5ed922e0113e049c56b5a764fdae2",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 5,
+          "message_id": "conv_526e4b625656:msg_106",
+          "full_content_chars": 64,
+          "full_content_sha256": "9c8dd00ca1a25966be94481668105fcbeea55cfddfe52558ee82ee72898925e1",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 6,
+          "message_id": "905d5510-1f2e-4520-be3b-e98de5f3d008",
+          "full_content_chars": 71,
+          "full_content_sha256": "411580e43e1014a7b24fe22d6971f3cd4a32fafbb3f75738cc3047c802311511",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 7,
+          "message_id": "f87c8738-101f-4a93-bdf6-4d9a63fcb60c",
+          "full_content_chars": 25,
+          "full_content_sha256": "1f9e4a3541629c469e9208b20554d20baed6d2e92ac3fb9139b8a628cba90d8a",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_526e4b625656",
+        "status": "TRAIN",
+        "original_source_group": "fc_2f7ac7212b24d390",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_2f7ac7212b24d390850b",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "D_source_only_update_boundary_decision",
+      "new_rationale_sha256": "8683d765c93400c2a23b1f79eaeab2de836af16bf82cc5938d4903d7adc57532",
+      "new_decision_canonical_sha256": "fda602607270ba9ad4ba2e69cd0361cf6070100d2d10ce1f9d14577e9dfa9688",
+      "semantics": "REPAIR_REQUIRED_MISSING_INPUT_CONSTRAINT",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:slide_empty",
+      "source_id": "conv_6318c0ad05d5",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_6318c0ad05d5\\conversation.json",
+        "sha256": "807daea05c29e5bc9fa87cfef4fecc65c4e53078fb3fc992d548d08fe4a8ef8c",
+        "bytes": 304638
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_6318c0ad05d5:ae069b93",
+          "full_content_chars": 68,
+          "full_content_sha256": "769eac0886a0c65bfa538534fa3e1451bfe859d2c5abe1c9336b1a9a231232a6",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 1,
+          "message_id": "conv_6318c0ad05d5:msg_21",
+          "full_content_chars": 65,
+          "full_content_sha256": "00f2b25c676a78d0e694a2efcb6a864c096f5135f93bc495d2cee4be4bf3d9b7",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_6318c0ad05d5",
+        "status": "TRAIN",
+        "original_source_group": "fc_4db4db1b4e34626b",
+        "original_existing_split": null,
+        "explicit_new_train_assignment": true,
+        "component_id": "v10_group_4db4db1b4e34626be0eb",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "C_source_only_feedback_diagnosis",
+      "new_rationale_sha256": "7eec517f6cd075e6aaeb202dfe0521caab77dc5d3c68316932f4af2e4809c547",
+      "new_decision_canonical_sha256": "70993428f8a102749061063855081302a237a4d71a7b04f7e9e0df71b82b0460",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:slide_regenerate",
+      "source_id": "conv_6318c0ad05d5",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_6318c0ad05d5\\conversation.json",
+        "sha256": "807daea05c29e5bc9fa87cfef4fecc65c4e53078fb3fc992d548d08fe4a8ef8c",
+        "bytes": 304638
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_6318c0ad05d5:ae069b93",
+          "full_content_chars": 68,
+          "full_content_sha256": "769eac0886a0c65bfa538534fa3e1451bfe859d2c5abe1c9336b1a9a231232a6",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 1,
+          "message_id": "conv_6318c0ad05d5:msg_21",
+          "full_content_chars": 65,
+          "full_content_sha256": "00f2b25c676a78d0e694a2efcb6a864c096f5135f93bc495d2cee4be4bf3d9b7",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 2,
+          "message_id": "conv_6318c0ad05d5:msg_27",
+          "full_content_chars": 43,
+          "full_content_sha256": "efdea0f106a14dfb697645bca22837bdfd2c2f3acc0e7fda51a96219bacce2fe",
+          "original_conversation_exact_match": true
+        },
+        {
+          "pool_user_index": 3,
+          "message_id": "conv_6318c0ad05d5:msg_29",
+          "full_content_chars": 34,
+          "full_content_sha256": "a4b5cc3751e2fb6aed9db90d14ad0f5d4b64b0b89516b11ba865d9528ff8fb7b",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_6318c0ad05d5",
+        "status": "TRAIN",
+        "original_source_group": "fc_4db4db1b4e34626b",
+        "original_existing_split": null,
+        "explicit_new_train_assignment": true,
+        "component_id": "v10_group_4db4db1b4e34626be0eb",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "B_source_only_revision_decision",
+      "new_rationale_sha256": "8f220e6e99923ddbb9811884ad6272d89746d6bc1464dae8e935a8391a32fc29",
+      "new_decision_canonical_sha256": "9c4e4ad9c6886491eeca69919ddb4883266aca3cbe9da91a8c36084e39be4fa3",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:slide_video_script_gate",
+      "source_id": "conv_6318c0ad05d5",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_6318c0ad05d5\\conversation.json",
+        "sha256": "807daea05c29e5bc9fa87cfef4fecc65c4e53078fb3fc992d548d08fe4a8ef8c",
+        "bytes": 304638
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 11,
+          "message_id": "conv_6318c0ad05d5:msg_86",
+          "full_content_chars": 87,
+          "full_content_sha256": "0119e04fb2f659e75a6fa736bcbea292ab64772b7d93066287cd60f3fb86dc1d",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_6318c0ad05d5",
+        "status": "TRAIN",
+        "original_source_group": "fc_4db4db1b4e34626b",
+        "original_existing_split": null,
+        "explicit_new_train_assignment": true,
+        "component_id": "v10_group_4db4db1b4e34626be0eb",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "B_source_only_output_order_decision",
+      "new_rationale_sha256": "a89d33e5cdeb0c4d8dcbd626f619943fef63b21d1f7e47d3c99c11e3d97ebfa0",
+      "new_decision_canonical_sha256": "55bdde3ea038e02544d370c517b8a5f3a00a675f92f1849f92c7a6bfccc38245",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:html_requested_persona",
+      "source_id": "conv_c1ce48280769",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_c1ce48280769\\conversation.json",
+        "sha256": "2e9d1fe8b21539bb4be9337d596bb386b2b51162b2c9f6000e8d9eb32f49be4b",
+        "bytes": 6173
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "conv_c1ce48280769:msg_1",
+          "full_content_chars": 93,
+          "full_content_sha256": "5dda0aae6f24a5c1246e626aec4749bccb2c7ad54a1277f516ef75a60bd919c3",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_c1ce48280769",
+        "status": "TRAIN",
+        "original_source_group": "fc_04ce8b10f955ebbf",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_04ce8b10f955ebbfaec2",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "B_source_only_resource_scope_decision",
+      "new_rationale_sha256": "2ef918b136f8c2e8bd6ec6d8b89d18af3c4dcf6589bdc2228efe3b39e61766b6",
+      "new_decision_canonical_sha256": "65b634b31a491bfd64095532257f03e81e2f69c5233e8ab92b5fcf10656df663",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    },
+    {
+      "id": "batch24_source_decision:html_teaching_scope",
+      "source_id": "conv_eca9c2676037",
+      "source": {
+        "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_eca9c2676037\\conversation.json",
+        "sha256": "68b7a1a9153dd90ab8d5c60e3044e05afd99ec4c5df613b597b0b5b113ec9b0f",
+        "bytes": 5937
+      },
+      "selected_user_proofs": [
+        {
+          "pool_user_index": 0,
+          "message_id": "600aa861-3ead-4606-8ecf-f58dfcc1a72e",
+          "full_content_chars": 17,
+          "full_content_sha256": "a795f498832544b4bf2f58f2c9503b1d001f8b8c7164d5ded0e4f94a30921044",
+          "original_conversation_exact_match": true
+        }
+      ],
+      "scope": {
+        "source_id": "conv_eca9c2676037",
+        "status": "TRAIN",
+        "original_source_group": "fc_0e10357a40c72f39",
+        "original_existing_split": "train",
+        "explicit_new_train_assignment": false,
+        "component_id": "v10_group_0e10357a40c72f39ad6d",
+        "criterion": "original source group + actual private user-input byte identity + known content references; public builtins never merge groups"
+      },
+      "target_stage": "B_source_only_resource_scope_decision",
+      "new_rationale_sha256": "52a302359845344f3397e139a8d4bd3e93c28aeea1064bb3e35376f69a06d6b3",
+      "new_decision_canonical_sha256": "3c596ab6e7d24cfe096369c49c6e14edb15bf5d03b11af77f736da19ae1f5293",
+      "semantics": "PASS_BOUNDED_SOURCE_ONLY_NEXT_STEP_AND_VERIFICATION_POLICY",
+      "why_not_just_contract": "The target schedules a next action, unknown prerequisites and checks for the selected concrete request or correction; it does not merely restate a generic pipeline contract."
+    }
+  ],
+  "raw_checks": [
+    {
+      "id": "batch24_source_decision:knowledge_start",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:docx_material_first",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:funding_initial",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:funding_visual_failure",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:funding_content_failure",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:funding_merge_regression",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:funding_glyph_regression",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:funding_job_update",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:slide_empty",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:slide_regenerate",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:slide_video_script_gate",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:html_requested_persona",
+      "raw_matches_reviewed_source_and_label": true
+    },
+    {
+      "id": "batch24_source_decision:html_teaching_scope",
+      "raw_matches_reviewed_source_and_label": true
+    }
+  ],
+  "failures": [
+    {
+      "id": "batch24_source_decision:funding_job_update",
+      "issue": "Missing earlier user text-overlap evidence while persistent-update target includes no-overlap requirement. Add original user occurrence index1 or explicitly frame it as a new recommendation."
+    }
+  ],
+  "reviewed_input_scope": "Actual pinned clean original user occurrences only; no old route, resource, trial or historical assistant answer supplies new target facts.",
+  "semantic_findings": [
+    "The funding examples preserve growing content and visible quality constraints instead of rewarding file existence.",
+    "The three-page example correctly leaves identities unknown when the earlier proposal is absent.",
+    "The video-script example preserves user-required output order before any video work.",
+    "The two HTML examples distinguish explicit requirements from unrequested engines, quizzes and unverified astronomical details.",
+    "No target invents an actual environment, tool call, generated artifact, successful patch or retained skill."
+  ],
+  "credit_scope": "Limited source-only planning, feedback diagnosis, prerequisite checks and update-boundary supervision.",
+  "not_supported": [
+    "Actual resource construction or repair success",
+    "Verified skill utility or lower cost",
+    "Native autonomous A-through-D trajectory",
+    "Original teacher chain of thought",
+    "Human gold or model performance guarantee"
+  ],
+  "tokenizer_mask_and_loader_QA": "ROOT_SEPARATE_PENDING",
+  "training_started": false,
+  "weights_loaded": false,
+  "new_Agent_calls": 0,
+  "review_script_sha256": "b3969a4c51624a1006c9f933974656508e8f674485e1819c901af9b5a46a70f6"
+}

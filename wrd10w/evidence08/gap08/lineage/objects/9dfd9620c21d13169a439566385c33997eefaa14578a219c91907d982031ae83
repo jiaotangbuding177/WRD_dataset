@@ -1,0 +1,46 @@
+{
+  "skill": "workitem-weekly-report",
+  "route": "inputs/route.json",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/cases.md",
+    "outputs/skill/scripts/collect_workitems.py",
+    "outputs/skill/scripts/weekly_stats.py"
+  ],
+  "replaced_work": "无 previous_skill（previous.json 为空），全新制作。reusable 三个技能仅作路线指引（定时刷新→scheduled-task-config、授权→skill-connector-setup、知识库→knowledge-base-maintenance），未复制其文件，本技能不依赖其他技能目录。",
+  "program_runs": [
+    {
+      "cmd": "python3 outputs/making_samples/make_fixtures.py",
+      "result": "生成边界样例：周期内三种类型、非完成状态、周期外(前后各一)、缺时间字段、分页重复、非对象条目、空数组、PR(周期内合并/周期外合并/open)"
+    },
+    {
+      "cmd": "python3 outputs/skill/scripts/weekly_stats.py --input workitems_fixture.json --start 2026-05-11 --end 2026-05-18 --pr-input pr_fixture.json",
+      "result": "通过：4 条命中(需求2/缺陷1/任务1)，排除分布逐项正确(非完成1/周期外2/缺时间1/重复1/格式1)，PR 按仓库计数只含周期内合并的 2 条，输出 markdown 汇总块"
+    },
+    {
+      "cmd": "python3 outputs/skill/scripts/weekly_stats.py --input workitems_fixture.json --last-week --json",
+      "result": "通过：本周五(2026-10-23)正确推出上周 2026-10-12 ~ 2026-10-18，--json 附结构化结果"
+    },
+    {
+      "cmd": "python3 outputs/skill/scripts/weekly_stats.py --input workitems_empty.json --start 2026-05-11 --end 2026-05-18",
+      "result": "通过：结果为0时输出三处口径排查提示(state=all/分页/updated_at)"
+    },
+    {
+      "cmd": "weekly_stats.py 缺输入文件 / 缺起止参数",
+      "result": "通过：均 exit 2 并给出原因"
+    },
+    {
+      "cmd": "GITEE_TOKEN=*** python3 outputs/skill/scripts/collect_workitems.py --enterprise demo --repos owner/demo --base-url http://127.0.0.1:18923 (本地 mock)",
+      "result": "通过：mock 250 工作项(3页)+130 PR(2页)，服务端确认每次请求均带 state=all 且 page 1→3 递增到短页停止，去重后 250/130 无重复，产物见 making_samples/collected_issues.json、collected_prs.json"
+    },
+    {
+      "cmd": "collect_workitems.py 无 GITEE_TOKEN",
+      "result": "通过：exit 2，提示凭据缺失，不生成空数据"
+    }
+  ],
+  "known_issues": [
+    "工作项/PR 采集依赖真实 Gitee 企业接口与令牌，本次仅用本地 mock 验证 HTTP 行为(state=all、分页、去重)；真实企业字段若有出入，weekly_stats 的字段兼容列表(state/issue_state、updated_at、type/issue_type、ident/number/id、title/subject/name)已尽量覆盖，仍以实际返回为准",
+    "历史会话未保留飞书文档创建的确切 lark-cli 参数(原生工具事件未认证)，SKILL.md 只固化身份/权限/@人/授权流程等已证实的判断，文档写入命令由执行器按当时 lark-cli 能力选择",
+    "时间比较取 updated_at 的日期部分，未做时区换算；用户口径跨日边界敏感时以用户指定为准"
+  ]
+}

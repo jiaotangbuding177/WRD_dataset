@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Build a slide plan skeleton for the image-type PPT route.
+
+Method: read a PPT request JSON file (topic, pages, optional style and
+confirm_free), validate it, and write a normalized slide plan JSON containing
+one empty slide entry per page (page, title, image_prompt, image_path). The
+business agent fills in titles and per-page image prompts afterwards. The flag
+needs_confirmation records whether the outline/style must be confirmed with
+the user before generating: it is false only when the request explicitly says
+no confirmation is needed (confirm_free=true).
+
+Public usage:
+  python build_slide_plan.py REQUEST_JSON --out PLAN_JSON
+
+Inputs: request JSON with keys topic (non-empty string), pages (integer
+1..50), style (optional non-empty string), confirm_free (optional bool).
+Outputs: slide plan JSON at the --out path; stdout prints the output path.
+Errors: exit 2 with 'plan_error: ...' on stderr for unreadable/invalid JSON,
+missing/empty topic, non-integer or out-of-range pages, wrong types, or an
+unwritable output path. No other files are read or written.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+def fail(message: str) -> None:
+    print("plan_error: " + message, file=sys.stderr)
+    raise SystemExit(2)
+
+
+def nonempty_str(value, name: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        fail(f"{name} must be a non-empty string")
+    return value.strip()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Build a slide plan skeleton from a PPT request JSON."
+    )
+    parser.add_argument("request", help="PPT request JSON path")
+    parser.add_argument("--out", required=True, help="output slide plan JSON path")
+    args = parser.parse_args()
+
+    try:
+        raw = Path(args.request).read_bytes()
+    except OSError as error:
+        fail(f"cannot read request file: {error}")
+    try:
+        request = json.loads(raw.decode("utf-8-sig"))
+    except (UnicodeError, ValueError) as error:
+        fail(f"request is not valid JSON: {error}")
+    if not isinstance(request, dict):
+        fail("request must be a JSON object")
+
+    topic = nonempty_str(request.get("topic"), "topic")
+    pages = request.get("pages")
+    if isinstance(pages, bool) or not isinstance(pages, int):
+        fail("pages must be an integer")
+    if not 1 <= pages <= 50:
+        fail("pages must be between 1 and 50")
+    style = request.get("style", "")
+    if style is None:
+        style = ""
+    style = nonempty_str(style, "style") if style != "" else ""
+    confirm_free = request.get("confirm_free", False)
+    if not isinstance(confirm_free, bool):
+        fail("confirm_free must be a boolean")
+
+    slides = [
+        {
+            "page": number,
+            "title": "",
+            "image_prompt": "",
+            "image_path": f"slide_{number:03d}.png",
+        }
+        for number in range(1, pages + 1)
+    ]
+    plan = {
+        "topic": topic,
+        "pages": pages,
+        "style": style,
+        "aspect": "16:9",
+        "image_width": 2048,
+        "image_height": 1152,
+        "needs_confirmation": not confirm_free,
+        "slides": slides,
+    }
+    payload = json.dumps(plan, ensure_ascii=False, indent=2) + "\n"
+    out = Path(args.out)
+    try:
+        if out.parent and not out.parent.exists():
+            out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(payload, encoding="utf-8")
+    except OSError as error:
+        fail(f"cannot write plan file: {error}")
+    print(str(out))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

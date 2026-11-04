@@ -1,0 +1,54 @@
+{
+  "tool": "validate_pack.py",
+  "mode": "validate",
+  "verdict": "STRUCTURAL_FAIL",
+  "structural_pass": false,
+  "failures": [
+    {
+      "id": "declared_number_subject_mismatch",
+      "detail": "fact F002 主体关联不符：账本 subject='教师备课时间每周节省(实测口径)'，成稿声明 subject='行政事务耗时'",
+      "path": "$.declared_numbers[1]"
+    }
+  ],
+  "checks_passed": [
+    "ledger_basics",
+    "draft_basics",
+    "evidence_refs",
+    "fact_closure",
+    "type_rules",
+    "length",
+    "paragraphs",
+    "conflicts",
+    "word_delivery"
+  ],
+  "needs_semantic_review": [
+    {
+      "id": "NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+      "detail": "fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因"
+    },
+    {
+      "id": "NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+      "detail": "fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因"
+    },
+    {
+      "id": "NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+      "detail": "fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因"
+    },
+    {
+      "id": "NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+      "detail": "fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因"
+    },
+    {
+      "id": "NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+      "detail": "fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因"
+    }
+  ],
+  "notes": [
+    "LENGTH_OK: 口径=non_whitespace 实际=118 上限=600",
+    "TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word"
+  ],
+  "meta": {
+    "external_verification": "none：所有 user_provided 事实均未做外部独立核实",
+    "scope": "仅结构/类型/数字/长度/引用连续性的确定性检查；语义忠实度需独立人工复核"
+  }
+}

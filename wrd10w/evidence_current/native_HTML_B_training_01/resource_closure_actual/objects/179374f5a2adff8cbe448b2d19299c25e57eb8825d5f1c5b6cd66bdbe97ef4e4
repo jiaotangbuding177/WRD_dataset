@@ -1,0 +1,53 @@
+{
+  "schema": "wrd-html-independent-counterexample-supplement-v1",
+  "at": "2026-10-27T05:33:30.326376+00:00",
+  "status": "THREE_ACTUAL_RESOURCE_DEFECTS_NOT_WHOLE_PACKAGE_REJECTION",
+  "base_review": {
+    "path": "output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B_PHASE2_HTML_RESOURCE_AUDIT_01\\RESOURCE_REVIEW.json",
+    "sha256": "7a67db8bfbbf357e165397a4a00b5ea0e9b7daab8e9fcfe5bf1ab79fb17fa59b"
+  },
+  "new_agent_or_model_calls": 0,
+  "second_probes_original_admission_wait_preserved": true,
+  "second_probes_actual_host_available_bytes": 8136728576,
+  "resource_defects": [
+    {
+      "id": "VERIFIER_FALSE_RESUME",
+      "original_file": "scripts/verify_animation.mjs",
+      "original_sha256": "e24cded8329d502c88992904fd0bb20401cd70c9d8360785608f86931f015c16",
+      "actual": "A byte-copy of the real moving Maker HTML with only second-toggle resume disabled still exits0 and ok=true in the original verifier. Independent actual HUD time0.5→0.5 confirms resume did not work. The existing frame counter grows during paused redraw and cannot prove simulation resume/reset progress.",
+      "evidence": [
+        "MAKER_RESUME_CANARY_PUBLIC_VERIFY.json",
+        "MAKER_RESUME_CANARY_PUBLIC_VERIFY.log.json",
+        "HTML_SECOND_PROBES.json"
+      ],
+      "credit_limit": "Initial load/drawing/pause checks may remain valid individually; resume/reset playing subchecks and whole-verifier sufficiency are not correct."
+    },
+    {
+      "id": "SYNTHETIC_EXAMPLE_HEIGHT_SIGN",
+      "original_file": "examples/ball_bounce/topic.js",
+      "original_sha256": "5d86867f33391e8f398ee26e38029a1e3ebb2cd73102b8010cd2833ac936e2b0",
+      "actual": "Exact original example with declared dropHeight3.2 has HUD height3.20 before its first step, then0.00 and impact-active after1/120sec. The public renderer independently had no canvas content change at the checked interval. The source initializes positive y but treats y>=0 as ground and draws positive y downward.",
+      "evidence": [
+        "HTML_SECOND_PROBES.json",
+        "EXACT_PUBLIC_BALL_VERIFY.json",
+        "ball.html.independent.png"
+      ],
+      "credit_limit": "Declared synthetic illustration is not a distinct enterprise case; original example write is not positive in full."
+    },
+    {
+      "id": "OPTIONAL_FIELD_TYPE_TRACEBACK",
+      "original_file": "scripts/gen_animation.py",
+      "original_sha256": "f8059b820333059e38670d3521c67d8274755744a626a25e7b52c6635a193acc",
+      "actual": "Otherwise original example config with subtitle integer42 causes uncaught TypeError/exit1, rather than documented invalid-config exit2. No new output produced.",
+      "evidence": [
+        "ACTUAL_COMMANDS.json"
+      ],
+      "credit_limit": "Normal Maker generation was independently correct; this is a boundary/type-checking defect."
+    }
+  ],
+  "original_maker_controls_independently_passed": true,
+  "physics_pedagogy_expert_gold_or_business_benefit_claimed": false,
+  "original_resource_files_unchanged": true,
+  "current_CV_revision_not_given_this_feedback": true,
+  "source_ancestry": "Only new clean Maker conv_6347576535a5 plus explicitly synthetic canaries; no E1/E2 bodies or old Teacher products."
+}

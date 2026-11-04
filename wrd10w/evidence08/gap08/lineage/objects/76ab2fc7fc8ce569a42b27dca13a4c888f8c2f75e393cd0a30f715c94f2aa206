@@ -1,0 +1,9 @@
+import json
+for f in ['/workspace/inputs/conversations/conv_073150ee30be.json','/workspace/inputs/conversations/conv_d5047f96985d.json']:
+    d=json.load(open(f))
+    print('='*30, f)
+    for m in d['messages']:
+        role=m.get('role')
+        txt=(m.get('text') or m.get('content') or '')
+        if isinstance(txt,list): txt=str(txt)
+        print('---[%s] %s: %s' % (m.get('id','?'), role, str(txt)[:400]))

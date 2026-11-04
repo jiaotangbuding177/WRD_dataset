@@ -1,0 +1,312 @@
+{
+  "schema": "wrd-native-api-provider-call-passive-mapping-v1",
+  "at": "2026-10-26T17:13:57.662410+00:00",
+  "native_http_exchanges": 9,
+  "distinct_metered_provider_requests": 7,
+  "paid_usage_model_calls": 7,
+  "known_total_tokens": 570932,
+  "usage_measurement_status": "complete",
+  "new_requests_issued_to_reconcile": 0,
+  "existing_bridge_not_modified": true,
+  "http_exchanges": [
+    {
+      "call_id": "0001_8ba5d4f34c6c48bfb4b2059f7793cb44",
+      "response_id": "chatcmpl-1793033339001",
+      "started_at": "2026-10-26T16:48:54.949768+00:00",
+      "elapsed_seconds": 12.11,
+      "emitted_tool_calls": [
+        {
+          "id": "call37d5cee9fbed4a7b9d7957242a7307c1",
+          "name": "read"
+        }
+      ],
+      "incoming_tool_result_id": null,
+      "incoming_result_matches_previous_http_tool_call": null,
+      "new_native_provider_start_ids_within_http": [
+        "ed0b92d4cad44015bad2b313da2e1916"
+      ],
+      "native_api_response_sha256": "07c80feaf8a113544a724489605cf32f03c718b441ac4e1b912721c8a37add04",
+      "native_api_input_sha256": "a6da5c222fd9c71c36c02db02bf986a6b40b9a6475da186a6815c36f35a91922",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "one new native provider inference starts during this HTTP exchange"
+    },
+    {
+      "call_id": "0002_dba345a820cb417883cedff8fde47e57",
+      "response_id": "chatcmpl-1793033347172",
+      "started_at": "2026-10-26T16:49:07.164801+00:00",
+      "elapsed_seconds": 0.0,
+      "emitted_tool_calls": [
+        {
+          "id": "call89e20945866949e6b41fb0c4f880082c",
+          "name": "read"
+        }
+      ],
+      "incoming_tool_result_id": "call37d5cee9fbed4a7b9d7957242a7307c1",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [],
+      "native_api_response_sha256": "27e5a0a7b87123767f232edd2d78c492b19bbd5728b6f37aba116be4011d5cdd",
+      "native_api_input_sha256": "ae6522b0e0ca3edad74d5788e3887f0f781ded868056495ba751d5882fb2877f",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "owned pending native ACP delegate-tool continuation; no new metered provider inference starts; tool requests follow first provider generation"
+    },
+    {
+      "call_id": "0003_b04d603f099c4613a989a863b6d46d5b",
+      "response_id": "chatcmpl-1793033347254",
+      "started_at": "2026-10-26T16:49:07.246153+00:00",
+      "elapsed_seconds": 0.016,
+      "emitted_tool_calls": [
+        {
+          "id": "call89d6bbada0044e4ca2533001a9a4d9e2",
+          "name": "read"
+        }
+      ],
+      "incoming_tool_result_id": "call89e20945866949e6b41fb0c4f880082c",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [],
+      "native_api_response_sha256": "6e26788f8b707c0d879a458604817497880d0ac6d4ae77ad97edd420cdd13f6b",
+      "native_api_input_sha256": "a99f1cfe556f05478eb3b5e6411a2c74020e5b8b146d0dfa39d8825a672dbdef",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "owned pending native ACP delegate-tool continuation; no new metered provider inference starts; tool requests follow first provider generation"
+    },
+    {
+      "call_id": "0004_86bd36eaa69f40f8a36f0a6e34ee996c",
+      "response_id": "chatcmpl-1793033347333",
+      "started_at": "2026-10-26T16:49:07.326440+00:00",
+      "elapsed_seconds": 360.313,
+      "emitted_tool_calls": [
+        {
+          "id": "calld796115ee60049aabafa1b59da996011",
+          "name": "write"
+        }
+      ],
+      "incoming_tool_result_id": "call89d6bbada0044e4ca2533001a9a4d9e2",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [
+        "ab4bd5483c4c45048b685cb578ea5f1d"
+      ],
+      "native_api_response_sha256": "413102111c31ab576d05431307709c5b22250582a7dc30bc188354f03a3c5747",
+      "native_api_input_sha256": "44f18d50755a67f56c71ce0e921ded0df613d44b17952787f1ae0cb26160e4f1",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "one new native provider inference starts during this HTTP exchange"
+    },
+    {
+      "call_id": "0005_fe5266b04c3e4aa0b9b89e0443c4989b",
+      "response_id": "chatcmpl-1793033707789",
+      "started_at": "2026-10-26T16:55:07.780265+00:00",
+      "elapsed_seconds": 87.078,
+      "emitted_tool_calls": [
+        {
+          "id": "callee9c74e83f9345bfb1549733dcaad29e",
+          "name": "write"
+        }
+      ],
+      "incoming_tool_result_id": "calld796115ee60049aabafa1b59da996011",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [
+        "293d38c558b545abb7d36747f920a318"
+      ],
+      "native_api_response_sha256": "e74a555fe6c4fbfe22f05084d23425b282614a762ffec5a6c9bee3f39059e115",
+      "native_api_input_sha256": "265e55ac070cb84a5c8caca5d600e4c2334e939f9e7a2c7f19e12b4c007151fd",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "one new native provider inference starts during this HTTP exchange"
+    },
+    {
+      "call_id": "0006_e4ba680f17b44eae9e5fcf0562ae5310",
+      "response_id": "chatcmpl-1793033794985",
+      "started_at": "2026-10-26T16:56:34.976706+00:00",
+      "elapsed_seconds": 79.922,
+      "emitted_tool_calls": [
+        {
+          "id": "calld57a072631c648fe8156eb313ea7a04e",
+          "name": "write"
+        }
+      ],
+      "incoming_tool_result_id": "callee9c74e83f9345bfb1549733dcaad29e",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [
+        "9b0485d95ed04b88a9c93682d6ac463d"
+      ],
+      "native_api_response_sha256": "4e11d2d3faee1cc4f9c16bfca7c72ec233278c0168a049c299e75e1d6c73b14d",
+      "native_api_input_sha256": "94b5a05d55880ff59b8d3b4ac04b86e21007574f0e40e065c99a855c5621e595",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "one new native provider inference starts during this HTTP exchange"
+    },
+    {
+      "call_id": "0007_ad9bd995aabe4dfdb619b72bae396950",
+      "response_id": "chatcmpl-1793033875000",
+      "started_at": "2026-10-26T16:57:54.992087+00:00",
+      "elapsed_seconds": 47.75,
+      "emitted_tool_calls": [
+        {
+          "id": "call0991c94d34ce40a798bf97528e2c6e8e",
+          "name": "exec"
+        }
+      ],
+      "incoming_tool_result_id": "calld57a072631c648fe8156eb313ea7a04e",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [
+        "5cde54066d714ded8f198a3303f91afd"
+      ],
+      "native_api_response_sha256": "58e14795f19567512fd6377b4026d00e05838bac6215455a352ae7137f879fa5",
+      "native_api_input_sha256": "7c7d1cd85b9704d8c5c9c622ba61966ed85e53a79b88eb43959fd46f541452f1",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "one new native provider inference starts during this HTTP exchange"
+    },
+    {
+      "call_id": "0008_08650da09c0142448e41614566270457",
+      "response_id": "chatcmpl-1793033923064",
+      "started_at": "2026-10-26T16:58:43.043541+00:00",
+      "elapsed_seconds": 9.5,
+      "emitted_tool_calls": [
+        {
+          "id": "calld0219ef345ea437bae1c7b4ae950684d",
+          "name": "exec"
+        }
+      ],
+      "incoming_tool_result_id": "call0991c94d34ce40a798bf97528e2c6e8e",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [
+        "c7a92b099c74450cb7d7657c934cf701"
+      ],
+      "native_api_response_sha256": "e233b9a09f203ef8883691029e77b14d11a8e2ee5dfe88393b5eafc2d4535e6c",
+      "native_api_input_sha256": "f0a2b90a7740f07cf1a716ccbbfd24fe8feb54334409b635e409598103fc1e21",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "one new native provider inference starts during this HTTP exchange"
+    },
+    {
+      "call_id": "0009_c301cdd4e0cc46aebf0d50ef39b300b7",
+      "response_id": "chatcmpl-1793033932652",
+      "started_at": "2026-10-26T16:58:52.643652+00:00",
+      "elapsed_seconds": 14.64,
+      "emitted_tool_calls": [],
+      "incoming_tool_result_id": "calld0219ef345ea437bae1c7b4ae950684d",
+      "incoming_result_matches_previous_http_tool_call": true,
+      "new_native_provider_start_ids_within_http": [
+        "97ce2e8ca7274a38b737672cdedc9525"
+      ],
+      "native_api_response_sha256": "e295e289673d5559c1223f35895b9b7e6bd964ec0e0fb00765bf702b9a4b73b5",
+      "native_api_input_sha256": "09c10db1ca05d550a95424b66d1736709f468b97e22ab5923985ebb837fbfff0",
+      "measurement_type": "NATIVE_COMPAT_HTTP_EXCHANGE_NOT_A_DISTINCT_PROVIDER_CALL",
+      "interpretation": "one new native provider inference starts during this HTTP exchange"
+    }
+  ],
+  "native_starts": [
+    {
+      "schema": "workflow-native-meter-v1",
+      "event": "native_start",
+      "recorded_at": "2026-10-26T16:48:59.510Z",
+      "pid": 45140,
+      "sequence": 1,
+      "native_request_id": "ed0b92d4cad44015bad2b313da2e1916",
+      "session_id": "8daa4299-ad45-4709-9cd6-def7318084d6",
+      "conversation_request_id": "6985b4291ececee2247b44a6f539a59f",
+      "prompt_request_id": null,
+      "model": "glm-5.3-flash",
+      "agent": "cli"
+    },
+    {
+      "schema": "workflow-native-meter-v1",
+      "event": "native_start",
+      "recorded_at": "2026-10-26T16:49:07.364Z",
+      "pid": 45140,
+      "sequence": 6,
+      "native_request_id": "ab4bd5483c4c45048b685cb578ea5f1d",
+      "session_id": "8daa4299-ad45-4709-9cd6-def7318084d6",
+      "conversation_request_id": "6985b4291ececee2247b44a6f539a59f",
+      "prompt_request_id": null,
+      "model": "glm-5.3-flash",
+      "agent": "cli"
+    },
+    {
+      "schema": "workflow-native-meter-v1",
+      "event": "native_start",
+      "recorded_at": "2026-10-26T16:55:07.820Z",
+      "pid": 45140,
+      "sequence": 11,
+      "native_request_id": "293d38c558b545abb7d36747f920a318",
+      "session_id": "8daa4299-ad45-4709-9cd6-def7318084d6",
+      "conversation_request_id": "6985b4291ececee2247b44a6f539a59f",
+      "prompt_request_id": null,
+      "model": "glm-5.3-flash",
+      "agent": "cli"
+    },
+    {
+      "schema": "workflow-native-meter-v1",
+      "event": "native_start",
+      "recorded_at": "2026-10-26T16:56:35.021Z",
+      "pid": 45140,
+      "sequence": 16,
+      "native_request_id": "9b0485d95ed04b88a9c93682d6ac463d",
+      "session_id": "8daa4299-ad45-4709-9cd6-def7318084d6",
+      "conversation_request_id": "6985b4291ececee2247b44a6f539a59f",
+      "prompt_request_id": null,
+      "model": "glm-5.3-flash",
+      "agent": "cli"
+    },
+    {
+      "schema": "workflow-native-meter-v1",
+      "event": "native_start",
+      "recorded_at": "2026-10-26T16:57:55.028Z",
+      "pid": 45140,
+      "sequence": 21,
+      "native_request_id": "5cde54066d714ded8f198a3303f91afd",
+      "session_id": "8daa4299-ad45-4709-9cd6-def7318084d6",
+      "conversation_request_id": "6985b4291ececee2247b44a6f539a59f",
+      "prompt_request_id": null,
+      "model": "glm-5.3-flash",
+      "agent": "cli"
+    },
+    {
+      "schema": "workflow-native-meter-v1",
+      "event": "native_start",
+      "recorded_at": "2026-10-26T16:58:43.097Z",
+      "pid": 45140,
+      "sequence": 26,
+      "native_request_id": "c7a92b099c74450cb7d7657c934cf701",
+      "session_id": "8daa4299-ad45-4709-9cd6-def7318084d6",
+      "conversation_request_id": "6985b4291ececee2247b44a6f539a59f",
+      "prompt_request_id": null,
+      "model": "glm-5.3-flash",
+      "agent": "cli"
+    },
+    {
+      "schema": "workflow-native-meter-v1",
+      "event": "native_start",
+      "recorded_at": "2026-10-26T16:58:52.681Z",
+      "pid": 45140,
+      "sequence": 31,
+      "native_request_id": "97ce2e8ca7274a38b737672cdedc9525",
+      "session_id": "8daa4299-ad45-4709-9cd6-def7318084d6",
+      "conversation_request_id": "6985b4291ececee2247b44a6f539a59f",
+      "prompt_request_id": null,
+      "model": "glm-5.3-flash",
+      "agent": "cli"
+    }
+  ],
+  "bridge_source_evidence": [
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\openai-handler.js",
+      "sha256": "21cb2b68a431bbe0840b75cac44ff654ca8ce7a536cd01ed4b8bd69a51f850a8"
+    },
+    {
+      "path": "E:\\skillloop_runs\\ablation49_1025\\bridge\\src\\stream-driver.js",
+      "sha256": "eafca5fa5d06e9d77f50e62bd33cc2b06eb2f03bc35931502f1d87eacad36d43"
+    }
+  ],
+  "mechanism": {
+    "openai_handler_continuePending": "Checks exact toolCallId ownership, respondsToToolCall to the same native ACP state/client, then consumes the existing pending iterator. It does not itself start a new model prompt.",
+    "openai_handler_suspendForToolCall": "Suspends at a native delegate-tool event, returns one tool_call in a fresh OpenAI-compatible SSE response, retains pending state.",
+    "stream_driver": "Consumes native ACP iterator until the next delegate-tool event; each delegated tool can terminate an HTTP response without another provider generation.",
+    "observation": "0002 and0003 are read-tool responses at0s and0.016s, with exact predecessor tool-result ownership and no native_start. Seven later native_start/usage identities fully account cost.",
+    "confidence": "direct code path plus timing and native meter evidence; no new inference or behavior changes"
+  },
+  "source_group_or_independent_task_count": 1,
+  "do_not_label_http_count_as_paid_provider_calls": true,
+  "capture_scope": {
+    "complete_at": "OpenClaw-to-native-compatible-API HTTP boundary, before the fixed buddy bridge",
+    "not_proven_byte_identical_to": "ultimate provider model request after the native backend SDK/CLI adds its own tool/system prefix",
+    "source_evidence": "openai-handler.js comments near hasTools/_needsTools describe full backend tool prefix versus simplified backend; no behavior changed",
+    "provider_meter_scope": "distinct native provider request identities and usage, not original bottom-layer full prompt bytes",
+    "distillation_view": "explicit declared student interface projection, never assert it is identical to the ultimate provider request"
+  }
+}

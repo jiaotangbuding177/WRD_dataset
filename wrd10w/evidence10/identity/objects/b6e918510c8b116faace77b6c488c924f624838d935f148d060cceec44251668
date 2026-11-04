@@ -1,0 +1,31 @@
+---
+name: project-review-qa-prep
+description: 批量项目评审准备（路演PPT/申报书doc/docx/pdf + 评审要求）时使用：一键批量提取材料文本，按排序制（各维度名次1..N各用一次、不并列）配平名次矩阵并校验，装配一页一项目评审打印稿docx。替代逐个手转文档、反复重写名次配平代码与重复排版。
+---
+
+# 项目评审材料分析与提问准备
+
+适用：输入为批量可提取文本的评审文档（路演PPT、申报书doc/docx/pdf/md/txt）+ 评审要求（维度、每项目问题数、输出格式）；评分用排序制或需综合排序。不适用：扫描件无法提取文本；不替代评审专家最终判断。
+
+路线：s1 提取文本 → s2 逐项目通读评估（模型完成）→ s3 起草每项目提问与点评（模型完成，数量/长度按用户要求）→ s4 配平名次并装配交付稿（PDF报告/一页一项目/填用户评分表）。
+
+资源入口（原样执行；{SKILL}=本skill根目录，{INPUT}=材料或输入目录，{OUT}=输出目录）：
+
+1. 批量提取文本（pptx/docx/doc/pdf/md/txt→每文件.txt+index.json；目录递归）。退出码0成功，3=有文件失败（错误在index.json.errors与stderr）。
+   ```
+   python3 {SKILL}/scripts/extract_texts.py {INPUT} --out {OUT}/extracts
+   ```
+2. 名次矩阵配平：输入json含projects[].name、dimensions、target_order（推荐顺序，最优在前）、可选prior（名次草稿）。确定性求解：每列1..N不重复不并列、名次合计严格按target_order递增。输出<out>.csv与<out>.json，stdout同json。退出4=无可行解。
+   ```
+   python3 {SKILL}/scripts/rank_matrix.py solve --in {INPUT}/rank_input.json --out {OUT}/ranks.csv
+   ```
+   校验已有矩阵csv（每列须为1..N排列；违规退出3，stderr指明列与违规值）：
+   ```
+   python3 {SKILL}/scripts/rank_matrix.py verify --in {OUT}/ranks.csv
+   ```
+3. 装配一页一项目评审打印稿docx（A4、9pt、Noto Sans CJK SC；页序=csv合计升序即评审顺序；--ranks可省略，省略时按details顺序且不显示名次行）。details形状见 templates/review_pack_details.example.json。
+   ```
+   python3 {SKILL}/scripts/build_review_pack.py --details {INPUT}/details.json --ranks {OUT}/ranks.csv --out {OUT}/评审打印稿.docx
+   ```
+
+关键分岔：用户要百分制→跳过2，s2直接给分并进3（--ranks省略）；只有综合顺序要求→target_order填该顺序，prior放s2的维度判断草稿；评分表由用户提供→3之后按其docx表格逐格填名次与备注。

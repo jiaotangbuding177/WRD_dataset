@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/outputs/skill/scripts/evidence_check.py", line 83, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/workspace/outputs/skill/scripts/evidence_check.py", line 68, in main
+    res = cvlib.find_quote(cv, claim.get("quote", ""), claim.get("page"))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/outputs/skill/scripts/cvlib.py", line 113, in find_quote
+    if page is not None and (page < 1 or page > cv["page_count"]):
+                             ^^^^^^^^
+TypeError: '<' not supported between instances of 'str' and 'int'

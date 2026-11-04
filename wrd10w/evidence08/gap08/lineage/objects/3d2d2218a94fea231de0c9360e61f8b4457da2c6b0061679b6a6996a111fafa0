@@ -1,0 +1,65 @@
+{
+  "schema": "wrd-resource-manifest-v7",
+  "resources": [
+    {
+      "id": "build_animation",
+      "path": "scripts/build_animation.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/build_animation.py {INPUT}/demo_spec.json --out {OUT}/demo.html",
+        "inputs": ["演示规格 JSON 文件（title、objects、speed、stars、labels）"],
+        "outputs": ["--out 路径写入的浏览器可直接打开的单文件 HTML 演示动画"]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {"source_id": "conv_bb5fd9d54d25", "message_id": "conv_bb5fd9d54d25:msg_1"},
+        {"source_id": "conv_bb5fd9d54d25", "message_id": "conv_bb5fd9d54d25:msg_10"},
+        {"source_id": "conv_c1ce48280769", "message_id": "conv_c1ce48280769:msg_1"},
+        {"source_id": "conv_c1ce48280769", "message_id": "conv_c1ce48280769:msg_6"}
+      ]
+    },
+    {
+      "id": "demo_spec_template",
+      "path": "templates/demo_spec.template.json",
+      "kind": "template",
+      "interface": {
+        "kind": "template",
+        "contract_version": "1",
+        "usage": "复制 templates/demo_spec.template.json 为 {INPUT}/demo_spec.json 并替换 {{占位符}}",
+        "inputs": ["演示主题与交互要求（用户说明文本）"],
+        "outputs": ["演示规格 JSON（title、objects、speed、stars、labels）"]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {"source_id": "conv_bb5fd9d54d25", "message_id": "conv_bb5fd9d54d25:msg_1"},
+        {"source_id": "conv_c1ce48280769", "message_id": "conv_c1ce48280769:msg_1"}
+      ]
+    },
+    {
+      "id": "stage_notes",
+      "path": "references/stage_notes.md",
+      "kind": "material",
+      "interface": {
+        "kind": "material",
+        "contract_version": "1",
+        "usage": "按需读取 references/stage_notes.md",
+        "inputs": ["s1/s2 阶段执行时的查阅请求"],
+        "outputs": ["阶段说明：规格落法、程序校验方式、来源对照与适用边界"]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {"source_id": "conv_bb5fd9d54d25", "message_id": "conv_bb5fd9d54d25:msg_10"},
+        {"source_id": "conv_c1ce48280769", "message_id": "conv_c1ce48280769:msg_6"}
+      ]
+    }
+  ]
+}

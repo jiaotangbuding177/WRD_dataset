@@ -1,0 +1,252 @@
+Let me understand the state. We have W1 created (DRAFT v1). Issue u1 OPEN: whether openpyxl available; INSPECT failed with ModuleNotFoundError. We have 5 tool calls left, 10 model calls, 2 execution branches.
+
+Next step: TRY to probe environment and read the xlsx via zipfile+ElementTree, verifying structure. That addresses u1. Let's do a TRY single_repair with code that:
+- checks openpyxl availability
+- falls back to zipfile+ElementTree to read sheet names, dimensions, headers
+- asserts something real
+
+But careful: TRY runs on fresh copies of resources. resource_ids: ["res_805618df9963d72d3961__file_e5bb9fd758ae"]. The workspace_relative is "inputs/17cf4410aac9/合成_这份表格.xlsx". In code, we should locate the input file. Let's write code that searches WORKSPACE for the xlsx under inputs/.
+
+Let me write a robust script:
+
+```python
+import os, sys, zipfile, re, json
+from xml.etree import ElementTree as ET
+
+WS = os.environ.get("WORKSPACE", ".")
+# find input xlsx
+cands = []
+for root, dirs, files in os.walk(WS):
+    for f in files:
+        if f.endswith(".xlsx") and not f.startswith("~$"):
+            cands.append(os.path.join(root, f))
+assert cands, "no xlsx found in workspace"
+path = sorted(cands)[0]
+print("input:", path)
+
+# probe openpyxl
+try:
+    import openpyxl
+    has_openpyxl = True
+except Exception as e:
+    has_openpyxl = False
+print("openpyxl available:", has_openpyxl)
+
+NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+      "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
+z = zipfile.ZipFile(path)
+names = z.namelist()
+assert "xl/workbook.xml" in names
+wb = ET.fromstring(z.read("xl/workbook.xml"))
+sheets = [(s.get("name"), s.get("sheetId")) for s in wb.findall(".//m:sheets/m:sheet", NS)]
+print("sheets:", sheets)
+assert len(sheets) >= 1
+# shared strings
+shared = []
+if "xl/sharedStrings.xml" in names:
+    ss = ET.fromstring(z.read("xl/sharedStrings.xml"))
+    for si in ss.findall("m:si", NS):
+        shared.append("".join(t.text or "" for t in si.iter("{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t")))
+print("shared strings:", len(shared))
+# read first sheet rows
+...
+```
+
+Then parse sheet1 xml, get rows, print first 3 rows values, and column headers. Also count rows.
+
+Also we want to detect sensitive columns by header semantics. But keep it bounded — this TRY is about environment + structure. Let's include header extraction and print.
+
+Also assert that we can read at least one sheet with rows.
+
+Let me write the code carefully with the shared string resolution and cell references.
+
+I'll write:
+
+```python
+def col_letter(ref):
+    return re.match(r"([A-Z]+)", ref).group(1)
+
+def read_sheet(z, sheet_path, shared):
+    root = ET.fromstring(z.read(sheet_path))
+    rows = []
+    for row in root.findall(".//m:sheetData/m:row", NS):
+        cells = {}
+        for c in row.findall("m:c", NS):
+            ref = c.get("r"); t = c.get("t")
+            v = c.find("m:v", NS)
+            isel = c.find("m:is", NS)
+            if t == "s" and v is not None:
+                val = shared[int(v.text)]
+            elif t == "inlineStr" and isel is not None:
+                val = "".join(x.text or "" for x in isel.iter("{...}t"))
+            elif v is not None:
+                val = v.text
+            else:
+                val = None
+            cells[col_letter(ref)] = val
+        rows.append(cells)
+    return rows
+```
+
+Then print first 3 rows for each sheet, and header row.
+
+Also count total rows per sheet.
+
+Checks: assert sheets non-empty; assert at least one sheet has >1 row; assert header row contains some expected keywords? We don't know. Better: assert that we found at least one column whose header contains "客户" or "名称" etc. Hmm, risky. Let's just print and assert structural facts: number of sheets >= 1, each sheet has rows, and we can resolve shared strings.
+
+Actually the workflow's s1 requires locating sensitive columns by header. Let's do a bounded header scan: for each sheet, take first row as header, print all headers with column letters. Then assert that at least one header contains "客户" or "单位" or "名称" (name column) — but if not, assertion fails and we learn. Hmm, that could be a false failure. Let's make it a soft report rather than assert, but the contract says checks must be implemented as assertions. I'll assert structural things and report semantic findings.
+
+Let me include a check: assert that we can identify at least one candidate name column across sheets (header containing 客户/单位/名称/公司). If it fails, that's a learnable observation. Given the historical AI said sheets "2026订单、2025订单、意向客户" with 客户名称 columns, likely fine.
+
+Also detect phone numbers via regex in cell values, and count.
+
+Let's keep code moderate. Also write outputs? TRY outputs to outputs/. We could write a structure report json to outputs/. That's fine.
+
+Let me write the final code.
+
+Also note: the input file may be at inputs/17cf4410aac9/合成_这份表格.xlsx. Walking workspace should find it.
+
+Now, reusable_asset: true? The code is a diagnostic probe of environment + structure. It could be reusable as a structure-inspection helper. But it's a one-off diagnostic... Actually it's a reusable "inspect xlsx structure without openpyxl" utility. I'd say reusable_asset=true since it's parameterized by workspace discovery. Hmm, but the guidance: "脚本若是只用于诊断的一次性尝试，reusable_asset=false". This is a diagnostic probe. But it also is the fallback reader for s1. I'll set reusable_asset=true and later reference it if it passes. Actually careful: if I claim reusable, the asset_id will be recorded. Let's set true — it's a genuine reusable structure inspector.
+
+Hmm, but the risk: if it fails, no asset. Let's just try.
+
+Let me write code now.
+
+```python
+import os, re, json, zipfile
+from xml.etree import ElementTree as ET
+
+WS = os.environ.get("WORKSPACE", ".")
+MAIN = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+NS = {"m": MAIN[1:-1]}
+
+# --- locate input ---
+cands = []
+for root, dirs, files in os.walk(WS):
+    if os.sep + "outputs" in root:
+        continue
+    for f in files:
+        if f.lower().endswith(".xlsx") and not f.startswith("~$"):
+            cands.append(os.path.join(root, f))
+assert cands, "no .xlsx input found under WORKSPACE"
+path = sorted(cands)[0]
+print("INPUT:", path)
+
+# --- probe libraries ---
+libs = {}
+for mod in ("openpyxl", "pandas", "xlrd"):
+    try:
+        __import__(mod); libs[mod] = True
+    except Exception as e:
+        libs[mod] = False
+print("LIBS:", libs)
+
+z = zipfile.ZipFile(path)
+names = z.namelist()
+assert "xl/workbook.xml" in names, "not a valid xlsx package"
+
+def txt(el):
+    return "".join(t.text or "" for t in el.iter(MAIN + "t"))
+
+shared = []
+if "xl/sharedStrings.xml" in names:
+    ss = ET.fromstring(z.read("xl/sharedStrings.xml"))
+    shared = [txt(si) for si in ss.findall("m:si", NS)]
+
+wb = ET.fromstring(z.read("xl/workbook.xml"))
+rels = ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))
+relmap = {r.get("Id"): r.get("Target") for r in rels}
+sheets = []
+for s in wb.findall(".//m:sheets/m:sheet", NS):
+    rid = s.get("{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id")
+    tgt = relmap.get(rid, "")
+    if not tgt.startswith("xl/"):
+        tgt = "xl/" + tgt.lstrip("/")
+    sheets.append((s.get("name"), tgt))
+print("SHEETS:", sheets)
+assert sheets, "no sheets found"
+
+def col_letter(ref):
+    return re.match(r"([A-Z]+)", ref).group(1)
+
+def read_rows(sheet_path):
+    root = ET.fromstring(z.read(sheet_path))
+    out = []
+    for row in root.findall(".//m:sheetData/m:row", NS):
+        cells = {}
+        for c in row.findall("m:c", NS):
+            ref = c.get("r") or ""
+            t = c.get("t")
+            v = c.find("m:v", NS)
+            isel = c.find("m:is", NS)
+            if t == "s" and v is not None:
+                val = shared[int(v.text)]
+            elif t == "inlineStr" and isel is not None:
+                val = txt(isel)
+            elif v is not None:
+                val = v.text
+            else:
+                val = None
+            if ref:
+                cells[col_letter(ref)] = val
+        out.append(cells)
+    return out
+
+report = {}
+PHONE = re.compile(r"1[3-9]\d{9}")
+for name, sp in sheets:
+    rows = read_rows(sp)
+    header = rows[0] if rows else {}
+    hdr_items = sorted(header.items(), key=lambda kv: (len(kv[0]), kv[0]))
+    print("---", name, "rows:", len(rows))
+    print("HEADER:", hdr_items)
+    for r in rows[1:4]:
+        print("SAMPLE:", sorted(r.items(), key=lambda kv: (len(kv[0]), kv[0])))
+    phones = sum(1 for r in rows for v in r.values() if isinstance(v, str) and PHONE.search(v))
+    report[name] = {"rows": len(rows), "header": hdr_items, "phone_cells": phones}
+    assert len(rows) >= 1, f"sheet {name} empty"
+
+# name-column candidates by header semantics
+kw = ("客户", "单位", "名称", "公司", "付款")
+cand_cols = {}
+for name, sp in sheets:
+    hdr = report[name]["header"]
+    cand_cols[name] = [c for c, v in hdr if isinstance(v, str) and any(k in v for k in kw)]
+print("NAME_COL_CANDIDATES:", cand_cols)
+assert any(cand_cols.values()), "no name-like column header found; column mapping must be confirmed manually"
+
+os.makedirs(os.path.join(WS, "outputs"), exist_ok=True)
+with open(os.path.join(WS, "outputs", "structure_report.json"), "w", encoding="utf-8") as f:
+    json.dump(report, f, ensure_ascii=False, indent=2)
+print("WROTE outputs/structure_report.json")
+print("OK")
+```
+
+Wait: header row might not be row 0 if there are title rows. Fine.
+
+One concern: `NS = {"m": MAIN[1:-1]}` — MAIN is "{http://...}main", MAIN[1:-1] gives "http://...". Good.
+
+Also `rels` root tag is Relationships without namespace; `r.get("Id")` works.
+
+Also target may be "worksheets/sheet1.xml" relative to xl/. Handled.
+
+Also the workbook rels file might be "xl/_rels/workbook.xml.rels" — yes.
+
+Potential issue: sheet target could be "/xl/worksheets/sheet1.xml" absolute. Handled by lstrip("/") then prefix "xl/" → "xl/xl/..." wrong. Let me handle: if tgt.startswith("/"): tgt = tgt.lstrip("/") else prefix. Let me write:
+
+```python
+if tgt.startswith("/"):
+    tgt = tgt.lstrip("/")
+elif not tgt.startswith("xl/"):
+    tgt = "xl/" + tgt
+```
+
+Good.
+
+Also the file might have no sharedStrings (inline). Fine.
+
+checks list: describe assertions.
+
+Now the TRY arguments: mode single_repair, workflow_id conv_b5e6f3d3bab9_w1, step_ids ["s1"], resource_ids ["res_805618df9963d72d3961__file_e5bb9fd758ae"], existing_asset_ids [], code, checks, reusable_asset true.
+
+Let's produce the action.

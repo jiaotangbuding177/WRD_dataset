@@ -1,0 +1,90 @@
+{
+  "rows": [
+    {
+      "file": "scripts/cvlib.py",
+      "profile": "core7",
+      "excluded_rendered_char_ranges": []
+    },
+    {
+      "file": "scripts/cvlib.py",
+      "profile": "full53",
+      "excluded_rendered_char_ranges": []
+    },
+    {
+      "file": "scripts/cv_extract.py",
+      "profile": "core7",
+      "excluded_rendered_char_ranges": []
+    },
+    {
+      "file": "scripts/cv_extract.py",
+      "profile": "full53",
+      "excluded_rendered_char_ranges": []
+    },
+    {
+      "file": "scripts/evidence_check.py",
+      "profile": "core7",
+      "excluded_rendered_char_ranges": []
+    },
+    {
+      "file": "scripts/evidence_check.py",
+      "profile": "full53",
+      "excluded_rendered_char_ranges": []
+    },
+    {
+      "file": "SKILL.md",
+      "profile": "core7",
+      "excluded_rendered_char_ranges": [
+        {
+          "start": 41594,
+          "end": 42152,
+          "text": "**Image-only PDFs are an explicit unusable state.** A scanned/image-only PDF is reported as `no usable text layer (scanned image; needs OCR)`; it is never a quiet empty success. Exit codes stay: all files unusable → 2, mixed usable + unusable → 3 (good candidates keep their own identity). Run OCR/vision separately for those files; the script adds no OCR engine. Each page also carries `raw_text` (unfiltered page text); the resume-platform watermark heuristic only filters the display `text`/`lines`, so legitimate evidence is never erased from the record.",
+          "text_sha256": "85df657f91e5752e5e84fc51a702c40ec338c2b973594d85259cffa9e1d78901",
+          "reason": "DUPLICATE_SECOND_PARAGRAPH_ORIGINAL_BYTES_RETAINED"
+        },
+        {
+          "start": 43859,
+          "end": 44191,
+          "text": "Claim contract (checked before extraction): each item must be a JSON object; `file` and `quote` must be nonempty strings; `page` is optional and must be a positive JSON integer — `true`, `2.0`, `\\\"2\\\"` and `0` are rejected. Contract violations fail with exit 2 and a per-claim `index`/`field`/`reason` diagnostic, never a traceback.",
+          "text_sha256": "764b6ee1190834a48aa8e81eba22d1f2b140f374a3eb7185a465fae9cbc7b052",
+          "reason": "DUPLICATE_SECOND_PARAGRAPH_ORIGINAL_BYTES_RETAINED"
+        },
+        {
+          "start": 42270,
+          "end": 42316,
+          "text": "This step is semantic and cannot be automated:",
+          "text_sha256": "9906c9a30e921dd2bf2fca24ca4a3745977e54b0fd0bfea80e8e5653b7016b7e",
+          "reason": "OVERBROAD_IMPOSSIBILITY_CLAIM_NOT_SUPPORTED_BY_MECHANICAL_SCRIPT_SCOPE"
+        }
+      ]
+    },
+    {
+      "file": "SKILL.md",
+      "profile": "full53",
+      "excluded_rendered_char_ranges": [
+        {
+          "start": 141267,
+          "end": 141825,
+          "text": "**Image-only PDFs are an explicit unusable state.** A scanned/image-only PDF is reported as `no usable text layer (scanned image; needs OCR)`; it is never a quiet empty success. Exit codes stay: all files unusable → 2, mixed usable + unusable → 3 (good candidates keep their own identity). Run OCR/vision separately for those files; the script adds no OCR engine. Each page also carries `raw_text` (unfiltered page text); the resume-platform watermark heuristic only filters the display `text`/`lines`, so legitimate evidence is never erased from the record.",
+          "text_sha256": "85df657f91e5752e5e84fc51a702c40ec338c2b973594d85259cffa9e1d78901",
+          "reason": "DUPLICATE_SECOND_PARAGRAPH_ORIGINAL_BYTES_RETAINED"
+        },
+        {
+          "start": 143532,
+          "end": 143864,
+          "text": "Claim contract (checked before extraction): each item must be a JSON object; `file` and `quote` must be nonempty strings; `page` is optional and must be a positive JSON integer — `true`, `2.0`, `\\\"2\\\"` and `0` are rejected. Contract violations fail with exit 2 and a per-claim `index`/`field`/`reason` diagnostic, never a traceback.",
+          "text_sha256": "764b6ee1190834a48aa8e81eba22d1f2b140f374a3eb7185a465fae9cbc7b052",
+          "reason": "DUPLICATE_SECOND_PARAGRAPH_ORIGINAL_BYTES_RETAINED"
+        },
+        {
+          "start": 141943,
+          "end": 141989,
+          "text": "This step is semantic and cannot be automated:",
+          "text_sha256": "9906c9a30e921dd2bf2fca24ca4a3745977e54b0fd0bfea80e8e5653b7016b7e",
+          "reason": "OVERBROAD_IMPOSSIBILITY_CLAIM_NOT_SUPPORTED_BY_MECHANICAL_SCRIPT_SCOPE"
+        }
+      ]
+    }
+  ],
+  "original_SKILL_target_bytes_never_changed": true,
+  "known_duplicate_paragraphs_not_taught_as_new_content": true
+}

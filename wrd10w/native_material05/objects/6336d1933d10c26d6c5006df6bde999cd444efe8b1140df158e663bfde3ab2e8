@@ -1,0 +1,8 @@
+data: {"id":"chatcmpl-1793081981798","object":"chat.completion.chunk","created":1793081981,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793081981798","object":"chat.completion.chunk","created":1793081981,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"callc129f62110474b6eb87d0999936fedee","type":"function","function":{"name":"exec","arguments":"{\"command\":\"python -c \\\"\\nimport json\\nd=json.load(open('/workspace/tmp/zth.json'))\\nr=d['results'][0]\\nprint(r['identity_lines'][:8])\\nfor p in r['pages']:\\n    t=p['text']\\n    print('===PAGE',p['page'],'===')\\n    print(t[:4200])\\n\\\"\"}"}}]},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793081981798","object":"chat.completion.chunk","created":1793081981,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+

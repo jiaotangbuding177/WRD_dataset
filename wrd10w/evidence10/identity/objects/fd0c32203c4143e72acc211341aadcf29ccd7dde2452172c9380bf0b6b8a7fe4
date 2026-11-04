@@ -1,0 +1,200 @@
+{
+  "all_executables_covered": true,
+  "checks": [],
+  "complete_reproduction": false,
+  "composition_cases": [],
+  "derived_replay_pin": {
+    "bytes": 14976,
+    "path": "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\original_replay\\meeting-minutes-formatting\\declared_replay.json",
+    "sha256": "8402dcf64fe8eac94b8d9939c5728b67ec280381821b826b3c998ab7af292f2a"
+  },
+  "documented_usage_verified": false,
+  "image_id": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+  "independent_replay": true,
+  "limitations": [
+    "Finite tested inputs do not prove correctness for every future input.",
+    "Generated fixture source/message references are verified; derivation is a declared making-side operation, not authenticated historical bytes.",
+    "These checks establish resource execution evidence, not Actor token or model-call savings."
+  ],
+  "metadata_conversion_pin": {
+    "bytes": 4,
+    "path": "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\original_replay\\meeting-minutes-formatting\\metadata_path_conversions.json",
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "native_agent_modified": false,
+  "no_model_calls": true,
+  "non_executable_resources": [],
+  "optional_fixture_root_absent": false,
+  "original_replay_pin": {
+    "bytes": 14976,
+    "path": "E:\\skillloop_runs\\20261021_pipeline_infra_audit\\original_replay\\meeting-minutes-formatting\\replay_original.json",
+    "sha256": "8402dcf64fe8eac94b8d9939c5728b67ec280381821b826b3c998ab7af292f2a"
+  },
+  "package_sha256": {
+    "SKILL.md": "1286829b53797a6c80a815216cf64277c4a1e9627ac55f24b13c46ad48cb3fe4",
+    "references/minutes_style_reference.md": "7aa35e9deb74d3979987c7bb6f3761eea28033b05b3c2a4e6785bb270bcd5b52",
+    "scripts/apply_minutes_format.py": "836a459f809de6a737d19194090995cf0f7248f30df5a9c90b8efc851c220cde"
+  },
+  "programs": [
+    {
+      "cases": [
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/apply_minutes_format.py",
+            "{FIXTURE}/meeting_minutes.docx",
+            "--out",
+            "{OUT}/minutes_formatted.docx",
+            "--report",
+            "{OUT}/format_summary.json",
+            "--remove-stars"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "missing_regular_file:reproduction_inputs\\meeting_minutes.docx",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 0,
+          "full_input": false,
+          "full_output": false,
+          "id": "0001",
+          "kind": "normal",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "missing_regular_file:reproduction_inputs\\meeting_minutes.docx"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/apply_minutes_format.py",
+            "{FIXTURE}/boundary_meeting_minutes.docx",
+            "--out",
+            "{OUT}/boundary_formatted.docx",
+            "--report",
+            "{OUT}/boundary_summary.json"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "fixture_message_evidence_invalid",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 0,
+          "full_input": false,
+          "full_output": false,
+          "id": "0002",
+          "kind": "boundary",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "fixture_message_evidence_invalid"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/apply_minutes_format.py",
+            "{FIXTURE}/invalid_input.docx",
+            "--out",
+            "{OUT}/should_not_exist.docx"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "missing_regular_file:reproduction_inputs\\invalid_input.docx",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 2,
+          "full_input": false,
+          "full_output": false,
+          "id": "0003",
+          "kind": "invalid_input",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "missing_regular_file:reproduction_inputs\\invalid_input.docx"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        }
+      ],
+      "documented_usage": "python {SKILL}/scripts/apply_minutes_format.py {INPUT}/meeting_minutes.docx --out {OUT}/minutes_formatted.docx --report {OUT}/format_summary.json --remove-stars",
+      "path": "scripts/apply_minutes_format.py",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/apply_minutes_format.py",
+        "{INPUT}/meeting_minutes.docx",
+        "--out",
+        "{OUT}/minutes_formatted.docx",
+        "--report",
+        "{OUT}/format_summary.json",
+        "--remove-stars"
+      ],
+      "sha256": "836a459f809de6a737d19194090995cf0f7248f30df5a9c90b8efc851c220cde"
+    }
+  ],
+  "reasons": [
+    "one_or_more_program_cases_failed"
+  ],
+  "replay_spec": {
+    "bytes": 13559,
+    "path": "E:\\skillloop_runs\\20261021_workflow_library_parallel4_recovery1\\native_episodes\\meeting-minutes-formatting_gen_01\\workspace\\outputs\\replay.json",
+    "sha256": "b83cdc70b2bd0be71656143093e179ebd6f5b15a09ecd2aab9acf39bd330b7ee"
+  },
+  "resource_reports": [],
+  "schema": "wrd-library-reproduction-v3",
+  "skill_tree_pins": {
+    "SKILL.md": {
+      "bytes": 2000,
+      "path": "E:\\skillloop_runs\\20261021_workflow_library_parallel4_recovery1\\native_episodes\\meeting-minutes-formatting_gen_01\\workspace\\outputs\\candidate\\skill\\SKILL.md",
+      "sha256": "1286829b53797a6c80a815216cf64277c4a1e9627ac55f24b13c46ad48cb3fe4"
+    },
+    "references/minutes_style_reference.md": {
+      "bytes": 2338,
+      "path": "E:\\skillloop_runs\\20261021_workflow_library_parallel4_recovery1\\native_episodes\\meeting-minutes-formatting_gen_01\\workspace\\outputs\\candidate\\skill\\references\\minutes_style_reference.md",
+      "sha256": "7aa35e9deb74d3979987c7bb6f3761eea28033b05b3c2a4e6785bb270bcd5b52"
+    },
+    "scripts/apply_minutes_format.py": {
+      "bytes": 5148,
+      "path": "E:\\skillloop_runs\\20261021_workflow_library_parallel4_recovery1\\native_episodes\\meeting-minutes-formatting_gen_01\\workspace\\outputs\\candidate\\skill\\scripts\\apply_minutes_format.py",
+      "sha256": "836a459f809de6a737d19194090995cf0f7248f30df5a9c90b8efc851c220cde"
+    }
+  },
+  "source_evidence_verified": false,
+  "status": "HOLD",
+  "validator": {
+    "bytes": 40955,
+    "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v3\\reproduction.py",
+    "sha256": "bb8885402ab026ee1ebc2d9ce666e685e5618e4eb35c0fcdefe775837e492f79"
+  },
+  "verified_source_ids": [
+    "conv_2ff337f34ddc",
+    "conv_ce34559870b8",
+    "conv_d640957a9820"
+  ]
+}

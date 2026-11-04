@@ -1,0 +1,25 @@
+{
+  "type": "function",
+  "function": {
+    "name": "sessions_yield",
+    "description": "End this turn for pending child completion events; this is not a final-result submission. Return completed work normally. An unfinished subagent waiting for an incoming continuation must set waitFor:\"message\". Collector runs require agents_wait instead. acknowledgment can send a waiting reply for an otherwise-silent interactive parent.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "waitFor": {
+          "type": "string",
+          "const": "message",
+          "description": "Explicitly pause an unfinished subagent until an incoming continuation message. Does not schedule a message or submit the final result."
+        },
+        "message": {
+          "type": "string",
+          "description": "Private context for the resumed turn; not sent to the user."
+        },
+        "acknowledgment": {
+          "type": "string",
+          "description": "Optional waiting reply for an otherwise-silent interactive parent turn."
+        }
+      }
+    }
+  }
+}

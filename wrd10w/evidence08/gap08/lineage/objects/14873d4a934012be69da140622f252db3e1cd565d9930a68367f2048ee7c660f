@@ -1,0 +1,129 @@
+{
+  "session_id": "conv_80c0ba2c2e7e",
+  "title": "load-test-image-2026-06-25T18:21:58.272+08:00-6",
+  "task_category": "EDU",
+  "task_category_name": "教学、教育与科研",
+  "secondary_task_categories": [],
+  "split": "evolution",
+  "leakage_component_id": "fc_2b20be4d289d47b7",
+  "owner_alias": "用户30",
+  "agent_instance_id": "4d52e329-4ee1-4166-9c88-c32c3c084f56",
+  "file_references": [],
+  "link_adaptations": {
+    "schema": "source-scoped-links-v1",
+    "session_id": "conv_80c0ba2c2e7e",
+    "mappings": [],
+    "skill_path_aliases": [
+      {
+        "path": "/opt/evomindskills/image-ppt-generation",
+        "target": "/workspace/skills/image-ppt-generation",
+        "original_reference": "/opt/evomindskills/image-ppt-generation/SKILL.md",
+        "skill": "image-ppt-generation",
+        "changes_skill_bytes": false
+      }
+    ],
+    "original_human_text_changed": false,
+    "unmatched_public_download_urls_preserved": true,
+    "historical_service_authentication_restored": false,
+    "runtime_url_base": "http://127.0.0.1:8765",
+    "download_cli": "python /opt/eval-adapter/links_runtime.py \"<原始路径或链接>\"",
+    "delivery_scope": "actual bytes available only after associated human dispatch delivery"
+  },
+  "baseline_skill_policy": {
+    "public_baseline_reference_skills": [],
+    "do_not_preinstall_user_requested": [],
+    "missing_baseline_skills": [],
+    "uncertain_not_preinstalled": [],
+    "supplied_environment_builtin_skills": [
+      {
+        "skill": "image-ppt-generation",
+        "folder_name": "image-ppt-generation",
+        "provenance": "user_supplied_builtin_declared",
+        "admission_basis": [
+          "current_user_builtin_declaration",
+          "original_human_explicit_call",
+          "recorded_same_name_environment_read"
+        ],
+        "evidence_ids": [
+          "cd55fc0f-1213-4c32-b60a-64e9ca938c4a",
+          "skill_ev_0348",
+          "tool_02430"
+        ],
+        "historical_paths": [
+          "/opt/evomindskills/image-ppt-generation/SKILL.md"
+        ],
+        "historical_version_verified": false
+      }
+    ],
+    "removed_preinstalled_skills": []
+  },
+  "sequence_basis": "source user-occurrence order with known timestamps for audit; semantic response stage reconstruction, not authenticated native historical order",
+  "user_order_projection": null,
+  "native_reply_to_verified": false,
+  "historical_event_identity_verified": false,
+  "schema": "effective-whole-source-semantic-trace-v8",
+  "messages": [
+    {
+      "id": "cd55fc0f-1213-4c32-b60a-64e9ca938c4a",
+      "role": "user",
+      "content": "请生成一个图片型PPT，只要五页，主题是《小学一年级-开学第一课》。使用技能：image-ppt-generation。不需要我来确认大纲、风格和内容倾向，由你决定就好，直接生成PPT文件。",
+      "source_message_ids": [
+        "cd55fc0f-1213-4c32-b60a-64e9ca938c4a"
+      ],
+      "user_created_at": null,
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "69874714-91e7-4d1c-a218-cd8270ea4903",
+      "role": "assistant",
+      "content": "根据 skill 要求，我先给出完整大纲，然后直接执行不逐页确认：\n\n---\n\n**《小学一年级·开学第一课》PPT 大纲（5页）**\n\n| 页码 | 标题 | 内容要点 |\n|------|------|----------|\n| 1 | **封面** 🎒 | 开学第一课 · 欢迎新同学，校园主题插画 |\n| 2 | **认识新学校** 🏫 | 教室、操场、图书馆、食堂，四个场景卡片 |\n| 3 | **课堂小规则** 📚 | 举手发言、认真听讲、坐姿端正、排队整齐 |\n| 4 | **安全记心间** 🛡️ | 课间安全、楼梯安全、交通安全、防溺水 |\n| 5 | **新学期加油** 🌟 | 鼓励寄语 + 成长树，一起快乐成长 |\n\n**风格：** 明亮卡通，暖橙+天蓝主色调，圆润可爱，大字号可读，适合6-7岁儿童。\n\n开始生成。第 1 页封面已完成。看看效果：封面已生成（2.2MB PNG）。继续生成第 2 页「认识新学校」，用第 1 页作风格参考。第 2 页完成。继续第 3 页「课堂小规则」，参考前两页风格。第 3 页完成。继续第 4 页「安全记心间」，参考第 2、3 页风格。第 4 页完成。最后第 5 页「新学期加油」，参考第 3、4 页。全部 5 页图片已生成。现在汇总为 PPTX。全部完成！🎉 PPT 已生成，文件如下：\n\n---\n\n**📁 最终文件：** `AI 工作区/成果文件/load-test-image-2026-conv_80c0ba2c2e7e/小学一年级-开学第一课.pptx`（9.2 MB）\n\n**📄 各页图片（共 5 页）：**\n\n| 页 | 标题 | 文件 |\n|---|------|------|\n| 1 | 🎒 **开学第一课 · 欢迎新同学** | `slide_001.png` |\n| 2 | 🏫 **认识新学校**（教室/操场/图书馆/食堂） | `slide_002.png` |\n| 3 | 📚 **课堂小规则**（举手/听讲/坐姿/排队） | `slide_003.png` |\n| 4 | 🛡️ **安全记心间**（课间/楼梯/交通/防溺水） | `slide_004.png` |\n| 5 | 🌟 **新学期加油**（成长树 + 寄语） | `slide_005.png` |\n\n**风格说明：** 暖橙+天蓝卡通风格，全页图片式幻灯片，每页以之前页面为风格参考生成，视觉一致。适合一年级新生开学第一课使用，直接打开 PPTX 即可全屏播放。",
+      "source_message_ids": [
+        "69874714-91e7-4d1c-a218-cd8270ea4903"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    }
+  ],
+  "turns": [
+    {
+      "turn_index": 0,
+      "user": {
+        "id": "cd55fc0f-1213-4c32-b60a-64e9ca938c4a",
+        "role": "user",
+        "content": "请生成一个图片型PPT，只要五页，主题是《小学一年级-开学第一课》。使用技能：image-ppt-generation。不需要我来确认大纲、风格和内容倾向，由你决定就好，直接生成PPT文件。",
+        "source_message_ids": [
+          "cd55fc0f-1213-4c32-b60a-64e9ca938c4a"
+        ],
+        "user_created_at": null,
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "69874714-91e7-4d1c-a218-cd8270ea4903",
+          "role": "assistant",
+          "content": "根据 skill 要求，我先给出完整大纲，然后直接执行不逐页确认：\n\n---\n\n**《小学一年级·开学第一课》PPT 大纲（5页）**\n\n| 页码 | 标题 | 内容要点 |\n|------|------|----------|\n| 1 | **封面** 🎒 | 开学第一课 · 欢迎新同学，校园主题插画 |\n| 2 | **认识新学校** 🏫 | 教室、操场、图书馆、食堂，四个场景卡片 |\n| 3 | **课堂小规则** 📚 | 举手发言、认真听讲、坐姿端正、排队整齐 |\n| 4 | **安全记心间** 🛡️ | 课间安全、楼梯安全、交通安全、防溺水 |\n| 5 | **新学期加油** 🌟 | 鼓励寄语 + 成长树，一起快乐成长 |\n\n**风格：** 明亮卡通，暖橙+天蓝主色调，圆润可爱，大字号可读，适合6-7岁儿童。\n\n开始生成。第 1 页封面已完成。看看效果：封面已生成（2.2MB PNG）。继续生成第 2 页「认识新学校」，用第 1 页作风格参考。第 2 页完成。继续第 3 页「课堂小规则」，参考前两页风格。第 3 页完成。继续第 4 页「安全记心间」，参考第 2、3 页风格。第 4 页完成。最后第 5 页「新学期加油」，参考第 3、4 页。全部 5 页图片已生成。现在汇总为 PPTX。全部完成！🎉 PPT 已生成，文件如下：\n\n---\n\n**📁 最终文件：** `AI 工作区/成果文件/load-test-image-2026-conv_80c0ba2c2e7e/小学一年级-开学第一课.pptx`（9.2 MB）\n\n**📄 各页图片（共 5 页）：**\n\n| 页 | 标题 | 文件 |\n|---|------|------|\n| 1 | 🎒 **开学第一课 · 欢迎新同学** | `slide_001.png` |\n| 2 | 🏫 **认识新学校**（教室/操场/图书馆/食堂） | `slide_002.png` |\n| 3 | 📚 **课堂小规则**（举手/听讲/坐姿/排队） | `slide_003.png` |\n| 4 | 🛡️ **安全记心间**（课间/楼梯/交通/防溺水） | `slide_004.png` |\n| 5 | 🌟 **新学期加油**（成长树 + 寄语） | `slide_005.png` |\n\n**风格说明：** 暖橙+天蓝卡通风格，全页图片式幻灯片，每页以之前页面为风格参考生成，视觉一致。适合一年级新生开学第一课使用，直接打开 PPTX 即可全屏播放。",
+          "source_message_ids": [
+            "69874714-91e7-4d1c-a218-cd8270ea4903"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "生成小学开学第一课图片PPT",
+        "confidence": 0.98,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    }
+  ],
+  "original_audit_path": "sessions/conv_80c0ba2c2e7e.json"
+}

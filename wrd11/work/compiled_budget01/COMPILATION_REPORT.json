@@ -1,0 +1,167 @@
+{
+  "schema_version": "wrd-v10-actual-token-compilation",
+  "counts": {
+    "input_records": 627,
+    "sequences": 627,
+    "targets": 627,
+    "input_tokens": 6353061,
+    "supervised_tokens": 57362,
+    "32k_sequences": 225,
+    "train_sequences": 627,
+    "train_supervised_tokens": 57362,
+    "component_R": 19656,
+    "component_A": 8966,
+    "16k_sequences": 402,
+    "component_D": 28740
+  },
+  "stages": {
+    "B": {
+      "sequences": 170,
+      "targets": 170,
+      "input_tokens": 3672981,
+      "supervised_tokens": 17675,
+      "32k_sequences": 135,
+      "train_sequences": 170,
+      "train_supervised_tokens": 17675,
+      "component_R": 5469,
+      "component_A": 8230,
+      "16k_sequences": 35,
+      "component_D": 3976
+    },
+    "A": {
+      "sequences": 48,
+      "targets": 48,
+      "input_tokens": 735096,
+      "supervised_tokens": 3168,
+      "16k_sequences": 21,
+      "train_sequences": 48,
+      "train_supervised_tokens": 3168,
+      "component_R": 1152,
+      "component_D": 1280,
+      "32k_sequences": 27,
+      "component_A": 736
+    },
+    "C": {
+      "sequences": 232,
+      "targets": 232,
+      "input_tokens": 729976,
+      "supervised_tokens": 20187,
+      "16k_sequences": 211,
+      "train_sequences": 232,
+      "train_supervised_tokens": 20187,
+      "component_R": 6993,
+      "component_D": 13194,
+      "32k_sequences": 21
+    },
+    "D": {
+      "sequences": 177,
+      "targets": 177,
+      "input_tokens": 1215008,
+      "supervised_tokens": 16332,
+      "16k_sequences": 135,
+      "train_sequences": 177,
+      "train_supervised_tokens": 16332,
+      "component_R": 6042,
+      "component_D": 10290,
+      "32k_sequences": 42
+    }
+  },
+  "banks": {
+    "synthetic_controller_given_policy11": {
+      "sequences": 576,
+      "targets": 576,
+      "input_tokens": 5748694,
+      "supervised_tokens": 49972,
+      "32k_sequences": 205,
+      "train_sequences": 576,
+      "train_supervised_tokens": 49972,
+      "component_R": 16673,
+      "component_A": 7044,
+      "16k_sequences": 371,
+      "component_D": 26255,
+      "distinct_sources": 0,
+      "distinct_source_groups": 13
+    },
+    "synthetic_cpu_resource11": {
+      "sequences": 51,
+      "targets": 51,
+      "input_tokens": 604367,
+      "supervised_tokens": 7390,
+      "16k_sequences": 31,
+      "train_sequences": 51,
+      "train_supervised_tokens": 7390,
+      "component_R": 2983,
+      "component_D": 2485,
+      "32k_sequences": 20,
+      "component_A": 1922,
+      "distinct_sources": 0,
+      "distinct_source_groups": 10
+    }
+  },
+  "files": [
+    {
+      "path": "synthetic_controller_given_policy11.train.16k.jsonl.gz",
+      "bytes": 280950,
+      "sha256": "0b2b5a1f4ff83f54b633f00dffc48689fbe5a799b849a949f7cedc7467f9ce29"
+    },
+    {
+      "path": "synthetic_controller_given_policy11.train.32k.jsonl.gz",
+      "bytes": 12972996,
+      "sha256": "4262a4219131686ab2ff4e5d95f66f068004b79edbf114b1d7b96604d628bdd3"
+    },
+    {
+      "path": "synthetic_cpu_resource11.train.16k.jsonl.gz",
+      "bytes": 51806,
+      "sha256": "45ef29381b05d31b3014575ba6a328f8c2ed7210e79752d7988d77721a2a192a"
+    },
+    {
+      "path": "synthetic_cpu_resource11.train.32k.jsonl.gz",
+      "bytes": 1299360,
+      "sha256": "4e2034a9899fa6699fbfa0ab3e2d485ec9e1fb2e812e42230676f2b43552d10b"
+    }
+  ],
+  "held_file": {
+    "path": "held.jsonl.gz",
+    "bytes": 36,
+    "sha256": "148804015d07fef1d421584e64247d991a5c1ed404085f1d624182d2adfb8fcc"
+  },
+  "tokenizer_proof": {
+    "official_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "instrumented_template_sha256": "e32feaaf7ea205453c8d7083eaea652aaf53c541071bd453984c09a1e996916a",
+    "variant_is_not_unmodified_official_template": true,
+    "future_inference_api_must_use_same_causal_variant": true,
+    "inference_api_variant_already_integrated": false,
+    "two_tokenizer_asset_sets_byte_identical": true,
+    "asset_sha256": {
+      "primary_14b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "control_8b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      }
+    },
+    "independent_second_tokenizer_calls": 38,
+    "reuse_rule": "identical assets + identical rendered bytes; independent canary then every 97th window"
+  },
+  "script_sha256": "caa4449936c9705f17d50c09e27923d7cbd572d369e26e36bc8f8a4f27fb496f",
+  "immutable_inputs": [
+    {
+      "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\budget_projection01\\CANDIDATES.raw.jsonl.gz",
+      "sha256": "27212ed376cf615b461844fd139ed47f718a5e3f21edd31bb11673f8b469fe9d",
+      "bytes": 7153004
+    }
+  ],
+  "weights_loaded": false,
+  "training_started": false,
+  "future_outcomes_are_metadata_only": true,
+  "input_size_does_not_prove_autonomous_pipeline_capability": true
+}

@@ -1,0 +1,100 @@
+{
+  "status": "SUGGESTED_PLAN_AMENDMENTS_NO_TRAINING_AUTHORIZATION",
+  "actual_snapshot": {
+    "targets": 526,
+    "contract_targets": 436,
+    "process_targets": 90,
+    "process_source_ids": 12,
+    "process_joined_components": 9,
+    "process_raw_labels": 68398,
+    "process_weighted_label_mass": 17678,
+    "positive_retained_chains": 0,
+    "single_native_autonomous_A_D_demonstrations": 0
+  },
+  "component_pilot": {
+    "models": [
+      "Qwen3-14B",
+      "Qwen3-8B"
+    ],
+    "identical_owner_exposures_and_data": true,
+    "primary_updates": 51,
+    "max_matched_updates": 97,
+    "phaseA": {
+      "accumulation": 16,
+      "passes": 1,
+      "updates": 28
+    },
+    "phaseB": {
+      "accumulation": 4,
+      "full_owner_pass_updates": 23,
+      "maximum_passes": 3
+    },
+    "learning_rate": 5e-05,
+    "warmup_updates": 3,
+    "after_warmup_schedule": "constant through this bounded <=97-update component pilot",
+    "keep_optimizer_momentum_across_phase_boundary": true,
+    "alternative_lr_only_with_added_selection_cost": 0.0001,
+    "LoRA": {
+      "r": 32,
+      "alpha": 64,
+      "dropout": 0.05,
+      "projections": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ]
+    },
+    "weight_dtype": "BF16 frozen base candidate, no weights loaded",
+    "optimizer": "AdamW candidate, not instantiated",
+    "weight_decay": 0.01,
+    "max_grad_norm": 1,
+    "gradient_checkpointing": true,
+    "use_cache": false,
+    "sequence_profiles": "current validated16K/32K core views;64K/full53 only after actual distinct profile acceptance",
+    "schedule_is_proposal_not_trainer_implementation": true
+  },
+  "mandatory_future_validation": [
+    "ARM64/GB10 exact image and kernels",
+    "dense vs selected-lm-head loss/gradient equivalence",
+    "nonzero LoRA gradients",
+    "same53 native tool catalog and discovery/parser interface",
+    "actual16K/32K and separately64K peak/backward/throughput",
+    "source-independent component development set",
+    "native own-history closed-loop evaluation"
+  ],
+  "early_stop": [
+    "No extra exposures when train loss improves but independent functionality/fidelity does not.",
+    "Stop after two consecutive pass-end dev evaluations without improvement; retain earlier qualified checkpoint.",
+    "Hard correctness failures remain separately counted and prevent claims of valid capability despite mean score.",
+    "Matched-budget primary checkpoints kept for both models; model-specific selected checkpoints secondary."
+  ],
+  "future_stage_quotas_are_data_acquisition_targets_not_immediate_oversampling": [
+    "A15-25percent",
+    "B25-35percent",
+    "C_and_repair25-35percent",
+    "D10-15percent"
+  ],
+  "data_priority": [
+    "More complete correct resource construction across mechanisms",
+    "Version-bound consumption and independent review",
+    "Feedback diagnosis including fixture vs resource vs input failures",
+    "Positive qualified packaging in addition to truthful STOP",
+    "Actual native autonomous controller examples and own-history tests"
+  ],
+  "do_not_discard": [
+    "Original valid design alternatives and proposals",
+    "Correct originalR in partly wrong responses",
+    "Complete programs with exact known-bad spans masked",
+    "Actual failed context followed by correct local repairs"
+  ],
+  "full_WRD_ready": false,
+  "no_teacher_equivalence_or_savings_promise": true,
+  "known_qualified_skill_total_cost": "UNDEFINED_DENOMINATOR_ZERO",
+  "unknown_GPU_CPU_AI_curation_or_cash_cost": "UNKNOWN_NOT_ZERO",
+  "new_Agent_model_or_business_calls": 0,
+  "training_started": false
+}

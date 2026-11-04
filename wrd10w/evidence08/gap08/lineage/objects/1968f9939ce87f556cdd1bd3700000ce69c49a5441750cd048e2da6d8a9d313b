@@ -1,0 +1,42 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/jd_resume_branch.md",
+    "outputs/skill/references/docx_export.md",
+    "outputs/skill/scripts/extract_resumes.py",
+    "outputs/skill/scripts/build_outline_docx.py",
+    "outputs/skill/templates/outline.template.md"
+  ],
+  "replaced_work": "沿用两轮制作已被核验可靠的资源（extract_resumes.py、build_outline_docx.py、outline.template.md 原样复用，extract_resumes.py 与 reusable/skill_1 逐字节一致），本次只修 previous_feedback.json 指出的成本根因：入口页整页加载+独立读取回合使 token/调用高于无技能基线。修订：(1) SKILL.md 从3953瘦身到2146字节——首页仅保留路由+口述分支最短路径+压缩为要点行的关键判断；'有JD/简历'细则拆到 references/jd_resume_branch.md（含1-2份直读pdftotext、多份跑脚本的选路与OCR兜底命令），docx导出命令/格式对齐规则拆到 references/docx_export.md，均按需读取。(2) 采纳轻微项：首页写入'本技能页可与需求文件同回合并行读取，无需检查输出目录'。(3) 历史成功做法（格式对齐以当次文件为准、docx用python-docx脚本）保留为关键判断行。资源未改动，逻辑与旧反馈核验时一致。",
+  "program_runs": [
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/extract_resumes.py resume_yang.pdf scanned.pdf --out resume_extract（样例PDF复用prior_making样例，置于outputs/making_samples）",
+      "result": "exit 0；resume_yang.pdf clean(cjk=95)，scanned.pdf low_text_or_garbled(cjk=0)，index.json与texts/正常"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/extract_resumes.py nonexistent.pdf --out resume_extract2",
+      "result": "exit 2，stderr指名路径不存在（错误分支）"
+    },
+    {
+      "cmd": "pdftoppm -r 150 -png scanned.pdf /tmp/r && tesseract /tmp/r-1.png - -l chi_sim（references/jd_resume_branch.md 中写入的OCR兜底命令按公开用法实跑）",
+      "result": "识别出'扫描件简历图片 (无文字层)'等文本，exit 0"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/build_outline_docx.py outline_yang30.json --out 2026-08-12_面试提纲_杨佳晨_30分钟版.docx（outline.json复用真实会话30分钟版样例）",
+      "result": "exit 0，无分钟不一致警告（8+10+10+2=30）"
+    },
+    {
+      "cmd": "soffice --headless --convert-to pdf <docx> && pdftoppm -r 100 -png <pdf> render",
+      "result": "PDF/PNG渲染成功；ecnu vision探针核验两页：中文全部正常显示、无乱码缺字、表格结构与时间分配一致（vision_check1.txt、vision_check2.txt）"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/build_outline_docx.py bad_outline.json --out bad.docx",
+      "result": "exit 2，报缺少必填字段parts（错误分支）"
+    },
+    {
+      "cmd": "python /workspace/outputs/skill/scripts/build_outline_docx.py mismatch.json --out mismatch_test.docx",
+      "result": "exit 0，stderr打出分钟不一致警告（30 vs 15，提示分支）"
+    }
+  ],
+  "known_issues": "首轮vision探针调用因输出文件已存在报错（ValueError: Output already exists），删除旧输出后重试成功；属调用方式问题，非技能资源问题。余无未决问题。"
+}

@@ -1,0 +1,169 @@
+#!/usr/bin/env python3
+"""xlsx 结构速览与版本比对（结题数据集整理路线用）。
+
+用法：
+  python3 inspect_xlsx.py structure <文件.xlsx> [--sheet 表名] [--rows 5] [--out 结果.json]
+  python3 inspect_xlsx.py diff <旧文件.xlsx> <新文件.xlsx> [--out 结果.json]
+
+structure：逐表输出尺寸、数值单元格数（"记录数"口径）、合并单元格区（读取时已展开，
+避免"组名只在第一格有值"的坑）、前 N 行内容预览（表头结构核对用）。
+
+diff：先比对文件字节（md5），完全相同直接报告"内容一致，无需改表"；
+不同则列出表名差异与逐格数值差异（sheet!坐标 旧值→新值），用于核"更新版"数据是否真的变了、变了哪。"""
+
+import argparse
+import hashlib
+import json
+import sys
+
+from openpyxl import load_workbook
+
+
+def _cell_str(v):
+    if v is None:
+        return ""
+    return str(v)
+
+
+def _expand_merged(ws, rows, cols):
+    """返回合并单元格展开后的取值网格（行,列）→文本。合并区每格都取左上角值。"""
+    grid = {}
+    for r in rows:
+        for c in cols:
+            grid[(r, c)] = _cell_str(ws.cell(row=r, column=c).value)
+    for rng in ws.merged_cells.ranges:
+        top_left = ws.cell(row=rng.min_row, column=rng.min_col).value
+        for r in range(rng.min_row, rng.max_row + 1):
+            for c in range(rng.min_col, rng.max_col + 1):
+                if (r, c) in grid:
+                    grid[(r, c)] = _cell_str(top_left)
+    return grid
+
+
+def cmd_structure(args):
+    try:
+        wb = load_workbook(args.file, data_only=True, read_only=False)
+    except Exception as e:
+        print(f"错误：无法打开 {args.file}：{e}", file=sys.stderr)
+        return 2
+    names = [args.sheet] if args.sheet else wb.sheetnames
+    if args.sheet and args.sheet not in wb.sheetnames:
+        print(f"错误：表 {args.sheet} 不存在；现有表：{wb.sheetnames}", file=sys.stderr)
+        return 2
+    report = {"file": args.file, "sheets": []}
+    for name in names:
+        ws = wb[name]
+        numeric = 0
+        for row in ws.iter_rows():
+            for cell in row:
+                if isinstance(cell.value, (int, float)):
+                    numeric += 1
+        merged = [str(r) for r in ws.merged_cells.ranges]
+        max_col = min(ws.max_column or 1, 40)
+        preview_rows = list(range(1, min(ws.max_row or 1, args.rows) + 1))
+        grid = _expand_merged(ws, preview_rows, range(1, max_col + 1))
+        preview = []
+        for r in preview_rows:
+            row_vals = [grid[(r, c)] for c in range(1, max_col + 1)]
+            while row_vals and row_vals[-1] == "":
+                row_vals.pop()
+            preview.append({"row": r, "values": row_vals})
+        report["sheets"].append({
+            "name": name,
+            "dimensions": ws.dimensions,
+            "max_row": ws.max_row,
+            "max_col": ws.max_column,
+            "numeric_cells": numeric,
+            "merged_ranges_count": len(merged),
+            "merged_ranges_head": merged[:20],
+            "preview_rows": preview,
+        })
+    text = json.dumps(report, ensure_ascii=False, indent=1)
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as f:
+            f.write(text)
+        print(f"已写 {args.out}（{len(report['sheets'])} 张表）")
+    else:
+        print(text)
+    return 0
+
+
+def cmd_diff(args):
+    for p in (args.a, args.b):
+        try:
+            open(p, "rb").close()
+        except OSError as e:
+            print(f"错误：打不开 {p}：{e}", file=sys.stderr)
+            return 2
+    try:
+        wa = load_workbook(args.a, data_only=True)
+        wb_ = load_workbook(args.b, data_only=True)
+    except Exception as e:
+        print(f"错误：xlsx 解析失败：{e}", file=sys.stderr)
+        return 2
+    md5a = hashlib.md5(open(args.a, "rb").read()).hexdigest()
+    md5b = hashlib.md5(open(args.b, "rb").read()).hexdigest()
+    report = {
+        "file_a": args.a, "md5_a": md5a,
+        "file_b": args.b, "md5_b": md5b,
+        "identical_bytes": md5a == md5b,
+    }
+    if md5a == md5b:
+        report["conclusion"] = "两文件字节完全一致：数据没有任何变化，表格无需改值，向用户报告即可。"
+        print(json.dumps(report, ensure_ascii=False, indent=1))
+        return 0
+    sa, sb = set(wa.sheetnames), set(wb_.sheetnames)
+    report["sheets_only_in_a"] = sorted(sa - sb)
+    report["sheets_only_in_b"] = sorted(sb - sa)
+    changes = []
+    for name in sorted(sa & sb):
+        ws_a, ws_b = wa[name], wb_[name]
+        max_r = max(ws_a.max_row or 0, ws_b.max_row or 0)
+        max_c = max(ws_a.max_column or 0, ws_b.max_column or 0)
+        for r in range(1, max_r + 1):
+            for c in range(1, max_c + 1):
+                va = ws_a.cell(row=r, column=c).value
+                vb = ws_b.cell(row=r, column=c).value
+                if va != vb:
+                    changes.append({
+                        "cell": f"{name}!{ws_a.cell(row=r, column=c).coordinate}",
+                        "old": va, "new": vb,
+                    })
+    report["value_changes_count"] = len(changes)
+    report["value_changes_head"] = changes[:200]
+    report["conclusion"] = (
+        "数值有差异，逐格核对上表改动点，并报告各改动在整理表中的落点位置（哪个指标表哪个分图）。"
+        if changes else "文件字节不同但单元格值完全一致（仅格式/元数据变化），表格数值无需改。")
+    out = json.dumps(report, ensure_ascii=False, indent=1)
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as f:
+            f.write(out)
+        print(f"已写 {args.out}；数值差异 {len(changes)} 处")
+    else:
+        print(out)
+    return 0 if not changes else 1
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = ap.add_subparsers(dest="cmd", required=True)
+
+    p1 = sub.add_parser("structure", help="逐表结构速览（合并单元格已展开）")
+    p1.add_argument("file")
+    p1.add_argument("--sheet", help="只看这一张表")
+    p1.add_argument("--rows", type=int, default=5, help="每表预览前 N 行（默认5）")
+    p1.add_argument("--out", help="结果写 JSON 文件（默认打印）")
+    p1.set_defaults(fn=cmd_structure)
+
+    p2 = sub.add_parser("diff", help="两份 xlsx 字节+逐格比对")
+    p2.add_argument("a")
+    p2.add_argument("b")
+    p2.add_argument("--out", help="结果写 JSON 文件（默认打印）")
+    p2.set_defaults(fn=cmd_diff)
+
+    args = ap.parse_args()
+    sys.exit(args.fn(args))
+
+
+if __name__ == "__main__":
+    main()

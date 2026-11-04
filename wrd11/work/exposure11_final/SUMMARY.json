@@ -1,0 +1,148 @@
+{
+  "schema": "wrd11-candidate-exposure-not-launcher",
+  "profiles": {
+    "full_native53": {
+      "real_only": {
+        "microbatch": 1,
+        "accumulation_max": 4,
+        "optimizer_steps_candidate": 52,
+        "sequence_exposures": 205,
+        "unique_targets": 205,
+        "sequence_tokens_unpadded": 2537926,
+        "positive_tokens_exposed": 156341,
+        "weighted_mass_exposed": 40148.25,
+        "exposure_count_by_pool": {
+          "real_process": 205
+        },
+        "weighted_mass_by_pool": {
+          "real_process": 40148.25
+        },
+        "explicit_repeated_real_ids": [],
+        "at_least_one_existing_process_sequence_each_mixed_optimizer_step": null,
+        "last_partial_accumulation_flushed": true
+      },
+      "pilot": {
+        "microbatch": 1,
+        "accumulation_max": 4,
+        "optimizer_steps_candidate": 136,
+        "sequence_exposures": 544,
+        "unique_targets": 544,
+        "sequence_tokens_unpadded": 11712722,
+        "positive_tokens_exposed": 188707,
+        "weighted_mass_exposed": 41766.549999999996,
+        "exposure_count_by_pool": {
+          "real_process": 205,
+          "synthetic": 339
+        },
+        "weighted_mass_by_pool": {
+          "real_process": 40148.25,
+          "synthetic": 1618.2999999999986
+        },
+        "explicit_repeated_real_ids": [],
+        "at_least_one_existing_process_sequence_each_mixed_optimizer_step": true,
+        "last_partial_accumulation_flushed": true
+      },
+      "full": {
+        "microbatch": 1,
+        "accumulation_max": 4,
+        "optimizer_steps_candidate": 209,
+        "sequence_exposures": 836,
+        "unique_targets": 832,
+        "sequence_tokens_unpadded": 19504910,
+        "positive_tokens_exposed": 215681,
+        "weighted_mass_exposed": 43510.85,
+        "exposure_count_by_pool": {
+          "real_process": 209,
+          "synthetic": 627
+        },
+        "weighted_mass_by_pool": {
+          "real_process": 40642.75,
+          "synthetic": 2868.099999999996
+        },
+        "explicit_repeated_real_ids": [
+          "native_B_phase2_cv_01_0018_3ee91104788a46d0834732be7f86269c",
+          "process09-batch02-34f134a3d93f1405eebd086d",
+          "gap08-new-source-correction-befe257a688eb74361966e52",
+          "process09-43280ee97c7e5a3da3c9053c"
+        ],
+        "at_least_one_existing_process_sequence_each_mixed_optimizer_step": true,
+        "last_partial_accumulation_flushed": true
+      }
+    },
+    "budget_projection": {
+      "real_only": {
+        "microbatch": 1,
+        "accumulation_max": 4,
+        "optimizer_steps_candidate": 52,
+        "sequence_exposures": 205,
+        "unique_targets": 205,
+        "sequence_tokens_unpadded": 2537926,
+        "positive_tokens_exposed": 156341,
+        "weighted_mass_exposed": 40148.25,
+        "exposure_count_by_pool": {
+          "real_process": 205
+        },
+        "weighted_mass_by_pool": {
+          "real_process": 40148.25
+        },
+        "explicit_repeated_real_ids": [],
+        "at_least_one_existing_process_sequence_each_mixed_optimizer_step": null,
+        "last_partial_accumulation_flushed": true
+      },
+      "pilot": {
+        "microbatch": 1,
+        "accumulation_max": 4,
+        "optimizer_steps_candidate": 136,
+        "sequence_exposures": 544,
+        "unique_targets": 544,
+        "sequence_tokens_unpadded": 5977328,
+        "positive_tokens_exposed": 188707,
+        "weighted_mass_exposed": 41766.549999999996,
+        "exposure_count_by_pool": {
+          "real_process": 205,
+          "synthetic": 339
+        },
+        "weighted_mass_by_pool": {
+          "real_process": 40148.25,
+          "synthetic": 1618.2999999999986
+        },
+        "explicit_repeated_real_ids": [],
+        "at_least_one_existing_process_sequence_each_mixed_optimizer_step": true,
+        "last_partial_accumulation_flushed": true
+      },
+      "full": {
+        "microbatch": 1,
+        "accumulation_max": 4,
+        "optimizer_steps_candidate": 209,
+        "sequence_exposures": 836,
+        "unique_targets": 832,
+        "sequence_tokens_unpadded": 8928476,
+        "positive_tokens_exposed": 215681,
+        "weighted_mass_exposed": 43510.85,
+        "exposure_count_by_pool": {
+          "real_process": 209,
+          "synthetic": 627
+        },
+        "weighted_mass_by_pool": {
+          "real_process": 40642.75,
+          "synthetic": 2868.099999999996
+        },
+        "explicit_repeated_real_ids": [
+          "native_B_phase2_cv_01_0018_3ee91104788a46d0834732be7f86269c",
+          "process09-batch02-34f134a3d93f1405eebd086d",
+          "gap08-new-source-correction-befe257a688eb74361966e52",
+          "process09-43280ee97c7e5a3da3c9053c"
+        ],
+        "at_least_one_existing_process_sequence_each_mixed_optimizer_step": true,
+        "last_partial_accumulation_flushed": true
+      }
+    }
+  },
+  "notes": [
+    "Pilot339 is a nested parameter cohort, not new independent source groups.",
+    "full627 requires four explicit repeated real views to keep a real example in each optimizer step.",
+    "Loss mass fractions are bookkeeping, not measured gradient norm or model quality."
+  ],
+  "training_started": false,
+  "script_sha256": "2cf4e9557b39670849d9fbce9ad5f2338debd098454ad2461b8ccc6e8025e5cd"
+}

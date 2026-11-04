@@ -1,0 +1,8 @@
+data: {"id":"chatcmpl-1793067992116","object":"chat.completion.chunk","created":1793067992,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793067992116","object":"chat.completion.chunk","created":1793067992,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"call5533aa0bf1eb40a2a770a5bb5338813e","type":"function","function":{"name":"edit","arguments":"{\"edits\":[{\"newText\":\"    if count_chars(t, \\\"non_whitespace\\\") > 600:\\n        # 从末尾逐字符回退（filler 无数字，不会破坏已声明数值），保持恰好600\",\"oldText\":\"    if count_chars(t, \\\"non_whitespace\\\") > 600:\\n        over = count_chars(t, \\\"non_whitespace\\\") - 600\\n        # 从末尾按非空白字符裁剪 filler，保持恰好600\\n        kept = 0\\n        cut = 0\\n        for idx in range(len(t) - 1, len(N1_TEXT) - 1, -1):\\n            pass\\n        # 逐字符回退，直到非空白计数=600\"}],\"path\":\"/workspace/outputs/tests/make_fixtures.py\"}"}}]},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793067992116","object":"chat.completion.chunk","created":1793067992,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+

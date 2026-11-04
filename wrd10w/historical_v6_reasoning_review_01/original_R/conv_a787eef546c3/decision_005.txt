@@ -1,0 +1,5 @@
+TRY arguments must be an object (though contract shows TRY as array? The envelope says arguments_by_kind TRY is a list... but error says must be an object). We need to fix: use object with mode key? Contradiction. The last rejection: "arguments must be an object". So provide arguments as object, perhaps {"mode":"single_repair", ...}. Let's do that.
+
+We have budget: tool_calls 5 remaining, decisions 7. Let's do TRY properly.
+
+I'll submit TRY with arguments as object containing the single_repair fields, maybe wrapped under "mode"... To be safe, provide object with the same fields directly.

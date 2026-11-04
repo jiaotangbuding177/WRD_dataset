@@ -1,0 +1,466 @@
+{
+  "goal": "继续WRD局部资源修订：前一候选已真实制作且21自测全绿，但独立固定环境工具复核发现两个具体缺陷。不是从零重造、不训练、不子Agent，不发外部消息/邮件/日程/远端写；仍使用本完整原生会话自主完成本地读取、局修、复现与真实测试。\n\n先读 /workspace/inputs/independent/actual_repair_feedback.json，以及其引用的真实失败报告和明确虚构的独立反例。候选原资源全部在 /workspace/inputs/previous_skill/，原21测试生成器/runner/fixtures/原日志在 /workspace/inputs/previous_tests/。五份原始源/源字段与A反馈仍按 /workspace/inputs/conversations/ 和 /workspace/inputs/a_stage/ 挂载，必要时回读以核适用范围；新纠错不是旧正式评测gold。\n\n先用原公开CLI实际复现两个缺陷并保存原失败，不把feedback当已自动修复。将候选副本实化到 /workspace/outputs/skill/，测试副本置 /workspace/outputs/tests/。只局部修改实际错误的冲突判定与嵌套evidence_refs形状核验及必要说明，不删功能、不放宽已有goal类型/数字/原文quote/字数/Word状态检查。原技能轻量首页、独立资源、用途范围保持；不把制作日志/企业素材/fixtures放包内。不要为了本次反例硬编码年份、数值、subject或文件名。\n\n用原公开参数接口复跑原21测试，既有预期不能为了变绿被改。补充真实正反例：不同年份actual/goal同值合法；同一年actual已完成值与goal目标同值也能合法共存；真实planned_goal引用为achieved_fact仍须拒；任意嵌套evidence_refs为非list、list内非object须明确拒并给路径；合法嵌套quote继续过、错误quote继续拒。空的可选引用列表不等于必需事实缺证。不能用AST/文件存在或exit非0替代精确断言。\n\n每次命令、原响应、fixture/资源版本SHA、前后修改、失败原因和复测都留 /workspace/outputs/tests/ 或其它包外位置。脚本若有语义无法可靠判断，仅显式NEEDS_SEMANTIC_REVIEW，不伪称完整语义通过。缺陷修正后输出 /workspace/outputs/resource_validation.json、/workspace/outputs/revision_summary.json（指出原两项缺陷证据→局改→新旧测试实数、每份变动资源SHA、保留的未知与限制），以及一份清楚的原版本到本版本变更清单；收益仍未独立业务试跑，不宣称retained/已入库。最后给非空简短文字实际结果，不以yield或只有tool call结束。",
+  "current_state": {
+    "phase": "Read original feedback/code/tests and supplied independent counterexamples; before output copies, before new CLI reproduction, before edits or retests.",
+    "original_candidate_location": "/workspace/inputs/previous_skill/",
+    "original_tests_location": "/workspace/inputs/previous_tests/",
+    "output_skill_location": "/workspace/outputs/skill/",
+    "output_tests_location": "/workspace/outputs/tests/",
+    "output_copy_or_mutation_has_not_yet_been_observed": true
+  },
+  "permissions": {
+    "local_read_copy_edit_and_test": true,
+    "external_state_changes": false,
+    "subagents": false
+  },
+  "known_budget": {
+    "remaining_seconds": "UNKNOWN",
+    "remaining_paid_calls": "UNKNOWN",
+    "max_output_tokens_per_request": 32768
+  },
+  "resource_views": [
+    {
+      "path": "/workspace/inputs/independent/actual_repair_feedback.json",
+      "content": "{\n  \"schema\": \"wrd-actual-resource-repair-feedback-v1\",\n  \"origin\": \"new independent posthoc AI/code review and actual fixed-image deterministic runs, not old evaluation gold\",\n  \"parent_job_id\": \"B_make_report_02\",\n  \"parent_job_sha256\": \"eb5ee718b4d01e40c70888d1a2df5bdc658198b74eda0defa93748d23855ec54\",\n  \"actual_original_maker_tests\": \"independently reproduced 21/21, not full correctness proof\",\n  \"actual_defects\": [\n    {\n      \"id\": \"OVERSTRONG_TEMPORAL_CONFLICT\",\n      \"actual\": \"Legal independent source: 2025 actual training100 people; 2026 planned training100 people. Separate supported facts have same subject/value/unit and distinct time/type. Actual original validator exits1 fact_type_conflict.\",\n      \"required_behavior\": \"Do not infer contradiction just from equal subject/value/unit and differing fact_type, even when equal year actual and target100 coexist. Preserve distinct temporal/claim meaning; uncertain conflicts may require semantic review rather than unsupported hard failure. Keep real planned_goal→achieved_fact reference mismatch rejection.\",\n      \"evidence\": [\n        \"inputs/independent/legal_sources.json\",\n        \"inputs/independent/legal_ledger.json\",\n        \"inputs/independent/legal_draft.json\",\n        \"inputs/independent/temporal_original_report.json\"\n      ]\n    },\n    {\n      \"id\": \"MALFORMED_NESTED_REFS_SKIPPED\",\n      \"actual\": \"Valid ledger with task_switches[0].evidence_refs as a string, or [42], both exit0 with no structural failures. iter_evidence_refs ignores invalid type and invalid list items.\",\n      \"required_behavior\": \"Every encountered evidence_refs must have valid list/object/reference shape. Malformed top-level or arbitrary nested evidence_refs must produce a specific structural/input error, with location. Preserve valid empty optional lists and all original valid nested quote behavior.\",\n      \"evidence\": [\n        \"inputs/independent/nested_refs_not_list.json\",\n        \"inputs/independent/nested_refs_non_object_item.json\",\n        \"inputs/independent/valid_single_draft.json\",\n        \"inputs/independent/nested_refs_not_list_original_report.json\",\n        \"inputs/independent/nested_refs_non_object_item_original_report.json\"\n      ]\n    }\n  ],\n  \"not_actual_code_bug\": \"Reasoning had a proposed restrictive must_keep policy, but final original code only rejects new_assumption+must_keep and original n2 permits planned_goal+must_keep. Do not invent a broader code defect.\",\n  \"fixture_integrity\": \"Do not alter the 21 original expected outcomes just to turn green. If any original fixture is actually malformed, explain against the source contract and preserve exact before/after; new counterexamples supplement rather than replace original tests.\",\n  \"no_real_business_trial_yet\": true,\n  \"whole_skill_quality_and_benefit_unapproved\": true\n}\n"
+    },
+    {
+      "path": "/workspace/inputs/previous_skill/SKILL.md",
+      "content": "---\nname: fact-ledger-drafting\ndescription: 当用户给出现成素材并要求整理成官方汇报或一段话成稿，且数字/专名/目标口径不得改错时使用。素材→事实账本→按用途成稿→结构校验；只出题、仅描述需求或范围不明的请求走 DEFER/NEEDS_EVIDENCE，不产官方稿、不判 NO_VALUE。\n---\n\n# 事实账本成稿（fact-ledger-drafting）\n\n候选通用机制：素材与事实/目标/约束账本 → 按用途成稿 → 字数/引用/事实缺口核对。机制为新提出候选，未经独立试跑验证复用收益。\n\n## 适用 / 不适用\n\n适用：用户提供自己的素材文本，要求产出官方汇报或一段话成稿；素材中的数字、单位、专名、规划目标口径必须保真；目标 Word 可能提供也可能未提供。\n\n不适用：\n- 只出题、仅描述需求、范围不明的写作请求 → 按 classify 输出 OUT_OF_SCOPE_DEFER（待澄清，非 NO_VALUE），不套用本机制产官方稿。\n- 素材缺失的成稿请求 → NEEDS_EVIDENCE，不编造、不因缺输入判 NO_VALUE。\n- 若未来制作课程题面转换类技能：保留原题的产品功能需求，仅剥离解题实施指导；不得机械删除功能要求。\n- 不宣称任何外部独立核实：所有 user_provided 事实都标注为用户陈述、未独立核实。\n\n## 资源索引（按需读取）\n\n- `schemas/fact_ledger.schema.json` — 账本字段定义（fact_id、fact_type、value/unit/time/subject/qualifiers、explicit_user 与 must_keep 区分、逐字 quote 引用）。\n- `schemas/draft.schema.json` — 成稿 JSON 字段定义（fact_refs、declared_numbers、word_target、word_delivery）。\n- `templates/section_templates.md` — 官方汇报 / 一段话两个分支的成稿模板与措辞规则。\n- `scripts/validate_pack.py` — 可执行校验器（标准库）。\n\n## 工作流（有序）\n\n1. 读全部用户素材原文，建账本 JSON：逐条事实给 fact_id/fact_type/出处逐字 quote；规划口径标 planned_goal；用户对成稿的明确要求标 explicit_requirement；压缩/覆盖策略记 derived_rules（basis=derived_policy_not_explicit_user），不得把「用户提到」升级成「必保逐字」。原文全量保留，缺件不虚构。完成标志：账本通过 schema 字段自检。\n2. 用 classify 门控请求用途（命令见下）。非 PROCEED_* 决策：停，向用户说明 NEEDS_EVIDENCE 或 OUT_OF_SCOPE_DEFER 及缺什么。\n3. 按对应模板分支写成稿 JSON：文本 + fact_refs（planned_goal 只能 as_type=planned_goal）+ declared_numbers（每数字与账本一致）+ word_target/word_delivery。完成标志：成稿 JSON 符合 draft schema。\n4. 运行 validate。STRUCTURAL_FAIL：修资源/成稿后同接口重测，不删失败、不把未执行写成成功。STRUCTURAL_PASS(_SEMANTIC_REVIEW_PENDING)：逐条人工复核 NEEDS_SEMANTIC_REVIEW 项后才可交付。\n5. 交付：给用户成稿文本 + 限制说明（用户陈述未经外部核实、Word 交付状态、事实缺口）。\n\n## 公开调用方式\n\n```bash\n# 用途门控\npython scripts/validate_pack.py classify --request REQ.json --report classify_report.json\n# 结构校验\npython scripts/validate_pack.py validate --ledger LEDGER.json --draft DRAFT.json --sources SOURCES.json --report REPORT.json\n```\n\n退出码：validate 0=结构通过 / 1=结构失败 / 2=输入错误；classify 0=已产出决策。决策与失败明细见报告 JSON 与 stdout（VERDICT/DECISION/FAIL/NEEDS_SEMANTIC_REVIEW/NOTE 行）。\n\n字数口径：`counting_mode` 默认 `non_whitespace`（去空白字符计数），须可向用户解释；`all_characters` 为全部字符。段落计数：任意换行分段。\n\n## 验证 / 停止 / 需澄清条件\n\n- 校验器只做确定性结构/类型/数字/长度/引文连续性检查；成稿文字与事实的语义忠实度永远需要独立复核（NEEDS_SEMANTIC_REVIEW 项），不得当作语义已通过。\n- 引文对不上原文（quote 非连续子串）：停止，回读原文修正引用，绝不改原文迁就引用。\n- 必需事实/证据缺失：输出 NEEDS_EVIDENCE 并明确缺什么，不生成看似正确的业务数字。\n- 范围不明（如「再做一个内容」未指明对象）：向用户澄清后再做；澄清前只标 DEFER。\n- 目标 Word 未提供：只交文本并明确未写入 Word（TEXT_ONLY 状态）。\n\n## 限制（诚实声明）\n\n- 本机制未经独立真实试跑；复用收益未验证。\n- 校验通过 ≠ 语义正确 ≠ 技能质量批准；测试通过只证明局部检查有效。\n- 本技能包不含任何企业素材、制作痕迹或测试夹具；保真数据全部来自调用输入。\n"
+    },
+    {
+      "path": "/workspace/inputs/previous_skill/scripts/validate_pack.py",
+      "content": "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\"\"\"validate_pack.py — 通用事实账本成稿技能的结构校验器（公开CLI）。\n\n用法：\n  python validate_pack.py validate --ledger LEDGER.json [--sources SOURCES.json] --draft DRAFT.json --report REPORT.json\n  python validate_pack.py classify --request REQUEST.json [--report REPORT.json]\n\n退出码（validate）：0=结构校验通过；1=结构校验失败；2=输入/用法错误。\n退出码（classify）：0=已产出用途门控决策（decision见report）；2=输入/用法错误。\n\n范围声明（诚实边界）：本工具只做确定性结构/类型/数字/长度检查。\n成稿文字与事实之间的语义忠实度、外部真实性，程序无法可靠判定，\n一律列入 needs_semantic_review（NEEDS_SEMANTIC_REVIEW），绝不输出\"语义已通过\"的结论。\n\"\"\"\n\nimport argparse\nimport json\nimport os\nimport re\nimport sys\n\nFACT_TYPES = {\"user_statement\", \"planned_goal\", \"explicit_requirement\", \"new_assumption\"}\nDOC_KINDS = {\"official_report\", \"one_paragraph\"}\nAS_TYPES = {\"achieved_fact\", \"planned_goal\", \"context\", \"requirement\"}\nCOUNT_MODES = {\"all_characters\", \"non_whitespace\"}\nDEFAULT_PARA_MAX = {\"official_report\": 8, \"one_paragraph\": 1}\n# 账本 fact_type 允许的成稿陈述角色（planned_goal 不得声明为 achieved_fact）\nTYPE_TO_AS = {\n    \"user_statement\": {\"achieved_fact\", \"context\"},\n    \"planned_goal\": {\"planned_goal\"},\n    \"explicit_requirement\": {\"requirement\"},\n    \"new_assumption\": {\"context\"},\n}\n\n\nclass InputError(Exception):\n    pass\n\n\ndef norm(s):\n    if isinstance(s, str):\n        return re.sub(r\"\\s+\", \"\", s)\n    return s\n\n\ndef count_chars(text, mode):\n    \"\"\"字数口径：all_characters=全部字符；non_whitespace=去除空白后的字符数。\"\"\"\n    if mode == \"all_characters\":\n        return len(text)\n    return sum(1 for c in text if not c.isspace())\n\n\ndef load_json(path, what):\n    if not os.path.isfile(path):\n        raise InputError(\"missing %s file: %s\" % (what, path))\n    try:\n        with open(path, \"r\", encoding=\"utf-8\") as f:\n            return json.load(f)\n    except Exception as e:  # noqa: BLE001\n        raise InputError(\"cannot parse %s JSON (%s): %s\" % (what, path, e))\n\n\ndef iter_evidence_refs(node, path=\"$\"):\n    \"\"\"递归遍历 JSON 树，产出 (path, ref)。\n\n    任何键名恰为 evidence_refs 的列表，其每个 dict 元素都被独立校验。\n    这保证嵌套结构（如 task_switches 等自定义字段）内的引用不会漏检。\n    \"\"\"\n    if isinstance(node, dict):\n        for k, v in node.items():\n            if k == \"evidence_refs\" and isinstance(v, list):\n                for i, ref in enumerate(v):\n                    if isinstance(ref, dict):\n                        yield \"%s.evidence_refs[%d]\" % (path, i), ref\n            else:\n                yield from iter_evidence_refs(v, path + \".\" + str(k))\n    elif isinstance(node, list):\n        for i, v in enumerate(node):\n            yield from iter_evidence_refs(v, \"%s[%d]\" % (path, i))\n\n\ndef add_sources(container, index):\n    if not isinstance(container, dict):\n        return\n    srcs = container.get(\"sources\")\n    if not isinstance(srcs, list):\n        return\n    for s in srcs:\n        if not isinstance(s, dict):\n            continue\n        sid = s.get(\"source_id\")\n        if not sid:\n            continue\n        entry = index.setdefault(sid, {})\n        msgs = s.get(\"messages\")\n        if isinstance(msgs, list):\n            for m in msgs:\n                if isinstance(m, dict) and m.get(\"message_id\"):\n                    entry[m[\"message_id\"]] = m.get(\"content\") or \"\"\n        elif isinstance(msgs, dict):\n            for mid, content in msgs.items():\n                entry[mid] = content or \"\"\n\n\ndef run_validate(args):\n    failures = []\n    checks_passed = []\n    reviews = []\n    notes = []\n    report = {\n        \"tool\": \"validate_pack.py\",\n        \"mode\": \"validate\",\n        \"verdict\": None,\n        \"structural_pass\": False,\n        \"failures\": failures,\n        \"checks_passed\": checks_passed,\n        \"needs_semantic_review\": reviews,\n        \"notes\": notes,\n        \"meta\": {},\n    }\n\n    def fail(cid, detail, path=None):\n        item = {\"id\": cid, \"detail\": detail}\n        if path:\n            item[\"path\"] = path\n        failures.append(item)\n\n    def review(cid, detail):\n        reviews.append({\"id\": \"NEEDS_SEMANTIC_REVIEW:\" + cid, \"detail\": detail})\n\n    def input_error(msg):\n        report[\"verdict\"] = \"INPUT_ERROR\"\n        report[\"failures\"].append({\"id\": \"input_error\", \"detail\": msg})\n        finish(report, args, exit_code=2)\n        return 2\n\n    try:\n        ledger = load_json(args.ledger, \"ledger\")\n        draft = load_json(args.draft, \"draft\")\n        src_obj = load_json(args.sources, \"sources\") if args.sources else None\n    except InputError as e:\n        return input_error(str(e))\n\n    if not isinstance(ledger, dict) or not isinstance(draft, dict):\n        return input_error(\"ledger and draft must be JSON objects\")\n\n    # ---------- 源索引（--sources 与账本内嵌 sources 均可） ----------\n    index = {}\n    add_sources(src_obj, index)\n    add_sources(ledger, index)\n    if not index:\n        notes.append(\"NO_SOURCE_TEXTS_INDEXED: 未提供任何源消息文本，evidence_refs 的原文连续性无法校验\")\n\n    # ---------- 1) 账本基础结构 ----------\n    facts = ledger.get(\"facts\")\n    fact_map = {}\n    ok = True\n    if not isinstance(facts, list) or not facts:\n        fail(\"ledger_basics\", \"facts 必须是非空列表\")\n        ok = False\n        facts = []\n    for i, f in enumerate(facts):\n        if not isinstance(f, dict):\n            fail(\"ledger_basics\", \"facts[%d] 必须是对象\" % i, \"$.facts[%d]\" % i)\n            ok = False\n            continue\n        fid = f.get(\"fact_id\")\n        if not isinstance(fid, str) or not fid:\n            fail(\"ledger_basics\", \"facts[%d] 缺少 fact_id\" % i, \"$.facts[%d]\" % i)\n            ok = False\n            continue\n        if fid in fact_map:\n            fail(\"ledger_basics\", \"fact_id 重复: %s\" % fid, \"$.facts[%d]\" % i)\n            ok = False\n            continue\n        fact_map[fid] = f\n        ftype = f.get(\"fact_type\")\n        if ftype not in FACT_TYPES:\n            fail(\"ledger_basics\", \"fact %s 的 fact_type 非法: %r\" % (fid, ftype), \"$.facts[%d]\" % i)\n            ok = False\n        refs = f.get(\"evidence_refs\")\n        if not isinstance(refs, list):\n            fail(\"ledger_basics\", \"fact %s 缺少 evidence_refs 列表\" % fid, \"$.facts[%d]\" % i)\n            ok = False\n            refs = []\n            f[\"evidence_refs\"] = refs\n        if ftype in (\"user_statement\", \"planned_goal\", \"explicit_requirement\") and not refs:\n            fail(\"missing_required_evidence\",\n                 \"fact %s（%s）缺少必需证据 evidence_refs 为空\" % (fid, ftype),\n                 \"$.facts[%d].evidence_refs\" % i)\n            ok = False\n        if f.get(\"must_keep\") and ftype == \"new_assumption\":\n            fail(\"ledger_basics\", \"fact %s 是 new_assumption，不得标记 must_keep=true\" % fid,\n                 \"$.facts[%d]\" % i)\n            ok = False\n    rules = ledger.get(\"derived_rules\", [])\n    if isinstance(rules, list):\n        for i, r in enumerate(rules):\n            if not isinstance(r, dict) or r.get(\"basis\") != \"derived_policy_not_explicit_user\":\n                fail(\"ledger_basics\",\n                     \"derived_rules[%d] 必须声明 basis=derived_policy_not_explicit_user（派生策略不得冒充用户明确要求）\" % i,\n                     \"$.derived_rules[%d]\" % i)\n                ok = False\n    if ok:\n        checks_passed.append(\"ledger_basics\")\n\n    # ---------- 2) 成稿基础结构 ----------\n    ok = True\n    kind = draft.get(\"document_kind\")\n    if kind not in DOC_KINDS:\n        fail(\"draft_basics\", \"document_kind 非法: %r（允许 %s）\" % (kind, sorted(DOC_KINDS)))\n        ok = False\n    text = draft.get(\"text\")\n    if not isinstance(text, str) or not text.strip():\n        fail(\"draft_basics\", \"text 必须是非空字符串\")\n        ok = False\n        text = \"\"\n    fact_refs = draft.get(\"fact_refs\")\n    if not isinstance(fact_refs, list) or not fact_refs:\n        fail(\"draft_basics\", \"fact_refs 必须是非空列表\")\n        ok = False\n        fact_refs = []\n    for i, r in enumerate(fact_refs):\n        if not isinstance(r, dict) or not isinstance(r.get(\"fact_id\"), str):\n            fail(\"draft_basics\", \"fact_refs[%d] 必须是含 fact_id 的对象\" % i, \"$.fact_refs[%d]\" % i)\n            ok = False\n        elif r.get(\"as_type\") not in AS_TYPES:\n            fail(\"draft_basics\", \"fact_refs[%d] 的 as_type 非法: %r\" % (i, r.get(\"as_type\")),\n                 \"$.fact_refs[%d]\" % i)\n            ok = False\n    if ok:\n        checks_passed.append(\"draft_basics\")\n\n    # ---------- 3) 递归校验全部 evidence_refs（账本+成稿，含任意嵌套） ----------\n    ok = True\n    for root_name, root in ((\"ledger\", ledger), (\"draft\", draft)):\n        for path, ref in iter_evidence_refs(root):\n            sid = ref.get(\"source_id\")\n            mid = ref.get(\"message_id\")\n            quote = ref.get(\"quote\")\n            if not (isinstance(sid, str) and sid and isinstance(mid, str) and mid):\n                fail(\"evidence_ref_invalid\", \"缺少 source_id 或 message_id\", \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if sid not in index:\n                fail(\"evidence_unknown_source\", \"未知 source_id: %s\" % sid, \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if mid not in index[sid]:\n                fail(\"evidence_unknown_message\", \"source %s 下未知 message_id: %s\" % (sid, mid),\n                     \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if not isinstance(quote, str) or not quote.strip():\n                fail(\"evidence_ref_invalid\", \"quote 必须是非空字符串\", \"%s:%s\" % (root_name, path))\n                ok = False\n                continue\n            if quote not in index[sid][mid]:\n                fail(\"evidence_quote_not_contiguous\",\n                     \"quote 不是源消息的连续原文子串: source=%s message=%s quote=%r\" % (sid, mid, quote),\n                     \"%s:%s\" % (root_name, path))\n                ok = False\n    if ok and index:\n        checks_passed.append(\"evidence_refs\")\n\n    # ---------- 4) fact ID 闭合（成稿引用必须存在；必保/要求事实必须被引用） ----------\n    ok = True\n    used_ids = set()\n    for i, r in enumerate(fact_refs):\n        fid = r.get(\"fact_id\")\n        if not isinstance(fid, str):\n            continue\n        used_ids.add(fid)\n        if fid not in fact_map:\n            fail(\"unknown_fact_reference\", \"成稿引用了账本中不存在的 fact_id: %s\" % fid,\n                 \"$.fact_refs[%d]\" % i)\n            ok = False\n    omitted_optional = []\n    for fid, f in fact_map.items():\n        if f.get(\"must_keep\") and fid not in used_ids:\n            fail(\"missing_must_keep_fact\", \"必保事实 %s（must_keep=true）未被成稿引用\" % fid)\n            ok = False\n        if f.get(\"fact_type\") == \"explicit_requirement\" and fid not in used_ids:\n            fail(\"missing_requirement_fact\", \"用户明确要求 %s（explicit_requirement）未被成稿引用\" % fid)\n            ok = False\n        if fid not in used_ids and not f.get(\"must_keep\"):\n            omitted_optional.append(fid)\n    if omitted_optional:\n        notes.append(\"OMITTED_NON_MUST_KEEP_FACTS: 非必保事实未被成稿引用: %s\" % \",\".join(omitted_optional))\n    if ok:\n        checks_passed.append(\"fact_closure\")\n\n    # ---------- 5) 类型规则：planned_goal 不得被声明成已实现事实 ----------\n    ok = True\n    for i, r in enumerate(fact_refs):\n        fid = r.get(\"fact_id\")\n        f = fact_map.get(fid)\n        if not f:\n            continue\n        as_t = r.get(\"as_type\")\n        allowed = TYPE_TO_AS.get(f.get(\"fact_type\"))\n        if allowed is not None and as_t not in allowed:\n            if f.get(\"fact_type\") == \"planned_goal\" and as_t == \"achieved_fact\":\n                fail(\"type_mismatch_planned_goal_as_achieved\",\n                     \"规划目标 %s 被声明为已实现事实（as_type=achieved_fact）；目标口径必须保持\" % fid,\n                     \"$.fact_refs[%d]\" % i)\n            else:\n                fail(\"type_mismatch\",\n                     \"fact %s（%s）不允许 as_type=%s（允许 %s）\" % (fid, f.get(\"fact_type\"), as_t, sorted(allowed)),\n                     \"$.fact_refs[%d]\" % i)\n            ok = False\n    if ok:\n        checks_passed.append(\"type_rules\")\n\n    # ---------- 6) 声明数字/单位/主体 与账本一致，且确实出现在成稿文本 ----------\n    ok = True\n    stripped_text = norm(text)\n    declared = draft.get(\"declared_numbers\", [])\n    if not isinstance(declared, list):\n        declared = []\n        fail(\"declared_numbers\", \"declared_numbers 必须是列表\")\n        ok = False\n    covered_values = set()\n    for i, d in enumerate(declared):\n        if not isinstance(d, dict):\n            fail(\"declared_numbers\", \"declared_numbers[%d] 必须是对象\" % i, \"$.declared_numbers[%d]\" % i)\n            ok = False\n            continue\n        fid = d.get(\"fact_id\")\n        f = fact_map.get(fid)\n        if f is None:\n            fail(\"declared_number_unknown_fact\", \"declared_numbers[%d] 引用未知 fact_id: %s\" % (i, fid),\n                 \"$.declared_numbers[%d]\" % i)\n            ok = False\n            continue\n        dval = d.get(\"value\")\n        fval = f.get(\"value\")\n        if norm(str(dval)) != norm(str(fval)):\n            fail(\"declared_number_value_mismatch\",\n                 \"fact %s 数值不符：账本 value=%r，成稿声明 value=%r\" % (fid, fval, dval),\n                 \"$.declared_numbers[%d]\" % i)\n            ok = False\n        funit = f.get(\"unit\")\n        dunit = d.get(\"unit\")\n        if funit is not None and dunit is not None and norm(str(funit)) != norm(str(dunit)):\n            fail(\"declared_number_unit_mismatch\",\n                 \"fact %s 单位不符：账本 unit=%r，成稿声明 unit=%r\" % (fid, funit, dunit),\n                 \"$.declared_numbers[%d]\" % i)\n            ok = False\n        fsubj = f.get(\"subject\")\n        dsubj = d.get(\"subject\")\n        if fsubj and dsubj and norm(str(fsubj)) != norm(str(dsubj)):\n            fail(\"declared_number_subject_mismatch\",\n                 \"fact %s 主体关联不符：账本 subject=%r，成稿声明 subject=%r\" % (fid, fsubj, dsubj),\n                 \"$.declared_numbers[%d]\" % i)\n            ok = False\n        if funit is not None and dunit is None:\n            review(\"DECLARED_UNIT_MISSING\", \"declared_numbers[%d]（fact %s）未声明单位，账本 unit=%r\" % (i, fid, funit))\n        if fsubj and dsubj is None:\n            review(\"DECLARED_SUBJECT_MISSING\", \"declared_numbers[%d]（fact %s）未声明主体，账本 subject=%r\" % (i, fid, fsubj))\n        if isinstance(dval, str) and dval:\n            covered_values.add(norm(dval))\n            if norm(dval) not in stripped_text:\n                fail(\"declared_number_absent_from_text\",\n                     \"声明数值 %r（fact %s）未出现在成稿文本中\" % (dval, fid),\n                     \"$.declared_numbers[%d]\" % i)\n                ok = False\n    # 文本中未被声明覆盖的数字 → 语义复核（可能是合法改写，也可能是数字改错；程序无法判定）\n    tokens = sorted(set(re.findall(r\"\\d+(?:\\.\\d+)?\", text)))\n    uncovered = [t for t in tokens if t not in covered_values]\n    if uncovered:\n        review(\"UNDECLARED_NUMBERS\",\n               \"成稿文本中出现未在 declared_numbers 声明的数字: %s；需人工语义复核是否与账本一致\" % \",\".join(uncovered))\n    if ok:\n        checks_passed.append(\"declared_numbers\")\n\n    # ---------- 7) 字数约束 ----------\n    ok = True\n    wt = draft.get(\"word_target\")\n    if wt is not None:\n        if not isinstance(wt, dict) or not isinstance(wt.get(\"char_limit\"), int) or wt[\"char_limit\"] <= 0:\n            fail(\"length\", \"word_target 必须是含正整数 char_limit 的对象\")\n            ok = False\n        else:\n            mode = wt.get(\"counting_mode\", \"non_whitespace\")\n            if mode not in COUNT_MODES:\n                fail(\"length\", \"counting_mode 非法: %r（允许 %s）\" % (mode, sorted(COUNT_MODES)))\n                ok = False\n            else:\n                if \"counting_mode\" not in wt:\n                    notes.append(\"COUNTING_MODE_DEFAULTED: 未声明 counting_mode，默认采用 non_whitespace（去空白字符计数）\")\n                n = count_chars(text, mode)\n                limit = wt[\"char_limit\"]\n                if n > limit:\n                    fail(\"length_over_limit\", \"字数超限：口径=%s 实际=%d 上限=%d（超 %d）\" % (mode, n, limit, n - limit))\n                    ok = False\n                else:\n                    notes.append(\"LENGTH_OK: 口径=%s 实际=%d 上限=%d\" % (mode, n, limit))\n                    if n == limit:\n                        notes.append(\"LENGTH_EXACTLY_AT_LIMIT: 字数恰好等于阈值（边界通过）\")\n    if ok:\n        checks_passed.append(\"length\")\n\n    # ---------- 8) 段落约束 ----------\n    ok = True\n    pc = draft.get(\"paragraph_constraints\") or {}\n    pmax = pc.get(\"max\", DEFAULT_PARA_MAX.get(kind, 8))\n    pmin = pc.get(\"min\", 1)\n    paras = [p for p in re.split(r\"\\n+\", text) if p.strip()]\n    if pmax is not None and len(paras) > pmax:\n        fail(\"paragraph_count_over_max\", \"段落数 %d 超过上限 %d\" % (len(paras), pmax))\n        ok = False\n    elif len(paras) < pmin:\n        fail(\"paragraph_count_below_min\", \"段落数 %d 低于下限 %d\" % (len(paras), pmin))\n        ok = False\n    if ok:\n        checks_passed.append(\"paragraphs\")\n\n    # ---------- 9) 事实类型冲突（同主体+数值+单位但类型不同） ----------\n    ok = True\n    seen = {}\n    for fid, f in fact_map.items():\n        if f.get(\"value\") is None:\n            continue\n        key = (norm(str(f.get(\"subject\") or \"\")), norm(str(f.get(\"value\"))), norm(str(f.get(\"unit\") or \"\")))\n        seen.setdefault(key, []).append((fid, f.get(\"fact_type\")))\n    for key, entries in seen.items():\n        types = {t for _, t in entries}\n        if len(types) > 1:\n            fail(\"fact_type_conflict\",\n                 \"同一主体/数值/单位存在冲突类型声明: %s -> %s\" % (entries, sorted(types)))\n            ok = False\n    if ok:\n        checks_passed.append(\"conflicts\")\n\n    # ---------- 10) Word 交付状态 ----------\n    ok = True\n    wd = draft.get(\"word_delivery\") or {}\n    target_provided = bool(wd.get(\"target_provided\", False))\n    written = bool(wd.get(\"written\", False))\n    if written and not target_provided:\n        fail(\"word_delivery_inconsistent\", \"written=true 但 target_provided=false，状态矛盾\")\n        ok = False\n    if not target_provided:\n        notes.append(\"TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word\")\n    if written:\n        review(\"WORD_WRITE_UNVERIFIED\", \"成稿声明已写入Word；本工具无法验证文件内容，交付前需人工/渲染核验\")\n    if ok:\n        checks_passed.append(\"word_delivery\")\n\n    # ---------- 11) 常设语义复核项（诚实边界，永不输出\"语义已通过\"） ----------\n    done_ids = set()\n    for r in fact_refs:\n        fid = r.get(\"fact_id\")\n        f = fact_map.get(fid)\n        if not f or fid in done_ids:\n            continue\n        done_ids.add(fid)\n        as_t = r.get(\"as_type\")\n        if as_t == \"achieved_fact\" and f.get(\"fact_type\") == \"user_statement\":\n            review(\"USER_CLAIM_UNVERIFIED\",\n                   \"fact %s 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\" % fid)\n        if as_t == \"planned_goal\":\n            review(\"GOAL_WORDING_CHECK\",\n                   \"fact %s 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\" % fid)\n        if f.get(\"fact_type\") == \"new_assumption\":\n            review(\"ASSUMPTION_MARKING\", \"fact %s 为新假设；成稿中必须明确标注为假设，需人工复核\" % fid)\n    if not index:\n        review(\"NO_SOURCE_TEXTS\", \"未提供源文本索引，全部引文核验被跳过；结果不构成引用校验通过\")\n\n    report[\"structural_pass\"] = not failures\n    if failures:\n        report[\"verdict\"] = \"STRUCTURAL_FAIL\"\n    elif reviews:\n        report[\"verdict\"] = \"STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\"\n    else:\n        report[\"verdict\"] = \"STRUCTURAL_PASS\"\n    report[\"meta\"][\"external_verification\"] = \"none：所有 user_provided 事实均未做外部独立核实\"\n    report[\"meta\"][\"scope\"] = \"仅结构/类型/数字/长度/引用连续性的确定性检查；语义忠实度需独立人工复核\"\n    return finish(report, args, exit_code=0 if not failures else 1)\n\n\ndef run_classify(args):\n    report = {\n        \"tool\": \"validate_pack.py\",\n        \"mode\": \"classify\",\n        \"verdict\": \"CLASSIFY_DONE\",\n        \"decision\": None,\n        \"reasons\": [],\n        \"meta\": {\"scope\": \"用途门控决策，不构成质量批准；决策依据仅来自请求声明的字段\"},\n    }\n    try:\n        req = load_json(args.request, \"request\")\n    except InputError as e:\n        report[\"verdict\"] = \"INPUT_ERROR\"\n        report[\"reasons\"].append(str(e))\n        return finish(report, args, exit_code=2)\n    kind = req.get(\"deliverable_kind\")\n    materials = bool(req.get(\"materials_present\"))\n    scope_clear = bool(req.get(\"scope_clear\"))\n    if not materials:\n        decision = \"NEEDS_EVIDENCE\"\n        report[\"reasons\"].append(\"素材缺失或未提供：不因缺输入判定 NO_VALUE，标 NEEDS_EVIDENCE 待补齐素材/规则后重评\")\n    elif kind == \"official_report\":\n        if scope_clear:\n            decision = \"PROCEED_OFFICIAL_REPORT\"\n            report[\"reasons\"].append(\"目标为官方汇报成稿且范围明确：可进入账本→成稿→校验流程\")\n        else:\n            decision = \"NEEDS_EVIDENCE\"\n            report[\"reasons\"].append(\"范围不明确：标 NEEDS_EVIDENCE，待用户澄清后再成稿\")\n    elif kind == \"one_paragraph\":\n        if scope_clear:\n            decision = \"PROCEED_ONE_PARAGRAPH\"\n            report[\"reasons\"].append(\"目标为一段话成稿且范围明确：可进入账本→成稿→校验流程\")\n        else:\n            decision = \"NEEDS_EVIDENCE\"\n            report[\"reasons\"].append(\"范围不明确：标 NEEDS_EVIDENCE，待用户澄清后再成稿\")\n    elif kind in (\"question_only_material\", \"unclear_other\"):\n        decision = \"OUT_OF_SCOPE_DEFER\"\n        report[\"reasons\"].append(\n            \"只出题/仅需求描述或范围不明：不盲合为官方汇报成稿机制；标 DEFER 待明确范围，非 NO_VALUE\")\n    else:\n        decision = \"NEEDS_EVIDENCE\"\n        report[\"reasons\"].append(\"deliverable_kind 未知: %r；标 NEEDS_EVIDENCE 待澄清\" % (kind,))\n    report[\"decision\"] = decision\n    return finish(report, args, exit_code=0)\n\n\ndef finish(report, args, exit_code):\n    if args.report:\n        os.makedirs(os.path.dirname(os.path.abspath(args.report)) or \".\", exist_ok=True)\n        with open(args.report, \"w\", encoding=\"utf-8\") as f:\n            json.dump(report, f, ensure_ascii=False, indent=2)\n    print(\"VERDICT: %s\" % report[\"verdict\"])\n    if report.get(\"decision\"):\n        print(\"DECISION: %s\" % report[\"decision\"])\n    print(\"FAILURES: %d\" % len(report.get(\"failures\", [])))\n    for it in report.get(\"failures\", []):\n        print(\"FAIL %s: %s%s\" % (it[\"id\"], it[\"detail\"], (\" [%s]\" % it[\"path\"]) if it.get(\"path\") else \"\"))\n    n_rev = len(report.get(\"needs_semantic_review\", []))\n    if n_rev:\n        print(\"NEEDS_SEMANTIC_REVIEW: %d item(s)\" % n_rev)\n        for it in report[\"needs_semantic_review\"]:\n            print(\"REVIEW %s: %s\" % (it[\"id\"], it[\"detail\"]))\n    for n in report.get(\"notes\", []):\n        print(\"NOTE %s\" % n)\n    return exit_code\n\n\ndef main(argv=None):\n    ap = argparse.ArgumentParser(description=\"通用事实账本成稿技能校验器（仅结构检查，语义需独立复核）\")\n    sub = ap.add_subparsers(dest=\"cmd\", required=True)\n\n    pv = sub.add_parser(\"validate\", help=\"校验 账本+成稿\")\n    pv.add_argument(\"--ledger\", required=True, help=\"事实账本 JSON 路径\")\n    pv.add_argument(\"--draft\", required=True, help=\"成稿 JSON 路径\")\n    pv.add_argument(\"--sources\", help=\"源消息文本 JSON 路径（也可内嵌于账本 sources 字段）\")\n    pv.add_argument(\"--report\", help=\"结构化报告输出路径\")\n\n    pc = sub.add_parser(\"classify\", help=\"请求用途门控（官方汇报/一段话/只出题/不明）\")\n    pc.add_argument(\"--request\", required=True, help=\"请求声明 JSON 路径\")\n    pc.add_argument(\"--report\", help=\"结构化报告输出路径\")\n\n    args = ap.parse_args(argv)\n    if args.cmd == \"validate\":\n        return run_validate(args)\n    return run_classify(args)\n\n\nif __name__ == \"__main__\":\n    sys.exit(main())\n"
+    },
+    {
+      "path": "/workspace/inputs/independent/legal_ledger.json",
+      "content": "{\n  \"schema\": \"wrd-fact-ledger-v1\",\n  \"ledger_id\": \"independent_valid_temporal_coexistence\",\n  \"facts\": [\n    {\n      \"fact_id\": \"F1\",\n      \"fact_type\": \"user_statement\",\n      \"claim\": \"2025年实际培训100人\",\n      \"value\": \"100\",\n      \"unit\": \"人\",\n      \"subject\": \"培训人数\",\n      \"time\": \"2025\",\n      \"explicit_user\": true,\n      \"must_keep\": true,\n      \"evidence_refs\": [\n        {\n          \"source_id\": \"independent_synthetic\",\n          \"message_id\": \"m1\",\n          \"quote\": \"2025年实际培训100人\"\n        }\n      ]\n    },\n    {\n      \"fact_id\": \"F2\",\n      \"fact_type\": \"planned_goal\",\n      \"claim\": \"2026年计划培训100人\",\n      \"value\": \"100\",\n      \"unit\": \"人\",\n      \"subject\": \"培训人数\",\n      \"time\": \"2026\",\n      \"explicit_user\": true,\n      \"must_keep\": true,\n      \"evidence_refs\": [\n        {\n          \"source_id\": \"independent_synthetic\",\n          \"message_id\": \"m1\",\n          \"quote\": \"2026年计划培训100人\"\n        }\n      ]\n    }\n  ],\n  \"derived_rules\": [],\n  \"_note\": \"New explicitly synthetic independent audit, not real enterprise evidence.\"\n}\n"
+    },
+    {
+      "path": "/workspace/inputs/independent/legal_draft.json",
+      "content": "{\n  \"schema\": \"wrd-draft-v1\",\n  \"draft_id\": \"valid_two_years\",\n  \"document_kind\": \"one_paragraph\",\n  \"text\": \"2025年实际培训100人，2026年计划培训100人。\",\n  \"fact_refs\": [\n    {\n      \"fact_id\": \"F1\",\n      \"as_type\": \"achieved_fact\"\n    },\n    {\n      \"fact_id\": \"F2\",\n      \"as_type\": \"planned_goal\"\n    }\n  ],\n  \"declared_numbers\": [\n    {\n      \"fact_id\": \"F1\",\n      \"value\": \"100\",\n      \"unit\": \"人\",\n      \"subject\": \"培训人数\"\n    },\n    {\n      \"fact_id\": \"F2\",\n      \"value\": \"100\",\n      \"unit\": \"人\",\n      \"subject\": \"培训人数\"\n    }\n  ],\n  \"word_delivery\": {\n    \"target_provided\": false,\n    \"written\": false\n  }\n}\n"
+    },
+    {
+      "path": "/workspace/inputs/independent/legal_sources.json",
+      "content": "{\n  \"sources\": [\n    {\n      \"source_id\": \"independent_synthetic\",\n      \"messages\": [\n        {\n          \"message_id\": \"m1\",\n          \"content\": \"2025年实际培训100人；2026年计划培训100人。\"\n        }\n      ]\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "/workspace/inputs/independent/temporal_original_report.json",
+      "content": "{\n  \"tool\": \"validate_pack.py\",\n  \"mode\": \"validate\",\n  \"verdict\": \"STRUCTURAL_FAIL\",\n  \"structural_pass\": false,\n  \"failures\": [\n    {\n      \"id\": \"fact_type_conflict\",\n      \"detail\": \"同一主体/数值/单位存在冲突类型声明: [('F1', 'user_statement'), ('F2', 'planned_goal')] -> ['planned_goal', 'user_statement']\"\n    }\n  ],\n  \"checks_passed\": [\n    \"ledger_basics\",\n    \"draft_basics\",\n    \"evidence_refs\",\n    \"fact_closure\",\n    \"type_rules\",\n    \"declared_numbers\",\n    \"length\",\n    \"paragraphs\",\n    \"word_delivery\"\n  ],\n  \"needs_semantic_review\": [\n    {\n      \"id\": \"NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS\",\n      \"detail\": \"成稿文本中出现未在 declared_numbers 声明的数字: 2025,2026；需人工语义复核是否与账本一致\"\n    },\n    {\n      \"id\": \"NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED\",\n      \"detail\": \"fact F1 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\"\n    },\n    {\n      \"id\": \"NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK\",\n      \"detail\": \"fact F2 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\"\n    }\n  ],\n  \"notes\": [\n    \"TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word\"\n  ],\n  \"meta\": {\n    \"external_verification\": \"none：所有 user_provided 事实均未做外部独立核实\",\n    \"scope\": \"仅结构/类型/数字/长度/引用连续性的确定性检查；语义忠实度需独立人工复核\"\n  }\n}"
+    },
+    {
+      "path": "/workspace/inputs/independent/nested_refs_not_list.json",
+      "content": "{\n  \"schema\": \"wrd-fact-ledger-v1\",\n  \"ledger_id\": \"independent_valid_temporal_coexistence\",\n  \"facts\": [\n    {\n      \"fact_id\": \"F1\",\n      \"fact_type\": \"user_statement\",\n      \"claim\": \"2025年实际培训100人\",\n      \"value\": \"100\",\n      \"unit\": \"人\",\n      \"subject\": \"培训人数\",\n      \"time\": \"2025\",\n      \"explicit_user\": true,\n      \"must_keep\": true,\n      \"evidence_refs\": [\n        {\n          \"source_id\": \"independent_synthetic\",\n          \"message_id\": \"m1\",\n          \"quote\": \"2025年实际培训100人\"\n        }\n      ]\n    }\n  ],\n  \"derived_rules\": [],\n  \"_note\": \"New explicitly synthetic independent audit, not real enterprise evidence.\",\n  \"task_switches\": [\n    {\n      \"evidence_refs\": \"malformed-reference-string\"\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "/workspace/inputs/independent/nested_refs_non_object_item.json",
+      "content": "{\n  \"schema\": \"wrd-fact-ledger-v1\",\n  \"ledger_id\": \"independent_valid_temporal_coexistence\",\n  \"facts\": [\n    {\n      \"fact_id\": \"F1\",\n      \"fact_type\": \"user_statement\",\n      \"claim\": \"2025年实际培训100人\",\n      \"value\": \"100\",\n      \"unit\": \"人\",\n      \"subject\": \"培训人数\",\n      \"time\": \"2025\",\n      \"explicit_user\": true,\n      \"must_keep\": true,\n      \"evidence_refs\": [\n        {\n          \"source_id\": \"independent_synthetic\",\n          \"message_id\": \"m1\",\n          \"quote\": \"2025年实际培训100人\"\n        }\n      ]\n    }\n  ],\n  \"derived_rules\": [],\n  \"_note\": \"New explicitly synthetic independent audit, not real enterprise evidence.\",\n  \"task_switches\": [\n    {\n      \"evidence_refs\": [\n        42\n      ]\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "/workspace/inputs/independent/nested_refs_not_list_original_report.json",
+      "content": "{\n  \"tool\": \"validate_pack.py\",\n  \"mode\": \"validate\",\n  \"verdict\": \"STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\",\n  \"structural_pass\": true,\n  \"failures\": [],\n  \"checks_passed\": [\n    \"ledger_basics\",\n    \"draft_basics\",\n    \"evidence_refs\",\n    \"fact_closure\",\n    \"type_rules\",\n    \"declared_numbers\",\n    \"length\",\n    \"paragraphs\",\n    \"conflicts\",\n    \"word_delivery\"\n  ],\n  \"needs_semantic_review\": [\n    {\n      \"id\": \"NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS\",\n      \"detail\": \"成稿文本中出现未在 declared_numbers 声明的数字: 2025；需人工语义复核是否与账本一致\"\n    },\n    {\n      \"id\": \"NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED\",\n      \"detail\": \"fact F1 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\"\n    }\n  ],\n  \"notes\": [\n    \"TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word\"\n  ],\n  \"meta\": {\n    \"external_verification\": \"none：所有 user_provided 事实均未做外部独立核实\",\n    \"scope\": \"仅结构/类型/数字/长度/引用连续性的确定性检查；语义忠实度需独立人工复核\"\n  }\n}"
+    },
+    {
+      "path": "/workspace/inputs/independent/nested_refs_non_object_item_original_report.json",
+      "content": "{\n  \"tool\": \"validate_pack.py\",\n  \"mode\": \"validate\",\n  \"verdict\": \"STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\",\n  \"structural_pass\": true,\n  \"failures\": [],\n  \"checks_passed\": [\n    \"ledger_basics\",\n    \"draft_basics\",\n    \"evidence_refs\",\n    \"fact_closure\",\n    \"type_rules\",\n    \"declared_numbers\",\n    \"length\",\n    \"paragraphs\",\n    \"conflicts\",\n    \"word_delivery\"\n  ],\n  \"needs_semantic_review\": [\n    {\n      \"id\": \"NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS\",\n      \"detail\": \"成稿文本中出现未在 declared_numbers 声明的数字: 2025；需人工语义复核是否与账本一致\"\n    },\n    {\n      \"id\": \"NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED\",\n      \"detail\": \"fact F1 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\"\n    }\n  ],\n  \"notes\": [\n    \"TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word\"\n  ],\n  \"meta\": {\n    \"external_verification\": \"none：所有 user_provided 事实均未做外部独立核实\",\n    \"scope\": \"仅结构/类型/数字/长度/引用连续性的确定性检查；语义忠实度需独立人工复核\"\n  }\n}"
+    },
+    {
+      "path": "/workspace/inputs/independent/valid_single_draft.json",
+      "content": "{\n  \"schema\": \"wrd-draft-v1\",\n  \"draft_id\": \"valid_two_years\",\n  \"document_kind\": \"one_paragraph\",\n  \"text\": \"2025年实际培训100人。\",\n  \"fact_refs\": [\n    {\n      \"fact_id\": \"F1\",\n      \"as_type\": \"achieved_fact\"\n    }\n  ],\n  \"declared_numbers\": [\n    {\n      \"fact_id\": \"F1\",\n      \"value\": \"100\",\n      \"unit\": \"人\",\n      \"subject\": \"培训人数\"\n    }\n  ],\n  \"word_delivery\": {\n    \"target_provided\": false,\n    \"written\": false\n  }\n}\n"
+    },
+    {
+      "path": "/workspace/inputs/previous_tests/run_tests.py",
+      "content": "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\"\"\"run_tests.py — 通过技能公开CLI执行正常/边界/错误fixture测试，逐项断言并记录全过程。\n\n记录内容：每次实际命令、输入/产物SHA256、实际退出码/verdict、逐项断言与失败原因。\n断言是精确的：预期拒绝必须出现对应失败ID；边界必须按口径区分；不是\"退出非0就算过\"。\n\"\"\"\nimport hashlib\nimport json\nimport os\nimport subprocess\nimport sys\n\nHERE = os.path.dirname(os.path.abspath(__file__))\nFIX = os.path.join(HERE, \"fixtures\")\nREPORTS = os.path.join(HERE, \"reports\")\nSKILL_CLI = os.path.join(HERE, \"..\", \"skill\", \"scripts\", \"validate_pack.py\")\nLOG_PATH = os.path.join(HERE, \"test_run_log.json\")\n\nos.makedirs(REPORTS, exist_ok=True)\n\n\ndef sha256(path):\n    h = hashlib.sha256()\n    with open(path, \"rb\") as f:\n        for chunk in iter(lambda: f.read(65536), b\"\"):\n            h.update(chunk)\n    return h.hexdigest()\n\n\ndef validate_case(name, ledger, draft_path, sources, expects):\n    report = os.path.join(REPORTS, name + \"_report.json\")\n    cmd = [sys.executable, SKILL_CLI, \"validate\",\n           \"--ledger\", ledger, \"--draft\", draft_path, \"--sources\", sources, \"--report\", report]\n    return {\"name\": name, \"type\": \"validate\", \"cmd\": cmd, \"report\": report,\n            \"inputs\": [p for p in (ledger, draft_path, sources)], \"expects\": expects}\n\n\ndef classify_case(name, request, expects):\n    report = os.path.join(REPORTS, name + \"_report.json\")\n    cmd = [sys.executable, SKILL_CLI, \"classify\", \"--request\", request, \"--report\", report]\n    return {\"name\": name, \"type\": \"classify\", \"cmd\": cmd, \"report\": report,\n            \"inputs\": [request], \"expects\": expects}\n\n\ndef build_cases():\n    S = os.path.join(FIX, \"sources_demo.json\")\n    cases = []\n\n    # ---------- 正常 ----------\n    cases.append(validate_case(\"N1_normal_official_report\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"n1_draft.json\"), S,\n                               {\"exit\": 0, \"verdict\": \"STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\",\n                                \"no_failures\": True, \"review_contains\": [\"NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED\"]}))\n    cases.append(validate_case(\"N2_normal_one_paragraph_nested_ok\",\n                               os.path.join(FIX, \"n2_ledger.json\"), os.path.join(FIX, \"n2_draft.json\"), S,\n                               {\"exit\": 0, \"verdict\": \"STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\",\n                                \"no_failures\": True, \"review_contains\": [\"NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK\"]}))\n\n    # ---------- 边界 ----------\n    cases.append(validate_case(\"B1a_length_exactly_at_limit\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"b1a_draft.json\"), S,\n                               {\"exit\": 0, \"no_failures\": True, \"notes_contains\": [\"LENGTH_EXACTLY_AT_LIMIT\"]}))\n    cases.append(validate_case(\"B1b_length_over_by_one\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"b1b_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"length_over_limit\"]}))\n    cases.append(validate_case(\"B2a_omit_optional_detail_numbers_ok\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"b2a_draft.json\"), S,\n                               {\"exit\": 0, \"no_failures\": True,\n                                \"notes_contains\": [\"OMITTED_NON_MUST_KEEP_FACTS\", \"F005\"]}))\n    cases.append(validate_case(\"B2b_must_keep_number_altered\",\n                               os.path.join(FIX, \"b2b_ledger.json\"), os.path.join(FIX, \"b2b_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"declared_number_value_mismatch\"]}))\n    cases.append(validate_case(\"B3a_no_word_target_text_only\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"b3a_draft.json\"), S,\n                               {\"exit\": 0, \"no_failures\": True, \"notes_contains\": [\"TEXT_ONLY_NO_WORD_TARGET\"]}))\n    cases.append(classify_case(\"C1_classify_official_report_ok\",\n                               os.path.join(FIX, \"c1_request.json\"),\n                               {\"exit\": 0, \"decision\": \"PROCEED_OFFICIAL_REPORT\"}))\n    cases.append(classify_case(\"C2_classify_question_only_defer\",\n                               os.path.join(FIX, \"c2_request.json\"),\n                               {\"exit\": 0, \"decision\": \"OUT_OF_SCOPE_DEFER\"}))\n    cases.append(classify_case(\"C3_classify_no_materials_needs_evidence\",\n                               os.path.join(FIX, \"c3_request.json\"),\n                               {\"exit\": 0, \"decision\": \"NEEDS_EVIDENCE\"}))\n    cases.append(classify_case(\"C4_classify_one_paragraph_ok\",\n                               os.path.join(FIX, \"c4_request.json\"),\n                               {\"exit\": 0, \"decision\": \"PROCEED_ONE_PARAGRAPH\"}))\n    cases.append(classify_case(\"C5_classify_unclear_needs_evidence_not_no_value\",\n                               os.path.join(FIX, \"c5_request.json\"),\n                               {\"exit\": 0, \"decision\": \"NEEDS_EVIDENCE\"}))\n\n    # ---------- 错误 ----------\n    cases.append(validate_case(\"E1_unknown_fact_id\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"e1_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"unknown_fact_reference\"]}))\n    cases.append(validate_case(\"E2_quote_not_contiguous\",\n                               os.path.join(FIX, \"e2_ledger.json\"), os.path.join(FIX, \"n1_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"evidence_quote_not_contiguous\"]}))\n    cases.append(validate_case(\"E3_nested_task_switches_bad_quote\",\n                               os.path.join(FIX, \"e3_ledger.json\"), os.path.join(FIX, \"n2_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"evidence_quote_not_contiguous\"],\n                                \"fail_path_contains\": [\"task_switches\"]}))\n    cases.append(validate_case(\"E4a_declared_unit_mismatch\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"e4a_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"declared_number_unit_mismatch\"]}))\n    cases.append(validate_case(\"E4b_declared_subject_mismatch\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"e4b_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"declared_number_subject_mismatch\"]}))\n    cases.append(validate_case(\"E5_planned_goal_as_achieved\",\n                               os.path.join(FIX, \"n2_ledger.json\"), os.path.join(FIX, \"e5_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"type_mismatch_planned_goal_as_achieved\"]}))\n    cases.append(validate_case(\"E6_missing_required_evidence\",\n                               os.path.join(FIX, \"e6_ledger.json\"), os.path.join(FIX, \"n1_draft.json\"), S,\n                               {\"exit\": 1, \"fail_present\": [\"missing_required_evidence\"]}))\n    cases.append(validate_case(\"E7_undeclared_number_needs_semantic_review\",\n                               os.path.join(FIX, \"n1_ledger.json\"), os.path.join(FIX, \"e7_draft.json\"), S,\n                               {\"exit\": 0, \"verdict\": \"STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\",\n                                \"no_failures\": True, \"review_contains\": [\"UNDECLARED_NUMBERS\", \"90\"]}))\n    cases.append(validate_case(\"E8_missing_ledger_file_input_error\",\n                               os.path.join(FIX, \"nonexistent_ledger.json\"), os.path.join(FIX, \"n1_draft.json\"), S,\n                               {\"exit\": 2, \"verdict\": \"INPUT_ERROR\"}))\n    return cases\n\n\ndef evaluate(case, exit_code, report_obj, assertions):\n    exp = case[\"expects\"]\n    ok = True\n\n    def check(desc, cond):\n        nonlocal ok\n        assertions.append({\"desc\": desc, \"passed\": bool(cond)})\n        if not cond:\n            ok = False\n\n    check(\"exit_code==%s\" % exp.get(\"exit\"), exit_code == exp.get(\"exit\"))\n    if \"verdict\" in exp:\n        check(\"verdict==%s\" % exp[\"verdict\"], (report_obj or {}).get(\"verdict\") == exp[\"verdict\"])\n    if \"decision\" in exp:\n        check(\"decision==%s\" % exp[\"decision\"], (report_obj or {}).get(\"decision\") == exp[\"decision\"])\n    if exp.get(\"no_failures\"):\n        check(\"failures==[]\", (report_obj or {}).get(\"failures\") == [])\n    for fid in exp.get(\"fail_present\", []):\n        check(\"fail_present:%s\" % fid,\n              any(f.get(\"id\") == fid for f in (report_obj or {}).get(\"failures\", [])))\n    for sub in exp.get(\"fail_path_contains\", []):\n        check(\"fail_path_contains:%s\" % sub,\n              any(sub in (f.get(\"path\", \"\") + f.get(\"detail\", \"\")) for f in (report_obj or {}).get(\"failures\", [])))\n    for sub in exp.get(\"notes_contains\", []):\n        check(\"notes_contains:%s\" % sub,\n              any(sub in n for n in (report_obj or {}).get(\"notes\", [])))\n    for sub in exp.get(\"review_contains\", []):\n        check(\"review_contains:%s\" % sub,\n              any(sub in (it.get(\"id\", \"\") + it.get(\"detail\", \"\")) for it in (report_obj or {}).get(\"needs_semantic_review\", [])))\n    return ok\n\n\ndef main():\n    # 0) 重新生成夹具（可复现）\n    gen = subprocess.run([sys.executable, os.path.join(HERE, \"make_fixtures.py\")],\n                         capture_output=True, text=True)\n    if gen.returncode != 0:\n        print(\"FIXTURE GENERATION FAILED:\", gen.stderr)\n        return 2\n\n    log = {\"schema\": \"wrd-b-test-run-log-v1\",\n           \"runner\": \"run_tests.py\",\n           \"cli_under_test\": os.path.abspath(SKILL_CLI),\n           \"cli_sha256\": sha256(SKILL_CLI),\n           \"note\": \"全部夹具素材为虚构测试样本，非真实业务来源；断言精确到失败ID/决策值/边界标记，非仅退出码\",\n           \"cases\": []}\n\n    n_pass = n_fail = 0\n    for case in build_cases():\n        entry = {\"name\": case[\"name\"], \"command\": \" \".join(case[\"cmd\"]),\n                 \"input_sha256\": {p: sha256(p) for p in case[\"inputs\"] if os.path.isfile(p)}}\n        proc = subprocess.run(case[\"cmd\"], capture_output=True, text=True)\n        entry[\"exit_code\"] = proc.returncode\n        entry[\"stdout_tail\"] = \"\\n\".join(proc.stdout.strip().splitlines()[:20])\n        report_obj = None\n        if os.path.isfile(case[\"report\"]):\n            with open(case[\"report\"], \"r\", encoding=\"utf-8\") as f:\n                report_obj = json.load(f)\n            entry[\"report_sha256\"] = sha256(case[\"report\"])\n            entry[\"report_path\"] = os.path.relpath(case[\"report\"], HERE)\n        assertions = []\n        passed = evaluate(case, proc.returncode, report_obj, assertions)\n        entry[\"assertions\"] = assertions\n        entry[\"case_result\"] = \"PASS\" if passed else \"FAIL\"\n        if not passed:\n            entry[\"failure_reason\"] = [a[\"desc\"] for a in assertions if not a[\"passed\"]]\n            n_fail += 1\n        else:\n            n_pass += 1\n        log[\"cases\"].append(entry)\n\n    log[\"summary\"] = {\"total\": len(log[\"cases\"]), \"passed\": n_pass, \"failed\": n_fail,\n                       \"interpretation_limit\": \"测试通过仅证明这些局部结构检查有效，不构成语义正确或技能质量/复用收益的批准\"}\n    with open(LOG_PATH, \"w\", encoding=\"utf-8\") as f:\n        json.dump(log, f, ensure_ascii=False, indent=2)\n    print(\"TEST SUMMARY: total=%d passed=%d failed=%d\" % (len(log[\"cases\"]), n_pass, n_fail))\n    for c in log[\"cases\"]:\n        if c[\"case_result\"] == \"FAIL\":\n            print(\"FAILED CASE: %s -> %s\" % (c[\"name\"], c.get(\"failure_reason\")))\n    print(\"LOG:\", LOG_PATH)\n    return 0 if n_fail == 0 else 1\n\n\nif __name__ == \"__main__\":\n    sys.exit(main())\n"
+    },
+    {
+      "path": "/workspace/inputs/previous_tests/test_run_log.json",
+      "view": "EXPLICIT_NEW_DETERMINISTIC_BASELINE_LOG_PROJECTION_NOT_ORIGINAL_TOOL_TEXT",
+      "projection": {
+        "schema": "wrd-b-test-run-log-v1",
+        "runner": "run_tests.py",
+        "cli_under_test": "/workspace/outputs/skill/scripts/validate_pack.py",
+        "cli_sha256": "6a1e951540750ded9fb1f8b688efe25e065352184f07e28c938081159473433a",
+        "summary": {
+          "total": 21,
+          "passed": 21,
+          "failed": 0,
+          "interpretation_limit": "测试通过仅证明这些局部结构检查有效，不构成语义正确或技能质量/复用收益的批准"
+        },
+        "cases": [
+          {
+            "name": "N1_normal_official_report",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+                "passed": true
+              },
+              {
+                "desc": "failures==[]",
+                "passed": true
+              },
+              {
+                "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "N2_normal_one_paragraph_nested_ok",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+                "passed": true
+              },
+              {
+                "desc": "failures==[]",
+                "passed": true
+              },
+              {
+                "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "B1a_length_exactly_at_limit",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "failures==[]",
+                "passed": true
+              },
+              {
+                "desc": "notes_contains:LENGTH_EXACTLY_AT_LIMIT",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "B1b_length_over_by_one",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:length_over_limit",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "B2a_omit_optional_detail_numbers_ok",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "failures==[]",
+                "passed": true
+              },
+              {
+                "desc": "notes_contains:OMITTED_NON_MUST_KEEP_FACTS",
+                "passed": true
+              },
+              {
+                "desc": "notes_contains:F005",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "B2b_must_keep_number_altered",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:declared_number_value_mismatch",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "B3a_no_word_target_text_only",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "failures==[]",
+                "passed": true
+              },
+              {
+                "desc": "notes_contains:TEXT_ONLY_NO_WORD_TARGET",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "C1_classify_official_report_ok",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "decision==PROCEED_OFFICIAL_REPORT",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "C2_classify_question_only_defer",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "decision==OUT_OF_SCOPE_DEFER",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "C3_classify_no_materials_needs_evidence",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "decision==NEEDS_EVIDENCE",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "C4_classify_one_paragraph_ok",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "decision==PROCEED_ONE_PARAGRAPH",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "C5_classify_unclear_needs_evidence_not_no_value",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "decision==NEEDS_EVIDENCE",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E1_unknown_fact_id",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:unknown_fact_reference",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E2_quote_not_contiguous",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:evidence_quote_not_contiguous",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E3_nested_task_switches_bad_quote",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:evidence_quote_not_contiguous",
+                "passed": true
+              },
+              {
+                "desc": "fail_path_contains:task_switches",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E4a_declared_unit_mismatch",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:declared_number_unit_mismatch",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E4b_declared_subject_mismatch",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:declared_number_subject_mismatch",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E5_planned_goal_as_achieved",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:type_mismatch_planned_goal_as_achieved",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E6_missing_required_evidence",
+            "exit_code": 1,
+            "assertions": [
+              {
+                "desc": "exit_code==1",
+                "passed": true
+              },
+              {
+                "desc": "fail_present:missing_required_evidence",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E7_undeclared_number_needs_semantic_review",
+            "exit_code": 0,
+            "assertions": [
+              {
+                "desc": "exit_code==0",
+                "passed": true
+              },
+              {
+                "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+                "passed": true
+              },
+              {
+                "desc": "failures==[]",
+                "passed": true
+              },
+              {
+                "desc": "review_contains:UNDECLARED_NUMBERS",
+                "passed": true
+              },
+              {
+                "desc": "review_contains:90",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          },
+          {
+            "name": "E8_missing_ledger_file_input_error",
+            "exit_code": 2,
+            "assertions": [
+              {
+                "desc": "exit_code==2",
+                "passed": true
+              },
+              {
+                "desc": "verdict==INPUT_ERROR",
+                "passed": true
+              }
+            ],
+            "case_result": "PASS"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/workspace/inputs/previous_skill",
+      "kind": "ACTUAL_PRE_COPY_DIRECTORY_LISTING",
+      "listing": "\"SKILL.md\"\n\"schemas/\"\n\"scripts/\"\n\"templates/\""
+    },
+    {
+      "path": "/workspace/inputs/previous_tests/make_fixtures.py",
+      "content": "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\"\"\"make_fixtures.py — 生成明确虚构的测试夹具（非真实业务来源）。\n\n所有素材均为虚构样例（蓝星云课堂/蓝星教育/北辰研究院等），专用于测试技能公开接口。\nB1a/B1b 的边界文本通过导入技能公开的 count_chars 函数精确构造，保证口径一致。\n\"\"\"\nimport json\nimport os\nimport sys\n\nHERE = os.path.dirname(os.path.abspath(__file__))\nSKILL_SCRIPTS = os.path.join(HERE, \"..\", \"skill\", \"scripts\")\nsys.path.insert(0, os.path.abspath(SKILL_SCRIPTS))\nfrom validate_pack import count_chars  # noqa: E402\n\nFIX = os.path.join(HERE, \"fixtures\")\nos.makedirs(FIX, exist_ok=True)\n\nSOURCES = {\n    \"schema\": \"wrd-sources-v1\",\n    \"_note\": \"本文件素材为测试虚构样本，非真实业务来源\",\n    \"sources\": [\n        {\n            \"source_id\": \"demo_src_A\",\n            \"messages\": [\n                {\"message_id\": \"demo_src_A:msg_1\", \"role\": \"user\",\n                 \"content\": \"蓝星云课堂平台经过一年的研发，从原型走向产品。试点覆盖12个班级。实测显示，教师备课时间平均每周节省约5小时，教学效率提升30%。推广方面，平台已在云星市40所学校上线，累计服务师生2万人。\"},\n                {\"message_id\": \"demo_src_A:msg_2\", \"role\": \"user\",\n                 \"content\": \"请从建设成果、推广等角度，把下面素材整理成一份官方汇报，用于内部汇报场景。\"},\n                {\"message_id\": \"demo_src_A:msg_3\", \"role\": \"user\", \"content\": \"600字以内\"},\n            ],\n        },\n        {\n            \"source_id\": \"demo_src_B\",\n            \"messages\": [\n                {\"message_id\": \"demo_src_B:msg_1\", \"role\": \"user\",\n                 \"content\": \"蓝星教育合作与到款规划：预计五年总目标500万元。2027年完成首批试点校签约；2028年覆盖100所学校。底线目标300万，挑战目标500万，激进目标700万。合作单位包括北辰研究院、南江实验学校。\"},\n                {\"message_id\": \"demo_src_B:msg_2\", \"role\": \"user\",\n                 \"content\": \"帮我把这段合作规划整理成一段话，目标口径保持预计，不要写成已经完成。\"},\n            ],\n        },\n    ],\n}\n\nN1_FACTS = [\n    {\"fact_id\": \"F001\", \"fact_type\": \"user_statement\", \"claim\": \"试点覆盖12个班级\",\n     \"value\": \"12\", \"unit\": \"个班级\", \"subject\": \"蓝星云课堂平台试点覆盖\", \"qualifiers\": None,\n     \"explicit_user\": True, \"must_keep\": False,\n     \"evidence_refs\": [{\"source_id\": \"demo_src_A\", \"message_id\": \"demo_src_A:msg_1\", \"quote\": \"试点覆盖12个班级\"}]},\n    {\"fact_id\": \"F002\", \"fact_type\": \"user_statement\", \"claim\": \"教师备课时间平均每周节省约5小时（实测口径）\",\n     \"value\": \"5\", \"unit\": \"小时\", \"subject\": \"教师备课时间每周节省(实测口径)\", \"qualifiers\": \"约/实测显示\",\n     \"explicit_user\": True, \"must_keep\": False,\n     \"evidence_refs\": [{\"source_id\": \"demo_src_A\", \"message_id\": \"demo_src_A:msg_1\", \"quote\": \"教师备课时间平均每周节省约5小时\"}]},\n    {\"fact_id\": \"F003\", \"fact_type\": \"user_statement\", \"claim\": \"教学效率提升30%（实测口径）\",\n     \"value\": \"30\", \"unit\": \"%\", \"subject\": \"教学效率提升(实测口径)\", \"qualifiers\": \"实测显示\",\n     \"explicit_user\": True, \"must_keep\": False,\n     \"evidence_refs\": [{\"source_id\": \"demo_src_A\", \"message_id\": \"demo_src_A:msg_1\", \"quote\": \"教学效率提升30%\"}]},\n    {\"fact_id\": \"F004\", \"fact_type\": \"user_statement\", \"claim\": \"平台已在云星市40所学校上线\",\n     \"value\": \"40\", \"unit\": \"所\", \"subject\": \"云星市上线学校\", \"qualifiers\": None,\n     \"explicit_user\": True, \"must_keep\": False,\n     \"evidence_refs\": [{\"source_id\": \"demo_src_A\", \"message_id\": \"demo_src_A:msg_1\", \"quote\": \"云星市40所学校上线\"}]},\n    {\"fact_id\": \"F005\", \"fact_type\": \"user_statement\", \"claim\": \"累计服务师生2万人\",\n     \"value\": \"2\", \"unit\": \"万人\", \"subject\": \"累计服务师生\", \"qualifiers\": None,\n     \"explicit_user\": True, \"must_keep\": False,\n     \"evidence_refs\": [{\"source_id\": \"demo_src_A\", \"message_id\": \"demo_src_A:msg_1\", \"quote\": \"累计服务师生2万人\"}]},\n    {\"fact_id\": \"R001\", \"fact_type\": \"explicit_requirement\", \"claim\": \"从建设成果、推广等角度整理成一份官方汇报\",\n     \"value\": None, \"unit\": None, \"subject\": None, \"qualifiers\": None,\n     \"explicit_user\": True, \"must_keep\": False,\n     \"evidence_refs\": [{\"source_id\": \"demo_src_A\", \"message_id\": \"demo_src_A:msg_2\", \"quote\": \"从建设成果、推广等角度，把下面素材整理成一份官方汇报\"}]},\n    {\"fact_id\": \"R002\", \"fact_type\": \"explicit_requirement\", \"claim\": \"600字以内（成稿字数口径需说明）\",\n     \"value\": None, \"unit\": None, \"subject\": None, \"qualifiers\": None,\n     \"explicit_user\": True, \"must_keep\": False,\n     \"evidence_refs\": [{\"source_id\": \"demo_src_A\", \"message_id\": \"demo_src_A:msg_3\", \"quote\": \"600字以内\"}]},\n]\n\nN1_TEXT = (\"蓝星云课堂平台建设成果汇报：平台历经一年研发，试点覆盖12个班级。\"\n           \"实测显示，教师备课时间平均每周节省约5小时，教学效率提升30%。\"\n           \"推广方面，平台已在云星市40所学校上线，累计服务师生2万人。\"\n           \"后续将围绕建设成果与推广经验持续扩大试点范围。\")\n\nN1_DECLARED = [\n    {\"fact_id\": \"F001\", \"value\": \"12\", \"unit\": \"个班级\", \"subject\": \"蓝星云课堂平台试点覆盖\"},\n    {\"fact_id\": \"F002\", \"value\": \"5\", \"unit\": \"小时\", \"subject\": \"教师备课时间每周节省(实测口径)\"},\n    {\"fact_id\": \"F003\", \"value\": \"30\", \"unit\": \"%\", \"subject\": \"教学效率提升(实测口径)\"},\n    {\"fact_id\": \"F004\", \"value\": \"40\", \"unit\": \"所\", \"subject\": \"云星市上线学校\"},\n    {\"fact_id\": \"F005\", \"value\": \"2\", \"unit\": \"万人\", \"subject\": \"累计服务师生\"},\n]\n\nN1_FACT_REFS = [\n    {\"fact_id\": \"F001\", \"as_type\": \"achieved_fact\"},\n    {\"fact_id\": \"F002\", \"as_type\": \"achieved_fact\"},\n    {\"fact_id\": \"F003\", \"as_type\": \"achieved_fact\"},\n    {\"fact_id\": \"F004\", \"as_type\": \"achieved_fact\"},\n    {\"fact_id\": \"F005\", \"as_type\": \"achieved_fact\"},\n    {\"fact_id\": \"R001\", \"as_type\": \"requirement\"},\n    {\"fact_id\": \"R002\", \"as_type\": \"requirement\"},\n]\n\n\ndef ledger(facts, extra=None):\n    obj = {\n        \"schema\": \"wrd-fact-ledger-v1\",\n        \"ledger_id\": \"demo_ledger\",\n        \"_note\": \"测试虚构样本，非真实业务来源\",\n        \"facts\": facts,\n        \"derived_rules\": [\n            {\"rule_id\": \"DR1\", \"description\": \"官方汇报按角度归并，保留全部核心数字\",\n             \"basis\": \"derived_policy_not_explicit_user\"},\n        ],\n    }\n    if extra:\n        obj.update(extra)\n    return obj\n\n\ndef draft(text, fact_refs=None, declared=None, kind=\"official_report\", word_target=None,\n          word_delivery=None, extra=None):\n    obj = {\n        \"schema\": \"wrd-draft-v1\",\n        \"draft_id\": \"demo_draft\",\n        \"document_kind\": kind,\n        \"text\": text,\n        \"fact_refs\": fact_refs if fact_refs is not None else N1_FACT_REFS,\n        \"declared_numbers\": declared if declared is not None else N1_DECLARED,\n        \"word_delivery\": word_delivery or {\"target_provided\": False, \"written\": False,\n                                            \"note\": \"未提供目标Word，仅交付文本\"},\n    }\n    if word_target is not None:\n        obj[\"word_target\"] = word_target\n    if extra:\n        obj.update(extra)\n    return obj\n\n\ndef write(name, obj):\n    with open(os.path.join(FIX, name), \"w\", encoding=\"utf-8\") as f:\n        json.dump(obj, f, ensure_ascii=False, indent=2)\n\n\ndef main():\n    write(\"sources_demo.json\", SOURCES)\n\n    # ---------- 正常 N1：官方汇报 ----------\n    write(\"n1_ledger.json\", ledger(N1_FACTS))\n    write(\"n1_draft.json\", draft(N1_TEXT, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"}))\n\n    # ---------- 边界 B1a：字数恰好600（去空白口径） ----------\n    filler = \"试点班教师反馈良好，平台功能持续迭代完善。\"\n    t = N1_TEXT\n    while count_chars(t, \"non_whitespace\") < 600:\n        t += filler\n    if count_chars(t, \"non_whitespace\") > 600:\n        # 从末尾逐字符回退（filler 无数字，不会破坏已声明数值），保持恰好600\n        while count_chars(t, \"non_whitespace\") > 600:\n            t = t[:-1]\n    assert count_chars(t, \"non_whitespace\") == 600, count_chars(t, \"non_whitespace\")\n    b1a = draft(t, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    b1a[\"draft_id\"] = \"b1a_exact_limit\"\n    write(\"b1a_draft.json\", b1a)\n\n    # ---------- 边界 B1b：恰好601（超1） ----------\n    t2 = t + \"超\"\n    assert count_chars(t2, \"non_whitespace\") == 601\n    b1b = draft(t2, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    b1b[\"draft_id\"] = \"b1b_over_by_one\"\n    write(\"b1b_draft.json\", b1b)\n\n    # ---------- 边界 B2a：省略非必保细节（F005），数字不改错 ----------\n    b2a_text = (\"蓝星云课堂平台建设成果汇报：平台历经一年研发，试点覆盖12个班级。\"\n                \"实测显示，教师备课时间平均每周节省约5小时，教学效率提升30%。\"\n                \"推广方面，平台已在云星市40所学校上线。\"\n                \"后续将围绕建设成果与推广经验持续扩大试点范围。\")\n    b2a = draft(b2a_text,\n                fact_refs=[r for r in N1_FACT_REFS if r[\"fact_id\"] != \"F005\"],\n                declared=[d for d in N1_DECLARED if d[\"fact_id\"] != \"F005\"],\n                word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    b2a[\"draft_id\"] = \"b2a_omit_optional\"\n    write(\"b2a_draft.json\", b2a)\n\n    # ---------- 边界 B2b：必保数字被改错（F002 must_keep，声明6≠5） ----------\n    n1_ledger_must = ledger([dict(f) for f in N1_FACTS])\n    for f in n1_ledger_must[\"facts\"]:\n        if f[\"fact_id\"] == \"F002\":\n            f[\"must_keep\"] = True\n    write(\"b2b_ledger.json\", n1_ledger_must)\n    b2b = draft(N1_TEXT, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    b2b[\"declared_numbers\"] = [dict(d) for d in N1_DECLARED]\n    for d in b2b[\"declared_numbers\"]:\n        if d[\"fact_id\"] == \"F002\":\n            d[\"value\"] = \"6\"\n    b2b[\"draft_id\"] = \"b2b_wrong_number\"\n    write(\"b2b_draft.json\", b2b)\n\n    # ---------- 边界 B3a：未提供目标Word，显式 TEXT_ONLY ----------\n    b3a = draft(N1_TEXT, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"},\n                word_delivery={\"target_provided\": False, \"written\": False,\n                               \"note\": \"未提供目标Word，仅交付文本，未写入Word\"})\n    b3a[\"draft_id\"] = \"b3a_text_only\"\n    write(\"b3a_draft.json\", b3a)\n\n    # ---------- 错误 E6：缺必需证据（user_statement 无 evidence_refs） ----------\n    e6_facts = [dict(f) for f in N1_FACTS]\n    e6_facts[0] = dict(e6_facts[0])\n    e6_facts[0][\"evidence_refs\"] = []\n    write(\"e6_ledger.json\", ledger(e6_facts))\n\n    # ---------- 正常 N2：一段话成稿（规划目标口径） ----------\n    n2_facts = [\n        {\"fact_id\": \"G001\", \"fact_type\": \"planned_goal\", \"claim\": \"预计五年到款总目标500万元\",\n         \"value\": \"500\", \"unit\": \"万元\", \"subject\": \"五年到款总目标(预计)\", \"qualifiers\": \"预计/目标\",\n         \"explicit_user\": True, \"must_keep\": True,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_1\", \"quote\": \"预计五年总目标500万元\"}]},\n        {\"fact_id\": \"G002a\", \"fact_type\": \"planned_goal\", \"claim\": \"2027年完成首批试点校签约（计划）\",\n         \"value\": None, \"unit\": None, \"subject\": \"首批试点校签约(计划)\", \"time\": \"2027年\", \"qualifiers\": \"计划\",\n         \"explicit_user\": True, \"must_keep\": False,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_1\", \"quote\": \"2027年完成首批试点校签约\"}]},\n        {\"fact_id\": \"G002b\", \"fact_type\": \"planned_goal\", \"claim\": \"2028年覆盖100所学校（计划）\",\n         \"value\": \"100\", \"unit\": \"所学校\", \"subject\": \"覆盖学校(计划)\", \"time\": \"2028年\", \"qualifiers\": \"计划\",\n         \"explicit_user\": True, \"must_keep\": False,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_1\", \"quote\": \"2028年覆盖100所学校\"}]},\n        {\"fact_id\": \"G003a\", \"fact_type\": \"planned_goal\", \"claim\": \"底线目标300万元\",\n         \"value\": \"300\", \"unit\": \"万元\", \"subject\": \"底线目标(预计)\", \"qualifiers\": \"目标\",\n         \"explicit_user\": True, \"must_keep\": False,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_1\", \"quote\": \"底线目标300万\"}]},\n        {\"fact_id\": \"G003b\", \"fact_type\": \"planned_goal\", \"claim\": \"挑战目标500万元\",\n         \"value\": \"500\", \"unit\": \"万元\", \"subject\": \"挑战目标(预计)\", \"qualifiers\": \"目标\",\n         \"explicit_user\": True, \"must_keep\": False,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_1\", \"quote\": \"挑战目标500万\"}]},\n        {\"fact_id\": \"G003c\", \"fact_type\": \"planned_goal\", \"claim\": \"激进目标700万元\",\n         \"value\": \"700\", \"unit\": \"万元\", \"subject\": \"激进目标(预计)\", \"qualifiers\": \"目标\",\n         \"explicit_user\": True, \"must_keep\": False,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_1\", \"quote\": \"激进目标700万\"}]},\n        {\"fact_id\": \"N001\", \"fact_type\": \"user_statement\", \"claim\": \"合作单位包括北辰研究院、南江实验学校\",\n         \"value\": None, \"unit\": None, \"subject\": None, \"qualifiers\": None,\n         \"explicit_user\": True, \"must_keep\": False,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_1\", \"quote\": \"合作单位包括北辰研究院、南江实验学校\"}],\n         # 嵌套 evidence_refs（正常）：模拟 A06 场景 task_switches\n         \"task_switches\": [\n             {\"switch_id\": \"s1\", \"from_intent\": \"规划素材整编\", \"to_intent\": \"一段话成稿\",\n              \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_2\", \"quote\": \"整理成一段话\"}]},\n         ]},\n        {\"fact_id\": \"R101\", \"fact_type\": \"explicit_requirement\", \"claim\": \"整理成一段话，目标口径保持预计\",\n         \"value\": None, \"unit\": None, \"subject\": None, \"qualifiers\": None,\n         \"explicit_user\": True, \"must_keep\": False,\n         \"evidence_refs\": [{\"source_id\": \"demo_src_B\", \"message_id\": \"demo_src_B:msg_2\", \"quote\": \"整理成一段话\"}]},\n    ]\n    write(\"n2_ledger.json\", ledger(n2_facts))\n    n2_text = (\"蓝星教育合作与到款规划：预计五年到款总目标500万元，底线目标300万元、挑战目标500万元、激进目标700万元；\"\n               \"2027年完成首批试点校签约，2028年覆盖100所学校；合作单位包括北辰研究院、南江实验学校。\")\n    n2_refs = [\n        {\"fact_id\": \"G001\", \"as_type\": \"planned_goal\"},\n        {\"fact_id\": \"G002a\", \"as_type\": \"planned_goal\"},\n        {\"fact_id\": \"G002b\", \"as_type\": \"planned_goal\"},\n        {\"fact_id\": \"G003a\", \"as_type\": \"planned_goal\"},\n        {\"fact_id\": \"G003b\", \"as_type\": \"planned_goal\"},\n        {\"fact_id\": \"G003c\", \"as_type\": \"planned_goal\"},\n        {\"fact_id\": \"N001\", \"as_type\": \"context\"},\n        {\"fact_id\": \"R101\", \"as_type\": \"requirement\"},\n    ]\n    n2_declared = [\n        {\"fact_id\": \"G001\", \"value\": \"500\", \"unit\": \"万元\", \"subject\": \"五年到款总目标(预计)\"},\n        {\"fact_id\": \"G002b\", \"value\": \"100\", \"unit\": \"所学校\", \"subject\": \"覆盖学校(计划)\"},\n        {\"fact_id\": \"G003a\", \"value\": \"300\", \"unit\": \"万元\", \"subject\": \"底线目标(预计)\"},\n        {\"fact_id\": \"G003b\", \"value\": \"500\", \"unit\": \"万元\", \"subject\": \"挑战目标(预计)\"},\n        {\"fact_id\": \"G003c\", \"value\": \"700\", \"unit\": \"万元\", \"subject\": \"激进目标(预计)\"},\n    ]\n    n2_draft = draft(n2_text, fact_refs=n2_refs, declared=n2_declared, kind=\"one_paragraph\")\n    n2_draft[\"draft_id\"] = \"n2_one_paragraph\"\n    write(\"n2_draft.json\", n2_draft)\n\n    # ---------- 错误 E3：嵌套 task_switches 中引文不是连续原文 ----------\n    e3_facts = json.loads(json.dumps(n2_facts, ensure_ascii=False))\n    for f in e3_facts:\n        if f[\"fact_id\"] == \"N001\":\n            f[\"task_switches\"][0][\"evidence_refs\"][0][\"quote\"] = \"整理成三段话\"\n    write(\"e3_ledger.json\", ledger(e3_facts))\n\n    # ---------- 错误 E5：planned_goal 声明成 achieved_fact ----------\n    e5 = draft(n2_text, fact_refs=n2_refs, declared=n2_declared, kind=\"one_paragraph\")\n    for r in e5[\"fact_refs\"]:\n        if r[\"fact_id\"] == \"G001\":\n            r[\"as_type\"] = \"achieved_fact\"\n    e5[\"draft_id\"] = \"e5_goal_as_achieved\"\n    write(\"e5_draft.json\", e5)\n\n    # ---------- 错误 E1：unknown fact ID ----------\n    e1 = draft(N1_TEXT, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    e1[\"fact_refs\"] = [dict(r) for r in N1_FACT_REFS] + [{\"fact_id\": \"F999\", \"as_type\": \"achieved_fact\"}]\n    e1[\"draft_id\"] = \"e1_unknown_fact\"\n    write(\"e1_draft.json\", e1)\n\n    # ---------- 错误 E2：quote 不是连续原文子串 ----------\n    e2_facts = [dict(f) for f in N1_FACTS]\n    e2_facts[1] = dict(e2_facts[1])\n    e2_facts[1][\"evidence_refs\"] = [dict(e2_facts[1][\"evidence_refs\"][0])]\n    e2_facts[1][\"evidence_refs\"][0][\"quote\"] = \"教师备课时间平均每周节省5小时\"  # 原文为「节省约5小时」\n    write(\"e2_ledger.json\", ledger(e2_facts))\n\n    # ---------- 错误 E4a：声明单位与账本不符 ----------\n    e4a = draft(N1_TEXT, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    e4a[\"declared_numbers\"] = [dict(d) for d in N1_DECLARED]\n    for d in e4a[\"declared_numbers\"]:\n        if d[\"fact_id\"] == \"F002\":\n            d[\"unit\"] = \"天\"\n    e4a[\"draft_id\"] = \"e4a_unit_mismatch\"\n    write(\"e4a_draft.json\", e4a)\n\n    # ---------- 错误 E4b：声明主体与账本不符 ----------\n    e4b = draft(N1_TEXT, word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    e4b[\"declared_numbers\"] = [dict(d) for d in N1_DECLARED]\n    for d in e4b[\"declared_numbers\"]:\n        if d[\"fact_id\"] == \"F002\":\n            d[\"subject\"] = \"行政事务耗时\"\n    e4b[\"draft_id\"] = \"e4b_subject_mismatch\"\n    write(\"e4b_draft.json\", e4b)\n\n    # ---------- 语义边界 E7：文本混入未声明数字90（程序不可判定，须 NEEDS_SEMANTIC_REVIEW） ----------\n    e7 = draft(N1_TEXT + \"平台内容准确率提升90%。\",\n               word_target={\"char_limit\": 600, \"counting_mode\": \"non_whitespace\"})\n    e7[\"draft_id\"] = \"e7_undeclared_number\"\n    write(\"e7_draft.json\", e7)\n\n    # ---------- classify 请求 ----------\n    write(\"c1_request.json\", {\"deliverable_kind\": \"official_report\", \"materials_present\": True, \"scope_clear\": True})\n    write(\"c2_request.json\", {\"deliverable_kind\": \"question_only_material\", \"materials_present\": True, \"scope_clear\": False})\n    write(\"c3_request.json\", {\"deliverable_kind\": \"official_report\", \"materials_present\": False, \"scope_clear\": True})\n    write(\"c4_request.json\", {\"deliverable_kind\": \"one_paragraph\", \"materials_present\": True, \"scope_clear\": True})\n    write(\"c5_request.json\", {\"deliverable_kind\": \"unclear_other\", \"materials_present\": False, \"scope_clear\": False})\n\n    print(\"fixtures written to\", FIX)\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    }
+  ],
+  "accessible_unread_resources_note": "The originally mounted source/schema/template resources remain available at their original paths. They have not been read in this snapshot; no omitted text is claimed as already known."
+}

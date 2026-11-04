@@ -1,0 +1,1753 @@
+{
+  "schema": "wrd09-exact-owner-review-packet",
+  "owner": {
+    "owner_id": "b5127ad251bbe6fb813e6cdb",
+    "queue": "other_business_semantic_pending",
+    "episode_id": "ep_4725624333288be44049",
+    "source_message_index": 3,
+    "route_id": "contract-position-gap-supplement",
+    "source_ids": [
+      "conv_f4efc3b555dc"
+    ],
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "current_source_statuses": {
+      "conv_f4efc3b555dc": "TRAIN"
+    },
+    "original_owner_ledger": {
+      "canonical_owner_id": "b5127ad251bbe6fb813e6cdb",
+      "population": "V9_OLD1763",
+      "episode_id": "ep_4725624333288be44049",
+      "native_session_id": "fc30d8d7-44b3-4893-bff3-d5ae5e97ed6a",
+      "source_message_index": 3,
+      "source_event_line": 9,
+      "original_message_sha256_sorted": "3e77314365f71e6d684d914b9fab846acb011369c0566dc91358160d02ce1afb",
+      "original_message_sha256_insertion_order": "2e09d02a7f81d89847056bd86c276ed0251f3e7a8ec797ca01edaf297cda64b3",
+      "original_content_sha256_sorted": "f5e87f1a16340a626cc6d24bb96f5d2744d26691bea0211aa62ee4924a3f8df0",
+      "source_native": {
+        "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\49\\498c874e63c83ef25888078267b1b661a0a8920036577230dc0c4b74c9a8a922",
+        "bytes": 117346,
+        "sha256": "498c874e63c83ef25888078267b1b661a0a8920036577230dc0c4b74c9a8a922"
+      },
+      "original_body_ref": {
+        "context_episode_id": "ep_4725624333288be44049",
+        "message_index": 3,
+        "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+      },
+      "historical_role": "legacy_business_actor",
+      "route_id": "contract-position-gap-supplement",
+      "source_ids": [
+        "conv_f4efc3b555dc"
+      ],
+      "current_source_statuses": {
+        "conv_f4efc3b555dc": "TRAIN"
+      },
+      "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+      "old_source_admission": "ADMIT",
+      "old_source_scope_proof_id": "1ca73c4547155aacf55e984ee105ac56e6d2eadaf18d1656164207f6f4b32d79",
+      "late_protected_overlay": null,
+      "old_preflight_eligibility": null,
+      "v9_protocol_disposition": {
+        "id": "b5127ad251bbe6fb813e6cdb",
+        "episode_id": "ep_4725624333288be44049",
+        "source_message_index": 3,
+        "stage": "legacy_business_actor",
+        "route_id": "contract-position-gap-supplement",
+        "source_admission": "ADMIT",
+        "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+        "source_ids": [
+          "conv_f4efc3b555dc"
+        ],
+        "supervision_tier": null,
+        "loss_multiplier": 0.0,
+        "mask_reasons": [
+          "CURRENT_TOOL_NOT_IN_FIXED_CORE7_VERIFIED_SCHEMA"
+        ],
+        "original_message_sha256": "2e09d02a7f81d89847056bd86c276ed0251f3e7a8ec797ca01edaf297cda64b3",
+        "original_content_sha256": "87f84f186cf4989172d7a8ba4d7dbf78353815c4fb02d34a2e0775579998ec73",
+        "quality_is_not_inferred_from_done_retain_or_exit0": true,
+        "training_started": false,
+        "admitted_in_common_32k": false
+      },
+      "maker405_static_byte_review": null,
+      "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+      "target_call_ids": [
+        "call99952402187d40e2bbf10536f993decd"
+      ],
+      "native_response_id": "chatcmpl-1792600184784",
+      "native_readable_R_blocks": 0,
+      "current_view_claims": [],
+      "withdrawn_view_claims": [],
+      "original_R_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+      "original_A_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+      "semantics": "NOT_INFERRED_FROM_SOURCE_ADMIT_DONE_RETAIN_OR_EXIT0",
+      "no_new_positive_loss": true,
+      "current_disposition": "SOURCE_CLOSED_SEMANTIC_PENDING"
+    },
+    "target_message_original": {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call99952402187d40e2bbf10536f993decd",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\nimport docx\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\nlines = []\nfor i, p in enumerate(d.paragraphs):\n    t = p.text.strip()\n    if t:\n        lines.append(t)\n# also tables\nfor ti, tb in enumerate(d.tables):\n    for r in tb.rows:\n        cells = [c.text.strip() for c in r.cells]\n        lines.append('[表格] ' + ' | '.join(cells))\ntext = '\\n'.join(lines)\nopen('tmp/contract.txt','w',encoding='utf-8').write(text)\nprint(len(lines), 'lines,', len(text), 'chars')\nEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600184745,
+      "responseId": "chatcmpl-1792600184784",
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    "target_original_SHA256_sorted": "3e77314365f71e6d684d914b9fab846acb011369c0566dc91358160d02ce1afb",
+    "input_context_ref": {
+      "file": "ORIGINAL_CONTEXTS_343.audit.jsonl.gz",
+      "episode_id": "ep_4725624333288be44049",
+      "messages_prefix_end_exclusive": 3
+    },
+    "immediate_original_tool_feedback": [
+      {
+        "message_index": 4,
+        "message": {
+          "role": "toolResult",
+          "toolCallId": "call99952402187d40e2bbf10536f993decd",
+          "toolName": "exec",
+          "content": [
+            {
+              "type": "text",
+              "text": "231 lines, 9291 chars"
+            }
+          ],
+          "details": {
+            "status": "completed",
+            "exitCode": 0,
+            "exitSignal": null,
+            "exitReason": "exit",
+            "durationMs": 161,
+            "aggregated": "231 lines, 9291 chars",
+            "noOutputTimedOut": false,
+            "cwd": "/workspace"
+          },
+          "isError": false,
+          "timestamp": 1792600193321,
+          "__openclaw": {
+            "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+          }
+        },
+        "message_sha256": "512f0c7b21a8a6ec01b34002c4acc46ed01b3d5c46034003ead6afacfc2eb078"
+      }
+    ],
+    "following_messages_remain_in_original_context": true,
+    "literal_target_classification": "EXEC_WITH_EXACT_INLINE_RESOURCE_BODY",
+    "actual_tool_names": [
+      "exec"
+    ],
+    "literal_inline_programs": [
+      {
+        "destination_if_explicit": null,
+        "language": "python",
+        "command_unicode_start": 34,
+        "command_unicode_end": 540,
+        "text_sha256": "df137144526115337da834eb0e256775afcea9213d208c0ab3683c960bc6d9ed",
+        "characters": 506,
+        "syntax": "AST_PARSE_PASS_ONLY_NOT_EXECUTION",
+        "path": "D:\\skillloop\\output\\20261031_wrd_curation09\\process\\inline_programs\\b5127ad251bbe6fb813e6cdb\\0.py",
+        "owner_id": "b5127ad251bbe6fb813e6cdb",
+        "call_id": "call99952402187d40e2bbf10536f993decd",
+        "episode_id": "ep_4725624333288be44049",
+        "source_ids": [
+          "conv_f4efc3b555dc"
+        ],
+        "route_id": "contract-position-gap-supplement"
+      }
+    ],
+    "native_readable_reasoning_blocks": 0,
+    "text_characters": 0,
+    "semantic_status": "NOT_INFERRED_FROM_LITERAL_CLASSIFICATION_OR_EXIT_STATUS",
+    "training_admitted": false,
+    "positive_loss": 0
+  },
+  "original_context": {
+    "schema_version": "wrd-v9-native-input-recovery-1.0",
+    "episode_id": "ep_4725624333288be44049",
+    "old_canonical_episode_id": "ep_4725624333288be44049",
+    "native_session_id": "fc30d8d7-44b3-4893-bff3-d5ae5e97ed6a",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\49\\498c874e63c83ef25888078267b1b661a0a8920036577230dc0c4b74c9a8a922",
+      "bytes": 117346,
+      "sha256": "498c874e63c83ef25888078267b1b661a0a8920036577230dc0c4b74c9a8a922"
+    },
+    "source_original_path": "E:\\skillloop_runs\\w10\\native_episodes\\contract-position-gap-supplement_c2_no_skill\\openclaw_transport\\session_events.jsonl",
+    "messages": [
+      {
+        "role": "user",
+        "content": "实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。以下命令客户端（包括local-asr、remotion和ecnu_tools.py）均通过exec执行，不是额外的原生工具名。要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。Playwright Chromium executable_path=/usr/bin/chromium，launch args=[\"--no-sandbox\"]。原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。网络访问可用；用户要求下载的材料和skills请在任务中真实下载。当前ecnu-plus的文本与图片理解已通过独立接口探针；未提供额外搜索API密钥；公开网页可使用browser或HTTP读取。图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n公开参考skill的实际目录是 /workspace/skills/<名称>，脚本相对该skill根解析。兼容目录 /workspace/.claude/skills 指向同一目录；CLAUDE_PLUGIN_ROOT=/workspace。需要CLAUDE_SKILL_DIR的命令可用exec运行 python /opt/eval-adapter/runtime_compat.py run-skill --skill <名称> -- <命令及参数>，该变量只针对本条命令，不在多个skill之间共享固定值。跨包参考正文如果本题准入，会放在 /workspace/reference_support，作为依赖资料而非新增active skill；可运行 python /opt/eval-adapter/runtime_compat.py reference-path --skill <名称> --reference \"<SKILL中原相对引用>\" 查询真实存在的位置，再用read读取；不存在就报告缺项。GetNotes参考SDK的原缓存含跨平台开发依赖，从该skill的scripts目录可运行 getnote-tsx <tsx参数> 使用固定Linux兼容loader；这只修本地加载，不提供账号认证。agent-browser和lark-cli是通过exec运行的公共CLI，不是新增原生工具名；agent-browser使用本容器/usr/bin/chromium，外部Lark/邮件/GetNotes服务仍以实际认证结果为准。\n\n本题提供的文件：\n- /workspace/inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx\n- /workspace/inputs/user_requests/conv_f4efc3b555dc.json\n\n用户提供的上下文：\n\n\n用户任务：\n请对合同文件 /workspace/inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx 进行审阅，用中文完成：1、检查全文错别字；2、审核合同风险。对发现的错别字逐条说明所在位置（条款）及正确写法；对风险点逐条说明风险内容、对应条款及理由。交付物：输出一份中文合同审阅报告（docx格式），含错别字核查结果与风险审核结果两部分，交付至 outputs/合同审阅报告.docx。",
+        "timestamp": 1792600166624,
+        "idempotencyKey": "ac9babd8-92e2-490c-bb21-8060e64b343a:user",
+        "__openclaw": {
+          "senderIsOwner": true
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "callea6baaf43d114e8e8e7cbbcdac5cb6f0",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && ls -la inputs/materials/conv_f4efc3b555dc/ && cat inputs/user_requests/conv_f4efc3b555dc.json 2>/dev/null | head -50 && mkdir -p outputs tmp && python -c \"import docx; print('python-docx ok')\""
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600167065,
+        "responseId": "chatcmpl-1792600174741",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "callea6baaf43d114e8e8e7cbbcdac5cb6f0",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "total 76\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rwxrwxrwx 1 root root 75262 Oct 21 16:29 1_材料2.安徽中科微感股权投资合同20260721.docx\n{\"messages\":[{\"content\":\"请使用中文回复，除非用户明确使用其他语言。\\n\\n1、检查错别字；2、审核风险\\n[附加文件: 安徽中科微感股权投资合同--拟签约(1).docx (/workspace/对话附件/安徽中科微感股权投资合同--拟签约(1).docx)]\",\"id\":\"conv_f4efc3b555dc:ca14cde7\",\"role\":\"user\"}],\"source_id\":\"conv_f4efc3b555dc\"}\npython-docx ok"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 110,
+          "aggregated": "total 76\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rwxrwxrwx 1 root root 75262 Oct 21 16:29 1_材料2.安徽中科微感股权投资合同20260721.docx\n{\"messages\":[{\"content\":\"请使用中文回复，除非用户明确使用其他语言。\\n\\n1、检查错别字；2、审核风险\\n[附加文件: 安徽中科微感股权投资合同--拟签约(1).docx (/workspace/对话附件/安徽中科微感股权投资合同--拟签约(1).docx)]\",\"id\":\"conv_f4efc3b555dc:ca14cde7\",\"role\":\"user\"}],\"source_id\":\"conv_f4efc3b555dc\"}\npython-docx ok",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792600184730,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call99952402187d40e2bbf10536f993decd",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python - <<'EOF'\nimport docx\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\nlines = []\nfor i, p in enumerate(d.paragraphs):\n    t = p.text.strip()\n    if t:\n        lines.append(t)\n# also tables\nfor ti, tb in enumerate(d.tables):\n    for r in tb.rows:\n        cells = [c.text.strip() for c in r.cells]\n        lines.append('[表格] ' + ' | '.join(cells))\ntext = '\\n'.join(lines)\nopen('tmp/contract.txt','w',encoding='utf-8').write(text)\nprint(len(lines), 'lines,', len(text), 'chars')\nEOF"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600184745,
+        "responseId": "chatcmpl-1792600184784",
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call99952402187d40e2bbf10536f993decd",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "231 lines, 9291 chars"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 161,
+          "aggregated": "231 lines, 9291 chars",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792600193321,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call5ba10ef2b76f4348a8f68651d81da479",
+            "name": "read",
+            "arguments": {}
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600193329,
+        "responseId": "chatcmpl-1792600193365",
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call5ba10ef2b76f4348a8f68651d81da479",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "Validation failed for tool \"read\":\n  - path: must have required properties path\n\nReceived arguments:\n{}"
+          }
+        ],
+        "details": {},
+        "isError": true,
+        "timestamp": 1792600199003,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call6b7b1c757d1941d892b630a6f438cc6b",
+            "name": "read",
+            "arguments": {
+              "path": "/workspace/tmp/contract.txt"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600199010,
+        "responseId": "chatcmpl-1792600199052",
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call6b7b1c757d1941d892b630a6f438cc6b",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合伙人委派代表：\n乙方（项目公司）：安徽中科微感科技有限公司\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n法定代表人：沈文锋\n丙方（项目公司实控人及股东）：\n丙方1：（实际控制人）：沈文锋\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n身份证号：330323197812044711\n丙方2：中科微感（宁波）科技有限公司\n地  址：浙江省宁波高新区贵驷街道永茂东路1819号4幢4-2-14\n法定代表人：沈文锋\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：安徽省蚌埠经济开发区东海大道888号中国传感谷C区C3栋7层701室内\n执行事务合伙人委派代表：沈文锋\n鉴 于：\n项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股东及股权结构如下：\n2. 丙方1沈文锋系项目公司实际控制人，其直接持有项目公司10%的股权，通过中科微感（宁波）科技有限公司蚌埠智微数感企业管理合伙企业（有限合伙）持有项目公司%的。\n3.各方一致同意项目公司新增注册资本165.5172万元，由投资方按照本协议约定认购。\n现各方根据有关法律、行政法规的规定，经过友好协商，就本次投资事宜，达成如下协议，以供各方共同遵守。\n定 义\n除非本协议中另有规定，本协议中出现的下列术语应按以下定义理解：\n本协议的名称及条、款、项的标题（含置于条款正文前的小标题）仅为方便阅读，不应视为对本协议内容的解释。\n本协议引用有关条款时，除非本协议另有规定，该等条款应指本协议的相应条款。\n先决条件\n各方同意，投资方在本协议项下的投资义务以下列条件全部满足为先决条件：\n关于同意本次交易，项目公司及丙方已向甲方提交了符合法律法规、公司章程及工商登记要求的股东会决议。\n本次增资事项\n投资方按本协议约定的条款及条件对项目公司进行增资，项目公司的注册资本增加165.5172万元，新增注册资本由投资方以480万元的投资价款认购。其中：\n甲方投资480万元，认购项目公司新增注册资本165.5172万元，投资额超过所认购注册资本的部分314.4828万元计入项目公司资本公积，甲方在本次增资完成后持有项目公司14.2012%的股权。\n本次增资完成后，项目公司的股权结构为:\n上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权结构作出相应适配调整。\n投资款的缴付\n投资方在本协议约定的先决条件成就确认后的【60】个工作日内，向项目公司的以下账户支付本次投资款项：\n户    名：安徽中科微感科技有限公司\n开 户 行：徽商银行蚌埠经济开发区支行\n银行账号：264663105480000001\n投资方按本协议第4.1条约定支付完毕全部投资价款后，投资方在本协议项下的出资义务即告履行完毕。\n投资方按照4.1条缴付出资后即成为公司股东，依照法律、本协议和公司章程的规定享有所有股东权利并承担相应股东义务，公司的资本公积金、盈余公积金和未分配利润等全部股东权益由增资后的全体股东享有。\n验资及工商变更登记\n项目公司在收到投资方支付的投资款项后10个工作日内向投资方提供股东出资证明。\n项目公司在收到投资款后90日内，应完成本次增资相关的工商变更登记手续，包括但不限于办理注册资本变更、股东变更登记、按本协议约定进行修改后的公司章程或章程修正案登记、按本协议约定选举的董事、监事变更登记或备案等。因客观原因逾期未完成前述工商变更登记手续的，经甲方同意可以豁免违约责任并延长工商变更办理期限。\n为本次增资办理相关工商变更登记所需的费用（若有）由项目公司承担。\n投资款的监管与运用\n6.1 各方同意，投资方的全部出资主要用于项目公司的研发生产。不得用于偿还股东债务等其他用途；不得用于非经营性支出或者与公司主营业务不相关的支出；不得用于委托理财、委托贷款和期货交易等；不得用于除投资方外其他股东的减资。\n6.2 投资方对于投资款的使用情况，具有充分的知情权，有权随时查询投资款使用情况。\n关联交易\n项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原则签署相关协议，以明确权利义务，并按照公司章程和相关制度规定履行内部决策程序。\n标的公司及丙方承诺，丙方不无偿占有、使用公司的资金、资产及资源。丙方占有、使用公司财产的，由其按市场公允价格（自实际占有、使用公司财产之日起至停止占有、使用之日止）支付使用对价给标的公司。\n项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将上述情形及时通知投资方。\n项目公司及丙方承诺，涉及关联交易的表决须严格按照相关法律法规及公司章程关于关联股东和关联董事回避制度相关规定执行。\n竞业限制\n实控人在投资方持有项目公司股权期间，不得参与或涉及以下事宜：\n新设、收购、参股与项目公司具有竞争关系的企业。\n（2）委托、受托经营与项目公司有竞争关系的企业。\n项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款至少包括以下内容：在任职期间内不得在其他营利性组织中兼职；在任职期间内不得以任何形式从事或帮助他人从事与项目公司存在竞争关系的经营活动；在从项目公司离职后2年内或更长期限内不得在与项目公司有竞争关系的企业中任职；竞业禁止补偿条款。\n上述竞业禁止范围，不包括项目公司的关联企业。\n检查权和信息权\n在不影响公司正常经营和规范治理要求的前提下，投资方有权查阅项目公司及附属企业的会计资料（包括会计报表、会计账册、会计凭证以及其他会计资料）。除前述会计资料外，投资方有权查阅项目公司所持有的、为投资方适当了解项目公司的业务和情况并保护其作为股东的利益所合理要求的相关信息。\n应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问或其他人员，就项目公司的经营与财务状况进行讨论等，项目公司及丙方应给予必要的协助。在合理必要时，投资方有权聘请第三方专业机构对项目公司进行审计或调查。\n投资完成后，项目公司应按时向投资方提供以下资料：\n每日历季度结束后30日内，提供公司经营报告和季度财务管理报告（含资产负债表、利润表、现金流量表、所有者权益变动表、附注，下同）。\n每日历年度结束后90日内，提供公司年度经营报告、财务报告以及下一年度的经营预算和业务计划。\n每日历年度结束后6个月内，提供经会计师事务所审计的项目公司年度审计报告原件和/或加盖项目公司公章的审计报告复印件。\n在股东会结束后30日内提供相关股东会的会议纪要、会议决议。\n其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n股权转让限制\n项目公司首发上市或被上市公司并购前，非经甲方同意，实控人及科技团队不得实施导致其失去控股或实际控制地位的股权转让行为。\n回购权\n11.1 回购权的条件\n在下列任一条件满足或任一情况出现时，甲方有权要求乙方和/或丙方1、丙方2回购甲方持有项目公司的全部或部分股权：\n11.1.1 投资期届满，项目公司未能首发上市或被上市公司并购。\n11.1.2 甲方持有项目公司股权期间，实控人及科技团队失去对项目公司的控股或实际控制地位。\n11.1.3 实际控制人或项目公司骗取、挪用、违法违规使用扶持资金。\n11.2 回购安排\n11.2.1 在上述任一回购条件成就后，甲方有权自任一条件成就之日起三年内向乙方及丙方1、丙方2发出要求回购的通知，乙方应当在3个月内完成减资手续，履行回购义务。\n（1）若甲方取得的减资款低于本协议约定的回购价格，则由丙方1、丙方2对差额补足承担有限责任；\n（2）如果（1）未能按期完成，则由丙方1、丙方2对回购甲方股权承担有限责任；\n有限责任指丙方1、丙方2在本协议项下所需承担的责任以其直接和/或间接持有的项目公司全部股权的处置价值为限。届时丙方1、丙方2有义务、甲方有权寻找第三方受让前述股权，丙方1、丙方2应当配合转让股权，并在转让所得范围内向甲方支付回购价款。\n11.2.2 如乙方减资未能按上述期限完成，则丙方1、丙方2（或其指定方）应当自甲方发出回购通知后6个月内履行回购义务，将回购价款支付至甲方指定账户。\n11.2.3 回购价格为甲方的本次投资本金加上投资收益。具体计算方式为：\n回购价格=回购股权数量/投资方持股数量*投资方投资本金*(1+LPR*n)-回购股权数量对应的已取得现金分红。（LPR是指回购通知发出时贷款市场同期报价利率）。\n其中，n为投资方在公司投资的年数，不是整年的，按实际投资天数/365计算，实际投资天数计算至股权回购款实际支付日（含当日）。投资方持股数量指回购时投资方持有的全部股权数量。若甲方自项目公司取得的现金分红高于年化6%的收益，则超出部分甲方不再退回，也不得在回购款中抵扣。\n11.2.4 项目公司或丙方1、丙方2支付完毕全部股权回购款后，丙方1、丙方2应协助项目公司及甲方完成相关的工商变更登记手续。若甲方减资涉及相关国资管理要求，则届时将按照企业国有资产交易等相关法律法规执行。\n陈述、保证和承诺\n本协议各方分别而非连带地陈述、保证及承诺如下：\n其为依据中国法律正式成立并有效存续的主体或具有完全民事行为能力的自然人。\n其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n其保证对本协议所包含的信息承担保密义务，法律或相关监管机构/权威机构要求披露的，以及向本协议相关中介机构披露的除外。\n项目公司及实控人陈述、保证及承诺如下：\n本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n项目公司及实控人已向投资方真实、准确、完整的披露了股东之间的关联关系，根据相关法律法规的规定，不存在不适合对项目公司投资的情形。\n项目公司向投资方披露的公司的资产、负债、权益、或有负债以及与本协议有关的全部信息系真实、准确、完整的。\n在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规范往期成本核算、现金账与往来账处理等相关财务工作。\n税款与费用\n本协议各方为履行本协议义务所须缴纳的税款由各纳税主体承担。\n本协议各方在本协议履行过程中产生的相关费用由各方自行承担。\n通知和送达\n协议各方同意，与本协议有关的任何通知，需以约定方式送达方为有效，约定送达形式包括但不限于：专人送达、快递、电子邮件、微信等。\n本协议第14.1条所述通知应被视为在下列时间送达：\n以专人送达的通知，在送达收件人下述通知地址之日；\n以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n以电子邮件发出的通知，在电子邮件成功发出之后即为送达；\n以微信形式发出，在成功发出之后即为送达；\n同时采用上述两种或两种以上方式的，以其中最快达到对方者为准。\n若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退回，均视为有效送达）。\n与本协议有关的任何通知送达下列地址视为有效送达：\n甲 方：\n地  址：\n收件人：\n电  话：\n邮  箱一：\n邮  箱二：kjtd@ahinv.com\n（甲方采用电子邮件的方式向其他各方送达与本协议有关通知的，可通过以上任一邮箱进行送达。其他各方采用电子邮件的方式向甲方送达与本协议有关通知的，需同时向甲方邮箱一、邮箱二进行送达。）\n乙 方：安徽中科微感科技有限公司（项目公司）\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n收件人：王俊挺\n电  话：15167770898\n邮  箱：wangjunting@csmsn.com\n丙方1：沈文锋（实际控制人、科技人才团队领军人）\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方2：中科微感（宁波）科技有限公司\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：\n收件人：\n电  话：\n邮  箱：\n任何一方的通讯地址发生变化（“变动方”），变动方应当在该变更发生后五(5)个工作日内通知其他方。在变动方的前述变动通知送达前，其他方按照本协议第14.3条约定向变动前的地址、电子邮箱发送通知的，应视为有效送达。\n上述送达方式和地址的适用范围包括非诉阶段和争议进入仲裁、民事诉讼程序后的先行调解、一审、二审、再审和执行程序。在争议进入仲裁/诉讼程序后，仲裁机关或者法院可以按照本协议约定的送达方式和地址送达法律文书，如因一方提供信息不准确、变更后未及时通知、拒收等原因导致无法送达的仍视为有效送达，所造成的不利后果均由该方自行承担。\n保密义务\n本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协议项下义务以外的任何用途，也不得向任何第三方披露或提供该等商业秘密，并采取所有必要的措施保证其现有和将来的高级管理人员、主管、员工和专业顾问等遵守上述保密义务，否则该方应承担本协议他方因此而遭受的损失。\n如果本协议任何一方应国家司法机关或其他公共管理机构的要求披露本协议他方的商业秘密，则不视为违反本条款项下的保密义务。\n本协议的终止或解除不影响本条的有效性。\n不可抗力\n不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事件。不可抗力事件包括但不限于非因一方疏忽或不当行为所引起的洪水、地震、台风或其他自然灾害、战争。由于国内外宏观经济状况发生变化、行业经营环境发生变化、国内外市场变化以及因一方自身经营所造成的事件，均不属于不可抗力。\n若发生不可抗力事件，则受到该不可抗力影响的一方可在不可抗力事件所造成影响的范围和期间内暂停履行其在本协议项下的义务，且其履行义务期限将自动延展，延展的时间相当于暂停履行义务的期限。主张不可抗力事件的一方应以电子邮件及时通知其他方，并提供该等不可抗力事件的发生、不利后果持续时间的适当证据。声称不可抗力的一方还应尽一切合理努力减少或消除不可抗力对其在本协议项下义务的影响。\n若发生不可抗力事件，各方应立即相互协商以找出公平的解决办法并应尽一切合理努力减轻该等不可抗力事件的后果。因不可抗力事件形成的经营风险由各方共担；因不可抗力导致本协议的目的或相关条款不能实现时，各方应友好协商解决。\n违约责任\n本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假，则应被视为违约。违约方应赔偿因其违约而对其他方（守约方）造成的一切损失。\n任何一方因违反本协议约定而应承担的违约责任不因本协议的解除而免除。\n任何一方违约时，守约方除有权要求违约方依据本协议之约定支付损害赔偿金外，还有权要求违约方继续履行本协议。\n项目公司及丙方应当承担因其违约造成的损失以及费用（费用包括但不限于诉讼费用、仲裁费用、律师费用、公证费用、鉴定费用、公告费用、保全费用、保全担保费用、拍卖费用、评估费用、审计费用、强制执行费用、差旅费用等）。\n适用法律及争议的解决\n本协议的订立、效力、解释、履行及争议的解决均适用中国法律。\n凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n除本协议双方有争议正在协商或诉讼的部分外，各方均应继续履行本协议的其它部分。\n其他事项\n本协议自自然人签约方签字及非自然人签约方盖章后生效。\n如本协议中有关投资方权利的相关约定未能在公司章程中体现，则该部分约定以本协议为准，投资方继续拥有本协议约定的相关权利。\n本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效力。\n本协议正本一式拾叁份，甲方持有二份，其他各方各持一份，一份用于办理工商变更登记，剩余存于项目公司备档，每份均具有同等法律效力。本协议内容与工商标准文本内容如有冲突，则以本协议为准。\n（以下无正文，为签署页）\n（本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n甲方（盖章）：\n委派代表（签字/盖章）：                         日期：\n乙方（盖章）：安徽中科微感科技有限公司\n法定代表人（签字/盖章）：                       日期：\n丙方1：沈文锋（签字）                          日期：\n丙方2（盖章）：中科微感（宁波）科技有限公司\n法定代表人（签字/盖章）：                   日期：\n附件1  高级管理人员和核心技术人员名单\n公司人员表：\n[表格] 序号 | 股东名称 | 认缴注册资本\n（万元） | 持股比例\n（%）\n[表格] 1 | 中科微感（宁波）科技有限公司 |  | %\n[表格] 2 | 沈文锋 | 100 | 10%\n[表格]  |  |  | \n[表格]  |  |  | \n[表格]  | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | 10%\n[表格] 合  计 | 合  计 | 1000 | 100%\n[表格] 各方或协议各方 | 指投资方、项目公司等所有签署方的统称。\n[表格] 项目公司/公司 | 指安徽中科微感科技有限公司。\n[表格] 科技团队 | 科技团队由沈文锋及其团队成员构成（以省高层次科技人才团队项目申报材料中列示的人员名单为准，人员有沈文锋、孙克（已离职）、孟征、尚晓博、韩国涛、王俊挺、王汉斌）\n[表格] 投资期 | 根据《安徽省促进高层次科技团队培育发展创新创业实施方案》第四条第三款第三点所约定的时间，自投资款交割之日起五年为投资期。\n[表格] 本合同 | 指本《安徽中科微感科技有限公司股权投资合同》。\n[表格] 本次投资/本次增资 | 指投资方以总计480万元的投资款认购项目公司165.5172万元注册资本的行为。\n[表格] 投资款/投资本金 | 指投资方根据本协议约定认购项目公司的165.5172万元注册资本的总价款，即480万元。\n[表格] 投资完成/增资完成 | 指投资方按照本协议约定对项目公司完成总额480万元的出资义务。\n[表格] 股东权益 | 指项目公司股东依法享有的资产收益、参与重大决策和选择管理者等其他法定权利。\n[表格] 关联人/关联方/关联关系 | 依照公司法、会计准则、中国证券监督管理委员会及沪深证券交易所、全国中小企业股份转让系统颁布的规范性文件所界定的关联人/关联方/关联关系。\n[表格] 首次公开发行股票/上市 | 指项目公司首次公开发行股票并在各方认可的上海证券交易所、深圳证券交易所、北京证券交易所、香港联合交易所等境内外证券交易场所板块挂牌上市交易。\n[表格] 高级管理人员及核心技术人员 | 指附件1《高级管理人员及核心技术人员名单》所列人员。\n[表格] 附属公司 | 指项目公司目前或未来直接或间接持有其25%以上所有者权益或实际控制权的任何类型的公司、企业或者其他经济实体。\n[表格] 知识产权 | 根据法律法规赋予法人或自然人对智力劳动成果和其他商业成就所享有的占有、使用和支配的权利。\n[表格] 公司章程 | 指《安徽中科微感科技有限公司公司章程》。\n[表格] 专项尽职调查 | 指基于本次交易之目的，由投资方委派专业人士对项目公司在业务方面进行的调查。\n[表格] 会计年度 | 指每年的公历1月1日至12月31日。\n[表格] 净资产 | 指经甲方认可的会计师事务所审计的归属于项目公司的所有者权益。\n[表格] 法律/法规 | 指中国法律、行政法规、部门规章、地方性法规规章及相关规范性文件等。\n[表格] 人或人士 | 指任何自然人、组织、公司、政府部门、合伙组织、联合体或其他实体(无论是否具有独立法人地位)。\n[表格] 送达 | 指本协议任一方按照本协议约定的任一种送达方式将文件发出的行为。\n[表格] 包括 | “包括”及相同的表达方式在本协议中并非意味着限制，而应被解释为“包括但不限于”。\n[表格] 日 | 指自然日。\n[表格] 工作日 | 指除中华人民共和国政府规定的法定休息日及节假日以外的时间。\n[表格] 中国 | 指中华人民共和国。仅为本协议之目的，不包括中国香港特别行政区、中国澳门特别行政区及中国台湾地区。\n[表格] 书面 | 指任何类型的可读且可保存的文字载体。\n[表格] 元 | 如无特殊说明，系指人民币元。\n[表格] 序号 | 股东名称 | 认缴注册资本\n（万元） | 持股比例\n（%）\n[表格] 1 | 中科微感（宁波）科技有限公司 |  | \n[表格] 2 | 沈文锋 | 100 | \n[表格]  |  |  | \n[表格]  |  |  | \n[表格]  | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | \n[表格]  | SPV |  | \n[表格] 合  计 | 合  计 | 1165.5172 | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | "
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "kind",
+            "content"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792600204034,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "提取成功，但列表编号（条款号）在纯文本提取中丢失了。我来根据 XML 的编号信息重新构建它们。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-cd798271f05d48c1a392e752\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "callc44a8bdb8b4b49768e65f17a2a11a13f",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python - <<'EOF'\nimport docx\nfrom docx.oxml.ns import qn\n\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\n\n# Build numbering map: numId -> ilvl -> abstractNumId, and abstract counters\nnumbering = d.part.numbering_part.element\n# map numId->abstractNumId\nnum2abs = {}\nfor num in numbering.findall(qn('w:num')):\n    numId = num.get(qn('w:numId'))\n    absEl = num.find(qn('w:abstractNumId'))\n    if absEl is not None:\n        num2abs[numId] = absEl.get(qn('w:val'))\n\ncounters = {}\nout = []\nfor p in d.paragraphs:\n    pPr = p._p.find(qn('w:pPr'))\n    numId = None; ilvl = 0\n    if pPr is not None:\n        numPr = pPr.find(qn('w:numPr'))\n        if numPr is not None:\n            e = numPr.find(qn('w:numId'))\n            if e is not None: numId = e.get(qn('w:val'))\n            e = numPr.find(qn('w:ilvl'))\n            if e is not None: ilvl = int(e.get(qn('w:val')))\n    prefix = ''\n    if numId and numId in num2abs:\n        absId = num2abs[numId]\n        key = (absId, ilvl)\n        # reset deeper levels\n        for k in [k for k in counters if k[0]==absId and k[1]>ilvl]:\n            del counters[k]\n        counters[key] = counters.get(key, 0) + 1\n        fmt = {0:'%d.',1:'%d.%d',2:'%d.%d.%d'}[ilvl]\n        nums = []\n        for lvl in range(ilvl+1):\n            nums.append(counters.get((absId,lvl),1))\n        if ilvl==0: prefix = f\"{nums[0]}. \"\n        elif ilvl==1: prefix = f\"{nums[0]}.{nums[1]} \"\n        else: prefix = '.'.join(map(str,nums)) + ' '\n    t = p.text.strip()\n    if t or prefix:\n        out.append(prefix + t)\n\ntext = '\\n'.join(out)\nopen('tmp/contract_num.txt','w',encoding='utf-8').write(text)\nprint('lines:', len(out))\nEOF\nhead -c 300 tmp/contract_num.txt"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600204043,
+        "responseId": "chatcmpl-1792600204119",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "callc44a8bdb8b4b49768e65f17a2a11a13f",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "lines: 179\n____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 138,
+          "aggregated": "lines: 179\n____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792600225565,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call1d7fa795ce954953ab13b95de0698277",
+            "name": "read",
+            "arguments": {
+              "path": "/workspace/tmp/contract_num.txt"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600225574,
+        "responseId": "chatcmpl-1792600225601",
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call1d7fa795ce954953ab13b95de0698277",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合伙人委派代表：\n乙方（项目公司）：安徽中科微感科技有限公司\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n法定代表人：沈文锋\n丙方（项目公司实控人及股东）：\n丙方1：（实际控制人）：沈文锋\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n身份证号：330323197812044711\n丙方2：中科微感（宁波）科技有限公司\n地  址：浙江省宁波高新区贵驷街道永茂东路1819号4幢4-2-14\n法定代表人：沈文锋\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：安徽省蚌埠经济开发区东海大道888号中国传感谷C区C3栋7层701室内\n执行事务合伙人委派代表：沈文锋\n鉴 于：\n1. 项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股东及股权结构如下：\n2. 丙方1沈文锋系项目公司实际控制人，其直接持有项目公司10%的股权，通过中科微感（宁波）科技有限公司蚌埠智微数感企业管理合伙企业（有限合伙）持有项目公司%的。\n3.各方一致同意项目公司新增注册资本165.5172万元，由投资方按照本协议约定认购。\n现各方根据有关法律、行政法规的规定，经过友好协商，就本次投资事宜，达成如下协议，以供各方共同遵守。\n1. 定 义\n1.1 除非本协议中另有规定，本协议中出现的下列术语应按以下定义理解：\n1.2 本协议的名称及条、款、项的标题（含置于条款正文前的小标题）仅为方便阅读，不应视为对本协议内容的解释。\n1.3 本协议引用有关条款时，除非本协议另有规定，该等条款应指本协议的相应条款。\n2. 先决条件\n各方同意，投资方在本协议项下的投资义务以下列条件全部满足为先决条件：\n2.1 关于同意本次交易，项目公司及丙方已向甲方提交了符合法律法规、公司章程及工商登记要求的股东会决议。\n3. 本次增资事项\n3.1 投资方按本协议约定的条款及条件对项目公司进行增资，项目公司的注册资本增加165.5172万元，新增注册资本由投资方以480万元的投资价款认购。其中：\n甲方投资480万元，认购项目公司新增注册资本165.5172万元，投资额超过所认购注册资本的部分314.4828万元计入项目公司资本公积，甲方在本次增资完成后持有项目公司14.2012%的股权。\n3.2 本次增资完成后，项目公司的股权结构为:\n上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权结构作出相应适配调整。\n4. 投资款的缴付\n4.1 投资方在本协议约定的先决条件成就确认后的【60】个工作日内，向项目公司的以下账户支付本次投资款项：\n户    名：安徽中科微感科技有限公司\n开 户 行：徽商银行蚌埠经济开发区支行\n银行账号：264663105480000001\n4.2 投资方按本协议第4.1条约定支付完毕全部投资价款后，投资方在本协议项下的出资义务即告履行完毕。\n4.3 投资方按照4.1条缴付出资后即成为公司股东，依照法律、本协议和公司章程的规定享有所有股东权利并承担相应股东义务，公司的资本公积金、盈余公积金和未分配利润等全部股东权益由增资后的全体股东享有。\n5. 验资及工商变更登记\n5.1 项目公司在收到投资方支付的投资款项后10个工作日内向投资方提供股东出资证明。\n5.2 项目公司在收到投资款后90日内，应完成本次增资相关的工商变更登记手续，包括但不限于办理注册资本变更、股东变更登记、按本协议约定进行修改后的公司章程或章程修正案登记、按本协议约定选举的董事、监事变更登记或备案等。因客观原因逾期未完成前述工商变更登记手续的，经甲方同意可以豁免违约责任并延长工商变更办理期限。\n5.3 为本次增资办理相关工商变更登记所需的费用（若有）由项目公司承担。\n6. 投资款的监管与运用\n6.1 各方同意，投资方的全部出资主要用于项目公司的研发生产。不得用于偿还股东债务等其他用途；不得用于非经营性支出或者与公司主营业务不相关的支出；不得用于委托理财、委托贷款和期货交易等；不得用于除投资方外其他股东的减资。\n6.2 投资方对于投资款的使用情况，具有充分的知情权，有权随时查询投资款使用情况。\n7. 关联交易\n7.1 项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原则签署相关协议，以明确权利义务，并按照公司章程和相关制度规定履行内部决策程序。\n7.2 标的公司及丙方承诺，丙方不无偿占有、使用公司的资金、资产及资源。丙方占有、使用公司财产的，由其按市场公允价格（自实际占有、使用公司财产之日起至停止占有、使用之日止）支付使用对价给标的公司。\n7.3 项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将上述情形及时通知投资方。\n7.4 项目公司及丙方承诺，涉及关联交易的表决须严格按照相关法律法规及公司章程关于关联股东和关联董事回避制度相关规定执行。\n8. 竞业限制\n8.1 实控人在投资方持有项目公司股权期间，不得参与或涉及以下事宜：\n1. 新设、收购、参股与项目公司具有竞争关系的企业。\n（2）委托、受托经营与项目公司有竞争关系的企业。\n8.2 项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款至少包括以下内容：在任职期间内不得在其他营利性组织中兼职；在任职期间内不得以任何形式从事或帮助他人从事与项目公司存在竞争关系的经营活动；在从项目公司离职后2年内或更长期限内不得在与项目公司有竞争关系的企业中任职；竞业禁止补偿条款。\n8.3 上述竞业禁止范围，不包括项目公司的关联企业。\n9. 检查权和信息权\n9.1 在不影响公司正常经营和规范治理要求的前提下，投资方有权查阅项目公司及附属企业的会计资料（包括会计报表、会计账册、会计凭证以及其他会计资料）。除前述会计资料外，投资方有权查阅项目公司所持有的、为投资方适当了解项目公司的业务和情况并保护其作为股东的利益所合理要求的相关信息。\n9.2 应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问或其他人员，就项目公司的经营与财务状况进行讨论等，项目公司及丙方应给予必要的协助。在合理必要时，投资方有权聘请第三方专业机构对项目公司进行审计或调查。\n9.3 投资完成后，项目公司应按时向投资方提供以下资料：\n1. 每日历季度结束后30日内，提供公司经营报告和季度财务管理报告（含资产负债表、利润表、现金流量表、所有者权益变动表、附注，下同）。\n2. 每日历年度结束后90日内，提供公司年度经营报告、财务报告以及下一年度的经营预算和业务计划。\n3. 每日历年度结束后6个月内，提供经会计师事务所审计的项目公司年度审计报告原件和/或加盖项目公司公章的审计报告复印件。\n4. 在股东会结束后30日内提供相关股东会的会议纪要、会议决议。\n5. 其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n10. 股权转让限制\n项目公司首发上市或被上市公司并购前，非经甲方同意，实控人及科技团队不得实施导致其失去控股或实际控制地位的股权转让行为。\n11. 回购权\n11.1 回购权的条件\n在下列任一条件满足或任一情况出现时，甲方有权要求乙方和/或丙方1、丙方2回购甲方持有项目公司的全部或部分股权：\n11.1.1 投资期届满，项目公司未能首发上市或被上市公司并购。\n11.1.2 甲方持有项目公司股权期间，实控人及科技团队失去对项目公司的控股或实际控制地位。\n11.1.3 实际控制人或项目公司骗取、挪用、违法违规使用扶持资金。\n11.2 回购安排\n11.2.1 在上述任一回购条件成就后，甲方有权自任一条件成就之日起三年内向乙方及丙方1、丙方2发出要求回购的通知，乙方应当在3个月内完成减资手续，履行回购义务。\n（1）若甲方取得的减资款低于本协议约定的回购价格，则由丙方1、丙方2对差额补足承担有限责任；\n（2）如果（1）未能按期完成，则由丙方1、丙方2对回购甲方股权承担有限责任；\n有限责任指丙方1、丙方2在本协议项下所需承担的责任以其直接和/或间接持有的项目公司全部股权的处置价值为限。届时丙方1、丙方2有义务、甲方有权寻找第三方受让前述股权，丙方1、丙方2应当配合转让股权，并在转让所得范围内向甲方支付回购价款。\n11.2.2 如乙方减资未能按上述期限完成，则丙方1、丙方2（或其指定方）应当自甲方发出回购通知后6个月内履行回购义务，将回购价款支付至甲方指定账户。\n11.2.3 回购价格为甲方的本次投资本金加上投资收益。具体计算方式为：\n回购价格=回购股权数量/投资方持股数量*投资方投资本金*(1+LPR*n)-回购股权数量对应的已取得现金分红。（LPR是指回购通知发出时贷款市场同期报价利率）。\n其中，n为投资方在公司投资的年数，不是整年的，按实际投资天数/365计算，实际投资天数计算至股权回购款实际支付日（含当日）。投资方持股数量指回购时投资方持有的全部股权数量。若甲方自项目公司取得的现金分红高于年化6%的收益，则超出部分甲方不再退回，也不得在回购款中抵扣。\n11.2.4 项目公司或丙方1、丙方2支付完毕全部股权回购款后，丙方1、丙方2应协助项目公司及甲方完成相关的工商变更登记手续。若甲方减资涉及相关国资管理要求，则届时将按照企业国有资产交易等相关法律法规执行。\n12. 陈述、保证和承诺\n12.1 本协议各方分别而非连带地陈述、保证及承诺如下：\n1. 其为依据中国法律正式成立并有效存续的主体或具有完全民事行为能力的自然人。\n2. 其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n3. 其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n4. 其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n5. 其保证对本协议所包含的信息承担保密义务，法律或相关监管机构/权威机构要求披露的，以及向本协议相关中介机构披露的除外。\n12.2 项目公司及实控人陈述、保证及承诺如下：\n1. 本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n2. 项目公司及实控人已向投资方真实、准确、完整的披露了股东之间的关联关系，根据相关法律法规的规定，不存在不适合对项目公司投资的情形。\n3. 项目公司向投资方披露的公司的资产、负债、权益、或有负债以及与本协议有关的全部信息系真实、准确、完整的。\n4. 在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规范往期成本核算、现金账与往来账处理等相关财务工作。\n13. 税款与费用\n13.1 本协议各方为履行本协议义务所须缴纳的税款由各纳税主体承担。\n13.2 本协议各方在本协议履行过程中产生的相关费用由各方自行承担。\n14. 通知和送达\n14.1 协议各方同意，与本协议有关的任何通知，需以约定方式送达方为有效，约定送达形式包括但不限于：专人送达、快递、电子邮件、微信等。\n14.2 本协议第14.1条所述通知应被视为在下列时间送达：\n1. 以专人送达的通知，在送达收件人下述通知地址之日；\n2. 以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n3. 以电子邮件发出的通知，在电子邮件成功发出之后即为送达；\n4. 以微信形式发出，在成功发出之后即为送达；\n5. 同时采用上述两种或两种以上方式的，以其中最快达到对方者为准。\n若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退回，均视为有效送达）。\n14.3 与本协议有关的任何通知送达下列地址视为有效送达：\n甲 方：\n地  址：\n收件人：\n电  话：\n邮  箱一：\n邮  箱二：kjtd@ahinv.com\n（甲方采用电子邮件的方式向其他各方送达与本协议有关通知的，可通过以上任一邮箱进行送达。其他各方采用电子邮件的方式向甲方送达与本协议有关通知的，需同时向甲方邮箱一、邮箱二进行送达。）\n乙 方：安徽中科微感科技有限公司（项目公司）\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n收件人：王俊挺\n电  话：15167770898\n邮  箱：wangjunting@csmsn.com\n丙方1：沈文锋（实际控制人、科技人才团队领军人）\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方2：中科微感（宁波）科技有限公司\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：\n收件人：\n电  话：\n邮  箱：\n14.4 任何一方的通讯地址发生变化（“变动方”），变动方应当在该变更发生后五(5)个工作日内通知其他方。在变动方的前述变动通知送达前，其他方按照本协议第14.3条约定向变动前的地址、电子邮箱发送通知的，应视为有效送达。\n14.5 上述送达方式和地址的适用范围包括非诉阶段和争议进入仲裁、民事诉讼程序后的先行调解、一审、二审、再审和执行程序。在争议进入仲裁/诉讼程序后，仲裁机关或者法院可以按照本协议约定的送达方式和地址送达法律文书，如因一方提供信息不准确、变更后未及时通知、拒收等原因导致无法送达的仍视为有效送达，所造成的不利后果均由该方自行承担。\n15. 保密义务\n15.1 本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n15.2 在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协议项下义务以外的任何用途，也不得向任何第三方披露或提供该等商业秘密，并采取所有必要的措施保证其现有和将来的高级管理人员、主管、员工和专业顾问等遵守上述保密义务，否则该方应承担本协议他方因此而遭受的损失。\n15.3 如果本协议任何一方应国家司法机关或其他公共管理机构的要求披露本协议他方的商业秘密，则不视为违反本条款项下的保密义务。\n15.4 本协议的终止或解除不影响本条的有效性。\n16. 不可抗力\n16.1 不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事件。不可抗力事件包括但不限于非因一方疏忽或不当行为所引起的洪水、地震、台风或其他自然灾害、战争。由于国内外宏观经济状况发生变化、行业经营环境发生变化、国内外市场变化以及因一方自身经营所造成的事件，均不属于不可抗力。\n16.2 若发生不可抗力事件，则受到该不可抗力影响的一方可在不可抗力事件所造成影响的范围和期间内暂停履行其在本协议项下的义务，且其履行义务期限将自动延展，延展的时间相当于暂停履行义务的期限。主张不可抗力事件的一方应以电子邮件及时通知其他方，并提供该等不可抗力事件的发生、不利后果持续时间的适当证据。声称不可抗力的一方还应尽一切合理努力减少或消除不可抗力对其在本协议项下义务的影响。\n16.3 若发生不可抗力事件，各方应立即相互协商以找出公平的解决办法并应尽一切合理努力减轻该等不可抗力事件的后果。因不可抗力事件形成的经营风险由各方共担；因不可抗力导致本协议的目的或相关条款不能实现时，各方应友好协商解决。\n17. 违约责任\n17.1 本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假，则应被视为违约。违约方应赔偿因其违约而对其他方（守约方）造成的一切损失。\n17.2 任何一方因违反本协议约定而应承担的违约责任不因本协议的解除而免除。\n17.3 任何一方违约时，守约方除有权要求违约方依据本协议之约定支付损害赔偿金外，还有权要求违约方继续履行本协议。\n17.4 项目公司及丙方应当承担因其违约造成的损失以及费用（费用包括但不限于诉讼费用、仲裁费用、律师费用、公证费用、鉴定费用、公告费用、保全费用、保全担保费用、拍卖费用、评估费用、审计费用、强制执行费用、差旅费用等）。\n18. 适用法律及争议的解决\n18.1 本协议的订立、效力、解释、履行及争议的解决均适用中国法律。\n18.2 凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n18.3 除本协议双方有争议正在协商或诉讼的部分外，各方均应继续履行本协议的其它部分。\n19. 其他事项\n19.1 本协议自自然人签约方签字及非自然人签约方盖章后生效。\n19.2 如本协议中有关投资方权利的相关约定未能在公司章程中体现，则该部分约定以本协议为准，投资方继续拥有本协议约定的相关权利。\n19.3 本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效力。\n19.4 本协议正本一式拾叁份，甲方持有二份，其他各方各持一份，一份用于办理工商变更登记，剩余存于项目公司备档，每份均具有同等法律效力。本协议内容与工商标准文本内容如有冲突，则以本协议为准。\n（以下无正文，为签署页）\n（本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n甲方（盖章）：\n委派代表（签字/盖章）：                         日期：\n乙方（盖章）：安徽中科微感科技有限公司\n法定代表人（签字/盖章）：                       日期：\n丙方1：沈文锋（签字）                          日期：\n丙方2（盖章）：中科微感（宁波）科技有限公司\n法定代表人（签字/盖章）：                   日期：\n附件1  高级管理人员和核心技术人员名单\n公司人员表："
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "kind",
+            "content"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792600230825,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "编号已还原。在编写报告之前，我先核对一下附录表格（附件1 人员表、股权结构表）在文档顺序中的内容。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-6ee5dda2c389467f97757494\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call0aad7c3c42164b858a43a3efe58a6b22",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python - <<'EOF'\nimport docx\nfrom docx.oxml.ns import qn\nfrom docx.table import Table\nfrom docx.text.paragraph import Paragraph\n\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\nbody = d.element.body\nidx = 0\nfor child in body.iterchildren():\n    if child.tag == qn('w:p'):\n        p = Paragraph(child, d)\n        t = p.text.strip()\n        if t and ('附件' in t or '人员' in t or '股权结构' in t or '签' in t or '鉴于' in t or '公司人员表' in t):\n            print(f'[P{idx}] {t[:60]}')\n    elif child.tag == qn('w:tbl'):\n        tb = Table(child, d)\n        print(f'[TABLE {idx}] rows={len(tb.rows)} cols={len(tb.columns)}')\n        for r in tb.rows[:10]:\n            print('   ', ' | '.join(c.text.strip().replace('\\n','/') for c in r.cells))\n    idx += 1\nEOF"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600230835,
+        "responseId": "chatcmpl-1792600230900",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call0aad7c3c42164b858a43a3efe58a6b22",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "[P22] 本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n[P65] 项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股\n[TABLE 66] rows=7 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | %\n    2 | 沈文锋 | 100 | 10%\n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | 10%\n    合  计 | 合  计 | 1000 | 100%\n[TABLE 75] rows=27 cols=2\n    各方或协议各方 | 指投资方、项目公司等所有签署方的统称。\n    项目公司/公司 | 指安徽中科微感科技有限公司。\n    科技团队 | 科技团队由沈文锋及其团队成员构成（以省高层次科技人才团队项目申报材料中列示的人员名单为准，人员有沈文锋、孙克（已离职）、孟征、尚晓博、韩国涛、王俊挺、王汉斌）\n    投资期 | 根据《安徽省促进高层次科技团队培育发展创新创业实施方案》第四条第三款第三点所约定的时间，自投资款交割之日起五年为投资期。\n    本合同 | 指本《安徽中科微感科技有限公司股权投资合同》。\n    本次投资/本次增资 | 指投资方以总计480万元的投资款认购项目公司165.5172万元注册资本的行为。\n    投资款/投资本金 | 指投资方根据本协议约定认购项目公司的165.5172万元注册资本的总价款，即480万元。\n    投资完成/增资完成 | 指投资方按照本协议约定对项目公司完成总额480万元的出资义务。\n    股东权益 | 指项目公司股东依法享有的资产收益、参与重大决策和选择管理者等其他法定权利。\n    关联人/关联方/关联关系 | 依照公司法、会计准则、中国证券监督管理委员会及沪深证券交易所、全国中小企业股份转让系统颁布的规范性文件所界定的关联人/关联方/关联关系。\n[P85] 本次增资完成后，项目公司的股权结构为:\n[TABLE 86] rows=8 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | \n    2 | 沈文锋 | 100 | \n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | \n     | SPV |  | \n    合  计 | 合  计 | 1165.5172 | \n[P87] 上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权\n[P104] 项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原\n[P106] 项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将\n[P113] 项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款\n[P117] 应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问\n[P123] 其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n[P147] 其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n[P148] 其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n[P149] 其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n[P154] 本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n[P157] 在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规\n[P166] 以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n[P170] 若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退\n[P222] 本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n[P223] 在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协\n[P227] 不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事\n[P231] 本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假\n[P237] 凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n[P240] 本协议自自然人签约方签字及非自然人签约方盖章后生效。\n[P242] 本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效\n[P244] （以下无正文，为签署页）\n[P246] （本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n[P252] 委派代表（签字/盖章）：                         日期：\n[P260] 法定代表人（签字/盖章）：                       日期：\n[P263] 丙方1：沈文锋（签字）                          日期：\n[P271] 法定代表人（签字/盖章）：                   日期：\n[P313] 附件1  高级管理人员和核心技术人员名单\n[P314] 公司人员表：\n[TABLE 315] rows=10 cols=6\n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  |"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 122,
+          "aggregated": "[P22] 本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n[P65] 项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股\n[TABLE 66] rows=7 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | %\n    2 | 沈文锋 | 100 | 10%\n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | 10%\n    合  计 | 合  计 | 1000 | 100%\n[TABLE 75] rows=27 cols=2\n    各方或协议各方 | 指投资方、项目公司等所有签署方的统称。\n    项目公司/公司 | 指安徽中科微感科技有限公司。\n    科技团队 | 科技团队由沈文锋及其团队成员构成（以省高层次科技人才团队项目申报材料中列示的人员名单为准，人员有沈文锋、孙克（已离职）、孟征、尚晓博、韩国涛、王俊挺、王汉斌）\n    投资期 | 根据《安徽省促进高层次科技团队培育发展创新创业实施方案》第四条第三款第三点所约定的时间，自投资款交割之日起五年为投资期。\n    本合同 | 指本《安徽中科微感科技有限公司股权投资合同》。\n    本次投资/本次增资 | 指投资方以总计480万元的投资款认购项目公司165.5172万元注册资本的行为。\n    投资款/投资本金 | 指投资方根据本协议约定认购项目公司的165.5172万元注册资本的总价款，即480万元。\n    投资完成/增资完成 | 指投资方按照本协议约定对项目公司完成总额480万元的出资义务。\n    股东权益 | 指项目公司股东依法享有的资产收益、参与重大决策和选择管理者等其他法定权利。\n    关联人/关联方/关联关系 | 依照公司法、会计准则、中国证券监督管理委员会及沪深证券交易所、全国中小企业股份转让系统颁布的规范性文件所界定的关联人/关联方/关联关系。\n[P85] 本次增资完成后，项目公司的股权结构为:\n[TABLE 86] rows=8 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | \n    2 | 沈文锋 | 100 | \n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | \n     | SPV |  | \n    合  计 | 合  计 | 1165.5172 | \n[P87] 上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权\n[P104] 项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原\n[P106] 项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将\n[P113] 项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款\n[P117] 应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问\n[P123] 其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n[P147] 其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n[P148] 其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n[P149] 其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n[P154] 本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n[P157] 在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规\n[P166] 以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n[P170] 若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退\n[P222] 本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n[P223] 在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协\n[P227] 不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事\n[P231] 本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假\n[P237] 凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n[P240] 本协议自自然人签约方签字及非自然人签约方盖章后生效。\n[P242] 本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效\n[P244] （以下无正文，为签署页）\n[P246] （本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n[P252] 委派代表（签字/盖章）：                         日期：\n[P260] 法定代表人（签字/盖章）：                       日期：\n[P263] 丙方1：沈文锋（签字）                          日期：\n[P271] 法定代表人（签字/盖章）：                   日期：\n[P313] 附件1  高级管理人员和核心技术人员名单\n[P314] 公司人员表：\n[TABLE 315] rows=10 cols=6\n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  |",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792600347723,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "附件1人员表确认全部空白。再确认签署页是否缺少丙方3（蚌埠智微合伙企业）签署栏。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-03aa279e0c7740f28cfe155a\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call6513b226abc84f39a2e02d9e9bd7241e",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python - <<'EOF'\nimport docx\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\nps = d.paragraphs\nfor i,p in enumerate(ps):\n    t = p.text.strip()\n    if 240 <= i <= 315 and t:\n        print(i, t[:50])\nEOF"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600347731,
+        "responseId": "chatcmpl-1792600347772",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call6513b226abc84f39a2e02d9e9bd7241e",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "242 法定代表人（签字/盖章）：                       日期：\n245 丙方1：沈文锋（签字）                          日期：\n250 丙方2（盖章）：中科微感（宁波）科技有限公司\n253 法定代表人（签字/盖章）：                   日期：\n295 附件1  高级管理人员和核心技术人员名单\n296 公司人员表："
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 128,
+          "aggregated": "242 法定代表人（签字/盖章）：                       日期：\n245 丙方1：沈文锋（签字）                          日期：\n250 丙方2（盖章）：中科微感（宁波）科技有限公司\n253 法定代表人（签字/盖章）：                   日期：\n295 附件1  高级管理人员和核心技术人员名单\n296 公司人员表：",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792600357743,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "已确认事实齐全（附件1人员表空白、签署页缺丙方3签署栏、股权结构表大面积空白）。现在生成审阅报告 docx。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-5b12452948df4f6a96ef56fd\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call0d2143bcdeb6417baf35de1231787270",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python - <<'EOF'\n# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, Cm, RGBColor\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH\nfrom docx.oxml.ns import qn\n\ndoc = Document()\n\n# base style\nst = doc.styles['Normal']\nst.font.name = 'Times New Roman'\nst.font.size = Pt(11)\nst.element.rPr.rFonts.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\nfor s in doc.sections:\n    s.top_margin = Cm(2.5); s.bottom_margin = Cm(2.5)\n    s.left_margin = Cm(2.8); s.right_margin = Cm(2.8)\n\ndef set_ea(run):\n    run.font.name = 'Times New Roman'\n    run._element.rPr.rFonts.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\ndef para(text, size=11, bold=False, align=None, space_after=6, indent=None, color=None):\n    p = doc.add_paragraph()\n    if align: p.alignment = align\n    p.paragraph_format.space_after = Pt(space_after)\n    p.paragraph_format.line_spacing = 1.3\n    if indent is not None: p.paragraph_format.first_line_indent = Cm(indent)\n    r = p.add_run(text); r.bold = bold; r.font.size = Pt(size)\n    if color: r.font.color.rgb = color\n    set_ea(r)\n    return p\n\ndef h1(text):\n    para(text, size=14, bold=True, space_after=10)\n\ndef h2(text):\n    para(text, size=12, bold=True, space_after=6)\n\ndef item(label, text, indent=0):\n    p = doc.add_paragraph()\n    p.paragraph_format.space_after = Pt(4)\n    p.paragraph_format.line_spacing = 1.3\n    if indent: p.paragraph_format.left_indent = Cm(indent)\n    r1 = p.add_run(label); r1.bold = True; r1.font.size = Pt(11); set_ea(r1)\n    r2 = p.add_run(text); r2.font.size = Pt(11); set_ea(r2)\n    return p\n\n# ===== Title =====\npara('合同审阅报告', size=18, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=4)\npara('——《安徽中科微感科技有限公司股权投资合同》', size=12, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=16)\n\npara('合同名称：安徽中科微感科技有限公司股权投资合同（文本标注日期：2026年7月21日，拟签约稿）', space_after=2)\npara('审阅范围：合同正文（第1—19条）、鉴于条款、定义表、附件1及签署页全文；核查内容包括错别字、文字缺漏及法律风险。', space_after=2)\npara('审阅日期：2026年10月21日', space_after=12)\n\n# ===== Part 1 =====\nh1('一、错别字及文字缺漏核查结果')\npara('经逐条核查全文，共发现文字问题11处，具体如下：', space_after=8)\n\ntypos = [\n ('1.', '第13.1条', '“本协议各方为履行本协议义务所须缴纳的税款”', '“所须”为错别字，应改为“所需缴纳”。'),\n ('2.', '第9.3条第（5）项', '“其他相关资料，包括但不限后续融资协议、业务合同……”', '“但不限”漏字，应为“包括但不限于后续融资协议”。'),\n ('3.', '第11.2.3条', '“（LPR是指回购通知发出时贷款市场同期报价利率）”', 'LPR的标准名称为“贷款市场报价利率”，原文“贷款市场同期报价利率”多出“同期”二字，应改为“贷款市场报价利率”。'),\n ('4.', '鉴于部分第2条', '“通过中科微感（宁波）科技有限公司蚌埠智微数感企业管理合伙企业（有限合伙）持有项目公司%的。”', '存在两处缺漏：（1）两家持股主体之间缺少连接词“与”；（2）句末缺少持股比例数字和“股权”二字。应为“……通过中科微感（宁波）科技有限公司与蚌埠智微数感企业管理合伙企业（有限合伙）合计持有项目公司××%的股权。”'),\n ('5.', '合同首部当事人栏及第14.3条', '“丙方：蚌埠智微数感企业管理合伙企业（有限合伙）”', '与“丙方1”“丙方2”体例不一致，且首部已有“丙方（项目公司实控人及股东）”总称，该主体应编号为“丙方3：”，以免与丙方总称混淆。'),\n ('6.', '第8.1条', '列项编号为“1. 新设……（2）委托、受托经营……”', '编号体例混乱且缺“（1）”，应统一为“（1）新设……（2）委托、受托经营……”。'),\n ('7.', '第14.2条第（5）项', '“以其中最快达到对方者为准”', '“达到”应为“到达”，即“以其中最快到达对方者为准”。'),\n ('8.', '附件1标题、定义表及第8.2条', '附件1为“高级管理人员和核心技术人员名单”，定义表为“高级管理人员及核心技术人员名单”，第8.2条为“高级管理人员和核心业务人员”', '三处名称不一致（“和/及”“核心技术人员/核心业务人员”），应统一为“高级管理人员及核心技术人员”。'),\n ('9.', '合同首部乙方、丙方1地址', '“安徽省蚌埠市经济开发区蚌埠市东海大道888号”', '“蚌埠市”重复，应为“安徽省蚌埠市经济开发区东海大道888号”；且与丙方3地址“安徽省蚌埠经济开发区东海大道888号……”的行政区划写法不一致，应全文统一。'),\n ('10.', '第3.2条', '“各方同意据实对股权结构作出相应适配调整”', '“适配”一词赘余且非法律用语，建议改为“作出相应调整”。'),\n ('11.', '第5条标题', '标题为“验资及工商变更登记”，但正文第5.1条仅约定提供股东出资证明，未约定验资安排', '标题与正文内容不对应，建议将标题改为“出资证明及工商变更登记”，或在正文补充验资安排。'),\n]\nfor n, loc, orig, fix in typos:\n    item(f'{n} 位置：', loc)\n    item('原文：', orig, indent=0.75)\n    item('核查意见：', fix, indent=0.75)\n    para('', space_after=2)\n\n# ===== Part 2 =====\nh1('二、风险审核结果')\npara('经审核，共发现风险点14项，按风险程度分为高、中、低三级，逐项说明如下：', space_after=8)\n\nh2('（一）高风险事项')\nrisks_high = [\n ('风险1 合同主体信息严重缺失，可能影响合同成立与生效',\n  '甲方（投资方）名称、地址、委派代表在合同首部、第14.3条通知地址栏及签署页均空白；签署日期“2026年　月　日”的月份、日期空白；甲方邮箱一空白。',\n  '合同首部、第14.3条、签署页',\n  '甲方是合同核心主体，名称未填写则合同权利义务归属不明；第19.1条约定“本协议自自然人签约方签字及非自然人签约方盖章后生效”，主体及签署信息缺失将直接导致合同是否成立、生效难以判断，也为后续追责制造障碍。签约前必须补齐全签字盖章要件。'),\n ('风险2 股权结构披露不完整、前后矛盾，涉嫌违反陈述与保证义务',\n  '鉴于部分第1条股权结构表中，注册资本1000万元仅有沈文锋100万元（10%）、蚌埠智微数感100万元（10%）两笔有记载，其余约800万元归属空白，各行持股比例未填；鉴于部分第2条持股比例数字缺失；第3.2条增资后股权结构表中认缴注册资本及持股比例大量空白，且出现未在定义表中定义的主体“SPV”。',\n  '鉴于部分第1、2条，第3.2条，定义表',\n  '股权结构是增资定价（480万元认购14.2012%股权）的基础事实。披露空白与缺漏使交易定价基础不明，与前轮融资、代持、SPV架构等潜在安排交织后极易引发交割后争议，并直接与第12.2条第3项“披露信息真实、准确、完整”的陈述保证相矛盾，构成回购、赔偿请求的争议源。'),\n ('风险3 附件1人员名单空白，竞业禁止安排落空',\n  '附件1《高级管理人员和核心技术人员名单》仅设标题“公司人员表”，其下10行×6列表格全部空白，未列示任何人员。',\n  '附件1、第8.2条',\n  '第8.2条要求项目公司在签约后半年内与“附件列示”的高级管理人员和核心业务人员签订《保密与竞业禁止协议》，名单空白导致义务对象无法确定、履行期限经过后无从判断是否违约，竞业限制与人才稳定目的落空，亦影响第11.1.2条回购条件（实控人及科技团队失去控制地位）的认定。'),\n ('风险4 公司减资回购的合法性与可执行性风险',\n  '第11.2.1条约定回购条件成就后，乙方（项目公司）应当在3个月内完成减资手续履行回购义务；丙方1、丙方2仅“对差额补足承担有限责任”，责任上限为其直接和/或间接持有的项目公司全部股权的处置价值。',\n  '第11.2.1、11.2.2条',\n  '（1）公司回购本方股权实质为定向减资，须依《公司法》履行股东会决议（关联股东回避表决）、编制资产负债表及财产清单、通知债权人并公告等法定程序，3个月内完成不具现实性，程序瑕疵将导致回购无法落地；（2）丙方责任以股权处置价值为限，若公司价值贬损或股权无法变现，甲方实际回收额可能远低于回购价款，“有限责任”表述实质限缩了第11.2.3条回购价格条款的兑现能力。'),\n ('风险5 签署页缺漏丙方3签署栏，影响合同生效及主体约束',\n  '签署页仅设甲方、乙方、丙方1（沈文锋）、丙方2（中科微感（宁波）科技有限公司）签署栏，未设丙方3（蚌埠智微数感企业管理合伙企业（有限合伙））签署栏。',\n  '签署页、第19.1、19.4条',\n  '丙方3是合同当事方，且其执行事务合伙人为沈文锋，对第7条关联交易、第8条竞业限制等义务的承担有实际意义。缺签署栏将导致丙方3是否受合同约束存疑；按第19.1条“及”的文义，任一签约方未完成签字/盖章，整个合同不生效，连锁影响交易安全。此外丙方3为有限合伙企业，签约前应核查其合伙协议是否授权执行事务合伙人代表合伙签署本合同。'),\n]\nfor title, content, clause, reason in risks_high:\n    item('● ', title)\n    item('风险内容：', content, indent=0.75)\n    item('对应条款：', clause, indent=0.75)\n    item('风险理由：', reason, indent=0.75)\n    para('', space_after=2)\n\nh2('（二）中风险事项')\nrisks_mid = [\n ('风险6 先决条件单一，投资方付款保护不足',\n  '第2条约定的先决条件仅有“项目公司及丙方已提交股东会决议”一项；第4.1条约定先决条件“成就确认”后60个工作日内付款，但未约定确认程序、确认主体及甲方拒绝确认的处理。',\n  '第2条、第4.1条',\n  '增资交易通常应将授权批准文件齐备、尽职调查完成且无重大不利变化、披露真实完整、核心人员名单确定等设为先决条件。仅凭一纸股东会决议即进入付款义务，若签约后出现股权代持、诉讼查封、核心人员离职等情形，甲方缺乏暂停付款的合同依据。'),\n ('风险7 回购价格条款存在歧义与参数缺失',\n  '第11.2.3条公式中LPR未明确期限档次（如1年期或5年期以上LPR）；公式约定扣除“已取得现金分红”，后段又约定“若甲方自项目公司取得的现金分红高于年化6%的收益，则超出部分甲方不再退回，也不得在回购款中抵扣”，两者抵扣口径不一致。',\n  '第11.2.3条',\n  'LPR期限档次不明导致回购价款计算结果可能存在数个百分点差异，易被义务方压价抗辩；“全部分红扣除”与“仅扣除超出年化6%的部分”并存，触发回购争议时双方各执一词，增加诉讼不确定性，应明确唯一计算口径并附计算示例。'),\n ('风险8 竞业限制存在规避漏洞且未约定补偿标准',\n  '第8.1条仅约束实控人；第8.2条要求另行签署《保密与竞业禁止协议》但未约定补偿金计算标准与支付方式；第8.3条将“项目公司的关联企业”排除出竞业禁止范围。',\n  '第8.1—8.3条',\n  '（1）竞业义务主体未覆盖核心技术人员本人（仅依赖另行签约，而附件名单空白）；（2）依《劳动合同法》第23、24条，竞业限制以按月支付经济补偿为对价，未约定标准易致协议效力争议；（3）排除关联企业后，相关人员可通过在关联企业任职变相经营竞争业务，形成制度性规避通道。'),\n ('风险9 工商变更逾期责任弹性过大',\n  '第5.2条约定“因客观原因逾期未完成工商变更登记的，经甲方同意可以豁免违约责任并延长工商变更办理期限”，未设延期次数与期限上限。',\n  '第5.2条',\n  '工商变更未完成期间，甲方的股东资格、分红权、表决权等权利处于不确定状态。“经甲方同意豁免”虽表面保护甲方，但未设定替代救济（如回购触发、费用承担、比例调整），且“客观原因”范围不明，实践中容易被反复援引拖延。'),\n ('风险10 送达规则激进且联系方式缺失，易生送达争议',\n  '第14.2条约定电子邮件、微信通知“成功发出之后即为送达”；第14.2条末款约定甲方按约定地址或身份证地址发出即视为有效送达（拒收、查无此人、退回均视为送达）；第14.3条甲方邮箱一空白，甲方地址空白，丙方1、丙方2、丙方3的地址、收件人、电话、邮箱全部空白。',\n  '第14.2、14.3条',\n  '“发出即送达”规则加上联系方式空白，将导致通知义务的履行与生效认定均缺乏客观基础：一方可主张已发送微信即完成送达，另一方可能从未实际知悉。虽然第14.5条将送达效力延伸至仲裁诉讼程序，但信息缺失反而给对方主张“提供信息不准确”留下空间。签约前应填齐全部送达信息，并对电子送达设置“发送至约定邮箱/微信号即视为送达，但收到退回或明显失败除外”的平衡条款。'),\n ('风险11 争议解决条款内部不一致',\n  '第14.5条送达条款提及“争议进入仲裁、民事诉讼程序”，而第18.2条仅约定“提交本协议签署地有管辖权的人民法院诉讼解决”，全文未约定仲裁条款；“本协议签署地”亦未明确定义（首部载明签署地为安徽省合肥市高新区）。',\n  '第14.5条、第18.2条',\n  '两处表述不一致虽不必然导致仲裁条款成立，但会给对方留下管辖权异议的空间；“签署地”宜明确表述为“本协议首部载明的签署地（安徽省合肥市高新区）有管辖权的人民法院”，排除歧义。'),\n]\nfor title, content, clause, reason in risks_mid:\n    item('● ', title)\n    item('风险内容：', content, indent=0.75)\n    item('对应条款：', clause, indent=0.75)\n    item('风险理由：', reason, indent=0.75)\n    para('', space_after=2)\n\nh2('（三）低风险事项')\nrisks_low = [\n ('风险12 违约费用承担条款单向化',\n  '第17.4条仅约定“项目公司及丙方”承担违约产生的诉讼费、律师费等各类费用，未对应约定甲方违约时的费用承担；第17.1条则采用“任何一方”的双向表述。',\n  '第17.4条',\n  '与第17.1条体例不统一。若本稿系甲方（投资方）文本，属有利安排；但从合同整体平衡与可接受性角度，建议改为“违约方承担守约方为维权支出的合理费用”，以降低对方拒签或争议时被调整的可能。'),\n ('风险13 科技团队名单与实际状态不符',\n  '定义表将“孙克（已离职）”仍列入科技团队，并注明以省高层次科技人才团队项目申报材料列示名单为准。',\n  '定义表“科技团队”、第8、10、11.1.2条',\n  '科技团队构成直接关联第8条竞业限制、第10条股权转让限制和第11.1.2条回购触发条件。以申报材料为准的动态口径与“已离职”标注并存，团队认定标准不清晰，建议明确“已离职人员的义务存续与豁免规则”。'),\n ('风险14 投资款监管措施薄弱',\n  '第6.1条仅列负面清单（不得偿还股东债务、不得委托理财等），第6.2条仅赋予知情权和随时查询权，未约定共管账户、分期拨付或大额支出事先同意机制。',\n  '第6.1、6.2条',\n  '事后查询难以及时止损，资金一旦被挪用，虽可依第11.1.3条触发回购，但回购兑现本身存在风险4所述障碍。建议增设投资款专户监管或重大支出经甲方书面同意条款。'),\n]\nfor title, content, clause, reason in risks_low:\n    item('● ', title)\n    item('风险内容：', content, indent=0.75)\n    item('对应条款：', clause, indent=0.75)\n    item('风险理由：', reason, indent=0.75)\n    para('', space_after=2)\n\n# ===== Part 3 =====\nh1('三、审阅说明')\npara('1. 本报告基于所提供docx文本进行书面审阅，未核验合同外事实（如工商登记、股东会决议、省科技团队立项文件、前轮融资交割文件等），相关事实请以实际尽调为准。', space_after=4)\npara('2. 鉴于部分、第3.2条股权结构表及附件1存在大面积空白，属待补信息；本报告已将其列入风险事项，正式签署前应逐项补齐。', space_after=4)\npara('3. 本报告不构成正式法律意见；重大交易建议由执业律师结合尽调结果出具签署意见。', space_after=4)\n\ndoc.save('outputs/合同审阅报告.docx')\nprint('saved')\nEOF"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600357752,
+        "responseId": "chatcmpl-1792600357778",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call0d2143bcdeb6417baf35de1231787270",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "saved"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 142,
+          "aggregated": "saved",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792600480456,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "验证生成文件的完整性与可读性。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-d0a9c8e7701b4d7fb98840c1\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "callb2c146a6a14a44d5b66a9757512203ec",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python -c \"\nimport docx\nd = docx.Document('outputs/合同审阅报告.docx')\nps = [p.text for p in d.paragraphs if p.text.strip()]\nprint('paragraphs:', len(ps))\nprint(ps[0], '|', ps[1])\nimport re\ntext = '\\n'.join(ps)\nfor kw in ['错别字及文字缺漏核查结果','风险审核结果','高风险事项','中风险事项','低风险事项','审阅说明']:\n    print(kw, '->', kw in text)\n\" && ls -la outputs/"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792600480463,
+        "responseId": "chatcmpl-1792600480493",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "callb2c146a6a14a44d5b66a9757512203ec",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "paragraphs: 105\n合同审阅报告 | ——《安徽中科微感科技有限公司股权投资合同》\n错别字及文字缺漏核查结果 -> True\n风险审核结果 -> True\n高风险事项 -> True\n中风险事项 -> True\n低风险事项 -> True\n审阅说明 -> True\ntotal 44\ndrwxr-xr-x 1 node node  4096 Oct 21 16:34 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rw-r--r-- 1 node node 44097 Oct 21 16:34 合同审阅报告.docx"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 117,
+          "aggregated": "paragraphs: 105\n合同审阅报告 | ——《安徽中科微感科技有限公司股权投资合同》\n错别字及文字缺漏核查结果 -> True\n风险审核结果 -> True\n高风险事项 -> True\n中风险事项 -> True\n低风险事项 -> True\n审阅说明 -> True\ntotal 44\ndrwxr-xr-x 1 node node  4096 Oct 21 16:34 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rw-r--r-- 1 node node 44097 Oct 21 16:34 合同审阅报告.docx",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792600489453,
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "已完成审阅并交付 **outputs/合同审阅报告.docx**。\n\n**审阅结论概要：**\n\n**一、错别字及文字缺漏（11处）**，主要包括：\n- 第13.1条 “所须缴纳”→“所需缴纳”\n- 第9.3条 “包括但不限”→“包括但不限于”\n- 第11.2.3条 “贷款市场同期报价利率”→“贷款市场报价利率”（LPR标准名称）\n- 鉴于第2句缺持股比例数字及“股权”二字，两家持股主体间缺“与”\n- “丙方：蚌埠智微数感”应编号为“丙方3”；第8.1条编号\"1.／（2）\"体例混乱\n- 第14.2条 “最快达到对方”→“到达”；附件1标题与定义表、第8.2条三处名称不一；“蚌埠市”地址重复等\n\n**二、风险审核（14项，分三级）**\n\n高风险5项：\n1. 甲方名称/地址/签署日期空白，主体信息严重缺失\n2. 股权结构表大面积空白（1000万注册资本仅200万有归属），增资后表出现未定义主体\"SPV\"，与陈述保证条款矛盾\n3. 附件1人员名单全部空白，第8.2条竞业禁止安排落空\n4. 公司减资回购须履行法定减资程序，3个月期限不具现实性；丙方“有限责任”实质封顶甲方回收\n5. 签署页缺丙方3签署栏，按19.1条生效条件将影响整个合同生效\n\n中风险6项：先决条件单一、回购价格LPR档次不明且分红抵扣口径自相矛盾、竞业限制排除关联企业形成规避漏洞、工商变更逾期责任弹性过大、“发出即送达”规则叠加联系方式空白、第14.5条提及仲裁与第18.2条仅约诉讼不一致。\n\n低风险3项：违约费用承担单向化、科技团队名单含已离职人员、投资款缺乏共管账户等事中监管措施。\n\n报告已按“位置/原文/核查意见”和“风险内容/对应条款/风险理由”逐条展开，中文字体已内嵌设置，可直接打印使用。"
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1792600489460,
+        "responseId": "chatcmpl-1792600489491",
+        "__openclaw": {
+          "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+        }
+      }
+    ],
+    "source_event_lines": [
+      5,
+      6,
+      7,
+      9,
+      10,
+      12,
+      13,
+      15,
+      16,
+      18,
+      19,
+      21,
+      22,
+      24,
+      25,
+      27,
+      28,
+      30,
+      31,
+      33,
+      34,
+      36
+    ],
+    "messages_original_unmodified": true,
+    "parse_error_line_numbers": [],
+    "stage": "legacy",
+    "route_id": "contract-position-gap-supplement_c2_no_skill",
+    "old_episode_source_ids_metadata": [],
+    "old_native_verified_metadata": false,
+    "execution_condition": {},
+    "system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "system_messages_original": [],
+    "system_capture_candidates": [
+      {
+        "status": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\55\\55efc4d3b538ed27d791dc17cbd4a4383289a0a46b962bacfac5f243fb4692e9",
+          "bytes": 2015,
+          "sha256": "55efc4d3b538ed27d791dc17cbd4a4383289a0a46b962bacfac5f243fb4692e9"
+        },
+        "messages": [
+          {
+            "role": "system",
+            "content": "<!-- openclaw:attempt:STABLE -->\nYou are a personal assistant running inside OpenClaw.\n## Tooling\nTools policy-filtered. Names case-sensitive; call exact.\n- read: Read files\n- write: Write files\n- edit: Exact file edits\n- apply_patch: Patch files\n- ls: List directories\n- exec: Run shell; pty for TTY CLIs\n- process: Control background exec\n- web_search: Web search\n- web_fetch: Fetch/extract URL\n- browser: Control browser\n- terminal: List/read/resize/close operator-opened session terminals; input follows exec policy and may require exact-input approval; never open shells\n- canvas: Present/eval/snapshot Canvas\n- nodes: Paired node status/control/media\n- automations: Schedule/wake. Reminder text must read as reminder when fired; mention reminder for delayed gaps; include useful recent context. This feature is called automations; never call it cron.\n- message: Message/channel actions\n- conversations_list: List exact external conversation addresses\n- conversations_send: Send directly to an external conversation\n- conversations_turn: Send and wait for one correlated external reply\n- openclaw: Gateway restart/system setup/config\n- gateway: Read this Gateway's config/schema; owner-only self-update on explicit request; automatic restart and completion notice\n- agents_list: List allowed subagent ids\n- sessions_list: List visible sessions; filters/last\n- sessions_history: Read visible session/subagent history\n- sessions_search: Search past sessions; use sessionKey with sessions_history\n- sessions_send: Message other session/subagent\n- sessions_spawn: Spawn subagent; clean context: context=\"isolated\"; transcript: context=\"fork\"\n- sessions_yield: End turn; await subagent events\n- subagents: Subagent status; never wait-loop\n- session_status: Session/model/usage/time/status; model override\n- skill_workshop: Author reusable skills\n- agents_wait\n- ask_user\n- create_goal\n- dashboard\n- dir_fetch\n- dir_list\n- file_fetch\n- file_write\n- get_goal\n- intent\n- memory_get\n- memory_search\n- mob...<truncated>\n"
+          }
+        ],
+        "complete": false
+      }
+    ],
+    "tools_supported": [
+      {
+        "name": "agents_list",
+        "description": "List configured agent ids with name/model/runtime metadata, allowed as `sessions_spawn(runtime:\"subagent\")` targets.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "apply_patch",
+        "description": "Patch one/many files. Input requires *** Begin Patch and *** End Patch.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "input"
+          ],
+          "properties": {
+            "input": {
+              "type": "string",
+              "description": "Patch content using the *** Begin Patch/End Patch format."
+            }
+          }
+        }
+      }
+    ],
+    "tool_schema_provenance": [
+      {
+        "name": "agents_list",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\95\\95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e",
+          "bytes": 9157,
+          "sha256": "95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e"
+        }
+      },
+      {
+        "name": "apply_patch",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\95\\95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e",
+          "bytes": 9157,
+          "sha256": "95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e"
+        }
+      }
+    ],
+    "original_tool_schema_incomplete_entries": [
+      "agents_wait",
+      "ask_user",
+      "automations",
+      "browser",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER"
+    ],
+    "called_tool_names": [
+      "exec",
+      "read"
+    ],
+    "called_tools_missing_supported_schema": [
+      "exec",
+      "read"
+    ],
+    "pinned_factory_schema_reconstruction_allowed": false,
+    "same_episode_API_capture_count": 0,
+    "api_request_captures": [],
+    "readable_reasoning_original_native": [],
+    "reasoning_overlays_same_response_id": [],
+    "source_admission": "NOT_PERFORMED_HERE_PROTECTED_AND_UNKNOWN_REMAIN_FOR_PARENT_REVIEW",
+    "training_admitted_by_this_recovery": false
+  },
+  "state_before_target": [
+    {
+      "role": "user",
+      "content": "实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。以下命令客户端（包括local-asr、remotion和ecnu_tools.py）均通过exec执行，不是额外的原生工具名。要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。Playwright Chromium executable_path=/usr/bin/chromium，launch args=[\"--no-sandbox\"]。原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。网络访问可用；用户要求下载的材料和skills请在任务中真实下载。当前ecnu-plus的文本与图片理解已通过独立接口探针；未提供额外搜索API密钥；公开网页可使用browser或HTTP读取。图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n公开参考skill的实际目录是 /workspace/skills/<名称>，脚本相对该skill根解析。兼容目录 /workspace/.claude/skills 指向同一目录；CLAUDE_PLUGIN_ROOT=/workspace。需要CLAUDE_SKILL_DIR的命令可用exec运行 python /opt/eval-adapter/runtime_compat.py run-skill --skill <名称> -- <命令及参数>，该变量只针对本条命令，不在多个skill之间共享固定值。跨包参考正文如果本题准入，会放在 /workspace/reference_support，作为依赖资料而非新增active skill；可运行 python /opt/eval-adapter/runtime_compat.py reference-path --skill <名称> --reference \"<SKILL中原相对引用>\" 查询真实存在的位置，再用read读取；不存在就报告缺项。GetNotes参考SDK的原缓存含跨平台开发依赖，从该skill的scripts目录可运行 getnote-tsx <tsx参数> 使用固定Linux兼容loader；这只修本地加载，不提供账号认证。agent-browser和lark-cli是通过exec运行的公共CLI，不是新增原生工具名；agent-browser使用本容器/usr/bin/chromium，外部Lark/邮件/GetNotes服务仍以实际认证结果为准。\n\n本题提供的文件：\n- /workspace/inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx\n- /workspace/inputs/user_requests/conv_f4efc3b555dc.json\n\n用户提供的上下文：\n\n\n用户任务：\n请对合同文件 /workspace/inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx 进行审阅，用中文完成：1、检查全文错别字；2、审核合同风险。对发现的错别字逐条说明所在位置（条款）及正确写法；对风险点逐条说明风险内容、对应条款及理由。交付物：输出一份中文合同审阅报告（docx格式），含错别字核查结果与风险审核结果两部分，交付至 outputs/合同审阅报告.docx。",
+      "timestamp": 1792600166624,
+      "idempotencyKey": "ac9babd8-92e2-490c-bb21-8060e64b343a:user",
+      "__openclaw": {
+        "senderIsOwner": true
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "callea6baaf43d114e8e8e7cbbcdac5cb6f0",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && ls -la inputs/materials/conv_f4efc3b555dc/ && cat inputs/user_requests/conv_f4efc3b555dc.json 2>/dev/null | head -50 && mkdir -p outputs tmp && python -c \"import docx; print('python-docx ok')\""
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600167065,
+      "responseId": "chatcmpl-1792600174741",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "callea6baaf43d114e8e8e7cbbcdac5cb6f0",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "total 76\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rwxrwxrwx 1 root root 75262 Oct 21 16:29 1_材料2.安徽中科微感股权投资合同20260721.docx\n{\"messages\":[{\"content\":\"请使用中文回复，除非用户明确使用其他语言。\\n\\n1、检查错别字；2、审核风险\\n[附加文件: 安徽中科微感股权投资合同--拟签约(1).docx (/workspace/对话附件/安徽中科微感股权投资合同--拟签约(1).docx)]\",\"id\":\"conv_f4efc3b555dc:ca14cde7\",\"role\":\"user\"}],\"source_id\":\"conv_f4efc3b555dc\"}\npython-docx ok"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 110,
+        "aggregated": "total 76\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rwxrwxrwx 1 root root 75262 Oct 21 16:29 1_材料2.安徽中科微感股权投资合同20260721.docx\n{\"messages\":[{\"content\":\"请使用中文回复，除非用户明确使用其他语言。\\n\\n1、检查错别字；2、审核风险\\n[附加文件: 安徽中科微感股权投资合同--拟签约(1).docx (/workspace/对话附件/安徽中科微感股权投资合同--拟签约(1).docx)]\",\"id\":\"conv_f4efc3b555dc:ca14cde7\",\"role\":\"user\"}],\"source_id\":\"conv_f4efc3b555dc\"}\npython-docx ok",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792600184730,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    }
+  ],
+  "target_and_following_messages": [
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call99952402187d40e2bbf10536f993decd",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\nimport docx\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\nlines = []\nfor i, p in enumerate(d.paragraphs):\n    t = p.text.strip()\n    if t:\n        lines.append(t)\n# also tables\nfor ti, tb in enumerate(d.tables):\n    for r in tb.rows:\n        cells = [c.text.strip() for c in r.cells]\n        lines.append('[表格] ' + ' | '.join(cells))\ntext = '\\n'.join(lines)\nopen('tmp/contract.txt','w',encoding='utf-8').write(text)\nprint(len(lines), 'lines,', len(text), 'chars')\nEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600184745,
+      "responseId": "chatcmpl-1792600184784",
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call99952402187d40e2bbf10536f993decd",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "231 lines, 9291 chars"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 161,
+        "aggregated": "231 lines, 9291 chars",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792600193321,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call5ba10ef2b76f4348a8f68651d81da479",
+          "name": "read",
+          "arguments": {}
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600193329,
+      "responseId": "chatcmpl-1792600193365",
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call5ba10ef2b76f4348a8f68651d81da479",
+      "toolName": "read",
+      "content": [
+        {
+          "type": "text",
+          "text": "Validation failed for tool \"read\":\n  - path: must have required properties path\n\nReceived arguments:\n{}"
+        }
+      ],
+      "details": {},
+      "isError": true,
+      "timestamp": 1792600199003,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call6b7b1c757d1941d892b630a6f438cc6b",
+          "name": "read",
+          "arguments": {
+            "path": "/workspace/tmp/contract.txt"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600199010,
+      "responseId": "chatcmpl-1792600199052",
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call6b7b1c757d1941d892b630a6f438cc6b",
+      "toolName": "read",
+      "content": [
+        {
+          "type": "text",
+          "text": "____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合伙人委派代表：\n乙方（项目公司）：安徽中科微感科技有限公司\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n法定代表人：沈文锋\n丙方（项目公司实控人及股东）：\n丙方1：（实际控制人）：沈文锋\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n身份证号：330323197812044711\n丙方2：中科微感（宁波）科技有限公司\n地  址：浙江省宁波高新区贵驷街道永茂东路1819号4幢4-2-14\n法定代表人：沈文锋\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：安徽省蚌埠经济开发区东海大道888号中国传感谷C区C3栋7层701室内\n执行事务合伙人委派代表：沈文锋\n鉴 于：\n项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股东及股权结构如下：\n2. 丙方1沈文锋系项目公司实际控制人，其直接持有项目公司10%的股权，通过中科微感（宁波）科技有限公司蚌埠智微数感企业管理合伙企业（有限合伙）持有项目公司%的。\n3.各方一致同意项目公司新增注册资本165.5172万元，由投资方按照本协议约定认购。\n现各方根据有关法律、行政法规的规定，经过友好协商，就本次投资事宜，达成如下协议，以供各方共同遵守。\n定 义\n除非本协议中另有规定，本协议中出现的下列术语应按以下定义理解：\n本协议的名称及条、款、项的标题（含置于条款正文前的小标题）仅为方便阅读，不应视为对本协议内容的解释。\n本协议引用有关条款时，除非本协议另有规定，该等条款应指本协议的相应条款。\n先决条件\n各方同意，投资方在本协议项下的投资义务以下列条件全部满足为先决条件：\n关于同意本次交易，项目公司及丙方已向甲方提交了符合法律法规、公司章程及工商登记要求的股东会决议。\n本次增资事项\n投资方按本协议约定的条款及条件对项目公司进行增资，项目公司的注册资本增加165.5172万元，新增注册资本由投资方以480万元的投资价款认购。其中：\n甲方投资480万元，认购项目公司新增注册资本165.5172万元，投资额超过所认购注册资本的部分314.4828万元计入项目公司资本公积，甲方在本次增资完成后持有项目公司14.2012%的股权。\n本次增资完成后，项目公司的股权结构为:\n上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权结构作出相应适配调整。\n投资款的缴付\n投资方在本协议约定的先决条件成就确认后的【60】个工作日内，向项目公司的以下账户支付本次投资款项：\n户    名：安徽中科微感科技有限公司\n开 户 行：徽商银行蚌埠经济开发区支行\n银行账号：264663105480000001\n投资方按本协议第4.1条约定支付完毕全部投资价款后，投资方在本协议项下的出资义务即告履行完毕。\n投资方按照4.1条缴付出资后即成为公司股东，依照法律、本协议和公司章程的规定享有所有股东权利并承担相应股东义务，公司的资本公积金、盈余公积金和未分配利润等全部股东权益由增资后的全体股东享有。\n验资及工商变更登记\n项目公司在收到投资方支付的投资款项后10个工作日内向投资方提供股东出资证明。\n项目公司在收到投资款后90日内，应完成本次增资相关的工商变更登记手续，包括但不限于办理注册资本变更、股东变更登记、按本协议约定进行修改后的公司章程或章程修正案登记、按本协议约定选举的董事、监事变更登记或备案等。因客观原因逾期未完成前述工商变更登记手续的，经甲方同意可以豁免违约责任并延长工商变更办理期限。\n为本次增资办理相关工商变更登记所需的费用（若有）由项目公司承担。\n投资款的监管与运用\n6.1 各方同意，投资方的全部出资主要用于项目公司的研发生产。不得用于偿还股东债务等其他用途；不得用于非经营性支出或者与公司主营业务不相关的支出；不得用于委托理财、委托贷款和期货交易等；不得用于除投资方外其他股东的减资。\n6.2 投资方对于投资款的使用情况，具有充分的知情权，有权随时查询投资款使用情况。\n关联交易\n项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原则签署相关协议，以明确权利义务，并按照公司章程和相关制度规定履行内部决策程序。\n标的公司及丙方承诺，丙方不无偿占有、使用公司的资金、资产及资源。丙方占有、使用公司财产的，由其按市场公允价格（自实际占有、使用公司财产之日起至停止占有、使用之日止）支付使用对价给标的公司。\n项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将上述情形及时通知投资方。\n项目公司及丙方承诺，涉及关联交易的表决须严格按照相关法律法规及公司章程关于关联股东和关联董事回避制度相关规定执行。\n竞业限制\n实控人在投资方持有项目公司股权期间，不得参与或涉及以下事宜：\n新设、收购、参股与项目公司具有竞争关系的企业。\n（2）委托、受托经营与项目公司有竞争关系的企业。\n项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款至少包括以下内容：在任职期间内不得在其他营利性组织中兼职；在任职期间内不得以任何形式从事或帮助他人从事与项目公司存在竞争关系的经营活动；在从项目公司离职后2年内或更长期限内不得在与项目公司有竞争关系的企业中任职；竞业禁止补偿条款。\n上述竞业禁止范围，不包括项目公司的关联企业。\n检查权和信息权\n在不影响公司正常经营和规范治理要求的前提下，投资方有权查阅项目公司及附属企业的会计资料（包括会计报表、会计账册、会计凭证以及其他会计资料）。除前述会计资料外，投资方有权查阅项目公司所持有的、为投资方适当了解项目公司的业务和情况并保护其作为股东的利益所合理要求的相关信息。\n应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问或其他人员，就项目公司的经营与财务状况进行讨论等，项目公司及丙方应给予必要的协助。在合理必要时，投资方有权聘请第三方专业机构对项目公司进行审计或调查。\n投资完成后，项目公司应按时向投资方提供以下资料：\n每日历季度结束后30日内，提供公司经营报告和季度财务管理报告（含资产负债表、利润表、现金流量表、所有者权益变动表、附注，下同）。\n每日历年度结束后90日内，提供公司年度经营报告、财务报告以及下一年度的经营预算和业务计划。\n每日历年度结束后6个月内，提供经会计师事务所审计的项目公司年度审计报告原件和/或加盖项目公司公章的审计报告复印件。\n在股东会结束后30日内提供相关股东会的会议纪要、会议决议。\n其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n股权转让限制\n项目公司首发上市或被上市公司并购前，非经甲方同意，实控人及科技团队不得实施导致其失去控股或实际控制地位的股权转让行为。\n回购权\n11.1 回购权的条件\n在下列任一条件满足或任一情况出现时，甲方有权要求乙方和/或丙方1、丙方2回购甲方持有项目公司的全部或部分股权：\n11.1.1 投资期届满，项目公司未能首发上市或被上市公司并购。\n11.1.2 甲方持有项目公司股权期间，实控人及科技团队失去对项目公司的控股或实际控制地位。\n11.1.3 实际控制人或项目公司骗取、挪用、违法违规使用扶持资金。\n11.2 回购安排\n11.2.1 在上述任一回购条件成就后，甲方有权自任一条件成就之日起三年内向乙方及丙方1、丙方2发出要求回购的通知，乙方应当在3个月内完成减资手续，履行回购义务。\n（1）若甲方取得的减资款低于本协议约定的回购价格，则由丙方1、丙方2对差额补足承担有限责任；\n（2）如果（1）未能按期完成，则由丙方1、丙方2对回购甲方股权承担有限责任；\n有限责任指丙方1、丙方2在本协议项下所需承担的责任以其直接和/或间接持有的项目公司全部股权的处置价值为限。届时丙方1、丙方2有义务、甲方有权寻找第三方受让前述股权，丙方1、丙方2应当配合转让股权，并在转让所得范围内向甲方支付回购价款。\n11.2.2 如乙方减资未能按上述期限完成，则丙方1、丙方2（或其指定方）应当自甲方发出回购通知后6个月内履行回购义务，将回购价款支付至甲方指定账户。\n11.2.3 回购价格为甲方的本次投资本金加上投资收益。具体计算方式为：\n回购价格=回购股权数量/投资方持股数量*投资方投资本金*(1+LPR*n)-回购股权数量对应的已取得现金分红。（LPR是指回购通知发出时贷款市场同期报价利率）。\n其中，n为投资方在公司投资的年数，不是整年的，按实际投资天数/365计算，实际投资天数计算至股权回购款实际支付日（含当日）。投资方持股数量指回购时投资方持有的全部股权数量。若甲方自项目公司取得的现金分红高于年化6%的收益，则超出部分甲方不再退回，也不得在回购款中抵扣。\n11.2.4 项目公司或丙方1、丙方2支付完毕全部股权回购款后，丙方1、丙方2应协助项目公司及甲方完成相关的工商变更登记手续。若甲方减资涉及相关国资管理要求，则届时将按照企业国有资产交易等相关法律法规执行。\n陈述、保证和承诺\n本协议各方分别而非连带地陈述、保证及承诺如下：\n其为依据中国法律正式成立并有效存续的主体或具有完全民事行为能力的自然人。\n其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n其保证对本协议所包含的信息承担保密义务，法律或相关监管机构/权威机构要求披露的，以及向本协议相关中介机构披露的除外。\n项目公司及实控人陈述、保证及承诺如下：\n本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n项目公司及实控人已向投资方真实、准确、完整的披露了股东之间的关联关系，根据相关法律法规的规定，不存在不适合对项目公司投资的情形。\n项目公司向投资方披露的公司的资产、负债、权益、或有负债以及与本协议有关的全部信息系真实、准确、完整的。\n在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规范往期成本核算、现金账与往来账处理等相关财务工作。\n税款与费用\n本协议各方为履行本协议义务所须缴纳的税款由各纳税主体承担。\n本协议各方在本协议履行过程中产生的相关费用由各方自行承担。\n通知和送达\n协议各方同意，与本协议有关的任何通知，需以约定方式送达方为有效，约定送达形式包括但不限于：专人送达、快递、电子邮件、微信等。\n本协议第14.1条所述通知应被视为在下列时间送达：\n以专人送达的通知，在送达收件人下述通知地址之日；\n以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n以电子邮件发出的通知，在电子邮件成功发出之后即为送达；\n以微信形式发出，在成功发出之后即为送达；\n同时采用上述两种或两种以上方式的，以其中最快达到对方者为准。\n若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退回，均视为有效送达）。\n与本协议有关的任何通知送达下列地址视为有效送达：\n甲 方：\n地  址：\n收件人：\n电  话：\n邮  箱一：\n邮  箱二：kjtd@ahinv.com\n（甲方采用电子邮件的方式向其他各方送达与本协议有关通知的，可通过以上任一邮箱进行送达。其他各方采用电子邮件的方式向甲方送达与本协议有关通知的，需同时向甲方邮箱一、邮箱二进行送达。）\n乙 方：安徽中科微感科技有限公司（项目公司）\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n收件人：王俊挺\n电  话：15167770898\n邮  箱：wangjunting@csmsn.com\n丙方1：沈文锋（实际控制人、科技人才团队领军人）\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方2：中科微感（宁波）科技有限公司\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：\n收件人：\n电  话：\n邮  箱：\n任何一方的通讯地址发生变化（“变动方”），变动方应当在该变更发生后五(5)个工作日内通知其他方。在变动方的前述变动通知送达前，其他方按照本协议第14.3条约定向变动前的地址、电子邮箱发送通知的，应视为有效送达。\n上述送达方式和地址的适用范围包括非诉阶段和争议进入仲裁、民事诉讼程序后的先行调解、一审、二审、再审和执行程序。在争议进入仲裁/诉讼程序后，仲裁机关或者法院可以按照本协议约定的送达方式和地址送达法律文书，如因一方提供信息不准确、变更后未及时通知、拒收等原因导致无法送达的仍视为有效送达，所造成的不利后果均由该方自行承担。\n保密义务\n本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协议项下义务以外的任何用途，也不得向任何第三方披露或提供该等商业秘密，并采取所有必要的措施保证其现有和将来的高级管理人员、主管、员工和专业顾问等遵守上述保密义务，否则该方应承担本协议他方因此而遭受的损失。\n如果本协议任何一方应国家司法机关或其他公共管理机构的要求披露本协议他方的商业秘密，则不视为违反本条款项下的保密义务。\n本协议的终止或解除不影响本条的有效性。\n不可抗力\n不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事件。不可抗力事件包括但不限于非因一方疏忽或不当行为所引起的洪水、地震、台风或其他自然灾害、战争。由于国内外宏观经济状况发生变化、行业经营环境发生变化、国内外市场变化以及因一方自身经营所造成的事件，均不属于不可抗力。\n若发生不可抗力事件，则受到该不可抗力影响的一方可在不可抗力事件所造成影响的范围和期间内暂停履行其在本协议项下的义务，且其履行义务期限将自动延展，延展的时间相当于暂停履行义务的期限。主张不可抗力事件的一方应以电子邮件及时通知其他方，并提供该等不可抗力事件的发生、不利后果持续时间的适当证据。声称不可抗力的一方还应尽一切合理努力减少或消除不可抗力对其在本协议项下义务的影响。\n若发生不可抗力事件，各方应立即相互协商以找出公平的解决办法并应尽一切合理努力减轻该等不可抗力事件的后果。因不可抗力事件形成的经营风险由各方共担；因不可抗力导致本协议的目的或相关条款不能实现时，各方应友好协商解决。\n违约责任\n本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假，则应被视为违约。违约方应赔偿因其违约而对其他方（守约方）造成的一切损失。\n任何一方因违反本协议约定而应承担的违约责任不因本协议的解除而免除。\n任何一方违约时，守约方除有权要求违约方依据本协议之约定支付损害赔偿金外，还有权要求违约方继续履行本协议。\n项目公司及丙方应当承担因其违约造成的损失以及费用（费用包括但不限于诉讼费用、仲裁费用、律师费用、公证费用、鉴定费用、公告费用、保全费用、保全担保费用、拍卖费用、评估费用、审计费用、强制执行费用、差旅费用等）。\n适用法律及争议的解决\n本协议的订立、效力、解释、履行及争议的解决均适用中国法律。\n凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n除本协议双方有争议正在协商或诉讼的部分外，各方均应继续履行本协议的其它部分。\n其他事项\n本协议自自然人签约方签字及非自然人签约方盖章后生效。\n如本协议中有关投资方权利的相关约定未能在公司章程中体现，则该部分约定以本协议为准，投资方继续拥有本协议约定的相关权利。\n本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效力。\n本协议正本一式拾叁份，甲方持有二份，其他各方各持一份，一份用于办理工商变更登记，剩余存于项目公司备档，每份均具有同等法律效力。本协议内容与工商标准文本内容如有冲突，则以本协议为准。\n（以下无正文，为签署页）\n（本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n甲方（盖章）：\n委派代表（签字/盖章）：                         日期：\n乙方（盖章）：安徽中科微感科技有限公司\n法定代表人（签字/盖章）：                       日期：\n丙方1：沈文锋（签字）                          日期：\n丙方2（盖章）：中科微感（宁波）科技有限公司\n法定代表人（签字/盖章）：                   日期：\n附件1  高级管理人员和核心技术人员名单\n公司人员表：\n[表格] 序号 | 股东名称 | 认缴注册资本\n（万元） | 持股比例\n（%）\n[表格] 1 | 中科微感（宁波）科技有限公司 |  | %\n[表格] 2 | 沈文锋 | 100 | 10%\n[表格]  |  |  | \n[表格]  |  |  | \n[表格]  | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | 10%\n[表格] 合  计 | 合  计 | 1000 | 100%\n[表格] 各方或协议各方 | 指投资方、项目公司等所有签署方的统称。\n[表格] 项目公司/公司 | 指安徽中科微感科技有限公司。\n[表格] 科技团队 | 科技团队由沈文锋及其团队成员构成（以省高层次科技人才团队项目申报材料中列示的人员名单为准，人员有沈文锋、孙克（已离职）、孟征、尚晓博、韩国涛、王俊挺、王汉斌）\n[表格] 投资期 | 根据《安徽省促进高层次科技团队培育发展创新创业实施方案》第四条第三款第三点所约定的时间，自投资款交割之日起五年为投资期。\n[表格] 本合同 | 指本《安徽中科微感科技有限公司股权投资合同》。\n[表格] 本次投资/本次增资 | 指投资方以总计480万元的投资款认购项目公司165.5172万元注册资本的行为。\n[表格] 投资款/投资本金 | 指投资方根据本协议约定认购项目公司的165.5172万元注册资本的总价款，即480万元。\n[表格] 投资完成/增资完成 | 指投资方按照本协议约定对项目公司完成总额480万元的出资义务。\n[表格] 股东权益 | 指项目公司股东依法享有的资产收益、参与重大决策和选择管理者等其他法定权利。\n[表格] 关联人/关联方/关联关系 | 依照公司法、会计准则、中国证券监督管理委员会及沪深证券交易所、全国中小企业股份转让系统颁布的规范性文件所界定的关联人/关联方/关联关系。\n[表格] 首次公开发行股票/上市 | 指项目公司首次公开发行股票并在各方认可的上海证券交易所、深圳证券交易所、北京证券交易所、香港联合交易所等境内外证券交易场所板块挂牌上市交易。\n[表格] 高级管理人员及核心技术人员 | 指附件1《高级管理人员及核心技术人员名单》所列人员。\n[表格] 附属公司 | 指项目公司目前或未来直接或间接持有其25%以上所有者权益或实际控制权的任何类型的公司、企业或者其他经济实体。\n[表格] 知识产权 | 根据法律法规赋予法人或自然人对智力劳动成果和其他商业成就所享有的占有、使用和支配的权利。\n[表格] 公司章程 | 指《安徽中科微感科技有限公司公司章程》。\n[表格] 专项尽职调查 | 指基于本次交易之目的，由投资方委派专业人士对项目公司在业务方面进行的调查。\n[表格] 会计年度 | 指每年的公历1月1日至12月31日。\n[表格] 净资产 | 指经甲方认可的会计师事务所审计的归属于项目公司的所有者权益。\n[表格] 法律/法规 | 指中国法律、行政法规、部门规章、地方性法规规章及相关规范性文件等。\n[表格] 人或人士 | 指任何自然人、组织、公司、政府部门、合伙组织、联合体或其他实体(无论是否具有独立法人地位)。\n[表格] 送达 | 指本协议任一方按照本协议约定的任一种送达方式将文件发出的行为。\n[表格] 包括 | “包括”及相同的表达方式在本协议中并非意味着限制，而应被解释为“包括但不限于”。\n[表格] 日 | 指自然日。\n[表格] 工作日 | 指除中华人民共和国政府规定的法定休息日及节假日以外的时间。\n[表格] 中国 | 指中华人民共和国。仅为本协议之目的，不包括中国香港特别行政区、中国澳门特别行政区及中国台湾地区。\n[表格] 书面 | 指任何类型的可读且可保存的文字载体。\n[表格] 元 | 如无特殊说明，系指人民币元。\n[表格] 序号 | 股东名称 | 认缴注册资本\n（万元） | 持股比例\n（%）\n[表格] 1 | 中科微感（宁波）科技有限公司 |  | \n[表格] 2 | 沈文锋 | 100 | \n[表格]  |  |  | \n[表格]  |  |  | \n[表格]  | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | \n[表格]  | SPV |  | \n[表格] 合  计 | 合  计 | 1165.5172 | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | \n[表格]  |  |  |  |  | "
+        }
+      ],
+      "details": {
+        "persistedDetailsTruncated": true,
+        "originalDetailsBytesAtLeast": 8193,
+        "originalDetailKeys": [
+          "kind",
+          "content"
+        ]
+      },
+      "isError": false,
+      "timestamp": 1792600204034,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "提取成功，但列表编号（条款号）在纯文本提取中丢失了。我来根据 XML 的编号信息重新构建它们。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-cd798271f05d48c1a392e752\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "callc44a8bdb8b4b49768e65f17a2a11a13f",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\nimport docx\nfrom docx.oxml.ns import qn\n\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\n\n# Build numbering map: numId -> ilvl -> abstractNumId, and abstract counters\nnumbering = d.part.numbering_part.element\n# map numId->abstractNumId\nnum2abs = {}\nfor num in numbering.findall(qn('w:num')):\n    numId = num.get(qn('w:numId'))\n    absEl = num.find(qn('w:abstractNumId'))\n    if absEl is not None:\n        num2abs[numId] = absEl.get(qn('w:val'))\n\ncounters = {}\nout = []\nfor p in d.paragraphs:\n    pPr = p._p.find(qn('w:pPr'))\n    numId = None; ilvl = 0\n    if pPr is not None:\n        numPr = pPr.find(qn('w:numPr'))\n        if numPr is not None:\n            e = numPr.find(qn('w:numId'))\n            if e is not None: numId = e.get(qn('w:val'))\n            e = numPr.find(qn('w:ilvl'))\n            if e is not None: ilvl = int(e.get(qn('w:val')))\n    prefix = ''\n    if numId and numId in num2abs:\n        absId = num2abs[numId]\n        key = (absId, ilvl)\n        # reset deeper levels\n        for k in [k for k in counters if k[0]==absId and k[1]>ilvl]:\n            del counters[k]\n        counters[key] = counters.get(key, 0) + 1\n        fmt = {0:'%d.',1:'%d.%d',2:'%d.%d.%d'}[ilvl]\n        nums = []\n        for lvl in range(ilvl+1):\n            nums.append(counters.get((absId,lvl),1))\n        if ilvl==0: prefix = f\"{nums[0]}. \"\n        elif ilvl==1: prefix = f\"{nums[0]}.{nums[1]} \"\n        else: prefix = '.'.join(map(str,nums)) + ' '\n    t = p.text.strip()\n    if t or prefix:\n        out.append(prefix + t)\n\ntext = '\\n'.join(out)\nopen('tmp/contract_num.txt','w',encoding='utf-8').write(text)\nprint('lines:', len(out))\nEOF\nhead -c 300 tmp/contract_num.txt"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600204043,
+      "responseId": "chatcmpl-1792600204119",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "callc44a8bdb8b4b49768e65f17a2a11a13f",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "lines: 179\n____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 138,
+        "aggregated": "lines: 179\n____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792600225565,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call1d7fa795ce954953ab13b95de0698277",
+          "name": "read",
+          "arguments": {
+            "path": "/workspace/tmp/contract_num.txt"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600225574,
+      "responseId": "chatcmpl-1792600225601",
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call1d7fa795ce954953ab13b95de0698277",
+      "toolName": "read",
+      "content": [
+        {
+          "type": "text",
+          "text": "____________________________________\n安徽中科微感科技有限公司\n股权投资合同\n____________________________________\n本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n甲方（投资方，管理服务机构）：\n甲 方：\n地 址：\n执行事务合伙人委派代表：\n乙方（项目公司）：安徽中科微感科技有限公司\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n法定代表人：沈文锋\n丙方（项目公司实控人及股东）：\n丙方1：（实际控制人）：沈文锋\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n身份证号：330323197812044711\n丙方2：中科微感（宁波）科技有限公司\n地  址：浙江省宁波高新区贵驷街道永茂东路1819号4幢4-2-14\n法定代表人：沈文锋\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：安徽省蚌埠经济开发区东海大道888号中国传感谷C区C3栋7层701室内\n执行事务合伙人委派代表：沈文锋\n鉴 于：\n1. 项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股东及股权结构如下：\n2. 丙方1沈文锋系项目公司实际控制人，其直接持有项目公司10%的股权，通过中科微感（宁波）科技有限公司蚌埠智微数感企业管理合伙企业（有限合伙）持有项目公司%的。\n3.各方一致同意项目公司新增注册资本165.5172万元，由投资方按照本协议约定认购。\n现各方根据有关法律、行政法规的规定，经过友好协商，就本次投资事宜，达成如下协议，以供各方共同遵守。\n1. 定 义\n1.1 除非本协议中另有规定，本协议中出现的下列术语应按以下定义理解：\n1.2 本协议的名称及条、款、项的标题（含置于条款正文前的小标题）仅为方便阅读，不应视为对本协议内容的解释。\n1.3 本协议引用有关条款时，除非本协议另有规定，该等条款应指本协议的相应条款。\n2. 先决条件\n各方同意，投资方在本协议项下的投资义务以下列条件全部满足为先决条件：\n2.1 关于同意本次交易，项目公司及丙方已向甲方提交了符合法律法规、公司章程及工商登记要求的股东会决议。\n3. 本次增资事项\n3.1 投资方按本协议约定的条款及条件对项目公司进行增资，项目公司的注册资本增加165.5172万元，新增注册资本由投资方以480万元的投资价款认购。其中：\n甲方投资480万元，认购项目公司新增注册资本165.5172万元，投资额超过所认购注册资本的部分314.4828万元计入项目公司资本公积，甲方在本次增资完成后持有项目公司14.2012%的股权。\n3.2 本次增资完成后，项目公司的股权结构为:\n上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权结构作出相应适配调整。\n4. 投资款的缴付\n4.1 投资方在本协议约定的先决条件成就确认后的【60】个工作日内，向项目公司的以下账户支付本次投资款项：\n户    名：安徽中科微感科技有限公司\n开 户 行：徽商银行蚌埠经济开发区支行\n银行账号：264663105480000001\n4.2 投资方按本协议第4.1条约定支付完毕全部投资价款后，投资方在本协议项下的出资义务即告履行完毕。\n4.3 投资方按照4.1条缴付出资后即成为公司股东，依照法律、本协议和公司章程的规定享有所有股东权利并承担相应股东义务，公司的资本公积金、盈余公积金和未分配利润等全部股东权益由增资后的全体股东享有。\n5. 验资及工商变更登记\n5.1 项目公司在收到投资方支付的投资款项后10个工作日内向投资方提供股东出资证明。\n5.2 项目公司在收到投资款后90日内，应完成本次增资相关的工商变更登记手续，包括但不限于办理注册资本变更、股东变更登记、按本协议约定进行修改后的公司章程或章程修正案登记、按本协议约定选举的董事、监事变更登记或备案等。因客观原因逾期未完成前述工商变更登记手续的，经甲方同意可以豁免违约责任并延长工商变更办理期限。\n5.3 为本次增资办理相关工商变更登记所需的费用（若有）由项目公司承担。\n6. 投资款的监管与运用\n6.1 各方同意，投资方的全部出资主要用于项目公司的研发生产。不得用于偿还股东债务等其他用途；不得用于非经营性支出或者与公司主营业务不相关的支出；不得用于委托理财、委托贷款和期货交易等；不得用于除投资方外其他股东的减资。\n6.2 投资方对于投资款的使用情况，具有充分的知情权，有权随时查询投资款使用情况。\n7. 关联交易\n7.1 项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原则签署相关协议，以明确权利义务，并按照公司章程和相关制度规定履行内部决策程序。\n7.2 标的公司及丙方承诺，丙方不无偿占有、使用公司的资金、资产及资源。丙方占有、使用公司财产的，由其按市场公允价格（自实际占有、使用公司财产之日起至停止占有、使用之日止）支付使用对价给标的公司。\n7.3 项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将上述情形及时通知投资方。\n7.4 项目公司及丙方承诺，涉及关联交易的表决须严格按照相关法律法规及公司章程关于关联股东和关联董事回避制度相关规定执行。\n8. 竞业限制\n8.1 实控人在投资方持有项目公司股权期间，不得参与或涉及以下事宜：\n1. 新设、收购、参股与项目公司具有竞争关系的企业。\n（2）委托、受托经营与项目公司有竞争关系的企业。\n8.2 项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款至少包括以下内容：在任职期间内不得在其他营利性组织中兼职；在任职期间内不得以任何形式从事或帮助他人从事与项目公司存在竞争关系的经营活动；在从项目公司离职后2年内或更长期限内不得在与项目公司有竞争关系的企业中任职；竞业禁止补偿条款。\n8.3 上述竞业禁止范围，不包括项目公司的关联企业。\n9. 检查权和信息权\n9.1 在不影响公司正常经营和规范治理要求的前提下，投资方有权查阅项目公司及附属企业的会计资料（包括会计报表、会计账册、会计凭证以及其他会计资料）。除前述会计资料外，投资方有权查阅项目公司所持有的、为投资方适当了解项目公司的业务和情况并保护其作为股东的利益所合理要求的相关信息。\n9.2 应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问或其他人员，就项目公司的经营与财务状况进行讨论等，项目公司及丙方应给予必要的协助。在合理必要时，投资方有权聘请第三方专业机构对项目公司进行审计或调查。\n9.3 投资完成后，项目公司应按时向投资方提供以下资料：\n1. 每日历季度结束后30日内，提供公司经营报告和季度财务管理报告（含资产负债表、利润表、现金流量表、所有者权益变动表、附注，下同）。\n2. 每日历年度结束后90日内，提供公司年度经营报告、财务报告以及下一年度的经营预算和业务计划。\n3. 每日历年度结束后6个月内，提供经会计师事务所审计的项目公司年度审计报告原件和/或加盖项目公司公章的审计报告复印件。\n4. 在股东会结束后30日内提供相关股东会的会议纪要、会议决议。\n5. 其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n10. 股权转让限制\n项目公司首发上市或被上市公司并购前，非经甲方同意，实控人及科技团队不得实施导致其失去控股或实际控制地位的股权转让行为。\n11. 回购权\n11.1 回购权的条件\n在下列任一条件满足或任一情况出现时，甲方有权要求乙方和/或丙方1、丙方2回购甲方持有项目公司的全部或部分股权：\n11.1.1 投资期届满，项目公司未能首发上市或被上市公司并购。\n11.1.2 甲方持有项目公司股权期间，实控人及科技团队失去对项目公司的控股或实际控制地位。\n11.1.3 实际控制人或项目公司骗取、挪用、违法违规使用扶持资金。\n11.2 回购安排\n11.2.1 在上述任一回购条件成就后，甲方有权自任一条件成就之日起三年内向乙方及丙方1、丙方2发出要求回购的通知，乙方应当在3个月内完成减资手续，履行回购义务。\n（1）若甲方取得的减资款低于本协议约定的回购价格，则由丙方1、丙方2对差额补足承担有限责任；\n（2）如果（1）未能按期完成，则由丙方1、丙方2对回购甲方股权承担有限责任；\n有限责任指丙方1、丙方2在本协议项下所需承担的责任以其直接和/或间接持有的项目公司全部股权的处置价值为限。届时丙方1、丙方2有义务、甲方有权寻找第三方受让前述股权，丙方1、丙方2应当配合转让股权，并在转让所得范围内向甲方支付回购价款。\n11.2.2 如乙方减资未能按上述期限完成，则丙方1、丙方2（或其指定方）应当自甲方发出回购通知后6个月内履行回购义务，将回购价款支付至甲方指定账户。\n11.2.3 回购价格为甲方的本次投资本金加上投资收益。具体计算方式为：\n回购价格=回购股权数量/投资方持股数量*投资方投资本金*(1+LPR*n)-回购股权数量对应的已取得现金分红。（LPR是指回购通知发出时贷款市场同期报价利率）。\n其中，n为投资方在公司投资的年数，不是整年的，按实际投资天数/365计算，实际投资天数计算至股权回购款实际支付日（含当日）。投资方持股数量指回购时投资方持有的全部股权数量。若甲方自项目公司取得的现金分红高于年化6%的收益，则超出部分甲方不再退回，也不得在回购款中抵扣。\n11.2.4 项目公司或丙方1、丙方2支付完毕全部股权回购款后，丙方1、丙方2应协助项目公司及甲方完成相关的工商变更登记手续。若甲方减资涉及相关国资管理要求，则届时将按照企业国有资产交易等相关法律法规执行。\n12. 陈述、保证和承诺\n12.1 本协议各方分别而非连带地陈述、保证及承诺如下：\n1. 其为依据中国法律正式成立并有效存续的主体或具有完全民事行为能力的自然人。\n2. 其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n3. 其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n4. 其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n5. 其保证对本协议所包含的信息承担保密义务，法律或相关监管机构/权威机构要求披露的，以及向本协议相关中介机构披露的除外。\n12.2 项目公司及实控人陈述、保证及承诺如下：\n1. 本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n2. 项目公司及实控人已向投资方真实、准确、完整的披露了股东之间的关联关系，根据相关法律法规的规定，不存在不适合对项目公司投资的情形。\n3. 项目公司向投资方披露的公司的资产、负债、权益、或有负债以及与本协议有关的全部信息系真实、准确、完整的。\n4. 在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规范往期成本核算、现金账与往来账处理等相关财务工作。\n13. 税款与费用\n13.1 本协议各方为履行本协议义务所须缴纳的税款由各纳税主体承担。\n13.2 本协议各方在本协议履行过程中产生的相关费用由各方自行承担。\n14. 通知和送达\n14.1 协议各方同意，与本协议有关的任何通知，需以约定方式送达方为有效，约定送达形式包括但不限于：专人送达、快递、电子邮件、微信等。\n14.2 本协议第14.1条所述通知应被视为在下列时间送达：\n1. 以专人送达的通知，在送达收件人下述通知地址之日；\n2. 以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n3. 以电子邮件发出的通知，在电子邮件成功发出之后即为送达；\n4. 以微信形式发出，在成功发出之后即为送达；\n5. 同时采用上述两种或两种以上方式的，以其中最快达到对方者为准。\n若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退回，均视为有效送达）。\n14.3 与本协议有关的任何通知送达下列地址视为有效送达：\n甲 方：\n地  址：\n收件人：\n电  话：\n邮  箱一：\n邮  箱二：kjtd@ahinv.com\n（甲方采用电子邮件的方式向其他各方送达与本协议有关通知的，可通过以上任一邮箱进行送达。其他各方采用电子邮件的方式向甲方送达与本协议有关通知的，需同时向甲方邮箱一、邮箱二进行送达。）\n乙 方：安徽中科微感科技有限公司（项目公司）\n地  址：安徽省蚌埠市经济开发区蚌埠市东海大道888号中国传感谷C区C3第七层\n收件人：王俊挺\n电  话：15167770898\n邮  箱：wangjunting@csmsn.com\n丙方1：沈文锋（实际控制人、科技人才团队领军人）\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方2：中科微感（宁波）科技有限公司\n地  址：\n收件人：\n电  话：\n邮  箱：\n丙方：蚌埠智微数感企业管理合伙企业（有限合伙）\n地  址：\n收件人：\n电  话：\n邮  箱：\n14.4 任何一方的通讯地址发生变化（“变动方”），变动方应当在该变更发生后五(5)个工作日内通知其他方。在变动方的前述变动通知送达前，其他方按照本协议第14.3条约定向变动前的地址、电子邮箱发送通知的，应视为有效送达。\n14.5 上述送达方式和地址的适用范围包括非诉阶段和争议进入仲裁、民事诉讼程序后的先行调解、一审、二审、再审和执行程序。在争议进入仲裁/诉讼程序后，仲裁机关或者法院可以按照本协议约定的送达方式和地址送达法律文书，如因一方提供信息不准确、变更后未及时通知、拒收等原因导致无法送达的仍视为有效送达，所造成的不利后果均由该方自行承担。\n15. 保密义务\n15.1 本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n15.2 在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协议项下义务以外的任何用途，也不得向任何第三方披露或提供该等商业秘密，并采取所有必要的措施保证其现有和将来的高级管理人员、主管、员工和专业顾问等遵守上述保密义务，否则该方应承担本协议他方因此而遭受的损失。\n15.3 如果本协议任何一方应国家司法机关或其他公共管理机构的要求披露本协议他方的商业秘密，则不视为违反本条款项下的保密义务。\n15.4 本协议的终止或解除不影响本条的有效性。\n16. 不可抗力\n16.1 不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事件。不可抗力事件包括但不限于非因一方疏忽或不当行为所引起的洪水、地震、台风或其他自然灾害、战争。由于国内外宏观经济状况发生变化、行业经营环境发生变化、国内外市场变化以及因一方自身经营所造成的事件，均不属于不可抗力。\n16.2 若发生不可抗力事件，则受到该不可抗力影响的一方可在不可抗力事件所造成影响的范围和期间内暂停履行其在本协议项下的义务，且其履行义务期限将自动延展，延展的时间相当于暂停履行义务的期限。主张不可抗力事件的一方应以电子邮件及时通知其他方，并提供该等不可抗力事件的发生、不利后果持续时间的适当证据。声称不可抗力的一方还应尽一切合理努力减少或消除不可抗力对其在本协议项下义务的影响。\n16.3 若发生不可抗力事件，各方应立即相互协商以找出公平的解决办法并应尽一切合理努力减轻该等不可抗力事件的后果。因不可抗力事件形成的经营风险由各方共担；因不可抗力导致本协议的目的或相关条款不能实现时，各方应友好协商解决。\n17. 违约责任\n17.1 本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假，则应被视为违约。违约方应赔偿因其违约而对其他方（守约方）造成的一切损失。\n17.2 任何一方因违反本协议约定而应承担的违约责任不因本协议的解除而免除。\n17.3 任何一方违约时，守约方除有权要求违约方依据本协议之约定支付损害赔偿金外，还有权要求违约方继续履行本协议。\n17.4 项目公司及丙方应当承担因其违约造成的损失以及费用（费用包括但不限于诉讼费用、仲裁费用、律师费用、公证费用、鉴定费用、公告费用、保全费用、保全担保费用、拍卖费用、评估费用、审计费用、强制执行费用、差旅费用等）。\n18. 适用法律及争议的解决\n18.1 本协议的订立、效力、解释、履行及争议的解决均适用中国法律。\n18.2 凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n18.3 除本协议双方有争议正在协商或诉讼的部分外，各方均应继续履行本协议的其它部分。\n19. 其他事项\n19.1 本协议自自然人签约方签字及非自然人签约方盖章后生效。\n19.2 如本协议中有关投资方权利的相关约定未能在公司章程中体现，则该部分约定以本协议为准，投资方继续拥有本协议约定的相关权利。\n19.3 本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效力。\n19.4 本协议正本一式拾叁份，甲方持有二份，其他各方各持一份，一份用于办理工商变更登记，剩余存于项目公司备档，每份均具有同等法律效力。本协议内容与工商标准文本内容如有冲突，则以本协议为准。\n（以下无正文，为签署页）\n（本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n甲方（盖章）：\n委派代表（签字/盖章）：                         日期：\n乙方（盖章）：安徽中科微感科技有限公司\n法定代表人（签字/盖章）：                       日期：\n丙方1：沈文锋（签字）                          日期：\n丙方2（盖章）：中科微感（宁波）科技有限公司\n法定代表人（签字/盖章）：                   日期：\n附件1  高级管理人员和核心技术人员名单\n公司人员表："
+        }
+      ],
+      "details": {
+        "persistedDetailsTruncated": true,
+        "originalDetailsBytesAtLeast": 8193,
+        "originalDetailKeys": [
+          "kind",
+          "content"
+        ]
+      },
+      "isError": false,
+      "timestamp": 1792600230825,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "编号已还原。在编写报告之前，我先核对一下附录表格（附件1 人员表、股权结构表）在文档顺序中的内容。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-6ee5dda2c389467f97757494\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "call0aad7c3c42164b858a43a3efe58a6b22",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\nimport docx\nfrom docx.oxml.ns import qn\nfrom docx.table import Table\nfrom docx.text.paragraph import Paragraph\n\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\nbody = d.element.body\nidx = 0\nfor child in body.iterchildren():\n    if child.tag == qn('w:p'):\n        p = Paragraph(child, d)\n        t = p.text.strip()\n        if t and ('附件' in t or '人员' in t or '股权结构' in t or '签' in t or '鉴于' in t or '公司人员表' in t):\n            print(f'[P{idx}] {t[:60]}')\n    elif child.tag == qn('w:tbl'):\n        tb = Table(child, d)\n        print(f'[TABLE {idx}] rows={len(tb.rows)} cols={len(tb.columns)}')\n        for r in tb.rows[:10]:\n            print('   ', ' | '.join(c.text.strip().replace('\\n','/') for c in r.cells))\n    idx += 1\nEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600230835,
+      "responseId": "chatcmpl-1792600230900",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call0aad7c3c42164b858a43a3efe58a6b22",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "[P22] 本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n[P65] 项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股\n[TABLE 66] rows=7 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | %\n    2 | 沈文锋 | 100 | 10%\n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | 10%\n    合  计 | 合  计 | 1000 | 100%\n[TABLE 75] rows=27 cols=2\n    各方或协议各方 | 指投资方、项目公司等所有签署方的统称。\n    项目公司/公司 | 指安徽中科微感科技有限公司。\n    科技团队 | 科技团队由沈文锋及其团队成员构成（以省高层次科技人才团队项目申报材料中列示的人员名单为准，人员有沈文锋、孙克（已离职）、孟征、尚晓博、韩国涛、王俊挺、王汉斌）\n    投资期 | 根据《安徽省促进高层次科技团队培育发展创新创业实施方案》第四条第三款第三点所约定的时间，自投资款交割之日起五年为投资期。\n    本合同 | 指本《安徽中科微感科技有限公司股权投资合同》。\n    本次投资/本次增资 | 指投资方以总计480万元的投资款认购项目公司165.5172万元注册资本的行为。\n    投资款/投资本金 | 指投资方根据本协议约定认购项目公司的165.5172万元注册资本的总价款，即480万元。\n    投资完成/增资完成 | 指投资方按照本协议约定对项目公司完成总额480万元的出资义务。\n    股东权益 | 指项目公司股东依法享有的资产收益、参与重大决策和选择管理者等其他法定权利。\n    关联人/关联方/关联关系 | 依照公司法、会计准则、中国证券监督管理委员会及沪深证券交易所、全国中小企业股份转让系统颁布的规范性文件所界定的关联人/关联方/关联关系。\n[P85] 本次增资完成后，项目公司的股权结构为:\n[TABLE 86] rows=8 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | \n    2 | 沈文锋 | 100 | \n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | \n     | SPV |  | \n    合  计 | 合  计 | 1165.5172 | \n[P87] 上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权\n[P104] 项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原\n[P106] 项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将\n[P113] 项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款\n[P117] 应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问\n[P123] 其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n[P147] 其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n[P148] 其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n[P149] 其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n[P154] 本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n[P157] 在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规\n[P166] 以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n[P170] 若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退\n[P222] 本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n[P223] 在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协\n[P227] 不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事\n[P231] 本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假\n[P237] 凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n[P240] 本协议自自然人签约方签字及非自然人签约方盖章后生效。\n[P242] 本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效\n[P244] （以下无正文，为签署页）\n[P246] （本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n[P252] 委派代表（签字/盖章）：                         日期：\n[P260] 法定代表人（签字/盖章）：                       日期：\n[P263] 丙方1：沈文锋（签字）                          日期：\n[P271] 法定代表人（签字/盖章）：                   日期：\n[P313] 附件1  高级管理人员和核心技术人员名单\n[P314] 公司人员表：\n[TABLE 315] rows=10 cols=6\n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  |"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 122,
+        "aggregated": "[P22] 本协议由以下各方于2026年    月   日在安徽省合肥市高新区签署：\n[P65] 项目公司是一家依据中华人民共和国法律成立并合法存续的有限责任公司。截至本协议签订日，公司注册资本为人民币1000万元，股\n[TABLE 66] rows=7 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | %\n    2 | 沈文锋 | 100 | 10%\n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | 10%\n    合  计 | 合  计 | 1000 | 100%\n[TABLE 75] rows=27 cols=2\n    各方或协议各方 | 指投资方、项目公司等所有签署方的统称。\n    项目公司/公司 | 指安徽中科微感科技有限公司。\n    科技团队 | 科技团队由沈文锋及其团队成员构成（以省高层次科技人才团队项目申报材料中列示的人员名单为准，人员有沈文锋、孙克（已离职）、孟征、尚晓博、韩国涛、王俊挺、王汉斌）\n    投资期 | 根据《安徽省促进高层次科技团队培育发展创新创业实施方案》第四条第三款第三点所约定的时间，自投资款交割之日起五年为投资期。\n    本合同 | 指本《安徽中科微感科技有限公司股权投资合同》。\n    本次投资/本次增资 | 指投资方以总计480万元的投资款认购项目公司165.5172万元注册资本的行为。\n    投资款/投资本金 | 指投资方根据本协议约定认购项目公司的165.5172万元注册资本的总价款，即480万元。\n    投资完成/增资完成 | 指投资方按照本协议约定对项目公司完成总额480万元的出资义务。\n    股东权益 | 指项目公司股东依法享有的资产收益、参与重大决策和选择管理者等其他法定权利。\n    关联人/关联方/关联关系 | 依照公司法、会计准则、中国证券监督管理委员会及沪深证券交易所、全国中小企业股份转让系统颁布的规范性文件所界定的关联人/关联方/关联关系。\n[P85] 本次增资完成后，项目公司的股权结构为:\n[TABLE 86] rows=8 cols=4\n    序号 | 股东名称 | 认缴注册资本/（万元） | 持股比例/（%）\n    1 | 中科微感（宁波）科技有限公司 |  | \n    2 | 沈文锋 | 100 | \n     |  |  | \n     |  |  | \n     | 蚌埠智微数感企业管理合伙企业（有限合伙） | 100 | \n     | SPV |  | \n    合  计 | 合  计 | 1165.5172 | \n[P87] 上述股权结构均以尽调基准日状态为准；若至本协议签署之日，公司因前序融资完成交割致使股权结构发生变动的，各方同意据实对股权\n[P104] 项目公司及丙方承诺，本协议签署后，项目公司应建立关联交易相关制度，对确需发生的关联交易应依据市场价格，按照公平、公允的原\n[P106] 项目公司及丙方将尽审慎之责，及时制止项目公司股东、董事、监事及高级管理人员违反相关法律法规及公司章程的关联交易行为，并将\n[P113] 项目公司应在本协议签订之日后半年内与附件列示的高级管理人员和核心业务人员签订合法有效的《保密与竞业禁止协议》。该协议条款\n[P117] 应投资方的要求，项目公司应允许投资方进入项目公司的厂房或办公地点进行相应的工作访问，包括访谈管理层、员工、会计、法律顾问\n[P123] 其他相关资料，包括但不限后续融资协议、业务合同、人员资料、管理资料等。\n[P147] 其拥有签订并履行本协议的全部、充分的权利与授权，并依据中国法律具有签订本协议的行为能力。\n[P148] 其保证其就本协议的签署所提供的一切文件资料均是真实、有效、完整的。\n[P149] 其在本协议中所作的陈述、保证及承诺在本协议签订之日均为真实、准确、完整，并在本协议生效时及生效后仍为真实、准确、完整。\n[P154] 本协议的签署和履行不会与项目公司根据章程或有关法律、法规等有约束力的规范性文件所承担的义务相冲突。\n[P157] 在本协议签订后三个月内，项目公司必须聘请专职财务人员，建立规范的财务制度和内部控制体系，实现规范财务入账，包括但不限于规\n[P166] 以快递发出的通知，在发出之后7个工作日或快递被签收之日（以先到者为准）；\n[P170] 若采用快递送达方式，甲方按本协议约定地址或身份证载明地址发出的通知均视为有效送达（签收记录显示拒收或地址查无此人或邮件退\n[P222] 本协议各方对因签订和履行本协议而获悉的他方商业秘密负有保密义务。\n[P223] 在本协议他方的商业秘密成为公开信息前，未经本协议他方的事先书面同意，本协议任何一方不得将本协议他方的商业秘密用于履行本协\n[P227] 不可抗力系指发生在本协议签署日后各方不可预见、无法控制或虽可预见但不可避免的，且阻碍任何一方全部或部分履行本协议的任何事\n[P231] 本协议签署后，任何一方（违约方）未能按本协议约定履行其在本协议项下的任何义务，或其作出任何的声明、保证及承诺被证实为虚假\n[P237] 凡因履行本协议所发生的或与本协议有关的任何争议应提交本协议签署地有管辖权的人民法院诉讼解决。\n[P240] 本协议自自然人签约方签字及非自然人签约方盖章后生效。\n[P242] 本协议或其附件中的任何条款无效，且其无效对本协议及其附件的履行不产生根本性影响时，该等条款的无效不影响本协议其它条款的效\n[P244] （以下无正文，为签署页）\n[P246] （本页无正文，为《安徽中科微感科技有限公司股权投资合同》签署页）\n[P252] 委派代表（签字/盖章）：                         日期：\n[P260] 法定代表人（签字/盖章）：                       日期：\n[P263] 丙方1：沈文锋（签字）                          日期：\n[P271] 法定代表人（签字/盖章）：                   日期：\n[P313] 附件1  高级管理人员和核心技术人员名单\n[P314] 公司人员表：\n[TABLE 315] rows=10 cols=6\n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  | \n     |  |  |  |  |",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792600347723,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "附件1人员表确认全部空白。再确认签署页是否缺少丙方3（蚌埠智微合伙企业）签署栏。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-03aa279e0c7740f28cfe155a\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "call6513b226abc84f39a2e02d9e9bd7241e",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\nimport docx\nd = docx.Document('inputs/materials/conv_f4efc3b555dc/1_材料2.安徽中科微感股权投资合同20260721.docx')\nps = d.paragraphs\nfor i,p in enumerate(ps):\n    t = p.text.strip()\n    if 240 <= i <= 315 and t:\n        print(i, t[:50])\nEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600347731,
+      "responseId": "chatcmpl-1792600347772",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call6513b226abc84f39a2e02d9e9bd7241e",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "242 法定代表人（签字/盖章）：                       日期：\n245 丙方1：沈文锋（签字）                          日期：\n250 丙方2（盖章）：中科微感（宁波）科技有限公司\n253 法定代表人（签字/盖章）：                   日期：\n295 附件1  高级管理人员和核心技术人员名单\n296 公司人员表："
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 128,
+        "aggregated": "242 法定代表人（签字/盖章）：                       日期：\n245 丙方1：沈文锋（签字）                          日期：\n250 丙方2（盖章）：中科微感（宁波）科技有限公司\n253 法定代表人（签字/盖章）：                   日期：\n295 附件1  高级管理人员和核心技术人员名单\n296 公司人员表：",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792600357743,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "已确认事实齐全（附件1人员表空白、签署页缺丙方3签署栏、股权结构表大面积空白）。现在生成审阅报告 docx。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-5b12452948df4f6a96ef56fd\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "call0d2143bcdeb6417baf35de1231787270",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python - <<'EOF'\n# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, Cm, RGBColor\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH\nfrom docx.oxml.ns import qn\n\ndoc = Document()\n\n# base style\nst = doc.styles['Normal']\nst.font.name = 'Times New Roman'\nst.font.size = Pt(11)\nst.element.rPr.rFonts.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\nfor s in doc.sections:\n    s.top_margin = Cm(2.5); s.bottom_margin = Cm(2.5)\n    s.left_margin = Cm(2.8); s.right_margin = Cm(2.8)\n\ndef set_ea(run):\n    run.font.name = 'Times New Roman'\n    run._element.rPr.rFonts.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\ndef para(text, size=11, bold=False, align=None, space_after=6, indent=None, color=None):\n    p = doc.add_paragraph()\n    if align: p.alignment = align\n    p.paragraph_format.space_after = Pt(space_after)\n    p.paragraph_format.line_spacing = 1.3\n    if indent is not None: p.paragraph_format.first_line_indent = Cm(indent)\n    r = p.add_run(text); r.bold = bold; r.font.size = Pt(size)\n    if color: r.font.color.rgb = color\n    set_ea(r)\n    return p\n\ndef h1(text):\n    para(text, size=14, bold=True, space_after=10)\n\ndef h2(text):\n    para(text, size=12, bold=True, space_after=6)\n\ndef item(label, text, indent=0):\n    p = doc.add_paragraph()\n    p.paragraph_format.space_after = Pt(4)\n    p.paragraph_format.line_spacing = 1.3\n    if indent: p.paragraph_format.left_indent = Cm(indent)\n    r1 = p.add_run(label); r1.bold = True; r1.font.size = Pt(11); set_ea(r1)\n    r2 = p.add_run(text); r2.font.size = Pt(11); set_ea(r2)\n    return p\n\n# ===== Title =====\npara('合同审阅报告', size=18, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=4)\npara('——《安徽中科微感科技有限公司股权投资合同》', size=12, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=16)\n\npara('合同名称：安徽中科微感科技有限公司股权投资合同（文本标注日期：2026年7月21日，拟签约稿）', space_after=2)\npara('审阅范围：合同正文（第1—19条）、鉴于条款、定义表、附件1及签署页全文；核查内容包括错别字、文字缺漏及法律风险。', space_after=2)\npara('审阅日期：2026年10月21日', space_after=12)\n\n# ===== Part 1 =====\nh1('一、错别字及文字缺漏核查结果')\npara('经逐条核查全文，共发现文字问题11处，具体如下：', space_after=8)\n\ntypos = [\n ('1.', '第13.1条', '“本协议各方为履行本协议义务所须缴纳的税款”', '“所须”为错别字，应改为“所需缴纳”。'),\n ('2.', '第9.3条第（5）项', '“其他相关资料，包括但不限后续融资协议、业务合同……”', '“但不限”漏字，应为“包括但不限于后续融资协议”。'),\n ('3.', '第11.2.3条', '“（LPR是指回购通知发出时贷款市场同期报价利率）”', 'LPR的标准名称为“贷款市场报价利率”，原文“贷款市场同期报价利率”多出“同期”二字，应改为“贷款市场报价利率”。'),\n ('4.', '鉴于部分第2条', '“通过中科微感（宁波）科技有限公司蚌埠智微数感企业管理合伙企业（有限合伙）持有项目公司%的。”', '存在两处缺漏：（1）两家持股主体之间缺少连接词“与”；（2）句末缺少持股比例数字和“股权”二字。应为“……通过中科微感（宁波）科技有限公司与蚌埠智微数感企业管理合伙企业（有限合伙）合计持有项目公司××%的股权。”'),\n ('5.', '合同首部当事人栏及第14.3条', '“丙方：蚌埠智微数感企业管理合伙企业（有限合伙）”', '与“丙方1”“丙方2”体例不一致，且首部已有“丙方（项目公司实控人及股东）”总称，该主体应编号为“丙方3：”，以免与丙方总称混淆。'),\n ('6.', '第8.1条', '列项编号为“1. 新设……（2）委托、受托经营……”', '编号体例混乱且缺“（1）”，应统一为“（1）新设……（2）委托、受托经营……”。'),\n ('7.', '第14.2条第（5）项', '“以其中最快达到对方者为准”', '“达到”应为“到达”，即“以其中最快到达对方者为准”。'),\n ('8.', '附件1标题、定义表及第8.2条', '附件1为“高级管理人员和核心技术人员名单”，定义表为“高级管理人员及核心技术人员名单”，第8.2条为“高级管理人员和核心业务人员”', '三处名称不一致（“和/及”“核心技术人员/核心业务人员”），应统一为“高级管理人员及核心技术人员”。'),\n ('9.', '合同首部乙方、丙方1地址', '“安徽省蚌埠市经济开发区蚌埠市东海大道888号”', '“蚌埠市”重复，应为“安徽省蚌埠市经济开发区东海大道888号”；且与丙方3地址“安徽省蚌埠经济开发区东海大道888号……”的行政区划写法不一致，应全文统一。'),\n ('10.', '第3.2条', '“各方同意据实对股权结构作出相应适配调整”', '“适配”一词赘余且非法律用语，建议改为“作出相应调整”。'),\n ('11.', '第5条标题', '标题为“验资及工商变更登记”，但正文第5.1条仅约定提供股东出资证明，未约定验资安排', '标题与正文内容不对应，建议将标题改为“出资证明及工商变更登记”，或在正文补充验资安排。'),\n]\nfor n, loc, orig, fix in typos:\n    item(f'{n} 位置：', loc)\n    item('原文：', orig, indent=0.75)\n    item('核查意见：', fix, indent=0.75)\n    para('', space_after=2)\n\n# ===== Part 2 =====\nh1('二、风险审核结果')\npara('经审核，共发现风险点14项，按风险程度分为高、中、低三级，逐项说明如下：', space_after=8)\n\nh2('（一）高风险事项')\nrisks_high = [\n ('风险1 合同主体信息严重缺失，可能影响合同成立与生效',\n  '甲方（投资方）名称、地址、委派代表在合同首部、第14.3条通知地址栏及签署页均空白；签署日期“2026年　月　日”的月份、日期空白；甲方邮箱一空白。',\n  '合同首部、第14.3条、签署页',\n  '甲方是合同核心主体，名称未填写则合同权利义务归属不明；第19.1条约定“本协议自自然人签约方签字及非自然人签约方盖章后生效”，主体及签署信息缺失将直接导致合同是否成立、生效难以判断，也为后续追责制造障碍。签约前必须补齐全签字盖章要件。'),\n ('风险2 股权结构披露不完整、前后矛盾，涉嫌违反陈述与保证义务',\n  '鉴于部分第1条股权结构表中，注册资本1000万元仅有沈文锋100万元（10%）、蚌埠智微数感100万元（10%）两笔有记载，其余约800万元归属空白，各行持股比例未填；鉴于部分第2条持股比例数字缺失；第3.2条增资后股权结构表中认缴注册资本及持股比例大量空白，且出现未在定义表中定义的主体“SPV”。',\n  '鉴于部分第1、2条，第3.2条，定义表',\n  '股权结构是增资定价（480万元认购14.2012%股权）的基础事实。披露空白与缺漏使交易定价基础不明，与前轮融资、代持、SPV架构等潜在安排交织后极易引发交割后争议，并直接与第12.2条第3项“披露信息真实、准确、完整”的陈述保证相矛盾，构成回购、赔偿请求的争议源。'),\n ('风险3 附件1人员名单空白，竞业禁止安排落空',\n  '附件1《高级管理人员和核心技术人员名单》仅设标题“公司人员表”，其下10行×6列表格全部空白，未列示任何人员。',\n  '附件1、第8.2条',\n  '第8.2条要求项目公司在签约后半年内与“附件列示”的高级管理人员和核心业务人员签订《保密与竞业禁止协议》，名单空白导致义务对象无法确定、履行期限经过后无从判断是否违约，竞业限制与人才稳定目的落空，亦影响第11.1.2条回购条件（实控人及科技团队失去控制地位）的认定。'),\n ('风险4 公司减资回购的合法性与可执行性风险',\n  '第11.2.1条约定回购条件成就后，乙方（项目公司）应当在3个月内完成减资手续履行回购义务；丙方1、丙方2仅“对差额补足承担有限责任”，责任上限为其直接和/或间接持有的项目公司全部股权的处置价值。',\n  '第11.2.1、11.2.2条',\n  '（1）公司回购本方股权实质为定向减资，须依《公司法》履行股东会决议（关联股东回避表决）、编制资产负债表及财产清单、通知债权人并公告等法定程序，3个月内完成不具现实性，程序瑕疵将导致回购无法落地；（2）丙方责任以股权处置价值为限，若公司价值贬损或股权无法变现，甲方实际回收额可能远低于回购价款，“有限责任”表述实质限缩了第11.2.3条回购价格条款的兑现能力。'),\n ('风险5 签署页缺漏丙方3签署栏，影响合同生效及主体约束',\n  '签署页仅设甲方、乙方、丙方1（沈文锋）、丙方2（中科微感（宁波）科技有限公司）签署栏，未设丙方3（蚌埠智微数感企业管理合伙企业（有限合伙））签署栏。',\n  '签署页、第19.1、19.4条',\n  '丙方3是合同当事方，且其执行事务合伙人为沈文锋，对第7条关联交易、第8条竞业限制等义务的承担有实际意义。缺签署栏将导致丙方3是否受合同约束存疑；按第19.1条“及”的文义，任一签约方未完成签字/盖章，整个合同不生效，连锁影响交易安全。此外丙方3为有限合伙企业，签约前应核查其合伙协议是否授权执行事务合伙人代表合伙签署本合同。'),\n]\nfor title, content, clause, reason in risks_high:\n    item('● ', title)\n    item('风险内容：', content, indent=0.75)\n    item('对应条款：', clause, indent=0.75)\n    item('风险理由：', reason, indent=0.75)\n    para('', space_after=2)\n\nh2('（二）中风险事项')\nrisks_mid = [\n ('风险6 先决条件单一，投资方付款保护不足',\n  '第2条约定的先决条件仅有“项目公司及丙方已提交股东会决议”一项；第4.1条约定先决条件“成就确认”后60个工作日内付款，但未约定确认程序、确认主体及甲方拒绝确认的处理。',\n  '第2条、第4.1条',\n  '增资交易通常应将授权批准文件齐备、尽职调查完成且无重大不利变化、披露真实完整、核心人员名单确定等设为先决条件。仅凭一纸股东会决议即进入付款义务，若签约后出现股权代持、诉讼查封、核心人员离职等情形，甲方缺乏暂停付款的合同依据。'),\n ('风险7 回购价格条款存在歧义与参数缺失',\n  '第11.2.3条公式中LPR未明确期限档次（如1年期或5年期以上LPR）；公式约定扣除“已取得现金分红”，后段又约定“若甲方自项目公司取得的现金分红高于年化6%的收益，则超出部分甲方不再退回，也不得在回购款中抵扣”，两者抵扣口径不一致。',\n  '第11.2.3条',\n  'LPR期限档次不明导致回购价款计算结果可能存在数个百分点差异，易被义务方压价抗辩；“全部分红扣除”与“仅扣除超出年化6%的部分”并存，触发回购争议时双方各执一词，增加诉讼不确定性，应明确唯一计算口径并附计算示例。'),\n ('风险8 竞业限制存在规避漏洞且未约定补偿标准',\n  '第8.1条仅约束实控人；第8.2条要求另行签署《保密与竞业禁止协议》但未约定补偿金计算标准与支付方式；第8.3条将“项目公司的关联企业”排除出竞业禁止范围。',\n  '第8.1—8.3条',\n  '（1）竞业义务主体未覆盖核心技术人员本人（仅依赖另行签约，而附件名单空白）；（2）依《劳动合同法》第23、24条，竞业限制以按月支付经济补偿为对价，未约定标准易致协议效力争议；（3）排除关联企业后，相关人员可通过在关联企业任职变相经营竞争业务，形成制度性规避通道。'),\n ('风险9 工商变更逾期责任弹性过大',\n  '第5.2条约定“因客观原因逾期未完成工商变更登记的，经甲方同意可以豁免违约责任并延长工商变更办理期限”，未设延期次数与期限上限。',\n  '第5.2条',\n  '工商变更未完成期间，甲方的股东资格、分红权、表决权等权利处于不确定状态。“经甲方同意豁免”虽表面保护甲方，但未设定替代救济（如回购触发、费用承担、比例调整），且“客观原因”范围不明，实践中容易被反复援引拖延。'),\n ('风险10 送达规则激进且联系方式缺失，易生送达争议',\n  '第14.2条约定电子邮件、微信通知“成功发出之后即为送达”；第14.2条末款约定甲方按约定地址或身份证地址发出即视为有效送达（拒收、查无此人、退回均视为送达）；第14.3条甲方邮箱一空白，甲方地址空白，丙方1、丙方2、丙方3的地址、收件人、电话、邮箱全部空白。',\n  '第14.2、14.3条',\n  '“发出即送达”规则加上联系方式空白，将导致通知义务的履行与生效认定均缺乏客观基础：一方可主张已发送微信即完成送达，另一方可能从未实际知悉。虽然第14.5条将送达效力延伸至仲裁诉讼程序，但信息缺失反而给对方主张“提供信息不准确”留下空间。签约前应填齐全部送达信息，并对电子送达设置“发送至约定邮箱/微信号即视为送达，但收到退回或明显失败除外”的平衡条款。'),\n ('风险11 争议解决条款内部不一致',\n  '第14.5条送达条款提及“争议进入仲裁、民事诉讼程序”，而第18.2条仅约定“提交本协议签署地有管辖权的人民法院诉讼解决”，全文未约定仲裁条款；“本协议签署地”亦未明确定义（首部载明签署地为安徽省合肥市高新区）。',\n  '第14.5条、第18.2条',\n  '两处表述不一致虽不必然导致仲裁条款成立，但会给对方留下管辖权异议的空间；“签署地”宜明确表述为“本协议首部载明的签署地（安徽省合肥市高新区）有管辖权的人民法院”，排除歧义。'),\n]\nfor title, content, clause, reason in risks_mid:\n    item('● ', title)\n    item('风险内容：', content, indent=0.75)\n    item('对应条款：', clause, indent=0.75)\n    item('风险理由：', reason, indent=0.75)\n    para('', space_after=2)\n\nh2('（三）低风险事项')\nrisks_low = [\n ('风险12 违约费用承担条款单向化',\n  '第17.4条仅约定“项目公司及丙方”承担违约产生的诉讼费、律师费等各类费用，未对应约定甲方违约时的费用承担；第17.1条则采用“任何一方”的双向表述。',\n  '第17.4条',\n  '与第17.1条体例不统一。若本稿系甲方（投资方）文本，属有利安排；但从合同整体平衡与可接受性角度，建议改为“违约方承担守约方为维权支出的合理费用”，以降低对方拒签或争议时被调整的可能。'),\n ('风险13 科技团队名单与实际状态不符',\n  '定义表将“孙克（已离职）”仍列入科技团队，并注明以省高层次科技人才团队项目申报材料列示名单为准。',\n  '定义表“科技团队”、第8、10、11.1.2条',\n  '科技团队构成直接关联第8条竞业限制、第10条股权转让限制和第11.1.2条回购触发条件。以申报材料为准的动态口径与“已离职”标注并存，团队认定标准不清晰，建议明确“已离职人员的义务存续与豁免规则”。'),\n ('风险14 投资款监管措施薄弱',\n  '第6.1条仅列负面清单（不得偿还股东债务、不得委托理财等），第6.2条仅赋予知情权和随时查询权，未约定共管账户、分期拨付或大额支出事先同意机制。',\n  '第6.1、6.2条',\n  '事后查询难以及时止损，资金一旦被挪用，虽可依第11.1.3条触发回购，但回购兑现本身存在风险4所述障碍。建议增设投资款专户监管或重大支出经甲方书面同意条款。'),\n]\nfor title, content, clause, reason in risks_low:\n    item('● ', title)\n    item('风险内容：', content, indent=0.75)\n    item('对应条款：', clause, indent=0.75)\n    item('风险理由：', reason, indent=0.75)\n    para('', space_after=2)\n\n# ===== Part 3 =====\nh1('三、审阅说明')\npara('1. 本报告基于所提供docx文本进行书面审阅，未核验合同外事实（如工商登记、股东会决议、省科技团队立项文件、前轮融资交割文件等），相关事实请以实际尽调为准。', space_after=4)\npara('2. 鉴于部分、第3.2条股权结构表及附件1存在大面积空白，属待补信息；本报告已将其列入风险事项，正式签署前应逐项补齐。', space_after=4)\npara('3. 本报告不构成正式法律意见；重大交易建议由执业律师结合尽调结果出具签署意见。', space_after=4)\n\ndoc.save('outputs/合同审阅报告.docx')\nprint('saved')\nEOF"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600357752,
+      "responseId": "chatcmpl-1792600357778",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "call0d2143bcdeb6417baf35de1231787270",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "saved"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 142,
+        "aggregated": "saved",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792600480456,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "验证生成文件的完整性与可读性。",
+          "textSignature": "{\"v\":1,\"id\":\"commentary-0-d0a9c8e7701b4d7fb98840c1\",\"phase\":\"commentary\"}"
+        },
+        {
+          "type": "toolCall",
+          "id": "callb2c146a6a14a44d5b66a9757512203ec",
+          "name": "exec",
+          "arguments": {
+            "command": "cd /workspace && python -c \"\nimport docx\nd = docx.Document('outputs/合同审阅报告.docx')\nps = [p.text for p in d.paragraphs if p.text.strip()]\nprint('paragraphs:', len(ps))\nprint(ps[0], '|', ps[1])\nimport re\ntext = '\\n'.join(ps)\nfor kw in ['错别字及文字缺漏核查结果','风险审核结果','高风险事项','中风险事项','低风险事项','审阅说明']:\n    print(kw, '->', kw in text)\n\" && ls -la outputs/"
+          }
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse",
+      "timestamp": 1792600480463,
+      "responseId": "chatcmpl-1792600480493",
+      "openclawDelivery": {
+        "textPhaseRequiresTerminal": true
+      },
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "toolResult",
+      "toolCallId": "callb2c146a6a14a44d5b66a9757512203ec",
+      "toolName": "exec",
+      "content": [
+        {
+          "type": "text",
+          "text": "paragraphs: 105\n合同审阅报告 | ——《安徽中科微感科技有限公司股权投资合同》\n错别字及文字缺漏核查结果 -> True\n风险审核结果 -> True\n高风险事项 -> True\n中风险事项 -> True\n低风险事项 -> True\n审阅说明 -> True\ntotal 44\ndrwxr-xr-x 1 node node  4096 Oct 21 16:34 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rw-r--r-- 1 node node 44097 Oct 21 16:34 合同审阅报告.docx"
+        }
+      ],
+      "details": {
+        "status": "completed",
+        "exitCode": 0,
+        "exitSignal": null,
+        "exitReason": "exit",
+        "durationMs": 117,
+        "aggregated": "paragraphs: 105\n合同审阅报告 | ——《安徽中科微感科技有限公司股权投资合同》\n错别字及文字缺漏核查结果 -> True\n风险审核结果 -> True\n高风险事项 -> True\n中风险事项 -> True\n低风险事项 -> True\n审阅说明 -> True\ntotal 44\ndrwxr-xr-x 1 node node  4096 Oct 21 16:34 .\ndrwxrwxrwx 1 root root  4096 Oct 21 16:29 ..\n-rw-r--r-- 1 node node 44097 Oct 21 16:34 合同审阅报告.docx",
+        "noOutputTimedOut": false,
+        "cwd": "/workspace"
+      },
+      "isError": false,
+      "timestamp": 1792600489453,
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "已完成审阅并交付 **outputs/合同审阅报告.docx**。\n\n**审阅结论概要：**\n\n**一、错别字及文字缺漏（11处）**，主要包括：\n- 第13.1条 “所须缴纳”→“所需缴纳”\n- 第9.3条 “包括但不限”→“包括但不限于”\n- 第11.2.3条 “贷款市场同期报价利率”→“贷款市场报价利率”（LPR标准名称）\n- 鉴于第2句缺持股比例数字及“股权”二字，两家持股主体间缺“与”\n- “丙方：蚌埠智微数感”应编号为“丙方3”；第8.1条编号\"1.／（2）\"体例混乱\n- 第14.2条 “最快达到对方”→“到达”；附件1标题与定义表、第8.2条三处名称不一；“蚌埠市”地址重复等\n\n**二、风险审核（14项，分三级）**\n\n高风险5项：\n1. 甲方名称/地址/签署日期空白，主体信息严重缺失\n2. 股权结构表大面积空白（1000万注册资本仅200万有归属），增资后表出现未定义主体\"SPV\"，与陈述保证条款矛盾\n3. 附件1人员名单全部空白，第8.2条竞业禁止安排落空\n4. 公司减资回购须履行法定减资程序，3个月期限不具现实性；丙方“有限责任”实质封顶甲方回收\n5. 签署页缺丙方3签署栏，按19.1条生效条件将影响整个合同生效\n\n中风险6项：先决条件单一、回购价格LPR档次不明且分红抵扣口径自相矛盾、竞业限制排除关联企业形成规避漏洞、工商变更逾期责任弹性过大、“发出即送达”规则叠加联系方式空白、第14.5条提及仲裁与第18.2条仅约诉讼不一致。\n\n低风险3项：违约费用承担单向化、科技团队名单含已离职人员、投资款缺乏共管账户等事中监管措施。\n\n报告已按“位置/原文/核查意见”和“风险内容/对应条款/风险理由”逐条展开，中文字体已内嵌设置，可直接打印使用。"
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "ecnu",
+      "model": "glm-5.3-flash",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "stop",
+      "timestamp": 1792600489460,
+      "responseId": "chatcmpl-1792600489491",
+      "__openclaw": {
+        "runId": "ac9babd8-92e2-490c-bb21-8060e64b343a"
+      }
+    }
+  ],
+  "future_observations_for_grading_only_not_input": true,
+  "training_admitted": false,
+  "source_scope_not_rechecked_by_this_literal_recovery": true
+}

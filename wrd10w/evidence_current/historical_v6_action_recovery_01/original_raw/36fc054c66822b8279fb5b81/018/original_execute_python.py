@@ -1,0 +1,1 @@
+print(open('work_runpy.txt',encoding='utf-8').read()[6000:12000])

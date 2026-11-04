@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+"""按字数估算各页配音时长与成片总长（台词确认阶段用，先估总时长再合成）。
+
+用法:
+  python estimate.py PAGES_JSON [--rate 4.2] [--gap 0.3] [--tail 0.6]
+
+rate = 每秒汉字数（中文 TTS 常见 4~5），输出每页估算秒数与总时长。
+退出码 2 = 输入错误（stderr 前缀 estimate_error:）。
+"""
+import argparse, json, sys
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("pages_json")
+    ap.add_argument("--rate", type=float, default=4.2)
+    ap.add_argument("--gap", type=float, default=0.3, help="句间静音秒数，与 tts_page.py 一致")
+    ap.add_argument("--tail", type=float, default=0.6, help="页尾余量秒数，与 make_video.py 一致")
+    a = ap.parse_args()
+    try:
+        with open(a.pages_json, encoding="utf-8") as f:
+            pages = json.load(f)["pages"]
+    except Exception as e:
+        print(f"estimate_error: {e}", file=sys.stderr)
+        sys.exit(2)
+
+    total = 0.0
+    print(f"{'页':<6}{'字数':>5}{'估算秒':>9}")
+    for p in pages:
+        text = (p.get("narration") or "").strip()
+        sents = max(text.count("。") + text.count("！") + text.count("？")
+                    + text.count("；") + text.count("\n") + text.count("！") - 1, 0)
+        est = len(text) / a.rate + sents * a.gap + a.tail
+        total += est
+        print(f"{p['id']:<6}{len(text):>5}{est:>9.1f}")
+    print(f"共 {len(pages)} 页，估算总时长约 {total / 60:.1f} 分钟（{total:.0f} 秒）")
+
+
+if __name__ == "__main__":
+    main()

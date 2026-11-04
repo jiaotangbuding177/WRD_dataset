@@ -1,0 +1,266 @@
+#!/usr/bin/env python3
+"""Making-side metadata builder: pins, replay.json, resource_manifest.json,
+evidence.json, making_record.json. Runs outside the skill."""
+import hashlib
+import json
+from pathlib import Path
+
+W = Path("/workspace/outputs")
+FIX = W / "reproduction_inputs"
+REAL_SHA = {
+    "conv_70cad24899f6": "14222d4b839353e15a5c17807d7c86a5e212a42915a71856d4d3bb340cb9b049",
+    "conv_743a2a4ed77e": "0486bcb6f374e1ccb2c825643994e23080e5d213a550f5a4dc49e26006c8c6e8",
+    "conv_80c0ba2c2e7e": "14873d4a934012be69da140622f252db3e1cd565d9930a68367f2048ee7c660f",
+    "conv_84d107e9e67a": "77806fcb4d55bb2020c379afa6df162f1d27b21045e2f1a70978ab9e97133799",
+}
+RECORD_SHA = {
+    "conv_70cad24899f6": "1b4005e3cd93f3b3f812a601bfc42855066754e139ab114c442edaadca63c6df",
+    "conv_743a2a4ed77e": "95128ab1c745298891e38aa9362ac371e33c3800738af46a6f410cdb427dfc35",
+    "conv_80c0ba2c2e7e": "2f4e742a43f3f32a1f6c6a4bdf7c1788fcc53457b30d3825f156c63117122265",
+    "conv_84d107e9e67a": "a01eea83e63f01d15c6314d119e1c995fc06da6d93074cc1135668bfb7aa1de3",
+}
+RUNTIME = [{"kind": "runtime", "name": "OpenClaw-python", "version": "2026.9.5-python3.11.2",
+            "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"}]
+
+
+def pin(path):
+    raw = Path(path).read_bytes()
+    return {"path": str(Path(path).resolve()), "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+
+
+def fixture(rel, source_id, message_ids, purpose, derivation):
+    p = FIX / rel
+    return {"path": rel, "pin": pin(p), "source_id": source_id, "message_ids": message_ids,
+            "source_record_sha256": RECORD_SHA[source_id], "origin": "generated_fixture",
+            "generated": True, "purpose": purpose, "derivation": derivation}
+
+
+def real_ref(source_id, message_ids):
+    return {"source_id": source_id, "message_ids": message_ids,
+            "source_record_sha256": RECORD_SHA[source_id], "origin": "real_source",
+            "pin": pin(f"/workspace/inputs/conversations/{source_id}.json")}
+
+
+REQ = ["conv_70cad24899f6", "a43ada7e-1777-41ff-b373-5980e0a8b99f"]
+CONFIRM_FREE = ["conv_80c0ba2c2e7e", "cd55fc0f-1213-4c32-b60a-64e9ca938c4a"]
+ASSEMBLE = ["conv_80c0ba2c2e7e", "69874714-91e7-4d1c-a218-cd8270ea4903"]
+PROMPTS = ["conv_743a2a4ed77e", "39fd01e5-d375-49ec-b26c-b4abdcf1c470"]
+
+fx_request = fixture("ppt_request.json", REQ[0], [REQ[1]], "source_reconstruction",
+    "普通用例请求样例：topic《小学一年级-开学第一课》与 pages=5 取自真实请求消息原文；style 描述取自 conv_80c0ba2c2e7e 大纲声明的风格段。仅为验证样例，不预填测试答案。")
+fx_request_b = fixture("boundary_ppt_request.json", REQ[0], [REQ[1]], "boundary_case",
+    "边界用例：pages 取程序允许的最小值 1；confirm_free=true 复现 conv_80c0ba2c2e7e 中用户明确免确认的变体。")
+fx_request_i = fixture("invalid_ppt_request.json", REQ[0], [REQ[1]], "invalid_input",
+    "错误用例：pages=0 低于程序允许的最小值，验证错误路径与非0退出。")
+fx_plan = fixture("slide_plan.json", ASSEMBLE[0], [ASSEMBLE[1]], "source_reconstruction",
+    "由 build_slide_plan.py 正常用例的实际输出复制（链式接续），pages=5 与 slide_00N.png 页序命名对应 conv_80c0ba2c2e7e 逐页成果清单。")
+fx_plan_b = fixture("boundary_slide_plan.json", ASSEMBLE[0], [ASSEMBLE[1]], "boundary_case",
+    "由 build_slide_plan.py 边界用例的实际输出复制：pages=1 的最小拼装输入。")
+fx_plan_i = fixture("invalid_plan.json", ASSEMBLE[0], [ASSEMBLE[1]], "invalid_input",
+    "错误用例：pages=5 但 slides 只有 3 条，构造 slides/pages 计数不匹配。")
+img_names = [f"images/slide_{i:03d}.png" for i in range(1, 6)]
+fx_images = [fixture(n, ASSEMBLE[0], [ASSEMBLE[1]], "composition_input",
+    "拼装输入占位图：2048x1152（16:9）纯色 PNG，尺寸与比例来自真实会话声明的输出规格（2048x1152、16:9）；内容为确定性生成占位图，不代表业务画面。") for n in img_names]
+fx_img_b = fixture("boundary_images/slide_001.png", ASSEMBLE[0], [ASSEMBLE[1]], "boundary_case",
+    "边界用例单页占位图：2048x1152 纯色 PNG，颜色与正常用例不同以便区分。")
+fixtures = [fx_request, fx_request_b, fx_request_i, fx_plan, fx_plan_b, fx_plan_i, *fx_images, fx_img_b]
+
+usage_build = "python {SKILL}/scripts/build_slide_plan.py {INPUT}/ppt_request.json --out {OUT}/slide_plan.json"
+usage_asm = "python {SKILL}/scripts/assemble_image_ppt.py {INPUT}/slide_plan.json --images {INPUT}/images --out {OUT}/result.pptx"
+
+def argv(usage):
+    import shlex
+    return shlex.split(usage)
+
+plan_normal = json.loads((FIX / "slide_plan.json").read_text(encoding="utf-8"))
+plan_boundary = json.loads((FIX / "boundary_slide_plan.json").read_text(encoding="utf-8"))
+sha_normal = pin("/workspace/tmp/run/result.pptx")["sha256"]
+sha_boundary = pin("/workspace/tmp/run/result_boundary.pptx")["sha256"]
+
+slide_members = [f"ppt/slides/slide{i}.xml" for i in (1, 5)]
+slide_rels_members = [f"ppt/slides/_rels/slide{i}.xml.rels" for i in (1, 5)]
+media_members = [f"ppt/media/image{i}.png" for i in (1, 5)]
+sldsz = '<p:sldSz cx="12192000" cy="6858000"/>'
+
+build_program = {
+    "path": "scripts/build_slide_plan.py",
+    "documented_usage": usage_build,
+    "public_argv": argv(usage_build),
+    "interface": {"kind": "program", "contract_version": "1", "usage": usage_build,
+        "inputs": ["PPT 请求 JSON：topic 非空字符串、pages 整数 1..50、可选 style 字符串与 confirm_free 布尔"],
+        "outputs": ["slide 计划 JSON 骨架：topic/pages/style/aspect/image_width/image_height/needs_confirmation/slides（含页序 image_path）"]},
+    "dependencies": RUNTIME,
+    "cases": [
+        {"kind": "normal", "argv": argv(usage_build), "expected_exit": 0,
+         "fixture_provenance": fx_request,
+         "outputs": [{"path": "slide_plan.json", "min_bytes": 1}],
+         "assertions": [{"kind": "json_equals", "path": "slide_plan.json", "value": plan_normal}]},
+        {"kind": "boundary", "argv": ["python", "{SKILL}/scripts/build_slide_plan.py", "{FIXTURE}/boundary_ppt_request.json", "--out", "{OUT}/slide_plan_boundary.json"],
+         "expected_exit": 0, "fixture_provenance": fx_request_b,
+         "outputs": [{"path": "slide_plan_boundary.json", "min_bytes": 1}],
+         "assertions": [{"kind": "json_equals", "path": "slide_plan_boundary.json", "value": plan_boundary}]},
+        {"kind": "invalid_input", "argv": ["python", "{SKILL}/scripts/build_slide_plan.py", "{FIXTURE}/invalid_ppt_request.json", "--out", "{OUT}/slide_plan_invalid.json"],
+         "expected_exit": 2, "fixture_provenance": fx_request_i, "outputs": [],
+         "assertions": [{"kind": "contains", "path": "$stderr", "value": "plan_error: pages must be between 1 and 50"}]},
+    ],
+}
+
+asm_normal_assertions = [
+    {"kind": "sha256", "path": "result.pptx", "value": sha_normal},
+    {"kind": "zip_members", "path": "result.pptx",
+     "value": ["[Content_Types].xml", "_rels/.rels", "ppt/presentation.xml", "ppt/theme/theme1.xml", *slide_members, *slide_rels_members, *media_members]},
+    {"kind": "zip_member_count", "path": "result.pptx", "pattern": "ppt/slides/slide[0-9]+\\.xml", "value": 5},
+    {"kind": "zip_xml_contains", "path": "result.pptx", "member": "ppt/presentation.xml", "value": sldsz},
+]
+asm_program = {
+    "path": "scripts/assemble_image_ppt.py",
+    "documented_usage": usage_asm,
+    "public_argv": argv(usage_asm),
+    "interface": {"kind": "program", "contract_version": "1", "usage": usage_asm,
+        "inputs": ["slide 计划 JSON（pages 与 slides 一致，每页含安全相对 image_path）与 images 目录内的 PNG/JPEG 页图"],
+        "outputs": ["16:9（12192000x6858000 EMU）整页图片式 PPTX，页序与计划一致，字节级确定"]},
+    "dependencies": RUNTIME,
+    "cases": [
+        {"kind": "normal", "argv": argv(usage_asm), "expected_exit": 0,
+         "inputs": [fx_plan, *fx_images],
+         "outputs": [{"path": "result.pptx", "min_bytes": 1}],
+         "assertions": asm_normal_assertions},
+        {"kind": "boundary", "argv": ["python", "{SKILL}/scripts/assemble_image_ppt.py", "{FIXTURE}/boundary_slide_plan.json", "--images", "{FIXTURE}/boundary_images", "--out", "{OUT}/result_boundary.pptx"],
+         "expected_exit": 0, "inputs": [fx_plan_b, fx_img_b],
+         "outputs": [{"path": "result_boundary.pptx", "min_bytes": 1}],
+         "assertions": [
+            {"kind": "sha256", "path": "result_boundary.pptx", "value": sha_boundary},
+            {"kind": "zip_members", "path": "result_boundary.pptx", "value": ["ppt/presentation.xml", "ppt/slides/slide1.xml", "ppt/slides/_rels/slide1.xml.rels", "ppt/media/image1.png"]},
+            {"kind": "zip_member_count", "path": "result_boundary.pptx", "pattern": "ppt/slides/slide[0-9]+\\.xml", "value": 1},
+            {"kind": "zip_xml_contains", "path": "result_boundary.pptx", "member": "ppt/presentation.xml", "value": sldsz}]},
+        {"kind": "invalid_input", "argv": ["python", "{SKILL}/scripts/assemble_image_ppt.py", "{FIXTURE}/invalid_plan.json", "--images", "{INPUT}/images", "--out", "{OUT}/result_invalid.pptx"],
+         "expected_exit": 2, "inputs": [fx_plan_i], "outputs": [],
+         "assertions": [{"kind": "contains", "path": "$stderr", "value": "pptx_error: slides count 3 does not match pages 5"}]},
+    ],
+}
+
+usage_tpl = "按 templates/slide_prompt_plan.template.md 填写逐页画面提示词表"
+usage_notes = "查阅 references/stage_notes.md 获取分阶段细节与程序说明"
+replay = {
+    "schema": "wrd-making-replay-v1",
+    "programs": [build_program, asm_program],
+    "fixtures": fixtures,
+    "non_executable_resources": [
+        {"path": "templates/slide_prompt_plan.template.md",
+         "assertions": [
+            {"kind": "contains", "path": "templates/slide_prompt_plan.template.md", "value": "{{TOPIC}}"},
+            {"kind": "contains", "path": "templates/slide_prompt_plan.template.md", "value": "{{SLIDE_ROWS}}"}],
+         "fixture_refs": [real_ref(PROMPTS[0], [PROMPTS[1]]), real_ref(CONFIRM_FREE[0], [CONFIRM_FREE[1]])]},
+        {"path": "references/stage_notes.md",
+         "assertions": [
+            {"kind": "contains", "path": "references/stage_notes.md", "value": "slide_001.png"},
+            {"kind": "contains", "path": "references/stage_notes.md", "value": "2048x1152"}],
+         "fixture_refs": [real_ref(ASSEMBLE[0], [ASSEMBLE[1]]), real_ref(CONFIRM_FREE[0], [CONFIRM_FREE[1]])]},
+    ],
+    "limitations": [
+        "s3 逐页出图依赖运行环境内已配置的图像生成能力（如环境提供的 image 命令），本技能不打包该能力；2048x1152 为来源声明的输出规格。",
+        "拼装程序仅支持 PNG/JPEG 整页图片式幻灯片，不生成文字版式（对应 route_card unsupported：不覆盖大量精确文字排版的PPT）。",
+        "页面视觉风格一致性由 s2 提示词控制（从第2页起参考前面页），拼装程序不做风格校验。",
+    ],
+    "no_program_reason": None,
+}
+
+manifest = {
+    "schema": "wrd-resource-manifest-v1",
+    "resources": [
+        {"id": "build_slide_plan", "path": "scripts/build_slide_plan.py", "kind": "program",
+         "interface": build_program["interface"], "dependencies": RUNTIME,
+         "source_evidence": [
+            {"source_id": REQ[0], "message_id": REQ[1]},
+            {"source_id": CONFIRM_FREE[0], "message_id": CONFIRM_FREE[1]}]},
+        {"id": "assemble_image_ppt", "path": "scripts/assemble_image_ppt.py", "kind": "program",
+         "interface": asm_program["interface"], "dependencies": RUNTIME,
+         "source_evidence": [
+            {"source_id": ASSEMBLE[0], "message_id": ASSEMBLE[1]},
+            {"source_id": "conv_84d107e9e67a", "message_id": "b7ef8128-8ba2-470f-a50b-1921476c1ac8"}]},
+        {"id": "slide_prompt_plan_template", "path": "templates/slide_prompt_plan.template.md", "kind": "template",
+         "interface": {"kind": "template", "contract_version": "1", "usage": usage_tpl,
+            "inputs": ["slide 计划骨架（主题/页数/风格）"], "outputs": ["逐页画面提示词表（填回计划 title/image_prompt）"]},
+         "dependencies": [],
+         "source_evidence": [
+            {"source_id": PROMPTS[0], "message_id": PROMPTS[1]},
+            {"source_id": ASSEMBLE[0], "message_id": ASSEMBLE[1]}]},
+        {"id": "stage_notes", "path": "references/stage_notes.md", "kind": "material",
+         "interface": {"kind": "material", "contract_version": "1", "usage": usage_notes,
+            "inputs": ["按阶段查询"], "outputs": ["s1-s4 阶段细节、来源依据与程序说明"]},
+         "dependencies": [],
+         "source_evidence": [
+            {"source_id": REQ[0], "message_id": REQ[1]},
+            {"source_id": "conv_743a2a4ed77e", "message_id": "39fd01e5-d375-49ec-b26c-b4abdcf1c470"},
+            {"source_id": ASSEMBLE[0], "message_id": ASSEMBLE[1]},
+            {"source_id": "conv_84d107e9e67a", "message_id": "b7ef8128-8ba2-470f-a50b-1921476c1ac8"}]},
+    ],
+}
+
+evidence = {
+    "schema": "wrd-making-evidence-v1",
+    "workflow_id": "five-page-image-ppt",
+    "source_evidence": [
+        {"source_id": sid, "message_ids": mids, "source_record_sha256": RECORD_SHA[sid],
+         "learning_notes": notes}
+        for sid, mids, notes in [
+            ("conv_70cad24899f6", ["a43ada7e-1777-41ff-b373-5980e0a8b99f", "6b66458a-109c-4b96-813b-f83843ea9bd9"],
+             "图片型PPT请求原文（只要五页、《小学一年级-开学第一课》）；助手默认先给完整大纲与风格再请用户确认，确认分支是本路线默认行为。"),
+            ("conv_743a2a4ed77e", ["39fd01e5-d375-49ec-b26c-b4abdcf1c470", "3e79d2e0-0510-47fd-946e-28f68de70f33"],
+             "s2 支撑：逐页出图前先讨论框架、风格与色调；输出比例 16:9（2048x1152）、文字少而精大字号。"),
+            ("conv_80c0ba2c2e7e", ["cd55fc0f-1213-4c32-b60a-64e9ca938c4a", "69874714-91e7-4d1c-a218-cd8270ea4903"],
+             "完整执行链：用户明确免确认后直接给大纲，逐页生成（从第2页起参考前面页风格，slide_001.png 起页序命名），最后汇总为可直接打开的 PPTX。s1/s3/s4 主要证据。"),
+            ("conv_84d107e9e67a", ["b7ef8128-8ba2-470f-a50b-1921476c1ac8", "d0474e6d-fecf-4146-9fe2-a724f2f9bca0"],
+             "同路线确认分支重复出现：叙事主线（欢迎-适应-规则-安全-启航）与大纲表结构，支撑 s1/s2 通用性。"),
+        ]],
+    "reading": {
+        "tool": "python /workspace/inputs/making_tools/read_source.py --source <4 conversations> --max-bytes 6500",
+        "cursor_chain": ["0:0", "5:1023"],
+        "complete": True, "final_next_cursor": None,
+        "leaf_chunks": 8,
+        "note": "所有原文经 read_source.py 分页实际接收；file_read_is_not_model_receipt 已知悉，原始工具输出为接收证据。"},
+    "making_context": {
+        "attempt": 1, "previous": None,
+        "previous_skill_dir_absent": True, "feedback_dir_absent": True,
+        "clarification": "making_lineage.previous=null 且 inputs/previous_skill、inputs/feedback 均不存在，outputs 为空：本任务是全新路线的首次制作，不存在旧技能可局部修复，也不存在可复用的已投递材料，故按新路线完整读取全部所选会话原文后制作。"},
+    "reusable_packages_check": {
+        "scanned": 12,
+        "matched": 0,
+        "note": "inputs/reusable_packages.json 中 12 个包均为文档/合同/培训等文本业务域，无图片型PPT路线的匹配程序或模板，故未复制任何跨包资源；本技能资源全部自制且自包含，无 shared_dependency 或公共 bank 依赖。"},
+    "reproduction": {
+        "cases_run": 6,
+        "results": [
+            {"case": "build normal", "exit": 0},
+            {"case": "build boundary pages=1", "exit": 0},
+            {"case": "build invalid pages=0", "exit": 2, "stderr": "plan_error: pages must be between 1 and 50"},
+            {"case": "assemble normal 5 pages", "exit": 0, "sha256": sha_normal},
+            {"case": "assemble boundary 1 page", "exit": 0, "sha256": sha_boundary},
+            {"case": "assemble invalid slides!=pages", "exit": 2, "stderr": "pptx_error: slides count 3 does not match pages 5"}],
+        "output_verification": {
+            "python_pptx_open": "result.pptx slides=5 / result_boundary.pptx slides=1, 每页 1 张 image/png，页面尺寸 12192000x6858000 EMU",
+            "libreoffice_render": "两文件均转 PDF 成功：Pages 5 / 1，页面 960.009x540 pts（16:9）",
+            "vision_render_check": "对第1页 40dpi 渲染图的独立图像理解确认整页为单色填充、占比约99.7%、比例约16:9（making_records/render_check.txt）",
+            "determinism": "同一命令重跑，result.pptx sha256 两次一致（3610314d…）；PPTX 使用 ZIP_STORED + 固定时间戳。"}},
+    "expectation_policy": "程序输出预期全部来自本次实际执行的已核结果；请求/页数/尺寸/命名等业务语义来自所选真实会话原文，未按实际结果反推或预填测试题答案。",
+}
+
+making_record = {
+    "schema": "wrd-making-record-v1",
+    "read_batches": [
+        {"cursor_in": "0:0", "next_cursor": "5:1023", "chunks": 6},
+        {"cursor_in": "5:1023", "next_cursor": None, "chunks": 2, "complete": True}],
+    "edits": [
+        "assemble_image_ppt.py：移除初稿中误加入 parts 的空 media 条目；",
+        "assemble_image_ppt.py：修复 spTree 提前闭合导致 p:pic 落在 spTree 外的结构错误（python-pptx 报每页 0 形状后修复，复验每页 1 图）。"],
+    "fixture_chain": "build 正常/边界用例的输出复制为 reproduction_inputs/slide_plan.json、boundary_slide_plan.json 后作为 assemble 输入，形成计划->拼装的链式接续。",
+    "real_input_pins": {sid: pin(f"/workspace/inputs/conversations/{sid}.json") for sid in REAL_SHA},
+    "real_input_pins_match_index": all(pin(f"/workspace/inputs/conversations/{sid}.json")["sha256"] == REAL_SHA[sid] for sid in REAL_SHA),
+    "preflight": None,
+}
+
+for name, payload in (("replay.json", replay), ("resource_manifest.json", manifest),
+                      ("evidence.json", evidence), ("making_record.json", making_record)):
+    (W / name).write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("wrote", name)
+print("normal pptx sha", sha_normal)
+print("boundary pptx sha", sha_boundary)

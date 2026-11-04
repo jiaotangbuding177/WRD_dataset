@@ -1,0 +1,60 @@
+{
+  "schema": "wrd-making-record-v1",
+  "read_batches": [
+    {
+      "cursor_in": "0:0",
+      "next_cursor": "5:1023",
+      "chunks": 6
+    },
+    {
+      "cursor_in": "5:1023",
+      "next_cursor": null,
+      "chunks": 2,
+      "complete": true
+    }
+  ],
+  "edits": [
+    "assemble_image_ppt.py：移除初稿中误加入 parts 的空 media 条目；",
+    "assemble_image_ppt.py：修复 spTree 提前闭合导致 p:pic 落在 spTree 外的结构错误（python-pptx 报每页 0 形状后修复，复验每页 1 图）。"
+  ],
+  "fixture_chain": "build 正常/边界用例的输出复制为 reproduction_inputs/slide_plan.json、boundary_slide_plan.json 后作为 assemble 输入，形成计划->拼装的链式接续。",
+  "real_input_pins": {
+    "conv_70cad24899f6": {
+      "path": "/workspace/inputs/conversations/conv_70cad24899f6.json",
+      "sha256": "14222d4b839353e15a5c17807d7c86a5e212a42915a71856d4d3bb340cb9b049",
+      "bytes": 7473
+    },
+    "conv_743a2a4ed77e": {
+      "path": "/workspace/inputs/conversations/conv_743a2a4ed77e.json",
+      "sha256": "0486bcb6f374e1ccb2c825643994e23080e5d213a550f5a4dc49e26006c8c6e8",
+      "bytes": 7805
+    },
+    "conv_80c0ba2c2e7e": {
+      "path": "/workspace/inputs/conversations/conv_80c0ba2c2e7e.json",
+      "sha256": "14873d4a934012be69da140622f252db3e1cd565d9930a68367f2048ee7c660f",
+      "bytes": 9305
+    },
+    "conv_84d107e9e67a": {
+      "path": "/workspace/inputs/conversations/conv_84d107e9e67a.json",
+      "sha256": "77806fcb4d55bb2020c379afa6df162f1d27b21045e2f1a70978ab9e97133799",
+      "bytes": 7242
+    }
+  },
+  "real_input_pins_match_index": true,
+  "preflight": {
+    "command": "python inputs/making_tools/preflight.py --skill outputs/candidate/skill --replay outputs/replay.json --manifest outputs/resource_manifest.json",
+    "status": "PASS",
+    "issues": []
+  },
+  "final_rerun": {
+    "date": "2026-10-21",
+    "note": "清空 tmp 后按 replay 六个用例原样重跑：退出码 0/0/2/0/0/2 与预期一致；build 输出与 fixture 字节一致；两个 PPTX sha256 与 replay 断言一致；skill 内无符号链接、无 __pycache__。"
+  },
+  "skill_file_bytes": {
+    "SKILL.md": 1309,
+    "references/stage_notes.md": 2870,
+    "scripts/build_slide_plan.py": 3648,
+    "scripts/assemble_image_ppt.py": 16846,
+    "templates/slide_prompt_plan.template.md": 637
+  }
+}

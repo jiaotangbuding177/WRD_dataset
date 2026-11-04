@@ -1,0 +1,104 @@
+{
+  "model": "glm-5.3-flash",
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是企业任务执行助手，完成当前完整委托并中文交付。你可以读取文件、执行Python，使用openpyxl、python-docx等已安装库。仅访问当前workspace，不访问其他会话、任务、实验、参考答案或凭据。inputs中的输入不可覆盖；用户需要的文件放outputs，最终回复给出可定位路径。inputs下的.docx/.xlsx/.pptx/.pdf及图片是二进制文件，必须用execute_python解析；read_file只用于UTF-8文本。\navailable_skills是可选的名称、用途、location目录；如有匹配需求，可以按location读取说明，参数以本次完整委托为准。不要假装读取或执行。可在一次调用中完成多项操作。根据实际完成情况自行决定继续工作或最终交付。工具完整日志在磁盘，反馈可按需读取；不必默认打印源码或日志全文。\ninputs和resources为只读；中间结果可写work目录。可以通过Python导入资源模块或运行其中的通用程序；是否使用、怎样合并操作由你决定，不必打印程序源码。模型自行按实际产物和检查决定最终交付，系统不会代替你执行资源或验收。"
+    },
+    {
+      "role": "user",
+      "content": "{\"完整用户委托\": \"请为这份客户资料做指定字段脱敏，按inputs/request.json及inputs/task_contract.json的完整业务要求交付xlsx和JSON报告。前后保留字符数、替换标记、目标工作表/表头/数据区都以本次请求为准，其他数据、公式、样式和布局保持。文件路径均以请求JSON所在目录为基准；不要覆盖输入，报告不包含原始敏感值或对照表。请检查实际产物并给出两份交付路径。\", \"实际输入\": [\"inputs/request.json\", \"inputs/dev_input.xlsx\", \"inputs/task_contract.json\"], \"输出目录\": \"outputs\", \"workspace\": \".\", \"available_skills\": []}"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "callc4b302e065704677ba98c9b148723366",
+          "type": "function",
+          "function": {
+            "name": "read_file",
+            "arguments": "{\"path\":\"inputs/request.json\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "callc4b302e065704677ba98c9b148723366",
+      "content": "{\"path\": \"inputs/request.json\", \"content\": \"{\\n  \\\"schema_version\\\": \\\"data_field_mask_request_v1\\\",\\n  \\\"input_workbook\\\": \\\"dev_input.xlsx\\\",\\n  \\\"output_workbook\\\": \\\"../outputs/masked.xlsx\\\",\\n  \\\"report_file\\\": \\\"../outputs/masking_report.json\\\",\\n  \\\"worksheets\\\": [\\n    {\\n      \\\"name\\\": \\\"待脱敏记录\\\",\\n      \\\"header_row\\\": 1,\\n      \\\"data_start_row\\\": 2,\\n      \\\"data_end_row\\\": 17,\\n      \\\"columns\\\": [\\\"客户名称\\\", \\\"联系人姓名\\\", \\\"联系电话\\\", \\\"证件号码\\\", \\\"电子邮箱\\\", \\\"联系地址\\\"]\\n    }\\n  ],\\n  \\\"masking\\\": {\\\"prefix_chars\\\": 2, \\\"suffix_chars\\\": 2, \\\"replacement\\\": \\\"***\\\"}\\n}\\n\", \"total_chars\": 465, \"total_lines\": 16, \"displayed_start_char\": 0, \"displayed_end_char\": 465, \"requested_range_end_char\": 465, \"truncated\": false, \"continuation_start_char\": null, \"file_sha256\": \"fa118662b750078232ad1e3697a7a919c4f2500d127bff1a0a5421e32d77b749\"}"
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "read_file",
+        "description": "读取当前workspace内UTF-8文本文件，默认最多4000字符。可指定从1起的行范围，或从0起的字符范围。只返回所选正文与续读位置，完整原文件不变。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "start_line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "end_line": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "start_char": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "end_char": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12000
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "execute_python",
+        "description": "在当前workspace真实执行Python。可合并读取、处理及必要检查；输入不覆盖、交付写outputs。返回退出码和短stdout/stderr，完整日志保存在本次workspace/logs，可用read_file按需读取。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "max_output_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6000
+            }
+          },
+          "required": [
+            "code"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ],
+  "temperature": 0,
+  "max_tokens": 8192,
+  "thinking": {
+    "type": "disabled"
+  },
+  "stream": false
+}

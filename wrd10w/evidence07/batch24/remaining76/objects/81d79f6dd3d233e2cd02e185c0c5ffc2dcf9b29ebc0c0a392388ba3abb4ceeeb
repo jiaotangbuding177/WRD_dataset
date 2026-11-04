@@ -1,0 +1,209 @@
+#!/usr/bin/env python3
+"""定位 docx 中的空段（待补写位置）、批注及其锚定段落、邻段格式。
+
+用法（原样可执行）:
+  python3 locate_gaps.py <文件.docx> [--out <结果.json>]
+
+输出内容:
+- comments: 每条批注的 id/作者/日期/文本，及其 commentRangeStart/End 落在哪些段落（锚点）。
+- empty_paragraphs: 正文空段（仅空白），附前后最近非空段落的文本与格式摘要
+  （样式/编号/缩进/对齐 + 首个文字 run 的字体字号高亮），作为补写时的格式基准。
+- 所有输出仅供补写决策参考，最终判断由执行者结合全文确认。
+
+退出码: 0 成功; 2 输入缺失/非 docx/解析失败。不联网、不修改输入文件。
+"""
+import argparse
+import json
+import re
+import sys
+import zipfile
+from pathlib import Path
+
+
+P_RE = re.compile(r"<w:p(?:\s[^>]*)?(?:/>|>.*?</w:p>)", re.S)
+RANGE_MARK_RE = re.compile(r'<w:commentRange(Start|End)\b[^>]*w:id="([^"]+)"[^>]*/>')
+
+
+def unescape(text):
+    return (text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+                .replace("&quot;", '"').replace("&apos;", "'"))
+
+
+def para_text(p_xml):
+    return unescape("".join(re.findall(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", p_xml, re.S)))
+
+
+def first_attr(xml, tag):
+    m = re.search(r"<%s\b[^>]*>" % tag, xml)
+    if not m:
+        return None
+    val = re.search(r'w:val="([^"]*)"', m.group(0))
+    return val.group(1) if val else ""
+
+
+def ppr_summary(p_xml):
+    m = re.search(r"<w:pPr\b[^>]*>.*?</w:pPr>", p_xml, re.S)
+    if not m:
+        return {}
+    ppr = m.group(0)
+    out = {}
+    style = first_attr(ppr, "w:pStyle")
+    if style:
+        out["style"] = style
+    num_id = first_attr(ppr, "w:numId")
+    ilvl = first_attr(ppr, "w:ilvl")
+    if num_id:
+        out["numId"] = num_id
+        out["ilvl"] = ilvl or "0"
+    ind = re.search(r"<w:ind\b[^>]*/>", ppr)
+    if ind:
+        attrs = dict(re.findall(r'(w:[\w-]+)="([^"]*)"', ind.group(0)))
+        out["ind"] = {k: v for k, v in attrs.items() if k != "w:val"}
+    jc = first_attr(ppr, "w:jc")
+    if jc:
+        out["jc"] = jc
+    return out
+
+
+def run_rpr_summary(p_xml):
+    for run in re.finditer(r"<w:r(?:\s[^>]*)?>.*?</w:r>", p_xml, re.S):
+        r_xml = run.group(0)
+        if not re.search(r"<w:t(?:\s[^>]*)?>", r_xml):
+            continue
+        m = re.search(r"<w:rPr\b[^>]*>.*?</w:rPr>", r_xml, re.S)
+        if not m:
+            return {}
+        rpr = m.group(0)
+        out = {}
+        fonts = re.search(r"<w:rFonts\b[^>]*/>", rpr)
+        if fonts:
+            attrs = dict(re.findall(r'(w:[\w-]+)="([^"]*)"', fonts.group(0)))
+            out["fonts"] = {k: v for k, v in attrs.items()}
+        sz = first_attr(rpr, "w:sz")
+        if sz:
+            out["sz_half_pt"] = sz
+        hl = first_attr(rpr, "w:highlight")
+        if hl:
+            out["highlight"] = hl
+        return out
+    return {}
+
+
+def read_comments(archive):
+    if "word/comments.xml" not in archive.namelist():
+        return []
+    xml = archive.read("word/comments.xml").decode("utf-8", "replace")
+    out = []
+    for m in re.finditer(r"<w:comment\b[^>]*>", xml):
+        end = xml.find("</w:comment>", m.end())
+        if end < 0:
+            continue
+        cid = re.search(r'w:id="([^"]+)"', m.group(0))
+        author = re.search(r'w:author="([^"]*)"', m.group(0))
+        date = re.search(r'w:date="([^"]*)"', m.group(0))
+        body = " ".join(
+            t.strip()
+            for t in (unescape(x) for x in re.findall(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", xml[m.end():end], re.S))
+            if t.strip())
+        out.append({
+            "id": cid.group(1) if cid else "",
+            "author": author.group(1) if author else "",
+            "date": date.group(1) if date else "",
+            "text": body,
+        })
+    return out
+
+
+def main():
+    ap = argparse.ArgumentParser(description="定位 docx 空段、批注锚点与邻段格式")
+    ap.add_argument("input", help=".docx 文件")
+    ap.add_argument("--out", help="输出 JSON 路径；缺省打印 stdout")
+    args = ap.parse_args()
+    src = Path(args.input)
+    try:
+        if not src.is_file():
+            raise ValueError("input not found: %s" % src)
+        if src.suffix.lower() != ".docx":
+            raise ValueError("unsupported input type %s: expected .docx" % src.suffix)
+        archive = zipfile.ZipFile(src)
+    except (OSError, ValueError, zipfile.BadZipFile) as e:
+        print("locate_gaps error: %s" % e, file=sys.stderr)
+        return 2
+    try:
+        doc_xml = archive.read("word/document.xml").decode("utf-8", "replace")
+        comments = read_comments(archive)
+    finally:
+        archive.close()
+
+    spans = []
+    for m in P_RE.finditer(doc_xml):
+        spans.append((m.start(), m.end(), m.group(0)))
+    texts = [para_text(s[2]) for s in spans]
+
+    anchor_map = {}
+    for m in RANGE_MARK_RE.finditer(doc_xml):
+        pos, kind, cid = m.start(), m.group(1).lower(), m.group(2)
+        for idx, (s, e, _) in enumerate(spans):
+            if s <= pos < e:
+                anchor_map.setdefault(cid, {"start": [], "end": []})[kind].append(idx)
+                break
+
+    comment_entries = []
+    anchored = set()
+    for c in comments:
+        a = anchor_map.get(c["id"], {"start": [], "end": []})
+        paras = sorted(set(a["start"]) | set(a["end"]))
+        anchored.add(c["id"])
+        comment_entries.append({
+            **c,
+            "anchor_paragraphs": paras,
+            "anchor_texts": [texts[i] for i in paras],
+        })
+    for cid, a in anchor_map.items():
+        if cid not in anchored:
+            paras = sorted(set(a["start"]) | set(a["end"]))
+            comment_entries.append({
+                "id": cid, "author": "", "date": "", "text": "",
+                "anchor_paragraphs": paras,
+                "anchor_texts": [texts[i] for i in paras],
+            })
+
+    def neighbor(idx, step):
+        j = idx + step
+        while 0 <= j < len(texts):
+            if texts[j].strip():
+                return {"index": j, "text": texts[j][:120], "ppr": ppr_summary(spans[j][2]),
+                        "run_format": run_rpr_summary(spans[j][2])}
+            j += step
+        return None
+
+    empties = []
+    for idx, t in enumerate(texts):
+        if t.strip():
+            continue
+        empties.append({
+            "index": idx,
+            "prev_nonempty": neighbor(idx, -1),
+            "next_nonempty": neighbor(idx, +1),
+        })
+
+    result = {
+        "source": src.name,
+        "paragraph_count": len(texts),
+        "comments": comment_entries,
+        "empty_paragraphs": empties,
+    }
+    payload = json.dumps(result, ensure_ascii=False, indent=1) + "\n"
+    if args.out:
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(payload, encoding="utf-8")
+        print("paragraphs=%d comments=%d empty=%d -> %s"
+              % (len(texts), len(comment_entries), len(empties), args.out))
+    else:
+        sys.stdout.write(payload)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

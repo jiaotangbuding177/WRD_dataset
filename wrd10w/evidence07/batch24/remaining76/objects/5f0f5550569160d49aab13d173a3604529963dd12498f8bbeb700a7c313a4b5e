@@ -1,0 +1,39 @@
+# credential-readiness-report.md 模板
+
+结论口径（沿用真实会话）：离线加固+全 mock 测试通过只能判 `CREDENTIAL_READY = PASS`，不能判 `DRAFT_LIVE = PASS`（后者需真实 API 最小闭环 + 人工在公众号后台核验草稿）。
+
+```markdown
+# Credential Readiness Report
+
+日期: <YYYY-MM-DD HH:MM TZ>
+对象: <项目/技能名与代码目录>
+
+## 1. 凭据泄漏排查（scan 结果）
+- CLI 密钥参数: 已移除 / 剩余 N 处（附文件:行）
+- 输出/日志/异常脱敏: 通过 / 剩余 N 处
+- 禁用端点引用: 无 / N 处
+- 文档与注释中的密钥字面量: 无（grep 不到 --xxx_secret 字面量）
+
+## 2. 接口拆分与最小权限
+- 封面(thumb)与正文图(image)上传: 独立实现（代码路径不同）
+- 草稿-only 闸: assert_draft_only 已接入请求前；无任何 publish/群发脚本
+
+## 3. 凭据注入状态（只报状态，绝不回显值或片段）
+- CREDENTIAL_ISOLATION: PARTIAL | FULL
+  （Agent 与目标进程共享环境变量/文件权限时如实标 PARTIAL，不得宣称 Agent 读不到）
+- <NAME>_APP_ID: CONFIGURED | NOT_CONFIGURED
+- <NAME>_APP_SECRET: [隐藏]
+- 注入方式: 运行环境变量（服务/进程层）或 chmod 600 的 .env；禁止聊天/CLI/Prompt 传 Secret
+
+## 4. 出口 IP 与白名单
+- EGRESS_IP: <x.x.x.x>（>=2 个源一致；当前任务 + 独立进程双路一致）
+- 与目标 IP 一致: PASS | FAIL
+- 白名单探测（假凭据）: errcode <n> → IP 已过白名单 | IP 未过白名单 | 无法判定
+
+## 5. 结论
+- <NAME>_CREDENTIAL_READY: PASS | FAIL（离线判定）
+- <NAME>_DRAFT_LIVE: 不可判定（需真实联调 + 人工核验）
+- 下一步: 全部通过才请求用户配置凭据；IP 不一致或凭据未注入即明示阻塞，不请求凭据
+```
+
+真实联调（仅当用户明确发起，最小闭环即停）：access_token → 测试封面(thumb) → 测试正文图(image) → draft/add 建测试草稿 → 停止，等待人工核验。全程禁 mass/freepublish/群发/删素材/改设置/读用户信息。报告字段用 `MASS_API_CALLED: NO`、`FREEPUBLISH_API_CALLED: NO`、`SECRET_LEAK_CHECK: PASS`、`FINAL: PASS | WAITING_FOR_CREDENTIAL_INJECTION | BLOCKED_BY_UNSTABLE_EGRESS_IP`；允许保留 HTTP status、errcode、errmsg、media_id、CDN URL、timestamp，endpoint 必须去除 token，token 本身不得出现在报告。

@@ -1,0 +1,34 @@
+{
+  "_说明": "make_docx.js 的输入内容文件。业务内容逐字取自给定材料，不改事实数据；本文件只是把材料内容按结构摆放。",
+  "minimal": "可选：true 时跳过封面/目录/页眉页脚，只出正文（等价于命令行 --minimal），用于明确要求『不添加封面、目录、页眉页脚』的纯格式转换委托。minimal 专用小样例见 templates/content.minimal.example.json",
+  "title": "文档标题（封面大标题）",
+  "subtitle": "可选：封面副标题",
+  "headerText": "页眉右上角文字，如「单位 · 文档名」；缺省用 title",
+  "fontEastAsia": "Noto Sans CJK SC",
+  "boldTerms": ["需要加粗的关键结论原文子串1", "子串2"],
+  "meta": [["文档名称", "值"], ["编制单位", "值"], ["性质", "值"], ["状态", "值"]],
+  "sections": [
+    {
+      "h1": "一、一级标题（原文序号照抄）",
+      "blocks": [
+        { "type": "p", "text": "正文段落，出现 boldTerms 子串会自动加粗；上标也可直接写标记，如 10^{6} CFU/mL。" },
+        { "type": "p", "runs": [
+            { "text": "普通片段；" },
+            { "text": "原斜体术语", "italic": true },
+            { "text": "；run 级加粗片段", "bold": true },
+            { "text": "m2", "super": true },
+            { "text": " 面积单位上标；" },
+            { "text": "H", "bold": true }, { "text": "2", "sub": true }, { "text": "O 下标。" }
+          ],
+          "_说明": "需要逐 run 保留原文加粗/斜体/上下标时用 runs 数组；有 runs 时忽略 text/boldTerms 命中" },
+        { "type": "p", "text": "原文档页脚信息按正文保留（如文档编号、版本行），9pt 灰字。", "small": true },
+        { "type": "h2", "text": "1.1 二级标题" },
+        { "type": "list", "items": ["列表项1", "列表项2", { "text": "含原格式的列表项", "runs": [{ "text": "斜体", "italic": true }, { "text": "与上标m3", "super": true }] }] },
+        { "type": "table", "headers": ["字段", "内容"], "widths": [0.3, 0.7], "rows": [["甲", "乙"]], "boldCol": 1 },
+        { "type": "table", "headers": ["关键结论", "说明"], "rows": [["结论A", "备注"]], "boldAllCells": true },
+        { "type": "p", "text": "整段加粗的结论。", "bold": true },
+        { "type": "p", "text": "对齐/字号/表题字段两分支通用：align（center/right/left/both）、fontSize（pt）、表格 caption + fontSize，用法见 templates/content.minimal.example.json 的字段总表。", "align": "center", "fontSize": 10.5 }
+      ]
+    }
+  ]
+}

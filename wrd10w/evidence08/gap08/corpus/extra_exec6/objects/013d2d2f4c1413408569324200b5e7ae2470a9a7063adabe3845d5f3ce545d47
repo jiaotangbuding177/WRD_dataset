@@ -1,0 +1,109 @@
+/* ============================================================
+ * 麦角硫因产品页 · 界面背景配色优化方案
+ * --------------------------------------------------------------
+ * 配色依据（取自原产品图）：
+ *   - 上部背景为极浅的灰绿色留白（约 #EFF4ED ~ #F3F7F0）
+ *   - 瓶身为深墨绿（约 #1E4D3B ~ #2A5C47），标题文字同色系
+ *   - 内容卡片为纯白大圆角，分隔线浅灰
+ * 优化原则：
+ *   1. 沿用原图低饱和、高明度的浅绿白基调，色调柔和、视觉舒适；
+ *   2. 整体背景保持明快，避免过深；
+ *   3. 底部（页脚）区域统一使用青绿色 #00C4A3，并通过
+ *      渐变过渡带与上部浅绿背景自然衔接；
+ *   4. 文字均按对比度选色，保证清晰可读。
+ * 兼容性：CSS 自定义属性 + 渐变均为标准语法，
+ *         适配 Chrome / Edge / Firefox / Safari 等主流浏览器，
+ *         响应式布局基于 clamp() 与媒体查询实现。
+ * ============================================================ */
+
+:root {
+  /* ---------- 上部 / 整体背景 ---------- */
+  --color-bg-main: #F0F5EE;        /* 页面主背景：取自原图的浅灰绿留白，柔和不刺眼 */
+  --color-bg-soft: #E9F0E6;        /* 次级背景：区块、侧栏的浅一层绿色底 */
+  --color-bg-surface: #FFFFFF;     /* 内容卡片：纯白圆角卡，与原图底部白卡一致 */
+
+  /* ---------- 底部区域（青绿色） ---------- */
+  --color-footer: #00C4A3;         /* 页脚主色：要求的青绿色，明快且不过深 */
+  --color-footer-deep: #00A88D;    /* 页脚深化色：文字密集区或 hover 态，提升白字对比度 */
+  --color-footer-edge: #7FE0CE;    /* 过渡带起点：青绿与浅绿背景间的缓冲色 */
+
+  /* ---------- 过渡渐变 ---------- */
+  --gradient-bg-to-footer: linear-gradient(
+    180deg,
+    var(--color-bg-main) 0%,       /* 上部：浅灰绿，延续原图基调 */
+    var(--color-footer-edge) 62%,  /* 中段：青绿浅化缓冲，避免生硬跳色 */
+    var(--color-footer) 100%       /* 底部：统一青绿色 */
+  );
+
+  /* ---------- 文字颜色（保证清晰度） ---------- */
+  --color-text-primary: #21402F;   /* 主文字：原图标题的深墨绿，浅底上对比度约 12:1 */
+  --color-text-secondary: #4A5A52; /* 次级文字：灰绿中性色，层次柔和 */
+  --color-text-accent: #3E8E4E;    /* 强调文字：原图字段值使用的草绿色 */
+  --color-text-on-footer: #FFFFFF; /* 青绿底上的文字：白色加粗使用，确保可读 */
+
+  /* ---------- 强调色 ---------- */
+  --color-brand-deep: #1E4D3B;     /* 品牌深绿：按钮、图标、瓶身同款墨绿重音 */
+  --color-divider: #ECECEC;        /* 分隔线：与原图一致浅灰 */
+}
+
+/* ============================================================
+ * 应用示例（可直接内联使用，如 style="background: var(--color-bg-main)"）
+ * ============================================================ */
+
+/* 页面主体：浅灰绿背景 + 深墨绿文字，明快舒适 */
+body,
+.page {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+  font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  margin: 0;
+}
+
+/* 内容卡片：白底圆角，浮于浅绿背景之上 */
+.card {
+  background-color: var(--color-bg-surface);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(30, 77, 59, 0.06);
+}
+
+/* 底部区域：统一青绿色，白色文字（建议 font-weight: 600 以上） */
+.footer {
+  background-color: var(--color-footer);
+  color: var(--color-text-on-footer);
+}
+.footer a,
+.footer .link:hover {
+  color: var(--color-footer-edge);
+}
+
+/* 上部与底部的衔接区：使用渐变过渡带，避免颜色断层 */
+.transition-band {
+  background: var(--gradient-bg-to-footer);
+  height: clamp(48px, 8vw, 96px);
+}
+
+/* ============================================================
+ * 响应式适配
+ * ============================================================ */
+
+/* 移动端：收紧留白，卡片通栏 */
+@media (max-width: 768px) {
+  .page { padding: 16px; }
+  .card { border-radius: 12px; padding: 16px; }
+  .footer { padding: 20px 16px; }
+}
+
+/* 桌面端：居中限宽，留白充分 */
+@media (min-width: 769px) {
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  .card { padding: 32px; }
+  .footer { padding: 32px 24px; }
+}
+
+/* 深色系统偏好下仍保持浅色背景（本方案以柔和浅色为核心，不随系统转深） */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-main: #F0F5EE;
+    --color-bg-surface: #FFFFFF;
+  }
+}

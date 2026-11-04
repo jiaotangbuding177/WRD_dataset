@@ -1,0 +1,14 @@
+"""Making-side local metadata check; never substitutes independent replay."""
+import argparse,json,sys
+from pathlib import Path
+if __package__ in(None,''):
+ sys.path.insert(0,str(Path(__file__).resolve().parent))
+ from contract import preflight,read
+else:
+ from .contract import preflight,read
+def main():
+ p=argparse.ArgumentParser();p.add_argument('--skill',required=True);p.add_argument('--replay',required=True);p.add_argument('--manifest',required=True);a=p.parse_args()
+ try:result=preflight(a.skill,read(a.replay),read(a.manifest))
+ except(Exception)as e:result={'status':'HOLD','issues':[{'code':'candidate_metadata_invalid','error_type':type(e).__name__,'error':str(e)}],'no_model_calls':True}
+ print(json.dumps(result,ensure_ascii=False,indent=2));return 0 if result['status']=='PASS'else 2
+if __name__=='__main__':raise SystemExit(main())

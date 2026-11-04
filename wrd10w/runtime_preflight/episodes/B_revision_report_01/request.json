@@ -1,0 +1,203 @@
+{
+  "protocol": "native-openclaw-only-v1",
+  "stage": "generation",
+  "task_id": "B_revision_report_01",
+  "input": "继续WRD局部资源修订：前一候选已真实制作且21自测全绿，但独立固定环境工具复核发现两个具体缺陷。不是从零重造、不训练、不子Agent，不发外部消息/邮件/日程/远端写；仍使用本完整原生会话自主完成本地读取、局修、复现与真实测试。\n\n先读 /workspace/inputs/independent/actual_repair_feedback.json，以及其引用的真实失败报告和明确虚构的独立反例。候选原资源全部在 /workspace/inputs/previous_skill/，原21测试生成器/runner/fixtures/原日志在 /workspace/inputs/previous_tests/。五份原始源/源字段与A反馈仍按 /workspace/inputs/conversations/ 和 /workspace/inputs/a_stage/ 挂载，必要时回读以核适用范围；新纠错不是旧正式评测gold。\n\n先用原公开CLI实际复现两个缺陷并保存原失败，不把feedback当已自动修复。将候选副本实化到 /workspace/outputs/skill/，测试副本置 /workspace/outputs/tests/。只局部修改实际错误的冲突判定与嵌套evidence_refs形状核验及必要说明，不删功能、不放宽已有goal类型/数字/原文quote/字数/Word状态检查。原技能轻量首页、独立资源、用途范围保持；不把制作日志/企业素材/fixtures放包内。不要为了本次反例硬编码年份、数值、subject或文件名。\n\n用原公开参数接口复跑原21测试，既有预期不能为了变绿被改。补充真实正反例：不同年份actual/goal同值合法；同一年actual已完成值与goal目标同值也能合法共存；真实planned_goal引用为achieved_fact仍须拒；任意嵌套evidence_refs为非list、list内非object须明确拒并给路径；合法嵌套quote继续过、错误quote继续拒。空的可选引用列表不等于必需事实缺证。不能用AST/文件存在或exit非0替代精确断言。\n\n每次命令、原响应、fixture/资源版本SHA、前后修改、失败原因和复测都留 /workspace/outputs/tests/ 或其它包外位置。脚本若有语义无法可靠判断，仅显式NEEDS_SEMANTIC_REVIEW，不伪称完整语义通过。缺陷修正后输出 /workspace/outputs/resource_validation.json、/workspace/outputs/revision_summary.json（指出原两项缺陷证据→局改→新旧测试实数、每份变动资源SHA、保留的未知与限制），以及一份清楚的原版本到本版本变更清单；收益仍未独立业务试跑，不宣称retained/已入库。最后给非空简短文字实际结果，不以yield或只有tool call结束。",
+  "context": [],
+  "followup_inputs": [],
+  "required_commands": [
+    "python",
+    "openclaw"
+  ],
+  "resources": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\conversations\\conv_d1ef29d65e7a.json",
+      "mount": "inputs/conversations/conv_d1ef29d65e7a.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\conversations\\conv_41874c950938.json",
+      "mount": "inputs/conversations/conv_41874c950938.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\conversations\\conv_246b5e915810.json",
+      "mount": "inputs/conversations/conv_246b5e915810.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\a_stage\\source_profiles.verified_fields.annotation.json",
+      "mount": "inputs/a_stage/source_profiles.verified_fields.annotation.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\a_stage\\A_B_MAKE_FEEDBACK.json",
+      "mount": "inputs/a_stage/A_B_MAKE_FEEDBACK.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\actual_repair_feedback.json",
+      "mount": "inputs/independent/actual_repair_feedback.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_skill\\schemas\\draft.schema.json",
+      "mount": "inputs/previous_skill/schemas/draft.schema.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_skill\\schemas\\fact_ledger.schema.json",
+      "mount": "inputs/previous_skill/schemas/fact_ledger.schema.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_skill\\scripts\\validate_pack.py",
+      "mount": "inputs/previous_skill/scripts/validate_pack.py"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_skill\\SKILL.md",
+      "mount": "inputs/previous_skill/SKILL.md"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_skill\\templates\\section_templates.md",
+      "mount": "inputs/previous_skill/templates/section_templates.md"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\b1a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b1a_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\b1b_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b1b_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\b2a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b2a_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\b2b_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b2b_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\b2b_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/b2b_ledger.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\b3a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b3a_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\c1_request.json",
+      "mount": "inputs/previous_tests/fixtures/c1_request.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\c2_request.json",
+      "mount": "inputs/previous_tests/fixtures/c2_request.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\c3_request.json",
+      "mount": "inputs/previous_tests/fixtures/c3_request.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\c4_request.json",
+      "mount": "inputs/previous_tests/fixtures/c4_request.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\c5_request.json",
+      "mount": "inputs/previous_tests/fixtures/c5_request.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e1_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e1_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e2_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/e2_ledger.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e3_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/e3_ledger.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e4a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e4a_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e4b_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e4b_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e5_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e5_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e6_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/e6_ledger.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\e7_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e7_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\n1_draft.json",
+      "mount": "inputs/previous_tests/fixtures/n1_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\n1_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/n1_ledger.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\n2_draft.json",
+      "mount": "inputs/previous_tests/fixtures/n2_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\n2_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/n2_ledger.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\fixtures\\sources_demo.json",
+      "mount": "inputs/previous_tests/fixtures/sources_demo.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\make_fixtures.py",
+      "mount": "inputs/previous_tests/make_fixtures.py"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\run_tests.py",
+      "mount": "inputs/previous_tests/run_tests.py"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\previous_tests\\test_run_log.json",
+      "mount": "inputs/previous_tests/test_run_log.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\legal_draft.json",
+      "mount": "inputs/independent/legal_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\legal_ledger.json",
+      "mount": "inputs/independent/legal_ledger.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\legal_sources.json",
+      "mount": "inputs/independent/legal_sources.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\nested_refs_non_object_item.json",
+      "mount": "inputs/independent/nested_refs_non_object_item.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\nested_refs_not_list.json",
+      "mount": "inputs/independent/nested_refs_not_list.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\valid_single_draft.json",
+      "mount": "inputs/independent/valid_single_draft.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\temporal_original_report.json",
+      "mount": "inputs/independent/temporal_original_report.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\nested_refs_not_list_original_report.json",
+      "mount": "inputs/independent/nested_refs_not_list_original_report.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_revision_report_01\\workspace\\inputs\\independent\\nested_refs_non_object_item_original_report.json",
+      "mount": "inputs/independent/nested_refs_non_object_item_original_report.json"
+    }
+  ],
+  "learned_skills": []
+}

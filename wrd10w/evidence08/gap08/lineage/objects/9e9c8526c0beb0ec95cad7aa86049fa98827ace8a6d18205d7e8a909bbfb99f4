@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+"""Convert an advisory-report Markdown file into a styled Word document.
+
+Style (proven in source session conv_8487ad8077f4): A4, centered dark-blue H1,
+dark-blue H2/H3, light-blue table header shading, page header line + page
+number footer, CJK fonts (headings 黑体, body 宋体).
+
+Numbering discipline (session pitfall, msg 30/32): NO Word auto-numbering is
+used. Ordered list numbers stay as literal text authored in the Markdown, and
+bullets render as "• " text — this cannot collide with auto-numbering or
+grow continuous 1-15 counters. Numbering rhythm (per-section restart) is the
+author's job in the Markdown.
+
+Markdown subset: #/##/###/#### headings, paragraphs, **bold** spans, tables
+(| a | b | with --- separator), "- " bullets, "N. " ordered items, "> "
+blockquotes (indented gray), "---" rules skipped.
+
+Usage:
+  python md2docx.py 报告.md -o 报告.docx [--header 标题文本]
+
+Exit codes: 0 ok, 2 usage/input error.
+"""
+import argparse
+import re
+import sys
+from pathlib import Path
+
+from docx import Document
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.shared import Cm, Pt, RGBColor
+
+DARK_BLUE = RGBColor(0x1F, 0x4E, 0x79)
+HEADER_BLUE_HEX = "D9E2F3"  # light blue table-header shading
+BODY_FONT = "宋体"
+HEADING_FONT = "黑体"
+
+
+def _fail(msg):
+    print("md2docx error: " + msg, file=sys.stderr)
+    return 2
+
+
+def set_cjk(run, ascii_font, east_font, size, bold=False, color=None):
+    run.font.name = ascii_font
+    run.font.size = Pt(size)
+    run.font.bold = bold
+    if color is not None:
+        run.font.color.rgb = color
+    rpr = run._element.get_or_add_rPr()
+    rfonts = rpr.find(qn("w:rFonts"))
+    if rfonts is None:
+        rfonts = OxmlElement("w:rFonts")
+        rpr.append(rfonts)
+    rfonts.set(qn("w:eastAsia"), east_font)
+
+
+def add_runs_with_bold(par, text, ascii_font, east_font, size, color=None):
+    for i, chunk in enumerate(re.split(r"\*\*(.+?)\*\*", text)):
+        if not chunk:
+            continue
+        run = par.add_run(chunk)
+        set_cjk(run, ascii_font, east_font, size, bold=(i % 2 == 1), color=color)
+
+
+def shade_cell(cell, hex_color):
+    tcpr = cell._tc.get_or_add_tcPr()
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:val"), "clear")
+    shd.set(qn("w:fill"), hex_color)
+    tcpr.append(shd)
+
+
+def add_page_field(par):
+    instr = OxmlElement("w:instrText")
+    instr.set(qn("xml:space"), "preserve")
+    instr.text = " PAGE "
+    run = par.add_run()
+    run._element.append(instr)
+    set_cjk(run, "Times New Roman", BODY_FONT, 9)
+
+
+def build(doc, lines, header_text):
+    section = doc.sections[0]
+    section.page_width, section.page_height = Cm(21.0), Cm(29.7)
+    for attr in ("top_margin", "bottom_margin"):
+        setattr(section, attr, Cm(2.54))
+    for attr in ("left_margin", "right_margin"):
+        setattr(section, attr, Cm(2.6))
+
+    hp = section.header.paragraphs[0]
+    hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    run = hp.add_run(header_text)
+    set_cjk(run, "Times New Roman", BODY_FONT, 9, color=RGBColor(0x80, 0x80, 0x80))
+
+    fp = section.footer.paragraphs[0]
+    fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    set_cjk(fp.add_run("第 "), "Times New Roman", BODY_FONT, 9)
+    add_page_field(fp)
+    set_cjk(fp.add_run(" 页"), "Times New Roman", BODY_FONT, 9)
+
+    i = 0
+    while i < len(lines):
+        line = lines[i].rstrip("\n")
+        stripped = line.strip()
+        if not stripped or stripped == "---":
+            i += 1
+            continue
+        m = re.match(r"^(#{1,4})\s+(.*)$", stripped)
+        if m:
+            level, text = len(m.group(1)), re.sub(r"\*\*(.+?)\*\*", r"\1", m.group(2))
+            if level == 1:
+                par = doc.add_paragraph()
+                par.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                set_cjk(par.add_run(text), "Times New Roman", HEADING_FONT, 18, bold=True, color=DARK_BLUE)
+            else:
+                par = doc.add_heading(level=min(level - 1, 3))
+                sizes = {2: 14, 3: 12, 4: 11}
+                for run in par.runs:
+                    set_cjk(run, "Times New Roman", HEADING_FONT, sizes.get(level, 11),
+                            bold=True, color=DARK_BLUE)
+            i += 1
+            continue
+        if stripped.startswith("> "):
+            par = doc.add_paragraph()
+            par.paragraph_format.left_indent = Cm(0.8)
+            add_runs_with_bold(par, stripped[2:], "Times New Roman", BODY_FONT, 10.5,
+                               color=RGBColor(0x60, 0x60, 0x60))
+            i += 1
+            continue
+        if stripped.startswith("|") and i + 1 < len(lines) and re.match(r"^\s*\|[\s:|-]+\|?\s*$", lines[i + 1]):
+            rows = []
+            j = i
+            while j < len(lines) and lines[j].strip().startswith("|"):
+                rows.append([c.strip() for c in lines[j].strip().strip("|").split("|")])
+                j += 1
+            rows.pop(1)  # separator row
+            rows = [r for r in rows if r]
+            ncols = max(len(r) for r in rows)
+            table = doc.add_table(rows=len(rows), cols=ncols)
+            table.style = "Table Grid"
+            table.alignment = WD_TABLE_ALIGNMENT.CENTER
+            for r, row in enumerate(rows):
+                for c in range(ncols):
+                    cell = table.cell(r, c)
+                    cell.text = ""
+                    par = cell.paragraphs[0]
+                    text = row[c] if c < len(row) else ""
+                    add_runs_with_bold(par, text, "Times New Roman", BODY_FONT, 10.5)
+                    if r == 0:
+                        shade_cell(cell, HEADER_BLUE_HEX)
+                        for run in par.runs:
+                            run.font.bold = True
+            i = j
+            continue
+        m = re.match(r"^-\s+(.*)$", stripped)
+        if m:
+            par = doc.add_paragraph()
+            par.paragraph_format.left_indent = Cm(0.5)
+            add_runs_with_bold(par, "• " + m.group(1), "Times New Roman", BODY_FONT, 10.5)
+            i += 1
+            continue
+        m = re.match(r"^(\d+[.、])\s+(.*)$", stripped)
+        if m:
+            par = doc.add_paragraph()
+            par.paragraph_format.left_indent = Cm(0.5)
+            add_runs_with_bold(par, m.group(1) + " " + m.group(2), "Times New Roman", BODY_FONT, 10.5)
+            i += 1
+            continue
+        par = doc.add_paragraph()
+        par.paragraph_format.first_line_indent = Cm(0.74)
+        add_runs_with_bold(par, stripped, "Times New Roman", BODY_FONT, 10.5)
+        i += 1
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input", help="markdown report")
+    parser.add_argument("-o", "--output", required=True, help="output .docx")
+    parser.add_argument("--header", default="", help="page header text (default: first H1)")
+    args = parser.parse_args()
+    src = Path(args.input)
+    out = Path(args.output)
+    try:
+        if not src.is_file():
+            return _fail("input not found: " + str(src))
+        if src.suffix.lower() not in (".md", ".markdown", ".txt"):
+            return _fail("unsupported input type " + src.suffix + ": expected .md/.markdown/.txt")
+        lines = src.read_text(encoding="utf-8").splitlines()
+    except OSError as err:
+        return _fail(str(err))
+    first_h1 = next((l.lstrip("# ").strip() for l in lines if l.startswith("# ")), "")
+    header_text = args.header or first_h1
+    if not any(l.strip() for l in lines):
+        return _fail("input is empty")
+    doc = Document()
+    build(doc, lines, header_text)
+    try:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        doc.save(str(out))
+    except OSError as err:
+        return _fail("cannot save output: " + str(err))
+    print("OK " + str(out))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

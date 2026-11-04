@@ -1,0 +1,48 @@
+"""Only the root-authorized HTML repair then four whole CV native sessions."""
+from pathlib import Path
+from datetime import datetime,timezone
+import argparse
+import hashlib
+import importlib.util
+import json
+import os
+import sys
+
+ROOT=Path(__file__).resolve().parents[3]
+RUN=ROOT/'output/20261027_wrd_main_v10/runtime_preflight'
+ORDER=['B_phase2_html_revision_01','C_phase2_cv_E1_no_skill_01','C_phase2_cv_E1_skill_01','C_phase2_cv_E2_skill_01','C_phase2_cv_E2_no_skill_01']
+def load(p):return json.loads(Path(p).read_text(encoding='utf-8-sig'))
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def save(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+def now():return datetime.now(timezone.utc).isoformat()
+
+def main():
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--release',type=Path,required=True);ap.add_argument('--execute-authorized',action='store_true');a=ap.parse_args();assert a.execute_authorized
+    release=a.release.resolve();assert release.is_relative_to((RUN/'jobs').resolve());freeze=load(release/'EXECUTION_FREEZE.json')
+    assert freeze['authorized_job_ids']==ORDER and freeze['maximum_new_native_sessions_this_owner']==5
+    assert freeze['prior_outer_dispatches']==14 and freeze['prior_native_sessions']==15 and freeze['maximum_after_scope_native_sessions']==20
+    assert sha(Path(__file__))==freeze['serial_owner_script_sha256'];assert sha(Path(freeze['root_scope_path']))==freeze['root_scope_sha256']
+    marker=release/'SERIAL_FIVE_OWNER.json';assert not marker.exists(),'Inspect prior actual owner/paid states, never blindly replay.'
+    state={'schema':'wrd-five-whole-native-authorized-owner-v1','pid':os.getpid(),'started_at':now(),'status':'STARTED','jobs':[],'current_job':None,'no_native_steps_overridden':True,'Q_D_additional_repair_rerun_controller_or_training_authorized':False};save(marker,state)
+    spec=importlib.util.spec_from_file_location('authorized_five_original_native',ROOT/'research/data_prep/wrd_main_v10/native_rebuild.py');native=importlib.util.module_from_spec(spec);sys.modules[spec.name]=native;spec.loader.exec_module(native)
+    try:
+        for index,row in enumerate(freeze['jobs']):
+            p=Path(row['path']);assert sha(p)==row['sha256'];j=native.validate_job(load(p));assert j['execution_authorized'] is True and j['job_id']==ORDER[index]
+            assert j['stage']==('B_revision' if index==0 else ('C_trial_no_skill' if '_no_skill_' in j['job_id'] else 'C_trial_skill'))
+            assert native.design()==freeze['design_pair'] and sha(RUN/'PREPARED_LANE.json')==freeze['prepared_lane_sha256']
+            assert len(list((RUN/'episodes').glob('*/dispatch.json')))==14+index
+            ep=RUN/'episodes'/j['job_id'];assert not (ep/'dispatch.json').exists()
+            state.update(status='WHOLE_NATIVE_SESSION_RUNNING',current_job=j['job_id']);save(marker,state)
+            result=native.run_job(p,authorized=True,pilot_only=False)
+            host=load(ep/'openclaw_transport/host_receipt.json');container=load(ep/'openclaw_transport/container_receipt.json')
+            assert host.get('cleanup_returncode')==0,'Unsettled infrastructure must stop before next dispatch.'
+            recording=container.get('all_session_transcript_recording',{});sessions={sid for db in recording.get('databases',[]) for sid in db.get('sessions',{})}
+            assert recording.get('status')=='recorded' and len(sessions)==1,'No unauthorized child session or unknown session budget.'
+            assert result.get('status') in ['completed','failed'],'No unresolved session may be treated as terminal.'
+            state['jobs'].append({'job_id':j['job_id'],'status':result['status'],'result_path':str(ep/'result.json'),'usage_path':str(ep/'usage.json'),'session_ids':sorted(sessions),'terminal_is_not_content_or_quality_approval':True})
+            state.update(current_job=None,status='NEXT_AUTHORIZED_WHOLE_SESSION_PENDING');save(marker,state)
+        state.update(status='FIVE_NATIVE_TERMINALS_COLLECTED_QUALITY_PENDING',finished_at=now());save(marker,state);print(json.dumps({'status':state['status'],'jobs':state['jobs'],'training_started':False}))
+    except BaseException as exc:
+        state.update(status='STOPPED_REQUIRES_INSPECTION_NO_REPLAY',error_type=type(exc).__name__,error=str(exc),stopped_at=now());save(marker,state);raise
+
+if __name__=='__main__':main()

@@ -1,0 +1,27 @@
+{
+  "id": "chatcmpl-1793078193513",
+  "model": "glm-5.3-flash",
+  "usage": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call537d1a322cf042348647daf0f6b46e70",
+            "type": "function",
+            "function": {
+              "name": "exec",
+              "arguments": "{\"command\":\"tail -5 /workspace/outputs/fixtures/results/badinput_tests.txt; wc -l /workspace/outputs/fixtures/results/badinput_tests.txt\",\"title\":\"确认测试记录已落盘\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ],
+  "_inspection_only_reconstructed_from_SSE": true,
+  "_event_count": 3
+}

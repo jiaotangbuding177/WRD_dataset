@@ -1,0 +1,24 @@
+{
+  "task_id": "T0145",
+  "title": "客户台账指定列脱敏",
+  "prompt": "客服经理要把 inputs/客户台账.xlsx 交给外部培训方，请仅对客户机构名称、联系人员、联系电话、邮箱四列脱敏，字符串长度大于4时保留前2字和后2字，中间用***，长度不超过4的非空值全部替为***，空值保持为空；客户编码、应收金额和城市原样保留。交付 外发客户台账.xlsx 及 脱敏处理说明.docx，说明实际处理字段和空值/短串政策，不附原始敏感值。",
+  "inputs": [
+    {
+      "name": "inputs/客户台账.xlsx",
+      "path": "tasks/T0145/inputs/客户台账.xlsx",
+      "sha256": "04ffdc819c96558b7975e776f155462624f5f1c34e1af02bd32ff0cf156d80b2",
+      "bytes": 6321
+    }
+  ],
+  "deliverables": [
+    {
+      "filename": "外发客户台账.xlsx",
+      "format": "xlsx"
+    },
+    {
+      "filename": "脱敏处理说明.docx",
+      "format": "docx"
+    }
+  ],
+  "one_dispatch": 1
+}

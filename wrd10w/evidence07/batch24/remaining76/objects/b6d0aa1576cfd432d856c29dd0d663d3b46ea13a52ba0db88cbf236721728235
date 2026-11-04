@@ -1,0 +1,239 @@
+#!/usr/bin/env python3
+"""单款包装展开刀模绘制：盒体六面 + 插舌 + 裁切线/折线区分 + mm 尺寸标注。
+
+结构（插舌封底盒）：横向四面板 背面(W)-左侧(D)-正面(W)-右侧(D)，
+正面上下各接 同宽顶盖/底盖(D) 与 插舌(15mm)。裁切线黑实线、折线红虚线、
+标注蓝色。正面主视觉图与背面款式列表按参数嵌入；精确尺寸由代码保证，
+不受生图随机性影响（生图模型画不出可用刀模）。
+
+公开用法：
+  python make_dieline.py --width 80 --depth 80 --height 80 \
+    --front FRONT.png --title "S1 单款包装刀模 · 02 主体" \
+    --spec "350g 白卡 · 四色+专金" --list "款1,款2,款3" --out DIELINE.png
+错误：exit 2（dieline_error: ...）。
+"""
+import argparse
+import sys
+from pathlib import Path
+
+from PIL import Image, ImageDraw, ImageFont
+
+CUT = "#111111"
+FOLD = "#cc2222"
+DIM = "#2255cc"
+
+
+def fail(message: str) -> None:
+    print("dieline_error: " + message, file=sys.stderr)
+    raise SystemExit(2)
+
+
+def find_font(size: int):
+    for path in ("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+                 "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"):
+        if Path(path).is_file():
+            try:
+                return ImageFont.truetype(path, size)
+            except OSError:
+                continue
+    try:
+        return ImageFont.truetype("DejaVuSans.ttf", size)
+    except OSError:
+        fail("no usable font found")
+
+
+def dashed_line(draw, x0, y0, x1, y1, dash=8, gap=6, width=2):
+    import math
+    length = math.hypot(x1 - x0, y1 - y0)
+    if length == 0:
+        return
+    steps = int(length // (dash + gap)) + 1
+    for i in range(steps):
+        start = i * (dash + gap)
+        end = min(start + dash, length)
+        if start >= length:
+            break
+        t0, t1 = start / length, end / length
+        draw.line((x0 + (x1 - x0) * t0, y0 + (y1 - y0) * t0,
+                   x0 + (x1 - x0) * t1, y0 + (y1 - y0) * t1), fill=FOLD, width=width)
+
+
+def edge(draw, p0, p1, fold: bool) -> None:
+    if fold:
+        dashed_line(draw, p0[0], p0[1], p1[0], p1[1])
+    else:
+        draw.line((*p0, *p1), fill=CUT, width=3)
+
+
+def rect_edges(draw, box, folds=()) -> None:
+    x0, y0, x1, y1 = box
+    sides = [((x0, y0), (x1, y0)), ((x1, y0), (x1, y1)),
+             ((x1, y1), (x0, y1)), ((x0, y1), (x0, y0))]
+    for index, (p0, p1) in enumerate(sides):
+        edge(draw, p0, p1, index in folds)
+
+
+def dim_h(draw, x0, x1, y, label: str, font) -> None:
+    draw.line((x0, y, x1, y), fill=DIM, width=2)
+    for x in (x0, x1):
+        draw.line((x - 5, y - 5, x + 5, y + 5), fill=DIM, width=2)
+    draw.text(((x0 + x1) // 2 - draw.textbbox((0, 0), label, font=font)[2] // 2,
+               y + 6), label, font=font, fill=DIM)
+
+
+def dim_v(draw, y0, y1, x, label: str, font, side: str = "right") -> None:
+    draw.line((x, y0, x, y1), fill=DIM, width=2)
+    for y in (y0, y1):
+        draw.line((x - 5, y - 5, x + 5, y + 5), fill=DIM, width=2)
+    w = draw.textbbox((0, 0), label, font=font)[2]
+    tx = x + 8 if side == "right" else x - 8 - w
+    draw.text((tx, (y0 + y1) // 2 - font.size // 2), label, font=font, fill=DIM)
+
+
+def label(draw, box, text: str, font, fill="#888888") -> None:
+    x0, y0, x1, y1 = box
+    w = draw.textbbox((0, 0), text, font=font)[2]
+    draw.text(((x0 + x1) // 2 - w // 2, (y0 + y1) // 2 - font.size // 2), text,
+              font=font, fill=fill)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="绘制单款包装展开刀模 PNG")
+    parser.add_argument("--width", type=float, required=True, help="盒宽 mm")
+    parser.add_argument("--depth", type=float, required=True, help="盒深 mm")
+    parser.add_argument("--height", type=float, required=True, help="盒高 mm")
+    parser.add_argument("--front", default="", help="正面主视觉图 PNG 路径（可选）")
+    parser.add_argument("--title", default="单款包装展开刀模")
+    parser.add_argument("--spec", default="350g 白卡 · 四色印刷", help="纸材/工艺说明")
+    parser.add_argument("--list", default="", help="背面款式列表，逗号分隔（可选）")
+    parser.add_argument("--scale", type=float, default=6.0, help="像素/毫米")
+    parser.add_argument("--out", required=True, help="输出 PNG 路径")
+    args = parser.parse_args()
+    for name in ("width", "depth", "height"):
+        if not 20 <= getattr(args, name) <= 500:
+            fail(f"--{name} must be within 20..500 mm")
+    if not 2 <= args.scale <= 20:
+        fail("--scale must be within 2..20 px/mm")
+
+    s = args.scale
+    W, D, H = round(args.width * s), round(args.depth * s), round(args.height * s)
+    TUCK = round(15 * s)
+    margin = 140
+    head_h = 150
+    foot_h = 110
+    body_w = 2 * W + 2 * D
+    total_w = body_w + margin * 2
+    total_h = margin + head_h + TUCK + D + H + D + TUCK + foot_h + margin
+    canvas = Image.new("RGB", (total_w, round(total_h)), "#ffffff")
+    draw = ImageDraw.Draw(canvas)
+    font_s = find_font(24)
+    font_m = find_font(30)
+    font_l = find_font(44)
+
+    y_head = margin
+    draw.text((margin, y_head), args.title, font=font_l, fill="#111111")
+    draw.text((margin, y_head + 60),
+              f"盒体 {args.width:g}×{args.depth:g}×{args.height:g} mm · {args.spec} · 实线=裁切线 红虚线=折线",
+              font=font_s, fill="#555555")
+
+    y0 = margin + head_h
+    strip_top = y0 + TUCK + D
+    x_back0 = margin
+    x_side0 = x_back0 + W
+    x_front0 = x_side0 + D
+    x_rside0 = x_front0 + W
+    x_end = x_rside0 + D
+
+    # 面板主体（背面/左侧/正面/右侧），竖直折线
+    for x in (x_back0, x_side0, x_front0, x_rside0, x_end):
+        edge(draw, (x, strip_top), (x, strip_top + H), x in (x_side0, x_front0, x_rside0))
+    edge(draw, (x_back0, strip_top), (x_end, strip_top), False)
+    edge(draw, (x_back0, strip_top + H), (x_end, strip_top + H), False)
+    panel_labels = [
+        ((x_back0, strip_top, x_side0, strip_top + H), "背面"),
+        ((x_side0, strip_top, x_front0, strip_top + H), "左侧面"),
+        ((x_front0, strip_top, x_rside0, strip_top + H), "正面"),
+        ((x_rside0, strip_top, x_end, strip_top + H), "右侧面"),
+    ]
+
+    # 顶盖与底盖（正面列上下），盖深 D，插舌 TUCK
+    for cap_top, fold_bottom in ((y0, False), (strip_top + H, True)):
+        cap_box = (x_front0, cap_top, x_rside0, cap_top + D)
+        rect_edges(draw, cap_box, folds=((1 if cap_top == y0 else 3),))
+        tuck_y1 = cap_top - TUCK if cap_top == y0 else cap_top + D + TUCK
+        rect_edges(draw, (x_front0 + W // 6, min(cap_top, tuck_y1),
+                          x_rside0 - W // 6, max(cap_top, tuck_y1)),
+                   folds=(2,) if cap_top == y0 else (0,))
+        label(draw, cap_box, "顶盖" if cap_top == y0 else "底盖", font_m)
+        label(draw, (x_front0 + W // 6, min(cap_top, tuck_y1),
+                     x_rside0 - W // 6, max(cap_top, tuck_y1)), "插舌", font_s)
+
+    # 正面主视觉
+    if args.front:
+        front_img = Path(args.front)
+        if not front_img.is_file():
+            fail(f"--front image not found: {args.front}")
+        try:
+            visual = Image.open(front_img).convert("RGB")
+        except OSError as error:
+            fail(f"cannot decode front visual: {error}")
+        box_w, box_h = W - 20, H - 20
+        scale = min(box_w / visual.width, box_h / visual.height)
+        visual = visual.resize((round(visual.width * scale), round(visual.height * scale)))
+        canvas.paste(visual, (x_front0 + (W - visual.width) // 2,
+                              strip_top + (H - visual.height) // 2))
+
+    # 背面款式列表 + 条码位
+    items = [item.strip() for item in args.list.split(",") if item.strip()]
+    if items:
+        columns = 2
+        rows = (len(items) + columns - 1) // columns
+        cell_w, cell_h = (W - 24) // columns, min(34 * s, (H - 80) // max(rows, 1))
+        for index, item in enumerate(items):
+            row, col = divmod(index, columns)
+            cell = (x_back0 + 12 + col * cell_w, strip_top + 10 + row * cell_h,
+                    x_back0 + 12 + (col + 1) * cell_w - 8, strip_top + 10 + (row + 1) * cell_h - 6)
+            draw.rectangle(cell, outline="#999999", width=1)
+            draw.text((cell[0] + 6, cell[1] + 4), item, font=font_s, fill="#333333")
+        draw.rectangle((x_back0 + W - 120, strip_top + H - 70,
+                        x_back0 + W - 16, strip_top + H - 16), outline="#111111", width=2)
+        draw.text((x_back0 + W - 112, strip_top + H - 62), "条码位", font=font_s, fill="#666666")
+
+    # 面名称标注最后绘制，白底标签片保证压在主视觉/款式列表上仍可读
+    for box, text in panel_labels:
+        x0, y0, x1, y1 = box
+        if text == "背面" and items:
+            # 背面有款式列表时标签放左下角，避免白底片压住列表第二行
+            cx, cy = x0 + 70, y1 - 36
+        else:
+            cx, cy = (x0 + x1) // 2, (y0 + y1) // 2
+        w = draw.textbbox((0, 0), text, font=font_m)[2]
+        pad = 8
+        chip = (cx - w // 2 - pad, cy - font_m.size // 2 - pad,
+                cx + w // 2 + pad, cy + font_m.size // 2 + pad)
+        draw.rectangle(chip, fill="#ffffff", outline="#888888", width=2)
+        draw.text((cx - w // 2, cy - font_m.size // 2), text, font=font_m, fill="#333333")
+
+    # 尺寸标注
+    dim_y = strip_top + H + D + TUCK + 40
+    dim_h(draw, x_back0, x_side0, dim_y, f"{args.width:g}mm", font_s)
+    dim_h(draw, x_side0, x_front0, dim_y, f"{args.depth:g}mm", font_s)
+    dim_h(draw, x_front0, x_rside0, dim_y, f"{args.width:g}mm", font_s)
+    dim_h(draw, x_rside0, x_end, dim_y, f"{args.depth:g}mm", font_s)
+    dim_v(draw, strip_top, strip_top + H, x_back0 - 40, f"H {args.height:g}mm", font_s,
+          side="left")
+    dim_v(draw, y0 + TUCK, y0 + TUCK + D, x_front0 - 40, f"D {args.depth:g}mm", font_s)
+
+    out = Path(args.out)
+    try:
+        if out.parent and not out.parent.exists():
+            out.parent.mkdir(parents=True, exist_ok=True)
+        canvas.save(out)
+    except OSError as error:
+        fail(f"cannot write output: {error}")
+    print(f"{out} ({canvas.width}x{canvas.height})")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

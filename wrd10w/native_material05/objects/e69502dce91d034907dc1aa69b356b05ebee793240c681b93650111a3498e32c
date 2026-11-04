@@ -1,0 +1,8 @@
+data: {"id":"chatcmpl-1793070528866","object":"chat.completion.chunk","created":1793070528,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793070528866","object":"chat.completion.chunk","created":1793070528,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"calle45deda0dd2a47edb9578e2d4f17b7bc","type":"function","function":{"name":"exec","arguments":"{\"command\":\"cd /workspace/inputs/review/candidate_skill && python3 -c \\\"\\nimport hashlib,os\\nfor root,d,files in os.walk('.'):\\n    for f in sorted(files):\\n        p=os.path.join(root,f)\\n        print(hashlib.sha256(open(p,'rb').read()).hexdigest(), p)\\n\\\" && python3 scripts/validate_pack.py --help 2>&1 | head -5; echo EXIT=$?\"}"}}]},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793070528866","object":"chat.completion.chunk","created":1793070528,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+

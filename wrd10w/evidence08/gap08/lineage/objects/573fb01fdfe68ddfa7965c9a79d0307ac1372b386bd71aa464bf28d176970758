@@ -1,0 +1,33 @@
+{
+  "route_id": "phone-price-research",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/stage_notes.md",
+    "outputs/skill/templates/price_report_skeleton.md",
+    "outputs/skill/scripts/make_word_report.py"
+  ],
+  "replaced_work": "无（previous.json 为空：episode/skill_root/feedback 均为 null，无旧成果可复用）。reusable.json 三个技能已查看，均与本路线不对口（介绍文稿/身份设定/合同审查），无现成资源可复制。",
+  "program_runs": [
+    {
+      "command": "python /workspace/outputs/skill/scripts/make_word_report.py outputs/making_samples/sample_spec.json outputs/making_samples/sample_report.docx",
+      "result": "OK: paragraphs=17 tables=2；spec 用 conv_4cb425ee30e3 真实数据（Turbo 5 Max 调价时间线+建议）。LibreOffice 转 PDF 后 vision 检查两页：中文正常、表头底色+边框+隔行底纹正常、页脚页码正常。"
+    },
+    {
+      "command": "python make_word_report.py /nonexistent.json /tmp/x.docx",
+      "result": "exit=2，报错信息清晰（文件不存在）"
+    },
+    {
+      "command": "python make_word_report.py bad.json /tmp/x.docx （坏 JSON）",
+      "result": "exit=2，报 JSON 解析错误"
+    },
+    {
+      "command": "python make_word_report.py badrow.json /tmp/x.docx （表行列数不匹配）",
+      "result": "exit=2，报 'every table row must have exactly len(columns) cells'"
+    },
+    {
+      "command": "python make_word_report.py notitle.json /tmp/x.docx （缺 title）",
+      "result": "exit=2，报 'spec.title is required'"
+    }
+  ],
+  "known_issues": "脚本按 python-docx 1.2.0 + Noto Sans CJK SC（fc-match 定位）验证；微软雅黑在 Linux 宿主不可用，故统一用 Noto Sans CJK SC。每节最多一个 table，多表需拆节（已在 stage_notes 阶段四注明）。"
+}

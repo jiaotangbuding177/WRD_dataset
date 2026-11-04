@@ -1,0 +1,233 @@
+Let me understand the state. W exists: conv_f74f7410ccfd_w1 (DRAFT v1). Issues: u1 OPEN. No assets. Budget: 5 tool calls remaining, 8 decisions left, 169 seconds remaining.
+
+I need to decide what evidence to gather. The source has no file attachments (file_references: []). No input assets. So I cannot actually test the workflow with a real bank journal. However, I can build a self-contained TRY that creates a synthetic small ledger and runs the pipeline: parse, classify, generate docx, and read back docx to verify. That would provide current_executed evidence for the workflow steps and resolve the u1 question partially (presentation form).
+
+Wait — the constraint says: "Python仅操作WORKSPACE内明确投递资源和outputs" — Python only operates on resources explicitly delivered in WORKSPACE and outputs. There are no input assets. But can I create a synthetic input in WORKSPACE? Hmm. The tool description says "Python on fresh source-owned file copies. cwd=WORKSPACE. Inputs have explicit workspace_relative paths in asset catalog; outputs/ is writable."
+
+There are no input assets. Creating a synthetic test input might be acceptable as a diagnostic — but the constraint says "Runtime inputs remain future user parameters; do not bundle private task files as reusable method assets". A synthetic ledger I generate is not a private task file; it's a self-test fixture. Hmm, but it's risky. Actually TRY mode is for "proposed single repair or baseline/variant from independent fresh copies with explicit checks". Without input assets, I could do a paired_comparison testing the two presentation forms of the interest entry (negative debit vs credit positive) — but that would need input too.
+
+Actually, building a synthetic fixture within code is standard for verifying the docx generation + readback mechanics. The key claim to verify is the mechanics: generating a docx with the required table structure and reading it back via zipfile to confirm content written. And whether negative debit renders.
+
+Let me think about what's most valuable. The biggest learning: user required actual file write + readback verification (the failure: AI claimed success without the file being updated). So a TRY that generates a docx and then reads back document.xml asserting the interest entry appears with 财务费用—手续费 and the numeric value, and asserting 财务费用—利息收入 absent, would be a genuine reusable asset demonstrating the verification step.
+
+Also the paired_comparison: baseline = negative debit form (借：财务费用—手续费 -4.23), variant = credit positive (贷：财务费用—手续费 4.23). Compare which satisfies the user's literal example. Both can be asserted. That resolves u1's alternatives concretely.
+
+But budget: 5 tool calls, 8 decisions, 2 execution branches max, paired_comparison占2分支. So one paired_comparison uses both branches. That's efficient.
+
+Hmm, but do I have python-docx available? Unknown. I should use minimal deps: build docx via zipfile manually writing minimal OOXML, or use python-docx if available. Safer: write a minimal docx by constructing the XML myself with zipfile — fully self-contained, no third-party deps. Then read back. That demonstrates the exact mechanism.
+
+Actually the historical AI generated docx — we don't know what library. Using zipfile to write minimal docx is robust and dependency-free. Good.
+
+Let me plan the paired_comparison:
+- Both branches: build a synthetic 3-row ledger in memory (not written as an input file, just Python data), classify: one interest income row, one fee row, one investment row. Generate docx to outputs/, then read back word/document.xml, assert:
+  - docx exists and zip contains word/document.xml
+  - interest row's accounting subject string contains "财务费用—手续费"
+  - "财务费用—利息收入" not present in xml
+  - the numeric amount string present
+  - debit total == credit total (balanced)
+- baseline: interest rendered as negative debit (借 财务费用—手续费 -4.23, amount cell holds "-4.23") 
+- variant: interest rendered as credit positive (贷 财务费用—手续费 4.23)
+
+comparison_question: which presentation matches user's literal example while staying balanced.
+
+Both must pass common assertions; the differing assertion is the sign/direction.
+
+Hmm, but a paired comparison with common assertions that both pass doesn't discriminate. Let me design: common checks assert both are internally balanced and contain 财务费用—手续费 and not 财务费用—利息收入. The comparison question is which matches the user's literal format "借：财务费用—手续费 -0.1". The baseline encodes the user's literal example; variant encodes the alternative. Each branch asserts its own format property, and I note which matches.
+
+Actually the point of paired comparison is "Which bounded alternative works?" — i.e., test whether the alternative also produces a valid, balanced document. Both may "work" mechanically; the resolution is a user-preference. So the finding: both are mechanically valid; the user's literal example specifies the negative-debit form, so we adopt it as default with a parameter to switch.
+
+Let me be careful about time/tokens. 169 seconds left! That's tight. Need to be efficient. Maybe just do ONE TRY (single_repair) rather than paired comparison, to save time. But paired_comparison is encouraged for the u1 alternative. However 169 seconds is only ~2.8 minutes for remaining model calls. Each action takes model time. I have 8 decisions left but maybe only enough wall time for ~3-4 more actions.
+
+Given tight time, prioritize: do one TRY (single_repair) that builds and verifies the docx pipeline with the interest冲减 form (baseline = user literal). Then UPDATE to mark s4/asset, resolve u1 as RESOLVED (user's literal example is authoritative) or keep partial. Then FINISH.
+
+Actually u1: the user gave a literal example "借：银行存款 0.1借：财务费用—手续费 -0.1". Historical AI presented it as credit positive in the table but described it as -4.23. The user's literal example is explicit and stable → resolve to negative-debit form as default, with the historical AI's table rendering being a presentation nuance. I can RESOLVE u1 based on the user's explicit example because that's the effective requirement. But note the caveat: the user's example is illustrative; still it's explicit. I'll mark RESOLVED with resolution rationale, or keep OPEN-persisting. Given the literal example is explicit evidence, RESOLVED is defensible but the "or applicable accounting standard" alternative remains. I'll mark it RESOLVED (user literal is controlling) — no, being careful: it's genuinely a presentation question where the user gave the exact form. I'll resolve it.
+
+Let me now write the TRY code. Must be self-contained, use only stdlib, cwd=WORKSPACE, outputs/ writable, and assert in code.
+
+Design code (single fixture, then generate docx, read back, assert):
+
+```python
+import os, zipfile, json
+from xml.sax.saxutils import escape
+
+OUT = os.path.join("outputs", "test_vouchers.docx")
+os.makedirs("outputs", exist_ok=True)
+
+# --- synthetic fixture: future users supply their own ledger; this only exercises mechanics
+ledger = [
+    {"date":"2025-09-21","summary":"收银行存款利息","income":4.23,"expense":0.0},
+    {"date":"2025-08-01","summary":"支付银行手续费","income":0.0,"expense":25.0},
+    {"date":"2025-08-02","summary":"收到投资款","income":1000.0,"expense":0.0},
+]
+
+def classify(tx, interest_form="negative_debit"):
+    s = tx["summary"]
+    if "利息" in s:
+        return {"interest": True, "amount": tx["income"]}
+    ...
+```
+
+Hmm, let me simplify: build rows directly.
+
+Each voucher = list of (摘要, 科目, 借方, 贷方). For interest: 借 银行存款 X, 借 财务费用—手续费 -X. In a two-column table where the 手续费 -X should appear in the 借方金额 column as "-4.23" (negative debit), matching user example.
+
+Wait the user wrote "借：银行存款 0.1借：财务费用—手续费 -0.1" — both on debit side, second negative. So in the docx row: 科目=财务费用—手续费, 借方金额=-0.1, 贷方金额 empty.
+
+Historical AI presented 财务费用—手续费 in 贷方 as 4.23 (positive credit). Different. So the user's literal = negative in debit column. I'll encode baseline as negative debit.
+
+Let me write a minimal docx generator: create [Content_Types].xml, _rels/.rels, word/document.xml with a table. Then read back.
+
+Minimal docx needs: [Content_Types].xml and _rels/.rels and word/document.xml. That's enough for word to open? Generally need word/_rels/document.xml.rels? Not strictly required. For zipfile-readback test it's fine.
+
+Code:
+
+```python
+import os, zipfile
+from xml.sax.saxutils import escape
+
+WS = os.getcwd()
+OUT = os.path.join("outputs", "test_vouchers.docx")
+os.makedirs("outputs", exist_ok=True)
+
+vouchers = [
+    {"date":"2025-09-21","rows":[("收银行存款利息","银行存款", 4.23, None),
+                                 ("", "财务费用—手续费", -4.23, None)]},
+    {"date":"2025-08-01","rows":[("支付银行手续费","财务费用—手续费", 25.0, None),
+                                 ("", "银行存款", None, 25.0)]},
+]
+
+def cell(v):
+    if v is None: return "<w:tc><w:p/></w:tc>"
+    if isinstance(v,(int,float)): txt = ("%g"%v) if v==int(v) else ("%.2f"%v)
+    else: txt = v
+    return "<w:tc><w:p><w:r><w:t xml:space=\"preserve\">%s</w:t></w:r></w:p></w:tc>"%escape(txt)
+
+rows_xml = []
+for v in vouchers:
+    for (summ, subj, dr, cr) in v["rows"]:
+        rows_xml.append("<w:tr>%s%s%s%s</w:tr>"%(cell(summ),cell(subj),cell(dr),cell(cr)))
+doc_xml = '<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:tbl>%s</w:tbl></w:body></w:document>'%"".join(rows_xml)
+
+content_types = '<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="xml" ContentType="application/xml"/><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'
+rels = '<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'
+
+with zipfile.ZipFile(OUT,"w",zipfile.ZIP_DEFLATED) as z:
+    z.writestr("[Content_Types].xml", content_types)
+    z.writestr("_rels/.rels", rels)
+    z.writestr("word/document.xml", doc_xml)
+
+# readback verification
+assert os.path.exists(OUT) and os.path.getsize(OUT)>0
+with zipfile.ZipFile(OUT) as z:
+    names = z.namelist()
+    assert "word/document.xml" in names
+    xml = z.read("word/document.xml").decode("utf-8")
+
+assert "财务费用—手续费" in xml
+assert "财务费用—利息收入" not in xml
+assert "-4.23" in xml   # negative debit form present
+assert "4.23" in xml
+# balance: interest voucher dr total 4.23 + (-4.23) = 0 == cr 0... hmm net zero
+```
+
+Actually balance check: for the interest voucher, sum of debit column = 4.23 + (-4.23) = 0, credits = 0 → balanced (0=0). For the fee voucher: debit 25.0, credit 25.0 → balanced. Good. I can assert per-voucher sum(debit)==sum(credit) computed from data, not xml.
+
+Also assert readback content hash differs/equal? Not needed.
+
+Then print a JSON summary. Also compute a verify that the "-4.23" negative renders — but note in real docx the sign might be stored as separate run/negative attribute. Keep simple.
+
+Let me also assert that word/text extraction: count of interest-ish rows == 1.
+
+I think this is fine. Let me keep code compact and robust.
+
+Now, do I have time for both TRY and UPDATE and FINISH? 3 decisions. Budget says 8 decisions left, tool calls 5, seconds 169. Each of my responses consumes tokens/time. Let me try to be quick: this response = TRY. Next = UPDATE (record asset, mark s4 executed, resolve u1). Then FINISH. Three more responses. Time might be tight but let's go.
+
+Actually, wait — can I combine? No. Let me proceed with TRY now.
+
+Hmm, one concern: "Python仅操作WORKSPACE内明确投递资源和outputs". My code creates outputs/ test_vouchers.docx and uses in-memory synthetic data — no reading of non-delivered input. That complies. It doesn't fabricate a "user file". Good.
+
+Should I use paired_comparison to address u1? It uses 2 branches and both are within this single tool call? The contract shows TRY with an array of modes; paired_comparison占2分支. Given time, a single_repair is enough to establish the mechanical pipeline and the negative-debit form. The u1 alternative (credit positive) I can note as untested. Hmm, but I want to be evidence-grounded for resolving u1.
+
+Alternative: do paired_comparison in one TRY call, testing baseline (negative debit, user literal) vs variant (credit positive, historical AI form). Both build docx and read back. Common checks: docx exists, document.xml read, contains 财务费用—手续费, not 财务费用—利息收入, balanced. Each branch asserts its form. Then comparison conclusion: user's literal example corresponds to baseline; variant is mechanically valid too. This directly resolves u1 with executed evidence for both forms.
+
+That's more informative and still one tool call (2 branches). Let's do paired_comparison. Cost: longer code, but fine.
+
+Let me write it.
+
+baseline code: interest rows: 借 银行存款 4.23 / 借 财务费用—手续费 -4.23 (negative debit). assert "-4.23" in xml and xml has 财务费用—手续费 with negative.
+
+variant code: 借 银行存款 4.23 / 贷 财务费用—手续费 4.23 (credit positive). assert credit column contains "4.23", debit column of that row empty.
+
+Both: balanced sums, no 财务费用—利息收入.
+
+Let me write compact shared functions duplicated in each script (since scripts are separate strings).
+
+Let me write baseline:
+
+```python
+import os, zipfile
+from xml.sax.saxutils import escape
+os.makedirs("outputs", exist_ok=True)
+OUT = os.path.join("outputs","cmp_baseline.docx")
+
+def cell(v):
+    if v is None: return "<w:tc><w:p/></w:tc>"
+    if isinstance(v,(int,float)):
+        txt = ("%g"%v) if float(v).is_integer() else ("%.2f"%v)
+    else: txt = v
+    return '<w:tc><w:p><w:r><w:t xml:space="preserve">%s</w:t></w:r></w:p></w:tc>'%escape(str(txt))
+
+# interest voucher: baseline = negative debit on 财务费用—手续费 (user's literal example)
+rows = [("收银行存款利息","银行存款",4.23,None),
+        ("","财务费用—手续费",-4.23,None)]
+body = "".join("<w:tr>%s</w:tr>"%"".join(cell(c) for c in r) for r in rows)
+doc = '<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:tbl>%s</w:tbl></w:body></w:document>'%body
+ct='<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="xml" ContentType="application/xml"/><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'
+rels='<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'
+with zipfile.ZipFile(OUT,"w",zipfile.ZIP_DEFLATED) as z:
+    z.writestr("[Content_Types].xml",ct); z.writestr("_rels/.rels",rels); z.writestr("word/document.xml",doc)
+
+assert os.path.exists(OUT) and os.path.getsize(OUT)>0
+with zipfile.ZipFile(OUT) as z:
+    assert "word/document.xml" in z.namelist()
+    xml = z.read("word/document.xml").decode("utf-8")
+assert "财务费用—手续费" in xml
+assert "财务费用—利息收入" not in xml
+assert "-4.23" in xml                      # 负数借方（用户逐字示例）
+# balance
+dr = 4.23 + (-4.23); cr = 0.0
+assert abs(dr-cr) < 1e-9
+print("baseline OK")
+```
+
+Variant similar but 财务费用—手续费 in credit column 4.23, and assert "贷" not applicable; assert row has empty debit cell and credit "4.23". Also assert no negative number present. 
+
+Common checks: docx exists & nonempty; document.xml readable; contains 财务费用—手续费; not contains 财务费用—利息收入; balanced (per-voucher debit total == credit total).
+
+For variant balance: dr = 4.23, cr = 4.23 → balanced.
+
+Good.
+
+Now note the em-dash "—" vs hyphen "-". The source uses "财务费用—手续费" (em dash) in user text "冲减财务费用—手续费". Actually user wrote "财务费用—手续费" with em dash. Historical AI used "财务费用——手续费" (double em dash). I'll use single em dash matching user quote. Fine either way for the test; the test just checks the string I chose.
+
+Now the purpose: address u1 (presentation form) via paired comparison.
+
+Let me finalize arguments: TRY with mode paired_comparison, workflow_id conv_f74f7410ccfd_w1, step_ids ["s3","s4"], resource_ids: none available — hmm resource_ids required? For TRY it says resource_ids: ["r1"]. But there are no input assets. I can pass empty array []. Should be acceptable since no resources. Let me pass [] .
+
+existing_asset_ids: [].
+
+scripts: {baseline, variant}. common_checks list.
+
+Let's write the JSON.
+
+Keep purpose concise. action_id: try_cmp_interest_form_conv_f74f7410ccfd.
+
+I'll produce the proposal.
+
+One more consideration: time. Let's just go.
+
+Let me write the scripts carefully with proper escaping inside JSON string. I'll use \n.
+
+Write baseline code as a single string.
+
+I'll produce final JSON.

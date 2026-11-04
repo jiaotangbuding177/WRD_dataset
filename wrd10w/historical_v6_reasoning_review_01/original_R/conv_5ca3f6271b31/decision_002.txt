@@ -1,0 +1,88 @@
+We need continue as EWI teacher. We have decision 2. We need inspect the docx to resolve u1 (whether 申报书 discloses budget constraints). We have 3 assets same sha, same file. We can INSPECT resource_ids with property. Let's do INSPECT of the resource group to check structure and budget-related content. But INSPECT may only parse text; docx parsing? Tool catalog says INSPECT: XLSX, PDF, Text/JSON/CSV/MD/XML/PY/YAML, images; "Other formats: bytes/hash only." docx not listed explicitly—maybe it can parse? Hmm. It says XLSX sheet names... PDF extracted text... Other formats bytes/hash only. DOCX might not be parseable by INSPECT. But Python can unzip docx. We have TRY with python capability. Better to use TRY single_repair: run a python script that opens the docx, extracts text, and greps for budget terms, asserting file exists and zip structure. That gives current_executed evidence to resolve u1. But TRY counts as execution branch (2 allowed). That's fine. We should use TRY with the workflow steps s1, resource_ids, code. Checks in code: assert docx exists, zip open, document.xml present, extracted text length > 0, search for keywords like "劳务费", "300", "1000万", "里程碑", maybe "30%". Also we should not hardcode answers; use command-line args? We can write generic function that takes path via env or sys.argv. The instructions: "用可复用函数/命令行参数，不把本次输入内容写死成答案". We can write script that accepts path via sys.argv[1], extracts document.xml text, and prints matches for a list of regex patterns (budget-related). That's reusable. But we need assertions. We can assert the file exists and is a zip, and that text extraction yields non-empty. Then print matches for budget keywords. That's a diagnostic/exploration; reusable_asset could be true if the script is reusable for extracting docx text and budget constraints. But we should consider whether to declare reusable asset. Since it's a genuine reusable function (docx text extraction + keyword search), we can set reusable_asset=true. But careful: TRY single_repair with reusable_asset=true creates an asset? The system says TRY can produce asset if reusable_asset true. We'll set true since it's a reusable extraction function. Yet we must be careful: the script may be considered a reusable asset for future workflow. We should then UPDATE W to include asset.
+
+Alternatively, INSPECT is simpler but may not parse docx. Let's test INSPECT first? We have 6 tool calls. INSPECT is tool call. It might return bytes/hash only for docx, not helpful. Better TRY python which is guaranteed. We have 2 execution branches total allowed in whole episode; currently 0. One TRY uses one branch. That's fine.
+
+Need valid action JSON. Use action_id unique. Source_id. kind TRY. arguments: array of one object with mode single_repair, workflow_id conv_5ca3f6271b31_w1, step_ids ["s1"], resource_ids [res_3db5dc...], existing_asset_ids [], code string, checks list, reusable_asset true.
+
+The code must operate on WORKSPACE. Input path: we have workspace_relative "inputs/bc12babc055c/终稿-...docx". But the code should not hardcode the exact filename? It can accept sys.argv[1] with default? The instructions say future user input path. For this TRY, we are using the actual resource. We can write code that takes path from sys.argv[1] if provided, else scans WORKSPACE/inputs for .docx. But the resource is a fresh copy available? The runner likely copies resource to WORKSPACE? The tool doc says "Python on fresh source-owned file copies. cwd=WORKSPACE. Inputs have explicit workspace_relative paths in asset catalog; outputs/ is writable." So we should use the workspace_relative path. But resource_id is given; runner may map it. In code, we can use path from os.environ or use glob to find the file. To be safe, use glob under WORKSPACE/inputs for *.docx and pick the first. That doesn't hardcode filename. But we need assertions. We can also accept sys.argv[1]. Let's write:
+
+import sys, os, zipfile, re, json, glob
+base = os.environ.get("WORKSPACE", ".")
+paths = []
+if len(sys.argv) > 1: paths = [sys.argv[1]]
+else: paths = glob.glob(os.path.join(base, "inputs", "**", "*.docx"), recursive=True)
+assert paths, "no docx found"
+path = paths[0]
+assert os.path.exists(path), ...
+with zipfile.ZipFile(path) as z:
+    assert "word/document.xml" in z.namelist()
+    xml = z.read("word/document.xml").decode("utf-8", errors="ignore")
+text = re.sub(r"<[^>]+>", "", xml)
+text = re.sub(r"\s+", " ", text)
+assert len(text) > 100
+patterns = ["劳务费", "30%", "1000万", "300万", "里程碑", "设备", "材料", "测试", "其他费用", "预算", "专项"]
+matches = {}
+for p in patterns:
+    found = [m.start() for m in re.finditer(re.escape(p), text)]
+    matches[p] = len(found)
+    # capture context around first few matches
+    matches[p+"_contexts"] = [text[max(0, i-80):i+120] for i in found[:3]]
+print(json.dumps({"path": path, "text_length": len(text), "matches": matches}, ensure_ascii=False, indent=2))
+# write output
+os.makedirs("outputs", exist_ok=True)
+with open("outputs/docx_budget_probe.json", "w", encoding="utf-8") as f: json.dump(...)
+
+This is diagnostic, reusable_asset could be true (function to extract docx text and keyword contexts). But it's somewhat diagnostic. We can set reusable_asset=true as a reusable extraction utility. However, the instructions: "脚本若是只用于诊断的一次性尝试，reusable_asset=false". This is a reusable extraction probe? It is a generic docx text extractor with keyword search. Could be reused for other docx budget tasks. I'd say true. But maybe safer to set false if it's just for this inspection. The task says "先建立W再TRY" — we have W. "脚本若是只用于诊断的一次性尝试，reusable_asset=false". This is used to diagnose docx contents for the current issue; it's essentially one-off to resolve u1. I'll set reusable_asset=false to avoid overclaiming. But then we can't include asset in W. That's fine; we can still use the observation.
+
+Checks list must describe actual assertions. We'll include: assert file exists and is readable zip; assert document.xml present; assert extracted text length > 100; assert keyword search executed and contexts returned. The declared checks list is metadata; actual assertions in code.
+
+Let's prepare action JSON. Must be one action. Ensure no markdown. Use JSON.
+
+We'll use arguments {"mode": "single_repair", "workflow_id": "conv_5ca3f6271b31_w1", "step_ids": ["s1"], "resource_ids": ["res_3db5dc3110c7be585b8c"], "existing_asset_ids": [], "code": "...", "checks": [...], "reusable_asset": false}. Note resource_ids expects list of strings. Good.
+
+Let's craft code as a single string with \n escapes. Need valid JSON; we'll output JSON.
+
+Let's write code carefully.
+
+Code:
+```python
+import sys, os, json, zipfile, re, glob
+
+base = os.environ.get("WORKSPACE", os.getcwd())
+candidates = []
+if len(sys.argv) > 1:
+    candidates = [sys.argv[1]]
+else:
+    candidates = glob.glob(os.path.join(base, "inputs", "**", "*.docx"), recursive=True)
+assert candidates, "no docx input found under WORKSPACE/inputs"
+path = candidates[0]
+assert os.path.isfile(path), f"missing file: {path}"
+
+with zipfile.ZipFile(path) as z:
+    names = z.namelist()
+    assert "word/document.xml" in names, "word/document.xml absent"
+    xml = z.read("word/document.xml").decode("utf-8", errors="ignore")
+text = re.sub(r"<[^>]+>", "", xml)
+text = re.sub(r"\s+", " ", text).strip()
+assert len(text) > 100, f"text too short: {len(text)}"
+
+keywords = ["劳务费", "30%", "1000万", "300万", "里程碑", "设备", "材料", "测试化验", "其他费用", "预算", "专项", "自筹"]
+report = {"path": path, "text_length": len(text), "keyword_hits": {}, "contexts": {}}
+for kw in keywords:
+    idxs = [m.start() for m in re.finditer(re.escape(kw), text)]
+    report["keyword_hits"][kw] = len(idxs)
+    report["contexts"][kw] = [text[max(0, i-100):i+160] for i in idxs[:3]]
+
+os.makedirs(os.path.join(base, "outputs"), exist_ok=True)
+out = os.path.join(base, "outputs", "docx_budget_probe.json")
+with open(out, "w", encoding="utf-8") as f:
+    json.dump(report, f, ensure_ascii=False, indent=2)
+print(json.dumps(report, ensure_ascii=False, indent=2)[:4000])
+```
+This is good. We should perhaps assert that at least one budget keyword found, to make it a meaningful check. But if none found, that's an observation. We can assert at least "专项" or "预算" found? That might be too strict if the doc doesn't contain. But it should. We can add assert any(report["keyword_hits"][kw] > 0 for kw in keywords), "no budget keyword found". This ensures extraction found something relevant. If it fails, that's a learnable observation. Let's include.
+
+Now, checks list: ["assert file exists and is a readable docx zip", "assert word/document.xml present", "assert extracted text length > 100", "assert at least one budget keyword found", "write probe JSON to outputs/"]. Good.
+
+Now produce JSON. Must be one ActionProposal object. We'll set action_id "conv_5ca3f6271b31_d2_probe_docx". Ensure source_id current.
+
+Let's output.

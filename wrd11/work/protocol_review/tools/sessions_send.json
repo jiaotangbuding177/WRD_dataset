@@ -1,0 +1,58 @@
+{
+  "type": "function",
+  "function": {
+    "name": "sessions_send",
+    "description": "Run a visible session on this Gateway by sessionKey/label, or a configured local agent by agentId; sessionKey wins redundant label. A session identifies model context, not an external address; its reply may still announce through established delivery context. Accepted results report target admission as `targetDisposition: \"queued\"` or `\"steered\"`; `delivery.status` is only later announcement state, and neither proves target completion. mode:notify queues ephemeral context for the next turn without waking or starting work (bounded process memory, not a durable inbox). mode:steer injects guidance into an active supported run and never starts idle work; mode:followup starts or queues a later turn without steering. mode:resume continues your paused native child task; returns runId/taskRunId, with completion from the task owner, not inline. Resume rejects watch:true and positive timeoutSeconds. Omit mode for existing automatic routing. For an exact external destination, use `conversations_list` plus `conversations_send`/`conversations_turn`. Thread chats rejected: target parent channel. Missing configured-agent main created. Waits for reply when available; status \"no_reply\" is terminal, so do not wait for an announcement. watch:true: notice arrives when others later change target session.",
+    "parameters": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "sessionKey": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "agentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "message": {
+          "type": "string"
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "watch": {
+          "type": "boolean"
+        },
+        "mode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "notify"
+            },
+            {
+              "type": "string",
+              "const": "steer"
+            },
+            {
+              "type": "string",
+              "const": "followup"
+            },
+            {
+              "type": "string",
+              "const": "resume"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "skill": "collectible-line-design",
+  "route": "主题收藏品/盲盒系列企划与成图",
+  "source": "inputs/conversations/conv_e13d8257bf0f.json（通读全文：企划确认、系列总览图三轮返工、纠正重画、成册、详细设计、刀模、漫画分镜稿与逐册生成）",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/lessons.md",
+    "outputs/skill/scripts/compose_plan.py（复制自 reusable/skill_1，未改动）",
+    "outputs/skill/scripts/check_missing.py（复制自 reusable/skill_1，未改动）",
+    "outputs/skill/scripts/revise_plan.py（复制自 reusable/skill_1，未改动）",
+    "outputs/skill/scripts/images_to_pdf.py（复制自 reusable/skill_3，未改动）",
+    "outputs/skill/scripts/make_cover.py（新写：程序化封面/标题页，真字体）",
+    "outputs/skill/scripts/make_comic_pages.py（新写：漫画/多格页拼版+台词条）",
+    "outputs/skill/scripts/make_dieline.py（新写：包装展开刀模，mm 标注）",
+    "outputs/skill/templates/spec.example.json（复制自 reusable/skill_1）",
+    "outputs/skill/templates/cover.example.json",
+    "outputs/skill/templates/comic_pages.example.json"
+  ],
+  "replaced_work": [
+    "批量出图计划/缺漏检查/点名修订：直接复用 skill_1 三个脚本与本环境的生图命令，不再重写",
+    "图合成 PDF：复用 skill_3 的 images_to_pdf.py，本环境 Pillow JPEG 编码可用（验证通过），遇编码缺失环境改用 img2pdf 的提示写入 lessons",
+    "skill_2 未复制：其 overlay/verify/check_region 属单图编辑与自检，与本路线纠正口径不同（整张/整格重画），仅在 SKILL.md 不适用说明中提及边界"
+  ],
+  "program_runs": [
+    {"cmd": "python3 scripts/compose_plan.py spec_sample.json --out plan.json", "result": "exit 0，3 条提示词"},
+    {"cmd": "python3 scripts/compose_plan.py spec_unclarified.json --out plan_bad.json", "result": "exit 3 theme_not_clarified（错误路径）"},
+    {"cmd": "python3 scripts/check_missing.py plan.json --generated generated.txt --out missing.json", "result": "exit 0，generated 2 / missing 1"},
+    {"cmd": "python3 scripts/revise_plan.py plan.json --ids s1_overview --correction ... --out plan_v2.json", "result": "exit 0，revision 2"},
+    {"cmd": "python3 scripts/revise_plan.py ... --ids no_such_id", "result": "exit 4 unknown_item_id（错误路径）"},
+    {"cmd": "python3 scripts/make_cover.py cover_sample.json --out cover_test.png", "result": "exit 0，1920x1080；OCR 复核：标题区/副标题/两列清单/底部信息均可读、无乱码"},
+    {"cmd": "python3 scripts/make_cover.py 无背景规格", "result": "exit 0，纯色底封面可用"},
+    {"cmd": "python3 scripts/make_cover.py 缺背景图规格", "result": "exit 2 cover_error（错误路径）"},
+    {"cmd": "python3 scripts/make_comic_pages.py comic_pages_sample.json", "result": "exit 0，1536x2048 四格页；OCR 复核：台词（含中文引号）、【旁白】前缀全部可读、无乱码"},
+    {"cmd": "python3 scripts/make_comic_pages.py 缺格子图", "result": "exit 2 pages_error（错误路径）"},
+    {"cmd": "python3 scripts/make_dieline.py --width 80 --depth 80 --height 80 --front ... --list 12款 --out dieline_test.png", "result": "exit 0，2060x2020；OCR 复核：标题/规格/尺寸标注 80mm/面名称（正面、左侧面、右侧面清晰，背面标签 OCR 误读但白底标签片与文字实际存在）"},
+    {"cmd": "python3 scripts/make_dieline.py --width 10 ...", "result": "exit 2 dieline_error（错误路径）"},
+    {"cmd": "python3 scripts/images_to_pdf.py cover_test.png comic_page_01.png --out deck_test.pdf", "result": "exit 0，2 页 PDF"},
+    {"cmd": "python3 scripts/images_to_pdf.py 非图片文件", "result": "exit 2 pdf_error（错误路径）"}
+  ],
+  "known_issues": [
+    "make_dieline.py 刀模为结构示意（精确可打印），正式印刷仍需印刷厂出矢量文件，SKILL.md 已注明",
+    "ecnu_tools.py vision 探针本次调用超时不可用，文字核验改用 tesseract OCR 完成（chi_sim），核验结论以上方 program_runs 为准",
+    "生图模型画小字/编号必出错属模型固有问题，技能路线已固定为：画面不带文字或概念图接受瑕疵并说明，正式图程序排版"
+  ],
+  "samples": "outputs/making_samples/（临时样例与运行产物，含 OCR 复核记录 checks/）"
+}

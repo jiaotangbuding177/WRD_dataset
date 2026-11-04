@@ -1,0 +1,140 @@
+{
+  "schema": "wrd-fact-ledger-v1",
+  "ledger_id": "demo_ledger",
+  "_note": "测试虚构样本，非真实业务来源",
+  "facts": [
+    {
+      "fact_id": "F001",
+      "fact_type": "user_statement",
+      "claim": "试点覆盖12个班级",
+      "value": "12",
+      "unit": "个班级",
+      "subject": "蓝星云课堂平台试点覆盖",
+      "qualifiers": null,
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_A",
+          "message_id": "demo_src_A:msg_1",
+          "quote": "试点覆盖12个班级"
+        }
+      ]
+    },
+    {
+      "fact_id": "F002",
+      "fact_type": "user_statement",
+      "claim": "教师备课时间平均每周节省约5小时（实测口径）",
+      "value": "5",
+      "unit": "小时",
+      "subject": "教师备课时间每周节省(实测口径)",
+      "qualifiers": "约/实测显示",
+      "explicit_user": true,
+      "must_keep": true,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_A",
+          "message_id": "demo_src_A:msg_1",
+          "quote": "教师备课时间平均每周节省约5小时"
+        }
+      ]
+    },
+    {
+      "fact_id": "F003",
+      "fact_type": "user_statement",
+      "claim": "教学效率提升30%（实测口径）",
+      "value": "30",
+      "unit": "%",
+      "subject": "教学效率提升(实测口径)",
+      "qualifiers": "实测显示",
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_A",
+          "message_id": "demo_src_A:msg_1",
+          "quote": "教学效率提升30%"
+        }
+      ]
+    },
+    {
+      "fact_id": "F004",
+      "fact_type": "user_statement",
+      "claim": "平台已在云星市40所学校上线",
+      "value": "40",
+      "unit": "所",
+      "subject": "云星市上线学校",
+      "qualifiers": null,
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_A",
+          "message_id": "demo_src_A:msg_1",
+          "quote": "云星市40所学校上线"
+        }
+      ]
+    },
+    {
+      "fact_id": "F005",
+      "fact_type": "user_statement",
+      "claim": "累计服务师生2万人",
+      "value": "2",
+      "unit": "万人",
+      "subject": "累计服务师生",
+      "qualifiers": null,
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_A",
+          "message_id": "demo_src_A:msg_1",
+          "quote": "累计服务师生2万人"
+        }
+      ]
+    },
+    {
+      "fact_id": "R001",
+      "fact_type": "explicit_requirement",
+      "claim": "从建设成果、推广等角度整理成一份官方汇报",
+      "value": null,
+      "unit": null,
+      "subject": null,
+      "qualifiers": null,
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_A",
+          "message_id": "demo_src_A:msg_2",
+          "quote": "从建设成果、推广等角度，把下面素材整理成一份官方汇报"
+        }
+      ]
+    },
+    {
+      "fact_id": "R002",
+      "fact_type": "explicit_requirement",
+      "claim": "600字以内（成稿字数口径需说明）",
+      "value": null,
+      "unit": null,
+      "subject": null,
+      "qualifiers": null,
+      "explicit_user": true,
+      "must_keep": false,
+      "evidence_refs": [
+        {
+          "source_id": "demo_src_A",
+          "message_id": "demo_src_A:msg_3",
+          "quote": "600字以内"
+        }
+      ]
+    }
+  ],
+  "derived_rules": [
+    {
+      "rule_id": "DR1",
+      "description": "官方汇报按角度归并，保留全部核心数字",
+      "basis": "derived_policy_not_explicit_user"
+    }
+  ]
+}

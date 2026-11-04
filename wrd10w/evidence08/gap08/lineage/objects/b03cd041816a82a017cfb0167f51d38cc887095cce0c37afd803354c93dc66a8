@@ -1,0 +1,37 @@
+{
+  "decision": "revise",
+  "reason": "候选与制作产出逐字节一致（diff IDENTICAL），即当前版本已被两例真实业务试用：两臂 workflow 均真实读取 SKILL.md、references 与模板（原始轨迹 read 事件确认，skill_reads 空摘要被原始事件推翻），并实际运行渲染器（case1 一次 spec 错误重跑后成功；case2 两次 duties 权重合计 105≠100 被 exit 2 拒绝、修正后 build+verify 通过）。两例交付均为真实 docx、无占位符、内容覆盖委托底线（case1 含架构/13岗职责/5条业务流；case2 含部门职能+21岗说明书，verify 段落592/表格59/签收栏21）。资源可靠、实际复用、交付达线、账齐（totals 与各臂 all_attempts 一致，无未知调用）。唯一不达标项是成本：workflow 臂两例 tokens 与调用均高于 no_skill（970190/15 vs 313728/5；1034893/13 vs 970966/12），totals 2005083/28 vs 1284694/17，cost_reduced=false、completed_pair_reduced=false，不满足 retain 的 Token 与调用双降条件。超支可定位且可局部修复，故 revise 而非 reject。",
+  "replaced_work": "替代组织架构从设计到成文的公共工作：从公司背景推导部门/层级/编制、回复内 ASCII 架构图、设计方案 docx 渲染（render_design_docx.py + design_doc.example.json + design_playbook.md 为本路线新增），以及按已确认架构成套生成部门职能/岗位说明书 docx（render_docx.py + spec.example.json 复用自 org-role-description-drafting，原样复制）。制作 attempt_2 对两个渲染器做了完整样例验证（正常生成+PDF抽查、无--force 覆盖拒绝、坏 spec 三种 exit 2 指明缺项），attempt_1 为进程退出失败（exit=1）未产出，已按原档案保留。",
+  "resource_reliable": true,
+  "delivery_passed": true,
+  "resource_used": true,
+  "evidence_refs": [
+    "/workspace/inputs/review_input.json（totals: no_skill 1284694/17 vs workflow 2005083/28；cost_reduced=false；completed_pair_reduced=false）",
+    "/workspace/inputs/candidate 与 /workspace/inputs/making/34c36053be52/workspace/outputs/skill diff 逐字节一致（本次核验实际执行）",
+    "/workspace/inputs/making/34c36053be52/workspace/outputs/making.json（render_design_docx.py/render_docx.py 样例验证含 exit 2 拒绝路径与 PDF 抽查）",
+    "/workspace/inputs/making/444daf715b62/result.json（制作 attempt_1 status=failed，exit=1，73.4s）",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:13,16,19,22,31（SKILL.md/playbook/lessons/design_doc.example.json/render_design_docx.py 全文读取成功），:40（exit 失败），:46（重跑成功），:13,16,19,22 对应 read_usage_evidence.json source_ref",
+    "/workspace/inputs/cases/2/workflow/openclaw_transport/session_events.jsonl:28,31（两次 exit 2：job duties 权重合计 105≠100），:34（修正后 已生成 58605B docx，verify 段落=592 表格=59 签收栏=21）",
+    "/workspace/inputs/cases/1/workflow/workspace/outputs/医疗器械创业公司组织架构设计方案.docx（解包抽查 4271 字符，含岗位职责/工作业务流/汇报层级/市场部/销售部/质量，无 {{}} 占位）",
+    "/workspace/inputs/cases/2/workflow/workspace/outputs/美鲸灵医疗_部门职能说明书与岗位说明书.docx（解包抽查 17482 字符，公司概况/五中心架构/岗位表齐备，无占位）",
+    "/workspace/inputs/cases/1/no_skill/workspace/outputs/组织架构与业务流设计方案.md 与 /workspace/inputs/cases/2/no_skill/workspace/outputs/美鲸灵医疗部门职能说明书与岗位说明书.docx（no_skill 臂交付实体在档）",
+    "/workspace/inputs/cases/*/openclaw_transport/skill_reads.json（两条 workflow 臂均为空摘要，但 read_usage_evidence 原始事件确认 5/5 与 4/4 次全文读取成功，未以空摘要判未读）"
+  ],
+  "case_findings": [
+    {
+      "case_id": "org-design-medical-device-startup",
+      "delivery": "pass",
+      "reason": "workflow 臂读取技能与资料后经一次 spec 错误重跑生成 docx，实体在档且含组织架构（部门设置/汇报层级）、13 个岗位职责表、5 条工作业务流，无占位符；格式自定合规，未添加额外交付物。no_skill 臂交付 md 亦在档。"
+    },
+    {
+      "case_id": "meijingling-dept-position-manuals",
+      "delivery": "pass",
+      "reason": "workflow 臂严格按用户给定五中心架构填 spec，两次权重校验失败修正后 build+verify 通过，docx 实体在档（部门职能+岗位说明书，无虚构编制、无占位符）；no_skill 臂 docx 亦在档。"
+    }
+  ],
+  "repair_notes": [
+    "成本超支主因之一是预读开销：case1 在运行前整读了 render_design_docx.py 全文（6574 字符）与模板全文。建议在 SKILL.md 第2步或 references/lessons.md 增加一条：直接按命令行运行 build，仅在退出 2 时按 stderr 定位，不预读脚本全文。",
+    "case2 两次失败均因模型自填 duties 权重合计 105≠100。建议在 templates/spec.example.json 的 duties 示例旁加显著注释『各工作内容权重合计必须=100，填完自检』，减少重试循环。",
+    "case1 workflow 臂 tokens 为 no_skill 的约 3.1 倍，除预读外还含 spec 中间产物生成成本；可在 lessons.md 补一条：单文档任务优先精简 spec 块数，非用户点名章节不展开，以压缩下一步超支。修复后需再跑至少一例真实业务试用验证成本转降，方可再次提请 retain。"
+  ]
+}

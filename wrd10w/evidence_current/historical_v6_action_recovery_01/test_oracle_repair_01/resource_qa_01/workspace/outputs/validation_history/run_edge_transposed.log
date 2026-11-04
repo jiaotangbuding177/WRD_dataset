@@ -1,0 +1,55 @@
+cmd: /opt/eval-venv/bin/python /workspace/outputs/candidate/scripts/run.py --request /workspace/outputs/validation_history/testdata/req_edge_transposed.json
+exit: 0
+--- stdout ---
+{
+  "status": "OK",
+  "delivery": {
+    "input_workbook": "/workspace/outputs/validation_history/testdata/edge_transposed.xlsx",
+    "output_workbook": "/workspace/outputs/validation_history/testdata/edge_transposed_out.xlsx",
+    "report_file": "/workspace/outputs/validation_history/testdata/edge_transposed_report.json"
+  },
+  "input_sha256": "e943ce92138edb22d125bf4f2b86ebbb6bcef0b3f31948d42a26d75f8b6093ad",
+  "output_sha256": "50f44d252d1132b159d3fcda6253689efcfbd09e11b88bd6118fe00ff782aeca",
+  "totals": {
+    "selected_cells": 4,
+    "changed_cells": 4,
+    "unchanged_text_cells": 0,
+    "blank_cells": 0,
+    "non_text_cells": 0,
+    "formula_cells": 0
+  },
+  "checks": [
+    {
+      "name": "target_cells_match_expected",
+      "status": "PASS"
+    },
+    {
+      "name": "non_target_values_preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "styles_and_layout_preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "input_unchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "deliverable_hash_recorded",
+      "status": "PASS"
+    },
+    {
+      "name": "counting_identity",
+      "status": "PASS"
+    }
+  ],
+  "uncovered": [
+    "未在原生Excel应用程序中做视觉渲染验证；样式保留结论来自openpyxl属性级比对",
+    "未验证ZIP元数据与XML序列化顺序（契约R09明确不要求）",
+    "公式仅在xlsx定义层面识别与保留（R06），未做重算引擎结果验证",
+    "图表、图片、数据透视表等富对象不在本次契约与测试范围内，未验证其逐字节保真"
+  ]
+}
+
+--- stderr ---

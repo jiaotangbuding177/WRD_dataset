@@ -1,0 +1,14 @@
+---
+name: five-page-image-ppt
+description: 主题与页数明确的图片型PPT请求。按四步路线生成计划、逐页画面提示词、逐页出图并拼装为可直接打开的PPTX；仅当用户明确免确认时跳过大纲确认。不覆盖大量精确文字排版或中途大幅改题重做。
+---
+
+# 图片型PPT最短路线
+
+1. 计划：`python {SKILL}/scripts/build_slide_plan.py {INPUT}/ppt_request.json --out {OUT}/slide_plan.json`
+   主题/页数取自请求；请求明确"不用确认"时在请求JSON加 confirm_free=true（needs_confirmation=false，直接生成），否则先向用户确认大纲与风格。
+2. 逐页提示词：按 templates/slide_prompt_plan.template.md 填写逐页画面提示词表，并写回计划每页 title/image_prompt；从第2页起注明参考前面页画风。
+3. 逐页出图：用环境内图像生成能力，2048x1152（16:9），按计划 image_path 命名（slide_001.png 起）。
+4. 拼装：`python {SKILL}/scripts/assemble_image_ppt.py {INPUT}/slide_plan.json --images {INPUT}/images --out {OUT}/result.pptx`
+
+关键判断：确认分支只由用户明确免确认触发；页数与主题必须来自请求本身。程序方法/参数/错误与分阶段来源依据：查阅 references/stage_notes.md 获取分阶段细节与程序说明。

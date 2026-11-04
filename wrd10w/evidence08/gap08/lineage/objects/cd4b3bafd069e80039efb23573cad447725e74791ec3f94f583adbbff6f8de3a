@@ -1,0 +1,139 @@
+{
+  "routes": [
+    {
+      "id": "dcf-valuation-model",
+      "name": "DCF财务建模估值路线",
+      "category": "DATA",
+      "source_ids": ["conv_3ae75a94697f"],
+      "steps": [
+        "收集预测期、收入增长、利润率、折现率、永续增长率等假设参数",
+        "在Excel里搭预测模型：逐年收入/EBITDA/自由现金流，用公式挂接假设",
+        "算折现值和终值得出估值区间，再做敏感性分析表（折现率x永续增长率）",
+        "用LibreOffice重算校验公式结果后交付"
+      ],
+      "reuse_reason": "既有路线无财务建模估值类；本路线固定参数假设到公式模型再到敏感性分析的做表流程，替代每次重搭估值表和重算公式"
+    },
+    {
+      "id": "cashflow-summary-excel",
+      "name": "银行流水现金流量汇总表路线",
+      "category": "DATA",
+      "source_ids": ["conv_52dfe7748f87"],
+      "steps": [
+        "读用户当次上传的银行流水Excel，不用旧版知识库文件",
+        "按摘要映射分类（备用金入员工报销、补贴入经营收入、代工款等单列项目）",
+        "沿用既有汇总表的公式结构生成新期间汇总，保持公式联动",
+        "需要时做期间合并表、服务费下拉明细展开；改完报数值结果待确认"
+      ],
+      "reuse_reason": "bank-journal-voucher产出是记账凭证，本路线产出是带公式的现金流量汇总表，分类映射与公式套用是不同的数据处理工作，独立保留；解析流水前段可复用其经验"
+    },
+    {
+      "id": "git-contribution-report",
+      "name": "代码提交贡献年报路线",
+      "category": "DATA",
+      "source_ids": ["conv_589e599dc77a"],
+      "steps": [
+        "拉取Gitee活动数据并克隆仓库读提交记录，注意指定分支",
+        "把同一人的多个账号/署名归并到本人名下，不漏项目",
+        "按项目、角色、模块、功能汇总贡献，成个人年终汇报文档",
+        "用户质疑漏项时重新核对并出新版本文件，报文件名和路径"
+      ],
+      "reuse_reason": "既有路线无代码仓库贡献统计类；本路线固定提交数据提取与多账号归属归并做法，替代每次重查提交记录和重写汇总"
+    }
+  ],
+  "decisions": [
+    {
+      "source_id": "conv_3a4f18d72252",
+      "action": "reuse",
+      "route_id": "ppt-deck-generation",
+      "reason": "装humanize-ppt技能后按docx材料成稿PPT，主路线复用ppt-deck-generation；技能安装部分复用skill-connector-setup，逐页画图部分按其条件走five-page-image-ppt"
+    },
+    {
+      "source_id": "conv_3a5014f38553",
+      "action": "reuse",
+      "route_id": "company-research-report",
+      "reason": "权威性专项调研与申报决策分析说明，按澄清范围、公开信源取证标注、风险分析、结构化成文的既有调研报告路线执行，仅题材不同"
+    },
+    {
+      "source_id": "conv_3ae75a94697f",
+      "action": "new",
+      "route_id": "dcf-valuation-model",
+      "reason": "DCF估值建模含预测公式与敏感性表，既有50条路线无财务建模类，主要步骤不同且可替代重复建模与公式工作"
+    },
+    {
+      "source_id": "conv_3dd6155f18fc",
+      "action": "reuse",
+      "route_id": "usage-recap-report",
+      "reason": "每周token使用量汇总排序出周报，复用平台使用数据总结路线；输入差异记条件：来源可为后台截图需先提取，产出可为周报图片；人名纠错与离职剔除属输入变化"
+    },
+    {
+      "source_id": "conv_4024be190b45",
+      "action": "reuse",
+      "route_id": "document-error-review",
+      "reason": "薪酬制度风险点审查加评估打分表完善并出word修订版，属既有通用文档审查查错路线的维度审查与修订稿导出，制度更新重审是输入变化"
+    },
+    {
+      "source_id": "conv_420fd0fd1158",
+      "action": "reuse",
+      "route_id": "html-to-pdf-document",
+      "reason": "docx按公文格式GB/T 9704或对外发布标准整理后导出PDF，符合该路线docx先转版再渲染PDF的既有条件，版式标准不同属输入变化；旧候选document-normalize-standard-export为误造来源作废"
+    },
+    {
+      "source_id": "conv_4380f019d4cf",
+      "action": "reuse",
+      "route_id": "document-error-review",
+      "reason": "学习方案文档后审查功能描述与模块匹配性并给具体修改，属同一按维度查错给修改建议的工作，仅审查侧重不同"
+    },
+    {
+      "source_id": "conv_491ff62e803b",
+      "action": "reuse",
+      "route_id": "document-error-review",
+      "reason": "研究生指标分配方案合理性评审，属按立场审文档逻辑与公平性的既有审查路线，口头意见输出即可，不成文交付记条件"
+    },
+    {
+      "source_id": "conv_4a2da8d3a8da",
+      "action": "reuse",
+      "route_id": "web-html-prototype",
+      "reason": "平台首页与工作台HTML原型及圈选迭代修改，主路线复用web-html-prototype；icon/logo批量生图部分复用theme-image-generation，产物打包为交付延伸"
+    },
+    {
+      "source_id": "conv_4bc7c073280e",
+      "action": "no_value",
+      "reason": "排查沙箱环境read不到文件的配置问题，属一次性环境排障对话，无可复用的业务工作步骤；旧提案lesson-plan与本源不符"
+    },
+    {
+      "source_id": "conv_4dff386a54ac",
+      "action": "reuse",
+      "route_id": "jd-resume-screening",
+      "reason": "JD审查、批量简历判断是否值得面试并出推荐结论，主路线复用既有筛选路线；面试提纲生成与录音总结对比归总记为该路线附加分支"
+    },
+    {
+      "source_id": "conv_52dfe7748f87",
+      "action": "new",
+      "route_id": "cashflow-summary-excel",
+      "reason": "银行流水生成带公式的现金流量汇总表含分类映射、期间合并、下拉明细，与bank-journal-voucher产出和主要步骤不同，独立成路线"
+    },
+    {
+      "source_id": "conv_56aa032f17a8",
+      "action": "reuse",
+      "route_id": "agent-persona-setup",
+      "reason": "多次产品经理智能体身份设定为既有身份设定路线覆盖，混合会话仅归并该部分；输入法皮肤选型为一次性创意讨论不另立路线"
+    },
+    {
+      "source_id": "conv_577b961f80e1",
+      "action": "no_value",
+      "reason": "软件代理函件正版化合规应对咨询，仅两条一次性商业判断问答，无交付物和可复用的固定步骤，不凑技能"
+    },
+    {
+      "source_id": "conv_57d9f1d61b01",
+      "action": "reuse",
+      "route_id": "email-send-assist",
+      "reason": "图稿文件zip打包发邮箱且多次发送失败核对重发，主路线复用既有邮件发送路线；图稿多版本重生成部分复用theme-image-generation"
+    },
+    {
+      "source_id": "conv_589e599dc77a",
+      "action": "new",
+      "route_id": "git-contribution-report",
+      "reason": "Gitee多仓库多账号提交记录归并成个人年终贡献报告，既有路线无代码仓库统计类；会话内身份设定部分归agent-persona-setup，图片识别为单点问答不立路线"
+    }
+  ]
+}

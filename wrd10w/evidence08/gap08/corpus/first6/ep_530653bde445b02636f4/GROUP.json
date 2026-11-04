@@ -1,0 +1,1537 @@
+{
+  "status": "ACTUAL_BYTE_GROUP_FOR_ROOT_REVIEW_NOT_ADMITTED",
+  "original_context": {
+    "schema_version": "wrd-v9-native-input-recovery-1.0",
+    "episode_id": "ep_530653bde445b02636f4",
+    "old_canonical_episode_id": "ep_530653bde445b02636f4",
+    "native_session_id": "5f93b7d4-b57d-44e5-bd98-f5d371b86f44",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\8b\\8bc6b3e02903d409978e7d9dddcdea81805c187b2a0da359401b3297cb692e00",
+      "bytes": 73280,
+      "sha256": "8bc6b3e02903d409978e7d9dddcdea81805c187b2a0da359401b3297cb692e00"
+    },
+    "source_original_path": "E:\\skillloop_runs\\workflow_library\\actor__document-error-review__doc-review-conv_55752893b837__no_skill\\attempt_1\\openclaw_transport\\session_events.jsonl",
+    "messages": [
+      {
+        "role": "user",
+        "content": "实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。以下命令客户端（包括local-asr、remotion和ecnu_tools.py）均通过exec执行，不是额外的原生工具名。要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。Playwright Chromium executable_path=/usr/bin/chromium，launch args=[\"--no-sandbox\"]。原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。网络访问可用；用户要求下载的材料和skills请在任务中真实下载。当前ecnu-plus的文本与图片理解已通过独立接口探针；未提供额外搜索API密钥；公开网页可使用browser或HTTP读取。图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n公开参考skill的实际目录是 /workspace/skills/<名称>，脚本相对该skill根解析。兼容目录 /workspace/.claude/skills 指向同一目录；CLAUDE_PLUGIN_ROOT=/workspace。需要CLAUDE_SKILL_DIR的命令可用exec运行 python /opt/eval-adapter/runtime_compat.py run-skill --skill <名称> -- <命令及参数>，该变量只针对本条命令，不在多个skill之间共享固定值。跨包参考正文如果本题准入，会放在 /workspace/reference_support，作为依赖资料而非新增active skill；可运行 python /opt/eval-adapter/runtime_compat.py reference-path --skill <名称> --reference \"<SKILL中原相对引用>\" 查询真实存在的位置，再用read读取；不存在就报告缺项。GetNotes参考SDK的原缓存含跨平台开发依赖，从该skill的scripts目录可运行 getnote-tsx <tsx参数> 使用固定Linux兼容loader；这只修本地加载，不提供账号认证。agent-browser和lark-cli是通过exec运行的公共CLI，不是新增原生工具名；agent-browser使用本容器/usr/bin/chromium，外部Lark/邮件/GetNotes服务仍以实际认证结果为准。\n\n本题提供的文件：\n- /workspace/inputs/user_requests/conv_55752893b837.json\n\n用户提供的上下文：\n\n\n用户任务：\n请对《EvoMind云服务版使用说明书（企业用户）》进行评审，并按评审结论重新优化一个版本并重命名。待审文档的全文文本已内嵌在输入文件 /workspace/inputs/user_requests/conv_55752893b837.json 中（id 为 conv_55752893b837:4fa409cb 的消息正文，其中[资料1]至[资料8]为该说明书逐段原文，含表格；注意：该文本未包含原说明书第6节\"工作区文件管理\"，一律以所提供文本为准，不得臆造或补写缺失内容）。第一步：从错别字、数据、逻辑、表述四个维度逐项检查，输出问题清单，每个问题写明问题描述、修改建议、原文位置（节号或资料编号，并摘录原句）。第二步：按问题清单对所提供全文进行优化修订，生成修订版文档（docx），文件名重新命名、不沿用原文件名。将问题清单与修订版文档一并保存到 /workspace/outputs/（清单可用 /workspace/outputs/conv_55752893b837_评审意见.md，修订稿文件名自定并重命名）。",
+        "timestamp": 1792700289524,
+        "idempotencyKey": "4dcca4ba-871b-427b-b425-e1347047f3ea:user",
+        "__openclaw": {
+          "senderIsOwner": true
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call14c56c2f59b7494db8db68e5d187e625",
+            "name": "read",
+            "arguments": {
+              "path": "/workspace/inputs/user_requests/conv_55752893b837.json"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700289997,
+        "responseId": "chatcmpl-1792700294080",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call14c56c2f59b7494db8db68e5d187e625",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"source_id\": \"conv_55752893b837\",\n  \"requests\": [\n    {\n      \"id\": \"conv_55752893b837:4fa409cb\",\n      \"text\": \"[Thu 2026-06-25 15:00 GMT+8] 以下内容来自用户当前选中的知识库文件，可作为回答参考。\\n回答时请自然地使用相关信息，不要提及这些内容的来源、检索过程、资料编号或内部上下文。\\n如果内容不足以回答问题，请直接说明信息不足，不要编造。\\n\\n[资料 1] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\nEvoMind云服务版使用说明书（企业用户）EvoMind云服务版使用说明书版本 2026.05.20感谢您选择我们公司的产品，使用前请仔细阅读本使用说明书。[EvoMind] 使用须知与法律声明适用对象适用人员：本指南适用于负责本产品服务企业的相关人员。⚖️ 知识产权与保密声明内容保护：本说明书及相关技术资料（含文档、图纸、音视频等）的版权均归 [上海胆大求索科技有限公司] 所有。未经授权，严禁复制、传播或用于第三方商业用途。软件授权：您获得的是软件的有限非独家使用权。除下载数据备份外，禁止对软件进行反向工程、复制或修改。我方无义务提供源代码或非约定版本的升级服务。数据责任：请所有者定期备份工作区中的关键数据，以防丢失。产品使用规范禁止篡改：未经 [上海胆大求索科技有限公司] 书面许可，严禁对产品（尤其是安全模块）进行任何修改。安全与责任界定风险提示：请严格按照说明操作。对于因违反本指南导致的直接或间接损失（包括人身伤害或生产损失），[上海胆大求索科技有限公司] 不承担法律责任。版本更新：我们保留随时更新技术规范与说明的权利，恕不另行预告。1. 操作页面说明以下是 EvoMind 智能协作平台的产品界面说明，核心功能模块及交互逻辑如下：1.1 左侧「文件管理区」\\n\\n[资料 2] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\n聚焦任务自动化、智能体协同、技能扩展三大方向，是企业效率提升的“工具箱”：1.3.1 定时任务区定位：自动化任务调度中心。功能：创建周期性/一次性任务，设置触发时间，减少重复人工操作。1.3.2 智能体区定位：垂直场景AI助手集合。功能：提供「销售助手」、「招聘助手」等行业专属智能体，覆盖业务全流程提效。1.3.3 推荐技能区定位：通用型AI能力插件库。功能：推荐「合同风险审查」、「法律风险评估」等专业技能，按需调用解决特定问题。2. 登录界面说明（员工侧）2.1 启航打开chrome/edge浏览器，输入产品首页：https://evomind.zzz4ai.com2.2 点击登录进入登录页面登录页：https://evomind.zzz4ai.com/login登录步骤：2.2.1  登录方式EvoMind 采用手机号 + 短信验证码登录，无需设置密码。2.2.2 操作步骤访问 EvoMind 首页，系统自动跳转至登录页在左侧或顶部输入手机号（支持 13-19 开头的 11 位手机号）点击**「获取验证码」**，系统发送 6 位数字短信验证码输入收到的验证码点击**「登录」**按钮2.2.3 登录页面元素说明3. 申请加入企业/组织（员工侧）3.1 申请加入企业/组织3.2 填写要加入的企业名称，提交申请即可4. 会话功能4.1 对话功能4.1.1 发送消息\\n\\n[资料 3] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\n10.1.1 打开方式点击输入框旁的快捷指令按钮10.1.2 指令类别快捷指令按功能分为三个类别：10.1.3 内置快捷指令10.1.4 使用方式打开快捷指令菜单顶部搜索栏可搜索指令点击分类标签切换视图（全部 / 系统 / 笔记 / 知识库）点击指令卡片一键发送给AI11. 常见问题汇总Q1：验证码收不到？确认手机号输入正确检查短信是否被拦截或归入垃圾短信等待 60 秒后重新发送如持续收不到，联系管理员Q2：EvoMind无法访问？首次使用需要申请开通，等待管理员审批审批通过后刷新页面即可使用Q3：如何切换组织空间？在侧边栏底部找到组织切换器选择要切换的组织或「默认空间」切换后文件树、对话历史、知识库等资源自动切换Q4：文件分享链接过期了？分享创建者可在「我的分享」面板查看和管理分享如已过期，需重新创建分享Q5：如何配置自定义 AI 模型？打开模型配置对话框输入 Provider、Base URL 和 API KeyQ6：附件上传失败？检查文件格式是否支持（PDF / DOCX / TXT / MD / XLS / XLSX）检查单个文件大小（不超过 100MB）检查文件数量（最多 5 个）检查网络连接12. 使用过程中的问题反馈渠道方式：通过飞书问卷收集，根据需要反馈给提问者https://zzz4ai-sh.feishu.cn/share/base/form/shrcnFxfTDbk49YJ20rrElN9E8f13. 附录\\n\\n[资料 4] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\n定位：企业级文件与组织管理中枢。功能：「个人工作区」「共享工作区」：支持团队/个人文件的分类存储，共享工作区整个企业/组织可见。「我的分享」「AI会话记录」：快速访问分享的文件、过往AI历史会话存档。「企业/组织切换」：适配多企业/组织架构场景，一键切换所属主体。「个人信息区」：展示和修改账号头像等信息，查看云盘空间大小。1.2 中间「对话核心区」由「会话区」+「对话框区」组成，是人机交互的核心场景：1.2.1 会话区定位：AI与用户的对话内容展示窗口。功能：呈现自然语言对话，支持多轮连续交互。AI回复包含结构化信息，兼顾可读性与实用性。1.2.2 对话框区定位：用户输入指令、调用工具的操作入口。功能：基础操作：输入消息后按 Enter 发送，Shift + Enter 换行；支持拖拽本地/左侧文件到输入框，实现“对话+文件处理”联动。快捷功能：「新对话」（开启全新会话）、「快捷指令」（预设常用指令模板）、「技能库」（调用AI扩展能力）、「人格」（自定义AI交互风格）。模型配置：「默认大模型」支持切换底层AI模型，可配置自定义模型。辅助工具：「输入优化」（润色/补全用户输入）、「上传文件」（向对话注入文档等素材）、「发送」（提交当前输入）。1.3 右侧「AI工作台」\\n\\n[资料 5] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\n在「我的分享」面板查看所有分享支持取消分享、修改权限7. 技能相关7.1 技能库技能市场展示所有可用的 AI 技能/Agent，用户可以浏览、搜索和安装。7.1.1 页面布局7.2 我的技能「我的技能」页面展示用户从第三方自行安装的技能：显示已启用技能每张技能卡片包含：图标、名称、状态、描述（自安装技能名称、描述等信息由技能自己确定）7.3 推荐技能可快捷查看适合自己岗位的常用技能，并使用技能完成任务8. 定时任务8.1 定时任务入口工作台右侧面板的定时任务模块：8.2 创建定时任务支持三种调度类型：周期选项：定时任务支持日历视图，查看所有定时任务详情8.3 任务管理查看运行记录：点击任务查看历史执行记录运行消息：实时查看任务执行过程中的消息未读通知：侧边栏显示未读任务计数全部已读：一键将所有通知标记为已读标记单条已读：逐条标记通知手动执行：点击「运行」按钮立即执行定时任务9. 模型自定义9.1 模型配置支持自定义 AI 模型配置：点击模型配置入口打开配置对话框配置以下参数：Provider：LLM 提供商（如 千问、火山、百度等），Base URL：可以选择其他，填写自定义的API 服务地址Model ID:可选择系统内置的模型ID，也可以选择其他，填写自定义的模型IDAPI Key：认证密钥保存配置后生效10. 快捷指令10.1 概述快捷指令（Shortcut Command Menu）是超级龙虾工作台中的快捷操作入口，通过预设指令快速向 Agent 发送常用命令。\\n\\n[资料 6] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\n<table><tr><td>类别</td><td>说明</td></tr><tr><td>系统</td><td>对话管理和上下文查询</td></tr><tr><td>笔记</td><td>从外部笔记服务导入内容到工作区</td></tr><tr><td>知识库</td><td>整理知识库</td></tr></table>\\n\\n[资料 7] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\n在底部输入框输入消息文本（可选）添加文件附件（总计 100MB）点击发送按钮4.1.2 中断生成AI 回复过程中，可点击「中断」按钮停止生成。4.1.3 新建会话点击「新对话」按钮创建新的对话会话。4.1.4 历史会话侧边栏/历史面板展示历史会话列表支持搜索、重命名、删除会话点击会话可恢复上下文继续对话5. 智能体操作说明5.1 智能体操作5.1.1 概述智能体是预配置的 AI Agent 角色，支持用户自定义创建和编辑。5.1.2 内置智能体目前系统预置了 17 个内置智能体，后续也将持续新增迭代，已覆盖多个专业领域：5.1.3 智能体分类智能体按工作岗位性质分类管理：运营、人力资源、财务、法务、销售、市场、通用。我的智能体展示所有自定义的智能体。5.1.4 自定义智能体创建智能体用户可以创建自己的智能体，定义角色和行为：在智能体面板点击「创建智能体」配置以下参数：编辑智能体在「我的智能体」中找到要编辑的智能体点击编辑按钮，修改参数后保存删除智能体在智能体详情面板点击删除按钮确认后永久删除（不可恢复）5.1.5  智能体详情点击智能体卡片打开详情面板，展示：5.2 HR智能体能力演示5.2.1 能力定位HR 工作智能体用于辅助处理企业人力资源场景中的制度化、流程化任务，覆盖招聘录用、培训管理、员工离职、政策合规和绩效评估五类核心工作。智能体回答和生成建议时应优先引用已编译的证据原子，避免编造未被制度或流程文件支持的业务事实。\\n\\n[资料 8] 文件: EvoMind云服务版使用说明书（企业用户）.docx 路径: 个人知识库/EvoMind云服务版使用说明书（企业用户）.docx\\n<table><tr><td>免责声明：EvoMind 生成的所有内容均由 AI 自动产生，可能存在错误或不准确之处，请务必核查重要信息。</td></tr></table>\\n\\n用户原始问题:\\n请使用技能「evomind-paper-scan」协助当前任务。\\n评审下\"\n    },\n    {\n      \"id\": \"conv_55752893b837:msg_5\",\n      \"text\": \"是的\"\n    },\n    {\n      \"id\": \"conv_55752893b837:msg_17\",\n      \"text\": \"好，按你的建议重新优化一个版本，并重命名\"\n    }\n  ]\n}\n"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "kind",
+            "content"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792700298629,
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "callc86494c685154575aa554428a3e8d527",
+            "name": "exec",
+            "arguments": {
+              "command": "mkdir -p /workspace/outputs /workspace/tmp && python -c \"import docx; print('python-docx OK', docx.__version__ if hasattr(docx,'__version__') else '')\" && which soffice libreoffice pdftotext 2>/dev/null; echo done"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700298666,
+        "responseId": "chatcmpl-1792700298708",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "callc86494c685154575aa554428a3e8d527",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "python-docx OK 1.2.0\n/usr/bin/soffice\n/usr/bin/libreoffice\n/usr/bin/pdftotext\ndone"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 100,
+          "aggregated": "python-docx OK 1.2.0\n/usr/bin/soffice\n/usr/bin/libreoffice\n/usr/bin/pdftotext\ndone",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792700440607,
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "环境就绪。我已通读输入文件中 [资料1]–[资料8] 的说明书全文，现在先输出评审问题清单。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-10bfffcfcf31450ea5a1e914\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call9356d91bea914d0399649762c2814938",
+            "name": "write",
+            "arguments": {
+              "content": "# 《EvoMind云服务版使用说明书（企业用户）》评审意见\n\n- 评审对象：EvoMind云服务版使用说明书（企业用户）（版本 2026.05.20），以所提供文本（[资料1]–[资料8]）为准\n- 评审日期：2026-10-22\n- 评审维度：错别字、数据、逻辑、表述\n- 说明：所提供文本未包含原说明书第 6 节「工作区文件管理」，本次评审一律以所提供文本为准，不臆造、不补写缺失内容。资料片段在原文中顺序与文档章节顺序不同（如资料4实际对应 1.1/1.2 节、资料7对应 4.1/5 节），位置以章节号标注为主，并附资料编号。\n\n---\n\n## 一、错别字\n\n### A1. 浏览器名称大小写不规范\n- **问题描述**：专有名词 chrome/edge 首字母未大写，不符合英文专名书写规范。\n- **原文位置**：2.1（[资料2]）\n- **原文摘录**：「打开chrome/edge浏览器，输入产品首页：https://evomind.zzz4ai.com」\n- **修改建议**：改为「打开 Chrome/Edge 浏览器，访问产品首页……」。\n\n### A2. 标点符号混用（全角/半角冒号、逗号误用）\n- **问题描述**：9.1 参数说明中「Model ID:」使用半角冒号，其余参数名均用全角冒号「：」；且「（如 千问、火山、百度等），Base URL」用逗号连接两个参数项，层级混乱。\n- **原文位置**：9.1（[资料5]）\n- **原文摘录**：「Provider：LLM 提供商（如 千问、火山、百度等），Base URL：可以选择其他，填写自定义的API 服务地址Model ID:可选择系统内置的模型ID……」\n- **修改建议**：统一使用全角冒号，各参数项分行或以分号分隔列举。\n\n## 二、数据\n\n### B1. 附件上传限制口径不一致\n- **问题描述**：4.1.1 说附件「总计 100MB」，Q6 说「单个文件大小（不超过 100MB）」「文件数量（最多 5 个）」，两处口径不一致（一处只讲总量，一处只讲单文件与数量）。\n- **原文位置**：4.1.1（[资料7]）、Q6（[资料3]）\n- **原文摘录**：「添加文件附件（总计 100MB）」；「检查单个文件大小（不超过 100MB）检查文件数量（最多 5 个）」\n- **修改建议**：统一为「单个不超过 100MB，最多 5 个，总计不超过 100MB」。\n\n### B2. Q5 与 9.1 的模型配置参数列表不一致\n- **问题描述**：Q5 只列「Provider、Base URL 和 API Key」，缺少 9.1 中的「Model ID」，参数口径不一致。\n- **原文位置**：Q5（[资料3]）对照 9.1（[资料5]）\n- **原文摘录**：「打开模型配置对话框输入 Provider、Base URL 和 API Key」\n- **修改建议**：Q5 补充 Model ID，并与 9.1 保持一致，注明「详见 9.1」。\n\n### B3. 「17 个内置智能体」数字无法对应核实\n- **问题描述**：5.1.2 声明预置 17 个内置智能体，但正文未列出任何清单，且句子以冒号结尾无后续内容，数字无法与正文对应核实。\n- **原文位置**：5.1.2（[资料7]）\n- **原文摘录**：「目前系统预置了 17 个内置智能体，后续也将持续新增迭代，已覆盖多个专业领域：」\n- **修改建议**：核实数量并补充智能体清单；若无法补充，改为概述性表述（修订稿采用概述表述，不虚构清单）。\n\n### B4. 「三种调度类型」未列明\n- **问题描述**：8.2 声称「支持三种调度类型」，但未列明是哪三种，「周期选项：」后亦无内容。\n- **原文位置**：8.2（[资料5]）\n- **原文摘录**：「支持三种调度类型：周期选项：定时任务支持日历视图，查看所有定时任务详情」\n- **修改建议**：列明三种调度类型；若无法列明，改为「支持多种调度类型，可按需设置周期选项」（修订稿采用后者，不虚构类型名）。\n\n## 三、逻辑\n\n### C1. 产品名称错误：「超级龙虾工作台」（重要）\n- **问题描述**：全文产品名为「EvoMind 智能协作平台 / EvoMind」，10.1 却写「超级龙虾工作台」，与产品名完全不符，疑为其他产品手册复制残留，属严重一致性错误。\n- **原文位置**：10.1（[资料5]）\n- **原文摘录**：「快捷指令（Shortcut Command Menu）是超级龙虾工作台中的快捷操作入口」\n- **修改建议**：改为「EvoMind 工作台」。\n\n### C2. 责任条款与产品形态不符：「人身伤害」\n- **问题描述**：云服务协作平台的使用说明中出现「人身伤害」，疑沿用硬件类说明书模板，与产品形态不符。\n- **原文位置**：使用须知·安全与责任界定（[资料1]）\n- **原文摘录**：「对于因违反本指南导致的直接或间接损失（包括人身伤害或生产损失），[上海胆大求索科技有限公司] 不承担法律责任。」\n- **修改建议**：改为「（包括数据丢失、业务中断或生产损失等）」。\n\n### C3. 多处冒号后无内容（悬空冒号）\n- **问题描述**：多处「冒号引出列表」的句式后没有任何内容，疑因原表格/截图未被文本收录，造成语义中断。\n- **原文位置及摘录**：\n  - 5.1.2（[资料7]）：「已覆盖多个专业领域：」\n  - 5.1.4（[资料7]）：「在智能体面板点击「创建智能体」配置以下参数：」\n  - 5.1.5（[资料7]）：「点击智能体卡片打开详情面板，展示：」\n  - 8.1（[资料5]）：「工作台右侧面板的定时任务模块：」\n  - 8.2（[资料5]）：「支持三种调度类型：周期选项：」（见 B4）\n  - 7.2（[资料5]）：「「我的技能」页面展示用户从第三方自行安装的技能：显示已启用技能」\n- **修改建议**：将悬空冒号句式改写为完整句式；不虚构缺失的列表内容。\n\n### C4. 空小节（仅标题无正文）\n- **问题描述**：以下小节仅有标题、无任何正文内容。\n- **原文位置**：2.2.3 登录页面元素说明（[资料2]）；3.1 申请加入企业/组织（标题与章标题重复且无正文，[资料2]）；7.1.1 页面布局（[资料5]）；10.1.3 内置快捷指令（[资料3]）\n- **修改建议**：补充实际内容（含截图/表格）；修订稿对无内容小节加「以实际界面为准」说明，并删除与章标题重复的 3.1。\n\n### C5. 第 6 节缺失及孤立片段\n- **问题描述**：所提供文本不含第 6 节「工作区文件管理」；[资料5] 开头的「在「我的分享」面板查看所有分享 支持取消分享、修改权限」为孤立片段，从上下文看应属第 6 节内容。\n- **原文位置**：第 6 节整体缺失；[资料5] 开头孤立片段\n- **原文摘录**：「在「我的分享」面板查看所有分享支持取消分享、修改权限」\n- **修改建议**：修订稿在第 6 节位置明确注明「原始文本未提供，从略」，仅保留上述现存片段并规范标点，不补写其他内容。\n\n### C6. 组织切换入口表述不统一\n- **问题描述**：1.1 称「企业/组织切换」位于左侧「文件管理区」；Q3 称「在侧边栏底部找到组织切换器」，两处称呼与位置描述不统一。\n- **原文位置**：1.1（[资料4]）、Q3（[资料3]）\n- **原文摘录**：「「企业/组织切换」：适配多企业/组织架构场景，一键切换所属主体。」；「在侧边栏底部找到组织切换器」\n- **修改建议**：统一名称为「企业/组织切换」，并在 Q3 处互为参照。\n\n## 四、表述\n\n### D1. 文档标题重复连排\n- **问题描述**：标题与说明书名连排重复，版本信息粘连。\n- **原文位置**：文档开头（[资料1]）\n- **原文摘录**：「EvoMind云服务版使用说明书（企业用户）EvoMind云服务版使用说明书版本 2026.05.20」\n- **修改建议**：规范为「标题」与「版本信息」两行排版。\n\n### D2. 适用对象表述拗口\n- **原文位置**：使用须知·适用对象（[资料1]）\n- **原文摘录**：「本指南适用于负责本产品服务企业的相关人员。」\n- **修改建议**：改为「本指南适用于企业中负责本产品使用与管理的相关人员。」\n\n### D3. 「除下载数据备份外」语义不清\n- **原文位置**：使用须知·知识产权与保密声明（[资料1]）\n- **原文摘录**：「除下载数据备份外，禁止对软件进行反向工程、复制或修改。」\n- **修改建议**：改为「除为备份数据所必需的下载、复制外，禁止对软件进行反向工程、复制或修改。」\n\n### D4. 「所有者」指代不明\n- **原文位置**：使用须知·数据责任（[资料1]）\n- **原文摘录**：「请所有者定期备份工作区中的关键数据，以防丢失。」\n- **修改建议**：改为「请账号管理员及用户定期备份工作区中的关键数据，以防丢失。」\n\n### D5. 2.1 标题「启航」含义不明、动词搭配不当\n- **原文位置**：2.1（[资料2]）\n- **原文摘录**：「2.1 启航打开chrome/edge浏览器，输入产品首页：https://evomind.zzz4ai.com」\n- **修改建议**：标题改为「快速开始」；「输入产品首页」改为「访问产品首页」。\n\n### D6. 「点击登录」缺少引导符\n- **原文位置**：2.2（[资料2]）\n- **原文摘录**：「2.2 点击登录进入登录页面」\n- **修改建议**：改为「点击「登录」进入登录页面」。\n\n### D7. 4.1.1 步骤连写、「（可选）」位置歧义\n- **原文位置**：4.1.1（[资料7]）\n- **原文摘录**：「在底部输入框输入消息文本（可选）添加文件附件（总计 100MB）点击发送按钮」\n- **修改建议**：分步骤表述；明确「（可选）」修饰对象，并按 B1 统一附件限制口径。\n\n### D8. 反馈渠道语义含糊\n- **原文位置**：12 章（[资料3]）\n- **原文摘录**：「方式：通过飞书问卷收集，根据需要反馈给提问者」\n- **修改建议**：改为「通过飞书问卷收集使用过程中的问题与建议，我们将根据需要将处理结果反馈给提问者」，问卷地址单独成行。\n\n### D9. 内部技术术语外泄：「证据原子」\n- **问题描述**：「已编译的证据原子」为内部技术术语，不适合直接出现在企业用户手册，且「应优先引用」的指向（谁应）不明。\n- **原文位置**：5.2.1（[资料7]）\n- **原文摘录**：「智能体回答和生成建议时应优先引用已编译的证据原子，避免编造未被制度或流程文件支持的业务事实。」\n- **修改建议**：改为面向用户的表述：「智能体在回答和生成建议时，将优先依据企业已有的制度与流程文件，避免输出缺乏依据的业务信息。」\n\n### D10. 中英文混排空格不统一（全文性问题）\n- **问题描述**：中文与英文/数字之间空格使用不统一，如「发送给AI」「EvoMind无法访问」「选择其他，填写自定义的API 服务地址」等。\n- **原文位置**：全文多处（如 [资料3]、[资料5]）\n- **修改建议**：统一排版规范（中文与英文、数字之间加空格）。\n\n### D11. 「过往AI历史会话存档」语义重复\n- **原文位置**：1.1（[资料4]）\n- **原文摘录**：「快速访问分享的文件、过往AI历史会话存档」\n- **修改建议**：改为「快速访问分享的文件与过往 AI 会话存档」。\n\n### D12. 长句一逗到底、缺少断句\n- **原文位置**：1.1（[资料4]）\n- **原文摘录**：「支持团队/个人文件的分类存储，共享工作区整个企业/组织可见。」\n- **修改建议**：改为「支持团队/个人文件的分类存储；共享工作区对整个企业/组织可见。」\n\n### D13. 口语化表述「由技能自己确定」\n- **原文位置**：7.2（[资料5]）\n- **原文摘录**：「（自安装技能名称、描述等信息由技能自己确定）」\n- **修改建议**：改为「（自安装技能的名称、描述等信息由技能自身定义）」。\n\n### D14. 手机号输入位置描述含糊\n- **原文位置**：2.2.2（[资料2]）\n- **原文摘录**：「在左侧或顶部输入手机号（支持 13-19 开头的 11 位手机号）」\n- **修改建议**：改为「在手机号输入框中输入手机号（支持 13-19 开头的 11 位手机号）」。\n\n---\n\n## 汇总\n\n| 维度 | 数量 | 编号 |\n| --- | --- | --- |\n| 错别字 | 2 | A1、A2 |\n| 数据 | 4 | B1、B2、B3、B4 |\n| 逻辑 | 6 | C1、C2、C3、C4、C5、C6 |\n| 表述 | 14 | D1–D14 |\n| **合计** | **26** | — |\n\n其中最严重的问题为 **C1（产品名写成「超级龙虾工作台」）**，其余按 B、C、D 类逐项在修订版中处理；无法核实的数字与缺失列表均按「不臆造、不补写」原则采用概述性表述或保留原值并注明。\n",
+              "path": "/workspace/outputs/conv_55752893b837_评审意见.md"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700440617,
+        "responseId": "chatcmpl-1792700440644",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call9356d91bea914d0399649762c2814938",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote 12820 bytes to /workspace/outputs/conv_55752893b837_评审意见.md"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "changed",
+            "created",
+            "diff",
+            "patch",
+            "firstChangedLine"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792700473859,
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "评审清单已保存。现在生成修订版 docx 文档。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-3bfdf72769314b88a7a31fd6\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "callf62f363c3d3742e88e5b125a32a99e8c",
+            "name": "write",
+            "arguments": {
+              "content": "# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, RGBColor\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH\nfrom docx.oxml.ns import qn\n\ndoc = Document()\n\n# Global font\nstyle = doc.styles['Normal']\nstyle.font.name = 'Calibri'\nstyle.font.size = Pt(11)\nstyle.element.rPr.rFonts.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\nfor hname, sz in [('Heading 1', 16), ('Heading 2', 13), ('Heading 3', 12), ('Heading 4', 11)]:\n    st = doc.styles[hname]\n    st.font.name = 'Calibri'\n    st.font.size = Pt(sz)\n    st.font.color.rgb = RGBColor(0x1F, 0x3B, 0x63)\n    rpr = st.element.get_or_add_rPr()\n    rf = rpr.find(qn('w:rFonts'))\n    if rf is None:\n        rf = rpr.makeelement(qn('w:rFonts'), {})\n        rpr.append(rf)\n    rf.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\ndef p(text, bold=False, italic=False, center=False, style_name=None):\n    para = doc.add_paragraph(style=style_name)\n    if center:\n        para.alignment = WD_ALIGN_PARAGRAPH.CENTER\n    run = para.add_run(text)\n    run.bold = bold\n    run.italic = italic\n    return para\n\ndef bullet(text):\n    return doc.add_paragraph(text, style='List Bullet')\n\ndef num(text):\n    return doc.add_paragraph(text, style='List Number')\n\n# ===== Title block =====\nt = p('EvoMind 云服务版使用说明书（企业用户）', bold=True, center=True)\nt.runs[0].font.size = Pt(20)\np('版本 2026.05.20 · 修订版（2026-10-22）', center=True)\np('修订说明：本修订版基于版本 2026.05.20 文本评审结果修订。原始文本未包含原说明书第 6 节「工作区文件管理」，本修订版不作补写；无法核实的数字与缺失列表均采用概述性表述，未虚构任何内容。', italic=True, center=True)\np('感谢您选择我们公司的产品，使用前请仔细阅读本使用说明书。', center=True)\n\n# ===== 使用须知 =====\ndoc.add_heading('使用须知与法律声明', level=1)\n\ndoc.add_heading('适用对象', level=2)\np('适用人员：本指南适用于企业中负责本产品使用与管理的相关人员。')\n\ndoc.add_heading('知识产权与保密声明', level=2)\np('内容保护：本说明书及相关技术资料（含文档、图纸、音视频等）的版权均归上海胆大求索科技有限公司所有。未经授权，严禁复制、传播或用于第三方商业用途。')\np('软件授权：您获得的是软件的有限非独家使用权。除为备份数据所必需的下载、复制外，禁止对软件进行反向工程、复制或修改。我方无义务提供源代码或非约定版本的升级服务。')\np('数据责任：请账号管理员及用户定期备份工作区中的关键数据，以防丢失。')\n\ndoc.add_heading('产品使用规范', level=2)\np('禁止篡改：未经上海胆大求索科技有限公司书面许可，严禁对产品（尤其是安全模块）进行任何修改。')\n\ndoc.add_heading('安全与责任界定', level=2)\np('风险提示：请严格按照说明操作。对于因违反本指南导致的直接或间接损失（包括数据丢失、业务中断或生产损失等），上海胆大求索科技有限公司不承担法律责任。')\np('版本更新：我们保留随时更新技术规范与说明的权利，恕不另行预告。')\n\n# ===== 1 =====\ndoc.add_heading('1. 操作页面说明', level=1)\np('以下是 EvoMind 智能协作平台的产品界面说明，核心功能模块及交互逻辑如下：')\n\ndoc.add_heading('1.1 左侧「文件管理区」', level=2)\np('定位：企业级文件与组织管理中枢。')\np('功能：')\nbullet('「个人工作区」「共享工作区」：支持团队/个人文件的分类存储；共享工作区对整个企业/组织可见。')\nbullet('「我的分享」「AI 会话记录」：快速访问分享的文件与过往 AI 会话存档。')\nbullet('「企业/组织切换」：适配多企业/组织架构场景，一键切换所属主体。')\nbullet('「个人信息区」：展示和修改账号头像等信息，查看云盘空间大小。')\n\ndoc.add_heading('1.2 中间「对话核心区」', level=2)\np('由「会话区」+「对话框区」组成，是人机交互的核心场景：')\n\ndoc.add_heading('1.2.1 会话区', level=3)\np('定位：AI 与用户的对话内容展示窗口。')\np('功能：呈现自然语言对话，支持多轮连续交互；AI 回复包含结构化信息，兼顾可读性与实用性。')\n\ndoc.add_heading('1.2.2 对话框区', level=3)\np('定位：用户输入指令、调用工具的操作入口。')\np('功能：')\nbullet('基础操作：输入消息后按 Enter 发送，Shift+Enter 换行；支持拖拽本地/左侧文件到输入框，实现「对话+文件处理」联动。')\nbullet('快捷功能：「新对话」（开启全新会话）、「快捷指令」（预设常用指令模板）、「技能库」（调用 AI 扩展能力）、「人格」（自定义 AI 交互风格）。')\nbullet('模型配置：「默认大模型」支持切换底层 AI 模型，可配置自定义模型。')\nbullet('辅助工具：「输入优化」（润色/补全用户输入）、「上传文件」（向对话注入文档等素材）、「发送」（提交当前输入）。')\n\ndoc.add_heading('1.3 右侧「AI 工作台」', level=2)\np('聚焦任务自动化、智能体协同、技能扩展三大方向，是企业效率提升的「工具箱」：')\n\ndoc.add_heading('1.3.1 定时任务区', level=3)\np('定位：自动化任务调度中心。')\np('功能：创建周期性/一次性任务，设置触发时间，减少重复人工操作。')\n\ndoc.add_heading('1.3.2 智能体区', level=3)\np('定位：垂直场景 AI 助手集合。')\np('功能：提供「销售助手」「招聘助手」等行业专属智能体，覆盖业务全流程提效。')\n\ndoc.add_heading('1.3.3 推荐技能区', level=3)\np('定位：通用型 AI 能力插件库。')\np('功能：推荐「合同风险审查」「法律风险评估」等专业技能，按需调用解决特定问题。')\n\n# ===== 2 =====\ndoc.add_heading('2. 登录界面说明（员工侧）', level=1)\ndoc.add_heading('2.1 快速开始', level=2)\np('打开 Chrome/Edge 浏览器，访问产品首页：https://evomind.zzz4ai.com')\n\ndoc.add_heading('2.2 登录', level=2)\np('点击「登录」进入登录页面。')\np('登录页：https://evomind.zzz4ai.com/login')\np('登录步骤：')\n\ndoc.add_heading('2.2.1 登录方式', level=3)\np('EvoMind 采用手机号+短信验证码登录，无需设置密码。')\n\ndoc.add_heading('2.2.2 操作步骤', level=3)\nnum('访问 EvoMind 首页，系统自动跳转至登录页。')\nnum('在手机号输入框中输入手机号（支持 13-19 开头的 11 位手机号）。')\nnum('点击「获取验证码」，系统发送 6 位数字短信验证码。')\nnum('输入收到的验证码。')\nnum('点击「登录」按钮。')\n\ndoc.add_heading('2.2.3 登录页面元素说明', level=3)\np('（本小节原始文本未提供具体页面元素内容，以实际登录页面为准。）', italic=True)\n\n# ===== 3 =====\ndoc.add_heading('3. 申请加入企业/组织（员工侧）', level=1)\np('填写要加入的企业名称，提交申请即可。')\n\n# ===== 4 =====\ndoc.add_heading('4. 会话功能', level=1)\ndoc.add_heading('4.1 对话功能', level=2)\ndoc.add_heading('4.1.1 发送消息', level=3)\nnum('在底部输入框输入消息文本（可不填）。')\nnum('如需，添加文件附件（支持 PDF / DOCX / TXT / MD / XLS / XLSX 格式；单个不超过 100MB，最多 5 个，总计不超过 100MB）。')\nnum('点击发送按钮。')\n\ndoc.add_heading('4.1.2 中断生成', level=3)\np('AI 回复过程中，可点击「中断」按钮停止生成。')\n\ndoc.add_heading('4.1.3 新建会话', level=3)\np('点击「新对话」按钮创建新的对话会话。')\n\ndoc.add_heading('4.1.4 历史会话', level=3)\nbullet('侧边栏/历史面板展示历史会话列表。')\nbullet('支持搜索、重命名、删除会话。')\nbullet('点击会话可恢复上下文继续对话。')\n\n# ===== 5 =====\ndoc.add_heading('5. 智能体操作说明', level=1)\ndoc.add_heading('5.1 智能体操作', level=2)\ndoc.add_heading('5.1.1 概述', level=3)\np('智能体是预配置的 AI Agent 角色，支持用户自定义创建和编辑。')\n\ndoc.add_heading('5.1.2 内置智能体', level=3)\np('目前系统预置了 17 个内置智能体，后续也将持续新增迭代，已覆盖多个专业领域。')\n\ndoc.add_heading('5.1.3 智能体分类', level=3)\np('智能体按工作岗位性质分类管理：运营、人力资源、财务、法务、销售、市场、通用。')\np('「我的智能体」展示所有自定义的智能体。')\n\ndoc.add_heading('5.1.4 自定义智能体', level=3)\np('创建智能体：用户可以创建自己的智能体，定义角色和行为。在智能体面板点击「创建智能体」，按页面提示完成相关参数配置。')\np('编辑智能体：在「我的智能体」中找到要编辑的智能体，点击编辑按钮，修改参数后保存。')\np('删除智能体：在智能体详情面板点击删除按钮，确认后永久删除（不可恢复）。')\n\ndoc.add_heading('5.1.5 智能体详情', level=3)\np('点击智能体卡片打开详情面板，可查看该智能体的相关信息。')\n\ndoc.add_heading('5.2 HR 智能体能力演示', level=2)\ndoc.add_heading('5.2.1 能力定位', level=3)\np('HR 工作智能体用于辅助处理企业人力资源场景中的制度化、流程化任务，覆盖招聘录用、培训管理、员工离职、政策合规和绩效评估五类核心工作。')\np('智能体在回答和生成建议时，将优先依据企业已有的制度与流程文件，避免输出缺乏制度或流程依据的业务信息。')\n\n# ===== 6 =====\ndoc.add_heading('6. 工作区文件管理', level=1)\np('（本节内容未包含在本次评审所依据的原始文本中，修订版不作补写。以下仅保留原始文本中与「我的分享」相关的现存内容。）', italic=True)\np('在「我的分享」面板查看所有分享；支持取消分享、修改权限。')\n\n# ===== 7 =====\ndoc.add_heading('7. 技能相关', level=1)\ndoc.add_heading('7.1 技能库', level=2)\np('技能市场展示所有可用的 AI 技能/Agent，用户可以浏览、搜索和安装。')\n\ndoc.add_heading('7.2 我的技能', level=2)\np('「我的技能」页面展示用户从第三方自行安装的技能，显示已启用的技能。')\np('每张技能卡片包含：图标、名称、状态、描述（自安装技能的名称、描述等信息由技能自身定义）。')\n\ndoc.add_heading('7.3 推荐技能', level=2)\np('可快捷查看适合自己岗位的常用技能，并使用技能完成任务。')\n\n# ===== 8 =====\ndoc.add_heading('8. 定时任务', level=1)\ndoc.add_heading('8.1 定时任务入口', level=2)\np('位于工作台右侧面板的定时任务模块。')\n\ndoc.add_heading('8.2 创建定时任务', level=2)\np('支持多种调度类型，可按需设置周期选项。')\np('定时任务支持日历视图，可查看所有定时任务详情。')\n\ndoc.add_heading('8.3 任务管理', level=2)\nbullet('查看运行记录：点击任务查看历史执行记录。')\nbullet('运行消息：实时查看任务执行过程中的消息。')\nbullet('未读通知：侧边栏显示未读任务计数。')\nbullet('全部已读：一键将所有通知标记为已读。')\nbullet('标记单条已读：逐条标记通知。')\nbullet('手动执行：点击「运行」按钮立即执行定时任务。')\n\n# ===== 9 =====\ndoc.add_heading('9. 模型自定义', level=1)\ndoc.add_heading('9.1 模型配置', level=2)\np('支持自定义 AI 模型配置，操作如下：')\nnum('点击模型配置入口，打开配置对话框。')\nnum('配置以下参数：')\nbullet('Provider：LLM 提供商（如千问、火山、百度等）；')\nbullet('Base URL：可选择「其他」，填写自定义的 API 服务地址；')\nbullet('Model ID：可选择系统内置的模型 ID，也可选择「其他」，填写自定义的模型 ID；')\nbullet('API Key：认证密钥。')\nnum('保存配置后生效。')\n\n# ===== 10 =====\ndoc.add_heading('10. 快捷指令', level=1)\ndoc.add_heading('10.1 概述', level=2)\np('快捷指令（Shortcut Command Menu）是 EvoMind 工作台中的快捷操作入口，通过预设指令快速向 Agent 发送常用命令。')\n\ndoc.add_heading('10.1.1 打开方式', level=3)\np('点击输入框旁的快捷指令按钮。')\n\ndoc.add_heading('10.1.2 指令类别', level=3)\np('快捷指令按功能分为三个类别：')\ntbl = doc.add_table(rows=4, cols=2)\ntbl.style = 'Table Grid'\nhead = [('类别', '说明'),\n        ('系统', '对话管理和上下文查询'),\n        ('笔记', '从外部笔记服务导入内容到工作区'),\n        ('知识库', '整理知识库')]\nfor i, (a, b) in enumerate(head):\n    c0, c1 = tbl.rows[i].cells\n    c0.text, c1.text = a, b\n    if i == 0:\n        for c in (c0, c1):\n            c.paragraphs[0].runs[0].bold = True\n\ndoc.add_heading('10.1.3 内置快捷指令', level=3)\np('（本小节原始文本未提供具体指令清单，以系统内快捷指令菜单实际内容为准。）', italic=True)\n\ndoc.add_heading('10.1.4 使用方式', level=3)\nbullet('打开快捷指令菜单。')\nbullet('顶部搜索栏可搜索指令。')\nbullet('点击分类标签切换视图（全部 / 系统 / 笔记 / 知识库）。')\nbullet('点击指令卡片一键发送给 AI。')\n\n# ===== 11 =====\ndoc.add_heading('11. 常见问题汇总', level=1)\n\ndoc.add_heading('Q1：验证码收不到？', level=3)\nbullet('确认手机号输入正确。')\nbullet('检查短信是否被拦截或归入垃圾短信。')\nbullet('等待 60 秒后重新发送。')\nbullet('如持续收不到，联系管理员。')\n\ndoc.add_heading('Q2：EvoMind 无法访问？', level=3)\nbullet('首次使用需要申请开通，等待管理员审批。')\nbullet('审批通过后刷新页面即可使用。')\n\ndoc.add_heading('Q3：如何切换组织空间？', level=3)\nbullet('在侧边栏底部找到组织切换器（即左侧「文件管理区」中的「企业/组织切换」）。')\nbullet('选择要切换的组织或「默认空间」。')\nbullet('切换后文件树、对话历史、知识库等资源自动切换。')\n\ndoc.add_heading('Q4：文件分享链接过期了？', level=3)\nbullet('分享创建者可在「我的分享」面板查看和管理分享。')\nbullet('如已过期，需重新创建分享。')\n\ndoc.add_heading('Q5：如何配置自定义 AI 模型？', level=3)\nbullet('打开模型配置对话框。')\nbullet('输入 Provider、Base URL、Model ID 和 API Key（详见 9.1）。')\n\ndoc.add_heading('Q6：附件上传失败？', level=3)\nbullet('检查文件格式是否支持（PDF / DOCX / TXT / MD / XLS / XLSX）。')\nbullet('检查单个文件大小（不超过 100MB）。')\nbullet('检查文件数量（最多 5 个）。')\nbullet('检查网络连接。')\n\n# ===== 12 =====\ndoc.add_heading('12. 使用过程中的问题反馈渠道', level=1)\np('方式：通过飞书问卷收集使用过程中的问题与建议，我们将根据需要将处理结果反馈给提问者。')\np('问卷地址：https://zzz4ai-sh.feishu.cn/share/base/form/shrcnFxfTDbk49YJ20rrElN9E8f')\n\n# ===== 13 =====\ndoc.add_heading('13. 附录', level=1)\ntbl2 = doc.add_table(rows=1, cols=1)\ntbl2.style = 'Table Grid'\ncell = tbl2.rows[0].cells[0]\ncell.text = '免责声明：EvoMind 生成的所有内容均由 AI 自动产生，可能存在错误或不准确之处，请务必核查重要信息。'\n\nout = '/workspace/outputs/EvoMind云服务版使用说明书_企业用户_修订版V2.docx'\ndoc.save(out)\nprint('saved:', out)\n",
+              "path": "/workspace/tmp/make_docx.py"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700473871,
+        "responseId": "chatcmpl-1792700473893",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "callf62f363c3d3742e88e5b125a32a99e8c",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote 15597 bytes to /workspace/tmp/make_docx.py"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "changed",
+            "created",
+            "diff",
+            "patch",
+            "firstChangedLine"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792700506933,
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call5fdd427b3aac44db8c13d6ff427020ed",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace && python /workspace/tmp/make_docx.py && ls -la /workspace/outputs/"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700506940,
+        "responseId": "chatcmpl-1792700506959",
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call5fdd427b3aac44db8c13d6ff427020ed",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "saved: /workspace/outputs/EvoMind云服务版使用说明书_企业用户_修订版V2.docx\ntotal 60\ndrwxr-xr-x 1 node node  4096 Oct 22 20:21 .\ndrwxrwxrwx 1 root root  4096 Oct 22 20:20 ..\n-rw-r--r-- 1 node node 42715 Oct 22 20:21 EvoMind云服务版使用说明书_企业用户_修订版V2.docx\n-rw-r--r-- 1 node node 12820 Oct 22 20:21 conv_55752893b837_评审意见.md"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 211,
+          "aggregated": "saved: /workspace/outputs/EvoMind云服务版使用说明书_企业用户_修订版V2.docx\ntotal 60\ndrwxr-xr-x 1 node node  4096 Oct 22 20:21 .\ndrwxrwxrwx 1 root root  4096 Oct 22 20:20 ..\n-rw-r--r-- 1 node node 42715 Oct 22 20:21 EvoMind云服务版使用说明书_企业用户_修订版V2.docx\n-rw-r--r-- 1 node node 12820 Oct 22 20:21 conv_55752893b837_评审意见.md",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792700509109,
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "文档已生成。现在用 LibreOffice 渲染校验 docx 内容显示是否正常。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-aba4c5f6fd714cd49cb8dba8\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call4dcb78859c224c85b0c5fb97e7f93725",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /workspace/tmp && soffice --headless --convert-to pdf \"/workspace/outputs/EvoMind云服务版使用说明书_企业用户_修订版V2.docx\" --outdir /workspace/tmp >/dev/null 2>&1; pdftotext \"/workspace/tmp/EvoMind云服务版使用说明书_企业用户_修订版V2.pdf\" - | head -60; echo '---- 页数与关键内容检查 ----'; pdfinfo \"/workspace/tmp/EvoMind云服务版使用说明书_企业用户_修订版V2.pdf\" | grep Pages; pdftotext \"/workspace/tmp/EvoMind云服务版使用说明书_企业用户_修订版V2.pdf\" - | grep -c '超级龙虾'; pdftotext \"/workspace/tmp/EvoMind云服务版使用说明书_企业用户_修订版V2.pdf\" - | grep -o 'EvoMind 工作台' | head -1"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700509116,
+        "responseId": "chatcmpl-1792700509134",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call4dcb78859c224c85b0c5fb97e7f93725",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "EvoMind 云服务版使用说明书（企业用户）\n版本 2026.05.20 · 修订版（2026-10-22）\n\n修订说明：本修订版基于版本 2026.05.20 文本评审结果修订。原始文本未包含原说明书\n第 6 节「工作区文件管理」，本修订版不作补写；无法核实的数字与缺失列表均采用概述\n性表述，未虚构任何内容。\n感谢您选择我们公司的产品，使用前请仔细阅读本使用说明书。\n\n使用须知与法律声明\n适用对象\n适用人员：本指南适用于企业中负责本产品使用与管理的相关人员。\n\n知识产权与保密声明\n内容保护：本说明书及相关技术资料（含文档、图纸、音视频等）的版权均归上海胆大求\n索科技有限公司所有。未经授权，严禁复制、传播或用于第三方商业用途。\n软件授权：您获得的是软件的有限非独家使用权。除为备份数据所必需的下载、复制外，\n禁止对软件进行反向工程、复制或修改。我方无义务提供源代码或非约定版本的升级服\n务。\n数据责任：请账号管理员及用户定期备份工作区中的关键数据，以防丢失。\n\n产品使用规范\n禁止篡改：未经上海胆大求索科技有限公司书面许可，严禁对产品（尤其是安全模块）进\n行任何修改。\n\n安全与责任界定\n风险提示：请严格按照说明操作。对于因违反本指南导致的直接或间接损失（包括数据丢\n失、业务中断或生产损失等），上海胆大求索科技有限公司不承担法律责任。\n版本更新：我们保留随时更新技术规范与说明的权利，恕不另行预告。\n\n1. 操作页面说明\n以下是 EvoMind 智能协作平台的产品界面说明，核心功能模块及交互逻辑如下：\n\n\\x0c1.1 左侧「文件管理区」\n定位：企业级文件与组织管理中枢。\n功能：\n\n\n「个人工作区」「共享工作区」：支持团队/个人文件的分类存储；共享工作区对整个\n企业/组织可见。\n\n\n\n「我的分享」「AI 会话记录」：快速访问分享的文件与过往 AI 会话存档。\n\n\n\n「企业/组织切换」：适配多企业/组织架构场景，一键切换所属主体。\n\n\n\n「个人信息区」：展示和修改账号头像等信息，查看云盘空间大小。\n\n1.2 中间「对话核心区」\n由「会话区」+「对话框区」组成，是人机交互的核心场景：\n\n1.2.1 会话区\n定位：AI 与用户的对话内容展示窗口。\n功能：呈现自然语言对话，支持多轮连续交互；AI 回复包含结构化信息，兼顾可读性与实\n用性。\n\n---- 页数与关键内容检查 ----\nPages:           8\n0\nEvoMind 工作台"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 5897,
+          "aggregated": "EvoMind 云服务版使用说明书（企业用户）\n版本 2026.05.20 · 修订版（2026-10-22）\n\n修订说明：本修订版基于版本 2026.05.20 文本评审结果修订。原始文本未包含原说明书\n第 6 节「工作区文件管理」，本修订版不作补写；无法核实的数字与缺失列表均采用概述\n性表述，未虚构任何内容。\n感谢您选择我们公司的产品，使用前请仔细阅读本使用说明书。\n\n使用须知与法律声明\n适用对象\n适用人员：本指南适用于企业中负责本产品使用与管理的相关人员。\n\n知识产权与保密声明\n内容保护：本说明书及相关技术资料（含文档、图纸、音视频等）的版权均归上海胆大求\n索科技有限公司所有。未经授权，严禁复制、传播或用于第三方商业用途。\n软件授权：您获得的是软件的有限非独家使用权。除为备份数据所必需的下载、复制外，\n禁止对软件进行反向工程、复制或修改。我方无义务提供源代码或非约定版本的升级服\n务。\n数据责任：请账号管理员及用户定期备份工作区中的关键数据，以防丢失。\n\n产品使用规范\n禁止篡改：未经上海胆大求索科技有限公司书面许可，严禁对产品（尤其是安全模块）进\n行任何修改。\n\n安全与责任界定\n风险提示：请严格按照说明操作。对于因违反本指南导致的直接或间接损失（包括数据丢\n失、业务中断或生产损失等），上海胆大求索科技有限公司不承担法律责任。\n版本更新：我们保留随时更新技术规范与说明的权利，恕不另行预告。\n\n1. 操作页面说明\n以下是 EvoMind 智能协作平台的产品界面说明，核心功能模块及交互逻辑如下：\n\n\\x0c1.1 左侧「文件管理区」\n定位：企业级文件与组织管理中枢。\n功能：\n\n\n「个人工作区」「共享工作区」：支持团队/个人文件的分类存储；共享工作区对整个\n企业/组织可见。\n\n\n\n「我的分享」「AI 会话记录」：快速访问分享的文件与过往 AI 会话存档。\n\n\n\n「企业/组织切换」：适配多企业/组织架构场景，一键切换所属主体。\n\n\n\n「个人信息区」：展示和修改账号头像等信息，查看云盘空间大小。\n\n1.2 中间「对话核心区」\n由「会话区」+「对话框区」组成，是人机交互的核心场景：\n\n1.2.1 会话区\n定位：AI 与用户的对话内容展示窗口。\n功能：呈现自然语言对话，支持多轮连续交互；AI 回复包含结构化信息，兼顾可读性与实\n用性。\n\n---- 页数与关键内容检查 ----\nPages:           8\n0\nEvoMind 工作台",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792700519462,
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "渲染正常（8 页，中文字体正常，「超级龙虾」已为 0 处）。再确认两处表格内容。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-5ef56d9a2a804854aa8a4f68\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call7fdeffd6f45e4cea9bcd4450505ee358",
+            "name": "exec",
+            "arguments": {
+              "command": "pdftotext \"/workspace/tmp/EvoMind云服务版使用说明书_企业用户_修订版V2.pdf\" - | grep -A2 -E '^(类别|免责声明)' | head -12"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700519470,
+        "responseId": "chatcmpl-1792700519493",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "toolResult",
+        "toolCallId": "call7fdeffd6f45e4cea9bcd4450505ee358",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "类别\n系统\n笔记\n--\n免责声明：EvoMind 生成的所有内容均由 AI 自动产生，可能存在错误或不准确之处，\n请务必核查重要信息。"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 1282,
+          "aggregated": "类别\n系统\n笔记\n--\n免责声明：EvoMind 生成的所有内容均由 AI 自动产生，可能存在错误或不准确之处，\n请务必核查重要信息。",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792700524157,
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "任务完成。两份交付物已保存到 /workspace/outputs/：\n\n**1. 评审意见清单**：`conv_55752893b837_评审意见.md` — 共 26 项问题，四维度分布：\n- **错别字（2）**：chrome/edge 大小写不规范；9.1 节全角/半角冒号混用\n- **数据（4）**：附件限制口径不一致（4.1.1“总计100MB” vs Q6“单个100MB、最多5个”）；Q5 缺 Model ID 与 9.1 不一致；“17 个内置智能体”无清单可核实；“三种调度类型”未列明\n- **逻辑（6）**：最严重 — 10.1 节产品名写成“**超级龙虾工作台**”（疑为其他产品手册残留）；云服务手册中出现“人身伤害”（硬件模板残留）；6 处悬空冒号；4 个空小节；第 6 节缺失及孤立片段；组织切换入口表述不统一\n- **表述（14）**：标题重复连排、“（可选）”位置歧义、内部术语“证据原子”外泄、口语化表述等\n\n每项均含问题描述、原文位置（节号+资料编号）、原句摘录和修改建议。\n\n**2. 修订版文档**：`EvoMind云服务版使用说明书_企业用户_修订版V2.docx`（已重命名，8 页）— 按清单逐项修订，已用 LibreOffice 渲染校验：中文字体正常、“超级龙虾”已改为\"EvoMind 工作台\"、表格完整。遵守“不臆造”原则：第 6 节仅注明“原始文本未提供，从略”并保留现存片段；无法核实的数字/列表（17 个智能体、三种调度类型、空小节）均改概述表述或注明“以实际界面为准”，未虚构任何内容。"
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1792700524165,
+        "responseId": "chatcmpl-1792700524184",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      }
+    ],
+    "source_event_lines": [
+      5,
+      6,
+      7,
+      9,
+      10,
+      12,
+      13,
+      15,
+      16,
+      18,
+      19,
+      21,
+      22,
+      24,
+      25,
+      27
+    ],
+    "messages_original_unmodified": true,
+    "parse_error_line_numbers": [],
+    "stage": "actor",
+    "route_id": "document-error-review",
+    "old_episode_source_ids_metadata": [
+      "conv_16a8192f4cb6",
+      "conv_23812b8e2ac6",
+      "conv_4024be190b45",
+      "conv_4380f019d4cf",
+      "conv_491ff62e803b",
+      "conv_55752893b837",
+      "conv_61447b378f5d",
+      "conv_639563c765e9",
+      "conv_6ad7c7eaf079",
+      "conv_8370d5c66053",
+      "conv_8748935e7377",
+      "conv_9af1f51c4560",
+      "conv_9b10d0f86224",
+      "conv_c90bb002011a",
+      "conv_f4efc3b555dc",
+      "conv_f67b1da7ae8d"
+    ],
+    "old_native_verified_metadata": true,
+    "execution_condition": {
+      "image": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+      "openclaw_version": "2026.9.5",
+      "model": "glm-5.3-flash",
+      "backend": "native",
+      "custom_agent_loop": false
+    },
+    "system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "system_messages_original": [],
+    "system_capture_candidates": [
+      {
+        "status": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\55\\55efc4d3b538ed27d791dc17cbd4a4383289a0a46b962bacfac5f243fb4692e9",
+          "bytes": 2015,
+          "sha256": "55efc4d3b538ed27d791dc17cbd4a4383289a0a46b962bacfac5f243fb4692e9"
+        },
+        "messages": [
+          {
+            "role": "system",
+            "content": "<!-- openclaw:attempt:STABLE -->\nYou are a personal assistant running inside OpenClaw.\n## Tooling\nTools policy-filtered. Names case-sensitive; call exact.\n- read: Read files\n- write: Write files\n- edit: Exact file edits\n- apply_patch: Patch files\n- ls: List directories\n- exec: Run shell; pty for TTY CLIs\n- process: Control background exec\n- web_search: Web search\n- web_fetch: Fetch/extract URL\n- browser: Control browser\n- terminal: List/read/resize/close operator-opened session terminals; input follows exec policy and may require exact-input approval; never open shells\n- canvas: Present/eval/snapshot Canvas\n- nodes: Paired node status/control/media\n- automations: Schedule/wake. Reminder text must read as reminder when fired; mention reminder for delayed gaps; include useful recent context. This feature is called automations; never call it cron.\n- message: Message/channel actions\n- conversations_list: List exact external conversation addresses\n- conversations_send: Send directly to an external conversation\n- conversations_turn: Send and wait for one correlated external reply\n- openclaw: Gateway restart/system setup/config\n- gateway: Read this Gateway's config/schema; owner-only self-update on explicit request; automatic restart and completion notice\n- agents_list: List allowed subagent ids\n- sessions_list: List visible sessions; filters/last\n- sessions_history: Read visible session/subagent history\n- sessions_search: Search past sessions; use sessionKey with sessions_history\n- sessions_send: Message other session/subagent\n- sessions_spawn: Spawn subagent; clean context: context=\"isolated\"; transcript: context=\"fork\"\n- sessions_yield: End turn; await subagent events\n- subagents: Subagent status; never wait-loop\n- session_status: Session/model/usage/time/status; model override\n- skill_workshop: Author reusable skills\n- agents_wait\n- ask_user\n- create_goal\n- dashboard\n- dir_fetch\n- dir_list\n- file_fetch\n- file_write\n- get_goal\n- intent\n- memory_get\n- memory_search\n- mob...<truncated>\n"
+          }
+        ],
+        "complete": false
+      }
+    ],
+    "tools_supported": [
+      {
+        "name": "agents_list",
+        "description": "List configured agent ids with name/model/runtime metadata, allowed as `sessions_spawn(runtime:\"subagent\")` targets.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "apply_patch",
+        "description": "Patch one/many files. Input requires *** Begin Patch and *** End Patch.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "input"
+          ],
+          "properties": {
+            "input": {
+              "type": "string",
+              "description": "Patch content using the *** Begin Patch/End Patch format."
+            }
+          }
+        }
+      },
+      {
+        "name": "edit",
+        "description": "Exact single-file replacements. oldText unique/non-overlapping against original. Merge nearby changes; omit large unchanged spans.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "path",
+            "edits"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "File path; relative/absolute."
+            },
+            "edits": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "oldText",
+                  "newText"
+                ],
+                "properties": {
+                  "oldText": {
+                    "type": "string",
+                    "description": "Exact original text; unique and non-overlapping in this call."
+                  },
+                  "newText": {
+                    "type": "string",
+                    "description": "Replacement text."
+                  }
+                }
+              },
+              "description": "Targeted replacements against original file; no overlap/nesting. Merge nearby changes."
+            }
+          }
+        }
+      },
+      {
+        "name": "exec",
+        "description": "Run shell now; background continuation supported. Completed calls return command output directly. Use process only when exec reports running with a sessionId; output text alone is not a process handle. Long run: automatic completion wake when enabled and output/failure occurs; otherwise process confirms completion. TTY CLI/UI/coding agent: pty=true. Quote arguments containing shell metacharacters, including URL query strings with `?` or `&`.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "command"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "Every call: short purpose; never claim success. No secrets."
+            },
+            "command": {
+              "type": "string",
+              "description": "Shell command."
+            },
+            "workdir": {
+              "type": "string",
+              "description": "Omit/empty string: default; whitespace-only invalid."
+            },
+            "env": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string"
+                }
+              },
+              "description": "Literal overrides; no expansion. Omit to inherit."
+            },
+            "yieldMs": {
+              "type": "number",
+              "description": "Milliseconds before backgrounding; default 10000."
+            },
+            "background": {
+              "type": "boolean",
+              "description": "Background now; timeoutSeconds applies."
+            },
+            "timeoutSeconds": {
+              "type": "number",
+              "description": "Process lifetime in seconds; 0 disables."
+            },
+            "pty": {
+              "type": "boolean",
+              "description": "PTY for TTY-required CLIs/coding agents."
+            },
+            "elevated": {
+              "type": "boolean",
+              "description": "Host elevation if allowed."
+            },
+            "host": {
+              "enum": [
+                "auto",
+                "sandbox",
+                "gateway",
+                "node"
+              ],
+              "type": "string",
+              "description": "Omit/auto: inherit configured host."
+            },
+            "ask": {
+              "type": "string",
+              "description": "Requests stricter approvals under tools.exec.mode and host policy; channel-origin calls cannot override host ask=off."
+            },
+            "node": {
+              "type": "string",
+              "description": "Node id/name for host=node."
+            }
+          }
+        }
+      },
+      {
+        "name": "ls",
+        "description": "List directory entries in binary filename order, including dotfiles and links. Names are JSON-quoted; / marks actual directories. Pass the returned after cursor with the same path to continue.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Directory; default cwd."
+            },
+            "limit": {
+              "type": "number",
+              "description": "Max entries; default 500."
+            },
+            "after": {
+              "type": "string",
+              "description": "Filename cursor returned by the previous page."
+            }
+          }
+        }
+      },
+      {
+        "name": "process",
+        "description": "Control existing exec: list, poll, log, write, send-keys, submit, paste, kill. poll/log: status, output, quiet success, completion without auto-wake, input hints. Others: input/intervention.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "poll",
+                "log",
+                "write",
+                "send-keys",
+                "submit",
+                "paste",
+                "kill",
+                "clear",
+                "remove"
+              ],
+              "description": "Process action (list|poll|log|write|send-keys|submit|paste|kill|clear|remove)"
+            },
+            "sessionId": {
+              "type": "string",
+              "description": "Required for every action except list."
+            },
+            "data": {
+              "type": "string",
+              "description": "Data to write for write"
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Key tokens to send for send-keys"
+            },
+            "hex": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Hex bytes to send for send-keys"
+            },
+            "literal": {
+              "type": "string",
+              "description": "Literal string for send-keys"
+            },
+            "text": {
+              "type": "string",
+              "description": "Text to paste for paste"
+            },
+            "bracketed": {
+              "type": "boolean",
+              "description": "Wrap paste in bracketed mode"
+            },
+            "eof": {
+              "type": "boolean",
+              "description": "Close stdin after write"
+            },
+            "offset": {
+              "type": "number",
+              "description": "Log offset"
+            },
+            "limit": {
+              "type": "number",
+              "description": "Log length"
+            },
+            "timeout": {
+              "type": "number",
+              "description": "For poll: wait up to this many milliseconds before returning; max 30000 ms, higher values are clamped to 30000",
+              "minimum": 0
+            }
+          }
+        }
+      },
+      {
+        "name": "read",
+        "description": "Read text/image file (jpg/png/gif/webp/bmp); images attach to model context. Text caps 2000 lines or 50KB. Continue with offset/limit, or cursor within a long line.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "File path; relative/absolute."
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Start line; 1-based."
+            },
+            "limit": {
+              "type": "number",
+              "description": "Max lines."
+            },
+            "cursor": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Character position within the start line; 0-based."
+            },
+            "optional": {
+              "type": "boolean",
+              "const": true,
+              "description": "Missing paths return structured not_found instead of failing."
+            }
+          }
+        }
+      },
+      {
+        "name": "write",
+        "description": "Write/overwrite file; creates parent directories.",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "path",
+            "content"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "File path; relative/absolute."
+            },
+            "content": {
+              "type": "string",
+              "description": "File content."
+            }
+          }
+        }
+      }
+    ],
+    "tool_schema_provenance": [
+      {
+        "name": "agents_list",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\95\\95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e",
+          "bytes": 9157,
+          "sha256": "95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e"
+        }
+      },
+      {
+        "name": "apply_patch",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\95\\95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e",
+          "bytes": 9157,
+          "sha256": "95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e"
+        }
+      },
+      {
+        "name": "edit",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "exec",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "ls",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "process",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "read",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "write",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      }
+    ],
+    "original_tool_schema_incomplete_entries": [
+      "agents_wait",
+      "ask_user",
+      "automations",
+      "browser",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER",
+      "NON_DICT_PLACEHOLDER"
+    ],
+    "called_tool_names": [
+      "exec",
+      "read",
+      "write"
+    ],
+    "called_tools_missing_supported_schema": [],
+    "pinned_factory_schema_reconstruction_allowed": true,
+    "same_episode_API_capture_count": 0,
+    "api_request_captures": [],
+    "readable_reasoning_original_native": [],
+    "reasoning_overlays_same_response_id": [],
+    "source_admission": "NOT_PERFORMED_HERE_PROTECTED_AND_UNKNOWN_REMAIN_FOR_PARENT_REVIEW",
+    "training_admitted_by_this_recovery": false
+  },
+  "original_targets_with_feedback": [
+    {
+      "original_target_id": "f78b5c3163c5516f9b7db22a",
+      "message_index": 7,
+      "event_line": 15,
+      "tool_call_id": "callf62f363c3d3742e88e5b125a32a99e8c",
+      "native_path": "/workspace/tmp/make_docx.py",
+      "original_message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "评审清单已保存。现在生成修订版 docx 文档。",
+            "textSignature": "{\"v\":1,\"id\":\"commentary-0-3bfdf72769314b88a7a31fd6\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "callf62f363c3d3742e88e5b125a32a99e8c",
+            "name": "write",
+            "arguments": {
+              "content": "# -*- coding: utf-8 -*-\nfrom docx import Document\nfrom docx.shared import Pt, RGBColor\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH\nfrom docx.oxml.ns import qn\n\ndoc = Document()\n\n# Global font\nstyle = doc.styles['Normal']\nstyle.font.name = 'Calibri'\nstyle.font.size = Pt(11)\nstyle.element.rPr.rFonts.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\nfor hname, sz in [('Heading 1', 16), ('Heading 2', 13), ('Heading 3', 12), ('Heading 4', 11)]:\n    st = doc.styles[hname]\n    st.font.name = 'Calibri'\n    st.font.size = Pt(sz)\n    st.font.color.rgb = RGBColor(0x1F, 0x3B, 0x63)\n    rpr = st.element.get_or_add_rPr()\n    rf = rpr.find(qn('w:rFonts'))\n    if rf is None:\n        rf = rpr.makeelement(qn('w:rFonts'), {})\n        rpr.append(rf)\n    rf.set(qn('w:eastAsia'), 'Noto Sans CJK SC')\n\ndef p(text, bold=False, italic=False, center=False, style_name=None):\n    para = doc.add_paragraph(style=style_name)\n    if center:\n        para.alignment = WD_ALIGN_PARAGRAPH.CENTER\n    run = para.add_run(text)\n    run.bold = bold\n    run.italic = italic\n    return para\n\ndef bullet(text):\n    return doc.add_paragraph(text, style='List Bullet')\n\ndef num(text):\n    return doc.add_paragraph(text, style='List Number')\n\n# ===== Title block =====\nt = p('EvoMind 云服务版使用说明书（企业用户）', bold=True, center=True)\nt.runs[0].font.size = Pt(20)\np('版本 2026.05.20 · 修订版（2026-10-22）', center=True)\np('修订说明：本修订版基于版本 2026.05.20 文本评审结果修订。原始文本未包含原说明书第 6 节「工作区文件管理」，本修订版不作补写；无法核实的数字与缺失列表均采用概述性表述，未虚构任何内容。', italic=True, center=True)\np('感谢您选择我们公司的产品，使用前请仔细阅读本使用说明书。', center=True)\n\n# ===== 使用须知 =====\ndoc.add_heading('使用须知与法律声明', level=1)\n\ndoc.add_heading('适用对象', level=2)\np('适用人员：本指南适用于企业中负责本产品使用与管理的相关人员。')\n\ndoc.add_heading('知识产权与保密声明', level=2)\np('内容保护：本说明书及相关技术资料（含文档、图纸、音视频等）的版权均归上海胆大求索科技有限公司所有。未经授权，严禁复制、传播或用于第三方商业用途。')\np('软件授权：您获得的是软件的有限非独家使用权。除为备份数据所必需的下载、复制外，禁止对软件进行反向工程、复制或修改。我方无义务提供源代码或非约定版本的升级服务。')\np('数据责任：请账号管理员及用户定期备份工作区中的关键数据，以防丢失。')\n\ndoc.add_heading('产品使用规范', level=2)\np('禁止篡改：未经上海胆大求索科技有限公司书面许可，严禁对产品（尤其是安全模块）进行任何修改。')\n\ndoc.add_heading('安全与责任界定', level=2)\np('风险提示：请严格按照说明操作。对于因违反本指南导致的直接或间接损失（包括数据丢失、业务中断或生产损失等），上海胆大求索科技有限公司不承担法律责任。')\np('版本更新：我们保留随时更新技术规范与说明的权利，恕不另行预告。')\n\n# ===== 1 =====\ndoc.add_heading('1. 操作页面说明', level=1)\np('以下是 EvoMind 智能协作平台的产品界面说明，核心功能模块及交互逻辑如下：')\n\ndoc.add_heading('1.1 左侧「文件管理区」', level=2)\np('定位：企业级文件与组织管理中枢。')\np('功能：')\nbullet('「个人工作区」「共享工作区」：支持团队/个人文件的分类存储；共享工作区对整个企业/组织可见。')\nbullet('「我的分享」「AI 会话记录」：快速访问分享的文件与过往 AI 会话存档。')\nbullet('「企业/组织切换」：适配多企业/组织架构场景，一键切换所属主体。')\nbullet('「个人信息区」：展示和修改账号头像等信息，查看云盘空间大小。')\n\ndoc.add_heading('1.2 中间「对话核心区」', level=2)\np('由「会话区」+「对话框区」组成，是人机交互的核心场景：')\n\ndoc.add_heading('1.2.1 会话区', level=3)\np('定位：AI 与用户的对话内容展示窗口。')\np('功能：呈现自然语言对话，支持多轮连续交互；AI 回复包含结构化信息，兼顾可读性与实用性。')\n\ndoc.add_heading('1.2.2 对话框区', level=3)\np('定位：用户输入指令、调用工具的操作入口。')\np('功能：')\nbullet('基础操作：输入消息后按 Enter 发送，Shift+Enter 换行；支持拖拽本地/左侧文件到输入框，实现「对话+文件处理」联动。')\nbullet('快捷功能：「新对话」（开启全新会话）、「快捷指令」（预设常用指令模板）、「技能库」（调用 AI 扩展能力）、「人格」（自定义 AI 交互风格）。')\nbullet('模型配置：「默认大模型」支持切换底层 AI 模型，可配置自定义模型。')\nbullet('辅助工具：「输入优化」（润色/补全用户输入）、「上传文件」（向对话注入文档等素材）、「发送」（提交当前输入）。')\n\ndoc.add_heading('1.3 右侧「AI 工作台」', level=2)\np('聚焦任务自动化、智能体协同、技能扩展三大方向，是企业效率提升的「工具箱」：')\n\ndoc.add_heading('1.3.1 定时任务区', level=3)\np('定位：自动化任务调度中心。')\np('功能：创建周期性/一次性任务，设置触发时间，减少重复人工操作。')\n\ndoc.add_heading('1.3.2 智能体区', level=3)\np('定位：垂直场景 AI 助手集合。')\np('功能：提供「销售助手」「招聘助手」等行业专属智能体，覆盖业务全流程提效。')\n\ndoc.add_heading('1.3.3 推荐技能区', level=3)\np('定位：通用型 AI 能力插件库。')\np('功能：推荐「合同风险审查」「法律风险评估」等专业技能，按需调用解决特定问题。')\n\n# ===== 2 =====\ndoc.add_heading('2. 登录界面说明（员工侧）', level=1)\ndoc.add_heading('2.1 快速开始', level=2)\np('打开 Chrome/Edge 浏览器，访问产品首页：https://evomind.zzz4ai.com')\n\ndoc.add_heading('2.2 登录', level=2)\np('点击「登录」进入登录页面。')\np('登录页：https://evomind.zzz4ai.com/login')\np('登录步骤：')\n\ndoc.add_heading('2.2.1 登录方式', level=3)\np('EvoMind 采用手机号+短信验证码登录，无需设置密码。')\n\ndoc.add_heading('2.2.2 操作步骤', level=3)\nnum('访问 EvoMind 首页，系统自动跳转至登录页。')\nnum('在手机号输入框中输入手机号（支持 13-19 开头的 11 位手机号）。')\nnum('点击「获取验证码」，系统发送 6 位数字短信验证码。')\nnum('输入收到的验证码。')\nnum('点击「登录」按钮。')\n\ndoc.add_heading('2.2.3 登录页面元素说明', level=3)\np('（本小节原始文本未提供具体页面元素内容，以实际登录页面为准。）', italic=True)\n\n# ===== 3 =====\ndoc.add_heading('3. 申请加入企业/组织（员工侧）', level=1)\np('填写要加入的企业名称，提交申请即可。')\n\n# ===== 4 =====\ndoc.add_heading('4. 会话功能', level=1)\ndoc.add_heading('4.1 对话功能', level=2)\ndoc.add_heading('4.1.1 发送消息', level=3)\nnum('在底部输入框输入消息文本（可不填）。')\nnum('如需，添加文件附件（支持 PDF / DOCX / TXT / MD / XLS / XLSX 格式；单个不超过 100MB，最多 5 个，总计不超过 100MB）。')\nnum('点击发送按钮。')\n\ndoc.add_heading('4.1.2 中断生成', level=3)\np('AI 回复过程中，可点击「中断」按钮停止生成。')\n\ndoc.add_heading('4.1.3 新建会话', level=3)\np('点击「新对话」按钮创建新的对话会话。')\n\ndoc.add_heading('4.1.4 历史会话', level=3)\nbullet('侧边栏/历史面板展示历史会话列表。')\nbullet('支持搜索、重命名、删除会话。')\nbullet('点击会话可恢复上下文继续对话。')\n\n# ===== 5 =====\ndoc.add_heading('5. 智能体操作说明', level=1)\ndoc.add_heading('5.1 智能体操作', level=2)\ndoc.add_heading('5.1.1 概述', level=3)\np('智能体是预配置的 AI Agent 角色，支持用户自定义创建和编辑。')\n\ndoc.add_heading('5.1.2 内置智能体', level=3)\np('目前系统预置了 17 个内置智能体，后续也将持续新增迭代，已覆盖多个专业领域。')\n\ndoc.add_heading('5.1.3 智能体分类', level=3)\np('智能体按工作岗位性质分类管理：运营、人力资源、财务、法务、销售、市场、通用。')\np('「我的智能体」展示所有自定义的智能体。')\n\ndoc.add_heading('5.1.4 自定义智能体', level=3)\np('创建智能体：用户可以创建自己的智能体，定义角色和行为。在智能体面板点击「创建智能体」，按页面提示完成相关参数配置。')\np('编辑智能体：在「我的智能体」中找到要编辑的智能体，点击编辑按钮，修改参数后保存。')\np('删除智能体：在智能体详情面板点击删除按钮，确认后永久删除（不可恢复）。')\n\ndoc.add_heading('5.1.5 智能体详情', level=3)\np('点击智能体卡片打开详情面板，可查看该智能体的相关信息。')\n\ndoc.add_heading('5.2 HR 智能体能力演示', level=2)\ndoc.add_heading('5.2.1 能力定位', level=3)\np('HR 工作智能体用于辅助处理企业人力资源场景中的制度化、流程化任务，覆盖招聘录用、培训管理、员工离职、政策合规和绩效评估五类核心工作。')\np('智能体在回答和生成建议时，将优先依据企业已有的制度与流程文件，避免输出缺乏制度或流程依据的业务信息。')\n\n# ===== 6 =====\ndoc.add_heading('6. 工作区文件管理', level=1)\np('（本节内容未包含在本次评审所依据的原始文本中，修订版不作补写。以下仅保留原始文本中与「我的分享」相关的现存内容。）', italic=True)\np('在「我的分享」面板查看所有分享；支持取消分享、修改权限。')\n\n# ===== 7 =====\ndoc.add_heading('7. 技能相关', level=1)\ndoc.add_heading('7.1 技能库', level=2)\np('技能市场展示所有可用的 AI 技能/Agent，用户可以浏览、搜索和安装。')\n\ndoc.add_heading('7.2 我的技能', level=2)\np('「我的技能」页面展示用户从第三方自行安装的技能，显示已启用的技能。')\np('每张技能卡片包含：图标、名称、状态、描述（自安装技能的名称、描述等信息由技能自身定义）。')\n\ndoc.add_heading('7.3 推荐技能', level=2)\np('可快捷查看适合自己岗位的常用技能，并使用技能完成任务。')\n\n# ===== 8 =====\ndoc.add_heading('8. 定时任务', level=1)\ndoc.add_heading('8.1 定时任务入口', level=2)\np('位于工作台右侧面板的定时任务模块。')\n\ndoc.add_heading('8.2 创建定时任务', level=2)\np('支持多种调度类型，可按需设置周期选项。')\np('定时任务支持日历视图，可查看所有定时任务详情。')\n\ndoc.add_heading('8.3 任务管理', level=2)\nbullet('查看运行记录：点击任务查看历史执行记录。')\nbullet('运行消息：实时查看任务执行过程中的消息。')\nbullet('未读通知：侧边栏显示未读任务计数。')\nbullet('全部已读：一键将所有通知标记为已读。')\nbullet('标记单条已读：逐条标记通知。')\nbullet('手动执行：点击「运行」按钮立即执行定时任务。')\n\n# ===== 9 =====\ndoc.add_heading('9. 模型自定义', level=1)\ndoc.add_heading('9.1 模型配置', level=2)\np('支持自定义 AI 模型配置，操作如下：')\nnum('点击模型配置入口，打开配置对话框。')\nnum('配置以下参数：')\nbullet('Provider：LLM 提供商（如千问、火山、百度等）；')\nbullet('Base URL：可选择「其他」，填写自定义的 API 服务地址；')\nbullet('Model ID：可选择系统内置的模型 ID，也可选择「其他」，填写自定义的模型 ID；')\nbullet('API Key：认证密钥。')\nnum('保存配置后生效。')\n\n# ===== 10 =====\ndoc.add_heading('10. 快捷指令', level=1)\ndoc.add_heading('10.1 概述', level=2)\np('快捷指令（Shortcut Command Menu）是 EvoMind 工作台中的快捷操作入口，通过预设指令快速向 Agent 发送常用命令。')\n\ndoc.add_heading('10.1.1 打开方式', level=3)\np('点击输入框旁的快捷指令按钮。')\n\ndoc.add_heading('10.1.2 指令类别', level=3)\np('快捷指令按功能分为三个类别：')\ntbl = doc.add_table(rows=4, cols=2)\ntbl.style = 'Table Grid'\nhead = [('类别', '说明'),\n        ('系统', '对话管理和上下文查询'),\n        ('笔记', '从外部笔记服务导入内容到工作区'),\n        ('知识库', '整理知识库')]\nfor i, (a, b) in enumerate(head):\n    c0, c1 = tbl.rows[i].cells\n    c0.text, c1.text = a, b\n    if i == 0:\n        for c in (c0, c1):\n            c.paragraphs[0].runs[0].bold = True\n\ndoc.add_heading('10.1.3 内置快捷指令', level=3)\np('（本小节原始文本未提供具体指令清单，以系统内快捷指令菜单实际内容为准。）', italic=True)\n\ndoc.add_heading('10.1.4 使用方式', level=3)\nbullet('打开快捷指令菜单。')\nbullet('顶部搜索栏可搜索指令。')\nbullet('点击分类标签切换视图（全部 / 系统 / 笔记 / 知识库）。')\nbullet('点击指令卡片一键发送给 AI。')\n\n# ===== 11 =====\ndoc.add_heading('11. 常见问题汇总', level=1)\n\ndoc.add_heading('Q1：验证码收不到？', level=3)\nbullet('确认手机号输入正确。')\nbullet('检查短信是否被拦截或归入垃圾短信。')\nbullet('等待 60 秒后重新发送。')\nbullet('如持续收不到，联系管理员。')\n\ndoc.add_heading('Q2：EvoMind 无法访问？', level=3)\nbullet('首次使用需要申请开通，等待管理员审批。')\nbullet('审批通过后刷新页面即可使用。')\n\ndoc.add_heading('Q3：如何切换组织空间？', level=3)\nbullet('在侧边栏底部找到组织切换器（即左侧「文件管理区」中的「企业/组织切换」）。')\nbullet('选择要切换的组织或「默认空间」。')\nbullet('切换后文件树、对话历史、知识库等资源自动切换。')\n\ndoc.add_heading('Q4：文件分享链接过期了？', level=3)\nbullet('分享创建者可在「我的分享」面板查看和管理分享。')\nbullet('如已过期，需重新创建分享。')\n\ndoc.add_heading('Q5：如何配置自定义 AI 模型？', level=3)\nbullet('打开模型配置对话框。')\nbullet('输入 Provider、Base URL、Model ID 和 API Key（详见 9.1）。')\n\ndoc.add_heading('Q6：附件上传失败？', level=3)\nbullet('检查文件格式是否支持（PDF / DOCX / TXT / MD / XLS / XLSX）。')\nbullet('检查单个文件大小（不超过 100MB）。')\nbullet('检查文件数量（最多 5 个）。')\nbullet('检查网络连接。')\n\n# ===== 12 =====\ndoc.add_heading('12. 使用过程中的问题反馈渠道', level=1)\np('方式：通过飞书问卷收集使用过程中的问题与建议，我们将根据需要将处理结果反馈给提问者。')\np('问卷地址：https://zzz4ai-sh.feishu.cn/share/base/form/shrcnFxfTDbk49YJ20rrElN9E8f')\n\n# ===== 13 =====\ndoc.add_heading('13. 附录', level=1)\ntbl2 = doc.add_table(rows=1, cols=1)\ntbl2.style = 'Table Grid'\ncell = tbl2.rows[0].cells[0]\ncell.text = '免责声明：EvoMind 生成的所有内容均由 AI 自动产生，可能存在错误或不准确之处，请务必核查重要信息。'\n\nout = '/workspace/outputs/EvoMind云服务版使用说明书_企业用户_修订版V2.docx'\ndoc.save(out)\nprint('saved:', out)\n",
+              "path": "/workspace/tmp/make_docx.py"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1792700473871,
+        "responseId": "chatcmpl-1792700473893",
+        "openclawDelivery": {
+          "textPhaseRequiresTerminal": true
+        },
+        "__openclaw": {
+          "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+        }
+      },
+      "original_code_file": {
+        "path": "D:\\skillloop\\output\\20261030_wrd_gap08\\corpus\\first6\\ep_530653bde445b02636f4\\f78b5c3163c5516f9b7db22a.py",
+        "bytes": 15597,
+        "sha256": "4cffbe96d70d16be299797002aa57732f277fdccc77e75d7d98a0af5e67e042d"
+      },
+      "original_code_characters": 9012,
+      "actual_feedback": [
+        {
+          "message_index": 8,
+          "event_line": 16,
+          "message": {
+            "role": "toolResult",
+            "toolCallId": "callf62f363c3d3742e88e5b125a32a99e8c",
+            "toolName": "write",
+            "content": [
+              {
+                "type": "text",
+                "text": "Successfully wrote 15597 bytes to /workspace/tmp/make_docx.py"
+              }
+            ],
+            "details": {
+              "persistedDetailsTruncated": true,
+              "originalDetailsBytesAtLeast": 8193,
+              "originalDetailKeys": [
+                "changed",
+                "created",
+                "diff",
+                "patch",
+                "firstChangedLine"
+              ]
+            },
+            "isError": false,
+            "timestamp": 1792700506933,
+            "__openclaw": {
+              "runId": "4dcca4ba-871b-427b-b425-e1347047f3ea"
+            }
+          }
+        }
+      ],
+      "scope_at_exact_target": {
+        "after_actual_feedback_read": false,
+        "all_steps_in_retained_route_are_positive": false,
+        "eligible_scope": true,
+        "episode_id": "ep_530653bde445b02636f4",
+        "evidence_refs": [
+          "scope_proofs.jsonl.gz#29d998d8a87eed4e1c057fae910204079f28c4590416039eb6e4dfd0672bdba0"
+        ],
+        "exact_produced_file_write_proofs": [],
+        "exact_produced_version_ids": [],
+        "feedback_producer_episode_ids": [],
+        "holdout12": [],
+        "id": "f78b5c3163c5516f9b7db22a",
+        "linked_trial_edge_ids": [],
+        "local_tool_format_success_is_not_semantic_success": true,
+        "native_prefix_end_exclusive": 7,
+        "original226": [],
+        "outcome_attribution": "NOT_ESTABLISHED_PER_STEP",
+        "outcome_quality_tier": "UNKNOWN",
+        "positive_outcome_loss_candidate": false,
+        "positive_silver_trial_edge_ids": [],
+        "positive_skill_action_eligible": false,
+        "protected_source_ids": [],
+        "protected_sources_visible_prefix": [],
+        "quality_positive_review_candidate": false,
+        "quality_positive_review_eligible_scope": false,
+        "review_evidence_check": null,
+        "route_id": "document-error-review",
+        "scope_proof_id": "29d998d8a87eed4e1c057fae910204079f28c4590416039eb6e4dfd0672bdba0",
+        "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+        "scope_unit": "only_initial_user_and_observed_prior_messages_plus_exact_resource_producer_prefixes",
+        "source_admission": "ADMIT",
+        "source_event_line": 15,
+        "source_ids": [
+          "conv_55752893b837"
+        ],
+        "source_ids_visible_prefix": [
+          "conv_55752893b837"
+        ],
+        "source_message_index": 7,
+        "source_message_sha256": "cc75004da74958a18001f1147a4c54abc7a5ef388d61ac83de2269981ec1924a",
+        "source_scope_is_not_quality_admission": true,
+        "stage": "actor",
+        "training_admitted": false,
+        "trial_outcome_is_silver_not_independent_Q": true,
+        "unknown_reasons": []
+      },
+      "all_current_source_statuses": {
+        "conv_55752893b837": "TRAIN"
+      },
+      "observed_prior_resource_records": [
+        {
+          "eligible_scope": true,
+          "episode_id": "ep_530653bde445b02636f4",
+          "evidence_refs": [
+            "scope_proofs.jsonl.gz#4ef5d66e8aacbe59984c3b0cba53bfba09a5877603cb7847dd990076f1a6bf1c"
+          ],
+          "file_identity": {
+            "bytes": 11648,
+            "episode_id": "ep_530653bde445b02636f4",
+            "logical_path": "episodes/ep_530653bde445b02636f4/workspace/inputs/user_requests/conv_55752893b837.json",
+            "native_path": "/workspace/inputs/user_requests/conv_55752893b837.json",
+            "object": "objects/1f/1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+            "sha256": "1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+            "source_path": "E:\\skillloop_runs\\workflow_library\\actor__document-error-review__doc-review-conv_55752893b837__no_skill\\attempt_1\\workspace\\inputs\\user_requests\\conv_55752893b837.json",
+            "source_sha256": "1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96"
+          },
+          "metadata_not_a_training_example": true,
+          "native_path": "/workspace/inputs/user_requests/conv_55752893b837.json",
+          "node_id": "b9429cb4a3ee0b8f1ad5e6996f83d62690213a5e5784874654f4c3662c7bde97",
+          "observed_after_assistant_message_index": 1,
+          "original_proven_producer_prefixes": [],
+          "original_terminal": "CLOSED_ALLOWED_ORIGINAL_SOURCE_PACKET",
+          "protected_source_ids": [],
+          "scope_proof_id": "4ef5d66e8aacbe59984c3b0cba53bfba09a5877603cb7847dd990076f1a6bf1c",
+          "source_ids": [
+            "conv_55752893b837"
+          ],
+          "unknown_reasons": []
+        }
+      ],
+      "prior_graph_issues": [],
+      "actual_prior_calls": [
+        {
+          "index": 1,
+          "call": {
+            "type": "toolCall",
+            "id": "call14c56c2f59b7494db8db68e5d187e625",
+            "name": "read",
+            "arguments": {
+              "path": "/workspace/inputs/user_requests/conv_55752893b837.json"
+            }
+          }
+        },
+        {
+          "index": 3,
+          "call": {
+            "type": "toolCall",
+            "id": "callc86494c685154575aa554428a3e8d527",
+            "name": "exec",
+            "arguments": {
+              "command": "mkdir -p /workspace/outputs /workspace/tmp && python -c \"import docx; print('python-docx OK', docx.__version__ if hasattr(docx,'__version__') else '')\" && which soffice libreoffice pdftotext 2>/dev/null; echo done"
+            }
+          }
+        },
+        {
+          "index": 5,
+          "call": {
+            "type": "toolCall",
+            "id": "call9356d91bea914d0399649762c2814938",
+            "name": "write",
+            "arguments": {
+              "content": "# 《EvoMind云服务版使用说明书（企业用户）》评审意见\n\n- 评审对象：EvoMind云服务版使用说明书（企业用户）（版本 2026.05.20），以所提供文本（[资料1]–[资料8]）为准\n- 评审日期：2026-10-22\n- 评审维度：错别字、数据、逻辑、表述\n- 说明：所提供文本未包含原说明书第 6 节「工作区文件管理」，本次评审一律以所提供文本为准，不臆造、不补写缺失内容。资料片段在原文中顺序与文档章节顺序不同（如资料4实际对应 1.1/1.2 节、资料7对应 4.1/5 节），位置以章节号标注为主，并附资料编号。\n\n---\n\n## 一、错别字\n\n### A1. 浏览器名称大小写不规范\n- **问题描述**：专有名词 chrome/edge 首字母未大写，不符合英文专名书写规范。\n- **原文位置**：2.1（[资料2]）\n- **原文摘录**：「打开chrome/edge浏览器，输入产品首页：https://evomind.zzz4ai.com」\n- **修改建议**：改为「打开 Chrome/Edge 浏览器，访问产品首页……」。\n\n### A2. 标点符号混用（全角/半角冒号、逗号误用）\n- **问题描述**：9.1 参数说明中「Model ID:」使用半角冒号，其余参数名均用全角冒号「：」；且「（如 千问、火山、百度等），Base URL」用逗号连接两个参数项，层级混乱。\n- **原文位置**：9.1（[资料5]）\n- **原文摘录**：「Provider：LLM 提供商（如 千问、火山、百度等），Base URL：可以选择其他，填写自定义的API 服务地址Model ID:可选择系统内置的模型ID……」\n- **修改建议**：统一使用全角冒号，各参数项分行或以分号分隔列举。\n\n## 二、数据\n\n### B1. 附件上传限制口径不一致\n- **问题描述**：4.1.1 说附件「总计 100MB」，Q6 说「单个文件大小（不超过 100MB）」「文件数量（最多 5 个）」，两处口径不一致（一处只讲总量，一处只讲单文件与数量）。\n- **原文位置**：4.1.1（[资料7]）、Q6（[资料3]）\n- **原文摘录**：「添加文件附件（总计 100MB）」；「检查单个文件大小（不超过 100MB）检查文件数量（最多 5 个）」\n- **修改建议**：统一为「单个不超过 100MB，最多 5 个，总计不超过 100MB」。\n\n### B2. Q5 与 9.1 的模型配置参数列表不一致\n- **问题描述**：Q5 只列「Provider、Base URL 和 API Key」，缺少 9.1 中的「Model ID」，参数口径不一致。\n- **原文位置**：Q5（[资料3]）对照 9.1（[资料5]）\n- **原文摘录**：「打开模型配置对话框输入 Provider、Base URL 和 API Key」\n- **修改建议**：Q5 补充 Model ID，并与 9.1 保持一致，注明「详见 9.1」。\n\n### B3. 「17 个内置智能体」数字无法对应核实\n- **问题描述**：5.1.2 声明预置 17 个内置智能体，但正文未列出任何清单，且句子以冒号结尾无后续内容，数字无法与正文对应核实。\n- **原文位置**：5.1.2（[资料7]）\n- **原文摘录**：「目前系统预置了 17 个内置智能体，后续也将持续新增迭代，已覆盖多个专业领域：」\n- **修改建议**：核实数量并补充智能体清单；若无法补充，改为概述性表述（修订稿采用概述表述，不虚构清单）。\n\n### B4. 「三种调度类型」未列明\n- **问题描述**：8.2 声称「支持三种调度类型」，但未列明是哪三种，「周期选项：」后亦无内容。\n- **原文位置**：8.2（[资料5]）\n- **原文摘录**：「支持三种调度类型：周期选项：定时任务支持日历视图，查看所有定时任务详情」\n- **修改建议**：列明三种调度类型；若无法列明，改为「支持多种调度类型，可按需设置周期选项」（修订稿采用后者，不虚构类型名）。\n\n## 三、逻辑\n\n### C1. 产品名称错误：「超级龙虾工作台」（重要）\n- **问题描述**：全文产品名为「EvoMind 智能协作平台 / EvoMind」，10.1 却写「超级龙虾工作台」，与产品名完全不符，疑为其他产品手册复制残留，属严重一致性错误。\n- **原文位置**：10.1（[资料5]）\n- **原文摘录**：「快捷指令（Shortcut Command Menu）是超级龙虾工作台中的快捷操作入口」\n- **修改建议**：改为「EvoMind 工作台」。\n\n### C2. 责任条款与产品形态不符：「人身伤害」\n- **问题描述**：云服务协作平台的使用说明中出现「人身伤害」，疑沿用硬件类说明书模板，与产品形态不符。\n- **原文位置**：使用须知·安全与责任界定（[资料1]）\n- **原文摘录**：「对于因违反本指南导致的直接或间接损失（包括人身伤害或生产损失），[上海胆大求索科技有限公司] 不承担法律责任。」\n- **修改建议**：改为「（包括数据丢失、业务中断或生产损失等）」。\n\n### C3. 多处冒号后无内容（悬空冒号）\n- **问题描述**：多处「冒号引出列表」的句式后没有任何内容，疑因原表格/截图未被文本收录，造成语义中断。\n- **原文位置及摘录**：\n  - 5.1.2（[资料7]）：「已覆盖多个专业领域：」\n  - 5.1.4（[资料7]）：「在智能体面板点击「创建智能体」配置以下参数：」\n  - 5.1.5（[资料7]）：「点击智能体卡片打开详情面板，展示：」\n  - 8.1（[资料5]）：「工作台右侧面板的定时任务模块：」\n  - 8.2（[资料5]）：「支持三种调度类型：周期选项：」（见 B4）\n  - 7.2（[资料5]）：「「我的技能」页面展示用户从第三方自行安装的技能：显示已启用技能」\n- **修改建议**：将悬空冒号句式改写为完整句式；不虚构缺失的列表内容。\n\n### C4. 空小节（仅标题无正文）\n- **问题描述**：以下小节仅有标题、无任何正文内容。\n- **原文位置**：2.2.3 登录页面元素说明（[资料2]）；3.1 申请加入企业/组织（标题与章标题重复且无正文，[资料2]）；7.1.1 页面布局（[资料5]）；10.1.3 内置快捷指令（[资料3]）\n- **修改建议**：补充实际内容（含截图/表格）；修订稿对无内容小节加「以实际界面为准」说明，并删除与章标题重复的 3.1。\n\n### C5. 第 6 节缺失及孤立片段\n- **问题描述**：所提供文本不含第 6 节「工作区文件管理」；[资料5] 开头的「在「我的分享」面板查看所有分享 支持取消分享、修改权限」为孤立片段，从上下文看应属第 6 节内容。\n- **原文位置**：第 6 节整体缺失；[资料5] 开头孤立片段\n- **原文摘录**：「在「我的分享」面板查看所有分享支持取消分享、修改权限」\n- **修改建议**：修订稿在第 6 节位置明确注明「原始文本未提供，从略」，仅保留上述现存片段并规范标点，不补写其他内容。\n\n### C6. 组织切换入口表述不统一\n- **问题描述**：1.1 称「企业/组织切换」位于左侧「文件管理区」；Q3 称「在侧边栏底部找到组织切换器」，两处称呼与位置描述不统一。\n- **原文位置**：1.1（[资料4]）、Q3（[资料3]）\n- **原文摘录**：「「企业/组织切换」：适配多企业/组织架构场景，一键切换所属主体。」；「在侧边栏底部找到组织切换器」\n- **修改建议**：统一名称为「企业/组织切换」，并在 Q3 处互为参照。\n\n## 四、表述\n\n### D1. 文档标题重复连排\n- **问题描述**：标题与说明书名连排重复，版本信息粘连。\n- **原文位置**：文档开头（[资料1]）\n- **原文摘录**：「EvoMind云服务版使用说明书（企业用户）EvoMind云服务版使用说明书版本 2026.05.20」\n- **修改建议**：规范为「标题」与「版本信息」两行排版。\n\n### D2. 适用对象表述拗口\n- **原文位置**：使用须知·适用对象（[资料1]）\n- **原文摘录**：「本指南适用于负责本产品服务企业的相关人员。」\n- **修改建议**：改为「本指南适用于企业中负责本产品使用与管理的相关人员。」\n\n### D3. 「除下载数据备份外」语义不清\n- **原文位置**：使用须知·知识产权与保密声明（[资料1]）\n- **原文摘录**：「除下载数据备份外，禁止对软件进行反向工程、复制或修改。」\n- **修改建议**：改为「除为备份数据所必需的下载、复制外，禁止对软件进行反向工程、复制或修改。」\n\n### D4. 「所有者」指代不明\n- **原文位置**：使用须知·数据责任（[资料1]）\n- **原文摘录**：「请所有者定期备份工作区中的关键数据，以防丢失。」\n- **修改建议**：改为「请账号管理员及用户定期备份工作区中的关键数据，以防丢失。」\n\n### D5. 2.1 标题「启航」含义不明、动词搭配不当\n- **原文位置**：2.1（[资料2]）\n- **原文摘录**：「2.1 启航打开chrome/edge浏览器，输入产品首页：https://evomind.zzz4ai.com」\n- **修改建议**：标题改为「快速开始」；「输入产品首页」改为「访问产品首页」。\n\n### D6. 「点击登录」缺少引导符\n- **原文位置**：2.2（[资料2]）\n- **原文摘录**：「2.2 点击登录进入登录页面」\n- **修改建议**：改为「点击「登录」进入登录页面」。\n\n### D7. 4.1.1 步骤连写、「（可选）」位置歧义\n- **原文位置**：4.1.1（[资料7]）\n- **原文摘录**：「在底部输入框输入消息文本（可选）添加文件附件（总计 100MB）点击发送按钮」\n- **修改建议**：分步骤表述；明确「（可选）」修饰对象，并按 B1 统一附件限制口径。\n\n### D8. 反馈渠道语义含糊\n- **原文位置**：12 章（[资料3]）\n- **原文摘录**：「方式：通过飞书问卷收集，根据需要反馈给提问者」\n- **修改建议**：改为「通过飞书问卷收集使用过程中的问题与建议，我们将根据需要将处理结果反馈给提问者」，问卷地址单独成行。\n\n### D9. 内部技术术语外泄：「证据原子」\n- **问题描述**：「已编译的证据原子」为内部技术术语，不适合直接出现在企业用户手册，且「应优先引用」的指向（谁应）不明。\n- **原文位置**：5.2.1（[资料7]）\n- **原文摘录**：「智能体回答和生成建议时应优先引用已编译的证据原子，避免编造未被制度或流程文件支持的业务事实。」\n- **修改建议**：改为面向用户的表述：「智能体在回答和生成建议时，将优先依据企业已有的制度与流程文件，避免输出缺乏依据的业务信息。」\n\n### D10. 中英文混排空格不统一（全文性问题）\n- **问题描述**：中文与英文/数字之间空格使用不统一，如「发送给AI」「EvoMind无法访问」「选择其他，填写自定义的API 服务地址」等。\n- **原文位置**：全文多处（如 [资料3]、[资料5]）\n- **修改建议**：统一排版规范（中文与英文、数字之间加空格）。\n\n### D11. 「过往AI历史会话存档」语义重复\n- **原文位置**：1.1（[资料4]）\n- **原文摘录**：「快速访问分享的文件、过往AI历史会话存档」\n- **修改建议**：改为「快速访问分享的文件与过往 AI 会话存档」。\n\n### D12. 长句一逗到底、缺少断句\n- **原文位置**：1.1（[资料4]）\n- **原文摘录**：「支持团队/个人文件的分类存储，共享工作区整个企业/组织可见。」\n- **修改建议**：改为「支持团队/个人文件的分类存储；共享工作区对整个企业/组织可见。」\n\n### D13. 口语化表述「由技能自己确定」\n- **原文位置**：7.2（[资料5]）\n- **原文摘录**：「（自安装技能名称、描述等信息由技能自己确定）」\n- **修改建议**：改为「（自安装技能的名称、描述等信息由技能自身定义）」。\n\n### D14. 手机号输入位置描述含糊\n- **原文位置**：2.2.2（[资料2]）\n- **原文摘录**：「在左侧或顶部输入手机号（支持 13-19 开头的 11 位手机号）」\n- **修改建议**：改为「在手机号输入框中输入手机号（支持 13-19 开头的 11 位手机号）」。\n\n---\n\n## 汇总\n\n| 维度 | 数量 | 编号 |\n| --- | --- | --- |\n| 错别字 | 2 | A1、A2 |\n| 数据 | 4 | B1、B2、B3、B4 |\n| 逻辑 | 6 | C1、C2、C3、C4、C5、C6 |\n| 表述 | 14 | D1–D14 |\n| **合计** | **26** | — |\n\n其中最严重的问题为 **C1（产品名写成「超级龙虾工作台」）**，其余按 B、C、D 类逐项在修订版中处理；无法核实的数字与缺失列表均按「不臆造、不补写」原则采用概述性表述或保留原值并注明。\n",
+              "path": "/workspace/outputs/conv_55752893b837_评审意见.md"
+            }
+          }
+        }
+      ],
+      "actual_prior_call_mentions_skill_or_previous_skill": false,
+      "scope_claim": "EXISTING_V9_PREFIX_SCOPE_PLUS_CURRENT_SOURCE_SCOPE_AND_SAVED_ACTUAL_PRIOR_CALLS_PENDING_INDEPENDENT_OMISSION_CHECK",
+      "syntax_only": "PYTHON_AST_PARSE_PASS_NOT_SEMANTIC_PASS",
+      "original_tool_result_is_error": [
+        false
+      ],
+      "semantic_quality_admitted": false,
+      "positive_loss": 0,
+      "no_main_owner_or_tool_ID_collision": true
+    }
+  ],
+  "source_and_resource_proofs": {
+    "episode_id": "ep_530653bde445b02636f4",
+    "route": "document-error-review",
+    "role": "ACTOR_EXECUTION_AUXILIARY_NOT_PIPELINE_CONTROLLER",
+    "source_ids": [
+      "conv_55752893b837"
+    ],
+    "source_current_statuses": {
+      "conv_55752893b837": "TRAIN"
+    },
+    "source_scope_pin": {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\source_scope.metadata.jsonl.gz",
+      "bytes": 23076,
+      "sha256": "b96d265f99ca95aa0f0cab06583cb0e534bd01535373f20d896f374b1afe5477"
+    },
+    "original_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\8b\\8bc6b3e02903d409978e7d9dddcdea81805c187b2a0da359401b3297cb692e00",
+      "bytes": 73280,
+      "sha256": "8bc6b3e02903d409978e7d9dddcdea81805c187b2a0da359401b3297cb692e00"
+    },
+    "original_system_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "original_tool_schema_provenance": [
+      {
+        "name": "agents_list",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\95\\95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e",
+          "bytes": 9157,
+          "sha256": "95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e"
+        }
+      },
+      {
+        "name": "apply_patch",
+        "kind": "ORIGINAL_EPISODE_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\95\\95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e",
+          "bytes": 9157,
+          "sha256": "95926d0fcfd23ddb6937a5b728d9d83d9bd74300aa8009b88a4045f080d6be7e"
+        }
+      },
+      {
+        "name": "edit",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "exec",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "ls",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "process",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "read",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      },
+      {
+        "name": "write",
+        "kind": "RECONSTRUCTED_PINNED_NATIVE_FACTORY_NOT_ORIGINAL_CAPTURE",
+        "source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.json",
+          "bytes": 8368,
+          "sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3"
+        },
+        "provenance_source": {
+          "path": "D:\\skillloop\\research\\data_prep\\wrd_training\\resources\\native_coding_tools_97a0.provenance.json",
+          "bytes": 1419,
+          "sha256": "ef2fed52b03240a99dda3cbb7492ffc4e2b3508a3fb93c9384814b82456e463e"
+        }
+      }
+    ],
+    "source_outcome_ledger_pin": {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\outcomes\\recomputed_scope_overlay\\target_outcome_labels.jsonl.gz",
+      "bytes": 6548556,
+      "sha256": "93fb5a7cfc2d9f707ae60bd4093a15b296d1c0ae296644f89a292b2b0b06fe74"
+    },
+    "resource_scope_pin": {
+      "path": "D:\\skillloop\\output\\20261026_wrd_dataset_v9\\outcomes\\recomputed_scope_overlay\\resource_scope.jsonl.gz",
+      "bytes": 4835325,
+      "sha256": "c7eee828afdabde4602ddb9f02e6d2a3e3e0c8a7ba3a5b11d471a993e0b56445"
+    },
+    "resource_records": [
+      {
+        "eligible_scope": true,
+        "episode_id": "ep_530653bde445b02636f4",
+        "evidence_refs": [
+          "scope_proofs.jsonl.gz#4ef5d66e8aacbe59984c3b0cba53bfba09a5877603cb7847dd990076f1a6bf1c"
+        ],
+        "file_identity": {
+          "bytes": 11648,
+          "episode_id": "ep_530653bde445b02636f4",
+          "logical_path": "episodes/ep_530653bde445b02636f4/workspace/inputs/user_requests/conv_55752893b837.json",
+          "native_path": "/workspace/inputs/user_requests/conv_55752893b837.json",
+          "object": "objects/1f/1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+          "sha256": "1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+          "source_path": "E:\\skillloop_runs\\workflow_library\\actor__document-error-review__doc-review-conv_55752893b837__no_skill\\attempt_1\\workspace\\inputs\\user_requests\\conv_55752893b837.json",
+          "source_sha256": "1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96"
+        },
+        "metadata_not_a_training_example": true,
+        "native_path": "/workspace/inputs/user_requests/conv_55752893b837.json",
+        "node_id": "b9429cb4a3ee0b8f1ad5e6996f83d62690213a5e5784874654f4c3662c7bde97",
+        "observed_after_assistant_message_index": 1,
+        "original_proven_producer_prefixes": [],
+        "original_terminal": "CLOSED_ALLOWED_ORIGINAL_SOURCE_PACKET",
+        "protected_source_ids": [],
+        "scope_proof_id": "4ef5d66e8aacbe59984c3b0cba53bfba09a5877603cb7847dd990076f1a6bf1c",
+        "source_ids": [
+          "conv_55752893b837"
+        ],
+        "unknown_reasons": []
+      },
+      {
+        "eligible_scope": false,
+        "episode_id": "ep_530653bde445b02636f4",
+        "evidence_refs": [
+          "scope_proofs.jsonl.gz#5fd3cb9634bfdef20f6bb8e60e18e15dae94827e99394e0bf16b709bbb170a08"
+        ],
+        "file_identity": null,
+        "metadata_not_a_training_example": true,
+        "native_path": "/workspace/tmp/make_docx.py",
+        "node_id": "9ad70efb5d34341c0dabcd48ce79a869353d323ce7326f337c3cf97339fd47d8",
+        "observed_after_assistant_message_index": 9,
+        "original_proven_producer_prefixes": [],
+        "original_terminal": "MISSING_EXACT_FILE_IDENTITY_FOR_ACTUAL_READ",
+        "protected_source_ids": [],
+        "scope_proof_id": "5fd3cb9634bfdef20f6bb8e60e18e15dae94827e99394e0bf16b709bbb170a08",
+        "source_ids": [],
+        "unknown_reasons": [
+          "MISSING_EXACT_FILE_IDENTITY_FOR_ACTUAL_READ"
+        ]
+      }
+    ],
+    "frozen_input_final_output_objects": [
+      {
+        "record": {
+          "episode_id": "ep_530653bde445b02636f4",
+          "role": "workspace_input",
+          "logical_path": "episodes/ep_530653bde445b02636f4/workspace/inputs/user_requests/conv_55752893b837.json",
+          "physical_original_path": "E:\\skillloop_runs\\workflow_library\\actor__document-error-review__doc-review-conv_55752893b837__no_skill\\attempt_1\\workspace\\inputs\\user_requests\\conv_55752893b837.json",
+          "physical_frozen_CAS_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\1f\\1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+          "source_sha256": "1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+          "stored_sha256": "1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+          "source_bytes": 11648,
+          "stored_bytes": 11648,
+          "credential_redacted_in_frozen_copy": false
+        },
+        "actual_copied_object": {
+          "path": "D:\\skillloop\\output\\20261030_wrd_gap08\\corpus\\first6\\objects\\1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96",
+          "bytes": 11648,
+          "sha256": "1f31c0d0371239f6fbb254756f4c12f896fba5124fdb823139cb4e8d76cd7e96"
+        },
+        "role": "ORIGINAL_INPUT_OR_FINAL_OUTPUT_AUDIT_NOT_PRIOR_VERSION_SUBSTITUTE"
+      },
+      {
+        "record": {
+          "episode_id": "ep_530653bde445b02636f4",
+          "role": "workspace_output",
+          "logical_path": "episodes/ep_530653bde445b02636f4/workspace/outputs/conv_55752893b837_评审意见.md",
+          "physical_original_path": "E:\\skillloop_runs\\workflow_library\\actor__document-error-review__doc-review-conv_55752893b837__no_skill\\attempt_1\\workspace\\outputs\\conv_55752893b837_评审意见.md",
+          "physical_frozen_CAS_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\0d\\0db7b2d8af63ea6a655467dfb838780f63d0e3cdfcdeba7e99485805da5e6eed",
+          "source_sha256": "0db7b2d8af63ea6a655467dfb838780f63d0e3cdfcdeba7e99485805da5e6eed",
+          "stored_sha256": "0db7b2d8af63ea6a655467dfb838780f63d0e3cdfcdeba7e99485805da5e6eed",
+          "source_bytes": 12820,
+          "stored_bytes": 12820,
+          "credential_redacted_in_frozen_copy": false
+        },
+        "actual_copied_object": {
+          "path": "D:\\skillloop\\output\\20261030_wrd_gap08\\corpus\\first6\\objects\\0db7b2d8af63ea6a655467dfb838780f63d0e3cdfcdeba7e99485805da5e6eed",
+          "bytes": 12820,
+          "sha256": "0db7b2d8af63ea6a655467dfb838780f63d0e3cdfcdeba7e99485805da5e6eed"
+        },
+        "role": "ORIGINAL_INPUT_OR_FINAL_OUTPUT_AUDIT_NOT_PRIOR_VERSION_SUBSTITUTE"
+      },
+      {
+        "record": {
+          "episode_id": "ep_530653bde445b02636f4",
+          "role": "workspace_output",
+          "logical_path": "episodes/ep_530653bde445b02636f4/workspace/outputs/EvoMind云服务版使用说明书_企业用户_修订版V2.docx",
+          "physical_original_path": "E:\\skillloop_runs\\workflow_library\\actor__document-error-review__doc-review-conv_55752893b837__no_skill\\attempt_1\\workspace\\outputs\\EvoMind云服务版使用说明书_企业用户_修订版V2.docx",
+          "physical_frozen_CAS_path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\58\\5840657909ec85fc53ae8459fdbdf452f2e6b349846c0d2595304fc69a30e01e",
+          "source_sha256": "5840657909ec85fc53ae8459fdbdf452f2e6b349846c0d2595304fc69a30e01e",
+          "stored_sha256": "5840657909ec85fc53ae8459fdbdf452f2e6b349846c0d2595304fc69a30e01e",
+          "source_bytes": 42715,
+          "stored_bytes": 42715,
+          "credential_redacted_in_frozen_copy": false
+        },
+        "actual_copied_object": {
+          "path": "D:\\skillloop\\output\\20261030_wrd_gap08\\corpus\\first6\\objects\\5840657909ec85fc53ae8459fdbdf452f2e6b349846c0d2595304fc69a30e01e",
+          "bytes": 42715,
+          "sha256": "5840657909ec85fc53ae8459fdbdf452f2e6b349846c0d2595304fc69a30e01e"
+        },
+        "role": "ORIGINAL_INPUT_OR_FINAL_OUTPUT_AUDIT_NOT_PRIOR_VERSION_SUBSTITUTE"
+      }
+    ],
+    "failures_in_full_original_context_preserved_positive_loss0": true,
+    "future_results_only_for_audit_credit_not_past_input": true,
+    "semantic_admission_pending_root": true
+  },
+  "role": "ACTOR_AUXILIARY_NOT_FULL_PIPELINE_CONTROLLER"
+}

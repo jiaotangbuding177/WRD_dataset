@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""Extract all text from a .pptx (PowerPoint) file into structured JSON.
+
+Uses only the Python standard library (zipfile + xml.etree), so it works on
+minimal images without python-pptx (python-pptx had compatibility problems in
+the historical source sessions).
+
+Usage:
+    python extract_pptx_text.py <input.pptx> --out <output.json>
+
+Output JSON shape:
+{
+  "file": "basename.pptx",
+  "bytes": 12345,
+  "sha256": "...",
+  "slide_count": 32,
+  "slides": [{"slide": 1, "text": "..."}, ...]
+}
+
+Exit codes: 0 success; 2 invalid input (missing file / not a zip /
+no ppt/slides part) with a one-line stderr message.
+"""
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import posixpath
+import sys
+import zipfile
+import xml.etree.ElementTree as ET
+
+
+def slide_number(name: str):
+    base = posixpath.basename(name)
+    m = re.match(r"slide(\d+)\.xml$", base)
+    return int(m.group(1)) if m else None
+
+
+def extract_slide_text(data: bytes) -> str:
+    root = ET.fromstring(data)
+    # Namespace-agnostic. Group <a:t> text runs by their enclosing paragraph
+    # <a:p> and join runs within a paragraph without separators, so phrases
+    # split across multiple runs are reconstructed; paragraphs are joined
+    # with newlines.
+    paragraphs = []
+    for p in root.iter():
+        if not p.tag.endswith("}p"):
+            continue
+        runs = [el.text or "" for el in p.iter() if el.tag.endswith("}t")]
+        text = "".join(runs).strip()
+        if text:
+            paragraphs.append(text)
+    return "\n".join(paragraphs)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Extract all slide text from a .pptx file into JSON."
+    )
+    parser.add_argument("input", help="path to the .pptx file")
+    parser.add_argument("--out", required=True, help="path of the JSON output file")
+    args = parser.parse_args()
+
+    path = args.input
+    if not os.path.isfile(path):
+        print("error: input file not found: %s" % path, file=sys.stderr)
+        return 2
+
+    try:
+        with open(path, "rb") as fh:
+            raw = fh.read()
+    except OSError as exc:
+        print("error: cannot read %s: %s" % (path, exc), file=sys.stderr)
+        return 2
+
+    try:
+        zf = zipfile.ZipFile(path)
+    except zipfile.BadZipFile:
+        print("error: not a valid pptx (zip) file: %s" % path, file=sys.stderr)
+        return 2
+
+    slide_parts = sorted(
+        (name for name in zf.namelist() if slide_number(name) is not None),
+        key=lambda n: slide_number(n),
+    )
+    if not slide_parts:
+        print("error: no ppt/slides/*.xml parts found in %s" % path, file=sys.stderr)
+        return 2
+
+    slides = []
+    for name in slide_parts:
+        try:
+            text = extract_slide_text(zf.read(name))
+        except ET.ParseError as exc:
+            print("error: cannot parse %s in %s: %s" % (name, path, exc), file=sys.stderr)
+            return 2
+        slides.append({"slide": slide_number(name), "text": text})
+
+    result = {
+        "file": os.path.basename(path),
+        "bytes": len(raw),
+        "sha256": hashlib.sha256(raw).hexdigest(),
+        "slide_count": len(slides),
+        "slides": slides,
+    }
+
+    with open(args.out, "w", encoding="utf-8") as fh:
+        json.dump(result, fh, ensure_ascii=False, indent=1)
+    print(
+        "extracted %d slides from %s -> %s"
+        % (len(slides), os.path.basename(path), args.out)
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

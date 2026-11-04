@@ -1,0 +1,35 @@
+---
+name: doc-review-report
+description: 用户提供文档文件（pdf/docx/pptx/md/txt）要求分析或审查并成报告时使用：提取全文→仅基于给定材料按文档类型分析→按模板成文并默认直接导出为文件。触发：分析报告、审查报告、分析这个文件、审阅文档、文档分析并成审查报告。
+---
+
+# 文档分析与审查报告（doc-review-report）
+
+路线：s1 提取文档全文 → s2 仅基于给定材料分析（先判文档类型，量化数字扫有无来源）→ s3 按模板组稿并**默认直接导出为文件**交付。结论只取自给定材料；材料不足处明确写"材料不足，未核对"，不编造。
+
+资源入口（{SKILL}=本技能根目录；{文档}、{OUT}、{报告} 为业务使用时的实际路径参数，文件名跟随实际文档）：
+
+1. s1 批量提取文档文本（pdf/docx/doc/pptx/md/txt → 每文件 .txt + index.json；目录递归；退出2=输入缺失/用法错误，退出3=有文件失败见 index.json.errors；扫描版PDF报"无文本层"，OCR回退见 references/stage_notes.md）：
+```
+python3 {SKILL}/scripts/extract_texts.py {文档或目录} --out {OUT}/extracted
+```
+2. s2 表/图引用与数值扫描（scan.json 作来源核对底稿；退出2=输入缺失/非.txt.md）：
+```
+python3 {SKILL}/scripts/scan_numeric_refs.py {OUT}/extracted/源名.txt --out {OUT}/scan.json
+```
+3. s3 Markdown 报告导出 Word（已实测 pandoc 优先，缺 pandoc 回退内置生成；输出经重新解析校验，失败退出2）：
+```
+python3 {SKILL}/scripts/export_digest.py {OUT}/报告.md --format docx --out {OUT}/报告.docx
+```
+4. s3 报告结构用 templates/report_template.md，{{}} 占位替换为本次真实内容后按用户要求格式交付。
+
+关键判断：
+- 工作区找不到分析对象或路径无效 → 如实说明并向用户索取文件，不编造文档内容。
+- 请求空泛（如只说"生成审查报告"）且找不到任何文档 → 先向用户索取分析对象，不凭空成文。
+- **报告默认写成文件交付**，不等用户再次要求；Word 版在用户要求或正式审查场景下一并输出。
+- 文档类型决定审视维度：产品/宣传稿 → 数据来源、竞品对比、数据安全合规；论文 → 数据一致性、统计方法、科研诚信；报告/制度稿 → 论据支撑、逻辑闭环。不得硬套论文框架审产品材料，反之亦然。
+- 关键定量指标无来源、样本量或统计方法 → 列入首要问题清单。
+- 用户重复同类请求 → 先查工作区是否还有未处理材料，有则处理新材料并汇报，不盲目重跑已交付部分。
+- 多个文档/附件 → 全部纳入 s1，逐个分析，index.json 汇总提取记录与错误。
+
+阶段细节与来源教训：references/stage_notes.md

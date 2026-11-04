@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""Merge page images (PNG/JPEG) into one PDF, one full page per image.
+
+Method: collect image files from the given paths (files or directories;
+directories are scanned and sorted by filename), validate each is a real PNG
+or JPEG by magic bytes, then write a PDF whose page order and native pixel
+size match the images. Used to deliver image-page decks as a catalog PDF
+(e.g. vertical 1536x2048 pages) without re-layout.
+
+Public usage:
+  python images_to_pdf.py PATH [PATH ...] --out RESULT_PDF
+
+Inputs: one or more image files or directories holding PNG/JPEG images.
+Outputs: PDF at the --out path; stdout prints the output path and page count.
+Errors: exit 2 with 'pdf_error: ...' on stderr for unreadable paths, zero or
+unsupported images, or an unwritable output path.
+"""
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
+from PIL import Image
+
+
+def fail(message: str) -> None:
+    print("pdf_error: " + message, file=sys.stderr)
+    raise SystemExit(2)
+
+
+def image_format(data: bytes):
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "PNG"
+    if data.startswith(b"\xff\xd8\xff"):
+        return "JPEG"
+    return None
+
+
+def collect(paths: list[str]) -> list[Path]:
+    files: list[Path] = []
+    for raw in paths:
+        path = Path(raw)
+        if path.is_dir():
+            files.extend(
+                child for child in sorted(path.iterdir())
+                if child.is_file() and child.suffix.lower() in (".png", ".jpg", ".jpeg")
+            )
+        elif path.is_file():
+            files.append(path)
+        else:
+            fail(f"path does not exist: {raw}")
+    if not files:
+        fail("no PNG/JPEG images found in the given paths")
+    return files
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Merge page images into a one-image-per-page PDF.")
+    parser.add_argument("paths", nargs="+",
+                        help="image files or directories (directories sorted by name)")
+    parser.add_argument("--out", required=True, help="output PDF path")
+    args = parser.parse_args()
+
+    files = collect(args.paths)
+    frames = []
+    for image_path in files:
+        try:
+            data = image_path.read_bytes()
+        except OSError as error:
+            fail(f"cannot read {image_path}: {error}")
+        if image_format(data) is None:
+            fail(f"not a PNG/JPEG file: {image_path}")
+        try:
+            frame = Image.open(image_path)
+            frame.load()
+        except OSError as error:
+            fail(f"cannot decode {image_path}: {error}")
+        frames.append(frame.convert("RGB"))
+
+    out = Path(args.out)
+    try:
+        if out.parent and not out.parent.exists():
+            out.parent.mkdir(parents=True, exist_ok=True)
+        first, rest = frames[0], frames[1:]
+        first.save(str(out), "PDF", save_all=True, append_images=rest)
+    except OSError as error:
+        fail(f"cannot write pdf file: {error}")
+    print(f"{out} ({len(frames)} pages)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

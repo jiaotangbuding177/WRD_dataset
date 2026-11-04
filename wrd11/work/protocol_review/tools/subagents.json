@@ -1,0 +1,42 @@
+{
+  "type": "function",
+  "function": {
+    "name": "subagents",
+    "description": "Background work: list status, wait for selected taskIds to finish or need attention, or cancel a taskId. wait keeps this turn active; timeout does not cancel work or consume completion delivery.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "enum": [
+            "list",
+            "wait",
+            "cancel"
+          ],
+          "type": "string"
+        },
+        "recentMinutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "taskId": {
+          "type": "string",
+          "description": "Task id"
+        },
+        "taskIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 60
+        }
+      }
+    }
+  }
+}

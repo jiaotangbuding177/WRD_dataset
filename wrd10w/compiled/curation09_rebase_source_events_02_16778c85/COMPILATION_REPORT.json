@@ -1,0 +1,119 @@
+{
+  "schema_version": "wrd-v10-actual-token-compilation",
+  "counts": {
+    "sequences": 418,
+    "targets": 6367,
+    "input_tokens": 1316051,
+    "supervised_tokens": 70892,
+    "train_sequences": 418,
+    "train_supervised_tokens": 70892,
+    "16k_sequences": 406,
+    "component_F": 2508,
+    "component_D": 68384,
+    "32k_sequences": 12
+  },
+  "stages": {
+    "A_source_contract_management": {
+      "sequences": 411,
+      "targets": 6360,
+      "input_tokens": 1313664,
+      "supervised_tokens": 69429,
+      "train_sequences": 411,
+      "train_supervised_tokens": 69429,
+      "16k_sequences": 399,
+      "component_F": 2466,
+      "component_D": 66963,
+      "32k_sequences": 12
+    },
+    "A_current_user_delta_checkpoint": {
+      "sequences": 7,
+      "targets": 7,
+      "input_tokens": 2387,
+      "supervised_tokens": 1463,
+      "train_sequences": 7,
+      "train_supervised_tokens": 1463,
+      "16k_sequences": 7,
+      "component_F": 42,
+      "component_D": 1421
+    }
+  },
+  "banks": {
+    "source_contract_main": {
+      "sequences": 418,
+      "targets": 6367,
+      "input_tokens": 1316051,
+      "supervised_tokens": 70892,
+      "train_sequences": 418,
+      "train_supervised_tokens": 70892,
+      "16k_sequences": 406,
+      "component_F": 2508,
+      "component_D": 68384,
+      "32k_sequences": 12
+    }
+  },
+  "files": [
+    {
+      "path": "source_contract_main.train.16k.jsonl.gz",
+      "bytes": 3178284,
+      "sha256": "543e7ec0cfce223ecec94dd99611987700fe4c0718e72bc36d1d39ee396a6d10"
+    },
+    {
+      "path": "source_contract_main.train.32k.jsonl.gz",
+      "bytes": 749973,
+      "sha256": "59311263abe2f6861ae52a6eaebaab4f901af65ef55afa63b9444630784a48ae"
+    }
+  ],
+  "held_file": {
+    "path": "held.jsonl.gz",
+    "bytes": 31,
+    "sha256": "d1bfc849d8769566822abee0f274c71eede7beea7559b87f5d07aa3e9a06d6a9"
+  },
+  "tokenizer_proof": {
+    "official_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "instrumented_template_sha256": "e32feaaf7ea205453c8d7083eaea652aaf53c541071bd453984c09a1e996916a",
+    "variant_is_not_unmodified_official_template": true,
+    "future_inference_api_must_use_same_causal_variant": true,
+    "inference_api_variant_already_integrated": false,
+    "two_tokenizer_asset_sets_byte_identical": true,
+    "asset_sha256": {
+      "primary_14b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "control_8b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      }
+    },
+    "independent_second_tokenizer_calls": 0,
+    "reuse_rule": "identical assets + identical rendered bytes; independent canary then every 97th window",
+    "prior_report_independent_second_tokenizer_calls": 36,
+    "this_operation_only_filters_byte_preserved_rows_no_new_tokenizer_call": true
+  },
+  "script_sha256": "caa4449936c9705f17d50c09e27923d7cbd572d369e26e36bc8f8a4f27fb496f",
+  "immutable_inputs": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\source_event_release_02\\train.full_prefix.jsonl.gz",
+      "sha256": "5b45718e7a05a3a2077e1403fa0f485164133045c35fce09906f013e51728a4f",
+      "bytes": 1474540
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\source_event_release_02\\train.compact_delta.jsonl.gz",
+      "sha256": "b8d32c3b60273d0a83a66c59989b12d40e5ff9baff42633848fe2023193b371d",
+      "bytes": 4419
+    }
+  ],
+  "weights_loaded": false,
+  "training_started": false,
+  "future_outcomes_are_metadata_only": true,
+  "input_size_does_not_prove_autonomous_pipeline_capability": true,
+  "is_filtered_curation09_bank": true,
+  "source_compilation_report_sha256": "d96c3f5269b45b70a011ea61c50088b9bd574ed87a5cf83014b87e4e0111f27f"
+}

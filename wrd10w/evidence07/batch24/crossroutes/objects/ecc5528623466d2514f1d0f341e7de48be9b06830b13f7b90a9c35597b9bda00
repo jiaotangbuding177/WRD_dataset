@@ -1,0 +1,226 @@
+#!/usr/bin/env node
+/**
+ * 规范DOCX生成器：封面（无页眉页脚）→ 目录独占一页 → 正文（页码从1起算）。
+ * 用法: node make_docx.js content.json OUTPUT.docx
+ *   content.json 结构见 templates/content.example.json（字段注释齐全）。
+ * 生成后必须再跑: python3 fix_toc.py OUTPUT.docx OUTPUT_final.docx（目录条目+页码+自动更新域）。
+ * 依赖: docx（npm）；本容器已全局安装，直接 node 即可；若报 Cannot find module 'docx'，
+ *   设 NODE_PATH=$(npm root -g) 再运行。
+ */
+const fs = require("fs");
+const {
+  Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType,
+  Table, TableRow, TableCell, WidthType, BorderStyle, ShadingType, VerticalAlign,
+  Header, Footer, PageNumber, PageNumberType, TableOfContents, SectionType,
+} = require("docx");
+
+const [contentPath, outPath] = process.argv.slice(2);
+if (!contentPath || !outPath) {
+  console.error("用法: node make_docx.js content.json OUTPUT.docx");
+  process.exit(2);
+}
+const C = JSON.parse(fs.readFileSync(contentPath, "utf8"));
+
+const FONT = { ascii: "Calibri", eastAsia: C.fontEastAsia || "Noto Sans CJK SC" };
+const PAGE_BODY_DXA = 9026; // A4 减去左右 1440 twips 页边距后的正文宽度
+
+// —— 关键结论加粗：段落文本中出现的 boldTerms 子串加粗（不改文字本身） ——
+function boldRuns(text) {
+  const terms = (C.boldTerms || []).slice().sort((a, b) => b.length - a.length);
+  const runs = [];
+  let rest = text, plain = "";
+  const flush = () => { if (plain) { runs.push(new TextRun({ text: plain, font: FONT })); plain = ""; } };
+  while (rest) {
+    let hit = null;
+    for (const t of terms) { if (t && rest.startsWith(t)) { hit = t; break; } }
+    if (hit) {
+      flush();
+      runs.push(new TextRun({ text: hit, bold: true, font: FONT }));
+      rest = rest.slice(hit.length);
+    } else {
+      plain += rest[0];
+      rest = rest.slice(1);
+    }
+  }
+  flush();
+  return runs;
+}
+
+function para(block) {
+  if (block.bold) {
+    // 整段加粗：直接重建
+    return new Paragraph({ children: [new TextRun({ text: block.text, bold: true, font: FONT })], spacing: { after: 120, line: 360 } });
+  }
+  return new Paragraph({ children: boldRuns(block.text), spacing: { after: 120, line: 360 } });
+}
+
+function makeTable(block) {
+  const widths = block.widths && block.widths.length === (block.headers || []).length
+    ? block.widths : (block.headers || ["字段", "内容"]).map(() => 1 / (block.headers || [1, 1]).length);
+  const colDxa = widths.map(w => Math.round(w * PAGE_BODY_DXA));
+  const thin = { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" };
+  const borders = { top: thin, bottom: thin, left: thin, right: thin };
+  const rows = [];
+  if (block.headers) {
+    rows.push(new TableRow({
+      tableHeader: true,
+      children: block.headers.map((h, i) => new TableCell({
+        width: { size: colDxa[i], type: WidthType.DXA },
+        shading: { type: ShadingType.CLEAR, fill: "DEEBF7" },
+        margins: { top: 60, bottom: 60, left: 120, right: 120 },
+        verticalAlign: VerticalAlign.CENTER,
+        children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, font: FONT })] })],
+      })),
+    }));
+  }
+  (block.rows || []).forEach((row, ri) => {
+    rows.push(new TableRow({
+      children: row.map((cell, ci) => new TableCell({
+        width: { size: colDxa[ci] || 2000, type: WidthType.DXA },
+        shading: ri % 2 === 1 ? { type: ShadingType.CLEAR, fill: "F2F8FD" } : undefined,
+        margins: { top: 60, bottom: 60, left: 120, right: 120 },
+        verticalAlign: VerticalAlign.CENTER,
+        children: [new Paragraph({
+          children: (block.boldAllCells || block.boldCol === ci)
+            ? [new TextRun({ text: String(cell), bold: true, font: FONT })]
+            : boldRuns(String(cell)).length ? boldRuns(String(cell)) : [new TextRun({ text: String(cell), font: FONT })],
+        })],
+      })),
+    }));
+  });
+  return new Table({
+    width: { size: PAGE_BODY_DXA, type: WidthType.DXA },
+    columnWidths: colDxa,
+    alignment: AlignmentType.CENTER,
+    borders: { ...borders, insideHorizontal: thin, insideVertical: thin },
+    rows,
+  });
+}
+
+function blockToChildren(block) {
+  if (block.type === "h2") {
+    return [new Paragraph({ heading: HeadingLevel.HEADING_2, children: [new TextRun({ text: block.text, font: FONT })] })];
+  }
+  if (block.type === "list") {
+    return block.items.map(it => new Paragraph({
+      bullet: { level: 0 }, spacing: { after: 80, line: 360 },
+      children: boldRuns(it),
+    }));
+  }
+  if (block.type === "table") {
+    const out = [makeTable(block)];
+    out.push(new Paragraph({ spacing: { after: 160 }, children: [] }));
+    return out;
+  }
+  return [para(block)]; // p
+}
+
+const bodyChildren = [];
+for (const sec of C.sections) {
+  bodyChildren.push(new Paragraph({
+    heading: HeadingLevel.HEADING_1,
+    children: [new TextRun({ text: sec.h1, font: FONT })],
+  }));
+  for (const b of sec.blocks || []) bodyChildren.push(...blockToChildren(b));
+}
+
+// 封面信息表
+const metaTable = new Table({
+  alignment: AlignmentType.CENTER,
+  width: { size: 6600, type: WidthType.DXA },
+  columnWidths: [2200, 4400],
+  borders: {
+    top: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    bottom: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    left: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    right: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    insideHorizontal: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    insideVertical: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+  },
+  rows: (C.meta || []).map(([k, v]) => new TableRow({
+    children: [
+      new TableCell({
+        width: { size: 2200, type: WidthType.DXA },
+        shading: { type: ShadingType.CLEAR, fill: "DEEBF7" },
+        margins: { top: 80, bottom: 80, left: 140, right: 140 },
+        children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: k, bold: true, font: FONT })] })],
+      }),
+      new TableCell({
+        width: { size: 4400, type: WidthType.DXA },
+        margins: { top: 80, bottom: 80, left: 140, right: 140 },
+        children: [new Paragraph({ children: [new TextRun({ text: v, font: FONT })] })],
+      }),
+    ],
+  })),
+});
+
+const doc = new Document({
+  styles: {
+    default: { document: { run: { font: FONT, size: 22 } } },
+    paragraphStyles: [
+      { // 拉开一二级标题字号差（16pt / 14pt）
+        id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 32, bold: true, color: "1F4E79", font: FONT },
+        paragraph: { spacing: { before: 360, after: 200 } },
+      },
+      {
+        id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 28, bold: true, color: "2E74B5", font: FONT },
+        paragraph: { spacing: { before: 280, after: 160 } },
+      },
+    ],
+  },
+  sections: [
+    { // 第1节：封面 —— 不指定 headers/footers，天然无页眉页脚
+      properties: {},
+      children: [
+        new Paragraph({ spacing: { before: 3200 }, children: [] }),
+        new Paragraph({
+          alignment: AlignmentType.CENTER, spacing: { after: 600 },
+          children: [new TextRun({ text: C.title, bold: true, size: 56, color: "1F4E79", font: FONT })],
+        }),
+        ...(C.subtitle ? [new Paragraph({
+          alignment: AlignmentType.CENTER, spacing: { after: 800 },
+          children: [new TextRun({ text: C.subtitle, size: 26, color: "595959", font: FONT })],
+        })] : []),
+        metaTable,
+      ],
+    },
+    { // 第2节：目录独占一页；标题用非标题样式，避免“目录”二字进目录
+      properties: { type: SectionType.NEXT_PAGE },
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.CENTER, spacing: { after: 400 },
+          children: [new TextRun({ text: "目  录", bold: true, size: 32, font: FONT })],
+        }),
+        new TableOfContents("目录", { hyperlink: true, headingStyleRange: "1-2" }),
+      ],
+    },
+    { // 第3节：正文 —— 页眉右上+分隔线，页脚“第 X 页”，页码从 1 重新起算
+      properties: { type: SectionType.NEXT_PAGE, page: { pageNumbers: { start: 1 } } },
+      headers: {
+        default: new Header({
+          children: [new Paragraph({
+            alignment: AlignmentType.RIGHT,
+            border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: "9DC3E6", space: 2 } },
+            children: [new TextRun({ text: C.headerText || C.title, size: 18, color: "595959", font: FONT })],
+          })],
+        }),
+      },
+      footers: {
+        default: new Footer({
+          children: [new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ children: ["第 ", PageNumber.CURRENT, " 页"], size: 18, color: "595959", font: FONT })],
+          })],
+        }),
+      },
+      children: bodyChildren,
+    },
+  ],
+});
+
+Packer.toBuffer(doc).then(buf => {
+  fs.writeFileSync(outPath, buf);
+  console.log(`make_docx: 已生成 ${outPath}（${buf.length} 字节）。下一步: python3 fix_toc.py ${outPath} <输出_final.docx>`);
+}).catch(e => { console.error(e); process.exit(3); });

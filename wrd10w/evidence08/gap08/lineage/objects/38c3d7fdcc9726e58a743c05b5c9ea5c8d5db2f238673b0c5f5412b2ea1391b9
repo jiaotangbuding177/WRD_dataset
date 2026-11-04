@@ -1,0 +1,76 @@
+---
+name: collectible-line-design
+description: 主题收藏品/盲盒系列企划与成图时使用——文字企划确认、按系列批量出图、合并成册配封面、单系列详细设计与衍生分支（包装刀模、漫画分镜稿与逐册生成）。产出确认存档方案、成套图片与 PDF 成册。
+---
+
+# 主题收藏品/盲盒系列企划与成图路线
+
+适用：收藏品/盲盒/潮玩系列从文字企划到成套图片与 PDF 成册的完整过程，依赖本环境图像生成命令，无需外部账号。不适用：需要真实供应链/账号/印刷厂对接的落地事项（只出设计稿）；单张普通图片编辑（用 image-editing 类技能）。
+
+遇问题时查 `references/lessons.md`（来源会话教训，按场景分条）。
+
+## 总路线
+
+| 阶段 | 做什么 | 用什么 |
+|---|---|---|
+| 0 企划确认 | 文字探讨系列结构，逐条确认后存档 md | 对话 + 存档文档，无脚本 |
+| 1 系列总览图 | 每系列 1 张展示图 + 1 张大场景 | 批量出图管线（下述） |
+| 2 汇总成册 | 图片合成 PDF + 程序化封面 | images_to_pdf.py + make_cover.py |
+| 3 单系列详细设计 | 每机体三视图+卡片，盒体+端盒图，再成册 | 同上，数量按机体数 |
+| 4 衍生分支 | 包装刀模 / 漫画企划+逐册生成 / 3D 打样 | make_dieline.py / make_comic_pages.py |
+
+## 阶段 0：企划确认（默认必须）
+
+1. 按主题查资料给出系列结构建议（每系列定位、数量、隐藏款玩法、定价与概率），列出让用户拍板的问题（比例风格/价位/系列数/每系列款数/概率/品牌名）。
+2. 用户逐条确认后，把完整方案（系列清单、款式表、编号规则、概率、玩法）存档为 md。**出图前核对清单**：款式名唯一、归属系列正确、数量与确认一致（教训：同物异名重复占位、主角机错入反派列传）。
+3. 用户加款导致常规款数量超过端盒数时，主动给出端盒方案（加量/保不重复/维持现状）让用户拍板。
+4. 用户说"先不考虑"的项不替用户默认，留待其拍板。
+
+## 阶段 1+2：系列总览图与成册
+
+批量出图管线（各阶段通用）：
+
+1. 填规格（`templates/spec.example.json`：theme 填系列企划名、clarified:true、style 写画布/质量/布局约束、items 为要出的图）：
+   `python {SKILL}/scripts/compose_plan.py SPEC.json --out {OUT}/plan.json`
+   未澄清退出 3，先回阶段 0。
+2. 按 plan.prompts 逐条调用本环境生图命令（`python /opt/eval-adapter/ecnu_tools.py image --text "<prompt>" --output {OUT}/<id>.png`，路径按实际环境替换），单张失败只重跑该张，实际文件名逐行追加 `{OUT}/generated.txt`。
+3. 缺漏只补缺：`python {SKILL}/scripts/check_missing.py {OUT}/plan.json --generated {OUT}/generated.txt --out {OUT}/missing.json`
+4. 成册：`python {SKILL}/scripts/images_to_pdf.py {OUT}/封面.png {OUT}/图目录 --out {OUT}/成册.pdf`（一图一页无损，目录按文件名排序）。
+5. 封面（真字体零乱码）：`python {SKILL}/scripts/make_cover.py COVER_SPEC.json --out {OUT}/cover.png`（字段见 `templates/cover.example.json`：背景图压暗 + 金色标题 + 两列系列清单 + 底部信息）。
+
+**总览图提示词要点**（踩过的坑，详见 lessons）：系列图写明"上下两排、间距拉开、壮实比例正确、顶部系列标题"，8-14 台可用；超 10 台或用户嫌挤改 2560x1440 超宽幅 + high 质量。大场景不堆全部款式，写"每系列 1 台代表机 + 系列主题色分区平台列阵"。修订单张时把已确认要素（标题/比例/画布）全部写回 prompt。
+
+## 阶段 3：单系列详细设计
+
+按确认的系列清单逐系列做，**图片数量随机体数变化**（不是每系列一样）：每机体 1 张三视图+细节特写 + 1 张机体卡片，系列盒体设计 1 张 + 端盒外箱 1 张。文件分子目录（三视图/卡片/包装），每个系列合成 1 份带封面的 PDF（封面清单含隐藏款★标注）。管线与阶段 1 相同；卡片竖版 1024x1536，三视图横版。
+
+## 阶段 4：衍生分支
+
+**单款包装展开刀模**（不用生图，结构由代码保证）：
+`python {SKILL}/scripts/make_dieline.py --width 80 --depth 80 --height 80 --front 主视觉.png --title "标题" --spec "纸材工艺" --list "款1,款2,..." --out 刀模.png`
+主视觉可先 AI 生成；mm 精确、裁切线/折线区分、可打印。其余款式换主视觉+款号批量出。
+
+**漫画企划与逐册生成**：先纯文字企划（故事框架、册数=机体数、每册页数结构），用户确认后再写每系列完整分镜稿存档 md（每格：画面描述+台词，台词用中文引号防脚本截断）。逐册生成管线：24 格逐格生图（**画面不带文字**，每角色固定机设卡描述复用防乱入）→ 拼版：
+`python {SKILL}/scripts/make_comic_pages.py PAGES_SPEC.json`（字段见 `templates/comic_pages.example.json`：2×2 网格 + 真字体台词条，台词黑/旁白金）→ 封面 → images_to_pdf.py 合册。纠正只重画点名格，过了再重新拼版。
+
+**3D 打印样机**：概念图不能一键转 STL，按实物逻辑重新建模（拆件、公差 0.15-0.25mm、封闭单实体网格）；如实说明当前是工程白模还是精修版。
+
+## 纠正规则（所有阶段）
+
+用户指出不符：先澄清纠正含义 → 只重画点名部分（单张/单格），其余不动；重画后实际查看验证，不过关就收紧排除式约束（如 NO characters）再来一次；旧稿挪子文件夹保留；缺漏以 check_missing 实际文件为准，不凭记忆。
+
+## 资源清单
+
+| 文件 | 用法 |
+|---|---|
+| scripts/compose_plan.py | 规格→批量提示词计划；未澄清退出 3 |
+| scripts/check_missing.py | plan+generated.txt→缺漏清单 |
+| scripts/revise_plan.py | 点名条目标记重生成；id 不在计划退出 4 |
+| scripts/images_to_pdf.py | 图片/目录→一图一页 PDF；退出 2（pdf_error:） |
+| scripts/make_cover.py | 封面规格 JSON→真字体封面 PNG；退出 2（cover_error:） |
+| scripts/make_comic_pages.py | 页面规格 JSON→网格+台词条漫画页 PNG；退出 2（pages_error:） |
+| scripts/make_dieline.py | 参数→包装展开刀模 PNG（mm 标注）；退出 2（dieline_error:） |
+| templates/spec.example.json | 批量出图规格字段 |
+| templates/cover.example.json | 封面规格字段 |
+| templates/comic_pages.example.json | 漫画页规格字段 |
+| references/lessons.md | 来源会话教训，按问题场景查 |

@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+"""知识库整理报告：用整理计划填报告模板，生成Markdown整理报告。
+
+方法：读取 kb_organize.py 产出的整理计划JSON（校验 schema）与报告模板MD，
+替换 {{KB_NAME}}/{{TOTAL_FILES}}/{{TOTAL_BYTES}}/{{CATEGORY_TABLE}}/
+{{DUPLICATE_SECTION}}/{{MOVE_SECTION}} 占位符；输出确定性文本，不写时间戳。
+公开用法（逐字见 SKILL.md）：
+  python {SKILL}/scripts/kb_report.py {INPUT}/plan.json --template {SKILL}/templates/maintenance_report_template.md --out {OUT}/maintenance_report.md
+用户要PDF时由Agent把报告转HTML后导出（Noto Sans CJK），失败按用户要求重试。
+错误一律打印 'kb_report_error: ...' 到 stderr 并退出 2。
+"""
+from __future__ import annotations
+import argparse
+import json
+import os
+import sys
+
+SCHEMA = "kb-organize-plan-v1"
+
+
+def fail(message: str) -> int:
+    print("kb_report_error: " + message, file=sys.stderr)
+    return 2
+
+
+def render(plan: dict, template: str) -> str:
+    rows = ["| 分类 | 文件数 | 字节 |", "|---|---|---|"]
+    for entry in plan.get("categories", []):
+        rows.append("| " + entry["category"] + " | " + str(entry["file_count"])
+                    + " | " + str(entry["bytes"]) + " |")
+    if len(rows) == 2:
+        rows.append("| （空） | 0 | 0 |")
+    category_table = "\n".join(rows)
+    groups = plan.get("duplicates", [])
+    if groups:
+        lines = []
+        for index, group in enumerate(groups, 1):
+            kept = group[0]
+            lines.append("- 组" + str(index) + "：" + "、".join(group)
+                         + " 内容重复（按 " + plan.get("duplicate_policy", "report_only")
+                         + " 保留 " + kept + "，未删除）")
+        duplicate_section = "\n".join(lines)
+    else:
+        duplicate_section = "未发现重复文件。"
+    moves = plan.get("moves", [])
+    if moves:
+        move_section = "\n".join("- " + m["from"] + " → " + m["to"] for m in moves)
+    else:
+        move_section = "无移动。"
+    summary = plan.get("summary", {})
+    return (template
+            .replace("{{KB_NAME}}", plan.get("kb_name", "kb"))
+            .replace("{{TOTAL_FILES}}", str(summary.get("total_files", 0)))
+            .replace("{{TOTAL_BYTES}}", str(summary.get("total_bytes", 0)))
+            .replace("{{CATEGORY_TABLE}}", category_table)
+            .replace("{{DUPLICATE_SECTION}}", duplicate_section)
+            .replace("{{MOVE_SECTION}}", move_section))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="用整理计划与模板生成知识库整理报告Markdown")
+    parser.add_argument("plan", help="整理计划JSON路径（kb_organize.py 产出）")
+    parser.add_argument("--template", required=True, help="报告模板MD路径")
+    parser.add_argument("--out", required=True, help="输出报告MD路径")
+    args = parser.parse_args()
+    if not os.path.isfile(args.plan):
+        return fail("plan file not found: " + args.plan)
+    try:
+        with open(args.plan, encoding="utf-8-sig") as fh:
+            plan = json.load(fh)
+    except (OSError, ValueError) as error:
+        return fail("plan is not valid JSON: " + str(error))
+    if not isinstance(plan, dict) or plan.get("schema") != SCHEMA:
+        return fail("plan schema mismatch (expected " + SCHEMA + ")")
+    if not os.path.isfile(args.template):
+        return fail("template file not found: " + args.template)
+    try:
+        with open(args.template, encoding="utf-8-sig") as fh:
+            template = fh.read()
+    except OSError as error:
+        return fail("cannot read template: " + str(error))
+    report = render(plan, template)
+    try:
+        with open(args.out, "w", encoding="utf-8") as fh:
+            fh.write(report)
+    except OSError as error:
+        return fail("cannot write output: " + str(error))
+    print("report written: " + args.out)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

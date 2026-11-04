@@ -1,0 +1,79 @@
+{
+  "schema_version": "wrd-annotation-errata-validation-v1",
+  "status": "PASS",
+  "checked_utc": "2026-10-25T09:25:59.729819+00:00",
+  "source": "git_release/preflight/20261025",
+  "original_commit": "4cf8d4de64b606e726b36032171961bd880a7f74",
+  "saved_before_manifest_sha256": "0502388c0437023a9d0c91c4e298938e2fd36d4c8965cc4f89c6d482013b77c6",
+  "errata_sha256": "16f83aa7af1f728709636fab9df808acf9aa91ff87bf74e1f81153024bca240d",
+  "checks": {
+    "before_manifest_exact_original_git_bytes": true,
+    "original_payload_files": 110,
+    "unchanged_original_payload_files": 109,
+    "permitted_changed_original_files": [
+      "README.md"
+    ],
+    "missing_original_files": [],
+    "new_metadata_files": [
+      "ANNOTATION_ERRATA.json",
+      "reports/PAYLOAD_MANIFEST_BEFORE_ANNOTATION_ERRATUM.json"
+    ],
+    "timeout_schema": {
+      "type": "number",
+      "minimum": 0,
+      "has_maximum": false,
+      "has_exclusiveMaximum": false,
+      "documented_clamp_30000_found": true,
+      "schema_sha256": "1b0a88f818d205587be390248fd5c8516a96735da969bbee9f858ef75cad8cf3",
+      "json_pointer": "/6/parameters/properties/timeout",
+      "minimal_poll_fixture_timeout_90000_schema_valid": true
+    },
+    "corrected_id": {
+      "id": "c87e2acebe31b14583ca4d0f",
+      "publication_approved": false,
+      "precompile_training_eligible": false,
+      "final_admitted": false,
+      "compiled_status": "held_not_compiled",
+      "present_in_sft": false,
+      "historical_decision_preserved": "reject",
+      "effective_decision": "needs_context"
+    },
+    "historical_counts": {
+      "pass": 250,
+      "reject": 62,
+      "needs_context": 113
+    },
+    "effective_counts": {
+      "pass": 250,
+      "reject": 61,
+      "needs_context": 114
+    },
+    "precompile_positive_count_unchanged": 134,
+    "final_sft_count_unchanged": 93,
+    "sft_positive_ids_unique": 93,
+    "readme_overlay_entry_present": true,
+    "independent_second_check": {
+      "method": "independent_assistant_readonly_schema_and_receipt_check",
+      "schema_fact_confirmed": true,
+      "id_nonadmission_confirmed": true,
+      "key_protected_historical_file_receipts_verified": 9,
+      "source": "same Git checkout package only",
+      "semantic_gold_added": 0
+    }
+  },
+  "issues": [],
+  "old_inputs_reviews_receipts_modified_by_validator": false,
+  "source_git_checkout_modified_by_validator": false,
+  "retokenization_performed": false,
+  "training_started": false,
+  "weights_loaded": false,
+  "gpu_used": false,
+  "human_gold": 0,
+  "external_model_tool_api_calls": 0,
+  "new_teacher_actor_judge_experiment_calls": 0,
+  "assistant_review_compute_cost": null,
+  "elapsed_seconds": 0.578,
+  "elapsed_seconds_scope": "Main offline hash/schema metadata pass only; excludes assistant reasoning and independent schema review.",
+  "scope": "Schema fact, conservative metadata overlay, immutable original-payload and nonadmission verification; not a fresh semantic pass or model-quality result.",
+  "note": "The current outer MANIFEST is to be rebuilt for new metadata. The saved original payload manifest is preserved byte-for-byte for the prior Git commit; this validation output is outside the Git checkout snapshot."
+}

@@ -1,0 +1,134 @@
+#!/usr/bin/env python3
+"""提取 .docx 正文之外的审查材料：批注、文本框/形状文字、空占位与疑似重复词。
+
+用法（原样可执行）:
+  python3 docx_extras.py <文件.docx> [--out <结果.json>]
+
+方法:
+- 直接解 OOXML zip，读 word/comments.xml（批注：作者/日期/文本，按 id 列出）与
+  word/document.xml 中所有 w:txbxContent 文本框（python-docx 的 paragraphs 会漏
+  掉这些内容，须单独取）。
+- 顺带做两类机械预扫（仅供初筛，最终判断由审查阶段结合上下文确认）：
+  * 相邻重复词（如「股东会股东会」「债务债务」，2字以上中文词直接相连重复）；
+  * 空占位（成对括号内为空、连续问号/空缺下划线，如「（）」「？？」「？亿」）。
+- --out 缺省打印到 stdout。退出码: 0 成功; 2 输入缺失/非 docx/解析失败。
+不联网、不修改输入文件。
+"""
+import argparse
+import json
+import re
+import sys
+import zipfile
+from pathlib import Path
+
+
+def unescape(text):
+    return (text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+                .replace("&quot;", '"').replace("&apos;", "'"))
+
+
+def paragraphs_from_xml(xml):
+    for p in re.findall(r"<w:p[ >].*?</w:p>", xml, re.S):
+        yield "".join(re.findall(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", p, re.S))
+
+
+def extract_comments(archive):
+    if "word/comments.xml" not in archive.namelist():
+        return []
+    xml = archive.read("word/comments.xml").decode("utf-8", "replace")
+    out = []
+    for m in re.finditer(r"<w:comment\b[^>]*>", xml):
+        tag = m.group(0)
+        cid = re.search(r'w:id="([^"]+)"', tag)
+        author = re.search(r'w:author="([^"]*)"', tag)
+        date = re.search(r'w:date="([^"]*)"', tag)
+        end = xml.find("</w:comment>", m.end())
+        if end < 0:
+            continue
+        body = " ".join(
+            t.strip()
+            for t in (unescape(x) for x in re.findall(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", xml[m.end():end], re.S))
+            if t.strip()
+        )
+        out.append({
+            "id": cid.group(1) if cid else "",
+            "author": unescape(author.group(1)) if author else "",
+            "date": date.group(1) if date else "",
+            "text": body,
+        })
+    return out
+
+
+def extract_textboxes(archive):
+    if "word/document.xml" not in archive.namelist():
+        return []
+    xml = archive.read("word/document.xml").decode("utf-8", "replace")
+    out = []
+    for i, tb in enumerate(re.finditer(r"<w:txbxContent>.*?</w:txbxContent>", xml, re.S), 1):
+        text = "\n".join(
+            t for t in
+            (unescape(ptext) for ptext in paragraphs_from_xml(tb.group(0)))
+            if t.strip()
+        )
+        if text.strip():
+            out.append({"index": i, "text": text})
+    return out
+
+
+DUP_WORD = re.compile(r"([\u4e00-\u9fff]{2,})\1")
+EMPTY_PLACEHOLDER = re.compile(r"（\s*）|\(\s*\)|？{2,}|？[亿万元]|_{3,}")
+
+
+def prescan_lines(lines):
+    dups, holes = [], []
+    for lineno, line in enumerate(lines, 1):
+        for m in DUP_WORD.finditer(line):
+            dups.append({"line": lineno, "text": m.group(0), "context": line[max(0, m.start() - 10):m.end() + 10]})
+        for m in EMPTY_PLACEHOLDER.finditer(line):
+            holes.append({"line": lineno, "text": m.group(0), "context": line[max(0, m.start() - 10):m.end() + 10]})
+    return dups, holes
+
+
+def main():
+    ap = argparse.ArgumentParser(description="提取 docx 批注/文本框并做机械预扫")
+    ap.add_argument("input", help=".docx 文件")
+    ap.add_argument("--out", help="输出 JSON 路径；缺省打印 stdout")
+    args = ap.parse_args()
+    src = Path(args.input)
+    try:
+        if not src.is_file():
+            raise ValueError("input not found: %s" % src)
+        if src.suffix.lower() != ".docx":
+            raise ValueError("unsupported input type %s: expected .docx" % src.suffix)
+        archive = zipfile.ZipFile(src)
+    except (OSError, ValueError, zipfile.BadZipFile) as e:
+        print("docx_extras error: %s" % e, file=sys.stderr)
+        return 2
+    try:
+        comments = extract_comments(archive)
+        textboxes = extract_textboxes(archive)
+        doc_xml = archive.read("word/document.xml").decode("utf-8", "replace")
+        body_lines = [unescape(ptext) for ptext in paragraphs_from_xml(doc_xml)]
+        dups, holes = prescan_lines(body_lines)
+    finally:
+        archive.close()
+    result = {
+        "source": src.name,
+        "comments": comments,
+        "textboxes": textboxes,
+        "prescan": {"duplicate_words": dups, "empty_placeholders": holes},
+    }
+    payload = json.dumps(result, ensure_ascii=False, indent=1) + "\n"
+    if args.out:
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(payload, encoding="utf-8")
+        print("comments=%d textboxes=%d dup=%d placeholder=%d -> %s"
+              % (len(comments), len(textboxes), len(dups), len(holes), args.out))
+    else:
+        sys.stdout.write(payload)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

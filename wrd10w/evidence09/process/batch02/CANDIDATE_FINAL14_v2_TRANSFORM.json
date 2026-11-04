@@ -1,0 +1,63 @@
+{
+  "status": "FROZEN_ROOT_REQUESTED_V2_NOT_MAIN_ADMISSION",
+  "base": {
+    "path": "output\\20261031_wrd_curation09\\process\\batch02\\SCOPED_CANDIDATES_FINAL14.jsonl.gz",
+    "sha256": "b890b5be9f21b046235949f385d2f7681054f26dec0b730a727fe53197e8b386"
+  },
+  "output": {
+    "path": "output\\20261031_wrd_curation09\\process\\batch02\\SCOPED_CANDIDATES_FINAL14_v2.jsonl.gz",
+    "sha256": "8a5ea0ac5ee3f0a5ace33e0b4f51beb12638f190f6aafb2bc525660d4fc8f5b2",
+    "bytes": 79059
+  },
+  "count": 14,
+  "transformations": [
+    {
+      "owner_id": "af98d54fb39ba95526215440",
+      "operation": "ADD_CAUSAL_HELPER_DECLARATION_TO_NEW_FUNCTIONAL_STATE",
+      "proof": {
+        "author": "NEW_CURATOR_STATE_ADDITION_FROM_PRE_ACTION_ORIGINAL_ENVIRONMENT",
+        "original_context_message_index": 0,
+        "original_context_message_sha256_sorted": "9f6e6dd9976895fad207a1466c0deedddb07cebac6ed6df1e4eae8ff7cd9d257",
+        "original_content_unicode_start": 960,
+        "original_content_unicode_end": 1390,
+        "text": "图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。",
+        "text_sha256": "7c8ee9bdc175363ddc177c95988b9c4282c410fdd3f999bf9c18773a6f6937ff",
+        "source_packet_sha256": "832f12273b58ec2e87006191f93b422dd788d35530e1baa949a36f132c431b3b",
+        "causal_precondition": true,
+        "service_success_or_image_truth_prejudged": false
+      }
+    },
+    {
+      "owner_id": "44d544efa0510fb714da6712",
+      "operation": "ADD_EXACT_ARGUMENT_CONTENT_NEGATIVE_SPAN",
+      "added": {
+        "start": 681,
+        "end": 684,
+        "text": "现役的",
+        "text_sha256": "fe67a2ce3d380c08943562150f9fd7d6a4b084ae822bb212e2b06f3c263fc10e",
+        "reason": "Historical table snapshot does not establish current/active generation status."
+      },
+      "all_prior_spans_unchanged": true,
+      "target_original_code_sha256": "366fa0933cb006fb130f465d5721d206eb2ce40a950160ebd7c17707fbb9c541"
+    },
+    {
+      "owner_id": "ac76ab7ead15378debb0e555",
+      "operation": "ADD_EXACT_ARGUMENT_CONTENT_NEGATIVE_SPAN",
+      "added": {
+        "start": 2092,
+        "end": 2095,
+        "text": "第③项",
+        "text_sha256": "8f326c62120962c2bac79f99add4e72ca002e243aaec251f313eb949438670f5",
+        "reason": "Source pasted filename has no explicit3; preserve wrong source-number attribution at loss0."
+      },
+      "all_prior_spans_unchanged": true,
+      "target_original_code_sha256": "b1e605a82d37bef5f2fffe3489ed9d37554b6e3c5fd7434e09524acb68a9be89"
+    }
+  ],
+  "original_target_args_and_public_text_unchanged": true,
+  "original_R": 0,
+  "new_R": 0,
+  "training_started": false,
+  "business_calls": 0,
+  "script_sha256": "30676d2b795d58da000dc3c6385915afafc2e02d25d3b616636a4f34aac2082c"
+}

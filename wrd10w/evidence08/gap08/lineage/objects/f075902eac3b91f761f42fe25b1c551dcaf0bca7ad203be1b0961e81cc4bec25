@@ -1,0 +1,57 @@
+{
+  "skill": "org-chart-design",
+  "decision": "revise_and_deliver",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/design_playbook.md",
+    "outputs/skill/references/lessons.md",
+    "outputs/skill/scripts/render_design_docx.py",
+    "outputs/skill/scripts/render_docx.py",
+    "outputs/skill/templates/design_doc.example.json",
+    "outputs/skill/templates/spec.example.json"
+  ],
+  "replaced_work": "沿 previous_skill（与最近完成制作 2f5f40f4893a 逐文件一致）复用全部成果：references 两份逐字节未改，渲染器/模板只按旧反馈修具体问题，未重写任何可靠资源。本轮替代的重复工作：1) 说明书 spec 双写——历史试用手写 7k~33k 字符完整 dict JSON 且发生参数错误重写，现 spec 支持紧凑写法（顶层 defaults 一次注入全部 job 公共字段；job.duties / dept.functions 元素直接写 \"30% 文字\" 字符串；quals 可写列表），spec 内容直接搬用回复中已写的正文，SKILL.md 明确不双写、不读回交付文件；2) 检查链多轮调用——历史案例第2例 build/verify/soffice 三轮 exec+process poll+两次重复抽查，现 render_docx.py build 加 --verify（退出3=自检不通过），SKILL.md 给出 build --verify && soffice && pdftotext 计数的一条前台链式命令，一轮跑完构建、自检与渲染抽查。另按反馈把设计方案目录需 Word 中 F9 更新域的已知行为写入 design_doc.example.json \"_说明\" 与 SKILL.md 交付话术。",
+  "program_runs": [
+    {
+      "command": "python3 outputs/skill/scripts/render_design_docx.py build --in outputs/making_samples/design_spec_sample.json --out outputs/making_samples/设计方案样例.docx --force",
+      "result": "exit=0；spec 含纯字符串块（等价 para），字符串简写实测有效"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/render_design_docx.py build --in ... （无 --force，文件已存在）",
+      "result": "exit=2，stderr 提示加 --force，覆盖拒绝正常"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/render_docx.py build --in outputs/making_samples/job_spec_good.json --out outputs/making_samples/说明书样例.docx --force --verify",
+      "result": "exit=0（blocks=4，紧凑写法：defaults 注入 date/approver/salary，duties/functions 字符串解析，quals 列表渲染）"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/render_docx.py verify --file outputs/making_samples/说明书样例.docx --in outputs/making_samples/job_spec_good.json",
+      "result": "exit=0：段落=39 表格=5 签收栏=2"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/render_docx.py build --in outputs/making_samples/job_spec_bad_weight.json --out outputs/making_samples/_bad.docx --force",
+      "result": "exit=2，stderr 指明 job[硬件工程师].duties 权重合计 105 != 100——字符串写法 \"50%/35%/20%\" 解析后仍被权重校验拦截（临时文件已清理）"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/render_docx.py build --in outputs/making_samples/job_spec_missing.json --out outputs/making_samples/_miss.docx --force",
+      "result": "exit=2，stderr 指明 blocks[0] (job) 缺必填字段 summary（临时文件已清理）"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/render_docx.py build --in job_spec_good.json --out 说明书样例.docx --force --verify && soffice --headless --convert-to pdf --outdir pdf 说明书样例.docx && pdftotext pdf/说明书样例.pdf - | grep -c 员工签名",
+      "result": "链式命令整体 exit=0，签收栏计数=2（=岗位数）；SKILL.md 公开用法原样跑通"
+    },
+    {
+      "command": "soffice 转 设计方案样例.pdf + pdftotext 抽查章节标题/字符串段落/占位符",
+      "result": "标题与字符串段落均命中，TODO/占位/placeholder/XXX 命中=0"
+    },
+    {
+      "command": "PDF 内容复查发现字符串权重渲染成 40.0%，修 _split_w 整数值保持整数后重跑 build --verify + soffice + pdftotext",
+      "result": "exit=0，PDF 中正确显示 40%/25%/15% 与职责全文"
+    },
+    {
+      "command": "python3 -m py_compile 两个渲染器；json.load 校验两份模板；diff -r references 与 previous_skill 比对",
+      "result": "编译通过，模板 JSON 合法，references 逐字节未改"
+    }
+  ],
+  "known_issues": "设计方案 docx 目录需在 Word 中全选按 F9 更新域（沿用旧版行为，已在模板 \"_说明\" 与 SKILL.md 写明交付话术，历史试用确认可接受）；紧凑 duties 权重全空为合法（与原权重规则一致：要么全填要么全空），部分填写被拦截；无其他已知问题。"
+}

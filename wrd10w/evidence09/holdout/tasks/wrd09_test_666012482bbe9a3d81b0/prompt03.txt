@@ -1,0 +1,83 @@
+根据这些改动点，给张文新建任务工作项。### 1. useEffect 循环依赖导致重复请求
+
+- 现象：切换会话时/api/zclaw/chat/sessions/{id} 被重复请求
+
+- 根因shouldReuseCurrentConversation 计算值依赖 state.messages，effect 内 dispatch(SET_MESSAGES) 修改 state → 循环
+
+- 修复：移除 shouldReuseCurrentConversation，改用 loadingSessionIdRef 防御性守卫
+
+- 文件SuperLobsterPage.tsx
+
+### 2. Visibility change 重复请求
+
+- 现象：tab 切换回来时，cron 相关接口批量重复请求
+
+- 根因visibilitychange handler 无条件触发 loadCronUnreadState + setCronResultsRefreshSignal
+
+- 修复：移除 visibility change handler，改由 SSE 推送驱动 cron 数据刷新
+
+- 文件SuperLobsterPage.tsx, WorkbenchRailPanel.tsx
+
+### 3. 工具输出 sanitization 完善
+
+- 现象：历史会话中显示完整 SKILL.md 内容，品牌名称泄露
+
+- 根因：
+
+  - API 层只有 SSE 流消毒，REST 端点和 DB 写入未消毒
+
+  - 前端渲染路径 ToolActivityGroup 的 argserrordetail.body 未消毒
+
+  - 品牌替换模式不完整（只覆盖 openclaw）
+
+- 修复：
+
+  - API 新增 3 个 sanitizer 函数，5 个集成点接入
+
+  - 前端渲染层全覆盖（MessageBubble、ToolActivityGroup、ZclawMarkdown、cron-task-helpers）
+
+  - 扩展品牌替换为 5 条规则
+
+- 文件tool-output-sanitizer.ts (API+Web), zclaw.service.ts, MessageBubble.tsx, ZclawMarkdown.tsx, zclaw-ragflow-message.ts
+
+### 4. ESLint 配置
+
+- 现象pnpm lint 报错 "ESLint couldn't find an eslint.config.(js|mjs|cjs) file"
+
+- 根因：项目缺少 ESLint 配置文件
+
+- 修复：为 API 和 Web 创建 eslint.config.mjs，API 79 errors → 0 errors
+
+- 文件eslint.config.mjs (API+Web), package.json
+
+### 5. Cron delivery bestEffort
+
+- 现象：定时任务执行成功但前端显示 status: "error"
+
+- 根因：km-agent 的 resolveCronDeliveryBestEffort 默认返回 false，delivery channel 未配置时整个 run 标 error
+
+- 修复：无 channel 的 announce 模式默认 bestEffort = true
+
+- 文件：km-agent delivery-dispatch.ts
+
+### 6. 错误提示优化
+
+- 现象/api/zclaw/status 返回 5000 错误时显示 "操作失败"
+
+- 根因BACKEND_EXACT_MESSAGES 未匹配 "EvoMind接口暂时不可用"
+
+- 修复：添加子串匹配规则
+
+- 文件error-codes.ts
+
+不要一次性丢到一个里面，做一些分析和分类（缺陷，任务，需求）；不同类，不同问题分别建单跟进，如果没指定人，就默认是我自己（张文
+
+）
+
+不要一次性丢到一个里面，做一些分析和分类（缺陷，任务，需求）；不同类，不同问题分别建单跟进；如果没指定人，就默认是我自己（张文）；标题要简明扼要，用大白话描述方便老板理解
+
+项目识别的不是很准确，gitee中有什么可以快速帮忙定位项目的方法，因为用户给的是一次代码的提交commit或者总结文档，是不是可以问用户要gitee地址来找到项目，或者你有更好的方法也可以推荐给我，但是不要随便指定一个项目，不确定的话要问用户
+
+先自动搜一下，搜不到再问
+
+本次未提供可访问的Gitee项目环境或项目地址；请在真实信息与权限范围内处理，不假称已建单。

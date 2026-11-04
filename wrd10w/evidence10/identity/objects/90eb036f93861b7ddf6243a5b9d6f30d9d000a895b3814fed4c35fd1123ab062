@@ -1,0 +1,265 @@
+{
+  "id": "project-material-integration",
+  "name": "知识库项目材料亮点汇总路线",
+  "category": "BIZ",
+  "proposal_ids": [
+    "knowledge-base-maintenance"
+  ],
+  "source_ids": [
+    "conv_f9a02361c038",
+    "conv_1caa4df498cc"
+  ],
+  "source_evidence": [
+    {
+      "source_id": "conv_f9a02361c038",
+      "message_id": "conv_f9a02361c038:msg_1"
+    },
+    {
+      "source_id": "conv_f9a02361c038",
+      "message_id": "conv_f9a02361c038:msg_27"
+    },
+    {
+      "source_id": "conv_1caa4df498cc",
+      "message_id": "conv_1caa4df498cc:msg_1"
+    }
+  ],
+  "conditions": [
+    "输入为知识库中选定的多份项目介绍文档（PPTX等）",
+    "汇总内容仅取自给定材料，不引入外部信息"
+  ],
+  "conflicts": [],
+  "route_signature": {
+    "confirmed": true,
+    "input_types": [
+      "knowledge_base_document_set",
+      "integration_request_text"
+    ],
+    "output_types": [
+      "integrated_project_summary"
+    ],
+    "steps": [
+      {
+        "id": "s1",
+        "operation": "load_kb_project_documents",
+        "input_types": [
+          "knowledge_base_document_set"
+        ],
+        "output_types": [
+          "document_extracts"
+        ],
+        "depends_on": [],
+        "condition": null,
+        "source_evidence": [
+          {
+            "source_id": "conv_f9a02361c038",
+            "message_id": "conv_f9a02361c038:msg_1"
+          },
+          {
+            "source_id": "conv_1caa4df498cc",
+            "message_id": "conv_1caa4df498cc:msg_1"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "operation": "extract_project_highlights",
+        "input_types": [
+          "document_extracts"
+        ],
+        "output_types": [
+          "highlight_items"
+        ],
+        "depends_on": [
+          "s1"
+        ],
+        "condition": null,
+        "source_evidence": [
+          {
+            "source_id": "conv_f9a02361c038",
+            "message_id": "conv_f9a02361c038:msg_27"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "operation": "compose_integrated_summary",
+        "input_types": [
+          "highlight_items"
+        ],
+        "output_types": [
+          "integrated_project_summary"
+        ],
+        "depends_on": [
+          "s2"
+        ],
+        "condition": "仅基于给定材料内容汇总，材料不足时明确说明",
+        "source_evidence": [
+          {
+            "source_id": "conv_1caa4df498cc",
+            "message_id": "conv_1caa4df498cc:msg_1"
+          }
+        ]
+      }
+    ],
+    "branches": []
+  },
+  "value_plan": {
+    "schema": "wrd-reuse-value-plan-v2",
+    "workflow_id": "project-material-integration",
+    "source_ids": [
+      "conv_f9a02361c038",
+      "conv_1caa4df498cc"
+    ],
+    "reusable_steps": [
+      {
+        "id": "s2",
+        "action": "从多份项目介绍文档中按统一字段抽取亮点/成果/路线条目并去重合并",
+        "replaces": [
+          "material_reading",
+          "output_composition"
+        ],
+        "resource_ids": [
+          "r1"
+        ],
+        "support": [
+          {
+            "source_id": "conv_f9a02361c038",
+            "message_ids": [
+              "conv_f9a02361c038:msg_27"
+            ]
+          },
+          {
+            "source_id": "conv_1caa4df498cc",
+            "message_ids": [
+              "conv_1caa4df498cc:msg_1"
+            ]
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "id": "r1",
+        "kind": "template",
+        "operation": "项目亮点汇总字段模板（项目定位/技术成果/实现路线/产业进展），替代每次从零组织汇总结构",
+        "input_contract": "多份项目介绍文档的抽取条目",
+        "output_contract": "统一字段的跨项目亮点汇总，可直接进入报告或答复",
+        "applicability": {
+          "conditions": [
+            "项目材料为结构化演示文稿等可抽取文档"
+          ],
+          "unsupported": [
+            "材料本身缺失或内容不可读时的补充判断",
+            "对外发布内容的合规审核"
+          ]
+        },
+        "fixture_refs": [
+          {
+            "source_id": "conv_1caa4df498cc",
+            "message_ids": [
+              "conv_1caa4df498cc:msg_1"
+            ],
+            "pin": {
+              "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_1caa4df498cc\\conversation.json",
+              "sha256": "baf0a3343fd12b4d729eab319287d9fdaec4e4df839b4c89d0f90f394e93d345",
+              "bytes": 44595
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "candidate_gate": {
+    "schema": "wrd-reuse-admission-v2",
+    "status": "PASS",
+    "reasons": [],
+    "checks": [
+      {
+        "name": "real_source_support",
+        "status": "PASS"
+      },
+      {
+        "name": "specific_reusable_resources",
+        "status": "PASS"
+      },
+      {
+        "name": "replaces_real_common_work",
+        "status": "PASS"
+      }
+    ],
+    "metrics": {
+      "performance_measured": false,
+      "real_sources": 2,
+      "proposed_resources": 1,
+      "common_steps": 1
+    },
+    "scope": "fixed independent development cases only; no formal250 or universal saving claim",
+    "candidate_plan_sha256": "623c4fee79378f351db5ff0f0f27ec92bda9b607d81ef307bf806e80d0d602d0",
+    "value_plan": {
+      "schema": "wrd-reuse-value-plan-v2",
+      "workflow_id": "project-material-integration",
+      "source_ids": [
+        "conv_f9a02361c038",
+        "conv_1caa4df498cc"
+      ],
+      "reusable_steps": [
+        {
+          "id": "s2",
+          "action": "从多份项目介绍文档中按统一字段抽取亮点/成果/路线条目并去重合并",
+          "replaces": [
+            "material_reading",
+            "output_composition"
+          ],
+          "resource_ids": [
+            "r1"
+          ],
+          "support": [
+            {
+              "source_id": "conv_f9a02361c038",
+              "message_ids": [
+                "conv_f9a02361c038:msg_27"
+              ]
+            },
+            {
+              "source_id": "conv_1caa4df498cc",
+              "message_ids": [
+                "conv_1caa4df498cc:msg_1"
+              ]
+            }
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "id": "r1",
+          "kind": "template",
+          "operation": "项目亮点汇总字段模板（项目定位/技术成果/实现路线/产业进展），替代每次从零组织汇总结构",
+          "input_contract": "多份项目介绍文档的抽取条目",
+          "output_contract": "统一字段的跨项目亮点汇总，可直接进入报告或答复",
+          "applicability": {
+            "conditions": [
+              "项目材料为结构化演示文稿等可抽取文档"
+            ],
+            "unsupported": [
+              "材料本身缺失或内容不可读时的补充判断",
+              "对外发布内容的合规审核"
+            ]
+          },
+          "fixture_refs": [
+            {
+              "source_id": "conv_1caa4df498cc",
+              "message_ids": [
+                "conv_1caa4df498cc:msg_1"
+              ],
+              "pin": {
+                "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_1caa4df498cc\\conversation.json",
+                "sha256": "baf0a3343fd12b4d729eab319287d9fdaec4e4df839b4c89d0f90f394e93d345",
+                "bytes": 44595
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

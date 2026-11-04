@@ -1,0 +1,153 @@
+{
+  "status": "PASS_EXACT_ENCRYPTED_AUDIT_URL_POLICY_CANARIES",
+  "tests": [
+    {
+      "name": "exact_raw_audit_match_policy_passes_keyfree_full_audit",
+      "pass": true,
+      "expected_reject": false,
+      "rejection_type": null
+    },
+    {
+      "name": "exact_gzip_decoded_audit_match_policy_passes",
+      "pass": true,
+      "expected_reject": false,
+      "rejection_type": null
+    },
+    {
+      "name": "URL_without_explicit_exception_still_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "SIGNED_OR_TOKENIZED_URL"
+    },
+    {
+      "name": "exception_cannot_cross_file_path",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "URL_EXCEPTION_WRONG_OR_DUPLICATE_FILE"
+    },
+    {
+      "name": "exception_cannot_cross_source_SHA",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "URL_EXCEPTION_SOURCE_SHA_MISMATCH"
+    },
+    {
+      "name": "TRAINING_category_cannot_use_URL_exception",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "URL_EXCEPTION_REQUIRES_CONTROLLED_AUDIT"
+    },
+    {
+      "name": "actual_train_manifest_path_cannot_be_laundered_as_audit_category",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "URL_EXCEPTION_MUST_NOT_BE_DEFAULT_TRAINING_FILE"
+    },
+    {
+      "name": "plaintext_public_export_rejected_even_with_root_review_flag",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "ENCRYPTED_AUDIT_URL_MUST_NOT_BE_PUBLIC_EXPORT"
+    },
+    {
+      "name": "same_SHA_plaintext_export_alias_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "ENCRYPTED_AUDIT_URL_MUST_NOT_BE_PUBLIC_EXPORT"
+    },
+    {
+      "name": "same_body_other_file_needs_own_exact_exception",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "SIGNED_OR_TOKENIZED_URL"
+    },
+    {
+      "name": "one_byte_change_rejected_by_frozen_exception_source_SHA",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "URL_EXCEPTION_SOURCE_SHA_MISMATCH"
+    },
+    {
+      "name": "new_URL_rejected_after_source_SHA_legitimately_repin",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "SIGNED_OR_TOKENIZED_URL"
+    },
+    {
+      "name": "extra_matching_occurrence_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "ENCRYPTED_AUDIT_URL_OCCURRENCE_COUNT_EXCEEDED"
+    },
+    {
+      "name": "missing_allowed_occurrence_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "ENCRYPTED_AUDIT_URL_EXACT_COUNTS_MISMATCH"
+    },
+    {
+      "name": "exception_cannot_cross_raw_vs_gzip_layer",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "SIGNED_OR_TOKENIZED_URL"
+    },
+    {
+      "name": "different_match_SHA_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "SIGNED_OR_TOKENIZED_URL"
+    },
+    {
+      "name": "encrypted_only_disposition_required",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "ENCRYPTED_AUDIT_POLICY_NOT_DECLARED"
+    },
+    {
+      "name": "duplicate_match_rule_rejected",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "DUPLICATE_URL_MATCH_POLICY"
+    },
+    {
+      "name": "known_credential_rejects_even_with_exact_URL_exception",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "KNOWN_CREDENTIAL_VALUE_IN_PAYLOAD"
+    },
+    {
+      "name": "Bearer_guard_not_bypassed_by_URL_exception",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "BEARER_VALUE"
+    },
+    {
+      "name": "JSON_guard_not_bypassed_by_URL_exception",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "JSON_CREDENTIAL_VALUE"
+    },
+    {
+      "name": "privatekey_guard_not_bypassed_by_URL_exception",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "PRIVATE_KEY_BODY"
+    },
+    {
+      "name": "keyshape_guard_not_bypassed_by_URL_exception",
+      "pass": true,
+      "expected_reject": true,
+      "rejection_type": "KEY_SHAPED_VALUE"
+    }
+  ],
+  "test_count": 23,
+  "package08_sha256": "ffdbdb2393e589bd41bf604b216108c4a35d580aa8295f6df47fee5de2d5bddf",
+  "merger08_sha256": "365f150ec62d044d6afd3e075fb09c0db76b040cf7a1e23a0813f4bbee822ad9",
+  "production_key_read": false,
+  "credential_configs_read": false,
+  "real_Audit4171_or_build_run": false,
+  "Git_run": false,
+  "AI_curation_CPU_cost": "UNKNOWN_NOT_ZERO",
+  "new_business_Teacher_Actor_calls": 0,
+  "training_started": false
+}

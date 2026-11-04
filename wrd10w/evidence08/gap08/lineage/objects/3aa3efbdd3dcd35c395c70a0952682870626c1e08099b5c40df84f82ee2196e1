@@ -1,0 +1,250 @@
+#!/usr/bin/env python3
+"""render_docx.py -- 组织架构部门职能/岗位说明书 docx 渲染器。
+
+用法:
+  python3 render_docx.py build  --in SPEC.json --out OUT.docx [--force]
+  python3 render_docx.py verify --file OUT.docx --in SPEC.json
+
+SPEC 结构见 templates/spec.example.json。支持四种 block:
+  company_overview / dept / job / org_unit(委员会、PMO等机构)
+
+退出码: 0=成功 2=用法或spec错误 3=verify不通过
+"""
+import argparse, json, sys
+from docx import Document
+from docx.shared import Pt, Cm, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.oxml.ns import qn
+
+REQUIRED = {
+    "job": ["title", "summary", "duties"],
+    "dept": ["name", "positioning", "functions"],
+    "org_unit": ["name", "positioning", "functions"],
+    "company_overview": ["title", "rows"],
+}
+
+
+def set_font(run, name, size, bold=False):
+    run.font.name = name
+    run._element.rPr.rFonts.set(qn("w:eastAsia"), name)
+    run.font.size = Pt(size)
+    run.font.bold = bold
+
+
+def para(doc, text, font, size, bold=False, align=None, space_after=4):
+    p = doc.add_paragraph()
+    if align is not None:
+        p.alignment = align
+    p.paragraph_format.space_after = Pt(space_after)
+    set_font(p.add_run(text), font, size, bold)
+    return p
+
+
+def cell_text(cell, text, font, size, bold=False):
+    cell.text = ""
+    p = cell.paragraphs[0]
+    set_font(p.add_run(str(text)), font, size, bold)
+
+
+def add_table(doc, header, rows, font_body, font_label, size, widths=None):
+    t = doc.add_table(rows=1 + len(rows), cols=len(header))
+    t.style = "Table Grid"
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for j, h in enumerate(header):
+        cell_text(t.rows[0].cells[j], h, font_label, size, bold=True)
+        if widths:
+            t.rows[0].cells[j].width = Cm(widths[j])
+    for i, row in enumerate(rows, start=1):
+        for j, v in enumerate(row):
+            cell_text(t.rows[i].cells[j], v, font_body, size)
+            if widths:
+                t.rows[i].cells[j].width = Cm(widths[j])
+    return t
+
+
+def weights_check(duties, where, problems):
+    ws = [d.get("weight") for d in duties]
+    if all(w is not None for w in ws):
+        total = sum(ws)
+        if abs(total - 100) > 0.01:
+            problems.append(f"{where}: 工作内容权重合计 {total} != 100")
+    elif any(w is not None for w in ws):
+        problems.append(f"{where}: 权重要么全填要么全空，当前部分填写")
+
+
+def render_job(doc, b, cfg, problems):
+    fb, fl, st, sx = cfg["font_body"], cfg["font_label"], cfg["size_body"], cfg["size_title"]
+    para(doc, "岗位职责说明书", fl, sx + 4, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=8)
+    info_rows = [
+        ["职位名称", b.get("title", ""), "职位代码", b.get("code", ""), "所属部门", b.get("dept", "")],
+        ["职系", b.get("family", ""), "职级", b.get("grade", ""), "直接上级", b.get("reports_to", "")],
+        ["薪金", b.get("salary", "待定"), "日期", b.get("date", ""), "核准人", b.get("approver", "")],
+    ]
+    add_table(doc, [], [], fb, fl, st)  # placeholder to keep style consistent
+    doc.element.body.remove(doc.tables[-1]._element)  # remove empty; build custom below
+    t = doc.add_table(rows=3, cols=6)
+    t.style = "Table Grid"
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for i, row in enumerate(info_rows):
+        for j, v in enumerate(row):
+            bold = j % 2 == 0
+            cell_text(t.rows[i].cells[j], v, fl if bold else fb, st, bold=bold)
+    para(doc, "职位概要", fl, st, bold=True)
+    para(doc, b["summary"], fb, st)
+    para(doc, "工作内容", fl, st, bold=True)
+    weights_check(b["duties"], f"job[{b.get('title','?')}].duties", problems)
+    for d in b["duties"]:
+        w = d.get("weight")
+        prefix = f"{w}%  " if w is not None else "-  "
+        para(doc, prefix + d["text"], fb, st)
+    para(doc, "任职资格", fl, st, bold=True)
+    q = b.get("quals", {})
+    for key, label in (("education", "教育背景"), ("training", "培训经历"), ("experience", "经验"),
+                       ("skills", "技能技巧"), ("attitude", "态度")):
+        if q.get(key):
+            para(doc, f"{label}：{q[key]}", fb, st)
+    cond = b.get("conditions", {})
+    para(doc, "工作条件", fl, st, bold=True)
+    para(doc, f"工作场所：{cond.get('workplace', '')}", fb, st)
+    para(doc, f"危险性：{cond.get('hazards', '无')}", fb, st)
+    if b.get("signature", True):
+        para(doc, "同意以上岗位职责内容并承诺认真履行。员工签名：______", fb, st)
+
+
+def render_dept(doc, b, cfg, problems):
+    fb, fl, st = cfg["font_body"], cfg["font_label"], cfg["size_body"]
+    para(doc, f"{b['name']}——部门职能说明书", fl, cfg["size_title"], bold=True, space_after=6)
+    add_table(doc, ["部门名称", "部门代码", "所属中心", "部门定位"],
+              [[b["name"], b.get("code", ""), b.get("center", ""), b["positioning"]]],
+              fb, fl, st)
+    para(doc, "核心职能", fl, st, bold=True)
+    ws = [f.get("weight") for f in b["functions"]]
+    if any(w is not None for w in ws):
+        if not all(w is not None for w in ws):
+            problems.append(f"dept[{b['name']}]: 职能权重要么全填要么全空")
+        elif abs(sum(ws) - 100) > 0.01:
+            problems.append(f"dept[{b['name']}]: 职能权重合计 {sum(ws)} != 100")
+    rows = [[(f"{f.get('weight')}%" if f.get('weight') is not None else str(i + 1)),
+             f["item"], f.get("detail", "")] for i, f in enumerate(b["functions"])]
+    add_table(doc, ["序号/权重", "职能模块", "具体职责"], rows, fb, fl, st)
+    if b.get("staffing"):
+        para(doc, f"编制建议：{b['staffing']}", fb, st)
+    if b.get("boundary"):
+        para(doc, f"部门边界：{b['boundary']}", fb, st)
+
+
+def render_org_unit(doc, b, cfg, problems):
+    fb, fl, st = cfg["font_body"], cfg["font_label"], cfg["size_body"]
+    para(doc, f"{b['name']}——职能说明书", fl, cfg["size_title"], bold=True, space_after=6)
+    add_table(doc, ["机构名称", "机构代码", "类型", "组成成员", "议事频次", "主要输出物"],
+              [[b["name"], b.get("code", ""), b.get("unit_type", ""), b.get("members", ""),
+                b.get("meeting", ""), b.get("outputs", "")]], fb, fl, st)
+    para(doc, "机构定位", fl, st, bold=True)
+    para(doc, b["positioning"], fb, st)
+    para(doc, "核心职能", fl, st, bold=True)
+    for f in b["functions"]:
+        para(doc, "◆ " + f["item"], fb, st, bold=False)
+        for sub in f.get("subs", []):
+            para(doc, "    - " + sub, fb, st)
+
+
+def render_company(doc, b, cfg, problems):
+    fb, fl, st = cfg["font_body"], cfg["font_label"], cfg["size_body"]
+    para(doc, b["title"], fl, cfg["size_title"], bold=True, space_after=6)
+    add_table(doc, ["项目", "内容"], b["rows"], fb, fl, st)
+
+
+RENDER = {"job": render_job, "dept": render_dept, "org_unit": render_org_unit,
+          "company_overview": render_company}
+
+
+def build(spec_path, out_path, force):
+    with open(spec_path, encoding="utf-8") as f:
+        spec = json.load(f)
+    problems = []
+    doc_cfg = spec.get("doc", {})
+    cfg = {
+        "font_label": doc_cfg.get("fonts", {}).get("label", "黑体"),
+        "font_body": doc_cfg.get("fonts", {}).get("body", "宋体"),
+        "size_body": doc_cfg.get("sizes", {}).get("body", 9),
+        "size_title": doc_cfg.get("sizes", {}).get("title", 12),
+    }
+    doc = Document()
+    section = doc.sections[0]
+    section.page_width, section.page_height = Cm(21), Cm(29.7)
+    title = spec.get("doc", {}).get("title")
+    if title:
+        para(doc, title, cfg["font_label"], cfg["size_title"] + 4, bold=True,
+             align=WD_ALIGN_PARAGRAPH.CENTER, space_after=10)
+    for i, b in enumerate(spec.get("blocks", [])):
+        btype = b.get("type")
+        if btype not in RENDER:
+            print(f"spec错误: blocks[{i}] type={btype!r} 不是有效类型 {sorted(RENDER)}", file=sys.stderr)
+            return 2
+        for key in REQUIRED[btype]:
+            if not b.get(key):
+                print(f"spec错误: blocks[{i}] ({btype}) 缺必填字段 {key}", file=sys.stderr)
+                return 2
+        RENDER[btype](doc, b, cfg, problems)
+        if i < len(spec["blocks"]) - 1:
+            doc.add_page_break()
+    if problems:
+        print("spec警告/错误:\n" + "\n".join(problems), file=sys.stderr)
+        return 2
+    import os
+    if os.path.exists(out_path) and not force:
+        print(f"输出已存在: {out_path}（用 --force 覆盖）", file=sys.stderr)
+        return 2
+    doc.save(out_path)
+    print(f"已生成: {out_path}（blocks={len(spec['blocks'])}）")
+    return 0
+
+
+def verify(file_path, spec_path):
+    with open(spec_path, encoding="utf-8") as f:
+        spec = json.load(f)
+    doc = Document(file_path)
+    errors = []
+    texts = "\n".join(p.text for p in doc.paragraphs)
+    for t in doc.tables:
+        for row in t.rows:
+            for c in row.cells:
+                texts += "\n" + c.text
+    expect = [(b.get("title") or b.get("name")) for b in spec.get("blocks", [])
+              if b.get("type") in ("job", "dept", "org_unit", "company_overview")]
+    for name in expect:
+        if name and name not in texts:
+            errors.append(f"文档中找不到标题/名称: {name}")
+    n_job = sum(1 for b in spec["blocks"] if b.get("type") == "job")
+    n_sig = texts.count("员工签名")
+    if n_job and n_sig < n_job:
+        errors.append(f"签收栏数量 {n_sig} < 岗位数 {n_job}")
+    if not doc.paragraphs:
+        errors.append("文档为空")
+    if errors:
+        print("verify不通过:\n" + "\n".join(errors), file=sys.stderr)
+        return 3
+    print(f"verify通过: 段落={len(doc.paragraphs)} 表格={len(doc.tables)} 签收栏={n_sig}")
+    return 0
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("action", choices=["build", "verify"])
+    ap.add_argument("--in", dest="inp")
+    ap.add_argument("--out", dest="out")
+    ap.add_argument("--file", dest="file")
+    ap.add_argument("--force", action="store_true")
+    a = ap.parse_args()
+    if a.action == "build":
+        if not a.inp or not a.out:
+            ap.error("build 需要 --in 与 --out")
+        sys.exit(build(a.inp, a.out, a.force))
+    if not a.file or not a.inp:
+        ap.error("verify 需要 --file 与 --in")
+    sys.exit(verify(a.file, a.inp))
+
+
+if __name__ == "__main__":
+    main()

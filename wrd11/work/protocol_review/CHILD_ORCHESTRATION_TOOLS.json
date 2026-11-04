@@ -1,0 +1,512 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "agents_list",
+      "description": "List configured agent ids with name/model/runtime metadata, allowed as `sessions_spawn(runtime:\"subagent\")` targets.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "sessions_spawn",
+      "description": "Spawn child session; default `runtime=\"subagent\"`. `mode=\"run\"` one-shot background. `agentId` targets a configured agent (see agents_list); `model` overrides its model; `cleanup` delete|keep hidden child session; `sandbox` inherit|require. Default to a hidden subagent for internal QA, research, coding, review, tests, and parallel work supporting the current task; omit `visible` or set it false, and report results through the parent. `visible=true`: durable visible session. Use only when the user requests a separate session or needs to revisit and steer the work independently. Shows in web UI sidebar; works without UI: announcing runs report back, progress checkable. `group` places it in a custom sidebar group (a new name creates the group); omission or an empty string leaves it ungrouped. Subagent only; omit `mode` (`mode=\"run\"` is also accepted), `thread`, `thinking`, and `lightContext`; `attachments=[]` and omitted/blank `attachAs.mountPath` are accepted, but nonempty attachment staging is unsupported; inherits the caller tool-policy ceiling; select a registered project with `projectId` or a managed GitHub clone with `projectGitUrl` (mutually exclusive with each other and `cwd`); may check out a git worktree via `worktree`/`worktreeName`/`worktreeBaseRef`. When its accepted result includes `sessionUrl`, channel acknowledgements put the session URL on the first line and `Owner: <label>` on the second line. Session listing/addressing obeys `tools.sessions.visibility` (all: all sessions, cross-agent per tools.agentToAgent).  Inherits parent workspace. Native task arrives in the child's initial `[Subagent Task]` message. Native: explicit context=\"isolated\" starts clean; context=\"fork\" copies requester transcript and requires the same agent. Omitted context is isolated. A PR/report, long runtime, or isolated worktree alone does not justify a sidebar session. A request for a subagent does not request a separate session. No spawn for quick lookup/single read. Check spawns via `subagents`/`sessions_history`. After spawn, do non-overlap work; follow the receipt's completion mode. Default to ordinary spawn for one or a few children. Reserve `collect=true` (swarm) for large parallel fan-out (several similar children, about five or more). Collectors send no completion notification and cannot be steered; explicitly collect their results; structured result per `outputSchema`; `groupId` groups a batch; await with agents_wait.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "task"
+        ],
+        "properties": {
+          "task": {
+            "type": "string"
+          },
+          "taskName": {
+            "type": "string",
+            "description": "Stable later-target alias; starts lowercase letter; then lowercase/digit/_/-."
+          },
+          "label": {
+            "type": "string",
+            "description": "Short task title shown in UI lists; name the work, not the agent."
+          },
+          "runtime": {
+            "enum": [
+              "subagent"
+            ],
+            "type": "string",
+            "description": "Runtime; visible=true requires \"subagent\"."
+          },
+          "agentId": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "runTimeoutSeconds": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Per-run timeout in seconds; overrides the configured subagent default. Zero disables the timeout."
+          },
+          "thinking": {
+            "type": "string",
+            "description": "Thinking override; unavailable with visible=true."
+          },
+          "cwd": {
+            "type": "string",
+            "description": "Child working directory. Visible paths outside configured agent workspaces require operator.admin. Mutually exclusive with projectId/projectGitUrl. With no source selector and worktree=true: inherit the same-agent parent managed repository; otherwise use the target agent workspace."
+          },
+          "mode": {
+            "enum": [
+              "run"
+            ],
+            "type": "string",
+            "description": "\"run\" one-shot. Visible sessions accept omitted/default \"run\" and remain persistent."
+          },
+          "cleanup": {
+            "enum": [
+              "delete",
+              "keep"
+            ],
+            "type": "string",
+            "description": "Hidden session cleanup; visible=true always keeps the session."
+          },
+          "expectsCompletionMessage": {
+            "type": "boolean",
+            "description": "false: fire-and-forget; requester gets no completion handoff when the child finishes."
+          },
+          "completionTarget": {
+            "enum": [
+              "parent"
+            ],
+            "type": "string",
+            "description": "parent: return results in a private requester turn; no automatic channel delivery. Native hidden run only; unavailable with ACP, collect, visible, thread, session mode, or expectsCompletionMessage=false."
+          },
+          "sandbox": {
+            "enum": [
+              "inherit",
+              "require"
+            ],
+            "type": "string",
+            "description": "\"inherit\" parent sandbox policy; \"require\" fails unless child is sandboxed."
+          },
+          "context": {
+            "enum": [
+              "isolated",
+              "fork"
+            ],
+            "type": "string",
+            "description": "Native: explicit context=\"isolated\" starts clean; context=\"fork\" copies requester transcript and requires the same agent. Omitted context is isolated."
+          },
+          "lightContext": {
+            "type": "boolean",
+            "description": "Light bootstrap; subagent only; unavailable with visible=true."
+          },
+          "fastMode": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "string",
+                "const": "auto"
+              }
+            ]
+          },
+          "visible": {
+            "type": "boolean",
+            "description": "Persistent sidebar session only when the user requests a separate session or needs to revisit and steer it independently. Internal QA/coding/review/test workers: omit or false. Subagent runtime only; default run mode and empty attachments accepted; no thread/thinking/lightContext or attachment staging."
+          },
+          "group": {
+            "type": "string",
+            "description": "Custom sidebar group for a visible session; a new name creates the group. Omit or pass an empty string to leave it ungrouped."
+          },
+          "projectId": {
+            "type": "string",
+            "description": "Registered project for a visible session; mutually exclusive with projectGitUrl and cwd."
+          },
+          "projectGitUrl": {
+            "type": "string",
+            "description": "GitHub HTTPS or git@github.com repository URL for a visible session's managed clone; mutually exclusive with projectId and cwd. Local paths and file URLs are not accepted.",
+            "maxLength": 2048
+          },
+          "worktree": {
+            "type": "boolean",
+            "description": "Visible session worktree"
+          },
+          "worktreeName": {
+            "type": "string",
+            "description": "Worktree name"
+          },
+          "worktreeBaseRef": {
+            "type": "string",
+            "description": "Worktree base ref"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "content"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "encoding": {
+                  "enum": [
+                    "utf8",
+                    "base64"
+                  ],
+                  "type": "string"
+                },
+                "mimeType": {
+                  "type": "string"
+                }
+              }
+            },
+            "maxItems": 50,
+            "description": "Inline snapshots; visible=true accepts only an empty array."
+          },
+          "attachAs": {
+            "type": "object",
+            "properties": {
+              "mountPath": {
+                "type": "string"
+              }
+            },
+            "description": "Attachment mount hint; visible=true accepts only an omitted or blank mountPath."
+          },
+          "collect": {
+            "type": "boolean",
+            "description": "Swarm collector child for large parallel fan-out, not one or a few children; no completion notification."
+          },
+          "outputSchema": {
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {}
+            },
+            "description": "JSON Schema for the child's structured result; requires collect=true."
+          },
+          "groupId": {
+            "type": "string",
+            "description": "Groups parallel collector children; requires collect=true."
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "subagents",
+      "description": "Background work: list status, wait for selected taskIds to finish or need attention, or cancel a taskId. wait keeps this turn active; timeout does not cancel work or consume completion delivery.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "enum": [
+              "list",
+              "wait",
+              "cancel"
+            ],
+            "type": "string"
+          },
+          "recentMinutes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "taskId": {
+            "type": "string",
+            "description": "Task id"
+          },
+          "taskIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "maxItems": 32
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "agents_wait",
+      "description": "Wait for collector subagents started by sessions_spawn collect=true. Accepts many run ids; returns once any completes (completed results incl. structured output, plus pending ids), or on timeoutSeconds.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "ids"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "maxItems": 1000
+          },
+          "timeoutSeconds": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "sessions_yield",
+      "description": "End this turn for pending child completion events; this is not a final-result submission. Return completed work normally. An unfinished subagent waiting for an incoming continuation must set waitFor:\"message\". Collector runs require agents_wait instead. acknowledgment can send a waiting reply for an otherwise-silent interactive parent.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "waitFor": {
+            "type": "string",
+            "const": "message",
+            "description": "Explicitly pause an unfinished subagent until an incoming continuation message. Does not schedule a message or submit the final result."
+          },
+          "message": {
+            "type": "string",
+            "description": "Private context for the resumed turn; not sent to the user."
+          },
+          "acknowledgment": {
+            "type": "string",
+            "description": "Optional waiting reply for an otherwise-silent interactive parent turn."
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "sessions_list",
+      "description": "List visible session metadata and groups; filter ownerId/creatorId, projectId/workspaceDir, group/pinned, kind/agent/activity/archive. relationship=owned|created|involving selects the authenticated requesting user's sessions, not the agent's owner. Metadata-only by default. limit defaults to 100; larger requests stay valid but limitApplied never exceeds 200. count is this page, not an inventory total. Continue with nextOffset and identical filters while hasMore; truncationReason names a scan/byte budget. Pages are live: deduplicate by agentId/key/sessionId or restart for a fresh inventory. archived=all includes active and archived rows. Preview recent messages inline via includeLastMessage/messageLimit; includeDerivedTitles adds derived titles. enrichmentOmitted means previews exceeded the byte budget; read history separately. Use before history/send target selection.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "kinds": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "main",
+                "group",
+                "cron",
+                "hook",
+                "node",
+                "other"
+              ],
+              "type": "string"
+            }
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "activeMinutes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "activeOnly": {
+            "type": "boolean"
+          },
+          "excludeSubagents": {
+            "type": "boolean"
+          },
+          "relationship": {
+            "enum": [
+              "owned",
+              "created",
+              "involving"
+            ],
+            "type": "string",
+            "description": "Relation to the authenticated requesting user; unavailable without a trusted user identity."
+          },
+          "ownerId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "creatorId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projectId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "workspaceDir": {
+            "type": "string",
+            "minLength": 1
+          },
+          "group": {
+            "type": "string"
+          },
+          "pinned": {
+            "type": "boolean"
+          },
+          "messageLimit": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "agentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "search": {
+            "type": "string",
+            "minLength": 1
+          },
+          "archived": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "string",
+                "const": "all"
+              }
+            ]
+          },
+          "includeDerivedTitles": {
+            "type": "boolean"
+          },
+          "includeLastMessage": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "sessions_history",
+      "description": "Read sanitized visible-session history. Before reply/debug/resume. Use messageId (optionally sessionId) for anchored history; offset is ignored when messageId is set. Without messageId, use offset for plain pagination. limit bounds either mode. Include tool messages with includeTools. pendingInputs are accepted inputs outside model history; page with pendingBefore=nextBefore. Cancelled/interrupted inputs never replay automatically. Lower limit for richer pending previews.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "sessionKey"
+        ],
+        "properties": {
+          "sessionKey": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Plain-pagination offset. Ignored when messageId is set (anchored reads window history around messageId instead)."
+          },
+          "pendingBefore": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "messageId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Return history around this message id. Ignores offset; limit still bounds the window."
+          },
+          "sessionId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Transcript session id that owns messageId. Requires messageId."
+          },
+          "includeTools": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "sessions_send",
+      "description": "Run a visible session on this Gateway by sessionKey/label, or a configured local agent by agentId; sessionKey wins redundant label. A session identifies model context, not an external address; its reply may still announce through established delivery context. Accepted results report target admission as `targetDisposition: \"queued\"` or `\"steered\"`; `delivery.status` is only later announcement state, and neither proves target completion. mode:notify queues ephemeral context for the next turn without waking or starting work (bounded process memory, not a durable inbox). mode:steer injects guidance into an active supported run and never starts idle work; mode:followup starts or queues a later turn without steering. mode:resume continues your paused native child task; returns runId/taskRunId, with completion from the task owner, not inline. Resume rejects watch:true and positive timeoutSeconds. Omit mode for existing automatic routing. For an exact external destination, use `conversations_list` plus `conversations_send`/`conversations_turn`. Thread chats rejected: target parent channel. Missing configured-agent main created. Waits for reply when available; status \"no_reply\" is terminal, so do not wait for an announcement. watch:true: notice arrives when others later change target session.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "sessionKey": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "agentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "message": {
+            "type": "string"
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "watch": {
+            "type": "boolean"
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "const": "notify"
+              },
+              {
+                "type": "string",
+                "const": "steer"
+              },
+              {
+                "type": "string",
+                "const": "followup"
+              },
+              {
+                "type": "string",
+                "const": "resume"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+]

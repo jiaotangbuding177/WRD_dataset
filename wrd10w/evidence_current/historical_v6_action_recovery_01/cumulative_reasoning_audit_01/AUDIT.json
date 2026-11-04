@@ -1,0 +1,172 @@
+{
+  "schema": "wrd-historical-cumulative-reasoning-collector-audit-v1",
+  "status": "ACTUAL_COLLECTOR_CUMULATION_PROVEN_ORIGINAL_R_MAIN_HOLD",
+  "collector_source_pins": [
+    {
+      "original": {
+        "path": "E:\\skillloop_runs\\20261019_auto_workflow_pilot\\infra\\service\\src\\sink-factory.js",
+        "bytes": 3100,
+        "sha256": "c1ddc3272fa5d77e761f6bf6a691836161aebc6121972618e0edddbd0f3a6ec0"
+      },
+      "portable_copy": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\cumulative_reasoning_audit_01\\collector_source\\src\\sink-factory.js",
+        "bytes": 3100,
+        "sha256": "c1ddc3272fa5d77e761f6bf6a691836161aebc6121972618e0edddbd0f3a6ec0"
+      },
+      "matches_original_launch_copy_manifest": true
+    },
+    {
+      "original": {
+        "path": "E:\\skillloop_runs\\20261019_auto_workflow_pilot\\infra\\service\\src\\response-builder.js",
+        "bytes": 2008,
+        "sha256": "7632ad0cc88bd1f329b30379a3a4e2756574d9c16e1415ced74f9d22e50614c3"
+      },
+      "portable_copy": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\cumulative_reasoning_audit_01\\collector_source\\src\\response-builder.js",
+        "bytes": 2008,
+        "sha256": "7632ad0cc88bd1f329b30379a3a4e2756574d9c16e1415ced74f9d22e50614c3"
+      },
+      "matches_original_launch_copy_manifest": true
+    },
+    {
+      "original": {
+        "path": "E:\\skillloop_runs\\20261019_auto_workflow_pilot\\infra\\service\\src\\openai-handler.js",
+        "bytes": 47421,
+        "sha256": "84449e582b9f1a8de24eeb86ab0d27f1deafe990517bda94a2b5c14b96062586"
+      },
+      "portable_copy": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\cumulative_reasoning_audit_01\\collector_source\\src\\openai-handler.js",
+        "bytes": 47421,
+        "sha256": "84449e582b9f1a8de24eeb86ab0d27f1deafe990517bda94a2b5c14b96062586"
+      },
+      "matches_original_launch_copy_manifest": true
+    },
+    {
+      "original": {
+        "path": "E:\\skillloop_runs\\20261019_auto_workflow_pilot\\infra\\service\\src\\acp-events.js",
+        "bytes": 6356,
+        "sha256": "0fc9bbd975589bbb5f85a6b050955d824dded4c4b264ea28ed8eeaa06409804f"
+      },
+      "portable_copy": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\cumulative_reasoning_audit_01\\collector_source\\src\\acp-events.js",
+        "bytes": 6356,
+        "sha256": "0fc9bbd975589bbb5f85a6b050955d824dded4c4b264ea28ed8eeaa06409804f"
+      },
+      "matches_original_launch_copy_manifest": true
+    }
+  ],
+  "mechanism": {
+    "acp_events": "agent_thought_chunk maps to reasoning text; not ordinary assistant body or progress.",
+    "sink_factory": "onReasoning appends state.reasoning += text; onUsage replaces state.usage with latest usage.",
+    "response_builder": "buildToolCallResponse omits reasoning_content; buildFinalResponse returns entire state.reasoning.",
+    "openai_handler": "_consumePending passes the same state to createSink across suspended tool calls; no reasoning reset.",
+    "consequence": "Final raw-response owner contains a cumulative thought field across earlier native calls. Final-only usage is not the number of reasoning bytes; assigning all thought to the final as-of context would create false step alignment."
+  },
+  "inventory": [
+    {
+      "original_response_owner": "4ecfa75943c1855d9ea5c82c",
+      "run_id": "9564a152c45fec19283885c0",
+      "ordinal": "028",
+      "original_request": {
+        "path": "output/20261027_wrd_main_v10/historical_v6_action_recovery_01/original_raw/9564a152c45fec19283885c0/028/request.json.gz",
+        "sha256": "f163e883be51b3e668a35bd4b74bd5d58cbca7b9b81c5ce7f57e9bbbce8359fe",
+        "bytes": 40706
+      },
+      "original_response": {
+        "path": "output/20261027_wrd_main_v10/historical_v6_action_recovery_01/original_raw/9564a152c45fec19283885c0/028/response.raw.json.gz",
+        "sha256": "2ac8fa6e7f2e4a4cc5964175932c099ca2cdfa75dd31b3eb4b50e65967ce85a1",
+        "bytes": 23166
+      },
+      "portable_original_R": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\cumulative_reasoning_audit_01\\9564a152c45fec19283885c0_028.original_R.txt",
+        "bytes": 53876,
+        "sha256": "dd326f7fa3c0890e74dc0523dc995c3b1939c259c1687a5c178d7024ae7a31b7"
+      },
+      "characters": 49942,
+      "R_sha256": "dd326f7fa3c0890e74dc0523dc995c3b1939c259c1687a5c178d7024ae7a31b7",
+      "response_usage": {
+        "prompt_tokens": 61207,
+        "completion_tokens": 682,
+        "total_tokens": 61889,
+        "prompt_tokens_details": {
+          "cached_tokens": 59648
+        }
+      },
+      "native_generations": 30,
+      "run_measured_reasoning_tokens": 12973,
+      "final_native_generation_reasoning_tokens": 13,
+      "identity": "ORIGINAL_RECORDED_CUMULATIVE_REASONING_TEXT_NOT_PER_TURN_FAITHFUL_COT",
+      "source_id": "conv_b5e6f3d3bab9",
+      "current_source_status": "TRAIN",
+      "current_request_messages": 56,
+      "exact_current_assistant_text_matches": [],
+      "internal_repeated_paragraphs": [],
+      "main_positive_tokens": 0,
+      "default_loss": 0,
+      "status": "HOLD_STEP_ALIGNMENT_AND_INDEPENDENT_SEMANTIC_REVIEW",
+      "all_original_bytes_preserved": true,
+      "final_response_owner_not_expanded_to_30_independent_R_owners": true
+    },
+    {
+      "original_response_owner": "a8d04db0b8823d9faa129e71",
+      "run_id": "da985fece3c7f7cb40e47276",
+      "ordinal": "017",
+      "original_request": {
+        "path": "output/20261027_wrd_main_v10/historical_v6_action_recovery_01/original_raw/da985fece3c7f7cb40e47276/017/request.json.gz",
+        "sha256": "82d01e8c17779ff730302e389022041256df558352b3a43a21a4857e5a19c55a",
+        "bytes": 23663
+      },
+      "original_response": {
+        "path": "output/20261027_wrd_main_v10/historical_v6_action_recovery_01/original_raw/da985fece3c7f7cb40e47276/017/response.raw.json.gz",
+        "sha256": "38ce9e733ba2bf6a16f55b918ce7fb50b6f26454583af3d5aa979c1f186525f0",
+        "bytes": 1998
+      },
+      "portable_original_R": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\cumulative_reasoning_audit_01\\da985fece3c7f7cb40e47276_017.original_R.txt",
+        "bytes": 407,
+        "sha256": "e6c2523c177fddb23108caff8a6b91a8541d2859f6b39b8a25fe67fb355d39fc"
+      },
+      "characters": 407,
+      "R_sha256": "e6c2523c177fddb23108caff8a6b91a8541d2859f6b39b8a25fe67fb355d39fc",
+      "response_usage": {
+        "prompt_tokens": 37074,
+        "completion_tokens": 755,
+        "total_tokens": 37829,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "native_generations": 19,
+      "run_measured_reasoning_tokens": 8271,
+      "final_native_generation_reasoning_tokens": 79,
+      "identity": "ORIGINAL_RECORDED_CUMULATIVE_REASONING_TEXT_NOT_PER_TURN_FAITHFUL_COT",
+      "source_id": "conv_b5e6f3d3bab9",
+      "current_source_status": "TRAIN",
+      "current_request_messages": 34,
+      "exact_current_assistant_text_matches": [],
+      "internal_repeated_paragraphs": [],
+      "main_positive_tokens": 0,
+      "default_loss": 0,
+      "status": "HOLD_STEP_ALIGNMENT_AND_INDEPENDENT_SEMANTIC_REVIEW",
+      "all_original_bytes_preserved": true,
+      "final_response_owner_not_expanded_to_30_independent_R_owners": true
+    }
+  ],
+  "all_original_R_characters": 50349,
+  "whole_field_positive_tokens": 0,
+  "new_main_sequences": 0,
+  "step_aligned_raw_ACP_thought_events": "NOT_FOUND_IN_EXACT_SESSION_FILENAME_SEARCH; metrics preserve IDs/order/counts, not full thoughts",
+  "exact_duplicate_check_scope": {
+    "active_snapshot_sha256": "596a587e1fb5871560ad21950a3a432e80aa99dd0496210fcdc40b4a3e11f109",
+    "current_compiled_rows": 526,
+    "current_assistant_message_fields": 6934,
+    "match_interpretation": "Exact raw assistant text hit including zero-loss past; not a claim of duplicate positive-loss exposure. Positive exact rendered mask audit remains required before new projection admission."
+  },
+  "valuable_follow_up": "Late continuous original test-oracle diagnosis is anchored by source response024 actual two failures and025 literal patch. A newly authored functional prestate may ground an explicitly marked original cumulative excerpt; not automatic original-request equivalence or per-turn thought reconstruction.",
+  "protected_sources_read_for_new_labels": 0,
+  "root_main_admission": false,
+  "ACTIVE_modified": false,
+  "training_started": false,
+  "new_Agent_calls": 0,
+  "script_sha256": "8abdd2aa476ea6c507cb84ac8686f102074a35f6b270ee8ee9f1023090bfc9b7"
+}

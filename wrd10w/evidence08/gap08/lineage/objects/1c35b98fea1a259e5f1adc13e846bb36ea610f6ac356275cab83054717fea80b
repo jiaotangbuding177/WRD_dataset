@@ -1,0 +1,446 @@
+{
+  "schema": "wrd-replay-v1",
+  "programs": [
+    {
+      "path": "scripts/fill_scored_feedback.py",
+      "documented_usage": "python {SKILL}/scripts/fill_scored_feedback.py {INPUT}/score_results.json {INPUT}/feedback_form.docx --out {OUT}/filled_feedback.docx",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/fill_scored_feedback.py",
+        "{INPUT}/score_results.json",
+        "{INPUT}/feedback_form.docx",
+        "--out",
+        "{OUT}/filled_feedback.docx"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/fill_scored_feedback.py {INPUT}/score_results.json {INPUT}/feedback_form.docx --out {OUT}/filled_feedback.docx",
+        "inputs": [
+          "score_results JSON: {\"rows\":[{\"label\",\"value\"}...],\"total\":{\"label\",\"value\"} optional}",
+          "editable .docx feedback form whose rows are located by exact cell text"
+        ],
+        "outputs": [
+          "filled feedback form .docx with scores and opinions written, re-read verified"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{INPUT}/score_results.json",
+            "{INPUT}/feedback_form.docx",
+            "--out",
+            "{OUT}/filled_feedback.docx"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_0945c1554661",
+              "message_ids": [
+                "conv_0945c1554661:ec306910",
+                "conv_d296b8df4dfc:msg_41"
+              ],
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/score_results_normal.json",
+                "sha256": "104cf73418112dd5d2be827fcc126909566708c5077a5e8ce754d15933f1d677",
+                "bytes": 1383
+              },
+              "origin": "generated_fixture"
+            },
+            {
+              "source_id": "conv_0945c1554661",
+              "message_ids": [
+                "conv_0945c1554661:ec306910",
+                "conv_d296b8df4dfc:msg_21"
+              ],
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/feedback_form_normal.docx",
+                "sha256": "1e7d89ccafbb4acafc68b41a4ebf098583063a8aba5cbd6278b250970cff2a0e",
+                "bytes": 37156
+              },
+              "origin": "generated_fixture"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "filled_feedback.docx",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "zip_members",
+              "path": "filled_feedback.docx",
+              "value": [
+                "word/document.xml"
+              ]
+            },
+            {
+              "kind": "zip_member_count",
+              "path": "filled_feedback.docx",
+              "pattern": "word/document\\.xml",
+              "value": 1
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback.docx",
+              "member": "word/document.xml",
+              "value": "7.5"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback.docx",
+              "member": "word/document.xml",
+              "value": "6.5"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback.docx",
+              "member": "word/document.xml",
+              "value": "4.5"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback.docx",
+              "member": "word/document.xml",
+              "value": "78"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback.docx",
+              "member": "word/document.xml",
+              "value": "是"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback.docx",
+              "member": "word/document.xml",
+              "value": "高，战略卡脖子环节，同意开展概念验证"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback.docx",
+              "member": "word/document.xml",
+              "value": "工艺方案成熟，需补充实验验证阶段排期"
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{FIXTURE}/score_results_normal.json",
+            "{FIXTURE}/feedback_form_vmerge.docx",
+            "--out",
+            "{OUT}/filled_feedback_boundary.docx"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_0945c1554661",
+              "message_ids": [
+                "conv_0945c1554661:ec306910",
+                "conv_d296b8df4dfc:msg_41"
+              ],
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/score_results_normal.json",
+                "sha256": "104cf73418112dd5d2be827fcc126909566708c5077a5e8ce754d15933f1d677",
+                "bytes": 1383
+              },
+              "origin": "generated_fixture"
+            },
+            {
+              "source_id": "conv_d296b8df4dfc",
+              "message_ids": [
+                "conv_d296b8df4dfc:msg_29",
+                "conv_d296b8df4dfc:msg_31",
+                "conv_0945c1554661:0196b4dd"
+              ],
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/feedback_form_vmerge.docx",
+                "sha256": "5e740c267195479be5c6c91d8b26985343efb4ec3cdf13eb7cb2e45971123e09",
+                "bytes": 37175
+              },
+              "origin": "generated_fixture"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "filled_feedback_boundary.docx",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "zip_members",
+              "path": "filled_feedback_boundary.docx",
+              "value": [
+                "word/document.xml"
+              ]
+            },
+            {
+              "kind": "zip_member_count",
+              "path": "filled_feedback_boundary.docx",
+              "pattern": "word/document\\.xml",
+              "value": 1
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback_boundary.docx",
+              "member": "word/document.xml",
+              "value": "6.5"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback_boundary.docx",
+              "member": "word/document.xml",
+              "value": "78"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "filled_feedback_boundary.docx",
+              "member": "word/document.xml",
+              "value": "是"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{FIXTURE}/score_results_invalid.json",
+            "{FIXTURE}/feedback_form_normal.docx",
+            "--out",
+            "{OUT}/filled_invalid.docx"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "source_id": "conv_0945c1554661",
+              "message_ids": [
+                "conv_0945c1554661:ec306910"
+              ],
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/score_results_invalid.json",
+                "sha256": "a32470adf5fddfc8822151422243af7c456f69ea3ddeaf4e15cec70377783dd3",
+                "bytes": 64
+              },
+              "origin": "generated_fixture"
+            },
+            {
+              "source_id": "conv_0945c1554661",
+              "message_ids": [
+                "conv_0945c1554661:ec306910",
+                "conv_d296b8df4dfc:msg_21"
+              ],
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/feedback_form_normal.docx",
+                "sha256": "1e7d89ccafbb4acafc68b41a4ebf098583063a8aba5cbd6278b250970cff2a0e",
+                "bytes": 37156
+              },
+              "origin": "generated_fixture"
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "score_results is not valid JSON"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{INPUT}/never_exists.json",
+            "{FIXTURE}/feedback_form_normal.docx",
+            "--out",
+            "{OUT}/filled_absent.docx"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "origin": "absent_path",
+              "source_id": "conv_d296b8df4dfc",
+              "message_ids": [
+                "conv_d296b8df4dfc:msg_1"
+              ],
+              "source_record_sha256": "5ae3b37ab1a16b27a6558eb3bdeb35368df537f7694a79168ad09369b9571dfb",
+              "absent_root": "INPUT",
+              "absent_relative_path": "never_exists.json",
+              "parent_directory_pin": {
+                "kind": "directory_listing",
+                "path": "/workspace/inputs",
+                "entries": [
+                  {
+                    "name": "conversations",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "generation.md",
+                    "kind": "file",
+                    "sha256": "11b5e57c204e00d3fc775248cfd1d206772cba4a0a15a8db350678cdb4faf93e",
+                    "bytes": 1592
+                  },
+                  {
+                    "name": "making_contract.json",
+                    "kind": "file",
+                    "sha256": "d3e35089fbde6205d2036677234e008f76700b4ca29b82e8dcc073b4199e967c",
+                    "bytes": 13542
+                  },
+                  {
+                    "name": "making_input_index.json",
+                    "kind": "file",
+                    "sha256": "f72cd1ff26e281e59525ce195919fbd1e606b5281c042c744ddd1ee7371d5924",
+                    "bytes": 4202
+                  },
+                  {
+                    "name": "making_tools",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "merge_context.json",
+                    "kind": "file",
+                    "sha256": "ccdc6b5e3be70db9eb704fdc416e9e7bee3222e3f9ab92b7b1193985265d2dca",
+                    "bytes": 759
+                  },
+                  {
+                    "name": "new_route",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "resource_catalog.json",
+                    "kind": "file",
+                    "sha256": "dbdcb89abc00c33ed216c3328759a644195c3628d9f830acb89a12639932ce54",
+                    "bytes": 312
+                  },
+                  {
+                    "name": "route_card.json",
+                    "kind": "file",
+                    "sha256": "911c486ff6e858b20910d5fe8f598d1829635f6a808231df85ce144ee3571063",
+                    "bytes": 11772
+                  },
+                  {
+                    "name": "source_bindings.json",
+                    "kind": "file",
+                    "sha256": "671302102474d46bf80d6cc0e0bc88053245e60de8ec5de0b2b4ae9312e2f2ba",
+                    "bytes": 2520
+                  }
+                ],
+                "sha256": "92503a9a1e3639ce080d2ad6a274770f91ba92ec9643bccff7f5ad80316265d4"
+              },
+              "source_material_pin": {
+                "path": "/workspace/inputs/conversations/conv_d296b8df4dfc.json",
+                "sha256": "15a421d7b86b50308e23baad44bc65a899e2830a937e68c8868824e1279ea318",
+                "bytes": 33308
+              },
+              "generated": true,
+              "purpose": "invalid_input",
+              "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed."
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "score_results file not found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "score_results_normal.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/score_results_normal.json",
+        "sha256": "104cf73418112dd5d2be827fcc126909566708c5077a5e8ce754d15933f1d677",
+        "bytes": 1383
+      },
+      "source_id": "conv_0945c1554661",
+      "message_ids": [
+        "conv_0945c1554661:ec306910",
+        "conv_d296b8df4dfc:msg_41"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "Score values transcribed from the real scoring result reported in conv_0945c1554661:ec306910 (total 78, twelve indicators); opinion field labels follow conv_d296b8df4dfc:msg_41. Used as business input data only; the program and skill templates contain no pre-filled answers."
+    },
+    {
+      "path": "feedback_form_normal.docx",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/feedback_form_normal.docx",
+        "sha256": "1e7d89ccafbb4acafc68b41a4ebf098583063a8aba5cbd6278b250970cff2a0e",
+        "bytes": 37156
+      },
+      "source_id": "conv_0945c1554661",
+      "message_ids": [
+        "conv_0945c1554661:ec306910",
+        "conv_d296b8df4dfc:msg_21"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "Reconstruction of the editable feedback-form structure described in the selected real conversations (12-indicator scoring table with per-row score cells plus an expert opinion table). Original attachments were not supplied in the package (attachment_count: 0), so these are newly generated ordinary files, not the historical bytes; indicator names follow conv_0945c1554661:ec306910."
+    },
+    {
+      "path": "feedback_form_vmerge.docx",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/feedback_form_vmerge.docx",
+        "sha256": "5e740c267195479be5c6c91d8b26985343efb4ec3cdf13eb7cb2e45971123e09",
+        "bytes": 37175
+      },
+      "source_id": "conv_d296b8df4dfc",
+      "message_ids": [
+        "conv_d296b8df4dfc:msg_29",
+        "conv_d296b8df4dfc:msg_31",
+        "conv_0945c1554661:0196b4dd"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "Reconstruction of the editable feedback-form structure described in the selected real conversations (12-indicator scoring table with per-row score cells plus an expert opinion table). Original attachments were not supplied in the package (attachment_count: 0), so these are newly generated ordinary files, not the historical bytes; indicator names follow conv_0945c1554661:ec306910. The score cells of rows 10 and 11 (验证实施方案完整性 / 经费预算合理性) are vertically merged with w:vMerge restart/continue, reproducing the template defect reported in conv_d296b8df4dfc:msg_29-msg_35 and conv_0945c1554661:9e067f13-0196b4dd."
+    },
+    {
+      "path": "score_results_invalid.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/score_results_invalid.json",
+        "sha256": "a32470adf5fddfc8822151422243af7c456f69ea3ddeaf4e15cec70377783dd3",
+        "bytes": 64
+      },
+      "source_id": "conv_0945c1554661",
+      "message_ids": [
+        "conv_0945c1554661:ec306910"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "Truncated JSON derived from score_results_normal.json to reproduce the real parse-error path; never a historical file."
+    }
+  ],
+  "non_executable_resources": [],
+  "limitations": [
+    "Original attachment bytes (evaluation form, opinion form) were not supplied with the package; feedback-form fixtures are newly generated reconstructions bound to the structure described in the selected conversations, not historical artifacts.",
+    "Scoring judgment itself stays with the business actor; the program only replaces transcription of scores and opinions into the editable form and its built-in unmerge/verification.",
+    "Sub-agent reproduction must bind {INPUT} to a staging directory containing the fixture files declared for the public usage case; the pipeline performs this temporary binding outside the skill."
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "_说明": "minimal 模式（纯格式转换：不添加封面/目录/页眉页脚）专用样例。命令：node make_docx.js 本文件 OUTPUT.docx --minimal。minimal 分支只需照本样例摆内容，不必读 make_docx.js 源码或完整模板 content.example.json。",
+  "minimal": true,
+  "fontEastAsia": "Noto Sans CJK SC",
+  "boldTerms": ["需要加粗的关键结论原文子串"],
+  "title": "文档标题（minimal 模式不用于封面，仅兜底）",
+  "sections": [
+    {
+      "h1": "一、一级标题（原文序号照抄）",
+      "blocks": [
+        { "type": "p", "text": "普通段落；关键结论原文子串自动加粗；上标直接写标记：菌落总数 10^{6} CFU/g。" },
+        { "type": "p", "runs": [
+            { "text": "需逐 run 保留原文格式时用 runs：" },
+            { "text": "原斜体术语", "italic": true },
+            { "text": "; run 级加粗", "bold": true },
+            { "text": "; 单位上标 m", "bold": true }, { "text": "2", "super": true },
+            { "text": "; 下标 H" }, { "text": "2", "sub": true }, { "text": "O。" }
+          ] },
+        { "type": "p", "text": "原文档页脚信息按正文保留，例如：文档编号 XX-QP-001 · 版本 V2.0", "small": true },
+        { "type": "h2", "text": "1.1 二级标题" },
+        { "type": "list", "items": ["列表项一", "列表项二"] },
+        { "type": "table", "headers": ["字段", "内容"], "widths": [0.3, 0.7], "rows": [["产品名", "示例值"]], "boldCol": 1 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,479 @@
+{
+  "schema": "wrd-making-contract-v7",
+  "consumer": {
+    "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v10\\reproduction.py",
+    "sha256": "e86d561df00c57264cd0c539085ccc7edb48acac91ac770a2e5594c499c312d8",
+    "bytes": 3606
+  },
+  "assertion_kinds": [
+    "contains",
+    "not_contains",
+    "text_equals",
+    "json_equals",
+    "json_count",
+    "json_keys",
+    "source_mapping",
+    "field_preservation",
+    "explicit_error",
+    "zip_members",
+    "zip_xml_contains",
+    "zip_member_count",
+    "sha256"
+  ],
+  "record_count_operator": "json_count with pointer and integer value",
+  "error_operator": "contains with path $stderr/$stdout or explicit_error for JSON; never stderr_contains",
+  "source_mapping": "Exact declared JSON value at pointer; use pointer, not undeclared map_by projections",
+  "program_required": [
+    "path",
+    "documented_usage",
+    "public_argv",
+    "interface",
+    "dependencies",
+    "cases"
+  ],
+  "program_case_kinds": [
+    "normal",
+    "boundary",
+    "invalid_input"
+  ],
+  "non_program_required": [
+    "path",
+    "assertions",
+    "fixture_refs"
+  ],
+  "stdout_output": {
+    "declaration": {
+      "path": "$stdout",
+      "min_bytes": 1
+    },
+    "assertion_path": "$stdout",
+    "complete_assertion_required": true,
+    "unasserted_physical_files": "HOLD"
+  },
+  "source_learning": "All selected real messages must actually be received; maker full_read:true alone is not evidence",
+  "artifact_byte_policy": "Frozen skill bytes never hand edited; making/validation records stay outside skill",
+  "scope": "STATIC_METADATA_ONLY; not source authenticity, actual execution, complete reading, delivery or Actor saving proof",
+  "required_fields": {
+    "pin": [
+      "path",
+      "sha256",
+      "bytes"
+    ],
+    "provenance": [
+      "source_id",
+      "message_ids",
+      "pin",
+      "origin"
+    ],
+    "interface": [
+      "kind",
+      "contract_version",
+      "usage",
+      "inputs",
+      "outputs"
+    ],
+    "resource": [
+      "id",
+      "path",
+      "kind",
+      "interface",
+      "dependencies",
+      "source_evidence"
+    ],
+    "program": [
+      "path",
+      "documented_usage",
+      "public_argv",
+      "interface",
+      "dependencies",
+      "cases"
+    ],
+    "non_program": [
+      "path",
+      "assertions",
+      "fixture_refs"
+    ],
+    "generated_fixture": [
+      "path",
+      "pin",
+      "source_id",
+      "message_ids",
+      "origin",
+      "generated",
+      "purpose",
+      "derivation"
+    ]
+  },
+  "executable_suffixes": [
+    ".bash",
+    ".bat",
+    ".cjs",
+    ".cmd",
+    ".exe",
+    ".ipynb",
+    ".jar",
+    ".js",
+    ".mjs",
+    ".pl",
+    ".ps1",
+    ".py",
+    ".r",
+    ".rb",
+    ".sh",
+    ".wasm",
+    ".zsh"
+  ],
+  "interpreters": {
+    "python": [
+      ".py"
+    ],
+    "python3": [
+      ".py"
+    ],
+    "node": [
+      ".cjs",
+      ".js",
+      ".mjs"
+    ],
+    "bash": [
+      ".bash",
+      ".sh"
+    ],
+    "sh": [
+      ".sh"
+    ],
+    "ruby": [
+      ".rb"
+    ],
+    "perl": [
+      ".pl"
+    ],
+    "Rscript": [
+      ".r"
+    ]
+  },
+  "path_tokens": {
+    "SKILL": "/skill",
+    "INPUT": "/input",
+    "FIXTURE": "/fixtures",
+    "OUT": "/out"
+  },
+  "generated_fixture_purposes": [
+    "source_reconstruction",
+    "boundary_case",
+    "invalid_input",
+    "composition_input"
+  ],
+  "examples": {
+    "warning": "ILLUSTRATIVE_SHAPES_ONLY. REPLACE all sources/pins/values/derivations with actual verified evidence; zero hashes are never evidence.",
+    "evidence.json": {
+      "source_evidence": [
+        {
+          "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+          "message_ids": [
+            "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+          ],
+          "source_record_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "learning_notes": "ACTUAL_SUPPORTED_LEARNING_AND_LIMITATIONS"
+        }
+      ]
+    },
+    "resource_manifest.json": {
+      "resources": [
+        {
+          "id": "copy_records",
+          "path": "scripts/copy_records.py",
+          "kind": "program",
+          "interface": {
+            "kind": "program",
+            "contract_version": "1",
+            "usage": "python {SKILL}/scripts/copy_records.py {INPUT}/source.json --out {OUT}/result.json",
+            "inputs": [
+              "JSON source records"
+            ],
+            "outputs": [
+              "JSON records and source mapping"
+            ]
+          },
+          "dependencies": [
+            {
+              "kind": "runtime",
+              "name": "OpenClaw-python",
+              "version": "2026.9.5-python3.11.2",
+              "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+            }
+          ],
+          "source_evidence": [
+            {
+              "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+              "message_id": "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+            }
+          ]
+        }
+      ]
+    },
+    "replay.json": {
+      "programs": [
+        {
+          "path": "scripts/copy_records.py",
+          "documented_usage": "python {SKILL}/scripts/copy_records.py {INPUT}/source.json --out {OUT}/result.json",
+          "public_argv": [
+            "python",
+            "{SKILL}/scripts/copy_records.py",
+            "{INPUT}/source.json",
+            "--out",
+            "{OUT}/result.json"
+          ],
+          "interface": {
+            "kind": "program",
+            "contract_version": "1",
+            "usage": "python {SKILL}/scripts/copy_records.py {INPUT}/source.json --out {OUT}/result.json",
+            "inputs": [
+              "JSON source records"
+            ],
+            "outputs": [
+              "JSON records and source mapping"
+            ]
+          },
+          "dependencies": [
+            {
+              "kind": "runtime",
+              "name": "OpenClaw-python",
+              "version": "2026.9.5-python3.11.2",
+              "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+            }
+          ],
+          "cases": [
+            {
+              "kind": "normal",
+              "argv": [
+                "python",
+                "{SKILL}/scripts/copy_records.py",
+                "{INPUT}/source.json",
+                "--out",
+                "{OUT}/result.json"
+              ],
+              "expected_exit": 0,
+              "fixture_provenance": {
+                "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+                "message_ids": [
+                  "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+                ],
+                "source_record_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+                "origin": "real_source",
+                "pin": {
+                  "path": "/workspace/inputs/source.json",
+                  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "bytes": 1
+                }
+              },
+              "outputs": [
+                {
+                  "path": "result.json",
+                  "min_bytes": 1
+                }
+              ],
+              "assertions": [
+                {
+                  "kind": "json_equals",
+                  "path": "result.json",
+                  "value": {
+                    "records": [],
+                    "sources": []
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "boundary",
+              "argv": [
+                "python",
+                "{SKILL}/scripts/copy_records.py",
+                "{FIXTURE}/boundary.json",
+                "--out",
+                "{OUT}/result.json"
+              ],
+              "expected_exit": 0,
+              "fixture_provenance": {
+                "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+                "message_ids": [
+                  "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+                ],
+                "pin": {
+                  "path": "/workspace/outputs/reproduction_inputs/boundary.json",
+                  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "bytes": 1
+                },
+                "origin": "generated_fixture"
+              },
+              "outputs": [
+                {
+                  "path": "result.json",
+                  "min_bytes": 1
+                }
+              ],
+              "assertions": [
+                {
+                  "kind": "json_equals",
+                  "path": "result.json",
+                  "value": {
+                    "records": [],
+                    "sources": []
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "invalid_input",
+              "argv": [
+                "python",
+                "{SKILL}/scripts/copy_records.py",
+                "{FIXTURE}/invalid.json",
+                "--out",
+                "{OUT}/result.json"
+              ],
+              "expected_exit": 2,
+              "fixture_provenance": {
+                "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+                "message_ids": [
+                  "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+                ],
+                "pin": {
+                  "path": "/workspace/outputs/reproduction_inputs/invalid.json",
+                  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "bytes": 1
+                },
+                "origin": "generated_fixture"
+              },
+              "outputs": [],
+              "assertions": [
+                {
+                  "kind": "contains",
+                  "path": "$stderr",
+                  "value": "REPLACE_WITH_ACTUAL_ERROR_TEXT"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "fixtures": [
+        {
+          "path": "boundary.json",
+          "pin": {
+            "path": "/workspace/outputs/reproduction_inputs/boundary.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+            "bytes": 1
+          },
+          "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+          "message_ids": [
+            "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+          ],
+          "origin": "generated_fixture",
+          "generated": true,
+          "purpose": "boundary_case",
+          "derivation": "REPLACE_WITH_ACTUAL_DERIVATION_AND_LIMITATIONS"
+        },
+        {
+          "path": "invalid.json",
+          "pin": {
+            "path": "/workspace/outputs/reproduction_inputs/invalid.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+            "bytes": 1
+          },
+          "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+          "message_ids": [
+            "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+          ],
+          "origin": "generated_fixture",
+          "generated": true,
+          "purpose": "invalid_input",
+          "derivation": "REPLACE_WITH_ACTUAL_DERIVATION_AND_LIMITATIONS"
+        }
+      ],
+      "non_executable_resources": [],
+      "limitations": []
+    },
+    "non_program_item": {
+      "path": "templates/summary.md",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "templates/summary.md",
+          "value": "{{SUMMARY}}"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "REPLACE_REAL_SELECTED_SOURCE",
+          "message_ids": [
+            "REPLACE_EXACT_ORIGINAL_MESSAGE_ID"
+          ],
+          "source_record_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/source.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+            "bytes": 1
+          }
+        }
+      ]
+    },
+    "office_assertions": [
+      {
+        "kind": "zip_members",
+        "path": "report.docx",
+        "value": [
+          "word/document.xml"
+        ]
+      },
+      {
+        "kind": "zip_member_count",
+        "path": "report.docx",
+        "pattern": "word/document\\.xml",
+        "value": 1
+      },
+      {
+        "kind": "zip_xml_contains",
+        "path": "report.docx",
+        "member": "word/document.xml",
+        "value": "ACTUAL_EXPECTED_TEXT"
+      }
+    ]
+  },
+  "consumer_available_for_live_identity_check": true,
+  "absent_input": {
+    "allowed_only": "invalid_input",
+    "roots": [
+      "INPUT",
+      "FIXTURE"
+    ],
+    "helper": "absent_reference",
+    "provenance_required": [
+      "origin",
+      "source_id",
+      "message_ids",
+      "source_record_sha256",
+      "absent_root",
+      "absent_relative_path",
+      "parent_directory_pin",
+      "source_material_pin",
+      "generated",
+      "purpose",
+      "derivation"
+    ],
+    "forbidden": [
+      "pin",
+      "existing target",
+      "symlinks",
+      "traversal",
+      "zero expected exit",
+      "missing actual error assertion"
+    ],
+    "proof": "Actual parent listing and canonical real source material are pinned before execution and checked after. The external observation is not a file supplied to the program; full normal/boundary gates remain unchanged."
+  },
+  "revision": "4.2.151",
+  "resource_layout": "Complete independent ordinary copies inside each skill; no shared runtime bank.",
+  "standalone_composition_case_required": false,
+  "normal_output": "Full expected JSON/text/SHA, or json_count plus exact source_mapping; Office requires part structure plus actual text"
+}

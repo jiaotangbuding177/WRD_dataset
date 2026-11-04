@@ -1,0 +1,17 @@
+{
+  "id": "chatcmpl-1793077481159",
+  "model": "glm-5.3-flash",
+  "usage": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "任务完成。实际交付：\n\n**技能包 `/workspace/outputs/skill/`**（`cv-jd-interview-screening`，1个SKILL.md + 3个脚本，自包含）\n- `scripts/cv_extract.py`：批量简历PDF逐页提取，基于sha256的内容锚定候选人身份（重命名/多文件批次实测不串号），水印行过滤；空/损坏/缺失/零页PDF给出明确命名错误，exit 0/2/3，绝不伪造空成功\n- `scripts/evidence_check.py`：引用原文+页码锚点校验（空白归一化，支持跨行引文）；错页/越界页/不存在引文/文件错误均明确拒绝，并报告引文实际所在页\n- `scripts/cvlib.py`：共享库，机械校验与语义判断分离\n- `SKILL.md`：四步流程（提取→语义匹配→引文校验→任务-sized输出），明确禁止以姓名/年龄/性别等作匹配依据、无关键词评分定录用、报告仅在用户要求时出\n\n**包外**：`maker_solution_cv_M0.md`（Maker任务实际求解：有条件推荐面试，标出薪酬50-80K深圳 vs 30-35K广州硬性错配、机器人行业招聘案例无简历证据）、`making_summary.json`、`resource_validation.json`（含明确unknown：OCR回退未实现、跨页引文限制、水印启发式、加密PDF未测）\n\n**验证**：22/22断言通过（`/workspace/tmp/test_report.txt`），fixtures含合成简历+真实件重命名副本+空/损坏件，全部在包外；技能包内grep确认零个案硬编码。中断期间修复的3个问题（heredoc引号、字体子集16MB→23KB、测试fixture格式错误）均保留原始失败记录在案。"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "_inspection_only_reconstructed_from_SSE": true,
+  "_event_count": 414
+}

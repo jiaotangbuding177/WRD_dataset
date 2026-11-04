@@ -1,0 +1,521 @@
+{
+  "schema": "wrd-historical-R-action-feedback-causal-edge10-v1",
+  "owner_id": "40b48d1cec87c7eab3d94074",
+  "source_id": "conv_5ca3f6271b31",
+  "decision": "decision_001",
+  "source_condition": "HISTORICAL_CUSTOM_EXECUTOR_NOT_NATIVE_OPENCLAW",
+  "request_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_5ca3f6271b31\\model_calls\\decision_001\\request.raw.json",
+    "sha256": "53931e55e2fcf6f2314b4fc19add8cb6f3482e5ebc7ac0623bc1156c271e2382",
+    "bytes": 37697
+  },
+  "response_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_5ca3f6271b31\\model_calls\\decision_001\\response.partial.raw",
+    "sha256": "a7083e37b3af987107cb3cbfa83632dfdaf06487c4e0ae8b00f0ce89fb25130b",
+    "bytes": 1989433
+  },
+  "original_R_pin": {
+    "path": "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning\\owners\\40b48d1cec87c7eab3d94074\\ORIGINAL_R.txt",
+    "bytes": 16343,
+    "sha256": "e702e78a953301411e7beff2e965dd02c5d98425e5d8ddc4b59dd2c8eb97300d"
+  },
+  "original_proposal_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_5ca3f6271b31\\proposals\\0001.json",
+    "bytes": 11070,
+    "sha256": "9cb20aa1ca5dc0765a3a0b5145d2808afae9177c1c0a7e9b2ecc5fc0cad441dc"
+  },
+  "original_proposal": {
+    "action_id": "conv_5ca3f6271b31_d1_init_w",
+    "kind": "UPDATE",
+    "source_id": "conv_5ca3f6271b31",
+    "purpose": "Create the initial workflow, evidence graph nodes and the blocking method-change issue before probing the申报书 docx",
+    "arguments": {
+      "graph": {
+        "base_version": 1,
+        "nodes": [
+          {
+            "id": "requirement_v1",
+            "type": "requirement",
+            "source_ids": [
+              "conv_5ca3f6271b31"
+            ],
+            "evidence_refs": [
+              {
+                "source_id": "conv_5ca3f6271b31",
+                "turn_index": 0,
+                "role": "user",
+                "quote": "编制首笔300万元资金的详细预算计划"
+              }
+            ],
+            "status": "proposed"
+          },
+          {
+            "id": "procedure_v1",
+            "type": "procedure",
+            "source_ids": [
+              "conv_5ca3f6271b31"
+            ],
+            "evidence_refs": [
+              {
+                "source_id": "conv_5ca3f6271b31",
+                "turn_index": 0,
+                "role": "user",
+                "quote": "格式为Excel兼容的表格结构（含科目、金额、占比、说明三栏），附500字以内执行说明。"
+              }
+            ],
+            "status": "proposed"
+          }
+        ],
+        "edges": [
+          {
+            "from": "requirement_v1",
+            "to": "procedure_v1",
+            "type": "supports",
+            "status": "proposed",
+            "evidence_refs": [
+              {
+                "source_id": "conv_5ca3f6271b31",
+                "turn_index": 0,
+                "role": "user",
+                "quote": "编制首笔300万元资金的详细预算计划"
+              }
+            ]
+          }
+        ]
+      },
+      "workflows": [
+        {
+          "spec": {
+            "id": "conv_5ca3f6271b31_w1",
+            "task": "根据政策申报书文档，编制指定首笔拨付金额的阶段性预算明细表（Excel兼容：科目/金额/占比/说明），并附不超过500字的执行说明",
+            "parameters": {
+              "input_docx_path": "申报书.doc/x 路径（未来用户输入）",
+              "first_payment_amount_yuan": "首笔拨付金额（例：3000000）",
+              "period_months": "预算覆盖周期（默认6）",
+              "output_xlsx_path": "输出工作簿路径"
+            },
+            "requirements": [
+              {
+                "text": "预算须覆盖第一阶段（至首个里程碑节点）全部支出，列明科目金额、测算依据、支出时序与对应交付物",
+                "evidence_refs": [
+                  {
+                    "source_id": "conv_5ca3f6271b31",
+                    "turn_index": 0,
+                    "role": "user",
+                    "quote": "预算须覆盖第一阶段（至首个里程碑节点）所需全部支出，包括但不限于人员劳务、设备购置/租赁、材料费、测试化验加工费、差旅/会议、出版/知识产权、专家咨询、管理分摊等科目，列明各科目金额、测算依据、支出时序与对应交付物。"
+                  }
+                ]
+              },
+              {
+                "text": "输出为Excel兼容表格结构，含科目、金额、占比、说明三栏，并附500字以内执行说明",
+                "evidence_refs": [
+                  {
+                    "source_id": "conv_5ca3f6271b31",
+                    "turn_index": 0,
+                    "role": "user",
+                    "quote": "格式为Excel兼容的表格结构（含科目、金额、占比、说明三栏），附500字以内执行说明。"
+                  }
+                ]
+              },
+              {
+                "text": "未指定项按通用默认：预算周期为立项后6个月内，符合上海市科委专项资金管理办法",
+                "evidence_refs": [
+                  {
+                    "source_id": "conv_5ca3f6271b31",
+                    "turn_index": 0,
+                    "role": "user",
+                    "quote": "预算周期为立项后6个月内，符合上海市科委专项资金管理办法。"
+                  }
+                ]
+              }
+            ],
+            "conditions": [
+              "输入docx可解压并文本化",
+              "申报书披露科目级预算或比例上限，作为分配合规依据"
+            ],
+            "preserved_state": [],
+            "steps": [
+              {
+                "id": "s1",
+                "purpose": "抽取申报书中的预算约束",
+                "input_refs": [
+                  "input_docx_path"
+                ],
+                "preconditions": [
+                  "input_docx_path存在且为zip式docx"
+                ],
+                "operation": "用zipfile读取word/document.xml，去标签得到全文，正则抽取专项资金总额、首年金额、劳务费上限比例、各科目年度预算、里程碑日期",
+                "output_refs": [
+                  "extracted_constraints"
+                ],
+                "postconditions": [
+                  "抽取结果非空并保留命中片段原文"
+                ],
+                "asset_ids": [],
+                "evidence_refs": [
+                  {
+                    "source_id": "conv_5ca3f6271b31",
+                    "turn_index": 0,
+                    "role": "user",
+                    "quote": "依据《合生纪申报1000万政策》中明确的“科委按里程碑阶段性支付”机制及申报书所载项目实施计划"
+                  }
+                ],
+                "support_status": "proposed"
+              },
+              {
+                "id": "s2",
+                "purpose": "编制科目级预算明细",
+                "input_refs": [
+                  "extracted_constraints",
+                  "first_payment_amount_yuan",
+                  "period_months"
+                ],
+                "preconditions": [
+                  "s1完成"
+                ],
+                "operation": "按申报书披露科目与上限分配首笔金额，逐项给出测算依据、支出时序与交付物，合计等于首笔金额",
+                "output_refs": [
+                  "budget_rows"
+                ],
+                "postconditions": [
+                  "各科目合计等于首笔金额",
+                  "劳务费不超过披露上限比例"
+                ],
+                "asset_ids": [],
+                "evidence_refs": [
+                  {
+                    "source_id": "conv_5ca3f6271b31",
+                    "turn_index": 0,
+                    "role": "user",
+                    "quote": "编制首笔300万元资金的详细预算计划"
+                  }
+                ],
+                "support_status": "proposed"
+              },
+              {
+                "id": "s3",
+                "purpose": "输出Excel兼容交付文件",
+                "input_refs": [
+                  "budget_rows",
+                  "output_xlsx_path"
+                ],
+                "preconditions": [
+                  "s2完成"
+                ],
+                "operation": "写出工作簿（预算明细表 + 执行说明），表头为科目/金额/占比/说明，执行说明不超过500字",
+                "output_refs": [
+                  "output_xlsx_path"
+                ],
+                "postconditions": [
+                  "文件存在且可读回",
+                  "三栏表头齐全",
+                  "执行说明字数≤500"
+                ],
+                "asset_ids": [],
+                "evidence_refs": [
+                  {
+                    "source_id": "conv_5ca3f6271b31",
+                    "turn_index": 0,
+                    "role": "user",
+                    "quote": "格式为Excel兼容的表格结构（含科目、金额、占比、说明三栏），附500字以内执行说明。"
+                  }
+                ],
+                "support_status": "proposed"
+              }
+            ],
+            "control_flow": {
+              "dependencies": [
+                [
+                  "s1",
+                  "s2"
+                ],
+                [
+                  "s2",
+                  "s3"
+                ]
+              ],
+              "branches": [],
+              "repair_loops": [
+                {
+                  "from": "s3",
+                  "to": "s2",
+                  "max_iterations": 1,
+                  "exit_condition": "合计不等于首笔金额时重分配一次，仍不符则停止并报告剩余偏差"
+                }
+              ]
+            },
+            "failure_handling": [
+              "若申报书未披露科目级预算，则按用户列举科目等比例分配并在输出中显式标注该假设"
+            ],
+            "checks": [
+              "各科目金额合计等于首笔拨付金额",
+              "劳务费不超过申报书披露的比例上限（若披露）",
+              "表头含科目、金额、占比、说明",
+              "执行说明字数≤500"
+            ],
+            "asset_refs": [],
+            "evidence_refs": [
+              {
+                "source_id": "conv_5ca3f6271b31",
+                "turn_index": 0,
+                "role": "user",
+                "quote": "请作为公司项目负责人，依据《合生纪申报1000万政策》中明确的“科委按里程碑阶段性支付”机制及申报书所载项目实施计划，编制首笔300万元资金的详细预算计划。"
+              }
+            ],
+            "unknowns": [
+              "申报书是否披露科目级年度预算与劳务费比例上限（决定s2是约束映射还是等比例假设）"
+            ]
+          }
+        }
+      ],
+      "issues": [
+        {
+          "spec": {
+            "id": "u1",
+            "question": "首笔金额如何分配到各科目：按申报书披露的科目级年度预算与比例上限做约束映射，还是仅按用户列举科目等比例分配？",
+            "workflow_id": "conv_5ca3f6271b31_w1",
+            "step_ids": [
+              "s1",
+              "s2"
+            ],
+            "learning_impact": "决定s2是依据申报书约束逐项分配，还是退化为等比例假设分配",
+            "alternatives": [
+              "从申报书抽取科目级预算与劳务费上限后按约束分配",
+              "申报书无可抽取科目预算时按用户列举科目等比例分配并标注假设"
+            ],
+            "required_evidence": [
+              "申报书文本中科目级预算、劳务费上限、里程碑日期的实际命中情况"
+            ],
+            "blocking": true,
+            "status": "OPEN",
+            "evidence_refs": [
+              {
+                "source_id": "conv_5ca3f6271b31",
+                "turn_index": 0,
+                "role": "user",
+                "quote": "包括但不限于人员劳务、设备购置/租赁、材料费、测试化验加工费、差旅/会议、出版/知识产权、专家咨询、管理分摊等科目，列明各科目金额、测算依据、支出时序与对应交付物。"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "target_time_state": {
+    "state": {
+      "run_id": "conv_5ca3f6271b31",
+      "category": "",
+      "schema_version": "skillsloop-ewi-rl-v2",
+      "version": 1,
+      "evidence_graph_ref": "graph/",
+      "workflow_store_ref": "ewi/workflow_versions/",
+      "issue_store_ref": "ewi/issues.json",
+      "asset_ledger_ref": "assets/ledger.jsonl",
+      "remaining_budget": {
+        "model_calls": 12,
+        "tool_calls": 6,
+        "seconds": 1199.969000000001,
+        "output_tokens": 147456
+      },
+      "pending_action": null,
+      "stop_reason": null,
+      "structure_only_not_business_success": true
+    },
+    "workflows": [],
+    "issues": [],
+    "related_source_ids": [],
+    "unread_ranges": [
+      {
+        "source_id": "conv_5ca3f6271b31",
+        "turn_indices": [
+          0
+        ]
+      }
+    ],
+    "recent_observations": [],
+    "assets": [
+      {
+        "asset_id": "conv_5ca3f6271b31:res_3db5dc3110c7be585b8c__file_02bfa7ebf922",
+        "source_id": "conv_5ca3f6271b31",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\provided_exports_v10\\372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039\\终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "sha256": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "version": "1",
+        "origin_type": "source_material",
+        "material_identity": "recovered",
+        "executable": false,
+        "verified": false,
+        "reusable": false,
+        "artifact_role": "input_material",
+        "historical_byte_identity_verified": false,
+        "validation_scope": "Pinned source-owned bytes; does not verify historical identity or executable behavior"
+      },
+      {
+        "asset_id": "conv_5ca3f6271b31:res_8538d9c1575de8096f3b__file_02bfa7ebf922",
+        "source_id": "conv_5ca3f6271b31",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\provided_exports_v10\\372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039\\终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "sha256": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "version": "1",
+        "origin_type": "source_material",
+        "material_identity": "recovered",
+        "executable": false,
+        "verified": false,
+        "reusable": false,
+        "artifact_role": "input_material",
+        "historical_byte_identity_verified": false,
+        "validation_scope": "Pinned source-owned bytes; does not verify historical identity or executable behavior"
+      },
+      {
+        "asset_id": "conv_5ca3f6271b31:res_b323fe55a1f43bf6e12f__file_ad60add2a63a",
+        "source_id": "conv_5ca3f6271b31",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\provided_exports_v10\\372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039\\终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "sha256": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "version": "1",
+        "origin_type": "source_material",
+        "material_identity": "recovered",
+        "executable": false,
+        "verified": false,
+        "reusable": false,
+        "artifact_role": "input_material",
+        "historical_byte_identity_verified": false,
+        "validation_scope": "Pinned source-owned bytes; does not verify historical identity or executable behavior"
+      }
+    ],
+    "structure_is_not_semantic_or_execution_success": true,
+    "schema": "skillsloop-ewi-rl-v2",
+    "episode_status": "RUNNING",
+    "stop_reason": null,
+    "graph_version": 1,
+    "graph": {
+      "nodes": [],
+      "edges": []
+    },
+    "input_assets": [
+      {
+        "source_id": "conv_5ca3f6271b31",
+        "resource_id": "res_3db5dc3110c7be585b8c__file_02bfa7ebf922",
+        "name": "终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\provided_exports_v10\\372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039\\终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "mount": "个人知识库/合生纪/政策申报/终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "sha256_declared": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "sha256_actual": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "bytes": 1010476,
+        "exists": true,
+        "sha_match": true,
+        "available_from_dispatch_index": 0,
+        "material_identity": "recovered",
+        "provenance": "user_supplied_server_export_20261011",
+        "artifact_role": "input_material",
+        "source_message_ids": [
+          "conv_5ca3f6271b31:9c9b1af7"
+        ],
+        "historical_byte_identity_verified": false,
+        "resource_group_id": "res_3db5dc3110c7be585b8c",
+        "asset_id": "conv_5ca3f6271b31:res_3db5dc3110c7be585b8c__file_02bfa7ebf922",
+        "sha256": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "origin_type": "captured_existing_material",
+        "presence_sha_verified": true,
+        "historical_execution_verified": false,
+        "workspace_relative": "inputs/bc12babc055c/终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx"
+      },
+      {
+        "source_id": "conv_5ca3f6271b31",
+        "resource_id": "res_8538d9c1575de8096f3b__file_02bfa7ebf922",
+        "name": "终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\provided_exports_v10\\372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039\\终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "mount": "个人知识库/合生纪/政策申报/终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "sha256_declared": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "sha256_actual": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "bytes": 1010476,
+        "exists": true,
+        "sha_match": true,
+        "available_from_dispatch_index": 0,
+        "material_identity": "recovered",
+        "provenance": "user_supplied_server_export_20261011",
+        "artifact_role": "input_material",
+        "source_message_ids": [
+          "conv_5ca3f6271b31:9c9b1af7"
+        ],
+        "historical_byte_identity_verified": false,
+        "resource_group_id": "res_8538d9c1575de8096f3b",
+        "asset_id": "conv_5ca3f6271b31:res_8538d9c1575de8096f3b__file_02bfa7ebf922",
+        "sha256": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "origin_type": "captured_existing_material",
+        "presence_sha_verified": true,
+        "historical_execution_verified": false,
+        "workspace_relative": "inputs/1e8abbf7be70/终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx"
+      },
+      {
+        "source_id": "conv_5ca3f6271b31",
+        "resource_id": "res_b323fe55a1f43bf6e12f__file_ad60add2a63a",
+        "name": "终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "path": "D:\\skillloop\\benchmark\\enterprise_input_closed_v11_20261012\\resources\\provided_exports_v10\\372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039\\终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "mount": "合成待核输入/终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx",
+        "sha256_declared": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "sha256_actual": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "bytes": 1010476,
+        "exists": true,
+        "sha_match": true,
+        "available_from_dispatch_index": 0,
+        "material_identity": "recovered",
+        "provenance": "user_supplied_server_export_20261011",
+        "artifact_role": "input_material",
+        "source_message_ids": [
+          "conv_5ca3f6271b31:9c9b1af7"
+        ],
+        "historical_byte_identity_verified": false,
+        "resource_group_id": "res_b323fe55a1f43bf6e12f",
+        "asset_id": "conv_5ca3f6271b31:res_b323fe55a1f43bf6e12f__file_ad60add2a63a",
+        "sha256": "372546a7df3efdee19b804d6a8e7bcaf73dbbf77d4be48fb7bb9498fce7f1039",
+        "origin_type": "captured_existing_material",
+        "presence_sha_verified": true,
+        "historical_execution_verified": false,
+        "workspace_relative": "inputs/57b998fdd6cd/终稿-“大零号湾”科技创新策源功能区专项发展资金项目申请书.docx"
+      }
+    ],
+    "tool_catalog": {
+      "python": "Python on fresh source-owned file copies. cwd=WORKSPACE. Inputs have explicit workspace_relative paths in asset catalog; outputs/ is writable. Put assertions in code; declared check strings do not execute themselves. No historical process/service restoration; no network capabilities claimed.",
+      "inspect": "Actual file parser. XLSX: sheet names, shape, merged cells, sample first16 rows/18 columns and whole-book formula counts. PDF: extracted text. Text/JSON/CSV/MD/XML/PY/YAML: UTF-8 text. PNG/JPG: dimensions only, no OCR. Other formats: bytes/hash only. Parsing is not fulfilment verification.",
+      "history": "Read complete paired user and all corresponding public assistant segments; source reconstruction is not native historical event authentication.",
+      "READ": "Read actual allowed source turns or frozen capability docs. No hidden probe, formal evaluation or external source discovery.",
+      "INSPECT": "Actual parsing of source-owned file copies. Preserve material identity such as synthetic recovery.",
+      "REPLAY": "Run exactly recorded historical Python on source-owned copies. Historical source text is verified; historical execution state is not restored.",
+      "TRY": "Run proposed single repair or baseline/variant from independent fresh copies with explicit checks. Nonzero code exit is a learnable observation, not infrastructure failure."
+    },
+    "action_count": 0,
+    "max_actions": 12
+  },
+  "observed_post_target_event": {
+    "action_index": 1,
+    "action_id": "conv_5ca3f6271b31_d1_init_w",
+    "proposal_ref": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_5ca3f6271b31\\proposals\\0001.json",
+    "proposal_sha256": "9cb20aa1ca5dc0765a3a0b5145d2808afae9177c1c0a7e9b2ecc5fc0cad441dc",
+    "status": "APPLIED",
+    "transition": {
+      "graph_version": 2,
+      "workflow_versions": {
+        "conv_5ca3f6271b31_w1": 1
+      },
+      "structural_acceptance_not_business_success": true
+    }
+  },
+  "post_target_event_not_added_to_target_input": true,
+  "event_pin": {
+    "path": "D:\\skillloop\\output\\20261015_ewi_teacher_DATA\\episodes\\conv_5ca3f6271b31\\events.jsonl",
+    "bytes": 19859,
+    "sha256": "237f0080282abe106d6afa4ccc388216aff563f3c1c10321e90add6ec25749c2"
+  },
+  "event_match_basis": "exact proposal SHA + parsed JSON equality + unique action ID",
+  "request_identity": "exact captured request SHA and decoded JSON equality",
+  "original_action_kind": "UPDATE",
+  "body_code_sha256": null,
+  "evidence_credit": {
+    "SOURCE_FAITHFUL": "REQUIRES_CLAIM_SPECIFIC_REVIEW",
+    "LOCAL_EXECUTABLE": "NOT_INFERRED_FROM_APPLIED",
+    "CASE_VERIFIED": "NOT_PROVEN_BY_STRUCTURE",
+    "UTILITY_SUPPORTED": false,
+    "native_dispatch": false
+  },
+  "current_default_action_loss": 0,
+  "new_R_credit_this_join": 0,
+  "training_started": false
+}

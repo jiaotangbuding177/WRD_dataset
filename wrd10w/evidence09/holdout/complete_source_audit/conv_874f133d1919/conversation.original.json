@@ -1,0 +1,101 @@
+{
+  "session_id": "conv_874f133d1919",
+  "title": "为什么点击下载后，QQ浏览器弹出下载窗口",
+  "task_category": "TECH",
+  "task_category_name": "软件产品、代码与技术排障",
+  "secondary_task_categories": [],
+  "split": "evolution",
+  "leakage_component_id": "fc_4c0cbeca59ec47c8",
+  "owner_alias": "用户23",
+  "agent_instance_id": "90b6bd93-4c31-4cc5-92f8-14fce33f863f",
+  "file_references": [],
+  "link_adaptations": {
+    "schema": "source-scoped-links-v1",
+    "session_id": "conv_874f133d1919",
+    "mappings": [],
+    "skill_path_aliases": [],
+    "original_human_text_changed": false,
+    "unmatched_public_download_urls_preserved": true,
+    "historical_service_authentication_restored": false,
+    "runtime_url_base": "http://127.0.0.1:8765",
+    "download_cli": "python /opt/eval-adapter/links_runtime.py \"<原始路径或链接>\"",
+    "delivery_scope": "actual bytes available only after associated human dispatch delivery"
+  },
+  "baseline_skill_policy": {
+    "public_baseline_reference_skills": [],
+    "do_not_preinstall_user_requested": [],
+    "missing_baseline_skills": [],
+    "uncertain_not_preinstalled": [],
+    "supplied_environment_builtin_skills": [],
+    "removed_preinstalled_skills": []
+  },
+  "sequence_basis": "source user-occurrence order with known timestamps for audit; semantic response stage reconstruction, not authenticated native historical order",
+  "user_order_projection": null,
+  "native_reply_to_verified": false,
+  "historical_event_identity_verified": false,
+  "schema": "effective-whole-source-semantic-trace-v8",
+  "messages": [
+    {
+      "id": "d81665e3-342a-4f7c-bd6b-249351ca9eb5",
+      "role": "user",
+      "content": "为什么点击下载后，QQ浏览器弹出下载窗口很慢，甚至不响应？",
+      "source_message_ids": [
+        "d81665e3-342a-4f7c-bd6b-249351ca9eb5"
+      ],
+      "user_created_at": null,
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "bf0769fe-8a02-420b-920f-706e40bdc5d6",
+      "role": "assistant",
+      "content": "这个问题要看你是站在**用户**角度还是**开发者**角度。先说核心原理，再按可能性排序讲原因和排查方法。\n\n## 核心原理\n\n浏览器点击下载后，**下载窗口弹出的时机 = 服务器返回响应头（HTTP headers）的时机**，跟文件大小基本无关。也就是说：\n\n> 弹出窗口慢 = 服务器响应慢（或前端 JS 在捣乱），而不是\"下载本身慢\"\n\n如果服务器迟迟不返回 `Content-Disposition: attachment` 和 `Content-Length`，浏览器就一直处于\"等待中\"状态，表现为点了没反应、转圈、甚至像卡死。\n\n## 常见原因（按概率排序）\n\n**1. 服务端在响应前做了耗时操作（最常见）**\n如果你的平台是\"点击下载 → 服务器现场生成报告/打包 ZIP/查数据库再导出\"，那弹出窗口要等整个生成流程跑完才出现。文件越大、生成越慢，窗口弹得越晚。你公司出使用报告的场景非常典型。\n\n**2. 前端用了 fetch/blob 方式下载**\n页面 JS 先 `fetch()` 把整个文件拉到内存，再创建 Blob URL 触发下载——**窗口要等整个文件下载完才弹**。大文件时体感就是\"点了没反应\"。正确做法是直接 `<a href=\"文件URL\" download>` 或 `window.location` 指向直链，让浏览器自己处理。\n\n**3. QQ 浏览器自身的问题**\n- 内置下载管理器任务多了会卡，初始化慢\n- 装了迅雷/IDM 等插件抢下载，QQ 浏览器等待接管超时\n- 它的\"安全下载\"会对文件做扫描，大文件扫描慢\n- 某些版本对特定类型（.xlsx/.pdf）会先尝试预览而不是直接下载\n\n**4. 网络链路慢**\nTLS 握手慢、CDN 回源慢、服务器带宽打满——TTFB（首字节时间）长，窗口自然弹得慢。\n\n**5. 重定向链过长**\n下载 URL 经过多次 302 跳转（比如经过鉴权中心再跳存储），每跳一次加一次往返延迟。\n\n## 怎么排查（如果你是开发者）\n\n用 curl 直接测，一眼定位：\n\n```bash\n# 看各阶段耗时，重点看 time_starttransfer（TTFB）\ncurl -w \"DNS: %{time_namelookup}s\\n连接: %{time_connect}s\\nTLS: %{time_appconnect}s\\nTTFB: %{time_starttransfer}s\\n总耗时: %{time_total}s\\n\" -o /dev/null \"你的下载URL\"\n\n# 看响应头是否规范\ncurl -I \"你的下载URL\"\n```\n\n- **TTFB 大** → 服务端生成/查询慢，改成预生成 + 异步通知，或直接给对象存储/CDN 直链\n- **没有 Content-Length**（chunked 传输）→ QQ 浏览器下载管理器会等，尽量设置固定长度\n- **多次 302** → 减少跳转，或让浏览器直接拿到最终地址\n\n## 快速结论\n\n- 如果是**你们平台**的问题：90% 是服务端现场生成文件或前端 blob 下载导致的，改成\"预生成 + 直链\"立竿见影\n- 如果是**你自己浏览器**的问题：先禁用下载类插件、清缓存、重置下载管理器，基本能解决\n\n你这是在排查自家产品的问题，还是自己浏览器遇到的情况？告诉我具体场景（什么文件类型、多大、是固定某个页面还是所有下载），我可以帮你写具体的排查命令或改法。",
+      "source_message_ids": [
+        "bf0769fe-8a02-420b-920f-706e40bdc5d6"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    }
+  ],
+  "turns": [
+    {
+      "turn_index": 0,
+      "user": {
+        "id": "d81665e3-342a-4f7c-bd6b-249351ca9eb5",
+        "role": "user",
+        "content": "为什么点击下载后，QQ浏览器弹出下载窗口很慢，甚至不响应？",
+        "source_message_ids": [
+          "d81665e3-342a-4f7c-bd6b-249351ca9eb5"
+        ],
+        "user_created_at": null,
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "bf0769fe-8a02-420b-920f-706e40bdc5d6",
+          "role": "assistant",
+          "content": "这个问题要看你是站在**用户**角度还是**开发者**角度。先说核心原理，再按可能性排序讲原因和排查方法。\n\n## 核心原理\n\n浏览器点击下载后，**下载窗口弹出的时机 = 服务器返回响应头（HTTP headers）的时机**，跟文件大小基本无关。也就是说：\n\n> 弹出窗口慢 = 服务器响应慢（或前端 JS 在捣乱），而不是\"下载本身慢\"\n\n如果服务器迟迟不返回 `Content-Disposition: attachment` 和 `Content-Length`，浏览器就一直处于\"等待中\"状态，表现为点了没反应、转圈、甚至像卡死。\n\n## 常见原因（按概率排序）\n\n**1. 服务端在响应前做了耗时操作（最常见）**\n如果你的平台是\"点击下载 → 服务器现场生成报告/打包 ZIP/查数据库再导出\"，那弹出窗口要等整个生成流程跑完才出现。文件越大、生成越慢，窗口弹得越晚。你公司出使用报告的场景非常典型。\n\n**2. 前端用了 fetch/blob 方式下载**\n页面 JS 先 `fetch()` 把整个文件拉到内存，再创建 Blob URL 触发下载——**窗口要等整个文件下载完才弹**。大文件时体感就是\"点了没反应\"。正确做法是直接 `<a href=\"文件URL\" download>` 或 `window.location` 指向直链，让浏览器自己处理。\n\n**3. QQ 浏览器自身的问题**\n- 内置下载管理器任务多了会卡，初始化慢\n- 装了迅雷/IDM 等插件抢下载，QQ 浏览器等待接管超时\n- 它的\"安全下载\"会对文件做扫描，大文件扫描慢\n- 某些版本对特定类型（.xlsx/.pdf）会先尝试预览而不是直接下载\n\n**4. 网络链路慢**\nTLS 握手慢、CDN 回源慢、服务器带宽打满——TTFB（首字节时间）长，窗口自然弹得慢。\n\n**5. 重定向链过长**\n下载 URL 经过多次 302 跳转（比如经过鉴权中心再跳存储），每跳一次加一次往返延迟。\n\n## 怎么排查（如果你是开发者）\n\n用 curl 直接测，一眼定位：\n\n```bash\n# 看各阶段耗时，重点看 time_starttransfer（TTFB）\ncurl -w \"DNS: %{time_namelookup}s\\n连接: %{time_connect}s\\nTLS: %{time_appconnect}s\\nTTFB: %{time_starttransfer}s\\n总耗时: %{time_total}s\\n\" -o /dev/null \"你的下载URL\"\n\n# 看响应头是否规范\ncurl -I \"你的下载URL\"\n```\n\n- **TTFB 大** → 服务端生成/查询慢，改成预生成 + 异步通知，或直接给对象存储/CDN 直链\n- **没有 Content-Length**（chunked 传输）→ QQ 浏览器下载管理器会等，尽量设置固定长度\n- **多次 302** → 减少跳转，或让浏览器直接拿到最终地址\n\n## 快速结论\n\n- 如果是**你们平台**的问题：90% 是服务端现场生成文件或前端 blob 下载导致的，改成\"预生成 + 直链\"立竿见影\n- 如果是**你自己浏览器**的问题：先禁用下载类插件、清缓存、重置下载管理器，基本能解决\n\n你这是在排查自家产品的问题，还是自己浏览器遇到的情况？告诉我具体场景（什么文件类型、多大、是固定某个页面还是所有下载），我可以帮你写具体的排查命令或改法。",
+          "source_message_ids": [
+            "bf0769fe-8a02-420b-920f-706e40bdc5d6"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "咨询下载慢原因，AI分析原理及排查",
+        "confidence": 0.95,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    }
+  ],
+  "original_audit_path": "sessions/conv_874f133d1919.json"
+}

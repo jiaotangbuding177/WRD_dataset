@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+"""OCR 自检编辑后图片中的中文/英文字符串是否完整出现。
+
+用途：生成式编辑出图后核对中文文字——生成模型常把小字重绘成乱码，
+用本脚本代替目测。missing 是乱码候选清单：OCR 本身也会误读小字，
+先裁剪放大人工确认再决定是否像素级修字。
+方法：tesseract 以 psm 3/6/11 三种版面模式各跑一次，任一模式命中即算命中，
+降低稀疏版面漏检率。
+输入：图片 + 期望字符串（--expect 逗号分隔，或 --expect-file JSON 字符串数组）。
+输出：检查报告 JSON（--out，含 matched/missing/各 psm 的 ocr_text）。
+退出码：0=全部命中，5=有缺失候选，2=输入或运行错误。
+依赖：tesseract（含 chi_sim），不在 PATH 时报 tesseract_missing。
+"""
+import argparse
+import json
+import os
+import subprocess
+import sys
+
+
+def fail(code, message, exit_code=2):
+    print(f"{code}: {message}", file=sys.stderr)
+    raise SystemExit(exit_code)
+
+
+def run_ocr(image, psm):
+    cmd = ["tesseract", image, "stdout", "-l", "chi_sim+eng", "--psm", str(psm)]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+    except FileNotFoundError:
+        fail("tesseract_missing", "tesseract not on PATH")
+    except subprocess.TimeoutExpired:
+        fail("ocr_timeout", f"tesseract psm {psm} did not finish in 180s")
+    if result.returncode != 0:
+        fail("ocr_error", result.stderr.strip()[:400])
+    return result.stdout
+
+
+def squash(text):
+    return "".join(text.split())
+
+
+def main():
+    parser = argparse.ArgumentParser(description="OCR 检查图片中的期望文字是否完整")
+    parser.add_argument("image", help="待检查图片路径")
+    parser.add_argument("--expect", default="",
+                        help="期望字符串，逗号分隔，如 '通义千问,智谱GLM'")
+    parser.add_argument("--expect-file",
+                        help="JSON 文件，字符串数组形式列出期望文字")
+    parser.add_argument("--out", help="检查报告 JSON 输出路径；缺省只打印摘要")
+    args = parser.parse_args()
+    if not os.path.isfile(args.image):
+        fail("image_not_found", args.image)
+    expected = []
+    if args.expect:
+        expected += [part for part in (p.strip() for p in args.expect.split(",")) if part]
+    if args.expect_file:
+        try:
+            with open(args.expect_file, encoding="utf-8-sig") as handle:
+                data = json.load(handle)
+        except OSError as error:
+            fail("expect_file_error", str(error))
+        except json.JSONDecodeError as error:
+            fail("expect_file_error", f"invalid JSON: {error}")
+        if not isinstance(data, list) or not all(isinstance(s, str) for s in data):
+            fail("expect_file_error", "expect-file must be a JSON array of strings")
+        expected += [s.strip() for s in data if s.strip()]
+    if not expected:
+        fail("no_expect", "provide --expect or --expect-file")
+    per_psm = {str(psm): run_ocr(args.image, psm) for psm in (3, 6, 11)}
+    squashed = squash("\n".join(per_psm.values()))
+    matched = [s for s in expected if squash(s) in squashed]
+    missing = [s for s in expected if squash(s) not in squashed]
+    report = {
+        "image": args.image,
+        "matched": matched,
+        "missing": missing,
+        "ocr_text": {psm: text.strip() for psm, text in per_psm.items()},
+    }
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump(report, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+    print(f"matched {len(matched)}/{len(expected)}"
+          f"{'' if not missing else '; missing candidates: ' + ' | '.join(missing)}"
+          f"{'' if not args.out else ' -> ' + args.out}")
+    raise SystemExit(0 if not missing else 5)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

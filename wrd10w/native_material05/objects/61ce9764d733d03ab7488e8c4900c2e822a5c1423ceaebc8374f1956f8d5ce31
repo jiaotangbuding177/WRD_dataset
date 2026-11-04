@@ -1,0 +1,96 @@
+"""Independent CAS/reference verification; no Agent, SQL, credentials or network."""
+from pathlib import Path
+from collections import Counter
+from datetime import datetime, timezone
+import gzip
+import hashlib
+import json
+import shutil
+import re
+
+OUT=Path(__file__).resolve().parent/'material_set_01'
+ROOT=Path('D:/skillloop')
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def load(p):return json.loads(Path(p).read_text(encoding='utf-8-sig'))
+def save(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+def parse(entry):
+    rel=entry['restore_relative_path'];blob=(OUT/entry['cas_relative_path']).read_bytes()
+    if rel.endswith('.gz'):
+        try:blob=gzip.decompress(blob)
+        except (OSError,EOFError):return []
+    if rel.endswith(('.jsonl','.jsonl.gz')):
+        result=[]
+        for line in blob.decode('utf-8').splitlines():
+            if line:
+                try:result.append(json.loads(line))
+                except ValueError:pass
+        return result
+    if rel.endswith('.json'):
+        try:return [json.loads(blob)]
+        except ValueError:return []
+    return []
+
+def main():
+    original=load(OUT/'MANIFEST.json');assert sha(OUT/'ALLOWLIST.jsonl')==original['allowlist_sha256'];entries=[json.loads(s) for s in (OUT/'ALLOWLIST.jsonl').read_text(encoding='utf-8').splitlines()];hashes={x['sha256'] for x in entries};by_source={x['source_path'].casefold():x for x in entries}
+    for h in hashes:assert sha(OUT/'objects'/h)==h
+    assert len({x['restore_relative_path'].casefold() for x in entries})==len(entries)
+    objects=[];missing=[];resource_checks=[];skill_checks=[];sql_paths=[]
+    def walk(value,entry,loc='$'):
+        if isinstance(value,dict):
+            for k,v in value.items():
+                if k in ['object','object_path','object_sha256','cas_sha256','cas_object_sha256'] and isinstance(v,str):
+                    name=Path(v).name
+                    if re.fullmatch('[0-9a-f]{64}',name):
+                        row={'referencer':entry['restore_relative_path'],'json_location':loc+'.'+k,'reference':v,'object_sha256':name,'present':name in hashes};objects.append(row)
+                        if name not in hashes:missing.append(row)
+                walk(v,entry,loc+'.'+k)
+        elif isinstance(value,list):
+            for i,v in enumerate(value):walk(v,entry,loc+'['+str(i)+']')
+    for entry in entries:
+        rel=entry['restore_relative_path'];p=Path(rel)
+        if p.suffix.lower() in ['.db','.sql','.sqlite','.sqlite3'] or any(x.lower() in ['private','private_credential_audit','.claude','sdk_trace','sdk_traces','sdk_wire'] for x in p.parts):sql_paths.append(rel)
+        for value in parse(entry):
+            walk(value,entry)
+            if not isinstance(value,dict) or not value.get('job_id') or not isinstance(value.get('resources'),list) or not isinstance(value.get('skills'),list):continue
+            for res in value['resources']:
+                if not isinstance(res,dict) or not res.get('sha256'):continue
+                resource_checks.append({'job_id':value['job_id'],'resource_path':res['path'],'sha256':res['sha256'],'actual_bytes_present_in_CAS':res['sha256'] in hashes})
+            receipt_entry=by_source.get(str(value.get('resource_ancestry_receipt','')).casefold());receipt=None
+            if receipt_entry:receipt=json.loads((OUT/receipt_entry['cas_relative_path']).read_bytes())
+            for skill in value['skills']:
+                tree={};root=Path(skill['path'])
+                for res in (receipt or {}).get('files',[]):
+                    p=Path(res['path'])
+                    if p.is_relative_to(root):tree[p.relative_to(root).as_posix()]=res['sha256']
+                tree_sha=hashlib.sha256(json.dumps(tree,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+                skill_checks.append({'job_id':value['job_id'],'skill_id':skill['id'],'file_count':len(tree),'computed_tree_sha256':tree_sha,'frozen_tree_sha256':skill['sha256_tree'],'matches':tree_sha==skill['sha256_tree'],'all_actual_file_bytes_in_CAS':all(h in hashes for h in tree.values())})
+    assert not sql_paths
+    # Reference missingness is reported before any packaging, never replaced
+    # with fabricated objects or zero-length placeholders.
+    assert all(x['actual_bytes_present_in_CAS'] for x in resource_checks)
+    assert all(x['matches'] and x['all_actual_file_bytes_in_CAS'] for x in skill_checks)
+    assert not missing,('referenced_object_bytes_missing',missing[:5])
+    gaps=load(OUT/'MISSING_OR_MISMATCHED.json');classified=[]
+    for row in gaps['missing_explicit_paths']:
+        p=ROOT/row['path'];name=p.name
+        if name=='response.raw.json' and (p.parent/'response.raw.sse').is_file():kind='EXPECTED_ALTERNATIVE_FORMAT_NOT_CREATED'
+        elif name=='response.raw.sse' and (p.parent/'response.raw.json').is_file():kind='EXPECTED_ALTERNATIVE_FORMAT_NOT_CREATED'
+        elif row['category']=='authored_offline_QA_source_not_Teacher_trace':kind='OPTIONAL_HELPER_VARIANT_NOT_CREATED'
+        elif row['category']=='optional_public_processing_source_missing_restored_elsewhere':kind='PUBLIC_SOURCE_RESTORE_GAP_NOT_TRAINING_PAYLOAD_LOSS'
+        elif 'B_make_report_01/' in row['path']:kind='PRESERVED_ORIGINAL_INTERRUPTED_ATTEMPT_OPTIONAL_TERMINAL_FILE_GAP'
+        else:kind='OPTIONAL_PATH_NOT_PRESENT_NO_CLAIM_IT_NEVER_EXISTED'
+        classified.append({**row,'classification':kind})
+    q=load(OUT/'Q_RECHECK_20261029.json');assert q['Q_original_files_not_modified'] and q['actual_model_visible_date_proof']['exact_text']=='Current date: 2026-10-27';assert any(not x['matches'] for x in q['score_arithmetic'])
+    summary={'schema':'wrd-independent-explicit-native-CAS-reference-closure-check-v1','status':'PASS_ACTUAL_BYTES_AND_ALL_EXPLICIT_REFERENCES_NOT_Q_APPROVAL','at':datetime.now(timezone.utc).isoformat(),'initial_manifest_sha256':sha(OUT/'MANIFEST.json'),'initial_allowlist_sha256':sha(OUT/'ALLOWLIST.jsonl'),'logical_files_checked':len(entries),'unique_actual_CAS_objects_re_read':len(hashes),'CAS_reference_occurrences_checked':len(objects),'missing_referenced_CAS_objects':missing,'mounted_resource_occurrences_checked':len(resource_checks),'missing_resource_bytes':[],'skill_tree_occurrences_checked':len(skill_checks),'skill_tree_checks':skill_checks,'forbidden_private_SQL_SDK_payload_paths':sql_paths,'Q_semantics_and_arithmetic_still_HOLD':True,'all_C_default_audit_only':True,'no_Agent_native_model_training_or_network_activity':True}
+    save(OUT/'EXPLICIT_REFERENCE_CLOSURE_CHECK_01.json',summary);save(OUT/'OPTIONAL_ABSENCE_CLASSIFICATION_01.json',{'optional_absences_by_class':dict(Counter(x['classification'] for x in classified)),'entries':classified,'required_missing_count':sum(x['required'] for x in classified),'no_missing_expected_ancestor_object_or_required_resource':True,'not_all_optional_absences_are_lost_data':True})
+    final_entries=list(entries)
+    for p,category in [(OUT/'EXPLICIT_REFERENCE_CLOSURE_CHECK_01.json','independent_actual_CAS_reference_closure_verification'),(OUT/'OPTIONAL_ABSENCE_CLASSIFICATION_01.json','optional_format_absence_and_real_gap_distinction'),(Path(__file__),'independent_verifier_source')]:
+        h=sha(p);target=OUT/'objects'/h
+        if not target.exists():shutil.copyfile(p,target)
+        assert sha(target)==h;final_entries.append({'source_path':str(p),'restore_relative_path':'native_materials05/'+p.name,'sha256':h,'bytes':p.stat().st_size,'categories':[category],'training_role':'audit_only','cas_relative_path':'objects/'+h,'byte_copy_and_reread_SHA_verified':True});hashes.add(h)
+    with (OUT/'FINAL_ALLOWLIST_02.jsonl').open('w',encoding='utf-8',newline='\n') as f:
+        for row in final_entries:f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
+    final={**original,'status':'FINAL_EXPLICIT_MATERIAL_ALLOWLIST_AND_ALL_REFERENCED_CAS_BYTES_VERIFIED_NOT_YET05_GIT_PACK','original_initial_manifest_sha256':sha(OUT/'MANIFEST.json'),'logical_files':len(final_entries),'unique_CAS_objects':len(hashes),'unique_CAS_bytes':sum((OUT/'objects'/h).stat().st_size for h in hashes),'allowlist_path':str(OUT/'FINAL_ALLOWLIST_02.jsonl'),'allowlist_sha256':sha(OUT/'FINAL_ALLOWLIST_02.jsonl'),'independent_closure_check_sha256':sha(OUT/'EXPLICIT_REFERENCE_CLOSURE_CHECK_01.json'),'optional_absence_classification_sha256':sha(OUT/'OPTIONAL_ABSENCE_CLASSIFICATION_01.json'),'all_referenced_CAS_and_actual_mounted_resource_bytes_present':True,'verifier_source_sha256':sha(Path(__file__)),'original_initial_files_not_overwritten':True}
+    save(OUT/'FINAL_MANIFEST_02.json',final);print(json.dumps({'manifest':str(OUT/'FINAL_MANIFEST_02.json'),'manifest_sha256':sha(OUT/'FINAL_MANIFEST_02.json'),'allowlist':str(OUT/'FINAL_ALLOWLIST_02.jsonl'),'allowlist_sha256':sha(OUT/'FINAL_ALLOWLIST_02.jsonl'),'logical_files':len(final_entries),'unique_objects':len(hashes),'unique_bytes':final['unique_CAS_bytes'],'referenced_objects':len(objects),'mounted_resources':len(resource_checks),'skill_trees':len(skill_checks),'missing_CAS':0,'forbidden_payloads':0},ensure_ascii=False))
+
+if __name__=='__main__':main()

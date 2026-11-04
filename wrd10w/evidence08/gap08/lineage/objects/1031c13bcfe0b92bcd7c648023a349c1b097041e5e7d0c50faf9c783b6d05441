@@ -1,0 +1,27 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/scripts/compose_plan.py",
+    "outputs/skill/scripts/check_missing.py",
+    "outputs/skill/scripts/revise_plan.py",
+    "outputs/skill/scripts/images_to_pdf.py",
+    "outputs/skill/scripts/make_cover.py",
+    "outputs/skill/scripts/make_comic_pages.py",
+    "outputs/skill/scripts/make_dieline.py",
+    "outputs/skill/templates/spec.example.json",
+    "outputs/skill/templates/cover.example.json",
+    "outputs/skill/templates/comic_pages.example.json",
+    "outputs/skill/references/lessons.md"
+  ],
+  "replaced_work": "复用 previous_skill 全部脚本/模板/lessons（与最近一次修复版 making/1ad0ad498131 输出逐字一致，diff -r 确认），不重写可靠资源；批量出图与纠正沿用 reusable skill_1（theme-image-generation）管线（compose_plan/check_missing/revise_plan 同族脚本已集成），成册复用其 images_to_pdf/make_cover。学习来源 conv_e13d8257bf0f 用户逐条消息复核：企划确认存档、加款端盒数学、系列图挤→宽幅、大场景重复、越改越差（标题丢失/瘦身）、逐张合并PDF+封面、每系列数量不同、压缩包交付、刀模、漫画企划→分镜稿→逐册生成、角色一致性纠正均已被 SKILL.md/lessons.md 覆盖，无遗漏新增。本轮只按 previous_feedback.json 未竟修复项做一处局部修改：阶段1+2 第4步补一句可选抽查/返工的顺序与节奏（成册落盘之后小批量分次进行、不长时间阻塞轮询、只重画点名张），回应上次业务臂在收尾批量 vision+sleep 轮询阶段被中止导致 PDF 缺失的具体问题；未采纳硬限调用/压缩预算/提前收尾类建议，未新增核验循环或脚本。",
+  "program_runs": [
+    {"cmd": "diff -r inputs/previous_skill inputs/making/1ad0ad498131/.../outputs/skill", "result": "完全一致，确认复用基线即最新修复版"},
+    {"cmd": "python scripts/compose_plan.py making_samples/spec_ok.json --out making_samples/plan_smoke.json", "result": "exit 0，composed 2 prompts（真实输入复现）"},
+    {"cmd": "python scripts/check_missing.py plan_smoke.json --generated generated.txt --out missing_smoke.json", "result": "exit 0，generated 2，missing=[]（补漏为空即达成交付前置条件）"},
+    {"cmd": "python scripts/images_to_pdf.py making_samples/cells --out making_samples/smoke.pdf", "result": "exit 0，4 页 PDF，pymupdf 复核页数一致（成册底线路径实测可用）"},
+    {"cmd": "python scripts/make_cover.py cover_spec.json --out cover_smoke.png（cwd=样例目录，背景相对路径）", "result": "exit 0，1280x720；vision 探针逐字复核主标题/副标题/两列清单/底部信息全部正确，无乱码无截断"},
+    {"cmd": "python scripts/make_cover.py cover_spec.json（cwd 外相对背景路径缺失）", "result": "exit 2 cover_error: background image not found（边界路径实测，错误码与 SKILL.md 资源清单一致）"}
+  ],
+  "reused_evidence": "同字节脚本在 making/1ad0ad498131 制作记录中已全量实测（compose_plan 正常/未澄清 exit3/非法JSON exit2、check_missing partial+全量、revise_plan 正常/未知id exit4、images_to_pdf 正常/损坏文件与不存在路径 exit2、make_cover 正常/缺title exit2、make_comic_pages 正常+vision复核/缺图 exit2、make_dieline 三组+vision复核、chromium 降级渲染），本轮免于重复全量回归，仅抽成册底线关键路径复现。",
+  "known_issues": "①make_dieline 顶盖/底盖/插舌个别高度标注缺失为脚本既有状态（前次制作已修遮挡问题，本轮未改动该脚本）；②vision 探针对漫画占位测试样例曾把蓝色圆形误读为角色图形，属样例画面问题非脚本问题；③making_samples 内为本轮 smoke 测试产物，非业务交付。"
+}

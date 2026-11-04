@@ -1,0 +1,24 @@
+### render_check (LibreOffice headless convert to PDF + pdftotext visible-text extraction)
+## command: soffice --headless --convert-to pdf minutes_formatted.docx boundary_formatted.docx step2_songti.docx --outdir pdf_check
+## exit: 0 (3 PDFs produced)
+## minutes_formatted.pdf visible text:
+广州项目当前核心困境
+停工现状：原计划 2025 年 8 月竣工未实现，3500 万贷款未放款
+外资大股东 SC 收回管理权后未推进建设，各方权责边界待界定
+股权收购、法律诉讼两条可选路径
+
+备注：本纪要系录音转写归纳，名称可能有识别偏差
+## boundary_formatted.pdf visible text:
+测试会议纪要标题
+*
+2026 年 10 月 31 日前付清尾款 1.8497 亿元，逾期按 0.05%/天计息
+*上海亚格投资管理有限公司（亚格平台）
+已有格式段落
+## step2_songti.pdf visible text:
+广州项目当前核心困境
+停工现状：原计划 2025 年 8 月竣工未实现，3500 万贷款未放款
+外资大股东 SC 收回管理权后未推进建设，各方权责边界待界定
+股权收购、法律诉讼两条可选路径
+
+备注：本纪要系录音转写归纳，名称可能有识别偏差
+## conclusion: 全部内容实际渲染可见；normal case 无 * 号残留（已去除），boundary case 未加 --remove-stars 时 * 号按预期保留（仅去行首标记、非正文内容）。

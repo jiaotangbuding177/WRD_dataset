@@ -1,0 +1,64 @@
+{
+  "scope": "NEW_SYNTHETIC_INPUTS_AND_DECLARED_EXPECTED_OUTPUTS",
+  "inputs": [
+    {
+      "paths": [
+        "alpha/report.md",
+        "beta/report.md"
+      ]
+    },
+    {
+      "paths": [
+        "résumé/a file.md",
+        "tables/data.csv"
+      ]
+    },
+    {
+      "paths": [
+        "same/report.md",
+        "SAME/report.md"
+      ]
+    },
+    {
+      "paths": [
+        "safe/../escape.md"
+      ]
+    }
+  ],
+  "expected": [
+    {
+      "outputs": [
+        {
+          "source": "alpha/report.md",
+          "output": "2c214eff_report.md"
+        },
+        {
+          "source": "beta/report.md",
+          "output": "fd610290_report.md"
+        }
+      ],
+      "error": null
+    },
+    {
+      "outputs": [
+        {
+          "source": "résumé/a file.md",
+          "output": "7ce1b6c3_a file.md"
+        },
+        {
+          "source": "tables/data.csv",
+          "output": "4f08d5e3_data.csv"
+        }
+      ],
+      "error": null
+    },
+    {
+      "outputs": [],
+      "error": "CASE_ALIAS_SOURCE"
+    },
+    {
+      "outputs": [],
+      "error": "UNSAFE_RELATIVE_PATH"
+    }
+  ]
+}

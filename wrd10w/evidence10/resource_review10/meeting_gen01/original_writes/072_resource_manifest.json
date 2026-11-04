@@ -1,0 +1,87 @@
+{
+  "resources": [
+    {
+      "id": "minutes-format-program",
+      "path": "scripts/apply_minutes_format.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/apply_minutes_format.py {INPUT}/meeting_minutes.docx --out {OUT}/minutes_formatted.docx --report {OUT}/format_summary.json --remove-stars",
+        "inputs": [
+          "meeting_minutes_docx（录音转写/录音总结或既有纪要整理成的docx正文，中文段落可含行首*号列表标记）"
+        ],
+        "outputs": [
+          "formatted_minutes_docx（排版后纪要正文，可直接接续成文或交付）",
+          "format_report_json（样式参数、段落数、去星数、paragraph_texts全文清单）"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "applicability": {
+        "supported": [
+          "中文docx正文段落：设置中文/西文字体、正文字号、1.5倍行距、字符制首行缩进，可选去行首*号",
+          "样式参数可用 --cn-font/--western-font/--body-size/--line-spacing/--first-line-indent 调整，默认值即既往纪要格式（楷体/Times New Roman/12pt/1.5/2字符）"
+        ],
+        "unsupported": [
+          "不处理表格内段落、不嵌字体文件、不修复损坏docx关系引用",
+          "不做录音转写、不做会议内容事实核对与补充",
+          "无效输入（缺失文件/非docx）退出码2并在stderr报错，不产输出"
+        ]
+      },
+      "source_evidence": [
+        {"source_id": "conv_2ff337f34ddc", "message_id": "conv_2ff337f34ddc:ffb38926"},
+        {"source_id": "conv_2ff337f34ddc", "message_id": "conv_2ff337f34ddc:e4d3bf72"},
+        {"source_id": "conv_d640957a9820", "message_id": "conv_d640957a9820:206b4474"},
+        {"source_id": "conv_ce34559870b8", "message_id": "conv_ce34559870b8:5316633f"},
+        {"source_id": "conv_ce34559870b8", "message_id": "conv_ce34559870b8:a2c7d9db"}
+      ]
+    },
+    {
+      "id": "minutes-style-reference",
+      "path": "references/minutes_style_reference.md",
+      "kind": "material",
+      "interface": {
+        "kind": "material",
+        "contract_version": "1",
+        "usage": "阅读 {SKILL}/references/minutes_style_reference.md 作为 apply_format_and_style / compose_minutes_document 阶段的样式规范与成文约定；排版参数行直接映射为格式化程序参数",
+        "inputs": [
+          "organized_meeting_content（已组织的会议内容文本）"
+        ],
+        "outputs": [
+          "styled_minutes_body（符合既定样式的纪要正文）"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "applicability": {
+        "supported": [
+          "用户沿用既往纪要格式或给出明确样式参数时的排版与成文约定"
+        ],
+        "unsupported": [
+          "不覆盖录音转写本身",
+          "不覆盖会议内容的事实核对与补充"
+        ]
+      },
+      "source_evidence": [
+        {"source_id": "conv_d640957a9820", "message_id": "conv_d640957a9820:753aaf0c"},
+        {"source_id": "conv_d640957a9820", "message_id": "conv_d640957a9820:03f8fd61"},
+        {"source_id": "conv_2ff337f34ddc", "message_id": "conv_2ff337f34ddc:ffb38926"},
+        {"source_id": "conv_2ff337f34ddc", "message_id": "conv_2ff337f34ddc:e4b0fbbf"},
+        {"source_id": "conv_ce34559870b8", "message_id": "conv_ce34559870b8:a2c7d9db"}
+      ]
+    }
+  ]
+}

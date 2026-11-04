@@ -1,0 +1,320 @@
+{
+  "session_id": "conv_ea9b88b23b98",
+  "title": "你支持技能自动调用，并通过反馈持续迭代吗",
+  "task_category": "HR",
+  "task_category_name": "招聘、简历与人事",
+  "secondary_task_categories": [
+    "ASSIST"
+  ],
+  "split": "evolution",
+  "leakage_component_id": "fc_84d5731800cfc6ae",
+  "owner_alias": "用户29",
+  "agent_instance_id": "d41f0d2f-a623-45f5-90c3-a24ebfdd2b72",
+  "file_references": [
+    {
+      "file_reference_id": "file_00074",
+      "session_id": "conv_ea9b88b23b98",
+      "role": "user",
+      "message_id": "09363d10-ad94-4c93-a575-310a16810061",
+      "group_id": "u_3a4a52a7c63969bb48",
+      "source_line": 5157,
+      "file_metadata": {
+        "name": "前端工程师招聘流程.md",
+        "path": "个人知识库/前端工程师招聘流程.md",
+        "source": "workspace",
+        "mimeType": "text/markdown",
+        "sizeBytes": 4097
+      },
+      "bytes_available_in_export": false,
+      "attachment_bytes_restored": false
+    }
+  ],
+  "link_adaptations": {
+    "schema": "source-scoped-links-v1",
+    "session_id": "conv_ea9b88b23b98",
+    "mappings": [
+      {
+        "mapping_id": "link-475a603105d54969d4f13027",
+        "session_id": "conv_ea9b88b23b98",
+        "resource_id": "res_3c7978776067309d0548",
+        "original_reference": "个人知识库/前端工程师招聘流程.md",
+        "kind": "path",
+        "mount": "inputs/staged/7244df3550079731/前端工程师招聘流程.md",
+        "available_from_dispatch_index": 3,
+        "sha256": "7244df3550079731dee1261d40d57499dda6fef385b1c8b5ccc6ec238a71a1e8",
+        "synthetic": true,
+        "provenance": "synthetic_previous_version",
+        "match_basis": "source-specific admitted dependency original_path_or_url; exact artifact and delivery index",
+        "original_human_text_changed": false,
+        "local_url": "http://127.0.0.1:8765/resources/link-475a603105d54969d4f13027/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%8B%9B%E8%81%98%E6%B5%81%E7%A8%8B.md",
+        "redirect_original_reference": true
+      }
+    ],
+    "skill_path_aliases": [],
+    "original_human_text_changed": false,
+    "unmatched_public_download_urls_preserved": true,
+    "historical_service_authentication_restored": false,
+    "runtime_url_base": "http://127.0.0.1:8765",
+    "download_cli": "python /opt/eval-adapter/links_runtime.py \"<原始路径或链接>\"",
+    "delivery_scope": "actual bytes available only after associated human dispatch delivery"
+  },
+  "baseline_skill_policy": {
+    "public_baseline_reference_skills": [],
+    "do_not_preinstall_user_requested": [],
+    "missing_baseline_skills": [
+      {
+        "skill": "human-resources-recruitment",
+        "reason": "no_unique_public_reference_bundle"
+      }
+    ],
+    "uncertain_not_preinstalled": [],
+    "supplied_environment_builtin_skills": [],
+    "removed_preinstalled_skills": []
+  },
+  "sequence_basis": "source user-occurrence order with known timestamps for audit; semantic response stage reconstruction, not authenticated native historical order",
+  "user_order_projection": null,
+  "native_reply_to_verified": false,
+  "historical_event_identity_verified": false,
+  "schema": "effective-whole-source-semantic-trace-v8",
+  "messages": [
+    {
+      "id": "6fba6a2d-c2ea-4697-b7ab-189028489fc0",
+      "role": "user",
+      "content": "你支持技能自动调用，并通过反馈持续迭代吗？",
+      "source_message_ids": [
+        "6fba6a2d-c2ea-4697-b7ab-189028489fc0"
+      ],
+      "user_created_at": null,
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "9d8f9ea3-b266-4e12-9aae-bbaefcdeee78",
+      "role": "assistant",
+      "content": "好问题！来说说这两点：\n\n**✅ 技能自动调用**\n\n是的，我有一套 **技能匹配机制**。系统会扫描用户消息中的关键词和意图，自动匹配最合适的技能。比如：\n- 你说\"帮我分析一下竞品\" → 自动触发 `competitive-analysis` 或 `competitive-intelligence`\n- 你说\"估值一下这家公司\" → 自动触发 `dcf-model`\n- 你说\"生成一份 PPT\" → 自动触发 `pptx` 或 `pptx-generator`\n\n匹配逻辑是：看技能描述里的 trigger 短语，选最贴合的。如果多个技能都沾边，选最具体那个。如果都不匹配，就不加载任何技能——不会硬套。\n\n**🔄 通过反馈持续迭代**\n\n这方面我的能力分几个层级：\n\n1. **记忆层** — 每次对话我会写 `memory/YYYY-MM-DD.md` 记录关键信息，定期提炼到 `MEMORY.md` 做长期记忆。你纠正我一次，我就记住了。\n\n2. **行为层** — 你说\"别这么啰嗦\"、\"表格换成列表\"、\"语气轻松一点\"，我会写进自己的行为准则（通过更新 SOUL.md 或 TOOLS.md），后续对话都能用上。\n\n3. **技能层** — 如果某个技能的行为不对，我可以修改它的 SKILL.md。不过技能文件大部分是只读的，我更倾向于在**工作方式和习惯上**迭代。\n\n4. **反馈直接生效** — 你给出的任何反馈，在当前会话就会调整。不用等到 \"下次\"。\n\n**不过说实话，有几个现实限制：**\n- 每天醒来是没有记忆缓存的，得靠读文件才能\"想起\"过往\n- 自动技能调用依赖 trigger 短语的精确度，偶尔会误触或漏触\n- 大规模的\"人格迭代\"需要你对 SOUL.md 做调整，不能我自己随意改\n\n**总结：自动调用 ✅，反馈迭代 ✅（但不是万能的）。** 你有遇到什么场景觉得自动调用没触达，或者希望我怎么迭代风格/行为的吗？我可以根据你的反馈直接调整。",
+      "source_message_ids": [
+        "9d8f9ea3-b266-4e12-9aae-bbaefcdeee78"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    },
+    {
+      "id": "e3066ac8-e6ad-4e2f-963e-2c69eec58f7a",
+      "role": "user",
+      "content": "你能给我一些自动调用技能的提示词举例吗？",
+      "source_message_ids": [
+        "e3066ac8-e6ad-4e2f-963e-2c69eec58f7a"
+      ],
+      "user_created_at": null,
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "c1276012-249b-45c6-b849-ec20ccecdff6",
+      "role": "assistant",
+      "content": "当然，来看些实际触发案例：\n\n---\n\n### 📊 商业/财务类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"给我做份这家公司的估值\" | `dcf-model` |\n| \"填一下三张报表\" | `3-statements` |\n| \"做个竞品分析\" | `competitive-analysis` |\n| \"帮我写一个上这个系统的商业计划书\" | `business-case-builder` |\n| \"研究一下我们几个竞争对手\" | `competitive-intelligence` |\n\n### 📄 文档/办公类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"帮我写一份 Word 报告\" | `docx` |\n| \"做一份销售演示的 PPT\" | `pptx` / `pptx-generator` |\n| \"整理一下这个表格数据\" | `xlsx` |\n| \"把这个 PDF 转成文字\" | `pdf` |\n\n### 👥 HR/人事类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"写一个产品经理的 JD\" | `job-description-writer` |\n| \"做一下员工绩效评估\" | `human-resources-performance` |\n| \"这个候选人背景调查一下\" | `human-resources-recruitment` |\n| \"员工离职流程走一下\" | `human-resources-departures` |\n| \"合规检查一下公司政策\" | `human-resources-compliance` |\n| \"安排个培训计划\" | `human-resources-training` |\n\n### 🧠 研究/内容类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"搜索一下知识库，xxx\" | `karpathy-wiki` |\n| \"帮我查一下这个作者的文章\" | `karpathy-wiki` |\n| \"审一下这篇论文\" | `evomind-paper-scan` |\n| \"审一下这份合同\" | `contract-review` |\n| \"评估一下这个法律风险\" | `legal-ri***KEY***` |\n\n### ⚡ 快捷/其他\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"帮我画一张图\" | `image-generation` |\n| \"今天天气怎么样\" | `weather` |\n| \"帮我搜索这个人然后写个邮件\" | `draft-outreach` |\n| \"把这个图片里的文字提取出来\" | `image-ocr` |\n| \"保存到笔记\" | `getnote-skill` |\n\n---\n\n### 💡 关键技巧\n\n1. **说得直白一点** — \"帮我估值\" > \"我想了解这家公司的内在价值\"\n2. **关键词在前** — \"做一份竞品分析的 PPT\" 比 \"我想做一份 PPT，内容是关于竞品分析的\" 更容易命中\n3. **多说动词** — `做`、`写`、`审`、`评估`、`整理`、`生成` 这些是技能匹配的高频词\n4. **文件后缀是铁打的** — 提到 `.docx` 自动走 `docx`，提到 `.pptx` 自动走 `pptx`\n\n**其实最省心的方式：** 你直接说你想干什么，不需要管什么技能。我匹配错了你就纠正一声就行，我就记住你的偏好了 😄",
+      "source_message_ids": [
+        "c1276012-249b-45c6-b849-ec20ccecdff6"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    },
+    {
+      "id": "998e9147-9cff-4de2-a1d6-d96405b02b0d",
+      "role": "user",
+      "content": "前端工程师招聘是什么流程？",
+      "source_message_ids": [
+        "998e9147-9cff-4de2-a1d6-d96405b02b0d"
+      ],
+      "user_created_at": null,
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "ff88587c-48d9-4b57-8ea0-60a54d5731ea",
+      "role": "assistant",
+      "content": "前端工程师招聘流程，结合公司的制度框架和行业通用实践，大概是这样的：\n\n---\n\n## 📋 前端工程师招聘全流程\n\n### 一、需求确认\n- 用人部门提出招聘需求，明确：**职级（P1~Px）、技术栈偏好（React/Vue/Angular）、工作年限、核心能力要求**\n- HR 审核并发布招聘计划（多渠道：招聘平台、内推、猎头）\n\n### 二、简历筛选\n- **HR 初筛**：学历、工作年限、技术栈匹配度\n- **技术负责人复筛**：项目经验深度、技术广度、代码质量（GitHub 加分）\n\n### 三、面试环节（通常 3~4 轮）\n\n| 轮次 | 面试官 | 考察重点 |\n|---|---|---|\n| **第一轮·技术面** | 前端组长/资深工程师 | JavaScript 基础、CSS 功底、框架原理、编码能力（白板/在线 IDE） |\n| **第二轮·综合技术面** | 技术负责人/架构师 | 工程化能力、性能优化、设计模式、项目架构思维 |\n| **第三轮·HR 面** | HR 负责人 | 沟通能力、职业规划、稳定性、薪资期望 |\n| **第四轮·终面**（P2/M2 以上） | 公司总裁/CTO | 大局观、业务理解力、文化契合度 |\n\n### 四、录用审批\n- 面试通过后，须在 **钉钉** 提交《人员聘用申请》，走审批流（直属领导 → HR → 总裁）\n- 审批通过后，由 **HR 招聘负责人邮箱** 发出《录用通知书》，同步抄送 HR 负责人和总裁\n\n### 五、背景调查与入职准备\n- 部分职级要求 **背景调查**（配合第三方背调机构）\n- 候选人需提供：学历学位证书、离职证明、身份证、体检报告等\n\n### 六、入职\n- 在规定日期完成入职手续，提交完整资料\n- 如有特殊情况需延迟，需向 HR 说明并获批\n\n---\n\n### 🎯 前端工程师招聘特别关注点\n\n- **技术栈明确**：团队用 React 就别面 Vue 选手（除非愿意转），反之亦然\n- **代码实战**：前端面试建议用在线 IDE 写真实可运行代码，而不是纸上写伪代码\n- **作品集加分**：GitHub 活跃度、个人博客、开源贡献都是很好的信号\n- **软技能也重要**：前端离产品和设计最近，跨团队沟通能力很关键\n\n---\n\n你的公司现在是有现成的招聘流程，还是想搭建一套前端面试体系？如果是后者，我可以帮你出一下面试题库框架和评估打分表。",
+      "source_message_ids": [
+        "ff88587c-48d9-4b57-8ea0-60a54d5731ea"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    },
+    {
+      "id": "09363d10-ad94-4c93-a575-310a16810061",
+      "role": "user",
+      "content": "帮我总结一份前端工程师招聘流程的Word文件",
+      "source_message_ids": [
+        "09363d10-ad94-4c93-a575-310a16810061"
+      ],
+      "user_created_at": null,
+      "projection": "original user occurrence",
+      "reviewed_projection": null
+    },
+    {
+      "id": "d6fe2d99-03f6-4975-99fb-399ec85bcaf8",
+      "role": "assistant",
+      "content": "搞定了 ✅ 文件已生成：**前端工程师招聘流程.docx**（约 15 KB）\n\n文档包含以下内容：\n\n| 章节 | 内容 |\n|---|---|\n| 封面 | 标题、岗位适用范围、版本信息 |\n| 目录 | 自动生成（插入后右键更新域即可刷新） |\n| 一、流程总览 | 六大阶段流程卡片 + 完整流转示意 |\n| 二、需求确认与JD撰写 | 步骤/内容/输出物明细 + JD核心要素建议 |\n| 三、简历筛选 | 四维度评分表（技术匹配度40%、项目经验30%等）+ 初筛标准 |\n| 四、面试评估 | 初筛→技术一面→技术二面→HR终面 轮次详表 + 考察点建议 |\n| 五、背景核查与录用 | 四项核查（风险等级标注高/中）+ 录用审批到Offer发放流程 |\n| 六、入职跟进 | Offer后→入职前1周→当天→1个月内 全时间线 |\n| 七、关键时间节点 | 各阶段耗时汇总，整体1-2周 |\n| 八、配套文档清单 | JD模板、评估表、Offer模板等5份配套文档 |\n\n如果需要调整内容、增删章节、或换公司Logo/配色，随时说。",
+      "source_message_ids": [
+        "d6fe2d99-03f6-4975-99fb-399ec85bcaf8"
+      ],
+      "user_created_at": null,
+      "projection": "original AI occurrence"
+    }
+  ],
+  "turns": [
+    {
+      "turn_index": 0,
+      "user": {
+        "id": "6fba6a2d-c2ea-4697-b7ab-189028489fc0",
+        "role": "user",
+        "content": "你支持技能自动调用，并通过反馈持续迭代吗？",
+        "source_message_ids": [
+          "6fba6a2d-c2ea-4697-b7ab-189028489fc0"
+        ],
+        "user_created_at": null,
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "9d8f9ea3-b266-4e12-9aae-bbaefcdeee78",
+          "role": "assistant",
+          "content": "好问题！来说说这两点：\n\n**✅ 技能自动调用**\n\n是的，我有一套 **技能匹配机制**。系统会扫描用户消息中的关键词和意图，自动匹配最合适的技能。比如：\n- 你说\"帮我分析一下竞品\" → 自动触发 `competitive-analysis` 或 `competitive-intelligence`\n- 你说\"估值一下这家公司\" → 自动触发 `dcf-model`\n- 你说\"生成一份 PPT\" → 自动触发 `pptx` 或 `pptx-generator`\n\n匹配逻辑是：看技能描述里的 trigger 短语，选最贴合的。如果多个技能都沾边，选最具体那个。如果都不匹配，就不加载任何技能——不会硬套。\n\n**🔄 通过反馈持续迭代**\n\n这方面我的能力分几个层级：\n\n1. **记忆层** — 每次对话我会写 `memory/YYYY-MM-DD.md` 记录关键信息，定期提炼到 `MEMORY.md` 做长期记忆。你纠正我一次，我就记住了。\n\n2. **行为层** — 你说\"别这么啰嗦\"、\"表格换成列表\"、\"语气轻松一点\"，我会写进自己的行为准则（通过更新 SOUL.md 或 TOOLS.md），后续对话都能用上。\n\n3. **技能层** — 如果某个技能的行为不对，我可以修改它的 SKILL.md。不过技能文件大部分是只读的，我更倾向于在**工作方式和习惯上**迭代。\n\n4. **反馈直接生效** — 你给出的任何反馈，在当前会话就会调整。不用等到 \"下次\"。\n\n**不过说实话，有几个现实限制：**\n- 每天醒来是没有记忆缓存的，得靠读文件才能\"想起\"过往\n- 自动技能调用依赖 trigger 短语的精确度，偶尔会误触或漏触\n- 大规模的\"人格迭代\"需要你对 SOUL.md 做调整，不能我自己随意改\n\n**总结：自动调用 ✅，反馈迭代 ✅（但不是万能的）。** 你有遇到什么场景觉得自动调用没触达，或者希望我怎么迭代风格/行为的吗？我可以根据你的反馈直接调整。",
+          "source_message_ids": [
+            "9d8f9ea3-b266-4e12-9aae-bbaefcdeee78"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "技能自动调用与反馈迭代能力确认",
+        "confidence": 0.98,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    },
+    {
+      "turn_index": 1,
+      "user": {
+        "id": "e3066ac8-e6ad-4e2f-963e-2c69eec58f7a",
+        "role": "user",
+        "content": "你能给我一些自动调用技能的提示词举例吗？",
+        "source_message_ids": [
+          "e3066ac8-e6ad-4e2f-963e-2c69eec58f7a"
+        ],
+        "user_created_at": null,
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "c1276012-249b-45c6-b849-ec20ccecdff6",
+          "role": "assistant",
+          "content": "当然，来看些实际触发案例：\n\n---\n\n### 📊 商业/财务类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"给我做份这家公司的估值\" | `dcf-model` |\n| \"填一下三张报表\" | `3-statements` |\n| \"做个竞品分析\" | `competitive-analysis` |\n| \"帮我写一个上这个系统的商业计划书\" | `business-case-builder` |\n| \"研究一下我们几个竞争对手\" | `competitive-intelligence` |\n\n### 📄 文档/办公类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"帮我写一份 Word 报告\" | `docx` |\n| \"做一份销售演示的 PPT\" | `pptx` / `pptx-generator` |\n| \"整理一下这个表格数据\" | `xlsx` |\n| \"把这个 PDF 转成文字\" | `pdf` |\n\n### 👥 HR/人事类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"写一个产品经理的 JD\" | `job-description-writer` |\n| \"做一下员工绩效评估\" | `human-resources-performance` |\n| \"这个候选人背景调查一下\" | `human-resources-recruitment` |\n| \"员工离职流程走一下\" | `human-resources-departures` |\n| \"合规检查一下公司政策\" | `human-resources-compliance` |\n| \"安排个培训计划\" | `human-resources-training` |\n\n### 🧠 研究/内容类\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"搜索一下知识库，xxx\" | `karpathy-wiki` |\n| \"帮我查一下这个作者的文章\" | `karpathy-wiki` |\n| \"审一下这篇论文\" | `evomind-paper-scan` |\n| \"审一下这份合同\" | `contract-review` |\n| \"评估一下这个法律风险\" | `legal-ri***KEY***` |\n\n### ⚡ 快捷/其他\n\n| 你这样说 | 触发技能 |\n|---|---|\n| \"帮我画一张图\" | `image-generation` |\n| \"今天天气怎么样\" | `weather` |\n| \"帮我搜索这个人然后写个邮件\" | `draft-outreach` |\n| \"把这个图片里的文字提取出来\" | `image-ocr` |\n| \"保存到笔记\" | `getnote-skill` |\n\n---\n\n### 💡 关键技巧\n\n1. **说得直白一点** — \"帮我估值\" > \"我想了解这家公司的内在价值\"\n2. **关键词在前** — \"做一份竞品分析的 PPT\" 比 \"我想做一份 PPT，内容是关于竞品分析的\" 更容易命中\n3. **多说动词** — `做`、`写`、`审`、`评估`、`整理`、`生成` 这些是技能匹配的高频词\n4. **文件后缀是铁打的** — 提到 `.docx` 自动走 `docx`，提到 `.pptx` 自动走 `pptx`\n\n**其实最省心的方式：** 你直接说你想干什么，不需要管什么技能。我匹配错了你就纠正一声就行，我就记住你的偏好了 😄",
+          "source_message_ids": [
+            "c1276012-249b-45c6-b849-ec20ccecdff6"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "提供自动调用技能的提示词举例",
+        "confidence": 0.98,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    },
+    {
+      "turn_index": 2,
+      "user": {
+        "id": "998e9147-9cff-4de2-a1d6-d96405b02b0d",
+        "role": "user",
+        "content": "前端工程师招聘是什么流程？",
+        "source_message_ids": [
+          "998e9147-9cff-4de2-a1d6-d96405b02b0d"
+        ],
+        "user_created_at": null,
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "ff88587c-48d9-4b57-8ea0-60a54d5731ea",
+          "role": "assistant",
+          "content": "前端工程师招聘流程，结合公司的制度框架和行业通用实践，大概是这样的：\n\n---\n\n## 📋 前端工程师招聘全流程\n\n### 一、需求确认\n- 用人部门提出招聘需求，明确：**职级（P1~Px）、技术栈偏好（React/Vue/Angular）、工作年限、核心能力要求**\n- HR 审核并发布招聘计划（多渠道：招聘平台、内推、猎头）\n\n### 二、简历筛选\n- **HR 初筛**：学历、工作年限、技术栈匹配度\n- **技术负责人复筛**：项目经验深度、技术广度、代码质量（GitHub 加分）\n\n### 三、面试环节（通常 3~4 轮）\n\n| 轮次 | 面试官 | 考察重点 |\n|---|---|---|\n| **第一轮·技术面** | 前端组长/资深工程师 | JavaScript 基础、CSS 功底、框架原理、编码能力（白板/在线 IDE） |\n| **第二轮·综合技术面** | 技术负责人/架构师 | 工程化能力、性能优化、设计模式、项目架构思维 |\n| **第三轮·HR 面** | HR 负责人 | 沟通能力、职业规划、稳定性、薪资期望 |\n| **第四轮·终面**（P2/M2 以上） | 公司总裁/CTO | 大局观、业务理解力、文化契合度 |\n\n### 四、录用审批\n- 面试通过后，须在 **钉钉** 提交《人员聘用申请》，走审批流（直属领导 → HR → 总裁）\n- 审批通过后，由 **HR 招聘负责人邮箱** 发出《录用通知书》，同步抄送 HR 负责人和总裁\n\n### 五、背景调查与入职准备\n- 部分职级要求 **背景调查**（配合第三方背调机构）\n- 候选人需提供：学历学位证书、离职证明、身份证、体检报告等\n\n### 六、入职\n- 在规定日期完成入职手续，提交完整资料\n- 如有特殊情况需延迟，需向 HR 说明并获批\n\n---\n\n### 🎯 前端工程师招聘特别关注点\n\n- **技术栈明确**：团队用 React 就别面 Vue 选手（除非愿意转），反之亦然\n- **代码实战**：前端面试建议用在线 IDE 写真实可运行代码，而不是纸上写伪代码\n- **作品集加分**：GitHub 活跃度、个人博客、开源贡献都是很好的信号\n- **软技能也重要**：前端离产品和设计最近，跨团队沟通能力很关键\n\n---\n\n你的公司现在是有现成的招聘流程，还是想搭建一套前端面试体系？如果是后者，我可以帮你出一下面试题库框架和评估打分表。",
+          "source_message_ids": [
+            "ff88587c-48d9-4b57-8ea0-60a54d5731ea"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "前端工程师招聘流程咨询",
+        "confidence": 0.98,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    },
+    {
+      "turn_index": 3,
+      "user": {
+        "id": "09363d10-ad94-4c93-a575-310a16810061",
+        "role": "user",
+        "content": "帮我总结一份前端工程师招聘流程的Word文件",
+        "source_message_ids": [
+          "09363d10-ad94-4c93-a575-310a16810061"
+        ],
+        "user_created_at": null,
+        "projection": "original user occurrence",
+        "reviewed_projection": null
+      },
+      "assistant_messages": [
+        {
+          "id": "d6fe2d99-03f6-4975-99fb-399ec85bcaf8",
+          "role": "assistant",
+          "content": "搞定了 ✅ 文件已生成：**前端工程师招聘流程.docx**（约 15 KB）\n\n文档包含以下内容：\n\n| 章节 | 内容 |\n|---|---|\n| 封面 | 标题、岗位适用范围、版本信息 |\n| 目录 | 自动生成（插入后右键更新域即可刷新） |\n| 一、流程总览 | 六大阶段流程卡片 + 完整流转示意 |\n| 二、需求确认与JD撰写 | 步骤/内容/输出物明细 + JD核心要素建议 |\n| 三、简历筛选 | 四维度评分表（技术匹配度40%、项目经验30%等）+ 初筛标准 |\n| 四、面试评估 | 初筛→技术一面→技术二面→HR终面 轮次详表 + 考察点建议 |\n| 五、背景核查与录用 | 四项核查（风险等级标注高/中）+ 录用审批到Offer发放流程 |\n| 六、入职跟进 | Offer后→入职前1周→当天→1个月内 全时间线 |\n| 七、关键时间节点 | 各阶段耗时汇总，整体1-2周 |\n| 八、配套文档清单 | JD模板、评估表、Offer模板等5份配套文档 |\n\n如果需要调整内容、增删章节、或换公司Logo/配色，随时说。",
+          "source_message_ids": [
+            "d6fe2d99-03f6-4975-99fb-399ec85bcaf8"
+          ],
+          "user_created_at": null,
+          "projection": "original AI occurrence"
+        }
+      ],
+      "context_only_user_records": [],
+      "semantic_binding": {
+        "reason": "生成前端工程师招聘流程Word文档",
+        "confidence": 0.98,
+        "full_source_search": true,
+        "method": "full_source_semantic_model_reconstruction_batched",
+        "saved_model_call_receipts": 1,
+        "closure_policy": null,
+        "manual_review": null,
+        "independent_model_review": null,
+        "native_reply_to_verified": false
+      }
+    }
+  ],
+  "original_audit_path": "sessions/conv_ea9b88b23b98.json"
+}

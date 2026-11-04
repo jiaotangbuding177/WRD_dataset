@@ -1,0 +1,125 @@
+{
+  "schema": "wrd-new-functional-state-original-cumulative-R-and-native-oracle-edit-v1",
+  "status": "ACTUAL_RESOURCES_AND_SPANS_ROOT_AND_PEER_PENDING",
+  "source_id": "conv_b5e6f3d3bab9",
+  "current_source_status": "TRAIN",
+  "original_action_owner": "745cfaf25e274c9f1268bce6",
+  "original_action_tool_call_id": "call2d5376f71b0e4c069acd230f8753db7a",
+  "original_action_response": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\original_raw\\9564a152c45fec19283885c0\\025\\response.raw.json.gz",
+    "bytes": 2233,
+    "sha256": "4f3e68d95854bfc1eec87d9543f09649a42426e6e9e32d66ca866905161bbe72"
+  },
+  "original_old_test_creator_response": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\original_raw\\9564a152c45fec19283885c0\\024\\response.raw.json.gz",
+    "bytes": 5181,
+    "sha256": "01283df14941b366146b66bf1790b739f7c341425db5b5d74988d7edc1ec1794"
+  },
+  "original_asof_request": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\original_raw\\9564a152c45fec19283885c0\\025\\request.json.gz",
+    "bytes": 37296,
+    "sha256": "9ddc064690ee0350d99a6c7c7a081fae584dd53ba886481ca5c4fef7ea4dd8c9"
+  },
+  "original_old_test_script": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\test_oracle_repair_01\\resources\\old_edge_case_tests.py",
+    "bytes": 12269,
+    "sha256": "6d300f207207d163b8a5b8d9b0cfc731228943e07e0b66b7e493ab4260dd5469"
+  },
+  "new_original_two_literal_edits_result": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\test_oracle_repair_01\\resources\\new_edge_case_tests.py",
+    "bytes": 12435,
+    "sha256": "91ed3fe05b57b5df4d9f97c0df671c63f24e07eda6cb73508363a6a3a4901f62"
+  },
+  "native_edit": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\test_oracle_repair_01\\resources\\native_edit.arguments.json",
+    "bytes": 1209,
+    "sha256": "525297976a2bb5c264905dce5ed45a5cf0945a0765e9aac9f5bc7f295e8a2059"
+  },
+  "original_R_identity": "ORIGINAL_RECORDED_CUMULATIVE_REASONING_CONTIGUOUS_EXCERPT_NEW_FUNCTIONAL_STATE_NOT_PER_TURN_FAITHFUL_COT",
+  "original_cumulative_R_owner": "4ecfa75943c1855d9ea5c82c",
+  "original_cumulative_R_response": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\original_raw\\9564a152c45fec19283885c0\\028\\response.raw.json.gz",
+    "bytes": 23166,
+    "sha256": "2ac8fa6e7f2e4a4cc5964175932c099ca2cdfa75dd31b3eb4b50e65967ce85a1"
+  },
+  "original_R_full_field_characters": 49942,
+  "original_R_full_field_sha256": "dd326f7fa3c0890e74dc0523dc995c3b1939c259c1687a5c178d7024ae7a31b7",
+  "original_R_full_field_audit": "D:\\skillloop\\output\\20261027_wrd_main_v10\\historical_v6_action_recovery_01\\cumulative_reasoning_audit_01\\AUDIT.json",
+  "original_R_excerpt_source_start": 47691,
+  "original_R_excerpt_source_end": 49287,
+  "original_R_excerpt_characters": 1596,
+  "original_R_excerpt_sha256": "e0960232a87febcc3bbd55c3b603f21c428d6b7cdca46f4afb871aea2f26ccbb",
+  "excerpt_is_one_contiguous_original_substring_not_spliced": true,
+  "mask0_exclusions": [
+    {
+      "start": 219,
+      "end": 246,
+      "text": "prefix2 = '北' + ' ' → wait ",
+      "text_sha256": "33979a400ead6f57623e284bfa57f8d657480ae8dae6a8323061e42a9a3c3c6e",
+      "reason": "Immediate wrong provisional prefix ordering; preserve subsequent explicit self-correction, no wrong fact supervision."
+    },
+    {
+      "start": 1185,
+      "end": 1215,
+      "text": "here the candidate is correct;",
+      "text_sha256": "9ffc75fe3f762e2d037ca0565f04e9fc0f796036e92a03e6bfed9dcb8f8abcb0",
+      "reason": "Broad whole-candidate conclusion exceeds the two independently checkable assertion values; retain local test-oracle diagnosis."
+    }
+  ],
+  "positive_excerpt_ranges": [
+    {
+      "start": 0,
+      "end": 219,
+      "text": "Two failures in edge_transposed. Let me analyze whether the failure is in the candidate or in my test expectations.\n\nC2 = ' 北京某某科技有限公司 ' — with leading/trailing spaces, total length: ' 北京某某科技有限公司 ' =1 +10 +1 =12 chars. ",
+      "text_sha256": "8eb16b2072c8baadc406fc4ac304efff4a689855c038652b3a383955845f50e3",
+      "speech_act": "LOCAL_TWO_ASSERTION_DIAGNOSIS_AND_PLANNED_TEST_REVISION_NOT_FULL_PROGRAM_CORRECTNESS"
+    },
+    {
+      "start": 246,
+      "end": 1185,
+      "text": "prefix_chars=2 → first two chars are ' ', '北' → ' 北'. suffix2 = '司 '? last two chars: '公司 ' → '司 '. So expected = ' 北***司 '. The program returned exactly that — the R04 rule explicitly says \"不trim\". My test expectation was wrong (I expected ' 北京***公司 ' ignoring leading space and counting from... my expectation was just sloppy).\n\nA2 = 'TEST-P-1' (8 chars) → prefix 'TE', suffix '-1' → 'TE***-1' ✓ PASSED actually. The check `edge_transposed_masked` failed because of C2 expectation.\n\nC3 = '上海某某厂' (5 chars) → prefix '上海', suffix '某厂' → '上海***某厂'. Program returned that. My test expected C3 unchanged ('上海某某厂') — wrong: C3 is within rows2..3 and column客户名称 is targeted, so it should be masked. My test bug: I wrote check expecting C3 unchanged, but data_end_row=3 covers both rows.\n\nSo both failures are test-expectation bugs, not candidate bugs. The contract says R04: no trim — program behavior correct. Per discipline: \"只在实际失败位置修改候选\" — ",
+      "text_sha256": "ad2ce4495985d8bf08cd8fe77270cd183e87c2959c496fb36c35cc7bdb7b4f2e",
+      "speech_act": "LOCAL_TWO_ASSERTION_DIAGNOSIS_AND_PLANNED_TEST_REVISION_NOT_FULL_PROGRAM_CORRECTNESS"
+    },
+    {
+      "start": 1215,
+      "end": 1596,
+      "text": " failures were in test expectations. I should record the failure evidence (logs already saved: run_edge_transposed.log + edge_case_tests_run1.log), and fix the test script expectations with a documented revision (test revision, not candidate). Save the failed test script snapshot too.\n\nLet me snapshot the failing test script, write a revision note, fix the two assertions, rerun.",
+      "text_sha256": "fd23c6e94eb79fc345dd9d23f0f18316b37d1218d8dc34246053bc77bda171c8",
+      "speech_act": "LOCAL_TWO_ASSERTION_DIAGNOSIS_AND_PLANNED_TEST_REVISION_NOT_FULL_PROGRAM_CORRECTNESS"
+    }
+  ],
+  "asof_premise_map": [
+    {
+      "id": "CONTRACT_R04",
+      "actual_original_request_message": 13,
+      "supports": "Unicode codepoints, no trim; prefix/suffix two and *** from selected request and generated test."
+    },
+    {
+      "id": "ACTUAL_024_CODE",
+      "actual_original_request_message": 48,
+      "supports": "Complete exact old test, transposed sheet data, selected customer column and inclusive rows2..3, both wrong assertions."
+    },
+    {
+      "id": "ACTUAL_024_FAIL",
+      "actual_original_request_message": 49,
+      "supports": "Exit1 two named failures with actual C2/A2/B2/D2/C3 values; outer execute_python exit0 is not test success."
+    },
+    {
+      "id": "ACTUAL_025_PATCH",
+      "credit_only": "Later exact source patch is target provenance, no later test PASS appears in new prestate."
+    }
+  ],
+  "new_input_author": "Codex AI silver functional-state curation; no original-input equivalence claimed",
+  "new_native_action_author": "Codex native edit projection of exact two historical literals",
+  "R_author": "Recorded historical teacher cumulative thought; no new text replacing original R",
+  "future_result_in_prestate": false,
+  "all_other_original_R_retained_mask0_in_audit": true,
+  "canonical_R_owner_exclusive_with_all_other_views": true,
+  "canonical_action_owner_exclusive_with_all_other_views": true,
+  "root_main_admission": false,
+  "ACTIVE_modified": false,
+  "training_started": false,
+  "new_Agent_calls": 0,
+  "script_sha256": "74dc80f257f39370dc13ed319bea67a326f115d7a14bb754a96f8bf02e2ba2ad"
+}

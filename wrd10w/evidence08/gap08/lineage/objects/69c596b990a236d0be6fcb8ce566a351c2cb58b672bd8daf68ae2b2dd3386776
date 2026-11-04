@@ -1,0 +1,31 @@
+{
+  "decision": "revise",
+  "reason": "候选技能资源可靠且被真实使用：workflow臂在原始轨迹中完整读取了与当前候选逐字节一致的SKILL.md及模板（cases/1/workflow/openclaw_transport/session_events.jsonl:13,19），交付按技能路线成文（头部信息/面试说明含一票否决项与当场礼貌收尾/Part×N含考察点与追问判断/砍掉留二面节），替代的公共工作（从口述考察要求提炼考察项与存疑点并按主题编排大纲）真实发生，唯一案例交付达线且无虚构、无多余交付物。制作记录经轨迹级核验而非仅凭making.json：extract_resumes.py三种分支按约定退出码运行、build_outline_docx.py生成docx并经soffice转PDF与带receipt的vision渲染检查（vision_check1.txt.receipt.json，首次探针HTTP 500后重试成功），候选文件与制作验证版本diff完全一致。账目完整（无未知调用）。唯一未过的retain门槛是成本：本版本全部尝试 workflow 388872 tokens/7次调用 vs no_skill 161312/3，Token与调用均上升（cost_reduced=false, completed_pair_reduced=false）。该成本问题有具体可修处（见repair_notes），故判revise而非retain/reject/defer。",
+  "replaced_work": "路线主公共工作：无JD/简历时从用户口述考察要求提炼重点考察项与存疑点，并按考察主题编排面试提问大纲（含一票否决项前置、追问与判断标准、时长确定后的取舍指引）。workflow臂输出相对no_skill臂的通用大纲，明显按技能的结构规则与关键判断成文，替代成立；执行器仅补做Markdown落盘，与reuse_plan一致。",
+  "resource_reliable": true,
+  "delivery_passed": true,
+  "resource_used": true,
+  "evidence_refs": [
+    "/workspace/inputs/review_input.json（totals: no_skill=[161312,3], workflow=[388872,7]; cost_reduced=false; completed_pair_reduced=false; 账目complete_cost_pairs=true）",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:13（全文读取SKILL.md，内容与inputs/candidate/SKILL.md逐字一致，无截断）",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:19（全文读取templates/outline.template.md）",
+    "/workspace/inputs/cases/1/workflow/workspace/outputs/conv_2e1d20b1fc34_面试提问大纲.md（唯一交付物，含考察项/存疑点/按主题Part×N/精简指引，无虚构时长与候选人信息）",
+    "/workspace/inputs/cases/1/no_skill/workspace/outputs/conv_2e1d20b1fc34_面试提问大纲.md（无技能基线交付，同样达线但结构为通用式）",
+    "/workspace/inputs/making/aec3d5ae0e3b/openclaw_transport/session_events.jsonl（12次exit 0含extract_resumes.py与build_outline_docx.py实际运行、soffice/pdffonts检查；仅1次exit 1为ecnu vision探针首次HTTP 500后重试）",
+    "/workspace/inputs/making/aec3d5ae0e3b/workspace/outputs/making_samples/vision_check1.txt.receipt.json（真实vision探针receipt，prompt_tokens=4886）",
+    "/workspace/inputs/making/aec3d5ae0e3b/workspace/outputs/making_samples/resume_extract/index.json（clean(cjk=128)质量标记与texts正文一致）",
+    "diff /workspace/inputs/candidate /workspace/inputs/making/aec3d5ae0e3b/workspace/outputs/skill => 完全一致（当前候选即经制作验证的版本，业务试用有效）"
+  ],
+  "case_findings": [
+    {
+      "case_id": "dev-conv_2e1d20b1fc34-35d82f951072",
+      "delivery": "pass",
+      "reason": "workflow臂：按口述三项要求提炼3个考察主题与存疑点清单，按主题编12道主问题并附考察点/追问/判断标准；无JD无简历未虚构候选人信息，未给时长未做时间分配，仅交付指定Markdown文件无额外产物。轨迹证实SKILL.md与模板被完整读取并实际体现在成文结构中。no_skill基线亦达线，说明交付差异在结构深度而非底线。"
+    }
+  ],
+  "repair_notes": [
+    "成本未降是唯一未过的retain门槛（workflow 388872/7 vs no_skill 161312/3）。SKILL.md可为\"无JD/简历且无docx导出需求\"的口述场景增加最短路径：只读SKILL.md正文即可编排，不读模板与脚本资源——本次workflow臂在未导出docx、无时长的情形下读取模板属可省调用（session_events.jsonl:19），省去后可少2-3次模型调用。",
+    "SKILL.md正文体积偏大（路线+资源入口+关键判断同文件），每次工具调用回合都随上下文重载；可将脚本参数细节（OCR兜底、退出码约定、outline.json形状）下沉到scripts/头注释与模板末尾（模板已含json形状），SKILL.md保留路线与关键判断，压缩首读与重载成本。",
+    "技能描述与适用条件已覆盖口述无JD/简历分支且本次被正确执行，无需改动验收口径；仅需上述瘦身与按需读取指引，修后需以真实业务任务重试验证成本确实下降，再议retain。"
+  ]
+}

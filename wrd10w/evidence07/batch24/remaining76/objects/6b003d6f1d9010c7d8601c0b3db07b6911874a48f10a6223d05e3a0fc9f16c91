@@ -1,0 +1,198 @@
+#!/usr/bin/env python3
+"""生成法定股东名册 xlsx（openpyxl，两表：股东名册 + 填写说明）。
+
+用法（原样可执行）:
+  python3 register_xlsx.py build  --in <register_data.json> --out <股东名册.xlsx> [--force]
+  python3 register_xlsx.py verify --file <股东名册.xlsx>
+
+数据 JSON 字段（见 templates/register_data.template.json）:
+  company: name/credit_code/registered_capital/company_type/established_date/legal_rep
+           （任一字段缺失或值为 null/空串 → 该栏写「待填」）
+  shareholders: 列表，每行字段 name/cert_serial/cert_no/address/
+                subscribed_amount/subscribed_method/subscribed_date/
+                paid_amount/paid_method/paid_date/
+                acquired_date/lost_date
+                （缺失字段写「待填」；整行为 {} 时输出一行全「待填」占位）
+  blank_rows: 可选，在已填股东行之后追加 N 行空白编号行（预留给未确认股东）
+  note: 可选，出现在填写说明顶部的备注（如数据来源与核实情况）
+
+verify 行为: 用 openpyxl 读回，检查表结构与「待填」标记存在性，报告未填字段数。
+退出码：0 成功；2 用法/输入错误（stderr 说明）；输出已存在且未加 --force 时退出 2。
+"""
+import argparse
+import json
+import sys
+from pathlib import Path
+
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+
+HEADER_FILL = PatternFill("solid", fgColor="D9E2F3")
+INFO_FILL = PatternFill("solid", fgColor="FFF2CC")
+THIN = Side(style="thin", color="999999")
+BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
+WRAP = Alignment(wrap_text=True, vertical="center")
+CENTER = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
+COLUMNS = [
+    "序号", "出资证明书编号", "股东姓名或名称", "股东证件号码", "股东住所",
+    "认缴-出资额(万元)", "认缴-出资方式", "认缴-出资时间",
+    "实缴-出资额(万元)", "实缴-出资方式", "实缴-出资时间",
+    "取得股东资格日期", "丧失股东资格日期",
+]
+ROW_KEYS = [
+    "cert_serial", "name", "cert_no", "address",
+    "subscribed_amount", "subscribed_method", "subscribed_date",
+    "paid_amount", "paid_method", "paid_date",
+    "acquired_date", "lost_date",
+]
+COMPANY_FIELDS = [
+    ("credit_code", "统一社会信用代码"),
+    ("registered_capital", "注册资本"),
+    ("company_type", "公司类型"),
+    ("established_date", "成立日期"),
+    ("legal_rep", "法定代表人"),
+]
+
+INSTRUCTIONS = [
+    "1. 本表为法定股东名册（依据《公司法》有限责任公司应当置备的股东名册事项），法律文件须据实填写，不得虚构。",
+    "2. 「待填」表示现有资料无法确认该字段：继续收集用户提供的证明材料（身份证、出资凭证、章程、工商档案）后补填。",
+    "3. 公司基本栏应来自营业执照关键字段（OCR 后须人工/联网核对再入表）；股东证件号码、住所、出资额等仅在有明确来源时填写。",
+    "4. 联网/工商接口核实到的信息需标注来源与时间；接口不可用时以用户给定资料为准，并在备注中说明未核实项。",
+    "5. 实缴栏默认留待填：仅当有验资报告、银行流水等实缴凭证时填写。",
+    "6. 底部「法定代表人签字或公司盖章 / 填表时间」交付前由公司方完成，AI 不代签。",
+]
+
+
+def clean(v):
+    if v is None or (isinstance(v, str) and not v.strip()):
+        return "待填"
+    return str(v).strip() if isinstance(v, str) else v
+
+
+def build(data, out_path):
+    company = data.get("company") or {}
+    shareholders = data.get("shareholders") or []
+    blank_rows = int(data.get("blank_rows") or 0)
+    note = data.get("note") or ""
+    if not company.get("name"):
+        raise ValueError("company.name 缺失：股东名册必须有公司名")
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "股东名册"
+
+    ws.merge_cells("A1:M1")
+    ws["A1"] = f"{company['name']}股东名册"
+    ws["A1"].font = Font(size=14, bold=True)
+    ws["A1"].alignment = CENTER
+
+    info_pairs = [f"{label}：{clean(company.get(key))}" for key, label in COMPANY_FIELDS]
+    ws.merge_cells("A2:M2")
+    ws["A2"] = "｜".join(info_pairs)
+    ws["A2"].fill = INFO_FILL
+    ws["A2"].alignment = WRAP
+
+    for col, title in enumerate(COLUMNS, start=1):
+        c = ws.cell(row=3, column=col, value=title)
+        c.font = Font(bold=True)
+        c.fill = HEADER_FILL
+        c.alignment = CENTER
+        c.border = BORDER
+
+    row = 4
+    for idx, sh in enumerate(shareholders, start=1):
+        sh = sh or {}
+        values = [idx] + [clean(sh.get(k)) for k in ROW_KEYS]
+        for col, v in enumerate(values, start=1):
+            c = ws.cell(row=row, column=col, value=v)
+            c.border = BORDER
+            c.alignment = CENTER
+        row += 1
+    for i in range(blank_rows):
+        values = [len(shareholders) + i + 1] + ["待填"] * len(ROW_KEYS)
+        for col, v in enumerate(values, start=1):
+            c = ws.cell(row=row, column=col, value=v)
+            c.border = BORDER
+            c.alignment = CENTER
+        row += 1
+
+    row += 1
+    ws.merge_cells(start_row=row, start_column=1, end_row=row, end_column=7)
+    ws.cell(row=row, column=1, value="法定代表人签字或公司盖章：")
+    ws.merge_cells(start_row=row, start_column=8, end_row=row, end_column=13)
+    ws.cell(row=row, column=8, value="填表时间：")
+
+    widths = [6, 16, 14, 20, 22, 12, 12, 12, 12, 12, 12, 14, 14]
+    for col, w in enumerate(widths, start=1):
+        ws.column_dimensions[ws.cell(row=3, column=col).column_letter].width = w
+
+    ws2 = wb.create_sheet("填写说明")
+    ws2.column_dimensions["A"].width = 100
+    r = 1
+    if note:
+        ws2.cell(row=r, column=1, value="备注：" + note).alignment = WRAP
+        r += 2
+    for line in INSTRUCTIONS:
+        c = ws2.cell(row=r, column=1, value=line)
+        c.alignment = WRAP
+        r += 1
+
+    wb.save(out_path)
+    pending = sum(
+        1 for sh in shareholders for k in ROW_KEYS
+        if clean((sh or {}).get(k)) == "待填"
+    ) + blank_rows * len(ROW_KEYS)
+    print(f"written: {out_path} (股东行 {len(shareholders)}，预留空行 {blank_rows}，待填字段 {pending})")
+
+
+def verify(path):
+    wb = load_workbook(path)
+    if "股东名册" not in wb.sheetnames or "填写说明" not in wb.sheetnames:
+        raise ValueError("缺少股东名册/填写说明工作表")
+    ws = wb["股东名册"]
+    headers = [ws.cell(row=3, column=c).value for c in range(1, 14)]
+    if headers != COLUMNS:
+        raise ValueError(f"表头与法定字段不符: {headers}")
+    pending = 0
+    r = 4
+    while ws.cell(row=r, column=1).value not in (None, ""):
+        pending += sum(1 for c in range(2, 14) if ws.cell(row=r, column=c).value == "待填")
+        r += 1
+    print(f"ok: 表结构一致；数据行 {r - 4}；其中「待填」单元格 {pending} 处")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("action", choices=["build", "verify"])
+    ap.add_argument("--in", dest="src")
+    ap.add_argument("--out", dest="out")
+    ap.add_argument("--file", dest="file")
+    ap.add_argument("--force", action="store_true")
+    args = ap.parse_args()
+    try:
+        if args.action == "build":
+            if not args.src or not args.out:
+                print("build 需要 --in <data.json> --out <xlsx>", file=sys.stderr)
+                return 2
+            if Path(args.out).exists() and not args.force:
+                print(f"输出已存在：{args.out}（加 --force 覆盖）", file=sys.stderr)
+                return 2
+            data = json.loads(Path(args.src).read_text(encoding="utf-8"))
+            build(data, args.out)
+        else:
+            if not args.file:
+                print("verify 需要 --file <xlsx>", file=sys.stderr)
+                return 2
+            verify(args.file)
+        return 0
+    except FileNotFoundError as e:
+        print(f"输入不存在: {e}", file=sys.stderr)
+        return 2
+    except (ValueError, json.JSONDecodeError) as e:
+        print(f"输入/数据错误: {e}", file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,27 @@
+{
+  "id": "chatcmpl-1793077881501",
+  "model": "glm-5.3-flash",
+  "usage": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call04805da1d93744cc8df21344dab685b0",
+            "type": "function",
+            "function": {
+              "name": "exec",
+              "arguments": "{\"command\":\"cd /workspace && mkdir -p outputs/fixtures/results && node outputs/skill/scripts/verify_animation.mjs outputs/demo_skating_forces.html --screenshot outputs/fixtures/results/skating_final.png --out outputs/fixtures/results/skating_verify.json 2>&1 | tail -50\",\"timeoutSeconds\":90,\"title\":\"Playwright渲染验证溜冰动画\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ],
+  "_inspection_only_reconstructed_from_SSE": true,
+  "_event_count": 3
+}

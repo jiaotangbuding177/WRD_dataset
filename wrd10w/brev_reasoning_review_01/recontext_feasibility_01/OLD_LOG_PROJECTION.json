@@ -1,0 +1,402 @@
+{
+  "original_delivered_text_sha256": "26d0004a35e604706669c4bb18772925de88b0ea2f75b4e8ddadf828edd0ab2c",
+  "original_tool_call_id": "call423ce6a716d440799fe25c4459a899db",
+  "source_request_message_index": 29,
+  "included_keys": [
+    "schema",
+    "runner",
+    "cli_under_test",
+    "cli_sha256",
+    "summary",
+    "cases.name",
+    "cases.exit_code",
+    "cases.assertions",
+    "cases.case_result"
+  ],
+  "omitted_keys": [
+    "note",
+    "cases.command",
+    "cases.input_sha256",
+    "cases.stdout_tail",
+    "cases.report_sha256",
+    "cases.report_path"
+  ],
+  "omission_rationale": "These repeat verbose reports/paths/digests. The selected R uses 21 case names/expectations/results and old CLI identity, which are fully retained; raw log remains preserved. This does not certify arbitrary log projections equivalent.",
+  "projection": {
+    "schema": "wrd-b-test-run-log-v1",
+    "runner": "run_tests.py",
+    "cli_under_test": "/workspace/outputs/skill/scripts/validate_pack.py",
+    "cli_sha256": "6a1e951540750ded9fb1f8b688efe25e065352184f07e28c938081159473433a",
+    "summary": {
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "interpretation_limit": "测试通过仅证明这些局部结构检查有效，不构成语义正确或技能质量/复用收益的批准"
+    },
+    "cases": [
+      {
+        "name": "N1_normal_official_report",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "N2_normal_one_paragraph_nested_ok",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "B1a_length_exactly_at_limit",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:LENGTH_EXACTLY_AT_LIMIT",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "B1b_length_over_by_one",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:length_over_limit",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "B2a_omit_optional_detail_numbers_ok",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:OMITTED_NON_MUST_KEEP_FACTS",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:F005",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "B2b_must_keep_number_altered",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:declared_number_value_mismatch",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "B3a_no_word_target_text_only",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "notes_contains:TEXT_ONLY_NO_WORD_TARGET",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "C1_classify_official_report_ok",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==PROCEED_OFFICIAL_REPORT",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "C2_classify_question_only_defer",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==OUT_OF_SCOPE_DEFER",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "C3_classify_no_materials_needs_evidence",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==NEEDS_EVIDENCE",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "C4_classify_one_paragraph_ok",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==PROCEED_ONE_PARAGRAPH",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "C5_classify_unclear_needs_evidence_not_no_value",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "decision==NEEDS_EVIDENCE",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E1_unknown_fact_id",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:unknown_fact_reference",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E2_quote_not_contiguous",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:evidence_quote_not_contiguous",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E3_nested_task_switches_bad_quote",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:evidence_quote_not_contiguous",
+            "passed": true
+          },
+          {
+            "desc": "fail_path_contains:task_switches",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E4a_declared_unit_mismatch",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:declared_number_unit_mismatch",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E4b_declared_subject_mismatch",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:declared_number_subject_mismatch",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E5_planned_goal_as_achieved",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:type_mismatch_planned_goal_as_achieved",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E6_missing_required_evidence",
+        "exit_code": 1,
+        "assertions": [
+          {
+            "desc": "exit_code==1",
+            "passed": true
+          },
+          {
+            "desc": "fail_present:missing_required_evidence",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E7_undeclared_number_needs_semantic_review",
+        "exit_code": 0,
+        "assertions": [
+          {
+            "desc": "exit_code==0",
+            "passed": true
+          },
+          {
+            "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+            "passed": true
+          },
+          {
+            "desc": "failures==[]",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:UNDECLARED_NUMBERS",
+            "passed": true
+          },
+          {
+            "desc": "review_contains:90",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      },
+      {
+        "name": "E8_missing_ledger_file_input_error",
+        "exit_code": 2,
+        "assertions": [
+          {
+            "desc": "exit_code==2",
+            "passed": true
+          },
+          {
+            "desc": "verdict==INPUT_ERROR",
+            "passed": true
+          }
+        ],
+        "case_result": "PASS"
+      }
+    ]
+  }
+}

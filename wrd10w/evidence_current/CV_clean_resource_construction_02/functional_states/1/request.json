@@ -1,0 +1,23 @@
+{
+  "goal": "实现scripts/cvlib.py共享库，供后续两个CLI导入：ExtractError、normalize(text)、clean_page_text(raw)、extract_pdf(path)、extract_many(paths)、find_quote(cv,quote,page=None)。输入是本机PDF路径；文字层由已安装pymupdf提取。原文按页编号1..N，保留raw_text，不可因展示层水印启发式删除而丢掉字面证据。可以在仅展示text/lines里过滤单独24位以上ASCII字母数字_-长token，但必须明确它是有损展示启发式；所有后续引文匹配读取raw_text。normalize只去空白，不做同义扩写。返回file、sha256、以sha前12位构造的cv_标识、bytes、page_count、identity_lines与pages，每页有page/lines/text/raw_text。批量每文件独立结果/错误；重命名不改变hash身份。不存在、0字节、坏头/损坏、0页、完全无文字层需明确ExtractError，后者说明需要OCR；不暗中调用OCR。find_quote前提quote是非空字符串，page是None或合法正整数：检查指定页/越界，未指定时返回首次命中页，失败给reason/found_pages。不要据字面命中做学历层次、资格适配或面试推荐判断。该库输出机械证据，不承诺通用业务正确或全部PDF格式可读。",
+  "output_file": "/workspace/outputs/skill/scripts/cvlib.py",
+  "environment": "Fixed OpenClaw native tools; /opt/eval-venv/bin/python and pymupdf are available. Local workspace file writes only.",
+  "current_user_request": "请匹配上述岗位  是否可推荐面试，如果合适出具一份候选人评估报告\n[附加文件: 【HRD_广州 30-35K】付连军 10年以上.pdf (/workspace/个人知识库/国巡机器人/【HRD_广州 30-35K】付连军 10年以上.pdf)]",
+  "earlier_user_requirements": [
+    {
+      "role": "user",
+      "content": "请使用中文回复，除非用户明确使用其他语言。\n\n岗位职责\n\n1.组织变革与人效提升：站在公司全局高度，牵头完成全公司及各部门人力盘点，重构适配业务发展的组织架构，建立人效监控体系；主导人员结构优化与末位淘汰机制落地，解决人员膨胀带来的管理混乱与效率低下问题，实现减员增效。\n\n2.核心人才招聘：搭建高端人才主动猎聘体系，重点完成各部门管理负责人及具身智能、机器人方向高端研发人才的招聘引进，快速补齐公司技术与管理的短板，建立行业核心人才库，支撑公司技术能力升级。\n\n3.绩效与薪酬体系设计：设计并落地适配硬科技成长期公司的绩效薪酬体系，建立强执行、重结果的考核机制，推动绩效面谈与人员优化通道落地，打通“能者上、庸者下”的用人机制，将公司战略拆解为各部门可落地的人力管理动作。\n\n4.HR全体系建设：从零到一完善招聘、绩效、培训、员工关系等HR专业模块，规范各子公司HR管理流程，统管全国子公司HR团队，确保总部管理要求在业务一线有效落地。\n\n5.战略落地支撑：作为联席总裁的核心人力搭档，将公司战略转化为可执行的人力方案；深入项目交付现场、生产端等业务一线了解实际问题，动态调整管理机制，实现人力管理与业务发展的同频共振。\n\n6.上市合规筹备：配合公司上市筹备进程，逐步完善人力合规体系，支撑科创板上市目标的实现。\n\n任职要求\n\n必备条件\n\n1.统招985、211院校本科及以上学历（MBA优先），15年以上人力资源工作经验，其中至少5年HRD岗位经验；须具备硬科技、机器人、高端制造或To G行业HRD实操经验，互联网、金融、消费行业背景者不予考虑。\n\n2.具备组织变革与人员优化的完整实操经验：主导过成长期公司人员盘点、末位淘汰与不合格人员清退的全流程落地，敢于担当、作风务实，能够顶住压力推动管理变革。\n\n3.具备卓越的高端人才招聘能力：有从零到一搭建硬科技核心岗位招聘体系的经验，并有成功猎聘机器人、具身智能方向高端研发人才及业务管理负责人的实际案例。\n\n4.精通绩效薪酬体系设计与落地：能结合业务实际设计可执行、可量化的考核机制，而非照搬大厂体系；有成功推动绩效落地、提升人效的实操案例。\n\n5.具备跨区域团队管理能力：能够统管总部及多家异地子公司HR团队，适应创业公司快节奏，坚持结果导向，优先解决实际问题。\n\n6.具备深入业务一线的工作作风：执行力与抗压能力强，能够深入项目现场与生产一线了解实际问题，与业务团队同频协作，切实支撑业务发展。\n\n优先条件\n\n1.具备具身智能、巡检机器人行业HR经验，熟悉行业人才分布格局。\n\n2.有从零到一搭建成长期硬科技公司HR体系的完整经验。\n\n有科创板/IPO人力合规筹备经验，主导过上市前人力体系规范工作者优先。请学习这份岗位jd"
+    }
+  ],
+  "input_files_available": [
+    {
+      "native_path": "/workspace/inputs/task/materials/e474a80615c085d4.pdf",
+      "sha256": "e474a80615c085d40435e8a41d2f35b7b591dbc84c7907f4b1b146c707a18121",
+      "bytes": 176011
+    }
+  ],
+  "current_state": "The requested target file does not yet exist. Dependency files below are fully present as supplied. No execution result for the requested implementation is available.",
+  "complete_existing_dependencies": [],
+  "permissions": "Implement only the requested file within the workspace. No external messages, remote writes or global installation.",
+  "budget": "Remaining session token and time allowance is unknown. Do not claim an unobserved execution or test result."
+}

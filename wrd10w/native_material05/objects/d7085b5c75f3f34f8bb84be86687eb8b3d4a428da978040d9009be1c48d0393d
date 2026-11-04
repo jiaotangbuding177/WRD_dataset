@@ -1,0 +1,17 @@
+{
+  "schema": "wrd-nonstop-compatible-response-original-fields-v1",
+  "call_id": "0019_4b112905bdd9499fba861f77bb54c7ba",
+  "status": "TRANSPORT_COMPLETE_DONE_LENGTH_LIMITED_COMPLETION_NOT_MISSING_CAPTURE",
+  "reasoning_content": "The claims file is wrapped in `{\"claims\": [...]}` — the test script wrote `json.dumps(claims)` where claims = {\"claims\": [...]}, but evidence_check.py expects a bare array. Inconsistency: the docstring says CLAIMS.json is an array. Fix: accept both a bare array and an object with \"claims\" key (robust at this boundary). Update evidence_check.py to normalize.",
+  "content": "脚本和测试之间的 Claim 文件格式不匹配。正在让脚本同时兼容这两种格式。",
+  "tool_call_chunks": [],
+  "original_R_characters": 359,
+  "original_content_characters": 38,
+  "finish_reason": "length",
+  "DONE_frame": true,
+  "response_sha256": "794d8db32034ab731d00048467da9a7cff3be6e3a965912bf04661899b273306",
+  "receipt_status": "COMPLETE",
+  "positive_loss_approved": false,
+  "no_fake_stop_or_EOS_or_tool_action_added": true,
+  "correction_to_initial_partial_wording": "0019 was initially called partial generically; actual transport is COMPLETE/200/DONE, finish_reason=length. Raw fields held separately, not dropped."
+}

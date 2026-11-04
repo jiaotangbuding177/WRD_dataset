@@ -1,0 +1,52 @@
+{
+  "schema": "wrd-resource-manifest-v1",
+  "resources": [
+    {
+      "id": "fill_scored_feedback",
+      "path": "scripts/fill_scored_feedback.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/fill_scored_feedback.py {INPUT}/score_results.json {INPUT}/feedback_form.docx --out {OUT}/filled_feedback.docx",
+        "inputs": [
+          "score_results JSON: {\"rows\":[{\"label\",\"value\"}...],\"total\":{\"label\",\"value\"} optional}",
+          "editable .docx feedback form whose rows are located by exact cell text"
+        ],
+        "outputs": [
+          "filled feedback form .docx with scores and opinions written, re-read verified"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_d296b8df4dfc",
+          "message_id": "conv_d296b8df4dfc:msg_1"
+        },
+        {
+          "source_id": "conv_d296b8df4dfc",
+          "message_id": "conv_d296b8df4dfc:msg_31"
+        },
+        {
+          "source_id": "conv_d296b8df4dfc",
+          "message_id": "conv_d296b8df4dfc:msg_44"
+        },
+        {
+          "source_id": "conv_0945c1554661",
+          "message_id": "conv_0945c1554661:msg_1"
+        },
+        {
+          "source_id": "conv_0945c1554661",
+          "message_id": "conv_0945c1554661:0196b4dd"
+        }
+      ]
+    }
+  ]
+}

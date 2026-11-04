@@ -1,0 +1,29 @@
+{
+  "skill_files": [
+    "SKILL.md — 分型(回复信/勘误信)+三步路线+关键判断+入口",
+    "references/stage_notes.md — 两条来源会话的阶段细节与教训(分型确认、逐条三段式、勘误范围、字体替代、soffice转md失败)",
+    "templates/response_letter_skeleton.md — 逐条回复信结构(共性C.x+逐审稿人Rn.m+修改清单)",
+    "templates/corrigendum_skeleton.md — 勘误信结构(位置/原文/更正后/影响评估+不列入事项说明)",
+    "scripts/md_to_pdf.py — Markdown→中文安全PDF(pandoc+Chromium,内置文本提取检查;缺文件/空文件/转换失败/空白渲染均非0退出不留半成品)"
+  ],
+  "replaced_work": "reusable三个技能(教案/PPT/JD)无直接可复用脚本;采纳了两个成熟做法:skill_1的md→docx必须用pandoc而非soffice的教训(写入stage_notes s4),skill_1/skill_3的'保存即报路径、不虚构'纪律(写入SKILL.md第1/2步)。本路线成文是纯文本任务,按skill_3模式不写起草脚本,只保留导出这一个真正机械的环节。previous.json为空,无旧技能可复用。",
+  "program_runs": [
+    {
+      "cmd": "python3 outputs/skill/scripts/md_to_pdf.py outputs/making_samples/response_letter_sample.md --out outputs/making_samples/sample.pdf --title 审稿意见回复信",
+      "result": "成功,chars=498;渲染图经视觉检查:中文/英文/表格/标题分隔线全部正常"
+    },
+    {
+      "cmd": "python3 outputs/skill/scripts/md_to_pdf.py missing.md --out x.pdf (缺文件) / empty.md (空文件)",
+      "result": "均退出码2,pdf_error:提示,无半成品"
+    },
+    {
+      "cmd": "python3 outputs/skill/scripts/md_to_pdf.py response_letter_sample.md --font 'Microsoft YaHei' --out sample_yahei.pdf",
+      "result": "成功(系统无微软雅黑,CSS回退Noto Sans CJK SC),渲染检查无乱码——即历史会话中用户点名微软雅黑场景的复现"
+    },
+    {
+      "cmd": "python3 outputs/skill/scripts/md_to_pdf.py skill/templates/corrigendum_skeleton.md --out corrigendum_template_render.pdf",
+      "result": "成功,chars=637,勘误模板(含表格)可直接渲染"
+    }
+  ],
+  "known_issues": "首次运行发现跨设备os.replace失败(/tmp→/workspace),已改shutil.move修复;渲染检查依赖pypdf,pypdf不可用时跳过提取检查但仍交付(Chromium打印失败仍会拦截)"
+}

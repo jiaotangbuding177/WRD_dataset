@@ -1,0 +1,72 @@
+"""Scan text-bearing XML parts of a .docx for keywords, with context.
+
+Method: open the OOXML zip, read word/document.xml plus every
+word/headerN.xml / word/footerN.xml, strip tags per paragraph, and report each
+keyword occurrence with a +-12 character context. Use it before a document-wide
+clause change so no referencing clause is missed.
+"""
+import argparse
+import json
+import re
+import sys
+import zipfile
+from pathlib import Path
+
+
+def unescape(text):
+    return (text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
+                .replace('&quot;', '"').replace('&apos;', "'"))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('input')
+    parser.add_argument('--keywords', required=True, help='comma separated keywords')
+    parser.add_argument('--out', required=True)
+    args = parser.parse_args()
+    keywords = [k for k in (k.strip() for k in args.keywords.split(',')) if k]
+    if not keywords:
+        print('scan_docx_keywords error: no keywords given', file=sys.stderr)
+        return 2
+    src = Path(args.input)
+    try:
+        if not src.is_file():
+            raise ValueError('input not found: ' + str(src))
+        if src.suffix.lower() != '.docx':
+            raise ValueError('unsupported input type ' + src.suffix + ': expected .docx')
+        archive = zipfile.ZipFile(src)
+    except (OSError, ValueError, zipfile.BadZipFile) as error:
+        print('scan_docx_keywords error: ' + str(error), file=sys.stderr)
+        return 2
+    try:
+        members = sorted(n for n in archive.namelist()
+                         if re.fullmatch(r'word/(document|header\d*|footer\d*)\.xml', n))
+        hits = []
+        for member in members:
+            xml = archive.read(member).decode('utf-8')
+            paragraphs = re.findall(r'<w:p[ >].*?</w:p>', xml, re.S)
+            for paragraph in paragraphs:
+                text = unescape(''.join(re.findall(r'<w:t[^>]*>(.*?)</w:t>', paragraph, re.S)))
+                for keyword in keywords:
+                    start = 0
+                    while True:
+                        index = text.find(keyword, start)
+                        if index < 0:
+                            break
+                        hits.append({'keyword': keyword, 'member': member,
+                                     'context': text[max(0, index - 12):index + len(keyword) + 12]})
+                        start = index + len(keyword)
+        result = {'keywords': keywords, 'members_scanned': len(members),
+                  'total': len(hits), 'hits': hits}
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        print(str(len(hits)) + ' hits for ' + str(len(keywords)) + ' keywords across '
+              + str(len(members)) + ' members -> ' + args.out)
+        return 0
+    finally:
+        archive.close()
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

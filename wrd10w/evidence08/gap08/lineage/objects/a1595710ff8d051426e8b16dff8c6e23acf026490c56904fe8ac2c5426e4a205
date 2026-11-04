@@ -1,0 +1,47 @@
+# paper-review 阶段细则
+
+本文件是 {SKILL}/references/stage_notes.md：维度顺序、问题清单格式与报告段式见 {SKILL}/references/stage_notes.md。三个阶段对应真实会话中两篇 EvoMind 论文审查（conv_b8618dade74b、conv_c19f3434fa4f）的可复用部分；原会话的 evomind-paper-scan 专有 29 维体系不在此复刻。
+
+## 阶段 1：提取稿件文本
+
+- 用 `python {SKILL}/scripts/extract_texts.py {INPUT}/manuscript --out {OUT}/extracts`（原样公开用法）批量提取；输入可以是目录或单文件。
+- 依赖按格式启用：.pptx 需 python-pptx，.docx 需 python-docx，.doc 需 soffice，.pdf 需 pdftotext，.md/.txt 直读。
+- 读 extracts/index.json 核对每个源的 sha256、sections、chars 与 errors；errors 非空说明有源提取失败，先解决再核查。
+- 扫描版/图片型 PDF 无文本层，需先 OCR，不适用本程序。
+
+## 阶段 2：按维度核查并标注位置
+
+默认维度顺序（用户指定时以用户为准并记录）：
+
+1. 源数据一致性：正文声称的数字与源数据/表格数值逐一对照（真实样例："90%物种南移"与源数据 61%（19/31）不符，须回查计算口径）。
+2. 表格数值：表内合计、单位、百分比自洽。
+3. 方法可复现性：超参数、随机种子、数据划分是否写明。
+4. 不确定性展示：模式间散度、置信区间是否报告。
+5. 统计规范：多重比较校正、样本量说明。
+6. 推论跨度：结论指标与证据指标是否等价。
+7. 引用完整性：抽查引用与 DOI 是否有效。
+8. 诚信风险提示：只列可疑信号，不下定性结论。
+
+位置标注规则：
+
+- .docx 稿件用 `python {SKILL}/scripts/scan_docx_keywords.py {INPUT}/manuscript.docx --keywords 南移,CMIP6 --out {OUT}/keyword_hits.json`（原样公开用法），关键词取每条声称中的数字、术语或专有名；输出 JSON 的 member+context 即原文位置依据。
+- 其他格式用 extracts/*.txt 的行号或 SLIDE/页码定位；两者都取不到时记"位置无法定位"，不得臆写。
+
+问题清单格式（每条一行，供阶段 3 引用）：
+
+`| 编号 | 维度 | 严重性(Major/Minor) | 问题描述 | 原文位置 | 依据摘要 |`
+
+## 阶段 3：成文审查报告
+
+复制 {SKILL}/templates/review_report.md 并按占位符填写，生成最终审查报告。
+
+- 论文信息、总体裁定与核心发现按提取文本归纳；问题清单从阶段 2 的表格誊入，位置与依据必须逐字对应。
+- 报告格式按用户要求调整段式；未要求时沿用模板顺序。
+- 末尾"人工复核提示"必须保留：AI 判断不能作为最终结果。
+- 产出文件一节如实列出本次生成的文件名。
+
+## 边界与限制
+
+- 稿件必须为可解析文本；扫描件、加密文档不适用。
+- 不替代原会话 evomind-paper-scan 专有维度体系；不给出录用/拒稿等学术定性结论。
+- 打分/裁定本身是判断工作，由执行者按用户维度完成，程序只覆盖提取与定位。

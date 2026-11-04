@@ -1,0 +1,58 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/lessons.md",
+    "outputs/skill/templates/speech_patterns.md",
+    "outputs/skill/scripts/extract_docx_text.py",
+    "outputs/skill/scripts/extract_texts.py",
+    "outputs/skill/scripts/count_speech.py"
+  ],
+  "replaced_work": {
+    "reused_from_reusable": [
+      "skill_3/scripts/extract_docx_text.py 原样复制（docx 逐段提取，含标黄/加粗标记，用于读送审致辞稿）",
+      "skill_1/scripts/extract_texts.py 原样复制（pptx/docx/doc/pdf/md/txt 批量提取，用于场合调研材料）"
+    ],
+    "reviewed_not_reused": [
+      "skill_1（宣传视频脚本迭代）：交付纪律/纠正对照思路已吸收进 lessons.md，脚本与模板为视频分镜专用不复用",
+      "skill_2（课程回顾视频脚本）：分镜三源原则借鉴到事实纪律，其余为视频专用不复用",
+      "skill_2/scripts/extract_texts.py 与 skill_1 同文件，不重复复制"
+    ],
+    "new_written": [
+      "scripts/count_speech.py（字数/时长估算，280字/分钟默认）",
+      "references/lessons.md（两次会话的纠正→改法对照，均带适用条件）",
+      "templates/speech_patterns.md（总结发言/领导致辞/审阅三种结构选型+自检清单+压缩取舍）"
+    ],
+    "evidence_basis": [
+      "conv_54cea560f23d：IPO启动会8分钟总结发言；身份默认公司方被用户纠正为投资机构（视角=第三方背书，承诺改期待）；280字/分钟控时；A轮公开报道两说→不写该细节；IPO合规词汇",
+      "conv_d98e3820c5c0：科委致辞稿审阅（重复关键词/定位摇摆/人称/占位符/数据口径按重要性排）→压缩1000字（保数据+金句，删排比，双口径数汉字，docx沿用原格式）"
+    ],
+    "previous_feedback": "previous.json 指向的制作机 Windows 路径（...attempt_1/workspace/outputs/making.json）在本环境不可达，未找到本地副本；本次按 route.json 与两会话直接沉淀"
+  },
+  "program_runs": [
+    {
+      "command": "python3 outputs/skill/scripts/extract_docx_text.py outputs/making_samples/样例致辞稿.docx --out outputs/making_samples/样例致辞稿.json",
+      "result": "exit 0；3段提取，标黄段正确识别（highlight=true）",
+      "note": "样例 docx 为本次制作用 python-docx 生成（含占位符+标黄待核实段）"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/extract_docx_text.py 不存在.docx --out x.json",
+      "result": "exit 2，stderr 一行错误（错误情形验证通过）"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/extract_texts.py 样例致辞稿.docx 样例发言.md --out extracted",
+      "result": "exit 0；2文件提取成功，index.json 含 sha256/字节数/字符数"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/count_speech.py 样例发言.md / stdin --rate 240 / 不存在.md",
+      "result": "文件与 stdin 均 exit 0 且计数正确（手工核对 18汉字+2标点+5数字=25）；错误输入 exit 2"
+    },
+    {
+      "command": "python3 -m py_compile outputs/skill/scripts/count_speech.py extract_docx_text.py extract_texts.py",
+      "result": "compile-ok"
+    }
+  ],
+  "known_issues": [
+    "count_speech.py 首版 with_punct 未计数字串，制作中修复并复测（数字串计入 Word 近似口径）",
+    "extract_texts.py 的 .doc/.pdf 依赖镜像内 soffice/pdftotext，本次样例未覆盖该分支（docx/md 已实测通过）"
+  ]
+}

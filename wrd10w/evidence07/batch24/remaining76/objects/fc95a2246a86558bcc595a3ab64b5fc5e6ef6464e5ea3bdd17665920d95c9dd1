@@ -1,0 +1,296 @@
+{
+  "candidate_gate": {
+    "candidate_plan_sha256": "499089ef84f6acf5bbb3b58424be129bbf3094281539dc72140b4e73670bbe80",
+    "checks": [
+      {
+        "name": "real_source_support",
+        "status": "PASS"
+      },
+      {
+        "name": "specific_reusable_resources",
+        "status": "PASS"
+      },
+      {
+        "name": "replaces_real_common_work",
+        "status": "PASS"
+      }
+    ],
+    "metrics": {
+      "common_steps": 1,
+      "performance_measured": false,
+      "proposed_resources": 1,
+      "real_sources": 2
+    },
+    "reasons": [],
+    "schema": "wrd-reuse-admission-v2",
+    "scope": "fixed independent development cases only; no formal250 or universal saving claim",
+    "status": "PASS",
+    "value_plan": {
+      "resources": [
+        {
+          "applicability": {
+            "conditions": [
+              "稿件为可解析文本",
+              "维度可由用户指定或用默认清单"
+            ],
+            "unsupported": [
+              "不替代原会话内evomind-paper-scan专有维度体系，其可用性未核实",
+              "不给出学术定性结论，诚信风险仅提示"
+            ]
+          },
+          "fixture_refs": [
+            {
+              "message_ids": [
+                "8554d421-5488-4c80-aaef-a205bb39c502"
+              ],
+              "pin": {
+                "bytes": 17339,
+                "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_b8618dade74b\\conversation.json",
+                "sha256": "b06c550bb6ec69906b27c4277a2edbd1d063398b9abe8cb5b7c5df04feefb0b6"
+              },
+              "source_id": "conv_b8618dade74b"
+            },
+            {
+              "message_ids": [
+                "98e8a048-c7d5-4db8-89a0-84be0d5431e0"
+              ],
+              "pin": {
+                "bytes": 10269,
+                "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_c19f3434fa4f\\conversation.json",
+                "sha256": "43cb6f9e0e7a2c886ceb243c1c33463798e9cc5266cb38b52f117bebd1e58ee1"
+              },
+              "source_id": "conv_c19f3434fa4f"
+            }
+          ],
+          "id": "r1",
+          "input_contract": "论文稿件（PDF/Word/文本）+ 可选维度说明",
+          "kind": "route",
+          "operation": "替代逐次自行设计审查维度、核查顺序与报告段式的重复规划",
+          "output_contract": "带原文位置标注的问题清单，可直接用于成文审查报告"
+        }
+      ],
+      "reusable_steps": [
+        {
+          "action": "按固定维度清单核查论文数据一致性与表格数值并标注原文位置，替代逐次自行设计审查维度的重复决策",
+          "id": "s2",
+          "replaces": [
+            "material_reading",
+            "multi_step_decision",
+            "planning"
+          ],
+          "resource_ids": [
+            "r1"
+          ],
+          "support": [
+            {
+              "message_ids": [
+                "8554d421-5488-4c80-aaef-a205bb39c502"
+              ],
+              "source_id": "conv_b8618dade74b"
+            },
+            {
+              "message_ids": [
+                "98e8a048-c7d5-4db8-89a0-84be0d5431e0"
+              ],
+              "source_id": "conv_c19f3434fa4f"
+            }
+          ]
+        }
+      ],
+      "schema": "wrd-reuse-value-plan-v2",
+      "source_ids": [
+        "conv_b8618dade74b",
+        "conv_c19f3434fa4f"
+      ],
+      "workflow_id": "paper-review"
+    }
+  },
+  "category": "EDU",
+  "conditions": [
+    "审查维度以用户指定为准，未给时用通用维度并说明",
+    "问题须标注原文位置与依据，不虚构学术或诚信结论",
+    "输出为标准化审查报告，格式按用户要求"
+  ],
+  "conflicts": [],
+  "id": "paper-review",
+  "name": "论文多维度审查报告路线",
+  "proposal_ids": [
+    "paper-review"
+  ],
+  "route_signature": {
+    "branches": [],
+    "confirmed": true,
+    "input_types": [
+      "manuscript_document",
+      "review_dimension_spec_or_default"
+    ],
+    "output_types": [
+      "review_report"
+    ],
+    "steps": [
+      {
+        "condition": null,
+        "depends_on": [],
+        "id": "s1",
+        "input_types": [
+          "manuscript_document"
+        ],
+        "operation": "extract_manuscript_content",
+        "output_types": [
+          "manuscript_extracts"
+        ],
+        "source_evidence": [
+          {
+            "message_id": "8554d421-5488-4c80-aaef-a205bb39c502",
+            "source_id": "conv_b8618dade74b"
+          },
+          {
+            "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0",
+            "source_id": "conv_c19f3434fa4f"
+          }
+        ]
+      },
+      {
+        "condition": "按用户指定维度（如源数据一致性、表格数值、诚信风险）核查，问题标注原文位置与依据",
+        "depends_on": [
+          "s1"
+        ],
+        "id": "s2",
+        "input_types": [
+          "manuscript_extracts"
+        ],
+        "operation": "audit_quality_and_consistency",
+        "output_types": [
+          "audit_findings"
+        ],
+        "source_evidence": [
+          {
+            "message_id": "8554d421-5488-4c80-aaef-a205bb39c502",
+            "source_id": "conv_b8618dade74b"
+          },
+          {
+            "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0",
+            "source_id": "conv_c19f3434fa4f"
+          }
+        ]
+      },
+      {
+        "condition": "成文标准化审查报告，格式按用户要求",
+        "depends_on": [
+          "s2"
+        ],
+        "id": "s3",
+        "input_types": [
+          "audit_findings"
+        ],
+        "operation": "compose_review_report",
+        "output_types": [
+          "review_report"
+        ],
+        "source_evidence": [
+          {
+            "message_id": "8554d421-5488-4c80-aaef-a205bb39c502",
+            "source_id": "conv_b8618dade74b"
+          },
+          {
+            "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0",
+            "source_id": "conv_c19f3434fa4f"
+          }
+        ]
+      }
+    ]
+  },
+  "source_evidence": [
+    {
+      "message_id": "8554d421-5488-4c80-aaef-a205bb39c502",
+      "source_id": "conv_b8618dade74b"
+    },
+    {
+      "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0",
+      "source_id": "conv_c19f3434fa4f"
+    }
+  ],
+  "source_ids": [
+    "conv_b8618dade74b",
+    "conv_c19f3434fa4f"
+  ],
+  "value_plan": {
+    "resources": [
+      {
+        "applicability": {
+          "conditions": [
+            "稿件为可解析文本",
+            "维度可由用户指定或用默认清单"
+          ],
+          "unsupported": [
+            "不替代原会话内evomind-paper-scan专有维度体系，其可用性未核实",
+            "不给出学术定性结论，诚信风险仅提示"
+          ]
+        },
+        "fixture_refs": [
+          {
+            "message_ids": [
+              "8554d421-5488-4c80-aaef-a205bb39c502"
+            ],
+            "pin": {
+              "bytes": 17339,
+              "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_b8618dade74b\\conversation.json",
+              "sha256": "b06c550bb6ec69906b27c4277a2edbd1d063398b9abe8cb5b7c5df04feefb0b6"
+            },
+            "source_id": "conv_b8618dade74b"
+          },
+          {
+            "message_ids": [
+              "98e8a048-c7d5-4db8-89a0-84be0d5431e0"
+            ],
+            "pin": {
+              "bytes": 10269,
+              "path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_c19f3434fa4f\\conversation.json",
+              "sha256": "43cb6f9e0e7a2c886ceb243c1c33463798e9cc5266cb38b52f117bebd1e58ee1"
+            },
+            "source_id": "conv_c19f3434fa4f"
+          }
+        ],
+        "id": "r1",
+        "input_contract": "论文稿件（PDF/Word/文本）+ 可选维度说明",
+        "kind": "route",
+        "operation": "替代逐次自行设计审查维度、核查顺序与报告段式的重复规划",
+        "output_contract": "带原文位置标注的问题清单，可直接用于成文审查报告"
+      }
+    ],
+    "reusable_steps": [
+      {
+        "action": "按固定维度清单核查论文数据一致性与表格数值并标注原文位置，替代逐次自行设计审查维度的重复决策",
+        "id": "s2",
+        "replaces": [
+          "material_reading",
+          "multi_step_decision",
+          "planning"
+        ],
+        "resource_ids": [
+          "r1"
+        ],
+        "support": [
+          {
+            "message_ids": [
+              "8554d421-5488-4c80-aaef-a205bb39c502"
+            ],
+            "source_id": "conv_b8618dade74b"
+          },
+          {
+            "message_ids": [
+              "98e8a048-c7d5-4db8-89a0-84be0d5431e0"
+            ],
+            "source_id": "conv_c19f3434fa4f"
+          }
+        ]
+      }
+    ],
+    "schema": "wrd-reuse-value-plan-v2",
+    "source_ids": [
+      "conv_b8618dade74b",
+      "conv_c19f3434fa4f"
+    ],
+    "workflow_id": "paper-review"
+  }
+}

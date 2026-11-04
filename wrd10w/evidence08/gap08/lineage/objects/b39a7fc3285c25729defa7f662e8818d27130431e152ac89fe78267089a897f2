@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""表格按归属分组并重算计数（table-regroup-geo-match 主工具）。
+
+一跑完成三件事：按映射把每条记录分到归属分组、硬校验输出记录数==输入记录数、
+导出按分组排列的新表+分组统计+未识别清单。不漏一条是脚本内建断言，不是人工检查。
+
+用法:
+  python3 regroup_recount.py --input 表.xlsx --name-col 学校名称 \
+      --map 映射.json --out 输出.xlsx --unmatched 未识别.json \
+      [--group-col 原有分组列] [--sheet 工作表名] [--csv]
+
+输入: xlsx（--csv 时读 csv）。
+映射 JSON 结构:
+  {
+    "exact":   {"华东师范大学": "上海市"},          # 可选，精确名→归属
+    "prefix":  [{"p": "上海", "g": "上海市"}, ...], # 可选，名称前缀→归属（取最长前缀）
+    "fallback": "其他/未识别"                        # 可选，默认 "其他/未识别"
+  }
+匹配优先级：--group-col 非空原值 > exact > prefix（最长前缀优先）> fallback。
+映射里没有的分组名不会预生成；分组名就是写入新表的归属值（省市区均可）。
+
+输出:
+  --out xlsx 两个工作表：
+    归并结果: [原行号, 名称, 归属, 匹配方式]，按归属排序；
+    分组统计: [归属, 数量] 降序 + 末行合计（必须等于输入行数）。
+  --unmatched JSON: [{"row": 原行号, "name": 名称}, ...] 即 匹配方式=fallback 的条目，供搜索补归属。
+
+退出码: 0 成功；2 输入错误（文件缺失/无指定列/空数据/映射文件无效）；
+3 输出记录数与输入不一致（脚本内部断言失败，属程序问题，勿交付）。
+"""
+import argparse, csv, json, sys
+
+try:
+    from openpyxl import Workbook, load_workbook
+except ImportError:
+    print("缺少 openpyxl，请先 pip install openpyxl", file=sys.stderr)
+    sys.exit(3)
+
+
+def die(code, msg):
+    print(msg, file=sys.stderr)
+    sys.exit(code)
+
+
+def read_rows(path, sheet, name_col, group_col, use_csv):
+    """返回 (records, header) records=[{name, group_hint, row}] row 为 1 起始数据行号。"""
+    if use_csv:
+        with open(path, newline='', encoding='utf-8-sig') as f:
+            rows = list(csv.reader(f))
+        if not rows:
+            die(2, f"输入为空: {path}")
+        header = [str(c).strip() for c in rows[0]]
+        data = rows[1:]
+    else:
+        try:
+            wb = load_workbook(path, read_only=True, data_only=True)
+        except Exception as e:
+            die(2, f"无法读取 xlsx {path}: {e}")
+        ws = wb[sheet] if sheet else wb.active
+        if sheet and sheet not in wb.sheetnames:
+            die(2, f"工作表 {sheet!r} 不存在，现有: {wb.sheetnames}")
+        rows = list(ws.iter_rows(values_only=True))
+        wb.close()
+        if not rows:
+            die(2, f"输入为空: {path}")
+        header = [str(c).strip() if c is not None else "" for c in rows[0]]
+        data = rows[1:]
+
+    def col(title):
+        try:
+            return header.index(title)
+        except ValueError:
+            die(2, f"表头无列 {title!r}，现有列: {header}")
+
+    ni, gi = col(name_col), (col(group_col) if group_col else None)
+    records = []
+    for i, r in enumerate(data, start=2):
+        name = r[ni] if ni < len(r) else None
+        name = str(name).strip() if name is not None else ""
+        hint = ""
+        if gi is not None and gi < len(r) and r[gi] is not None:
+            hint = str(r[gi]).strip()
+        records.append({"row": i, "name": name, "group_hint": hint})
+    if not records:
+        die(2, f"无数据行: {path}")
+    return records
+
+
+def main():
+    ap = argparse.ArgumentParser(description="表格按归属分组并重算计数")
+    ap.add_argument("--input", required=True)
+    ap.add_argument("--name-col", required=True, help="用于匹配归属的名称列")
+    ap.add_argument("--group-col", help="可选：原表已有分组列，非空值直接采用")
+    ap.add_argument("--map", required=True, help="映射 JSON（exact/prefix/fallback）")
+    ap.add_argument("--out", required=True, help="输出 xlsx")
+    ap.add_argument("--unmatched", required=True, help="未识别清单 JSON 输出")
+    ap.add_argument("--sheet", help="输入 xlsx 工作表名，默认第一个")
+    ap.add_argument("--csv", action="store_true", help="输入为 csv")
+    args = ap.parse_args()
+
+    try:
+        with open(args.map, encoding='utf-8') as f:
+            m = json.load(f)
+        exact = {str(k).strip(): str(v).strip() for k, v in (m.get("exact") or {}).items()}
+        prefix = sorted(
+            ((str(x["p"]), str(x["g"]).strip()) for x in (m.get("prefix") or [])),
+            key=lambda t: len(t[0]), reverse=True)
+        fallback = str(m.get("fallback") or "其他/未识别")
+    except Exception as e:
+        die(2, f"映射文件无效 {args.map}: {e}")
+
+    records = read_rows(args.input, args.sheet, args.name_col, args.group_col, args.csv)
+    empty_name = []
+    for rec in records:
+        name, hint = rec["name"], rec["group_hint"]
+        if hint:
+            g, how = hint, "原列"
+        elif name in exact:
+            g, how = exact[name], "exact"
+        else:
+            g, how = None, None
+            for p, grp in prefix:
+                if p and name.startswith(p):
+                    g, how = grp, f"prefix:{p}"
+                    break
+            if g is None:
+                g, how = fallback, "fallback"
+        rec["group"], rec["how"] = g, how
+        if not name:
+            empty_name.append(rec["row"])
+
+    order = {g: i for i, g in enumerate(sorted({r["group"] for r in records},
+                                               key=lambda g: (g == fallback, g)))}
+    records.sort(key=lambda r: (order[r["group"]], r["row"]))
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "归并结果"
+    ws.append(["原行号", args.name_col, "归属", "匹配方式"])
+    for r in records:
+        ws.append([r["row"], r["name"], r["group"], r["how"]])
+
+    counts = {}
+    for r in records:
+        counts[r["group"]] = counts.get(r["group"], 0) + 1
+    ws2 = wb.create_sheet("分组统计")
+    ws2.append(["归属", "数量"])
+    for g, c in sorted(counts.items(), key=lambda t: -t[1]):
+        ws2.append([g, c])
+    ws2.append(["合计", len(records)])
+    wb.save(args.out)
+
+    # 内建硬校验：重读输出文件，数据行数必须等于输入记录数
+    back = load_workbook(args.out, read_only=True)
+    got = sum(1 for _ in back["归并结果"].iter_rows(min_row=2, values_only=True))
+    back.close()
+    if got != len(records):
+        die(3, f"输出校验失败: 输出 {got} 条 != 输入 {len(records)} 条，勿交付")
+
+    # 内建硬校验：重读输出文件，数据行数必须等于输入记录数
+    back = load_workbook(args.out, read_only=True)
+    got = sum(1 for _ in back["归并结果"].iter_rows(min_row=2, values_only=True))
+    back.close()
+    if got != len(records):
+        die(3, f"输出校验失败: 输出 {got} 条 != 输入 {len(records)} 条，勿交付")
+
+    unmatched = [{"row": r["row"], "name": r["name"]}
+                 for r in records if r["how"] == "fallback"]
+    with open(args.unmatched, "w", encoding="utf-8") as f:
+        json.dump({"fallback": fallback, "count": len(unmatched), "items": unmatched},
+                  f, ensure_ascii=False, indent=1)
+
+    matched = len(records) - len(unmatched)
+    pct = f"{matched / len(records) * 100:.1f}%" if records else "0%"
+    print(f"输入 {len(records)} 条 → 输出 {len(records)} 条（校验通过）")
+    print(f"分组 {len(counts)} 个；已归类 {matched}（{pct}）；{fallback} {len(unmatched)} 条")
+    if empty_name:
+        print(f"警告: {len(empty_name)} 行名称列为空，原行号 {empty_name[:20]}", file=sys.stderr)
+    print(f"未识别清单: {args.unmatched}（{len(unmatched)} 条，供搜索补归属）")
+    print(f"输出: {args.out}")
+
+
+if __name__ == "__main__":
+    main()

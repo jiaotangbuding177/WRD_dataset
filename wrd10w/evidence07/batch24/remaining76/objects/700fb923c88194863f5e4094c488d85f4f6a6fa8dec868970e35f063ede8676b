@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""像素级验证：编辑后图片的"未改动区域"必须与原图逐像素一致。
+
+用法：
+  python check_region.py 原图.png 新图.png --region x1,y1,x2,y2 [--region ...] \
+      [--mode must_differ] [--out report.json]
+
+默认模式 must_match：列出的矩形区域内两图必须完全一致（0 差异），
+用于证明编辑只落在目标区域，没碰证书印章、正文、背景等要保留的内容。
+--mode must_differ 反过来要求区域内至少有一个像素不同（证明改动真的生效）。
+
+坐标为 (left, top, right, bottom)，right/bottom 为开区间，可传多个 --region。
+退出码：0=全部通过，6=校验失败（有区域不符），2=输入错误（文件缺失/尺寸不同/坐标越界）。
+--out 把逐区域结果写成 JSON，便于粘贴进交付说明。
+"""
+import argparse
+import json
+import sys
+
+from PIL import Image, ImageChops
+
+
+def fail(code, message):
+    print(f"{code}: {message}", file=sys.stderr)
+    raise SystemExit(2)
+
+
+def parse_region(text):
+    parts = text.split(",")
+    if len(parts) != 4:
+        fail("bad_region", f"--region 需要 x1,y1,x2,y2 四个整数：{text}")
+    try:
+        x1, y1, x2, y2 = (int(p) for p in parts)
+    except ValueError:
+        fail("bad_region", f"--region 只接受整数：{text}")
+    if x2 <= x1 or y2 <= y1:
+        fail("bad_region", f"--region 右/下边必须大于左/上：{text}")
+    return x1, y1, x2, y2
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("original", help="原图路径")
+    parser.add_argument("edited", help="编辑后图片路径")
+    parser.add_argument("--region", action="append", required=True,
+                        help="校验区域 x1,y1,x2,y2，可多次")
+    parser.add_argument("--mode", choices=["must_match", "must_differ"],
+                        default="must_match")
+    parser.add_argument("--out", help="JSON 报告输出路径")
+    args = parser.parse_args()
+
+    try:
+        base = Image.open(args.original).convert("RGB")
+    except FileNotFoundError:
+        fail("file_not_found", args.original)
+    except Exception as error:
+        fail("image_open_error", f"{args.original}: {error}")
+    try:
+        new = Image.open(args.edited).convert("RGB")
+    except FileNotFoundError:
+        fail("file_not_found", args.edited)
+    except Exception as error:
+        fail("image_open_error", f"{args.edited}: {error}")
+
+    if base.size != new.size:
+        fail("size_mismatch",
+             f"两图尺寸不同：原图 {base.size}，新图 {new.size}；"
+             "要求画布不变的编辑不应改变尺寸")
+
+    diff = ImageChops.difference(base, new)
+    results = []
+    all_pass = True
+    for text in args.region:
+        x1, y1, x2, y2 = parse_region(text)
+        w, h = base.size
+        if x1 < 0 or y1 < 0 or x2 > w or y2 > h:
+            fail("region_out_of_bounds",
+                 f"区域 {text} 超出画布 {w}x{h}")
+        bbox = diff.crop((x1, y1, x2, y2))
+        extrema = bbox.getextrema()  # 每通道 (min, max)
+        max_diff = max(hi for _, hi in extrema)
+        changed = max_diff > 0
+        if args.mode == "must_match":
+            ok = not changed
+        else:
+            ok = changed
+        all_pass = all_pass and ok
+        results.append({
+            "region": [x1, y1, x2, y2],
+            "max_diff": max_diff,
+            "mode": args.mode,
+            "pass": ok,
+        })
+        status = "PASS" if ok else "FAIL"
+        print(f"[{status}] region={text} max_diff={max_diff} mode={args.mode}")
+
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump({
+                "original": args.original,
+                "edited": args.edited,
+                "all_pass": all_pass,
+                "results": results,
+            }, handle, ensure_ascii=False, indent=2)
+        print(f"报告已写入 {args.out}")
+
+    if not all_pass:
+        verdict = ("存在必须一致却被改动的区域" if args.mode == "must_match"
+                   else "存在应当被改动却纹丝未动的区域")
+        print(f"校验失败：{verdict}", file=sys.stderr)
+        raise SystemExit(6)
+    print("校验通过")
+
+
+if __name__ == "__main__":
+    main()

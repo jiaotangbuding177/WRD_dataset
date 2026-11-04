@@ -1,0 +1,32 @@
+{
+  "skill": "intro-document-drafting",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/templates/intro_skeleton.md",
+    "outputs/skill/references/stage_notes.md",
+    "outputs/making_samples/sample_draft_zhizhan.md"
+  ],
+  "replaced_work": [
+    "复用 previous_skill 全部可靠资源：templates/intro_skeleton.md 原样保留（diff 确认未改动）；references/stage_notes.md 保留原证据并新增两条有来源证据段（附件定向/无信息对象/太AI纠正/路线边界成本教训）",
+    "修复旧反馈问题1（入口未触发，cases/1/workflow 零读取）：description 与首页改为触发词明确的轻量首页（3KB），路线和内联结构一次读完即可起草",
+    "修复问题2（模板/阶段资料零读取）：SKILL.md 内联段落范式+篇幅选择+内容来源，常见起草不再二次读模板；模板仅占位符填写与自查表时才复制",
+    "修复问题3（混合委托绕行PPT拉高成本，cases/2 125次调用）：新增'路线边界'置于路线之前，'并要PPT'先声明文本边界、交付文本即收尾，PPT指向图片型PPT路线；docx 用一条 pandoc 命令转换定稿文本",
+    "修复问题4（版本无真实试用）：本轮为当前版本制作，样例复现见 making_samples；业务试用由执行器按新入口进行",
+    "未采纳：旧反馈中无硬限调用/跳过交付/压缩预算类建议；未新增核验循环与修订回路"
+  ],
+  "program_runs": [
+    {
+      "command": "cp /workspace/inputs/previous_skill/templates/intro_skeleton.md /workspace/outputs/skill/templates/ && ls -R /workspace/outputs/skill",
+      "result": "成功；模板复用到位"
+    },
+    {
+      "command": "wc -c outputs/skill/SKILL.md outputs/skill/templates/intro_skeleton.md outputs/skill/references/stage_notes.md && diff -q previous_skill/templates/intro_skeleton.md outputs/skill/templates/intro_skeleton.md",
+      "result": "成功；SKILL.md 3061字节（轻量首页），模板与旧版完全一致"
+    },
+    {
+      "command": "（无自编程序；起草样例按 SKILL.md 第2步内联结构人工复现 conv_2f4c1f78f51d 做法写入 outputs/making_samples/sample_draft_zhizhan.md）",
+      "result": "样例验证内联结构可直接成稿；发现并修正样例中一处公司名错别字（智摘→智瞻）"
+    }
+  ],
+  "known_issues": []
+}

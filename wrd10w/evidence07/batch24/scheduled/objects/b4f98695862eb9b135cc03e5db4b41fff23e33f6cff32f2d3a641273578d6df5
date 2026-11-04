@@ -1,0 +1,225 @@
+{
+  "cards": [
+    {
+      "id": "ai-news-digest",
+      "name": "AI新闻检索摘要路线",
+      "category": "NEWS",
+      "proposal_ids": ["news-digest"],
+      "source_ids": ["conv_b69071f509d3", "conv_ac64a14e656f", "conv_a12f08316927"],
+      "source_evidence": [
+        {"source_id": "conv_b69071f509d3", "message_id": "conv_b69071f509d3:msg_1"},
+        {"source_id": "conv_ac64a14e656f", "message_id": "conv_ac64a14e656f:msg_1"},
+        {"source_id": "conv_a12f08316927", "message_id": "conv_a12f08316927:b9731f0a"}
+      ],
+      "conditions": [
+        "检索范围限于当日或近期，属时效性新闻汇总而非深度研报",
+        "输出文档格式按用户要求而定（Markdown或Word），不改变路线步骤",
+        "检索工具可替换（默认检索或tavily），属业务值差异不构成新路线"
+      ],
+      "conflicts": [],
+      "route_signature": {
+        "confirmed": true,
+        "input_types": ["news_query_text", "time_range_hint"],
+        "output_types": ["digest_document"],
+        "steps": [
+          {
+            "id": "s1",
+            "operation": "retrieve_news_items",
+            "input_types": ["news_query_text", "time_range_hint"],
+            "output_types": ["news_item_set"],
+            "depends_on": [],
+            "condition": null,
+            "source_evidence": [
+              {"source_id": "conv_b69071f509d3", "message_id": "conv_b69071f509d3:msg_1"},
+              {"source_id": "conv_a12f08316927", "message_id": "conv_a12f08316927:b9731f0a"},
+              {"source_id": "conv_ac64a14e656f", "message_id": "conv_ac64a14e656f:msg_1"}
+            ]
+          },
+          {
+            "id": "s2",
+            "operation": "compose_news_digest",
+            "input_types": ["news_item_set"],
+            "output_types": ["digest_text"],
+            "depends_on": ["s1"],
+            "condition": "仅汇总检索所得内容，来源不足时明确说明",
+            "source_evidence": [
+              {"source_id": "conv_b69071f509d3", "message_id": "conv_b69071f509d3:msg_9"},
+              {"source_id": "conv_ac64a14e656f", "message_id": "conv_ac64a14e656f:msg_6"}
+            ]
+          },
+          {
+            "id": "s3",
+            "operation": "export_digest_document",
+            "input_types": ["digest_text"],
+            "output_types": ["digest_document"],
+            "depends_on": ["s2"],
+            "condition": "按用户指定格式导出（md或word）",
+            "source_evidence": [
+              {"source_id": "conv_b69071f509d3", "message_id": "conv_b69071f509d3:msg_9"},
+              {"source_id": "conv_ac64a14e656f", "message_id": "conv_ac64a14e656f:msg_6"}
+            ]
+          }
+        ],
+        "branches": []
+      },
+      "value_plan": {
+        "schema": "wrd-reuse-value-plan-v2",
+        "workflow_id": "ai-news-digest",
+        "source_ids": ["conv_b69071f509d3", "conv_ac64a14e656f", "conv_a12f08316927"],
+        "reusable_steps": [
+          {
+            "id": "daily-ai-news-digest-route",
+            "action": "按主题与日期范围检索AI新闻、汇总为摘要并导出指定格式文档（收益待验证假设）",
+            "replaces": ["repeated_operation", "output_composition"],
+            "resource_ids": ["r1"],
+            "support": [
+              {"source_id": "conv_b69071f509d3", "message_ids": ["conv_b69071f509d3:msg_1", "conv_b69071f509d3:msg_9"]},
+              {"source_id": "conv_ac64a14e656f", "message_ids": ["conv_ac64a14e656f:msg_1", "conv_ac64a14e656f:msg_6"]}
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "r1",
+            "kind": "route",
+            "operation": "假设可替代每次重复构造当日AI新闻检索指令、重写摘要结构并重新组织导出文档的工作，实际减负待完整学习与无技能对照验证",
+            "input_contract": "主题/日期范围文本 + 期望输出格式（md/word）",
+            "output_contract": "结构化新闻摘要文档（条目标题、要点、来源），可直接交付或继续加工",
+            "applicability": {
+              "conditions": ["当日或近期AI新闻类检索汇总请求", "输出为摘要类文档"],
+              "unsupported": ["深度研报或付费数据源检索", "需登录态站点的抓取", "非新闻类内容汇总"]
+            },
+            "fixture_refs": [
+              {
+                "source_id": "conv_b69071f509d3",
+                "message_ids": ["conv_b69071f509d3:msg_1"],
+                "pin": {"path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_b69071f509d3\\conversation.json", "sha256": "0cf2188fceb72084d91a5ade2c32355b6c37897455745b3286f2b649749a1ae2", "bytes": 110051}
+              },
+              {
+                "source_id": "conv_ac64a14e656f",
+                "message_ids": ["conv_ac64a14e656f:msg_1"],
+                "pin": {"path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_ac64a14e656f\\conversation.json", "sha256": "609d0848ff626c9c9ae03cdb386bbedcd3d0cd49970c3bfaa431d588b1eb95fd", "bytes": 71819}
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "scheduled-task-config",
+      "name": "定时任务配置与产物查看路线",
+      "category": "OFFICE",
+      "proposal_ids": ["scheduled-task-management"],
+      "source_ids": ["conv_6802694e2036", "conv_7be8a0b341b5", "conv_f4b82e638325", "conv_526e4b625656"],
+      "source_evidence": [
+        {"source_id": "conv_6802694e2036", "message_id": "conv_6802694e2036:msg_1"},
+        {"source_id": "conv_7be8a0b341b5", "message_id": "conv_7be8a0b341b5:msg_1"},
+        {"source_id": "conv_f4b82e638325", "message_id": "conv_f4b82e638325:msg_14"},
+        {"source_id": "conv_526e4b625656", "message_id": "conv_526e4b625656:msg_1"}
+      ],
+      "conditions": [
+        "依赖平台内定时任务能力，不涉及外部系统账号",
+        "任务内容、执行周期与输出格式需在创建/更新时明确",
+        "任务执行失败需排查原因后修复重试，不自动覆盖用户已有配置"
+      ],
+      "conflicts": [],
+      "route_signature": {
+        "confirmed": true,
+        "input_types": ["task_requirement_text", "schedule_spec"],
+        "output_types": ["scheduled_task_config", "task_run_artifact"],
+        "steps": [
+          {
+            "id": "s1",
+            "operation": "clarify_task_payload",
+            "input_types": ["task_requirement_text"],
+            "output_types": ["task_spec"],
+            "depends_on": [],
+            "condition": null,
+            "source_evidence": [
+              {"source_id": "conv_6802694e2036", "message_id": "conv_6802694e2036:msg_1"},
+              {"source_id": "conv_7be8a0b341b5", "message_id": "conv_7be8a0b341b5:msg_1"}
+            ]
+          },
+          {
+            "id": "s2",
+            "operation": "configure_scheduled_task",
+            "input_types": ["task_spec", "schedule_spec"],
+            "output_types": ["scheduled_task_config"],
+            "depends_on": ["s1"],
+            "condition": "新建或更新既有任务，更新时保留用户未要求变更的字段",
+            "source_evidence": [
+              {"source_id": "conv_6802694e2036", "message_id": "conv_6802694e2036:msg_1"},
+              {"source_id": "conv_7be8a0b341b5", "message_id": "conv_7be8a0b341b5:msg_13"},
+              {"source_id": "conv_f4b82e638325", "message_id": "conv_f4b82e638325:msg_14"}
+            ]
+          },
+          {
+            "id": "s3",
+            "operation": "inspect_task_artifacts",
+            "input_types": ["scheduled_task_config"],
+            "output_types": ["task_run_artifact"],
+            "depends_on": ["s2"],
+            "condition": "用户查看或更新产物时触发",
+            "source_evidence": [
+              {"source_id": "conv_f4b82e638325", "message_id": "conv_f4b82e638325:msg_1"},
+              {"source_id": "conv_526e4b625656", "message_id": "conv_526e4b625656:msg_1"}
+            ]
+          }
+        ],
+        "branches": []
+      },
+      "value_plan": {
+        "schema": "wrd-reuse-value-plan-v2",
+        "workflow_id": "scheduled-task-config",
+        "source_ids": ["conv_6802694e2036", "conv_7be8a0b341b5", "conv_f4b82e638325", "conv_526e4b625656"],
+        "reusable_steps": [
+          {
+            "id": "periodic-task-config-route",
+            "action": "把周期性检索/汇总需求转成定时任务配置并跟踪执行产物（收益待验证假设）",
+            "replaces": ["repeated_operation", "planning"],
+            "resource_ids": ["r1"],
+            "support": [
+              {"source_id": "conv_6802694e2036", "message_ids": ["conv_6802694e2036:msg_1"]},
+              {"source_id": "conv_7be8a0b341b5", "message_ids": ["conv_7be8a0b341b5:msg_1", "conv_7be8a0b341b5:msg_13"]}
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "r1",
+            "kind": "route",
+            "operation": "假设可替代每次重复手工执行周期性检索汇总、或反复重新描述任务配置与执行计划的工作，实际减负待完整学习与无技能对照验证",
+            "input_contract": "任务目标描述 + 执行周期（如每周一07:00/每日12:00）+ 输出格式（md/pdf/图片）",
+            "output_contract": "已创建或更新的定时任务配置，以及执行后的产物文档可直接交付",
+            "applicability": {
+              "conditions": ["平台内定时任务能力可用", "任务为周期性检索/汇总/导出类"],
+              "unsupported": ["需要外部账号认证的服务", "一次性非周期任务", "平台不支持的自定义触发逻辑"]
+            },
+            "fixture_refs": [
+              {
+                "source_id": "conv_6802694e2036",
+                "message_ids": ["conv_6802694e2036:msg_1"],
+                "pin": {"path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_6802694e2036\\conversation.json", "sha256": "095f854e90a99c38bf591e7216f873f292e6814c5db9eb2ef1385caca30f7bcc", "bytes": 38564}
+              },
+              {
+                "source_id": "conv_7be8a0b341b5",
+                "message_ids": ["conv_7be8a0b341b5:msg_1"],
+                "pin": {"path": "D:\\skillloop\\output\\20261021_workflow_skill_library\\sources\\conv_7be8a0b341b5\\conversation.json", "sha256": "a9359dc05978924177b34357dc9a4bda487af9e5fd0cd714f73138cbfd7a7705", "bytes": 19311}
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "holds": [
+    {
+      "proposal_id": "web-html-prototype",
+      "reason": "簇内路线不一致：两个来源为浏览器游戏原型，一个为介绍转HTML营销首页，第四来源标题（测评网页首页）与其实际请求（分析代码提交、整理issue）不符不可采信。预览仅含用户请求，verified_inputs为空，无法确认实际执行步骤，不满足至少两条真实会话共同支持同一组步骤的要求，暂HOLD。"
+    },
+    {
+      "proposal_id": "X_advisory",
+      "reason": "各来源均为一次性业务咨询讨论（盲盒产品构想、初创战略梳理、AI工具落地建议），无可靠可复现输入，也无资源可替代的具体程序化工作；解释与经验讨论本身不构成减负，暂HOLD。"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "schema_version": "wrd_curation09_writer_recovery_v1",
+  "canonical_owner_id": "4e819190cc4ca6bf54f21cfb",
+  "writer_original": {
+    "canonical_owner_id": "4e819190cc4ca6bf54f21cfb",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_675d2b1e9cc09fac4b83",
+    "role": "actor",
+    "route_id": "web-html-prototype",
+    "source_ids": [
+      "conv_e35903a5c526"
+    ],
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "original_tool_call_id": "calla880e677af194eeaa41adef4525b8105",
+    "native_path": "/workspace/outputs/friction_demo.html",
+    "original_content_utf8_SHA256": "acac5b813e6419acf5ff9c8566efd9165e29538460f023822c9b613f6e6e0b12",
+    "characters": 11681,
+    "whole_tool_write_content_recovered": true,
+    "original_body_ref": {
+      "context_episode_id": "ep_675d2b1e9cc09fac4b83",
+      "message_index": 5,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "syntax_or_business_correctness_not_approved": true,
+    "positive_loss": 0,
+    "full_code": "<!DOCTYPE html>\n<html lang=\"zh-CN\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>摩擦力演示动画</title>\n<style>\n  :root{\n    --bg:#0f172a; --panel:#1e293b; --panel2:#273449;\n    --text:#e2e8f0; --muted:#94a3b8;\n    --accent:#38bdf8; --fric:#f87171; --vel:#4ade80; --push:#fbbf24;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    font-family:\"Noto Sans CJK SC\",\"PingFang SC\",\"Microsoft YaHei\",sans-serif;\n    background:var(--bg); color:var(--text);\n    display:flex; justify-content:center; padding:24px 12px;\n  }\n  .wrap{max-width:980px; width:100%;}\n  h1{font-size:26px; text-align:center; margin-bottom:6px;}\n  .subtitle{text-align:center; color:var(--muted); font-size:14px; margin-bottom:18px;}\n  .panel{background:var(--panel); border-radius:14px; padding:16px 18px; margin-bottom:16px;\n         box-shadow:0 6px 20px rgba(0,0,0,.35);}\n  canvas{display:block; width:100%; border-radius:10px; background:#0b1222;}\n  .controls{display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-top:14px;}\n  .ctrl{display:flex; flex-direction:column; gap:6px; min-width:230px; flex:1;}\n  .ctrl label{font-size:13px; color:var(--muted);}\n  .ctrl .val{color:var(--accent); font-weight:600;}\n  input[type=range]{width:100%; accent-color:var(--accent); cursor:pointer;}\n  .btns{display:flex; gap:10px;}\n  button{\n    border:none; border-radius:8px; padding:10px 22px; font-size:15px; cursor:pointer;\n    font-family:inherit; color:#0b1222; background:var(--accent); font-weight:700;\n    transition:transform .1s, filter .15s;\n  }\n  button:hover{filter:brightness(1.12); transform:translateY(-1px);}\n  button.secondary{background:var(--panel2); color:var(--text); border:1px solid #3b4a63;}\n  .legend{display:flex; flex-wrap:wrap; gap:16px; margin-top:12px; font-size:13px; color:var(--muted);}\n  .legend span{display:inline-flex; align-items:center; gap:6px;}\n  .dot{width:22px; height:4px; border-radius:2px; display:inline-block;}\n  .readout{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-top:12px;}\n  .stat{background:var(--panel2); border-radius:8px; padding:8px 12px; font-size:13px;}\n  .stat b{display:block; font-size:16px; margin-top:2px; color:var(--text);}\n  .note{font-size:13px; color:var(--muted); line-height:1.8;}\n  .note h2{font-size:15px; color:var(--text); margin-bottom:8px;}\n  .note ul{padding-left:18px;}\n  .tag{display:inline-block; background:var(--panel2); border-radius:6px; padding:1px 8px; font-size:12px; color:var(--accent); margin-right:6px;}\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <h1>摩擦力演示动画</h1>\n  <p class=\"subtitle\">对比光滑与粗糙表面：观察摩擦力的方向、大小以及对运动的影响</p>\n\n  <div class=\"panel\">\n    <canvas id=\"scene\" width=\"940\" height=\"430\"></canvas>\n\n    <div class=\"readout\">\n      <div class=\"stat\">光滑面物块速度 b<b id=\"v1\">0.0 m/s</b></div>\n      <div class=\"stat\">光滑面摩擦力 b<b id=\"f1\">0.0 N</b></div>\n      <div class=\"stat\">粗糙面物块速度 b<b id=\"v2\">0.0 m/s</b></div>\n      <div class=\"stat\">粗糙面摩擦力 b<b id=\"f2\">0.0 N</b></div>\n      <div class=\"stat\">运动状态 b<b id=\"state1\">静止（静摩擦平衡）</b></div>\n    </div>\n\n    <div class=\"legend\">\n      <span><i class=\"dot\" style=\"background:var(--push)\"></i>推力 F（橙色，长度按比例）</span>\n      <span><i class=\"dot\" style=\"background:var(--fric)\"></i>摩擦力 f（红色，方向与相对运动趋势/运动相反）</span>\n      <span><i class=\"dot\" style=\"background:var(--vel)\"></i>速度 v（绿色）</span>\n    </div>\n\n    <div class=\"controls\">\n      <div class=\"ctrl\">\n        <label>推力 F = <span class=\"val\" id=\"fval\">10.0</span> N</label>\n        <input type=\"range\" id=\"push\" min=\"0\" max=\"30\" step=\"0.5\" value=\"10\">\n      </div>\n      <div class=\"ctrl\">\n        <label>时间流速 ×<span class=\"val\" id=\"tval\">1.0</span></label>\n        <input type=\"range\" id=\"speed\" min=\"0.25\" max=\"3\" step=\"0.25\" value=\"1\">\n      </div>\n      <div class=\"btns\">\n        <button id=\"play\">开始演示</button>\n        <button id=\"reset\" class=\"secondary\">重置</button>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"panel note\">\n    <h2>使用说明与默认参数（未指定项按通用默认处理）</h2>\n    <ul>\n      <li><b>操作</b>：拖动「推力 F」滑块改变水平推力；点击「开始演示」后推力持续作用。当 F ≤ 最大静摩擦力时，物块保持静止（静摩擦力与推力等大反向）；超过后物块开始运动，摩擦力变为滑动摩擦力，方向与运动方向相反。</li>\n      <li><b>对比</b>：上方为光滑表面（μ<sub>s</sub>=0.20，μ<sub>k</sub>=0.15），下方为粗糙表面（μ<sub>s</sub>=0.80，μ<sub>k</sub>=0.60）。相同推力下，粗糙面上的物块更难启动、加速更慢。</li>\n      <li><b>默认参数</b>：物块质量 m = 2 kg，重力加速度 g = 10 m/s²，最大静摩擦按 f<sub>s,max</sub> = μ<sub>s</sub>mg 计算，滑动摩擦按 f<sub>k</sub> = μ<sub>k</sub>mg 计算；箭头长度与力的大小成正比（同一比例尺）；未指定动画帧率与画布尺寸，采用浏览器默认约 60fps 渲染。</li>\n      <li><b>演示技巧</b>：把推力调到 6 N 左右——粗糙面不动（静摩擦平衡）、光滑面缓缓启动；调到 16 N 以上则两者都启动，可对比加速度差异。</li>\n    </ul>\n  </div>\n</div>\n\n<script>\n(function(){\n  const cv = document.getElementById('scene');\n  const ctx = cv.getContext('2d');\n  const W = cv.width, H = cv.height;\n\n  // ---- 物理参数（页面说明中的默认值） ----\n  const M = 2, G = 10;                 // 质量 kg，重力加速度\n  const SCALE = 5;                     // 力箭头比例：px / N\n  const PX_PER_M = 60;                 // 位移比例：px / m\n  const lanes = [\n    { y: 175, mus: 0.20, muk: 0.15, name: '光滑表面', color: '#3b4a63' },\n    { y: 360, mus: 0.80, muk: 0.60, name: '粗糙表面', color: '#6b5637' }\n  ];\n  const BLOCK = { w: 72, h: 46 };\n  const X0 = 120;                      // 起始位置\n  const XMAX = W - 90;                 // 右侧边界\n\n  const state = lanes.map(() => ({ x: 0, v: 0, running: false, stoppedAt: null, peakF: 0 }));\n\n  const pushEl = document.getElementById('push');\n  const speedEl = document.getElementById('speed');\n  const fvalEl = document.getElementById('fval');\n  const tvalEl = document.getElementById('tval');\n\n  function F(){ return parseFloat(pushEl.value); }\n  function T(){ return parseFloat(speedEl.value); }\n\n  // ---- 绘制辅助 ----\n  function roundRect(x, y, w, h, r){\n    ctx.beginPath();\n    ctx.moveTo(x+r, y);\n    ctx.arcTo(x+w, y, x+w, y+h, r);\n    ctx.arcTo(x+w, y+h, x, y+h, r);\n    ctx.arcTo(x, y+h, x, y, r);\n    ctx.arcTo(x, y, x+w, y, r);\n    ctx.closePath();\n  }\n\n  function arrow(x1, y1, x2, y2, color, width){\n    const dx = x2-x1, dy = y2-y1;\n    const len = Math.hypot(dx, dy);\n    if (len < 1) return;\n    const ux = dx/len, uy = dy/len;\n    const head = Math.min(9, len * 0.4);\n    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = width;\n    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - ux*head, y2 - uy*head); ctx.stroke();\n    ctx.beginPath();\n    ctx.moveTo(x2, y2);\n    ctx.lineTo(x2 - ux*head - uy*head*0.45, y2 - uy*head + ux*head*0.45);\n    ctx.lineTo(x2 - ux*head + uy*head*0.45, y2 - uy*head - ux*head*0.45);\n    ctx.closePath(); ctx.fill();\n  }\n\n  function label(text, x, y, color, align){\n    ctx.fillStyle = color || '#e2e8f0';\n    ctx.font = '13px \"Noto Sans CJK SC\", sans-serif';\n    ctx.textAlign = align || 'left';\n    ctx.fillText(text, x, y);\n  }\n\n  // ---- 场景绘制 ----\n  function drawSurface(lane, i){\n    const groundY = lane.y;\n    // 地面\n    ctx.fillStyle = lane.color;\n    ctx.fillRect(0, groundY, W, 8);\n    if (i === 1) { // 粗糙面：画锯齿凸起\n      ctx.beginPath();\n      for (let x = 0; x <= W; x += 10){\n        ctx.moveTo(x, groundY); ctx.lineTo(x + 5, groundY - 5); ctx.lineTo(x + 10, groundY);\n      }\n      ctx.fill();\n    }\n    label(lane.name + '　μs=' + lane.mus.toFixed(2) + '，μk=' + lane.muk.toFixed(2),\n          12, groundY + 26, '#94a3b8');\n  }\n\n  function drawBlock(lane, i, st){\n    const bx = X0 + st.x * PX_PER_M;\n    const by = lane.y - BLOCK.h;\n    roundRect(bx, by, BLOCK.w, BLOCK.h, 6);\n    ctx.fillStyle = '#475569';\n    ctx.fill();\n    ctx.strokeStyle = '#7c8db0'; ctx.lineWidth = 1.5; ctx.stroke();\n    label('m=' + M + 'kg', bx + BLOCK.w/2, by + BLOCK.h/2 + 5, '#e2e8f0', 'center');\n    return { bx, by, cy: by + BLOCK.h/2 };\n  }\n\n  function physics(i, dt){\n    const lane = lanes[i], st = state[i];\n    const Fs = lane.mus * M * G;   // 最大静摩擦\n    const Fk = lane.muk * M * G;   // 滑动摩擦\n    let fric;\n    if (!st.running || (Math.abs(st.v) < 1e-6 && F() <= Fs)) {\n      // 静摩擦：与推力平衡\n      fric = Math.min(F(), Fs);\n      if (st.running && F() <= Fs){ st.v = 0; st.running = false; if (st.stoppedAt === null) st.stoppedAt = st.x; }\n    } else {\n      fric = Fk;\n      const a = (F() - fric) / M;\n      st.v += a * dt;\n      if (st.v <= 0 && F() < Fk){ st.v = 0; st.running = false; if (st.stoppedAt === null) st.stoppedAt = st.x; }\n      if (st.v > 0) st.running = true;\n      st.x += st.v * dt;\n      if (st.x * PX_PER_M > XMAX - X0){ st.x = (XMAX - X0) / PX_PER_M; st.v = 0; st.running = false; if (st.stoppedAt === null) st.stoppedAt = st.x; }\n    }\n    st.peakF = fric;\n    return { fric, moving: st.running || Math.abs(st.v) > 0 };\n  }\n\n  function drawLane(i){\n    const lane = lanes[i], st = state[i];\n    drawSurface(lane, i);\n    const { bx, by, cy } = drawBlock(lane, i, st);\n    const ph = physics(i, 1/120); // 供箭头用（真实步进在 tick 中）\n\n    // 推力箭头（从物块左缘向右）\n    if (F() > 0.01) arrow(bx, cy, bx + F()*SCALE, cy, '#fbbf24', 4);\n    label('F=' + F().toFixed(1) + 'N', bx - 8, cy + 4, '#fbbf24', 'right');\n\n    // 摩擦力箭头（从物块底部中点，方向与运动趋势相反）\n    const f = ph.fric;\n    const fx = bx + BLOCK.w/2, fy = by + BLOCK.h + 20;\n    if (f > 0.01){\n      if (ph.moving) arrow(fx, fy, fx - f*SCALE, fy, '#f87171', 4);\n      else arrow(fx, fy, fx + f*SCALE, fy, '#f87171', 4); // 静摩擦与推力反向\n    }\n    label('f=' + f.toFixed(1) + 'N', fx, fy + 18, '#f87171', 'center');\n\n    // 速度箭头（物块顶部上方）\n    const vx = bx + BLOCK.w/2, vy = by - 16;\n    if (st.v > 0.02) arrow(vx, vy, vx + st.v*14, vy, '#4ade80', 4);\n    label('v=' + st.v.toFixed(2) + 'm/s', vx, vy - 8, '#4ade80', 'center');\n\n    // 停止位置标记\n    if (st.stoppedAt !== null){\n      const sx = X0 + st.stoppedAt * PX_PER_M + BLOCK.w/2;\n      ctx.strokeStyle = '#64748b'; ctx.setLineDash([5,4]); ctx.lineWidth = 1;\n      ctx.beginPath(); ctx.moveTo(sx, lane.y - BLOCK.h - 8); ctx.lineTo(sx, lane.y + 8); ctx.stroke();\n      ctx.setLineDash([]);\n      label('停下，位移 ' + st.stoppedAt.toFixed(2) + 'm', sx + 6, lane.y - BLOCK.h + 8, '#94a3b8');\n    }\n  }\n\n  function draw(){\n    ctx.clearRect(0, 0, W, H);\n    lanes.forEach((_, i) => drawLane(i));\n  }\n\n  // ---- 更新读数 ----\n  const v1 = document.getElementById('v1'), f1 = document.getElementById('f1');\n  const v2 = document.getElementById('v2'), f2 = document.getElementById('f2');\n  const stateEl = document.getElementById('state1');\n  function updateHUD(){\n    v1.textContent = state[0].v.toFixed(1) + ' m/s';\n    f1.textContent = state[0].peakF.toFixed(1) + ' N';\n    v2.textContent = state[1].v.toFixed(1) + ' m/s';\n    f2.textContent = state[1].peakF.toFixed(1) + ' N';\n    let s;\n    if (!state[1].running && state[1].v === 0) {\n      s = (F() <= lanes[1].mus * M * G) ? '静止（静摩擦平衡）' : '静止（被摩擦挡住后停下）';\n    } else {\n      s = F() > lanes[1].muk * M * G ? '加速中' : '减速中';\n    }\n    stateEl.textContent = s;\n  }\n\n  // ---- 主循环 ----\n  let last = performance.now(), acc = 0;\n  function tick(now){\n    const dtReal = Math.min((now - last) / 1000, 0.05) * T();\n    last = now;\n    // 物理子步进（固定小步长，稳定）\n    acc += dtReal;\n    const STEP = 1/240;\n    while (acc > STEP){\n      lanes.forEach((_, i) => physics(i, STEP));\n      acc -= STEP;\n    }\n    draw();\n    updateHUD();\n    requestAnimationFrame(tick);\n  }\n\n  // ---- 交互 ----\n  pushEl.addEventListener('input', () => fvalEl.textContent = F().toFixed(1));\n  speedEl.addEventListener('input', () => tvalEl.textContent = T().toFixed(2));\n  document.getElementById('play').addEventListener('click', () => {\n    state.forEach(st => { st.running = true; });\n  });\n  document.getElementById('reset').addEventListener('click', () => {\n    state.forEach(st => { st.x = 0; st.v = 0; st.running = false; st.stoppedAt = null; st.peakF = 0; });\n  });\n\n  draw(); updateHUD();\n  requestAnimationFrame(tick);\n})();\n</script>\n</body>\n</html>"
+  },
+  "owner_proof_original": {
+    "canonical_owner_id": "4e819190cc4ca6bf54f21cfb",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_675d2b1e9cc09fac4b83",
+    "native_session_id": "7bed7534-b564-4ad1-b06d-8a30e6b015a2",
+    "source_message_index": 5,
+    "source_event_line": 12,
+    "original_message_sha256_sorted": "ed5aeda8b807f4749630f8fccc3135d44affcd962a0a3d2de1d00332ec211255",
+    "original_message_sha256_insertion_order": "fcdb177fea36f07181f2a2d566652804f27c4dec4c00a13b51752d5d41f66cd2",
+    "original_content_sha256_sorted": "e885eaf120752de75e48b51d9156b614c25dcbb616803a25364c7a96b99e0151",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\8d\\8d3dedd7338c87cb91be94ea5ad2ac9eac2d94d28b160be008631a6687addd55",
+      "bytes": 120707,
+      "sha256": "8d3dedd7338c87cb91be94ea5ad2ac9eac2d94d28b160be008631a6687addd55"
+    },
+    "original_body_ref": {
+      "context_episode_id": "ep_675d2b1e9cc09fac4b83",
+      "message_index": 5,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "historical_role": "actor",
+    "route_id": "web-html-prototype",
+    "source_ids": [
+      "conv_e35903a5c526"
+    ],
+    "current_source_statuses": {
+      "conv_e35903a5c526": "TRAIN"
+    },
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "old_source_admission": "ADMIT",
+    "old_source_scope_proof_id": "27038d253711101de2a04027a3615531fdeb6e5adf9c431c01460ba9a0daad21",
+    "late_protected_overlay": null,
+    "old_preflight_eligibility": null,
+    "v9_protocol_disposition": {
+      "id": "4e819190cc4ca6bf54f21cfb",
+      "episode_id": "ep_675d2b1e9cc09fac4b83",
+      "source_message_index": 5,
+      "stage": "actor",
+      "route_id": "web-html-prototype",
+      "source_admission": "ADMIT",
+      "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+      "source_ids": [
+        "conv_e35903a5c526"
+      ],
+      "supervision_tier": null,
+      "loss_multiplier": 0.0,
+      "mask_reasons": [
+        "NO_ADMITTED_OUTCOME_OR_SEMANTIC_SUPERVISION"
+      ],
+      "original_message_sha256": "fcdb177fea36f07181f2a2d566652804f27c4dec4c00a13b51752d5d41f66cd2",
+      "original_content_sha256": "96f82f6fe479cbb2fa3e55973ccec55696097d4cd6075a4fb0b6e0cedfdaa3f3",
+      "quality_is_not_inferred_from_done_retain_or_exit0": true,
+      "training_started": false,
+      "student_response_end_tokens": 8006,
+      "admitted_in_common_32k": false,
+      "owned_spans_before_length_filter": [],
+      "length_filter_never_truncates_source_prefix_or_target": true
+    },
+    "maker405_static_byte_review": null,
+    "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "target_call_ids": [
+      "calla880e677af194eeaa41adef4525b8105"
+    ],
+    "native_response_id": "chatcmpl-1792755881920",
+    "native_readable_R_blocks": 0,
+    "current_view_claims": [],
+    "withdrawn_view_claims": [],
+    "original_R_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "original_A_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "semantics": "NOT_INFERRED_FROM_SOURCE_ADMIT_DONE_RETAIN_OR_EXIT0",
+    "no_new_positive_loss": true,
+    "current_disposition": "SOURCE_CLOSED_SEMANTIC_PENDING"
+  },
+  "context_ref": "episodes/ep_675d2b1e9cc09fac4b83.context.original.json",
+  "timeline_ref": "episodes/ep_675d2b1e9cc09fac4b83.timeline.json",
+  "code_ref": "code/4e819190cc4ca6bf54f21cfb.html",
+  "code_utf8_sha256": "acac5b813e6419acf5ff9c8566efd9165e29538460f023822c9b613f6e6e0b12",
+  "original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "文哥，收到。原需求是「生成一个摩擦力演示html动画」。我来实现：单文件 HTML、内联样式脚本，含粗糙/光滑表面对比、摩擦力方向与大小箭头示意、可交互控制，然后实际渲染验证。",
+        "textSignature": "{\"v\":1,\"id\":\"commentary-0-703e55eb6a864d6eb2f8632f\",\"phase\":\"commentary\"}"
+      },
+      {
+        "type": "toolCall",
+        "id": "calla880e677af194eeaa41adef4525b8105",
+        "name": "write",
+        "arguments": {
+          "content": "<!DOCTYPE html>\n<html lang=\"zh-CN\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>摩擦力演示动画</title>\n<style>\n  :root{\n    --bg:#0f172a; --panel:#1e293b; --panel2:#273449;\n    --text:#e2e8f0; --muted:#94a3b8;\n    --accent:#38bdf8; --fric:#f87171; --vel:#4ade80; --push:#fbbf24;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    font-family:\"Noto Sans CJK SC\",\"PingFang SC\",\"Microsoft YaHei\",sans-serif;\n    background:var(--bg); color:var(--text);\n    display:flex; justify-content:center; padding:24px 12px;\n  }\n  .wrap{max-width:980px; width:100%;}\n  h1{font-size:26px; text-align:center; margin-bottom:6px;}\n  .subtitle{text-align:center; color:var(--muted); font-size:14px; margin-bottom:18px;}\n  .panel{background:var(--panel); border-radius:14px; padding:16px 18px; margin-bottom:16px;\n         box-shadow:0 6px 20px rgba(0,0,0,.35);}\n  canvas{display:block; width:100%; border-radius:10px; background:#0b1222;}\n  .controls{display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-top:14px;}\n  .ctrl{display:flex; flex-direction:column; gap:6px; min-width:230px; flex:1;}\n  .ctrl label{font-size:13px; color:var(--muted);}\n  .ctrl .val{color:var(--accent); font-weight:600;}\n  input[type=range]{width:100%; accent-color:var(--accent); cursor:pointer;}\n  .btns{display:flex; gap:10px;}\n  button{\n    border:none; border-radius:8px; padding:10px 22px; font-size:15px; cursor:pointer;\n    font-family:inherit; color:#0b1222; background:var(--accent); font-weight:700;\n    transition:transform .1s, filter .15s;\n  }\n  button:hover{filter:brightness(1.12); transform:translateY(-1px);}\n  button.secondary{background:var(--panel2); color:var(--text); border:1px solid #3b4a63;}\n  .legend{display:flex; flex-wrap:wrap; gap:16px; margin-top:12px; font-size:13px; color:var(--muted);}\n  .legend span{display:inline-flex; align-items:center; gap:6px;}\n  .dot{width:22px; height:4px; border-radius:2px; display:inline-block;}\n  .readout{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-top:12px;}\n  .stat{background:var(--panel2); border-radius:8px; padding:8px 12px; font-size:13px;}\n  .stat b{display:block; font-size:16px; margin-top:2px; color:var(--text);}\n  .note{font-size:13px; color:var(--muted); line-height:1.8;}\n  .note h2{font-size:15px; color:var(--text); margin-bottom:8px;}\n  .note ul{padding-left:18px;}\n  .tag{display:inline-block; background:var(--panel2); border-radius:6px; padding:1px 8px; font-size:12px; color:var(--accent); margin-right:6px;}\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <h1>摩擦力演示动画</h1>\n  <p class=\"subtitle\">对比光滑与粗糙表面：观察摩擦力的方向、大小以及对运动的影响</p>\n\n  <div class=\"panel\">\n    <canvas id=\"scene\" width=\"940\" height=\"430\"></canvas>\n\n    <div class=\"readout\">\n      <div class=\"stat\">光滑面物块速度 b<b id=\"v1\">0.0 m/s</b></div>\n      <div class=\"stat\">光滑面摩擦力 b<b id=\"f1\">0.0 N</b></div>\n      <div class=\"stat\">粗糙面物块速度 b<b id=\"v2\">0.0 m/s</b></div>\n      <div class=\"stat\">粗糙面摩擦力 b<b id=\"f2\">0.0 N</b></div>\n      <div class=\"stat\">运动状态 b<b id=\"state1\">静止（静摩擦平衡）</b></div>\n    </div>\n\n    <div class=\"legend\">\n      <span><i class=\"dot\" style=\"background:var(--push)\"></i>推力 F（橙色，长度按比例）</span>\n      <span><i class=\"dot\" style=\"background:var(--fric)\"></i>摩擦力 f（红色，方向与相对运动趋势/运动相反）</span>\n      <span><i class=\"dot\" style=\"background:var(--vel)\"></i>速度 v（绿色）</span>\n    </div>\n\n    <div class=\"controls\">\n      <div class=\"ctrl\">\n        <label>推力 F = <span class=\"val\" id=\"fval\">10.0</span> N</label>\n        <input type=\"range\" id=\"push\" min=\"0\" max=\"30\" step=\"0.5\" value=\"10\">\n      </div>\n      <div class=\"ctrl\">\n        <label>时间流速 ×<span class=\"val\" id=\"tval\">1.0</span></label>\n        <input type=\"range\" id=\"speed\" min=\"0.25\" max=\"3\" step=\"0.25\" value=\"1\">\n      </div>\n      <div class=\"btns\">\n        <button id=\"play\">开始演示</button>\n        <button id=\"reset\" class=\"secondary\">重置</button>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"panel note\">\n    <h2>使用说明与默认参数（未指定项按通用默认处理）</h2>\n    <ul>\n      <li><b>操作</b>：拖动「推力 F」滑块改变水平推力；点击「开始演示」后推力持续作用。当 F ≤ 最大静摩擦力时，物块保持静止（静摩擦力与推力等大反向）；超过后物块开始运动，摩擦力变为滑动摩擦力，方向与运动方向相反。</li>\n      <li><b>对比</b>：上方为光滑表面（μ<sub>s</sub>=0.20，μ<sub>k</sub>=0.15），下方为粗糙表面（μ<sub>s</sub>=0.80，μ<sub>k</sub>=0.60）。相同推力下，粗糙面上的物块更难启动、加速更慢。</li>\n      <li><b>默认参数</b>：物块质量 m = 2 kg，重力加速度 g = 10 m/s²，最大静摩擦按 f<sub>s,max</sub> = μ<sub>s</sub>mg 计算，滑动摩擦按 f<sub>k</sub> = μ<sub>k</sub>mg 计算；箭头长度与力的大小成正比（同一比例尺）；未指定动画帧率与画布尺寸，采用浏览器默认约 60fps 渲染。</li>\n      <li><b>演示技巧</b>：把推力调到 6 N 左右——粗糙面不动（静摩擦平衡）、光滑面缓缓启动；调到 16 N 以上则两者都启动，可对比加速度差异。</li>\n    </ul>\n  </div>\n</div>\n\n<script>\n(function(){\n  const cv = document.getElementById('scene');\n  const ctx = cv.getContext('2d');\n  const W = cv.width, H = cv.height;\n\n  // ---- 物理参数（页面说明中的默认值） ----\n  const M = 2, G = 10;                 // 质量 kg，重力加速度\n  const SCALE = 5;                     // 力箭头比例：px / N\n  const PX_PER_M = 60;                 // 位移比例：px / m\n  const lanes = [\n    { y: 175, mus: 0.20, muk: 0.15, name: '光滑表面', color: '#3b4a63' },\n    { y: 360, mus: 0.80, muk: 0.60, name: '粗糙表面', color: '#6b5637' }\n  ];\n  const BLOCK = { w: 72, h: 46 };\n  const X0 = 120;                      // 起始位置\n  const XMAX = W - 90;                 // 右侧边界\n\n  const state = lanes.map(() => ({ x: 0, v: 0, running: false, stoppedAt: null, peakF: 0 }));\n\n  const pushEl = document.getElementById('push');\n  const speedEl = document.getElementById('speed');\n  const fvalEl = document.getElementById('fval');\n  const tvalEl = document.getElementById('tval');\n\n  function F(){ return parseFloat(pushEl.value); }\n  function T(){ return parseFloat(speedEl.value); }\n\n  // ---- 绘制辅助 ----\n  function roundRect(x, y, w, h, r){\n    ctx.beginPath();\n    ctx.moveTo(x+r, y);\n    ctx.arcTo(x+w, y, x+w, y+h, r);\n    ctx.arcTo(x+w, y+h, x, y+h, r);\n    ctx.arcTo(x, y+h, x, y, r);\n    ctx.arcTo(x, y, x+w, y, r);\n    ctx.closePath();\n  }\n\n  function arrow(x1, y1, x2, y2, color, width){\n    const dx = x2-x1, dy = y2-y1;\n    const len = Math.hypot(dx, dy);\n    if (len < 1) return;\n    const ux = dx/len, uy = dy/len;\n    const head = Math.min(9, len * 0.4);\n    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = width;\n    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - ux*head, y2 - uy*head); ctx.stroke();\n    ctx.beginPath();\n    ctx.moveTo(x2, y2);\n    ctx.lineTo(x2 - ux*head - uy*head*0.45, y2 - uy*head + ux*head*0.45);\n    ctx.lineTo(x2 - ux*head + uy*head*0.45, y2 - uy*head - ux*head*0.45);\n    ctx.closePath(); ctx.fill();\n  }\n\n  function label(text, x, y, color, align){\n    ctx.fillStyle = color || '#e2e8f0';\n    ctx.font = '13px \"Noto Sans CJK SC\", sans-serif';\n    ctx.textAlign = align || 'left';\n    ctx.fillText(text, x, y);\n  }\n\n  // ---- 场景绘制 ----\n  function drawSurface(lane, i){\n    const groundY = lane.y;\n    // 地面\n    ctx.fillStyle = lane.color;\n    ctx.fillRect(0, groundY, W, 8);\n    if (i === 1) { // 粗糙面：画锯齿凸起\n      ctx.beginPath();\n      for (let x = 0; x <= W; x += 10){\n        ctx.moveTo(x, groundY); ctx.lineTo(x + 5, groundY - 5); ctx.lineTo(x + 10, groundY);\n      }\n      ctx.fill();\n    }\n    label(lane.name + '　μs=' + lane.mus.toFixed(2) + '，μk=' + lane.muk.toFixed(2),\n          12, groundY + 26, '#94a3b8');\n  }\n\n  function drawBlock(lane, i, st){\n    const bx = X0 + st.x * PX_PER_M;\n    const by = lane.y - BLOCK.h;\n    roundRect(bx, by, BLOCK.w, BLOCK.h, 6);\n    ctx.fillStyle = '#475569';\n    ctx.fill();\n    ctx.strokeStyle = '#7c8db0'; ctx.lineWidth = 1.5; ctx.stroke();\n    label('m=' + M + 'kg', bx + BLOCK.w/2, by + BLOCK.h/2 + 5, '#e2e8f0', 'center');\n    return { bx, by, cy: by + BLOCK.h/2 };\n  }\n\n  function physics(i, dt){\n    const lane = lanes[i], st = state[i];\n    const Fs = lane.mus * M * G;   // 最大静摩擦\n    const Fk = lane.muk * M * G;   // 滑动摩擦\n    let fric;\n    if (!st.running || (Math.abs(st.v) < 1e-6 && F() <= Fs)) {\n      // 静摩擦：与推力平衡\n      fric = Math.min(F(), Fs);\n      if (st.running && F() <= Fs){ st.v = 0; st.running = false; if (st.stoppedAt === null) st.stoppedAt = st.x; }\n    } else {\n      fric = Fk;\n      const a = (F() - fric) / M;\n      st.v += a * dt;\n      if (st.v <= 0 && F() < Fk){ st.v = 0; st.running = false; if (st.stoppedAt === null) st.stoppedAt = st.x; }\n      if (st.v > 0) st.running = true;\n      st.x += st.v * dt;\n      if (st.x * PX_PER_M > XMAX - X0){ st.x = (XMAX - X0) / PX_PER_M; st.v = 0; st.running = false; if (st.stoppedAt === null) st.stoppedAt = st.x; }\n    }\n    st.peakF = fric;\n    return { fric, moving: st.running || Math.abs(st.v) > 0 };\n  }\n\n  function drawLane(i){\n    const lane = lanes[i], st = state[i];\n    drawSurface(lane, i);\n    const { bx, by, cy } = drawBlock(lane, i, st);\n    const ph = physics(i, 1/120); // 供箭头用（真实步进在 tick 中）\n\n    // 推力箭头（从物块左缘向右）\n    if (F() > 0.01) arrow(bx, cy, bx + F()*SCALE, cy, '#fbbf24', 4);\n    label('F=' + F().toFixed(1) + 'N', bx - 8, cy + 4, '#fbbf24', 'right');\n\n    // 摩擦力箭头（从物块底部中点，方向与运动趋势相反）\n    const f = ph.fric;\n    const fx = bx + BLOCK.w/2, fy = by + BLOCK.h + 20;\n    if (f > 0.01){\n      if (ph.moving) arrow(fx, fy, fx - f*SCALE, fy, '#f87171', 4);\n      else arrow(fx, fy, fx + f*SCALE, fy, '#f87171', 4); // 静摩擦与推力反向\n    }\n    label('f=' + f.toFixed(1) + 'N', fx, fy + 18, '#f87171', 'center');\n\n    // 速度箭头（物块顶部上方）\n    const vx = bx + BLOCK.w/2, vy = by - 16;\n    if (st.v > 0.02) arrow(vx, vy, vx + st.v*14, vy, '#4ade80', 4);\n    label('v=' + st.v.toFixed(2) + 'm/s', vx, vy - 8, '#4ade80', 'center');\n\n    // 停止位置标记\n    if (st.stoppedAt !== null){\n      const sx = X0 + st.stoppedAt * PX_PER_M + BLOCK.w/2;\n      ctx.strokeStyle = '#64748b'; ctx.setLineDash([5,4]); ctx.lineWidth = 1;\n      ctx.beginPath(); ctx.moveTo(sx, lane.y - BLOCK.h - 8); ctx.lineTo(sx, lane.y + 8); ctx.stroke();\n      ctx.setLineDash([]);\n      label('停下，位移 ' + st.stoppedAt.toFixed(2) + 'm', sx + 6, lane.y - BLOCK.h + 8, '#94a3b8');\n    }\n  }\n\n  function draw(){\n    ctx.clearRect(0, 0, W, H);\n    lanes.forEach((_, i) => drawLane(i));\n  }\n\n  // ---- 更新读数 ----\n  const v1 = document.getElementById('v1'), f1 = document.getElementById('f1');\n  const v2 = document.getElementById('v2'), f2 = document.getElementById('f2');\n  const stateEl = document.getElementById('state1');\n  function updateHUD(){\n    v1.textContent = state[0].v.toFixed(1) + ' m/s';\n    f1.textContent = state[0].peakF.toFixed(1) + ' N';\n    v2.textContent = state[1].v.toFixed(1) + ' m/s';\n    f2.textContent = state[1].peakF.toFixed(1) + ' N';\n    let s;\n    if (!state[1].running && state[1].v === 0) {\n      s = (F() <= lanes[1].mus * M * G) ? '静止（静摩擦平衡）' : '静止（被摩擦挡住后停下）';\n    } else {\n      s = F() > lanes[1].muk * M * G ? '加速中' : '减速中';\n    }\n    stateEl.textContent = s;\n  }\n\n  // ---- 主循环 ----\n  let last = performance.now(), acc = 0;\n  function tick(now){\n    const dtReal = Math.min((now - last) / 1000, 0.05) * T();\n    last = now;\n    // 物理子步进（固定小步长，稳定）\n    acc += dtReal;\n    const STEP = 1/240;\n    while (acc > STEP){\n      lanes.forEach((_, i) => physics(i, STEP));\n      acc -= STEP;\n    }\n    draw();\n    updateHUD();\n    requestAnimationFrame(tick);\n  }\n\n  // ---- 交互 ----\n  pushEl.addEventListener('input', () => fvalEl.textContent = F().toFixed(1));\n  speedEl.addEventListener('input', () => tvalEl.textContent = T().toFixed(2));\n  document.getElementById('play').addEventListener('click', () => {\n    state.forEach(st => { st.running = true; });\n  });\n  document.getElementById('reset').addEventListener('click', () => {\n    state.forEach(st => { st.x = 0; st.v = 0; st.running = false; st.stoppedAt = null; st.peakF = 0; });\n  });\n\n  draw(); updateHUD();\n  requestAnimationFrame(tick);\n})();\n</script>\n</body>\n</html>",
+          "path": "/workspace/outputs/friction_demo.html"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792755881889,
+    "responseId": "chatcmpl-1792755881920",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "32c3e836-c86e-4e55-9984-e78415ac14c7"
+    }
+  },
+  "original_write_ack": [
+    {
+      "index": 6,
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "calla880e677af194eeaa41adef4525b8105",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote 12991 bytes to /workspace/outputs/friction_demo.html"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "changed",
+            "created",
+            "diff",
+            "patch",
+            "firstChangedLine"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792755983751,
+        "__openclaw": {
+          "runId": "32c3e836-c86e-4e55-9984-e78415ac14c7"
+        }
+      }
+    }
+  ],
+  "native_ref": "native/8d3dedd7338c87cb91be94ea5ad2ac9eac2d94d28b160be008631a6687addd55.jsonl",
+  "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+  "original_prefix_equivalence_claimed": false,
+  "holdout_reservation_checked": false,
+  "semantic_training_admission": false,
+  "training_admitted": false,
+  "semantic_status": "RECOVERED_UNREVIEWED",
+  "cost": {
+    "new_business_teacher_actor_calls": 0,
+    "training_started": false,
+    "ai_cpu_curation_cost": "UNKNOWN_NOT_ZERO"
+  }
+}

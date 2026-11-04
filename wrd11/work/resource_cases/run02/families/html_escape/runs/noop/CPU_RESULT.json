@@ -1,0 +1,54 @@
+{
+  "schema": "wrd11-real-local-cpu-fixture-result",
+  "tool_identity": "PYTHON_SUBPROCESS_NOT_OPENCLAW",
+  "program": {
+    "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\versions\\noop\\resource.py",
+    "bytes": 255,
+    "sha256": "bfc028e1b437d91d1ef5d19adcfb80def7a1e3426646309f61572a7f261f359c"
+  },
+  "input_sha256": "dafc97be1ae81d8835cdd5161eba4ab6f9581036b1bfecb09f8a4b33b45ca182",
+  "explicit_child_encoding": {
+    "PYTHONUTF8": "1",
+    "PYTHONIOENCODING": "utf-8"
+  },
+  "actual_exit_code": 0,
+  "json_parse_ok": true,
+  "output_length_ok": true,
+  "passed": 0,
+  "total": 3,
+  "checks": [
+    {
+      "fixture_index": 0,
+      "ok": false,
+      "expected": "<a href=\"https://example.invalid/a?q=1&amp;b=2\">A&amp;B</a>",
+      "actual": "<a href=\"https://example.invalid/a?q=1&b=2\">A&B</a>"
+    },
+    {
+      "fixture_index": 1,
+      "ok": false,
+      "expected": "<a href=\"https://example.invalid/&quot; data-x=&quot;bad\">&lt;check&gt;</a>",
+      "actual": "<a href=\"https://example.invalid/\" data-x=\"bad\"><check></a>"
+    },
+    {
+      "fixture_index": 2,
+      "ok": false,
+      "expected": "<span>blocked</span>",
+      "actual": "<a href=\"javascript:alert(1)\">blocked</a>"
+    }
+  ],
+  "all_passed": false,
+  "stdout": {
+    "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\runs\\noop\\stdout.bin",
+    "bytes": 173,
+    "sha256": "fb7c881a62b2011f3ec95eb0c7497eaf81c596e0ac535bf1c8dda7bcf8b4dbc0"
+  },
+  "stderr": {
+    "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\runs\\noop\\stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "elapsed_seconds_observed_local_CPU": 0.07783239998389035,
+  "business_Q_measured": false,
+  "business_qualified_KEEP": false,
+  "model_tokens_or_GPU_energy_measured": false
+}

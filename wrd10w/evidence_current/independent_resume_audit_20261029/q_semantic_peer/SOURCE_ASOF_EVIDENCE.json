@@ -1,0 +1,511 @@
+{
+  "first_actual_request": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0001_5d8c04ba1b7c439a9d33081ffb0c5059\\request.raw.json",
+    "bytes": 125135,
+    "sha256": "50f060c189c26f8d6f36613891a2682f10bf1a62d264b59246248a323d7c8f0d"
+  },
+  "visible_date": {
+    "start": 11837,
+    "end": 11861,
+    "text": "Current date: 2026-10-27",
+    "text_sha256_utf8": "3f637d0d5d7abe2bb65887289d81cf923be5ae5203791d175dddc8b056ec660b"
+  },
+  "visible_date_role": "system",
+  "not_from_later_metadata": true,
+  "all_actual_tool_receipts_and_request_boundaries_verified": [
+    {
+      "actor_call_id": "0001_5d8c04ba1b7c439a9d33081ffb0c5059",
+      "tool": "exec",
+      "command": "cat /workspace/inputs/review/source_only_quality_protocol.json",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0002_84ca3b6e155e41a4bbbd1df2a74d1563\\request.raw.json",
+        "bytes": 129000,
+        "sha256": "f099b7a1505828f0e21ba2e085b4d637186c93c6f11416c36aa6907f24e28705"
+      },
+      "message_index": 3,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\59fc3577509b127f3f16958e14436e5a7faa0646301a3a3cb9feff8ae26443bd",
+        "bytes": 3628,
+        "sha256": "59fc3577509b127f3f16958e14436e5a7faa0646301a3a3cb9feff8ae26443bd"
+      },
+      "tool_call_id": "call3ae9dd383dc849de85f74e0147ae08f5"
+    },
+    {
+      "actor_call_id": "0002_84ca3b6e155e41a4bbbd1df2a74d1563",
+      "tool": "exec",
+      "command": "cat /workspace/inputs/review/phase1_manifest.json",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0003_0c70118c8d1c47e7beb1015e94aae6d8\\request.raw.json",
+        "bytes": 133119,
+        "sha256": "25b010a21b6ebea97d52aca560d05897560973138c85319b8a671a60b6524b8a"
+      },
+      "message_index": 5,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\5e33673af3a785e46763f4e3ce9dd6d765d4fae5b61fea88a7f57c9e323a7b39",
+        "bytes": 3895,
+        "sha256": "5e33673af3a785e46763f4e3ce9dd6d765d4fae5b61fea88a7f57c9e323a7b39"
+      },
+      "tool_call_id": "call32ad90d3c6ae47e082b2c0f48a5cb017"
+    },
+    {
+      "actor_call_id": "0003_0c70118c8d1c47e7beb1015e94aae6d8",
+      "tool": "exec",
+      "command": "cat /workspace/inputs/review/tasks/E1.json; echo '=====E2====='; cat /workspace/inputs/review/tasks/E2.json",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0004_6566991bfd1c41e193fc767ec58190e2\\request.raw.json",
+        "bytes": 142487,
+        "sha256": "38126a4183b2dc8f300fdf35e85d7830d817bdaf9212406362fa89055a472ef9"
+      },
+      "message_index": 7,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\44215c85bcb725f5615cc45f527dd4caa790cc3b497874b822636d0b92b4250a",
+        "bytes": 9086,
+        "sha256": "44215c85bcb725f5615cc45f527dd4caa790cc3b497874b822636d0b92b4250a"
+      },
+      "tool_call_id": "call32e01a4d0b86420da521473aacfaf41a"
+    },
+    {
+      "actor_call_id": "0004_6566991bfd1c41e193fc767ec58190e2",
+      "tool": "exec",
+      "command": "mkdir -p /workspace/tmp && cd /workspace/inputs/task/materials && for f in 3f8a1c51032c2b97 6ce6df1590fed877 b4fd3bee09b14b32 9c667aab99eaada6 91162cf64d5ec403 8ad152dae625eda9 96f97ee12f59ed80; do pdftotext -layout $f.pdf /workspace/tmp/$f.txt 2>/dev/null || python -c \"import fitz; d=fitz.open('$f.pdf'); open('/workspace/tmp/$f.txt','w').write('\\n'.join(p.get_text() for p in d))\"; done; wc -c /workspace/tmp/*.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0005_31232eb294b24b2a8209b8df8e94e8af\\request.raw.json",
+        "bytes": 143490,
+        "sha256": "293aa06a96f991373783dbf8e672b76a972b0337fd60435827f992713b668dd6"
+      },
+      "message_index": 9,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\dcc33e63ceb269d9313a649e84ed07d7dd23a413e9257634c883881269f60667",
+        "bytes": 402,
+        "sha256": "dcc33e63ceb269d9313a649e84ed07d7dd23a413e9257634c883881269f60667"
+      },
+      "tool_call_id": "callc8231ceb7b5a428e9726664bd469720f"
+    },
+    {
+      "actor_call_id": "0005_31232eb294b24b2a8209b8df8e94e8af",
+      "tool": "exec",
+      "command": "cat /workspace/tmp/3f8a1c51032c2b97.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0006_0f919f22b6c94988a78505c9e0bf24c4\\request.raw.json",
+        "bytes": 160270,
+        "sha256": "1b29cfe261736bb80b1e505ff603301b8d1ec7a47d00ff8ee3cc816d3f131057"
+      },
+      "message_index": 11,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\31b70fd187a7975c2152238d9d7de778d1d90373487cd1defc4874646d1a1ebe",
+        "bytes": 16566,
+        "sha256": "31b70fd187a7975c2152238d9d7de778d1d90373487cd1defc4874646d1a1ebe"
+      },
+      "tool_call_id": "call7029aad4cad04e2896edf0f7ffe51885"
+    },
+    {
+      "actor_call_id": "0006_0f919f22b6c94988a78505c9e0bf24c4",
+      "tool": "exec",
+      "command": "echo '=====E1_A====='; cat /workspace/inputs/review/outputs/E1_A.txt; echo; echo '=====E1_B====='; cat /workspace/inputs/review/outputs/E1_B.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0007_ffb8202a89514b67bb9fcda575bd089c\\request.raw.json",
+        "bytes": 165690,
+        "sha256": "c78ad4ec490d5036dd1ea0fa52287fc9547ec3bd87442d8d8dd0786ef4588ebe"
+      },
+      "message_index": 13,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\6a7cb9d83372d3d7fde4b3674bea413f30e08b77babd0ad14931e18a2a957a80",
+        "bytes": 5047,
+        "sha256": "6a7cb9d83372d3d7fde4b3674bea413f30e08b77babd0ad14931e18a2a957a80"
+      },
+      "tool_call_id": "call1e378c99db194a1a9998cf8c8a9dd6a5"
+    },
+    {
+      "actor_call_id": "0007_ffb8202a89514b67bb9fcda575bd089c",
+      "tool": "exec",
+      "command": "echo '=====6ce 梁勇其====='; cat /workspace/tmp/6ce6df1590fed877.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0008_c15dd26670c2473f8219cb6e948e8839\\request.raw.json",
+        "bytes": 185815,
+        "sha256": "df6b98fd64595686cc3c00611451c17700aef1bdbf411c4856e8ad626fbbe197"
+      },
+      "message_index": 15,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\f36cb607624eb721f0ef13ac0ac46b911553702690621b02660d891f1ae17cef",
+        "bytes": 19853,
+        "sha256": "f36cb607624eb721f0ef13ac0ac46b911553702690621b02660d891f1ae17cef"
+      },
+      "tool_call_id": "call0d9bbd3ec99d4548bc06ffc550775779"
+    },
+    {
+      "actor_call_id": "0008_c15dd26670c2473f8219cb6e948e8839",
+      "tool": "exec",
+      "command": "echo '=====b4f 邱景锋====='; cat /workspace/tmp/b4fd3bee09b14b32.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0009_6a18717492b54b789704eedbf50b2814\\request.raw.json",
+        "bytes": 201338,
+        "sha256": "3477f9ca10f7cdb8d012d5d0f93793b4044f3b7125035cad701136d8e993d95a"
+      },
+      "message_index": 17,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\630af51167b6c31701d2f35bf74c036ebf5fbfb3b22539c14bc48a0fe821223d",
+        "bytes": 15277,
+        "sha256": "630af51167b6c31701d2f35bf74c036ebf5fbfb3b22539c14bc48a0fe821223d"
+      },
+      "tool_call_id": "call791c875cf97e4d8dadcc6f8edff5813d"
+    },
+    {
+      "actor_call_id": "0009_6a18717492b54b789704eedbf50b2814",
+      "tool": "exec",
+      "command": "echo '=====9c6 王丹====='; cat /workspace/tmp/9c667aab99eaada6.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0010_f56a6868f2f24e92ae396f36e9791bd3\\request.raw.json",
+        "bytes": 217686,
+        "sha256": "71e712960e36910ff9cdf3212d5e364e93d212b3d1efe7b1ee7325b4b7d1d5a9"
+      },
+      "message_index": 19,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\eb5506f3847aa88b955d9681afb1f6d2c780be7deffaeb0aa7b8451f0c24e287",
+        "bytes": 16105,
+        "sha256": "eb5506f3847aa88b955d9681afb1f6d2c780be7deffaeb0aa7b8451f0c24e287"
+      },
+      "tool_call_id": "call1b15a574cb7d4e7687bcfab4ca579980"
+    },
+    {
+      "actor_call_id": "0010_f56a6868f2f24e92ae396f36e9791bd3",
+      "tool": "exec",
+      "command": "echo '=====911 李萍====='; cat /workspace/tmp/91162cf64d5ec403.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0011_c6cfeed7e727490383550a77cbf043f8\\request.raw.json",
+        "bytes": 242087,
+        "sha256": "a0bf36fa321580b94a16b03b9755c85e2f861b37c9e3e3ffe99ecbe44e6d26af"
+      },
+      "message_index": 21,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\705a6843c73bc313e9106dfea90a725240f8429fd07a9ba4c44e3b8ec2076388",
+        "bytes": 24158,
+        "sha256": "705a6843c73bc313e9106dfea90a725240f8429fd07a9ba4c44e3b8ec2076388"
+      },
+      "tool_call_id": "call135286ccaa1548d482ac1e04e411b56e"
+    },
+    {
+      "actor_call_id": "0011_c6cfeed7e727490383550a77cbf043f8",
+      "tool": "exec",
+      "command": "echo '=====8ad 王俊涛====='; cat /workspace/tmp/8ad152dae625eda9.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0012_8b06e92710d043bd8337ed164d204f25\\request.raw.json",
+        "bytes": 267270,
+        "sha256": "2f61b144f7369045f5c7b3225aabf80ed1fae4d3d3f26a2bfdca05f9d10aff23"
+      },
+      "message_index": 23,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\4e61aaa326a0f5f234b60d327fe06b2ed97fb74169fa81ea2c53e82ec1a3b76b",
+        "bytes": 24937,
+        "sha256": "4e61aaa326a0f5f234b60d327fe06b2ed97fb74169fa81ea2c53e82ec1a3b76b"
+      },
+      "tool_call_id": "calle2137e84581d4840a2bf31b6d75a9cf1"
+    },
+    {
+      "actor_call_id": "0012_8b06e92710d043bd8337ed164d204f25",
+      "tool": "exec",
+      "command": "echo '=====96f 纵天华====='; cat /workspace/tmp/96f97ee12f59ed80.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0013_891cf13f72304388b07674898b6b019e\\request.raw.json",
+        "bytes": 300096,
+        "sha256": "f3f262ad5f08c0104a905f3503e919e0cea844f1d8971f15e3d2d86b911e38bb"
+      },
+      "message_index": 25,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\ef2924042374f454dde1ed46047a160a5013f5919146e864f2e2bfa1c4a88cbe",
+        "bytes": 32580,
+        "sha256": "ef2924042374f454dde1ed46047a160a5013f5919146e864f2e2bfa1c4a88cbe"
+      },
+      "tool_call_id": "callbc3cd56a587b49cba2c9b694a4f4c445"
+    },
+    {
+      "actor_call_id": "0013_891cf13f72304388b07674898b6b019e",
+      "tool": "exec",
+      "command": "echo '=====E2_A====='; cat /workspace/inputs/review/outputs/E2_A.txt; echo; echo '=====E2_B====='; cat /workspace/inputs/review/outputs/E2_B.txt",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0014_8a42d6aff4d4471bb51b7fbffd815c7f\\request.raw.json",
+        "bytes": 307384,
+        "sha256": "7e9d48ef2b97934ae7f8f04a55da069335c18da68c6ff7e2f741b720f61ce906"
+      },
+      "message_index": 27,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\1e6124884a5c8aaaa345928d74ae8f9fecb2663123b002496800086928d21b7f",
+        "bytes": 6969,
+        "sha256": "1e6124884a5c8aaaa345928d74ae8f9fecb2663123b002496800086928d21b7f"
+      },
+      "tool_call_id": "callbd20dc6c74b1494cb394331ac0615505"
+    },
+    {
+      "actor_call_id": "0014_8a42d6aff4d4471bb51b7fbffd815c7f",
+      "tool": "write",
+      "command": "",
+      "path": "/workspace/outputs/blind_quality.json",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0015_d5ceb61d31084e36837b5aea3ae03170\\request.raw.json",
+        "bytes": 342927,
+        "sha256": "53cffcf6d1f61d14d822cc695b1827f51616501200f299cb0e7cbae9e3f93b6a"
+      },
+      "message_index": 29,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\838689d1eeb2872e20e20366b7f42ce23941d53b2af9794f229f1f8dc6066b9d",
+        "bytes": 154,
+        "sha256": "838689d1eeb2872e20e20366b7f42ce23941d53b2af9794f229f1f8dc6066b9d"
+      },
+      "tool_call_id": "callbf3b4ad9b1d242d5931079ea1b2402e2"
+    },
+    {
+      "actor_call_id": "0015_d5ceb61d31084e36837b5aea3ae03170",
+      "tool": "exec",
+      "command": "python -c \"import json; d=json.load(open('/workspace/outputs/blind_quality.json')); print('valid JSON'); print('cases:', list(d['cases'].keys())); print('E1', {a:d['cases']['E1']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('E2', {a:d['cases']['E2']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('cues:', [(c['case'],c['arm']) for c in d['blinding']['method_cues']])\"",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0016_3ef6cf3e03d8457b82c6568cb7d6a51c\\request.raw.json",
+        "bytes": 343727,
+        "sha256": "d6325a91362d8e7d4842239a414705e890b4c75266d8fb09fbc26134b877b1cb"
+      },
+      "message_index": 31,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\bc6a63b0e430b521d6fc269427b3610791272d4b1e5837daee065d85021f4c04",
+        "bytes": 231,
+        "sha256": "bc6a63b0e430b521d6fc269427b3610791272d4b1e5837daee065d85021f4c04"
+      },
+      "tool_call_id": "call5d2cc9a1ddb744749f90c8c51a2cffba"
+    },
+    {
+      "actor_call_id": "0016_3ef6cf3e03d8457b82c6568cb7d6a51c",
+      "tool": "exec",
+      "command": "cat /workspace/inputs/review/phase2_arm_costs.json",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0017_9de6e23f640d4bcc882c49ed45a087c9\\request.raw.json",
+        "bytes": 366036,
+        "sha256": "35ab9770b3fca951100f2da19af5644d4912184911fb22646b04aac9c235a473"
+      },
+      "message_index": 33,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796",
+        "bytes": 21912,
+        "sha256": "88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796"
+      },
+      "tool_call_id": "calle3a448c665e24b23bb1c647d528f3f04"
+    },
+    {
+      "actor_call_id": "0017_9de6e23f640d4bcc882c49ed45a087c9",
+      "tool": "exec",
+      "command": "wc -c /workspace/inputs/review/candidate_skill/SKILL.md /workspace/inputs/review/candidate_skill/scripts/*.py; echo ---; cat /workspace/inputs/review/candidate_skill/SKILL.md",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0018_f245e293c4084e9db69255a320002fa1\\request.raw.json",
+        "bytes": 372074,
+        "sha256": "f125009becafc3a44600da5fbc3e48657fbcbfb09a3ee545a9e21a08137e73a3"
+      },
+      "message_index": 35,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\8a26f36bc62882cb164fb22a37dc1d751664c37d970f28e23518f9531ecd795d",
+        "bytes": 5689,
+        "sha256": "8a26f36bc62882cb164fb22a37dc1d751664c37d970f28e23518f9531ecd795d"
+      },
+      "tool_call_id": "calle578ffd699d94ea1859e47a7fb3ae4be"
+    },
+    {
+      "actor_call_id": "0018_f245e293c4084e9db69255a320002fa1",
+      "tool": "exec",
+      "command": "cat /workspace/inputs/review/candidate_skill/scripts/cv_extract.py; echo '=====cvlib====='; cat /workspace/inputs/review/candidate_skill/scripts/cvlib.py; echo '=====evidence_check====='; cat /workspace/inputs/review/candidate_skill/scripts/evidence_check.py",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0019_90c953cabc584d7a92be907c33429c06\\request.raw.json",
+        "bytes": 384857,
+        "sha256": "9cef13eeb31c9cb2d424b9bfdf94d0452f81269fcddc6f7d93f68b2d27bbb842"
+      },
+      "message_index": 37,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\e1b76d773e71ff1af8e8457eb030a179a166dbbda81971a45bb2f2835f314da7",
+        "bytes": 12350,
+        "sha256": "e1b76d773e71ff1af8e8457eb030a179a166dbbda81971a45bb2f2835f314da7"
+      },
+      "tool_call_id": "call82621e763c88475eb55e36a8068e73c5"
+    },
+    {
+      "actor_call_id": "0019_90c953cabc584d7a92be907c33429c06",
+      "tool": "exec",
+      "command": "sha256sum /workspace/outputs/blind_quality.json /workspace/inputs/review/candidate_skill/SKILL.md /workspace/inputs/review/candidate_skill/scripts/*.py",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0020_9f65f4af21964b7ca343c6a26c6334c5\\request.raw.json",
+        "bytes": 386331,
+        "sha256": "1643111b4f7fca08955fbb34df8eb01daadc0d5fc3f632824aa69e9944067021"
+      },
+      "message_index": 39,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\552d6097da5b984060d72be26d3e56a4a6354545d500357831c3df3fd1c13985",
+        "bytes": 692,
+        "sha256": "552d6097da5b984060d72be26d3e56a4a6354545d500357831c3df3fd1c13985"
+      },
+      "tool_call_id": "call90264a2a5d244a3cb8c4da59c08b4f22"
+    },
+    {
+      "actor_call_id": "0020_9f65f4af21964b7ca343c6a26c6334c5",
+      "tool": "write",
+      "command": "",
+      "path": "/workspace/outputs/decision.json",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0021_34848ccafee34170af7f0dec01ba829b\\request.raw.json",
+        "bytes": 395309,
+        "sha256": "e99c3008eb290e98e8344d453995865166589f970706e761cf28561eca7a9096"
+      },
+      "message_index": 41,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\792c1a00c0e639007d877e4b06c1edaf1b17562af1c47bb5a7e7a6c88ecd826d",
+        "bytes": 148,
+        "sha256": "792c1a00c0e639007d877e4b06c1edaf1b17562af1c47bb5a7e7a6c88ecd826d"
+      },
+      "tool_call_id": "callaf88958d56ba4843ae8bb441e78423e1"
+    },
+    {
+      "actor_call_id": "0021_34848ccafee34170af7f0dec01ba829b",
+      "tool": "write",
+      "command": "",
+      "path": "/workspace/outputs/feedback.json",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0022_7c54d4ec0c59458ca4ba7c99e990b09f\\request.raw.json",
+        "bytes": 400806,
+        "sha256": "f7be428d8f9e37917cfde7c8cd942abfc755f35817c869ac9e61163ac5f49efa"
+      },
+      "message_index": 43,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\d1e8dcc96e00d1e8de17c3cd364ee570cd338d6564d4f9aaf76253523d813629",
+        "bytes": 148,
+        "sha256": "d1e8dcc96e00d1e8de17c3cd364ee570cd338d6564d4f9aaf76253523d813629"
+      },
+      "tool_call_id": "call98075df7afe34bf1ae5cfdb89bc41718"
+    },
+    {
+      "actor_call_id": "0022_7c54d4ec0c59458ca4ba7c99e990b09f",
+      "tool": "exec",
+      "command": "python -c \"import json; d=json.load(open('/workspace/outputs/decision.json')); f=json.load(open('/workspace/outputs/feedback.json')); print('decision valid; overall:', d['recommendation']['overall']); print('feedback valid; defects:', [x['id'] for x in f['current_version_concrete_defects']])\"; ls -la /workspace/outputs/",
+      "path": "",
+      "first_received_request": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0023_a0d1edd0cc2c4a56a3fed2dd6e89dd9e\\request.raw.json",
+        "bytes": 401750,
+        "sha256": "5a9cf545a912bf8c94ef40742a65cabb1aacaa75b5fc115bf9dbab2c28a45da5"
+      },
+      "message_index": 45,
+      "actual_tool_message_CAS": {
+        "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\file_versions_01\\objects\\4cd7cf083febb32cc750316bb1d35169db206b7b681308f11ff4acfc1e1e34b6",
+        "bytes": 442,
+        "sha256": "4cd7cf083febb32cc750316bb1d35169db206b7b681308f11ff4acfc1e1e34b6"
+      },
+      "tool_call_id": "callf8c79bfadd0c49169d259b2d3467df1b"
+    }
+  ],
+  "blind_write_raw_ledger": {
+    "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\native_records\\C_phase2_cv_review_01\\raw_recovery\\provider_responses.original.jsonl.gz",
+    "bytes": 1659294,
+    "sha256": "c29f68a5d7b3e0b378cdd75b93176d207996d0cbaa88cf222ac9c5be303cd900"
+  },
+  "actual_blind_write": {
+    "call_id": "0014_8a42d6aff4d4471bb51b7fbffd815c7f",
+    "tool_call_id": "callbf3b4ad9b1d242d5931079ea1b2402e2",
+    "content_exact_frozen_quality": true
+  },
+  "write_ack_then_parse_then_first_cost_read": "PASS",
+  "Wang_project_already_delivered_before_blind_write": {
+    "request": {
+      "path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0014_8a42d6aff4d4471bb51b7fbffd815c7f\\request.raw.json",
+      "bytes": 307384,
+      "sha256": "7e9d48ef2b97934ae7f8f04a55da069335c18da68c6ff7e2f741b720f61ce906"
+    },
+    "message_index": 19,
+    "role": "tool",
+    "known_before_quality_write": true,
+    "date_segment": {
+      "start": 12120,
+      "end": 12135,
+      "text": "2021.07-2023.07",
+      "text_sha256_utf8": "97cf67595817680e600a61cbd6cd1d06d3aee0b36526e3dcd082aad4e10f295b"
+    },
+    "project_segment": {
+      "start": 12214,
+      "end": 12222,
+      "text": "停车资源数据看板",
+      "text_sha256_utf8": "4807aedf0586dcf4b31739ef75a651eeaea521cff9d38ad3548d4c6f043a174e"
+    },
+    "stack_segment": {
+      "start": 12513,
+      "end": 12536,
+      "text": "Vue3、TypeScript、ECharts",
+      "text_sha256_utf8": "6d49e5154991e15f7f7733fd33d158e95cdba604834423471e849414f95f6614"
+    }
+  },
+  "PDF_source_pins_and_own_text_extraction": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\3f8a1c51032c2b97.pdf",
+      "bytes": 401958,
+      "sha256": "3f8a1c51032c2b97b153e295e485216b46e9f95b6e03f0e8bd6df565ef505c3a",
+      "pages": 2,
+      "extracted_text_characters": 2217,
+      "own_extraction_text_sha256": "579d002dbc701a5bc1719d2f8602409ea76f381881a36d88a13e3b5ce53f35ec"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\6ce6df1590fed877.pdf",
+      "bytes": 315703,
+      "sha256": "6ce6df1590fed87775890d99a8a517f7bb40857b72baeaf2cc1cb899ee8ab3f3",
+      "pages": 2,
+      "extracted_text_characters": 3250,
+      "own_extraction_text_sha256": "5b34d287bdbc6f200f41b5b14041bba5d598419f74476019188be46b1178a5fc"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\b4fd3bee09b14b32.pdf",
+      "bytes": 121351,
+      "sha256": "b4fd3bee09b14b32b70363796c52e4cd2c16b53d04ea0f8fcb402a6746417292",
+      "pages": 2,
+      "extracted_text_characters": 2133,
+      "own_extraction_text_sha256": "b272dc2c098b238ebd70aaeb881c2112a2e03c69c7d945259a2867abfb149225"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\9c667aab99eaada6.pdf",
+      "bytes": 171034,
+      "sha256": "9c667aab99eaada6382c6c60b478fc5925aadf05a76696fe44479f9f13ef11a8",
+      "pages": 2,
+      "extracted_text_characters": 2450,
+      "own_extraction_text_sha256": "5c32ceea1f744b38d8720f264f3b4f1679d5832da82eff3b776ff5334ce36340"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\91162cf64d5ec403.pdf",
+      "bytes": 316723,
+      "sha256": "91162cf64d5ec4036760d8f4f8db13fc8d9ccfc9198398b45ded180578d661cb",
+      "pages": 4,
+      "extracted_text_characters": 4198,
+      "own_extraction_text_sha256": "56f2408f7b9e2229b55f86689b6e4d947b9490841d6585144507f44f6c9cc7ea"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\8ad152dae625eda9.pdf",
+      "bytes": 990199,
+      "sha256": "8ad152dae625eda93513dda5cf8f1e73b177a3f702daa9fa148339b658f64648",
+      "pages": 3,
+      "extracted_text_characters": 3254,
+      "own_extraction_text_sha256": "53ab0ad412222b15f08cc337ccdc49c8a550e63febfda110adf37e3f01cf8f80"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\workspace\\inputs\\task\\materials\\96f97ee12f59ed80.pdf",
+      "bytes": 1077275,
+      "sha256": "96f97ee12f59ed8041a98cd4c2fd189f38237abd8e0dc4f5999657e81a700a7c",
+      "pages": 3,
+      "extracted_text_characters": 5412,
+      "own_extraction_text_sha256": "0b3abfe2942fd0768bd4af35559032f4d0ac058a5898be61a0ac920fc619cb96"
+    }
+  ],
+  "PDF_full_text_read_scope": "All7 full textual extractions read; no independent visual rendering/layout or hiring-expert verification claimed."
+}

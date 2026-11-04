@@ -1,0 +1,19 @@
+We need produce next action. State: workflow w1 version3 DRAFT, asset verified core. Remaining decisions 5, tool calls 4. Need likely FINISH, but must decide READY/DEFERRED/NO_REUSABLE. We have w1 with steps, checks, verified asset for s3/s5, s1 reader unresolved (openpyxl unavailable; INSPECT available). Need perhaps INSPECT input assets? There are no input resources listed; file_references empty. The original source says data uploaded but no resource ids visible in payload. Can we inspect? Not without resource_ids. Could READ history? Already read complete source? unread ranges [0,1] but state includes complete source. Actually we have full source. Maybe need check resources? No resource ids in current state. Could READ tool_doc? Not necessary.
+
+We need formulate a valid FINISH with decisions for each current W exactly one. Only w1. Options: READY structural readiness despite unknown s1 parser; DEFERRED due blocking unknown? Unknowns: real journal column structure unverified; parser availability; multi-version unresolved. Issue u1 DEFERRED nonblocking. Workflow can be READY if structurally usable, but READY is structural trial readiness not success. However s1 operation says use INSPECT; future user input xlsx. Is workflow complete enough? It has steps, checks, verified asset. I think READY with reason: core voucher generation/validation asset current_executed; steps defined; remaining unknowns noted. But the W version3 status DRAFT. READY means can be independently consumed? It says READY only can proceed independent consumption, not valid/admitted. Fine.
+
+Could we do one more UPDATE to finalize maybe add execution support? Already v3 applied. We could update checks or add note about parser. But budget and risk. The prior UPDATE applied. We need FINISH. Need ensure exact format. FINISH arguments: decisions array with workflow_id, status, reason; reason overall. No need resolution unless no workflow. Should not include markdown. One JSON object.
+
+But perhaps they expect more tool use? We have 4 tool calls, 5 decisions. But not mandatory. Given state is mature, FINISH is legal. Need ensure quote? FINISH doesn't need evidence refs. Reason concrete: core asset conv948_try_w1_voucher_core_v2:repair actual exit0 SELFTEST_OK 5 with assertions; xlsx read remains unverified but condition described, INSPECT available; issue u1 DEFERRED nonblocking. So READY.
+
+Potential nuance: The workflow id must start current source_id + '_w'. It does. Good.
+
+We should not claim business success. READY structural trial readiness.
+
+Let's craft JSON. Need envelope action_contract: action_id unique safe ascii, kind FINISH, source_id, purpose, arguments. Ensure json.loads.
+
+Decision: conv_948cdaa668ef_w1 READY reason. Include maybe "核心凭证生成与校验资产…" But reason can be Chinese. Fine.
+
+Will this be accepted? Need "FINISH must for each current W exactly one". yes.
+
+Let's produce.

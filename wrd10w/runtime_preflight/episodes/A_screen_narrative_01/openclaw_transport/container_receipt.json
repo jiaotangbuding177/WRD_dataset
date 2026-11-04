@@ -1,0 +1,91 @@
+{
+  "session_id": "71080765-ffec-4626-88eb-64b99de07064",
+  "requested_model": "glm-5.3-flash",
+  "command_checks": {
+    "python": "/opt/eval-venv/bin/python",
+    "openclaw": "/opt/openclaw/bin/openclaw"
+  },
+  "runtime_path_aliases": [
+    {
+      "path": "/workspace/.claude/skills",
+      "target": "/workspace/skills",
+      "changes_skill_bytes": false
+    }
+  ],
+  "runtime_observation_seconds": 0,
+  "config_validate_returncode": 0,
+  "gateway_readiness": {
+    "attempts": 5,
+    "health_ok": true
+  },
+  "runtime_mode": "gateway",
+  "turns": [
+    {
+      "turn_index": 1,
+      "returncode": 0,
+      "timeout_seconds": 1793
+    }
+  ],
+  "runtime_observation": {
+    "requested_seconds": 0,
+    "status": "disabled",
+    "job_ids": [],
+    "history_limit_per_job": 100,
+    "commands": [],
+    "scope": "same_container_gateway_after_final_answer_before_teardown",
+    "elapsed_seconds": 0.00040152099973056465
+  },
+  "gateway_shutdown": {
+    "returncode": 0,
+    "forced_kill": false
+  },
+  "full_transcript_export": {
+    "source": "native_sqlite_transcript_events.event_json",
+    "read_only": true,
+    "session_id": "71080765-ffec-4626-88eb-64b99de07064",
+    "agent_id": "eval",
+    "user_version": 21,
+    "rows": 30,
+    "message_rows": 18,
+    "first_seq": 0,
+    "last_seq": 29,
+    "redaction": "exact_model_key_and_gateway_token_only",
+    "scope": "all_persisted_native_events_for_this_session_in_seq_order"
+  },
+  "native_trajectory_export": {
+    "session_key": "agent:eval:explicit:71080765-ffec-4626-88eb-64b99de07064",
+    "event_count": 60,
+    "runtime_event_count": 23,
+    "transcript_event_count": 37,
+    "files": [
+      "artifacts.json",
+      "events.jsonl",
+      "manifest.json",
+      "metadata.json",
+      "prompts.json",
+      "session-branch.json",
+      "system-prompt.txt",
+      "tools.json"
+    ],
+    "source": "native_sessions_export_trajectory"
+  },
+  "status": "completed",
+  "all_session_transcript_recording": {
+    "status": "recorded",
+    "rows": 30,
+    "databases": [
+      {
+        "agent_id": "eval",
+        "sessions": {
+          "71080765-ffec-4626-88eb-64b99de07064": 30
+        },
+        "rows": 30
+      }
+    ],
+    "read_only": true,
+    "native_tool_returns_modified": false,
+    "scope": "all persisted transcripts in fresh disposable attempt state; child completion is not assumed",
+    "redaction": "exact_model_key_and_gateway_token_only"
+  },
+  "seconds": 624.9267519950008
+}

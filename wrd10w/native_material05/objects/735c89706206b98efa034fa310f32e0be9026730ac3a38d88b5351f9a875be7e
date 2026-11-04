@@ -1,0 +1,284 @@
+{
+  "schema": "wrd-blind-quality-result-v1",
+  "meta": {
+    "judge": "independent native AI evaluation; exploratory silver standard, NOT human-calibrated or hiring-expert gold",
+    "case_status": "train development cases; not formal unseen or final heldout",
+    "phase1_sources_read": [
+      "/workspace/inputs/review/source_only_quality_protocol.json",
+      "/workspace/inputs/review/phase1_manifest.json",
+      "/workspace/inputs/review/tasks/E1.json",
+      "/workspace/inputs/review/tasks/E2.json",
+      "/workspace/inputs/task/materials/3f8a1c51032c2b97.pdf (张琳, sha256 3f8a1c51...05c3a verified by manifest)",
+      "/workspace/inputs/task/materials/6ce6df1590fed877.pdf (梁勇其)",
+      "/workspace/inputs/task/materials/b4fd3bee09b14b32.pdf (邱景锋)",
+      "/workspace/inputs/task/materials/9c667aab99eaada6.pdf (王丹)",
+      "/workspace/inputs/task/materials/91162cf64d5ec403.pdf (李萍)",
+      "/workspace/inputs/task/materials/8ad152dae625eda9.pdf (王俊涛)",
+      "/workspace/inputs/task/materials/96f97ee12f59ed80.pdf (纵天华)",
+      "/workspace/inputs/review/outputs/E1_A.txt",
+      "/workspace/inputs/review/outputs/E1_B.txt",
+      "/workspace/inputs/review/outputs/E2_A.txt",
+      "/workspace/inputs/review/outputs/E2_B.txt"
+    ],
+    "explicitly_referenced_deliverable_files": "manifest lists none for any arm; none assessed",
+    "not_read_in_phase1": ["/workspace/inputs/review/phase2_arm_costs.json", "/workspace/inputs/review/candidate_skill/"],
+    "scoring": "dimensions 30/20/20/20/10; per-dimension score = sum of item scores (each 0/0.5/1) over 4 items, weighted total = 30*(D1/4)+20*(D2/4)+20*(D3/4)+20*(D4/4)+10*(D5/4) out of 100",
+    "same_issue_charged_once": true,
+    "no_bonus_for": "length, file count, workflow claims, skill self-labels, completion status"
+  },
+  "blinding": {
+    "policy": "original outputs untouched; arm identity inference prohibited and not attempted; A/B are positional labels",
+    "method_cues": [
+      {"case": "E1", "arm": "A", "cue": "opening line: '引用已全部通过 evidence_check 校验（6/6 页码一致）'", "blinding_limit": "limited blinding: reveals an automated quote/page validation workflow existed; reviewer did not credit the claim itself and instead independently re-verified every cited page against the PDF (all matched)"},
+      {"case": "E2", "arm": "A", "cue": "opening line: 'evidence_check 全部通过'", "blinding_limit": "limited blinding, same as E1_A; all sampled page citations independently re-verified against PDFs (matched)"},
+      {"case": "E1", "arm": "B", "cue": "opening line: '已读取 source_input.json 并解析简历 PDF'", "blinding_limit": "limited blinding: reveals the arm consumed a packaged input artifact; no quality credit or penalty applied for it"},
+      {"case": "E2", "arm": "B", "cue": "none observed beyond generic '6 份简历已全部解析完毕'", "blinding_limit": "effectively blind for method"}
+    ]
+  },
+  "cases": {
+    "E1": {
+      "task": "张琳 CV vs 工程菌助理研发工程师 JD (source conv_66a8dc558785): answer 是否可推荐面试; no mandatory formal report or quote table",
+      "arms": {
+        "A": {
+          "D1_正确性与依据_30": {
+            "score": 3.5,
+            "items": [
+              {"text": "身份与关键事实映射全部正确：张琳=江南大学发酵工程硕士2019.09-2022.07（P2）、河北科技大学生物工程本科（P2）、三段经历2023.2-2023.12/2024.5-2024.9/2025.8-至今（P1），与PDF逐项吻合", "score": 1, "evidence": "E1_A 硬性条件核对表; 张琳PDF P1-P2", "classification": "explicit_user"},
+              {"text": "全部8处页码引用（P1/P2）经评审独立复核均与PDF实际页面一致，引文为原文或忠实缩略，无张冠李戴", "score": 1, "evidence": "如 '利用 CRISPR-Cas9 基因编辑技术对大肠杆菌与酿酒酵母...'(P1)、'江南大学 | 发酵工程（硕士）'(P2) 均可在对应页找到", "classification": "explicit_user"},
+              {"text": "准确区分'已证经历'与'关键词'：指出简历写的是'代谢工程改造/遗传改造'而未出现'敲入/敲除'字样，判为相邻证据需面试确认，未用字面不足直接否定，也未用关键词冒充已证经历", "score": 1, "evidence": "E1_A 9a行 '⚠️ 相邻证据，面试确认具体编辑手段'; JD第9条明确要求基因敲入敲除", "classification": "explicit_user"},
+              {"text": "年限核算基本正确且主动指出简历自述'3年'(P1)与实际累计约1.5-2年的口径差，但同一答复内先写'累计约 2 年'后写'实际约 1.5–2 年'，内部口径轻微不一致", "score": 0.5, "evidence": "E1_A 第8行'累计约 2 年，但中间有空档' vs 末尾'按月份累计实际约 1.5–2 年'; PDF三段经历合计不足2年（视'至今'而定）", "classification": "derived_quality"}
+            ]
+          },
+          "D2_覆盖充分性_20": {
+            "score": 3.5,
+            "items": [
+              {"text": "必备项7/8/9（学历专业、1年以上经验、大肠杆菌敲入敲除、发酵基本操作）全部逐条覆盖", "score": 1, "evidence": "E1_A 硬性条件核对表", "classification": "explicit_user"},
+              {"text": "三项优先项（枯草/乳酸菌、益生菌/食品/医学菌株、小鼠）逐项给出有无证据结论，并正确标注为加分非必须", "score": 1, "evidence": "E1_A 优先项段; JD第10/11条", "classification": "explicit_user"},
+              {"text": "对'益生菌/食品菌株'优先项给出了基于香兰素/麦角硫因/四氢嘧啶等食品大健康方向的部分相邻判断，处理得当但属边界解读，未夸大为已证", "score": 1, "evidence": "E1_A '算部分相邻'; PDF P1 香兰素/异丁香酚、麦角硫因、四氢嘧啶", "classification": "derived_quality"},
+              {"text": "岗位职责1-6条（实验执行、发酵检测、记录归档、平台物料、文献汇报、技术协同）未做任何映射，仅覆盖任职要求部分", "score": 0.5, "evidence": "E1_A 全文无JD岗位职责对应分析; 对照E1_B对JD第5/6条有印证", "classification": "derived_quality"}
+            ]
+          },
+          "D3_要求适配与跨轮一致性_20": {
+            "score": 4,
+            "items": [
+              {"text": "直接回答'是否可推荐面试'并给出明确结论（推荐面试），中文回复，符合任务最小交付", "score": 1, "evidence": "E1_A 标题与结论行", "classification": "explicit_user"},
+              {"text": "未强加用户未要求的正式报告/固定长度/免责声明；表格为自选呈现形式，任务未禁止", "score": 1, "evidence": "E1_A 全文结构; 协议 no_forced_output", "classification": "explicit_user"},
+              {"text": "按JD原始编号（7/8/9/10/11）逐条对齐，跨轮沿用用户给定的JD文本而非自造要求", "score": 1, "evidence": "E1_A 表格首列; E1.json past_user_context JD原文", "classification": "explicit_user"},
+              {"text": "单轮任务，无跨轮一致性破坏；开头evidence_check元信息对回答无实质干扰", "score": 1, "evidence": "E1_A 首行", "classification": "derived_quality"}
+            ]
+          },
+          "D4_专业业务可用性_20": {
+            "score": 4,
+            "items": [
+              {"text": "结论可执行：明确推荐+三项面试核实点（敲入敲除细节、两段空档原因、地点薪资10-13K确认），直击该JD决策所需", "score": 1, "evidence": "E1_A '面试前/中需核实'1-4", "classification": "explicit_user"},
+              {"text": "正确区分必需项与优先项，未因优先项缺失（小鼠、枯草/乳酸菌）否定候选人，符合招聘专业逻辑", "score": 1, "evidence": "E1_A 优先项段; JD第9-11条措辞'优先'", "classification": "explicit_user"},
+              {"text": "主动核查薪资/地点与岗位（上海10-13K）匹配空缺，指出简历未写期望薪资，属招聘实务要点", "score": 1, "evidence": "E1_A 核实点3; JD标题'上海 10-13K'", "classification": "derived_quality"},
+              {"text": "无年龄/性别/民族等非工作因素参与判断；未从文件名'4年'推断资质，仅按简历正文证据评估", "score": 1, "evidence": "E1_A 全文; 协议 work_related_only", "classification": "derived_quality"}
+            ]
+          },
+          "D5_表达呈现_10": {
+            "score": 4,
+            "items": [
+              {"text": "结构清晰：结论先行、硬性/优先分层、表格对齐、✅/⚠️状态标记直观", "score": 1, "evidence": "E1_A 全文", "classification": "derived_quality"},
+              {"text": "长度克制，无冗余文件或重复论述", "score": 1, "evidence": "E1_A 全文约2.6KB", "classification": "derived_quality"},
+              {"text": "每条判断均可回溯到页码级证据", "score": 1, "evidence": "E1_A 各行引文", "classification": "derived_quality"},
+              {"text": "语言专业、术语准确（敲入/敲除、摇瓶放大、底盘）", "score": 1, "evidence": "E1_A 全文", "classification": "derived_quality"}
+            ]
+          },
+          "weighted_total_100": 93.75,
+          "TSR": {"met": true, "note": "以可读文本明确交付了'是否可推荐面试'的判断；任务未要求额外文件，不因此判失败"}
+        },
+        "B": {
+          "D1_正确性与依据_30": {
+            "score": 4,
+            "items": [
+              {"text": "身份与关键事实映射全部正确：硕士/本科、三段任职时间、各段工作内容均与PDF一致", "score": 1, "evidence": "E1_B 表格; 张琳PDF P1-P2", "classification": "explicit_user"},
+              {"text": "证据转述忠实：'利用 CRISPR-Cas9 对大肠杆菌进行代谢工程改造'等转述与原文语义一致，无虚构或错配；未给页码故无页码错误风险，但可核性低于A", "score": 1, "evidence": "E1_B 必备行; PDF P1 原文'利用 CRISPR-Cas9 基因编辑技术对大肠杆菌与酿酒酵母等工业微生物进行代谢工程改造'", "classification": "explicit_user"},
+              {"text": "正确区分缺证与矛盾、关键词与已证经历：敲入敲除深度'未见原文，需面试确认'，优先项'未提及'而非'不会'", "score": 1, "evidence": "E1_B 必备/优先各行", "classification": "explicit_user"},
+              {"text": "核算严谨：指出文件名'4年'与可核实累计约2年的差异，并列出全部三处空档（含2022.7毕业至2023.2入职）；'另有读研期间科研'为合理说明而非臆断（硕士课题在册）", "score": 1, "evidence": "E1_B 其他观察; PDF P1/P2 教育与经历时间线", "classification": "derived_quality"}
+            ]
+          },
+          "D2_覆盖充分性_20": {
+            "score": 3.5,
+            "items": [
+              {"text": "任职要求7-12全部逐条覆盖，必备/优先判定齐全", "score": 1, "evidence": "E1_B 表格7行", "classification": "explicit_user"},
+              {"text": "将简历的跨部门交付、文献调研（CET-6）与JD岗位职责第5/6条（文献汇报、技术协同）印证，覆盖超出A", "score": 1, "evidence": "E1_B 其他观察末条; JD岗位职责5/6", "classification": "derived_quality"},
+              {"text": "补充稳定性分析（每段任职较短）作为面试考察点，属业务相关补充", "score": 1, "evidence": "E1_B 其他观察与建议②", "classification": "derived_quality"},
+              {"text": "未覆盖期望薪资/工作地点与上海10-13K的匹配核查（A已覆盖），JD岗位城市/薪资信息未被使用", "score": 0.5, "evidence": "E1_B 全文无薪资地点核对; 任务文件名与JD含'上海 10-13K'", "classification": "derived_quality"}
+            ]
+          },
+          "D3_要求适配与跨轮一致性_20": {
+            "score": 4,
+            "items": [
+              {"text": "直接给出'可推荐面试'结论，逐条对照任职要求，格式为用户可读的判断而非过程记录", "score": 1, "evidence": "E1_B 结论行", "classification": "explicit_user"},
+              {"text": "无强加正式报告/固定长度；表格与要点为合理自选形式", "score": 1, "evidence": "E1_B 全文", "classification": "explicit_user"},
+              {"text": "严格按JD原文条目评估，未虚构JD中不存在的要求", "score": 1, "evidence": "E1_B 表格首列与JD比对", "classification": "explicit_user"},
+              {"text": "开头source_input.json元信息为方法线索，不影响交付适配；单轮无一致性破坏", "score": 1, "evidence": "E1_B 首行", "classification": "derived_quality"}
+            ]
+          },
+          "D4_专业业务可用性_20": {
+            "score": 4,
+            "items": [
+              {"text": "三个面试重点（敲入敲除独立完成度、职业稳定性与留任意愿、益生菌方向学习意愿）针对该候选人的实际短板，可执行", "score": 1, "evidence": "E1_B 建议①②③", "classification": "explicit_user"},
+              {"text": "必备/优先区分正确，未因优先项缺失否决；同时指出'仅影响优先级，非必备'", "score": 1, "evidence": "E1_B 优先各行", "classification": "explicit_user"},
+              {"text": "空档与短任职的稳定性追问为招聘实务增值点", "score": 1, "evidence": "E1_B 其他观察", "classification": "derived_quality"},
+              {"text": "仅按工作相关证据判断，无人口学特征参与；未从姓名/文件名推断任何资质", "score": 1, "evidence": "E1_B 全文", "classification": "derived_quality"}
+            ]
+          },
+          "D5_表达呈现_10": {
+            "score": 4,
+            "items": [
+              {"text": "结论先行、表格式对照、加粗结论，阅读效率高", "score": 1, "evidence": "E1_B 全文", "classification": "derived_quality"},
+              {"text": "篇幅约2.2KB，无冗余", "score": 1, "evidence": "E1_B 全文", "classification": "derived_quality"},
+              {"text": "判断均有简历事实支撑，虽无页码但转述可回溯", "score": 1, "evidence": "E1_B 各行", "classification": "derived_quality"},
+              {"text": "术语与招聘语境准确", "score": 1, "evidence": "E1_B 全文", "classification": "derived_quality"}
+            ]
+          },
+          "weighted_total_100": 97.5,
+          "TSR": {"met": true, "note": "以可读文本明确交付面试推荐判断；无需额外文件"}
+        }
+      },
+      "facts_verified": [
+        "张琳硕士为江南大学发酵工程2019.09-2022.07，本科河北科技大学生物工程（PDF P2）",
+        "三段工作经历时间2023.2-2023.12 / 2024.5-2024.9 / 2025.8-至今，累计约1.5-2年（PDF P1）",
+        "简历职业概要自述3年经验，文件名标4年（PDF P1/文件名）",
+        "简历未出现'敲入/敲除'字样，只有'代谢工程改造/遗传改造/CRISPR-Cas9基因编辑'（PDF P1）",
+        "枯草/乳酸菌、小鼠操作、益生菌菌株在简历中均无证据（全PDF）",
+        "简历未写期望薪资与现职地点（全PDF）",
+        "E1_A全部页码引用与PDF实际页面一致；E1_B转述与原文语义一致"
+      ],
+      "unknowns": [
+        "2025.8至今任职时长取决于任务发生日，'累计约2年'为区间估计",
+        "两段空档原因、期望薪资、到岗意愿为简历外信息，需面试确认",
+        "敲入/敲除具体操作深度仅凭简历不可判定",
+        "本评审为AI探索性银标，无人工或招聘专家校准"
+      ]
+    },
+    "E2": {
+      "task": "快应用开发工程师（前端）JD（上海10-15K）+ 6份简历（梁勇其/邱景锋/王丹/李萍/王俊涛/纵天华）：推荐可进入面试的人选",
+      "arms": {
+        "A": {
+          "D1_正确性与依据_30": {
+            "score": 3.5,
+            "items": [
+              {"text": "6位候选人全部身份正确，归属引文与本人简历一一对应，无张冠李戴", "score": 1, "evidence": "E2_A 各候选人小节; 六份PDF", "classification": "explicit_user"},
+              {"text": "抽查全部页码引用（纵天华P1/P2/P3、王丹P1/P2、梁勇其P1/P2、邱景锋P1、李萍P2、王俊涛P1/P3）经独立复核均与对应PDF页面一致，引文为原文或忠实截取", "score": 1, "evidence": "如纵天华'定义 WebSocket 协议（轮播/下钻/心跳）'(P2)、梁勇其'熟悉uni-app及微信小程序'(P1)、王丹'封装支付、登录、分享等通用SDK'(P2)均属实", "classification": "explicit_user"},
+              {"text": "对王丹'5年开发经验'的核减准确：2021.07-2023.06为法院信息化运维岗，实际前端约3年；对梁勇其期望杭州12-14K与岗位上海的冲突识别正确", "score": 1, "evidence": "E2_A 王丹/梁勇其条; 王丹PDF工作经历、梁勇其PDF P1", "classification": "explicit_user"},
+              {"text": "遗漏可核实的口径问题：纵天华简历自述'3年经验'但个人优势写'近4年'的内部矛盾未指出（A标其'4年'）；各简历普遍存在的未来截止日期（纵天华2026-04、王俊涛2026-03、梁勇其项目2026.02）未提示核实", "score": 0.5, "evidence": "纵天华PDF P1 '工作年限 3 年经验'与'近4年'; 王俊涛PDF 2023.09-2026.03; 梁勇其PDF项目2025.07-2026.02", "classification": "derived_quality"}
+            ]
+          },
+          "D2_覆盖充分性_20": {
+            "score": 3,
+            "items": [
+              {"text": "6份简历全部评估并给出分层结论（推荐3/备选1/不建议2），JD各硬性条目（1年经验、跨端、Uniapp/Taro、WebSocket、Vue/React、Node.js、工程化）均有对照", "score": 1, "evidence": "E2_A 结构与各小节", "classification": "explicit_user"},
+              {"text": "对邱景锋的评估遗漏其React证据（简历明列'掌握 React，熟悉 Hooks 语法以及 Redux'），导致对其'Vue/React生态'维度的覆盖不完整，B已覆盖该点", "score": 0.5, "evidence": "E2_A 邱景锋小节无React提及; 邱景锋PDF P1 个人优势3", "classification": "derived_quality"},
+              {"text": "对梁勇其仅标'React 仅了解'的风险，未列其qiankun微前端经验这一与JD第1条架构设计相关的加分证据（B列了）", "score": 0.5, "evidence": "E2_A 梁勇其小节; 梁勇其PDF P1 技能5", "classification": "derived_quality"},
+              {"text": "JD产品线'快应用'本身在6份简历中均无证据，未作任何提示；多处未来日期未提示核实", "score": 0.5, "evidence": "六份PDF均无'快应用'字样; E2_A 全文", "classification": "derived_quality"}
+            ]
+          },
+          "D3_要求适配与跨轮一致性_20": {
+            "score": 4,
+            "items": [
+              {"text": "直接回应'请推荐可以进入面试的人选'，给出3人名单及优先顺序，交付形态适配提问", "score": 1, "evidence": "E2_A 标题与结尾建议", "classification": "explicit_user"},
+              {"text": "未虚构JD要求，未强加正式报告/引用表（引用表是其自选形式且任务未禁止）", "score": 1, "evidence": "E2_A 全文; 协议 no_forced_output", "classification": "explicit_user"},
+              {"text": "推荐理由均锚定JD原条目（跨端、WebSocket、Vue/React、Node、工程化），淘汰理由对应差距而非偏好", "score": 1, "evidence": "E2_A 各小节与JD原文比对", "classification": "explicit_user"},
+              {"text": "开头evidence_check元信息为方法线索；单轮任务无跨轮一致性问题", "score": 1, "evidence": "E2_A 首行", "classification": "derived_quality"}
+            ]
+          },
+          "D4_专业业务可用性_20": {
+            "score": 4,
+            "items": [
+              {"text": "分层推荐（推荐/备选/不建议）带理由，招聘方可直接执行；对每人列出'待面谈确认'项", "score": 1, "evidence": "E2_A 纵天华薪资定位、梁勇其城市确认、王丹年限核实", "classification": "explicit_user"},
+              {"text": "正确区分自述关键词与项目实证：梁勇其WebSocket有两个项目实证、邱景锋Uniapp仅自述无项目证据、王丹SSE属相邻非WebSocket，均已点明", "score": 1, "evidence": "E2_A 梁勇其'双项目实证'、邱景锋'项目证据集中在PC管理系统'、王丹'非WebSocket，属相邻经验'", "classification": "explicit_user"},
+              {"text": "对李萍识别出教育在读期（2021.3-2025.12）与全职工作期重叠的疑点，属尽调增值", "score": 1, "evidence": "E2_A 李萍小节; 李萍PDF教育背景", "classification": "derived_quality"},
+              {"text": "无性别/年龄等非工作因素；未从文件名年份推断能力；明确仅基于简历文本判断", "score": 1, "evidence": "E2_A 全文", "classification": "derived_quality"}
+            ]
+          },
+          "D5_表达呈现_10": {
+            "score": 4,
+            "items": [
+              {"text": "结构清晰：推荐/备选/不建议三层，编号候选人与要点化论证", "score": 1, "evidence": "E2_A 全文", "classification": "derived_quality"},
+              {"text": "每条推荐理由附页码级引文，可核性强", "score": 1, "evidence": "E2_A 各引文", "classification": "derived_quality"},
+              {"text": "长度适中无冗余", "score": 1, "evidence": "E2_A 约3.8KB覆盖6人", "classification": "derived_quality"},
+              {"text": "结尾汇总行动建议（先电话确认城市等）落到操作", "score": 1, "evidence": "E2_A 末段", "classification": "derived_quality"}
+            ]
+          },
+          "weighted_total_100": 91.25,
+          "TSR": {"met": true, "note": "以可读文本交付推荐名单与理由；任务未要求单独文件"}
+        },
+        "B": {
+          "D1_正确性与依据_30": {
+            "score": 3.5,
+            "items": [
+              {"text": "6位候选人身份与事实归属正确；技能/项目转述与各自PDF一致（纵天华ArkTS/ArkUI鸿蒙、梁勇其qiankun与koa、王丹微信/支付宝/抖音小程序）", "score": 1, "evidence": "E2_B 各小节; 对应PDF", "classification": "explicit_user"},
+              {"text": "关键判定准确：王丹'自称5年'实际前端约3年+且SSE非WebSocket；纵天华金融平台WebSocket协议定义（心跳/重连）属实；李萍无React/Node证据属实", "score": 1, "evidence": "E2_B 王丹/纵天华/李萍条; 对应PDF P1-P2", "classification": "explicit_user"},
+              {"text": "未给页码或原文引用，可核性弱于A；所幸抽查未发现错误转述或错配", "score": 1, "evidence": "E2_B 全文无P标引; 六份PDF比对", "classification": "derived_quality"},
+              {"text": "遗漏口径核实点：纵天华简历'3年经验'与'近4年'内部矛盾未指出（B标'约4年'）；未来截止日期（纵天华2026-04、王俊涛2026-03、李萍2024.11-2026.3）未提示核实；王俊涛'约3.5年'与文件名'4年'的口径差也未提", "score": 0.5, "evidence": "纵天华PDF P1、王俊涛PDF工作经历、李萍PDF项目2024.11-2026.3", "classification": "derived_quality"}
+            ]
+          },
+          "D2_覆盖充分性_20": {
+            "score": 3,
+            "items": [
+              {"text": "6人全覆盖，JD各维度（经验、跨端、Uniapp/Taro、WebSocket、Vue/React/Node、工程化）在开头即复述并逐人对照", "score": 1, "evidence": "E2_B 首段与各小节", "classification": "explicit_user"},
+              {"text": "对邱景锋覆盖了React证据与薪资城市匹配（10-12K上海），评价完整；对梁勇其覆盖qiankun与量化成果（首屏5s→2s、60FPS）", "score": 1, "evidence": "E2_B 邱景锋/梁勇其条; 邱景锋PDF P1、梁勇其PDF P1-P2", "classification": "derived_quality"},
+              {"text": "对梁勇其未提'React 仅了解'的短板（A提了），推荐段无任何风险提示（仅城市备注）", "score": 0.5, "evidence": "E2_B 梁勇其小节; 梁勇其PDF P1 技能9 '了解React'", "classification": "derived_quality"},
+              {"text": "JD'快应用'产品线在6份简历均无证据未作提示；未来日期未提示核实", "score": 0.5, "evidence": "六份PDF; E2_B 全文", "classification": "derived_quality"}
+            ]
+          },
+          "D3_要求适配与跨轮一致性_20": {
+            "score": 4,
+            "items": [
+              {"text": "直接交付按匹配度排序的面试推荐名单，回应原提问", "score": 1, "evidence": "E2_B 标题与排序", "classification": "explicit_user"},
+              {"text": "未虚构要求、未强加报告文件；末尾一句话边界说明适度不啰嗦", "score": 1, "evidence": "E2_B 全文与末段说明", "classification": "explicit_user"},
+              {"text": "严格对照JD条目（复述了1年+经验、跨端优先、Uniapp/Taro加分、WebSocket、Vue/React+Node），未自造要求", "score": 1, "evidence": "E2_B 首段", "classification": "explicit_user"},
+              {"text": "单轮任务无跨轮一致性问题；无方法元信息干扰正文", "score": 1, "evidence": "E2_B 全文", "classification": "derived_quality"}
+            ]
+          },
+          "D4_专业业务可用性_20": {
+            "score": 4,
+            "items": [
+              {"text": "三级分层（推荐/备选/不建议进入本轮）理由明确，每人均落到JD维度差距，可直接执行", "score": 1, "evidence": "E2_B 各小节", "classification": "explicit_user"},
+              {"text": "关键词与实证区分到位：梁勇其WebSocket'两个项目实际使用'、邱景锋Uniapp'有开发经验'但无WebSocket、纵天华'有深度实践'", "score": 1, "evidence": "E2_B 各条", "classification": "explicit_user"},
+              {"text": "对纵天华'高级前端工程师'求职意向与10-15K职级的薪资预期差提示到位（A同），对梁勇其杭州城市冲突提示到位", "score": 1, "evidence": "E2_B 纵天华/梁勇其备注", "classification": "derived_quality"},
+              {"text": "无人口学因素；明确不做外联、仅凭简历文本判断，边界合规", "score": 1, "evidence": "E2_B 末段说明", "classification": "derived_quality"}
+            ]
+          },
+          "D5_表达呈现_10": {
+            "score": 4,
+            "items": [
+              {"text": "排序清晰、要点化、备注区分事实与待确认项", "score": 1, "evidence": "E2_B 全文", "classification": "derived_quality"},
+              {"text": "篇幅约2.9KB覆盖6人，信息密度高", "score": 1, "evidence": "E2_B 全文", "classification": "derived_quality"},
+              {"text": "无页码引文削弱可核性，但未影响阅读判断", "score": 1, "evidence": "E2_B 全文", "classification": "derived_quality"},
+              {"text": "语言专业、结论位置突出", "score": 1, "evidence": "E2_B 全文", "classification": "derived_quality"}
+            ]
+          },
+          "weighted_total_100": 91.25,
+          "TSR": {"met": true, "note": "以可读文本交付推荐名单与理由"}
+        }
+      },
+      "facts_verified": [
+        "六份简历人物与文件名对应：梁勇其(3年,杭州12-14K)、邱景锋(4年,上海10-12K)、王丹(5年自称,重邮)、李萍(3年,在读2021.3-2025.12)、王俊涛(4年)、纵天华(3年经验/近4年自述)",
+        "WebSocket证据分布：梁勇其两项目、纵天华金融平台+鸿蒙、李萍一项目；王丹仅SSE；邱景锋/王俊涛无",
+        "Uniapp/Taro证据：梁勇其熟悉uni-app、邱景锋自述掌握Uniapp、纵天华黔爽巴士Uniapp项目；王丹/李萍/王俊涛无（王俊涛为原生微信小程序）",
+        "纵天华简历'工作年限3年经验'与'近4年前端开发经验'同页并存（P1）",
+        "多处未来截止日期：纵天华2026-04、王俊涛2026-03、李萍2024.11-2026.3、梁勇其项目2025.07-2026.02",
+        "E2_A抽查页码引用全部与PDF一致；E2_B未发现错误归属"
+      ],
+      "unknowns": [
+        "6份简历均无'快应用'直接经验，实际是否胜任快应用开发无法从简历判定",
+        "未来日期是简历错误还是在职状态表述无法确定，需背景核实",
+        "本评审为AI探索性银标，非人工/招聘专家校准金标"
+      ]
+    }
+  },
+  "cross_case_summary": {
+    "E1": {"A": 93.75, "B": 97.5, "direction": "B略优：年限核算与稳定性核查更完整、覆盖JD职责印证；A以页码级证据可核性取胜但在薪资地点外的覆盖与内部口径一致性略逊"},
+    "E2": {"A": 91.25, "B": 91.25, "direction": "基本持平：A强在页码级引文可核性与候选人风险披露（梁React短板、李教育重叠）；B强在对邱景锋React证据与梁qiankun/量化成果的完整覆盖；两臂共同遗漏快应用证据缺口与未来日期核实"}
+  },
+  "limitations": [
+    "AI评估未经人工或招聘专家校准，属探索性银标，分数不构成录用金标准",
+    "两例为train发展案例，非正式unseen/最终留出，结论外推有限",
+    "盲测存在已记录的有限盲（方法线索），均未据此加减分",
+    "同一缺陷只在单一维度主扣一次；未按长度/文件数/工作流声明/完成状态加分"
+  ]
+}

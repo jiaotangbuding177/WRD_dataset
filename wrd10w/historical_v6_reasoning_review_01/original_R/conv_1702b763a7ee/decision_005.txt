@@ -1,0 +1,132 @@
+Let me understand the state. The last UPDATE was rejected with error: "Execution support label lacks registered actual receipt" — three times. This is because I set support_status="current_executed" on steps s2, s3, s4 but the evidence_refs on those steps point to user/assistant turns, not to the actual execution receipt. The rule: "current_executed needs genuine runner receipt" — the evidence_refs must include the actual execution_id reference. Actually the error says "Execution support label lacks registered actual receipt". So for steps with support_status=current_executed, the evidence_refs must reference the registered runtime execution id (the observation execution_id). Let me fix: add evidence_refs with the execution receipt. But evidence_refs schema is {source_id, turn_index, role, quote}. Hmm. How to reference an execution? Perhaps role must be something like "tool" and quote must be the execution_id? The constraints say "References must cite existing complete source turns, exact quotes or registered runtime execution ids".
+
+So probably evidence_refs entries can have role "tool" and quote = execution_id, or there's a field. Given the error, likely the validator expects evidence_refs to include an entry whose quote is the registered execution_id (e.g., "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"). Let me try adding evidence_refs with role "tool" and quote being the execution_id.
+
+Alternatively, keep support_status as "proposed" and just add asset_ids. That's safer: the asset_refs already point to the real asset. The rejection was specifically about the support label. Simplest fix: revert support_status to "proposed" for s2/s3/s4, keep asset_ids and asset_refs. But then we lose the "current_executed" claim. Hmm, but the asset itself is verified=true, origin_type=current_executed. The workflow step support_status could remain proposed while asset_refs point to the executed asset. That's honest.
+
+But better: try to include the execution receipt properly. Let me try adding an evidence_ref with role "tool" and quote = execution_id. Risk of another rejection. Budget: 8 decisions left including this one, 4 tool calls, 668 seconds. We have 2 execution branches used? "共2执行分支" — we used 1 TRY (single_repair) which counts as 1 branch. paired_comparison would take 2. We have budget for maybe one more TRY.
+
+Plan: 
+- Decision 5: UPDATE fixing the rejection — set support_status back to "proposed" for s2/s3/s4 but keep asset_ids/asset_refs, and add evidence_refs with the execution receipt using role "tool" and quote = execution_id. Hmm, mixing might still fail. Let me think about what the validator likely checks: for each step with support_status == "current_executed", it checks that evidence_refs contain a reference to a registered actual receipt (execution_id). The reference format probably: {"source_id": ..., "turn_index": ..., "role": "tool", "quote": "<execution_id>"} or maybe {"execution_id": "..."}.
+
+Given uncertainty, safest: keep support_status "proposed" for all steps, and put the execution receipt in the workflow-level evidence_refs? No — workflow evidence_refs must be source turns.
+
+Actually, maybe I can add a step-level evidence_ref with role "tool" and quote equal to the execution_id string. If the validator looks for quote matching a registered execution_id, that works. If it requires role "tool", also works. Let's try that for s2 only (the main executed step), and keep s3/s4 as proposed with asset_ids. Hmm, but s3/s4 were also executed in the same script.
+
+Risk: another rejection wastes a decision. But we have 8 decisions. Let's do it carefully: one UPDATE that:
+1. Fixes w1: steps s2,s3,s4 support_status="current_executed" with evidence_refs including {"source_id": "conv_1702b763a7ee", "turn_index": 1, "role": "tool", "quote": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"} plus the original user refs. Hmm — but if the validator requires the quote to be an exact substring of the source turn, this fails. The constraint says "References must cite existing complete source turns, exact quotes or registered runtime execution ids" — so runtime execution ids are an alternative. So a ref with quote = execution_id should be acceptable.
+
+Actually maybe the expected shape is {"source_id": ..., "execution_id": "..."} without turn_index/role. Hmm.
+
+Let me hedge: use role "tool" and quote = execution_id, and also include the original user quote ref. If it fails again, fall back to proposed.
+
+Alternatively, avoid the risk entirely: keep support_status "proposed" and note in the operation text that the script was actually executed with the execution_id. That definitely passes validation (proposed is always allowed). The asset_refs point to the verified asset. The FINISH decision can then be READY with reason citing the actual execution.
+
+Given limited budget and that the rejection was specifically about the label, I think the safest and still honest approach: set support_status to "proposed" for s2/s3/s4 but include asset_ids and asset_refs, and add a workflow-level note. Hmm, but then the workflow doesn't record that the code was executed. The asset ledger does record it (verified=true, origin_type=current_executed). And asset_refs on the workflow points to it.
+
+Hmm, but the teacher's goal is to produce a good workflow. Let me try the execution-id evidence ref once — it's the more correct representation. If rejected, I'll fall back.
+
+Actually wait — the error message repeated 3 times, matching 3 steps with current_executed. So the validator checks per-step. Let me try adding the execution receipt ref to those steps.
+
+What shape? Let me guess: {"source_id": "conv_1702b763a7ee", "turn_index": 1, "role": "tool", "quote": "conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"}. Hmm, turn_index 1 is odd for a tool event.
+
+Alternative guess: the validator wants evidence_refs entries where role == "tool" and quote is the execution_id, and it looks up registered execution ids. Let me just do it.
+
+Hmm, risk assessment: if rejected again, I lose another decision but still have 6. Then I'd fall back to proposed. That's acceptable.
+
+Actually, let me reconsider: maybe simpler and safer to just not claim current_executed at step level. The workflow's asset_refs already registers the executed asset. The step support_status "proposed" is honest: the step is a proposed procedure; the asset is executed. Many validators would accept. And the FINISH reason can cite the actual execution receipt.
+
+But the teacher instruction says "若当前可复用资产确实测试通过，UPDATE时可以把真实asset_id纳入W并用operation说明未来如何传参调用". It says include the real asset_id in W and explain in operation how to call it. It doesn't require support_status=current_executed. So the safe path: asset_ids + asset_refs + operation text describing CLI invocation, support_status stays "proposed".
+
+Hmm, but "current_executed needs genuine runner receipt" — the label is optional. I'll go with the safe path but ALSO try including the execution receipt as an evidence ref? No, mixing could trigger the same check if it sees role tool... Actually if I include a proper receipt ref, the check should pass. If the receipt ref shape is wrong, it fails.
+
+Decision: go safe. Set support_status "proposed" for s2/s3/s4, keep asset_ids and asset_refs, describe CLI in operation. Also update w2 unknowns/failure_handling, and set u1 to DEFERRED.
+
+Wait — but the previous UPDATE also included the w2 patch and u1 DEFERRED. Those were fine presumably (error only about execution support label). So I redo the whole UPDATE with the fix.
+
+Also I should consider: do I need more evidence? The w2 workflow is blocked (no OCR). u1 DEFERRED. w2 decision: DEFERRED (blocked by missing OCR capability and unverifiable fault code). w1: READY.
+
+Should I do another TRY? Maybe a paired_comparison to test the missing-parameter branch vs provided-parameter branch? That would use 2 branches. We have 2 execution branches total allowed; we used 1 (single_repair). Actually "共2执行分支" — the TRY single_repair used 1 branch. A paired_comparison uses 2 branches, which would exceed. So no more TRY. Actually maybe the budget is per-episode 2 branches and we've used 1, so we could do one more single_repair. But is it needed? The script already tested both branches (with and without pre_registered). I think we have enough evidence.
+
+Hmm, but one thing: the script's self-verification path ran with hardcoded episode params. The reusable path is the CLI. The observation shows it ran the self-verification branch (no --increase in argv). That's fine — it exercised compute_valuation with both branches.
+
+So: Decision 5 = UPDATE (fix), Decision 6 = FINISH.
+
+Let me also consider whether to add a graph node for the executed asset. Not necessary.
+
+Now write the UPDATE carefully.
+
+Graph: base_version 2, nodes [], edges []. That's fine (no change).
+
+Workflows:
+1. w1 patch base_version 1 → but wait, the previous UPDATE was REJECTED, so w1 is still at version 1. Yes, state shows workflows version 1. So base_version 1.
+
+Patch fields: I'll provide complete replacement for steps, checks, failure_handling, asset_refs, unknowns maybe.
+
+Careful: patch with "steps" replaces the whole steps list. Include all 5 steps.
+
+For s2/s3/s4: support_status "proposed", asset_ids: ["conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"].
+
+Hmm — is asset_ids on a step allowed to reference an executed asset while support_status is proposed? Probably fine.
+
+Actually, hmm. Let me reconsider once more whether to attempt current_executed with a receipt ref. The instruction: "历史陈述不升为已验证执行" and "current_executed needs genuine runner receipt". We DO have a genuine runner receipt (execution_id conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair, actual=true, exit 0). The validator rejected because the evidence_refs didn't include the receipt. If I can include it correctly, the workflow is stronger. But I don't know the shape.
+
+Given the risk/benefit, and that we have 8 decisions, I'll try once with the receipt ref included in addition to the user ref. If it fails, fall back.
+
+Hmm, but a failed UPDATE wastes a decision and time. And the fallback is guaranteed to work. The benefit of current_executed label is modest.
+
+Let me think about what shape the validator likely wants. The error "Execution support label lacks registered actual receipt" suggests it scans evidence_refs for something identifying a registered actual receipt. Likely it checks each evidence_ref: if role == "tool" (or "execution"), then quote must be a registered execution_id. Or it may check for a field "execution_id" in the ref.
+
+I'll include BOTH forms? Can't — one object per ref. I could include two refs: one with role "tool" + quote=execution_id, and one with execution_id field. Extra fields might cause schema errors.
+
+Honestly, safest: go with "proposed". The asset_refs at workflow level and asset_ids at step level carry the executed asset. FINISH reason will cite the execution receipt.
+
+Hmm, but wait: will the validator complain that asset_ids on a step with support_status "proposed" is inconsistent? Unlikely.
+
+OK, decision: safe path.
+
+Actually, let me reconsider one more time... The teacher prompt says "若当前可复用资产确实测试通过，UPDATE时可以把真实asset_id纳入W". So including asset_id is the sanctioned action. Good.
+
+Now compose the UPDATE.
+
+w1 patch:
+- asset_refs: ["conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"]
+- steps: full list with asset_ids on s2,s3,s4 and operation text mentioning CLI.
+- checks: full list.
+- failure_handling: full list.
+- unknowns: keep/add.
+
+w2 patch:
+- unknowns: add the OCR limitation.
+- failure_handling: add the no-OCR degradation.
+- checks: maybe add "无OCR能力时不得声称已读出故障码".
+
+Issues: u1 base_version 1, status DEFERRED.
+
+Let me write it.
+
+For w1 steps, keep evidence_refs as before (user/assistant quotes). Add asset_ids.
+
+s2 operation: "投后估值 = 增资额 ÷ 增资后持股比例；投前估值 = 投后估值 − 增资额；用 增资后持股比例 × 投后估值 回代校验应等于增资额。已实测脚本资产 conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair 以命令行参数调用：python probe.py --increase <增资额> --post-stake <小数比例> --pre-registered <投前注册资本，可省略> --out outputs/valuation_result.json"
+
+Hmm, the script path is probe.py in the episode dir; the asset_id is the reference. Fine.
+
+Now the FINISH after. But I only return one action per turn. So this turn: UPDATE. Next turn: FINISH.
+
+Let me write the JSON.
+
+Also note: the previous UPDATE's graph patch had base_version 2 with empty nodes/edges — accepted presumably. I'll do the same.
+
+Let me be careful with quotes being exact substrings.
+
+Quotes used:
+- "请使用中文回复，除非用户明确使用其他语言。" — turn 1 user content starts with that. Exact substring ✓.
+- "增资480万元占项目公司14.2012%的股权，请问项目公司的投后估值是多少？其中进入注册资本金是多少？进入资本公积是多少？" ✓
+- "光靠 480万 + 14.2012% 两个数算不出来" ✓ (from assistant content)
+- "这个是什么故障？" ✓
+- "故障代码：**U2**" ✓
+- "不要自己拆机" ✓
+
+OK.
+
+Write the action.

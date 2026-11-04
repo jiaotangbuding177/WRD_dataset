@@ -1,0 +1,19 @@
+Everything verified:
+- Only validate_pack.py changed (86336921… vs6a1e9515…); all other skill resources byte-identical.
+- Original21:21/21 (fixtures regenerated deterministically; original expectations untouched).
+- Extra12:12/12.
+
+One more sanity check: make sure I didn't accidentally leave the skill package containing fixtures/tests. ls outputs/skill. Also confirm the skill dir contains no logs. Then write the three deliverable files: changes.md, resource_validation.json, revision_summary.json.
+
+Also, the task said: "生成 /workspace/outputs/resource_validation.json、/workspace/outputs/revision_summary.json（指出原两项缺陷证据→局改→新旧测试实数、每份变动资源SHA、保留的未知与限制），以及一份清楚的原版本到本版本变更清单".
+
+Let me build resource_validation.json with actual data:
+- schema, validated CLI sha, repro results (before), fixed results (after),21-rerun summary, extra summary, file integrity table.
+
+revision_summary.json: defect evidence → localized change → old/new counts, changed resource SHAs, unknowns/limitations (no real business trial, benefit unapproved, semantic review items remain, FACT_TYPE_AMBIGUOUS requires human review, etc.)
+
+changes.md: human-readable old→new change list.
+
+Also record command log file. I have logs/*.txt, REPRO_NOTES.md, diff. Maybe also write a commands log combining everything. I'll write logs/revision_command_log.md summarizing each command executed and result (repro outputs already captured in files; rerun stdout saved). Good enough plus REPRO_NOTES.
+
+Let me quickly verify outputs/skill contents.

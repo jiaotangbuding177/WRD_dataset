@@ -1,0 +1,1111 @@
+{
+  "schema": "wrd-replay-v1",
+  "route_id": "knowledge-base-maintenance",
+  "programs": [
+    {
+      "path": "scripts/kb_inventory.py",
+      "documented_usage": "python {SKILL}/scripts/kb_inventory.py {INPUT}/previous/reproduction_inputs/input_stage/kb --out {OUT}/inventory.json",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/kb_inventory.py",
+        "{INPUT}/previous/reproduction_inputs/input_stage/kb",
+        "--out",
+        "{OUT}/inventory.json"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/kb_inventory.py {INPUT}/previous/reproduction_inputs/input_stage/kb --out {OUT}/inventory.json",
+        "inputs": [
+          "知识库目录路径"
+        ],
+        "outputs": [
+          "知识库清单JSON：schema/kb_name/total_files/total_bytes/dirs/files，每文件含bytes/ext/sha256"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{INPUT}/previous/reproduction_inputs/input_stage/kb",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_1e8e6e53ac34",
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1",
+                "conv_1e8e6e53ac34:97aeb104",
+                "conv_1e8e6e53ac34:0fe52ee7",
+                "conv_1e8e6e53ac34:83327489"
+              ],
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_1e8e6e53ac34.json",
+                "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c",
+                "bytes": 11295
+              }
+            },
+            {
+              "source_id": "conv_63914080dfaf",
+              "message_ids": [
+                "conv_63914080dfaf:msg_1",
+                "conv_63914080dfaf:msg_6",
+                "conv_63914080dfaf:msg_9",
+                "conv_63914080dfaf:msg_14",
+                "conv_63914080dfaf:msg_22",
+                "conv_63914080dfaf:msg_27",
+                "conv_63914080dfaf:msg_58",
+                "conv_63914080dfaf:msg_68",
+                "conv_63914080dfaf:msg_72",
+                "conv_63914080dfaf:msg_80",
+                "da7dd4b4-c922-47fc-95c7-f2391fef8f55",
+                "bf769d76-7772-4cf8-b490-5a1fe570cb0d"
+              ],
+              "source_record_sha256": "7e56a2317f5bcb977d8961be8d4348d75cfa7f73a8c67e2f14f393c59ff5a9bc",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_63914080dfaf.json",
+                "sha256": "1242cde0b1b459f38d8f4ab41304e90cdf1366a29db5d5fdf13372d7a532a3f8",
+                "bytes": 21510
+              }
+            },
+            {
+              "source_id": "conv_6cedf31d582f",
+              "message_ids": [
+                "conv_6cedf31d582f:msg_1",
+                "conv_6cedf31d582f:msg_4",
+                "conv_6cedf31d582f:msg_7",
+                "conv_6cedf31d582f:msg_11",
+                "conv_6cedf31d582f:msg_15",
+                "conv_6cedf31d582f:msg_17",
+                "conv_6cedf31d582f:msg_20",
+                "conv_6cedf31d582f:msg_30",
+                "conv_6cedf31d582f:msg_44",
+                "conv_6cedf31d582f:msg_51",
+                "conv_6cedf31d582f:msg_54",
+                "conv_6cedf31d582f:msg_57",
+                "conv_6cedf31d582f:msg_60",
+                "conv_6cedf31d582f:msg_63",
+                "conv_6cedf31d582f:msg_66",
+                "conv_6cedf31d582f:msg_69",
+                "conv_6cedf31d582f:msg_71",
+                "conv_6cedf31d582f:msg_74",
+                "conv_6cedf31d582f:msg_75",
+                "conv_6cedf31d582f:msg_76",
+                "conv_6cedf31d582f:msg_88",
+                "conv_6cedf31d582f:msg_90",
+                "conv_6cedf31d582f:msg_93",
+                "conv_6cedf31d582f:msg_100",
+                "conv_6cedf31d582f:msg_102",
+                "conv_6cedf31d582f:msg_104",
+                "conv_6cedf31d582f:msg_114",
+                "conv_6cedf31d582f:msg_116",
+                "conv_6cedf31d582f:msg_117",
+                "conv_6cedf31d582f:msg_120",
+                "conv_6cedf31d582f:msg_121",
+                "conv_6cedf31d582f:msg_122",
+                "conv_6cedf31d582f:msg_123",
+                "conv_6cedf31d582f:msg_124",
+                "conv_6cedf31d582f:msg_125",
+                "conv_6cedf31d582f:msg_126",
+                "conv_6cedf31d582f:msg_128",
+                "conv_6cedf31d582f:msg_129",
+                "conv_6cedf31d582f:msg_132",
+                "conv_6cedf31d582f:msg_133",
+                "conv_6cedf31d582f:msg_134",
+                "conv_6cedf31d582f:msg_136",
+                "conv_6cedf31d582f:msg_148"
+              ],
+              "source_record_sha256": "67d3694e9172966a4021a4207972aa482c17156ce2a587b2df36d04202cd2f25",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_6cedf31d582f.json",
+                "sha256": "57392cf1cb6437191d7ed08702a140ea253fd1b61914d07ce6f4c6d3c68bf73e",
+                "bytes": 79479
+              }
+            },
+            {
+              "source_id": "conv_7c09ae1a1aad",
+              "message_ids": [
+                "conv_7c09ae1a1aad:msg_1",
+                "conv_7c09ae1a1aad:msg_4",
+                "conv_7c09ae1a1aad:msg_8",
+                "conv_7c09ae1a1aad:msg_16"
+              ],
+              "source_record_sha256": "ce2d5956fc3cb287a176be5cfbbaa973302cf47d4fc024f849235615f4d94935",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_7c09ae1a1aad.json",
+                "sha256": "9f2997c9cb9a04e952c9d4b7b2a4f23d4c2526169a5f6c3deba7c7fb2ef1af1a",
+                "bytes": 11110
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "path": "inventory.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "inventory.json",
+              "value": "15fb813866fac08c82231ad110b11432ebc183dcb6c7f2b1cd6026c7a743e6d2"
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{FIXTURE}/kb_boundary",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_1e8e6e53ac34",
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/kb_boundary/notes.txt",
+                "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d",
+                "bytes": 16
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "path": "inventory.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "inventory.json",
+              "value": "5c883f5804ebbc679f879d57619f52311bab40d6135c09558f273180aca61fce"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_inventory.py",
+            "{INPUT}/never_exists_kb",
+            "--out",
+            "{OUT}/inventory.json"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "origin": "absent_path",
+              "source_id": "conv_1e8e6e53ac34",
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "absent_root": "INPUT",
+              "absent_relative_path": "never_exists_kb",
+              "parent_directory_pin": {
+                "kind": "directory_listing",
+                "path": "/workspace/inputs",
+                "entries": [
+                  {
+                    "name": "conversations",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "feedback",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "generation.md",
+                    "kind": "file",
+                    "sha256": "cb8ea643a59605156567198e4ee8405ea12dee87426e497ecc06c43a23004b86",
+                    "bytes": 1762
+                  },
+                  {
+                    "name": "making_contract.json",
+                    "kind": "file",
+                    "sha256": "188ebf7722862f26cf76367fc61c86a625ff07a20a423e8e230fb2f2a505454d",
+                    "bytes": 13543
+                  },
+                  {
+                    "name": "making_input_index.json",
+                    "kind": "file",
+                    "sha256": "0bc180496611582b782281662257c982617d5c19d6cda44521a087254edc9fd4",
+                    "bytes": 39201
+                  },
+                  {
+                    "name": "making_lineage.json",
+                    "kind": "file",
+                    "sha256": "80884355003f93647f271013042879d0c8e271522715a3fda7cb528cfd91bd7e",
+                    "bytes": 4886
+                  },
+                  {
+                    "name": "making_tools",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "previous",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "previous_skill",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "resource_catalog.json",
+                    "kind": "file",
+                    "sha256": "dbdcb89abc00c33ed216c3328759a644195c3628d9f830acb89a12639932ce54",
+                    "bytes": 312
+                  },
+                  {
+                    "name": "reusable",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "reusable_packages.json",
+                    "kind": "file",
+                    "sha256": "688a44b981250cbe571ff2241fefd02b4b98d92c6508a0d30d8bc0091f643184",
+                    "bytes": 6125
+                  },
+                  {
+                    "name": "route_card.json",
+                    "kind": "file",
+                    "sha256": "21b7051c769f9b6c1d350f9077378353bbbe3dbafbaddebeef472a2a23e2b6f2",
+                    "bytes": 12563
+                  },
+                  {
+                    "name": "source_bindings.json",
+                    "kind": "file",
+                    "sha256": "8fd3d7f5d115f124a9be37c1b962e42f80196d027d27be061dd4f1559d21a490",
+                    "bytes": 4997
+                  }
+                ],
+                "sha256": "2bd38ccc94e548a3d02722c34323df750beb2660fa2472b548dd855cdb5b75aa"
+              },
+              "source_material_pin": {
+                "path": "/workspace/inputs/conversations/conv_1e8e6e53ac34.json",
+                "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c",
+                "bytes": 11295
+              },
+              "generated": true,
+              "purpose": "invalid_input",
+              "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed."
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "kb_inventory_error: KB directory not found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/kb_organize.py",
+      "documented_usage": "python {SKILL}/scripts/kb_organize.py {INPUT}/previous/reproduction_inputs/input_stage/kb --rules {SKILL}/templates/organize_rules.json --out {OUT}/organize_plan.json",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/kb_organize.py",
+        "{INPUT}/previous/reproduction_inputs/input_stage/kb",
+        "--rules",
+        "{SKILL}/templates/organize_rules.json",
+        "--out",
+        "{OUT}/organize_plan.json"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/kb_organize.py {INPUT}/previous/reproduction_inputs/input_stage/kb --rules {SKILL}/templates/organize_rules.json --out {OUT}/organize_plan.json",
+        "inputs": [
+          "知识库目录路径",
+          "整理口径JSON"
+        ],
+        "outputs": [
+          "整理计划JSON：summary/categories/moves/renames/duplicates，默认不动文件"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_organize.py",
+            "{INPUT}/previous/reproduction_inputs/input_stage/kb",
+            "--rules",
+            "{SKILL}/templates/organize_rules.json",
+            "--out",
+            "{OUT}/organize_plan.json"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_1e8e6e53ac34",
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1",
+                "conv_1e8e6e53ac34:97aeb104",
+                "conv_1e8e6e53ac34:0fe52ee7",
+                "conv_1e8e6e53ac34:83327489"
+              ],
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_1e8e6e53ac34.json",
+                "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c",
+                "bytes": 11295
+              }
+            },
+            {
+              "source_id": "conv_63914080dfaf",
+              "message_ids": [
+                "conv_63914080dfaf:msg_1",
+                "conv_63914080dfaf:msg_6",
+                "conv_63914080dfaf:msg_9",
+                "conv_63914080dfaf:msg_14",
+                "conv_63914080dfaf:msg_22",
+                "conv_63914080dfaf:msg_27",
+                "conv_63914080dfaf:msg_58",
+                "conv_63914080dfaf:msg_68",
+                "conv_63914080dfaf:msg_72",
+                "conv_63914080dfaf:msg_80",
+                "da7dd4b4-c922-47fc-95c7-f2391fef8f55",
+                "bf769d76-7772-4cf8-b490-5a1fe570cb0d"
+              ],
+              "source_record_sha256": "7e56a2317f5bcb977d8961be8d4348d75cfa7f73a8c67e2f14f393c59ff5a9bc",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_63914080dfaf.json",
+                "sha256": "1242cde0b1b459f38d8f4ab41304e90cdf1366a29db5d5fdf13372d7a532a3f8",
+                "bytes": 21510
+              }
+            },
+            {
+              "source_id": "conv_6cedf31d582f",
+              "message_ids": [
+                "conv_6cedf31d582f:msg_1",
+                "conv_6cedf31d582f:msg_4",
+                "conv_6cedf31d582f:msg_7",
+                "conv_6cedf31d582f:msg_11",
+                "conv_6cedf31d582f:msg_15",
+                "conv_6cedf31d582f:msg_17",
+                "conv_6cedf31d582f:msg_20",
+                "conv_6cedf31d582f:msg_30",
+                "conv_6cedf31d582f:msg_44",
+                "conv_6cedf31d582f:msg_51",
+                "conv_6cedf31d582f:msg_54",
+                "conv_6cedf31d582f:msg_57",
+                "conv_6cedf31d582f:msg_60",
+                "conv_6cedf31d582f:msg_63",
+                "conv_6cedf31d582f:msg_66",
+                "conv_6cedf31d582f:msg_69",
+                "conv_6cedf31d582f:msg_71",
+                "conv_6cedf31d582f:msg_74",
+                "conv_6cedf31d582f:msg_75",
+                "conv_6cedf31d582f:msg_76",
+                "conv_6cedf31d582f:msg_88",
+                "conv_6cedf31d582f:msg_90",
+                "conv_6cedf31d582f:msg_93",
+                "conv_6cedf31d582f:msg_100",
+                "conv_6cedf31d582f:msg_102",
+                "conv_6cedf31d582f:msg_104",
+                "conv_6cedf31d582f:msg_114",
+                "conv_6cedf31d582f:msg_116",
+                "conv_6cedf31d582f:msg_117",
+                "conv_6cedf31d582f:msg_120",
+                "conv_6cedf31d582f:msg_121",
+                "conv_6cedf31d582f:msg_122",
+                "conv_6cedf31d582f:msg_123",
+                "conv_6cedf31d582f:msg_124",
+                "conv_6cedf31d582f:msg_125",
+                "conv_6cedf31d582f:msg_126",
+                "conv_6cedf31d582f:msg_128",
+                "conv_6cedf31d582f:msg_129",
+                "conv_6cedf31d582f:msg_132",
+                "conv_6cedf31d582f:msg_133",
+                "conv_6cedf31d582f:msg_134",
+                "conv_6cedf31d582f:msg_136",
+                "conv_6cedf31d582f:msg_148"
+              ],
+              "source_record_sha256": "67d3694e9172966a4021a4207972aa482c17156ce2a587b2df36d04202cd2f25",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_6cedf31d582f.json",
+                "sha256": "57392cf1cb6437191d7ed08702a140ea253fd1b61914d07ce6f4c6d3c68bf73e",
+                "bytes": 79479
+              }
+            },
+            {
+              "source_id": "conv_7c09ae1a1aad",
+              "message_ids": [
+                "conv_7c09ae1a1aad:msg_1",
+                "conv_7c09ae1a1aad:msg_4",
+                "conv_7c09ae1a1aad:msg_8",
+                "conv_7c09ae1a1aad:msg_16"
+              ],
+              "source_record_sha256": "ce2d5956fc3cb287a176be5cfbbaa973302cf47d4fc024f849235615f4d94935",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_7c09ae1a1aad.json",
+                "sha256": "9f2997c9cb9a04e952c9d4b7b2a4f23d4c2526169a5f6c3deba7c7fb2ef1af1a",
+                "bytes": 11110
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "path": "organize_plan.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "organize_plan.json",
+              "value": "fa759c9adf014656e910dfaa862c9cd706c8ff1c2c7e853331f399e3912f7056"
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_organize.py",
+            "{FIXTURE}/kb_boundary",
+            "--rules",
+            "{SKILL}/templates/organize_rules.json",
+            "--out",
+            "{OUT}/organize_plan.json"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_1e8e6e53ac34",
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/kb_boundary/notes.txt",
+                "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d",
+                "bytes": 16
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "path": "organize_plan.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "organize_plan.json",
+              "value": "98d8e310ede433ca586df2a3c6b953b7d8d33bce8e9f12c1e09b2757fda5853a"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_organize.py",
+            "{FIXTURE}/kb_boundary",
+            "--rules",
+            "{FIXTURE}/invalid_rules.json",
+            "--out",
+            "{OUT}/organize_plan.json"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "source_id": "conv_1e8e6e53ac34",
+              "message_ids": [
+                "conv_1e8e6e53ac34:msg_1"
+              ],
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/kb_boundary/notes.txt",
+                "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d",
+                "bytes": 16
+              }
+            },
+            {
+              "source_id": "conv_1e8e6e53ac34",
+              "message_ids": [
+                "conv_1e8e6e53ac34:83327489"
+              ],
+              "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/invalid_rules.json",
+                "sha256": "c0351809b8a32374512bb9f24481342a162c9687c69b7ad6e9aec1dd483ef69c",
+                "bytes": 101
+              }
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "kb_organize_error: rules missing categories mapping"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/kb_report.py",
+      "documented_usage": "python {SKILL}/scripts/kb_report.py {INPUT}/previous/reproduction_inputs/organize_plan_normal.json --template {SKILL}/templates/maintenance_report_template.md --out {OUT}/maintenance_report.md",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/kb_report.py",
+        "{INPUT}/previous/reproduction_inputs/organize_plan_normal.json",
+        "--template",
+        "{SKILL}/templates/maintenance_report_template.md",
+        "--out",
+        "{OUT}/maintenance_report.md"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/kb_report.py {INPUT}/previous/reproduction_inputs/organize_plan_normal.json --template {SKILL}/templates/maintenance_report_template.md --out {OUT}/maintenance_report.md",
+        "inputs": [
+          "整理计划JSON",
+          "报告模板MD"
+        ],
+        "outputs": [
+          "知识库整理报告Markdown：概览/分类明细/重复文件/整理动作"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_report.py",
+            "{INPUT}/previous/reproduction_inputs/organize_plan_normal.json",
+            "--template",
+            "{SKILL}/templates/maintenance_report_template.md",
+            "--out",
+            "{OUT}/maintenance_report.md"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_6cedf31d582f",
+              "message_ids": [
+                "conv_6cedf31d582f:msg_100"
+              ],
+              "source_record_sha256": "67d3694e9172966a4021a4207972aa482c17156ce2a587b2df36d04202cd2f25",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/inputs/previous/reproduction_inputs/organize_plan_normal.json",
+                "sha256": "fa759c9adf014656e910dfaa862c9cd706c8ff1c2c7e853331f399e3912f7056",
+                "bytes": 823
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "path": "maintenance_report.md",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "maintenance_report.md",
+              "value": "f9382403240b1306bd726c902c84ca6f0f3952d5a14035732cb72ed871bb1826"
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_report.py",
+            "{FIXTURE}/organize_plan_boundary.json",
+            "--template",
+            "{SKILL}/templates/maintenance_report_template.md",
+            "--out",
+            "{OUT}/maintenance_report.md"
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "source_id": "conv_7c09ae1a1aad",
+              "message_ids": [
+                "conv_7c09ae1a1aad:msg_16"
+              ],
+              "source_record_sha256": "ce2d5956fc3cb287a176be5cfbbaa973302cf47d4fc024f849235615f4d94935",
+              "origin": "generated_fixture",
+              "pin": {
+                "path": "/workspace/outputs/reproduction_inputs/organize_plan_boundary.json",
+                "sha256": "98d8e310ede433ca586df2a3c6b953b7d8d33bce8e9f12c1e09b2757fda5853a",
+                "bytes": 507
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "path": "maintenance_report.md",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "maintenance_report.md",
+              "value": "34f1fadc2794ee46adbc5bbe4c9aa9a39ff2ffc94f49dd5182ba2b3c4e285407"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/kb_report.py",
+            "{FIXTURE}/never_plan.json",
+            "--template",
+            "{SKILL}/templates/maintenance_report_template.md",
+            "--out",
+            "{OUT}/maintenance_report.md"
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "origin": "absent_path",
+              "source_id": "conv_63914080dfaf",
+              "message_ids": [
+                "da7dd4b4-c922-47fc-95c7-f2391fef8f55"
+              ],
+              "source_record_sha256": "7e56a2317f5bcb977d8961be8d4348d75cfa7f73a8c67e2f14f393c59ff5a9bc",
+              "absent_root": "FIXTURE",
+              "absent_relative_path": "never_plan.json",
+              "parent_directory_pin": {
+                "kind": "directory_listing",
+                "path": "/workspace/outputs/reproduction_inputs",
+                "entries": [
+                  {
+                    "name": "invalid_rules.json",
+                    "kind": "file",
+                    "sha256": "c0351809b8a32374512bb9f24481342a162c9687c69b7ad6e9aec1dd483ef69c",
+                    "bytes": 101
+                  },
+                  {
+                    "name": "kb_boundary",
+                    "kind": "directory"
+                  },
+                  {
+                    "name": "organize_plan_boundary.json",
+                    "kind": "file",
+                    "sha256": "98d8e310ede433ca586df2a3c6b953b7d8d33bce8e9f12c1e09b2757fda5853a",
+                    "bytes": 507
+                  }
+                ],
+                "sha256": "7abf80f3dd267cb0cff1c3b343bef8f8abfecc735057685944c9a98ee299cb0d"
+              },
+              "source_material_pin": {
+                "path": "/workspace/inputs/conversations/conv_63914080dfaf.json",
+                "sha256": "1242cde0b1b459f38d8f4ab41304e90cdf1366a29db5d5fdf13372d7a532a3f8",
+                "bytes": 21510
+              },
+              "generated": true,
+              "purpose": "invalid_input",
+              "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed."
+            }
+          ],
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "kb_report_error: plan file not found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "previous/reproduction_inputs/input_stage/kb/conv_1e8e6e53ac34.json",
+      "pin": {
+        "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_1e8e6e53ac34.json",
+        "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c",
+        "bytes": 11295
+      },
+      "source_id": "conv_1e8e6e53ac34",
+      "message_ids": [
+        "conv_1e8e6e53ac34:msg_1",
+        "conv_1e8e6e53ac34:97aeb104",
+        "conv_1e8e6e53ac34:0fe52ee7",
+        "conv_1e8e6e53ac34:83327489"
+      ],
+      "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "上一分支 make1 将 4 个所选会话原文逐字节复制暂存为知识库输入目录 input_stage/kb（与来源 conversation.json sha256 逐一相同），本分支在原生输入树中原样继承（pin 与 making_input_index 一致），用于在不动真实输入目录的前提下提供 KB 形态的公开用法输入。非新造内容，字节即来源原文。"
+    },
+    {
+      "path": "previous/reproduction_inputs/input_stage/kb/conv_63914080dfaf.json",
+      "pin": {
+        "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_63914080dfaf.json",
+        "sha256": "1242cde0b1b459f38d8f4ab41304e90cdf1366a29db5d5fdf13372d7a532a3f8",
+        "bytes": 21510
+      },
+      "source_id": "conv_63914080dfaf",
+      "message_ids": [
+        "conv_63914080dfaf:msg_1",
+        "conv_63914080dfaf:msg_6",
+        "conv_63914080dfaf:msg_9",
+        "conv_63914080dfaf:msg_14",
+        "conv_63914080dfaf:msg_22",
+        "conv_63914080dfaf:msg_27",
+        "conv_63914080dfaf:msg_58",
+        "conv_63914080dfaf:msg_68",
+        "conv_63914080dfaf:msg_72",
+        "conv_63914080dfaf:msg_80",
+        "da7dd4b4-c922-47fc-95c7-f2391fef8f55",
+        "bf769d76-7772-4cf8-b490-5a1fe570cb0d"
+      ],
+      "source_record_sha256": "7e56a2317f5bcb977d8961be8d4348d75cfa7f73a8c67e2f14f393c59ff5a9bc",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "上一分支 make1 将 4 个所选会话原文逐字节复制暂存为知识库输入目录 input_stage/kb（与来源 conversation.json sha256 逐一相同），本分支在原生输入树中原样继承（pin 与 making_input_index 一致），用于在不动真实输入目录的前提下提供 KB 形态的公开用法输入。非新造内容，字节即来源原文。"
+    },
+    {
+      "path": "previous/reproduction_inputs/input_stage/kb/conv_6cedf31d582f.json",
+      "pin": {
+        "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_6cedf31d582f.json",
+        "sha256": "57392cf1cb6437191d7ed08702a140ea253fd1b61914d07ce6f4c6d3c68bf73e",
+        "bytes": 79479
+      },
+      "source_id": "conv_6cedf31d582f",
+      "message_ids": [
+        "conv_6cedf31d582f:msg_1",
+        "conv_6cedf31d582f:msg_4",
+        "conv_6cedf31d582f:msg_7",
+        "conv_6cedf31d582f:msg_11",
+        "conv_6cedf31d582f:msg_15",
+        "conv_6cedf31d582f:msg_17",
+        "conv_6cedf31d582f:msg_20",
+        "conv_6cedf31d582f:msg_30",
+        "conv_6cedf31d582f:msg_44",
+        "conv_6cedf31d582f:msg_51",
+        "conv_6cedf31d582f:msg_54",
+        "conv_6cedf31d582f:msg_57",
+        "conv_6cedf31d582f:msg_60",
+        "conv_6cedf31d582f:msg_63",
+        "conv_6cedf31d582f:msg_66",
+        "conv_6cedf31d582f:msg_69",
+        "conv_6cedf31d582f:msg_71",
+        "conv_6cedf31d582f:msg_74",
+        "conv_6cedf31d582f:msg_75",
+        "conv_6cedf31d582f:msg_76",
+        "conv_6cedf31d582f:msg_88",
+        "conv_6cedf31d582f:msg_90",
+        "conv_6cedf31d582f:msg_93",
+        "conv_6cedf31d582f:msg_100",
+        "conv_6cedf31d582f:msg_102",
+        "conv_6cedf31d582f:msg_104",
+        "conv_6cedf31d582f:msg_114",
+        "conv_6cedf31d582f:msg_116",
+        "conv_6cedf31d582f:msg_117",
+        "conv_6cedf31d582f:msg_120",
+        "conv_6cedf31d582f:msg_121",
+        "conv_6cedf31d582f:msg_122",
+        "conv_6cedf31d582f:msg_123",
+        "conv_6cedf31d582f:msg_124",
+        "conv_6cedf31d582f:msg_125",
+        "conv_6cedf31d582f:msg_126",
+        "conv_6cedf31d582f:msg_128",
+        "conv_6cedf31d582f:msg_129",
+        "conv_6cedf31d582f:msg_132",
+        "conv_6cedf31d582f:msg_133",
+        "conv_6cedf31d582f:msg_134",
+        "conv_6cedf31d582f:msg_136",
+        "conv_6cedf31d582f:msg_148"
+      ],
+      "source_record_sha256": "67d3694e9172966a4021a4207972aa482c17156ce2a587b2df36d04202cd2f25",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "上一分支 make1 将 4 个所选会话原文逐字节复制暂存为知识库输入目录 input_stage/kb（与来源 conversation.json sha256 逐一相同），本分支在原生输入树中原样继承（pin 与 making_input_index 一致），用于在不动真实输入目录的前提下提供 KB 形态的公开用法输入。非新造内容，字节即来源原文。"
+    },
+    {
+      "path": "previous/reproduction_inputs/input_stage/kb/conv_7c09ae1a1aad.json",
+      "pin": {
+        "path": "/workspace/inputs/previous/reproduction_inputs/input_stage/kb/conv_7c09ae1a1aad.json",
+        "sha256": "9f2997c9cb9a04e952c9d4b7b2a4f23d4c2526169a5f6c3deba7c7fb2ef1af1a",
+        "bytes": 11110
+      },
+      "source_id": "conv_7c09ae1a1aad",
+      "message_ids": [
+        "conv_7c09ae1a1aad:msg_1",
+        "conv_7c09ae1a1aad:msg_4",
+        "conv_7c09ae1a1aad:msg_8",
+        "conv_7c09ae1a1aad:msg_16"
+      ],
+      "source_record_sha256": "ce2d5956fc3cb287a176be5cfbbaa973302cf47d4fc024f849235615f4d94935",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "上一分支 make1 将 4 个所选会话原文逐字节复制暂存为知识库输入目录 input_stage/kb（与来源 conversation.json sha256 逐一相同），本分支在原生输入树中原样继承（pin 与 making_input_index 一致），用于在不动真实输入目录的前提下提供 KB 形态的公开用法输入。非新造内容，字节即来源原文。"
+    },
+    {
+      "path": "previous/reproduction_inputs/organize_plan_normal.json",
+      "pin": {
+        "path": "/workspace/inputs/previous/reproduction_inputs/organize_plan_normal.json",
+        "sha256": "fa759c9adf014656e910dfaa862c9cd706c8ff1c2c7e853331f399e3912f7056",
+        "bytes": 823
+      },
+      "source_id": "conv_6cedf31d582f",
+      "message_ids": [
+        "conv_6cedf31d582f:msg_100"
+      ],
+      "source_record_sha256": "67d3694e9172966a4021a4207972aa482c17156ce2a587b2df36d04202cd2f25",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "composition_input",
+      "derivation": "s2→s3 接续中间件：上一分支由本技能 kb_organize.py 以公开口径对 input_stage/kb 生成；本分支在原生输入树中原样继承并实测复算，kb_organize.py 对同一批字节文件重跑输出 sha256 与该文件逐一致（fa759c9a…），保持组合接续确定性。"
+    },
+    {
+      "path": "kb_boundary/notes.txt",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/kb_boundary/notes.txt",
+        "sha256": "107c31e70cceffc12d12fbf1479d5b226cdd452a41829d971ba2d1e83874062d",
+        "bytes": 16
+      },
+      "source_id": "conv_1e8e6e53ac34",
+      "message_ids": [
+        "conv_1e8e6e53ac34:msg_1"
+      ],
+      "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "最小单文件知识库边界样例：文件内容取自 conv_1e8e6e53ac34:msg_1 的触发语“整理知识库”加换行，扩展名 txt 对应口径中的“文档”分类；用于验证单文件KB的盘点/整理/报告链路。非历史原件，制作时新生成（本分支自上一分支交付原字节复制，sha256 一致）。"
+    },
+    {
+      "path": "invalid_rules.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/invalid_rules.json",
+        "sha256": "c0351809b8a32374512bb9f24481342a162c9687c69b7ad6e9aec1dd483ef69c",
+        "bytes": 101
+      },
+      "source_id": "conv_1e8e6e53ac34",
+      "message_ids": [
+        "conv_1e8e6e53ac34:83327489"
+      ],
+      "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "错误输入负例：口径JSON缺少必填 categories 映射（对应来源证据“整理口径先经用户确认”），kb_organize.py 必须以 kb_organize_error 退出2。制作时新生成（本分支原字节复制自上一分支交付）。"
+    },
+    {
+      "path": "organize_plan_boundary.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/organize_plan_boundary.json",
+        "sha256": "98d8e310ede433ca586df2a3c6b953b7d8d33bce8e9f12c1e09b2757fda5853a",
+        "bytes": 507
+      },
+      "source_id": "conv_7c09ae1a1aad",
+      "message_ids": [
+        "conv_7c09ae1a1aad:msg_16"
+      ],
+      "source_record_sha256": "ce2d5956fc3cb287a176be5cfbbaa973302cf47d4fc024f849235615f4d94935",
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "composition_input",
+      "derivation": "s2→s3 接续边界中间件：本技能 kb_organize.py 对 kb_boundary 单文件KB生成（本分支实测重跑输出与该文件 sha256 逐一致）；用于报告阶段的最小输入。非历史原件。"
+    }
+  ],
+  "non_executable_resources": [
+    {
+      "path": "templates/organize_rules.json",
+      "assertions": [
+        {
+          "kind": "json_keys",
+          "path": "templates/organize_rules.json",
+          "pointer": "",
+          "value": [
+            "schema",
+            "categories",
+            "unmatched_category",
+            "duplicate_policy",
+            "conflict_suffix"
+          ]
+        },
+        {
+          "kind": "contains",
+          "path": "templates/organize_rules.json",
+          "value": "report_only"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_1e8e6e53ac34",
+          "message_ids": [
+            "conv_1e8e6e53ac34:83327489"
+          ],
+          "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_1e8e6e53ac34.json",
+            "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c",
+            "bytes": 11295
+          }
+        }
+      ]
+    },
+    {
+      "path": "templates/maintenance_report_template.md",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "templates/maintenance_report_template.md",
+          "value": "{{KB_NAME}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/maintenance_report_template.md",
+          "value": "{{CATEGORY_TABLE}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/maintenance_report_template.md",
+          "value": "{{DUPLICATE_SECTION}}"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_63914080dfaf",
+          "message_ids": [
+            "bf769d76-7772-4cf8-b490-5a1fe570cb0d"
+          ],
+          "source_record_sha256": "7e56a2317f5bcb977d8961be8d4348d75cfa7f73a8c67e2f14f393c59ff5a9bc",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_63914080dfaf.json",
+            "sha256": "1242cde0b1b459f38d8f4ab41304e90cdf1366a29db5d5fdf13372d7a532a3f8",
+            "bytes": 21510
+          }
+        }
+      ]
+    },
+    {
+      "path": "references/stage_notes.md",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "references/stage_notes.md",
+          "value": "conv_1e8e6e53ac34:83327489"
+        },
+        {
+          "kind": "contains",
+          "path": "references/stage_notes.md",
+          "value": "口径/范围先经用户确认再执行"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_1e8e6e53ac34",
+          "message_ids": [
+            "conv_1e8e6e53ac34:83327489"
+          ],
+          "source_record_sha256": "7f648e8b52fa8e8abd0fbff3a14c020ccc6ba726b4b31e494c9b03d4b41c4d4d",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_1e8e6e53ac34.json",
+            "sha256": "b88e0c5623a68a55674b6cc5cb18f4e9fbe8a22ce6bf54b45610eb00606e5c3c",
+            "bytes": 11295
+          }
+        },
+        {
+          "source_id": "conv_63914080dfaf",
+          "message_ids": [
+            "da7dd4b4-c922-47fc-95c7-f2391fef8f55"
+          ],
+          "source_record_sha256": "7e56a2317f5bcb977d8961be8d4348d75cfa7f73a8c67e2f14f393c59ff5a9bc",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_63914080dfaf.json",
+            "sha256": "1242cde0b1b459f38d8f4ab41304e90cdf1366a29db5d5fdf13372d7a532a3f8",
+            "bytes": 21510
+          }
+        },
+        {
+          "source_id": "conv_7c09ae1a1aad",
+          "message_ids": [
+            "conv_7c09ae1a1aad:msg_16"
+          ],
+          "source_record_sha256": "ce2d5956fc3cb287a176be5cfbbaa973302cf47d4fc024f849235615f4d94935",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_7c09ae1a1aad.json",
+            "sha256": "9f2997c9cb9a04e952c9d4b7b2a4f23d4c2526169a5f6c3deba7c7fb2ef1af1a",
+            "bytes": 11110
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "公开用法入口沿用原生输入目录：normal 用例的 {INPUT}/previous/reproduction_inputs/input_stage/kb 是 4 个所选会话原文的逐字节等价暂存副本（sha256 与来源 pin 逐一致），{INPUT}/previous/reproduction_inputs/organize_plan_normal.json 是 s2→s3 接续计划（与本技能 kb_organize.py 对同一批文件重跑输出逐字节一致）；两者均为原生输入树内真实存在的文件，真实输入目录未修改。",
+    "上一分支 r1 的 HOLD 原因是 normal 用例声明 {INPUT}/kb 而原生输入树无该路径（declared_input_not_actually_supplied_to_program）；本分支修复方式即上述入口改绑，程序与模板字节未改。",
+    "程序输出不含绝对路径与时间戳：kb_name 取绑定目录名，文件条目均为相对路径，同一批文件在不同绑定位置产出逐字节一致，sha256 断言可复现（本分支已在 {INPUT} 与 {FIXTURE} 两种绑定下实测）。",
+    "边界/错误用例的临时样例位于 /workspace/outputs/reproduction_inputs（kb_boundary 单文件KB、invalid_rules 缺 categories 负例、organize_plan_boundary 接续计划）；{FIXTURE}/never_plan.json 与 {INPUT}/never_exists_kb 为新建缺失路径负例（absent_reference 生成，非历史字节）。",
+    "--apply 为用户确认后的可选动作，不在 replay 用例内（避免未声明物理文件）；上一分支及本分支均已实测：复制归位成功、重复执行因目标已存在退出2、原文件保留。"
+  ]
+}

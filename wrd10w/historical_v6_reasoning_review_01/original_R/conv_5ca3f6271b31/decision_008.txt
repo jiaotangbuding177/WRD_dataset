@@ -1,0 +1,53 @@
+Let me understand the situation. We're at decision 8. Budget: model_calls 5, tool_calls 4, seconds ~648. But recent interaction shows "Bounded local run cap exhausted" — so TRY execution runs are exhausted (2 execution branches used). We have w1 in DRAFT version 2, with u1 RESOLVED and u2 OPEN.
+
+We need to finish. The pending status: w1 exists, is DRAFT version 2, with steps s1-s3, asset_refs pointing to a verified reusable asset conv_5ca3f6271b31:conv_5ca3f6271b31_d3_budget_gen:repair. u2 is OPEN non-blocking (subject-level amounts not extracted; proposal weights used).
+
+Remaining budget: 5 model calls, 4 tool calls, but execution branch cap (2 branches) is exhausted per the rejection. So further TRY is not possible. We could UPDATE to close u2 as DEFERRED with a rationale, or leave as is. But every FINISH decision must include each current W. w1 must get READY/DEFERRED/NO_REUSABLE.
+
+Options: Do one UPDATE to mark u2 as DEFERRED (since we cannot probe further due to branch cap), then FINISH. But do we have tool budget? UPDATE is a model action, not a tool call. recent_interactions show decision numbers; we're allowed up to 12 teacher decisions total. Decision 8 is current. We have room.
+
+Actually, is a final UPDATE necessary? The u2 issue is OPEN non-blocking. Leaving it OPEN while declaring W READY... The FINISH requires reason evidence-grounded. We could FINISH with w1 READY, noting u2 remains open as a known limitation. But guidelines: "有明确阻塞但预算不足则DEFERRED". u2 is non-blocking, so w1 can be READY structurally. However the workflow's non-labor weights are assumed — a documented unknown, fine for READY (structural trial readiness).
+
+Hmm, but should we mark u2 DEFERRED? An UPDATE can set status DEFERRED with reason. That's cleaner: u2 cannot be resolved because bounded local run cap exhausted. Then FINISH with w1 READY.
+
+Let me do one UPDATE: mark u2 status DEFERRED (needs base_version 1... actually issue version is 1; base_version field required as exact integer for existing issue). Then FINISH.
+
+Wait—can UPDATE set an issue status to DEFERRED? issue_spec has status enum OPEN|RESOLVED|DEFERRED|CONFLICTED. Yes.
+
+But the UPDATE requires graph and workflows? The UPDATE schema: {"graph": {...}, "workflows": [...], "issues": [...]}. Are graph/workflows optional? Probably yes—only provide what changes. The prior successful UPDATE provided graph and workflows. To be safe, provide only issues patch with base_version. Hmm, risk of rejection if required fields missing. In the schema, UPDATE arguments show graph, workflows, issues as keys; likely each optional. Let me include issues only, minimal risk. Actually the previous rejected ones included graph+workflows. I'll include issues only.
+
+Also possibly update w1 to note u2 DEFERRED. The workflow's unknowns field is fine as is.
+
+Then FINISH with decisions for w1.
+
+Alternatively combine: UPDATE u2 to DEFERRED and also patch w1 failure_handling/unknowns? Keep it simple: just the issue.
+
+Actually, could we finish without UPDATE? The FINISH decision for w1 could be READY with the reason noting the unresolved u2. But the instructions say FINISH must give each current W exactly one decision; no requirement to close issues. However, leaving u2 OPEN while finishing may be viewed as incomplete. Safer to UPDATE u2 status to DEFERRED explicitly.
+
+Let me write the FINISH: decisions: [{workflow_id: conv_5ca3f6271b31_w1, status: READY, reason: ...}], reason: overall.
+
+Hmm — is READY justified? READY is structural trial readiness, not task success. w1 has steps s1-s3, a verified executed asset, checks implemented; the executed repair ran exit 0 with readback sum == first payment, headers correct, note length 185. So READY is defensible, with caveat that non-labor weights remain proposal assumptions (u2 deferred).
+
+Now formatting: return exactly one ActionProposal JSON object. This decision is the UPDATE.
+
+Let me produce UPDATE with issues patch:
+
+{"spec": {"id":"u2", "question": "...", "workflow_id":"conv_5ca3f6271b31_w1", "step_ids":["s1","s2"], "learning_impact":"...", "alternatives":[...], "required_evidence":[...], "blocking":false, "status":"DEFERRED", "evidence_refs":[{source_id, turn_index:0, role:"user", quote: exact substring}]}, "base_version": 1}
+
+Quote must be exact substring of user turn 0 content. Use "包括但不限于人员劳务、设备购置/租赁、材料费、测试化验加工费、差旅/会议、出版/知识产权、专家咨询、管理分摊等科目" — verify against the source: "预算须覆盖第一阶段（至首个里程碑节点）所需全部支出，包括但不限于人员劳务、设备购置/租赁、材料费、测试化验加工费、差旅/会议、出版/知识产权、专家咨询、管理分摊等科目，列明各科目金额、测算依据、支出时序与对应交付物。" Yes that substring exists.
+
+Also note the rejection reason from d6/d7: bounded local run cap exhausted. That's the evidence for deferring u2.
+
+Then action_id must be unique safe ascii slug.
+
+Let me write it.
+
+Also action_index will be 8? Whatever, the envelope uses action_id.
+
+Produce JSON only.
+
+Purpose text describes.
+
+I'll produce UPDATE now; then next decision FINISH. That's two more model calls, within budget.
+
+Should I instead combine everything into one FINISH? UPDATE is needed to close u2. Fine.

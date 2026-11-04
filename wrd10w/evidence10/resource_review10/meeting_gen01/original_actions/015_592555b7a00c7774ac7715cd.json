@@ -1,0 +1,105 @@
+{
+  "canonical_owner_id": "592555b7a00c7774ac7715cd",
+  "episode_id": "native_recovered10_61c70099-9493-4dd8-aade-5da80bedb3f0",
+  "native_session_id": "61c70099-9493-4dd8-aade-5da80bedb3f0",
+  "source_message_index": 15,
+  "source_event_line": 27,
+  "source_native": {
+    "path": "E:\\skillloop_runs\\20261021_workflow_library_parallel4_recovery1\\native_episodes\\meeting-minutes-formatting_gen_01\\openclaw_transport\\session_events.jsonl",
+    "bytes": 403465,
+    "sha256": "158b99125fff0fc14694e88f23a622d7ea892b9a1f9a806f2bd091b6e6da296a"
+  },
+  "original_message_sha256_sorted": "33ab099886af81fec5da6526621c91eb3402e02079131d2b0d8043178c5f9e68",
+  "source_ids": [
+    "conv_2ff337f34ddc",
+    "conv_ce34559870b8",
+    "conv_d640957a9820"
+  ],
+  "current_source_statuses": {
+    "conv_2ff337f34ddc": "TRAIN",
+    "conv_ce34559870b8": "TRAIN",
+    "conv_d640957a9820": "TRAIN"
+  },
+  "population": "NEW_ORIGINAL_NATIVE_ENTITY_RECOVERED10",
+  "target_tool_names": [
+    "exec"
+  ],
+  "native_readable_R_blocks": 0,
+  "input_prefix_end_exclusive": 15,
+  "original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call4b0864d5ef1445d39cf5784b7e27aa24",
+        "name": "exec",
+        "arguments": {
+          "command": "mkdir -p /workspace/tmp /workspace/outputs && python3 -c \"\nimport json\nfor f in ['conv_2ff337f34ddc','conv_ce34559870b8','conv_d640957a9820']:\n    d=json.load(open(f'/workspace/inputs/conversations/{f}.json'))\n    with open(f'/workspace/tmp/{f}.txt','w') as o:\n        for m in d['messages']:\n            c=m['content']\n            if isinstance(c,list): c=' '.join(x.get('text','') if isinstance(x,dict) else str(x) for x in c)\n            o.write(f'### {m[\\\"id\\\"]} [{m[\\\"role\\\"]}]\\n{c}\\n\\n')\nprint('done')\n\" && wc -c /workspace/tmp/conv_*.txt"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792569106472,
+    "responseId": "chatcmpl-1792569106492",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "1f3d7c47-0085-40b0-bcf8-7e84da89f256"
+    }
+  },
+  "immediate_actual_tool_feedback": [
+    {
+      "message_index": 16,
+      "event_line": 28,
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call4b0864d5ef1445d39cf5784b7e27aa24",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "done\n 8793 /workspace/tmp/conv_2ff337f34ddc.txt\n10438 /workspace/tmp/conv_ce34559870b8.txt\n30319 /workspace/tmp/conv_d640957a9820.txt\n49550 total"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "exitSignal": null,
+          "exitReason": "exit",
+          "durationMs": 87,
+          "aggregated": "done\n 8793 /workspace/tmp/conv_2ff337f34ddc.txt\n10438 /workspace/tmp/conv_ce34559870b8.txt\n30319 /workspace/tmp/conv_d640957a9820.txt\n49550 total",
+          "noOutputTimedOut": false,
+          "cwd": "/workspace"
+        },
+        "isError": false,
+        "timestamp": 1792569119885,
+        "__openclaw": {
+          "runId": "1f3d7c47-0085-40b0-bcf8-7e84da89f256"
+        }
+      },
+      "sha256_sorted": "ef6c84740d7c1c4dc5ae0c2cf2f55c5f6ec1150a9d21281f9410d2f86a4c0213"
+    }
+  ],
+  "original_target_identity_verified": true,
+  "full_prefix_resource_ancestry_or_semantics_not_yet_admitted": true,
+  "training_admitted": false,
+  "positive_loss": 0
+}

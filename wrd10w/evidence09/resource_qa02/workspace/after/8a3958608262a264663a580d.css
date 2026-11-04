@@ -1,0 +1,119 @@
+/* =========================================================
+   界面背景配色优化 — 基于产品图背景提取
+   图片背景分析结果：
+   - 整体为柔和淡绿色调（主背景 #eff4ed / #d9e3db，
+     灰绿点缀 #a5bcab），明亮、干净、不刺眼。
+   - 本方案：上部沿用图片同源的浅绿米白背景，
+     底部统一使用青绿色 #00c4a3，并用渐变平滑过渡。
+   兼容性：CSS 自定义属性（var）与 linear-gradient
+   均为 CSS3 标准特性，Chrome / Edge / Firefox / Safari /
+   移动端主流浏览器均支持；数值已提供十六进制回退写法。
+   ========================================================= */
+
+:root {
+  /* ---------- 上部背景（源自图片的柔和淡绿色系） ---------- */
+  /* 页面整体底色：接近图片主背景的浅绿米白，柔和不刺眼 */
+  --bg-page:        #f3f7f1;              /* 页面底色（浅绿米白） */
+  /* 上部区域背景：与图片上部 #d9e3db → #eff4ed 同源的柔和渐变 */
+  --bg-top-start:   #e3ece1;              /* 上部渐变起点（灰绿） */
+  --bg-top-end:     #f4f8f2;              /* 上部渐变终点（近白浅绿） */
+  /* 卡片 / 内容面板：纯白浮于浅绿底上，层次清晰 */
+  --bg-surface:     #ffffff;              /* 卡片、面板背景 */
+  --bg-surface-alt: #eaf1e7;              /* 次级面板 / 分区块（浅灰绿） */
+
+  /* ---------- 底部区域（统一青绿色，HEX 参考 #00c4a3） ---------- */
+  --bg-bottom:      #00c4a3;              /* 底部主色（青绿） */
+  --bg-bottom-deep: #00a98b;              /* 底部深一档，用于渐变/悬停 */
+  --bg-bottom-soft: #d5f4ec;              /* 青绿的浅色调，用于过渡与标签底 */
+
+  /* ---------- 上部 → 底部的协调过渡 ---------- */
+  /* 过渡带：浅绿背景经青绿浅色平滑压入主青绿，避免生硬分界 */
+  --bg-transition: linear-gradient(
+    180deg,
+    #f4f8f2 0%,     /* 延续上部浅绿 */
+    #d5f4ec 45%,    /* 青绿浅色缓冲带 */
+    #00c4a3 100%    /* 汇入底部主青绿 */
+  );
+
+  /* ---------- 文字颜色（保证各背景上的清晰度） ---------- */
+  --text-primary:   #1f2d26;              /* 标题：深墨绿灰，浅底上对比度 ≥ 12:1 */
+  --text-secondary: #47584f;              /* 正文：中灰绿，浅底上对比度 ≥ 7:1 */
+  --text-on-bottom: #1f2d28; /* 亮青绿底使用深字 */
+  --text-on-bottom-muted: #1f2d28; /* 次要文字也保留足够对比 */
+
+  /* ---------- 点缀色（取自图片中的灰绿点缀） ---------- */
+  --accent-muted:   #a5bcab;              /* 分割线、边框、图标点缀 */
+}
+
+/* =========================================================
+   应用示例（可直接套用的布局样式）
+   ========================================================= */
+
+/* 上部区域：柔和淡绿渐变背景 */
+.header,
+.hero {
+  background: linear-gradient(180deg, var(--bg-top-start) 0%, var(--bg-top-end) 100%);
+  color: var(--text-primary);
+}
+
+/* 页面主体：浅绿米白底 + 深灰绿文字，视觉舒适 */
+body {
+  margin: 0;
+  background-color: var(--bg-page);
+  color: var(--text-secondary);
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+h1, h2, h3 {
+  color: var(--text-primary);
+}
+
+/* 卡片：白底浮层，圆角与浅边框增强柔和感 */
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--accent-muted);
+  border-radius: 12px;
+}
+
+/* 中部过渡带：浅绿 → 青绿的平滑渐变，衔接上下区域 */
+.transition-zone {
+  background: var(--bg-transition);
+}
+
+/* 底部区域：统一青绿背景 + 深色文字 */
+.footer {
+  background-color: var(--bg-bottom);
+  color: var(--text-on-bottom);
+}
+
+.footer .muted {
+  color: var(--text-on-bottom-muted);
+}
+
+/* 底部主按钮：深一档青绿作悬停态，同色系不突兀 */
+.btn-primary {
+  background-color: var(--bg-bottom);
+  color: var(--text-on-bottom);
+  border: none;
+  border-radius: 8px;
+}
+
+.btn-primary:hover {
+  background-color: var(--bg-bottom-deep);
+}
+
+/* =========================================================
+   响应式适配（网页端）
+   ========================================================= */
+
+/* 平板：过渡带高度收窄，避免小屏上渐变占比过大 */
+@media (max-width: 1024px) {
+  .transition-zone { min-height: 96px; }
+}
+
+/* 手机：进一步收窄留白，底部保持青绿整幅铺满 */
+@media (max-width: 640px) {
+  .card { border-radius: 8px; }
+  .transition-zone { min-height: 64px; }
+  .footer { padding: 20px 16px; }
+}

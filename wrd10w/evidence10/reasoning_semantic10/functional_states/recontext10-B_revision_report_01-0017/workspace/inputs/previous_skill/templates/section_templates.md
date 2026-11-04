@@ -1,0 +1,50 @@
+# 按用途成稿 section 模板（通用，无企业专名/效果数字硬编码）
+
+两个分支共用同一账本与校验接口。所有保真数据从调用输入（账本/源文本）读取，模板不含任何具体业务内容。
+
+## 公共接口约定
+
+- 输入：事实账本 JSON（schema 见 `../schemas/fact_ledger.schema.json`）、源消息文本 JSON 或账本内嵌 `sources`。
+- 输出：成稿 JSON（schema 见 `../schemas/draft.schema.json`）+ 面向用户的成稿文本。
+- 校验：`python ../scripts/validate_pack.py validate --ledger <账本> --draft <成稿> --sources <源文本> --report <报告>`。
+- 引用接口：成稿不直接贴引文，只引用账本 `fact_id`；逐字 quote 只存在于账本 `evidence_refs`。
+
+## 分支A：官方汇报（official_report）
+
+输入字段：账本（含 user_statement 成果类事实、explicit_requirement 角度/字数要求）。
+输出字段：成稿 JSON，`document_kind=official_report`；`word_target` 按用户要求填；`fact_refs` 覆盖全部 must_keep 与 explicit_requirement 事实；`declared_numbers` 逐数字声明。
+
+结构建议（仅结构建议，事实全部来自账本，不得新增业务事实）：
+1. 开头一句定位成果主体与时间范围（来自账本 time/subject 事实）。
+2. 建设成果段：核心数字逐个来自 declared_numbers；保留用户素材中的归因限定语（如「实测显示」「约」），不得去掉限定语后当确定值。
+3. 推广/覆盖段：覆盖范围、上线状态等，口径与账本一致。
+4. 结尾一句收束，不新增承诺或效果。
+
+措辞规则：
+- 用户陈述类成果：保留原素材的限定与归因；外部核实不存在，不得写成经第三方验证。
+- 规划/目标事实：永远用「预计/目标/规划」口径，禁止写成已完成。
+- 缺事实就停：某角度账本无事实支撑 → 该角度留空并在交付说明中列为事实缺口（NEEDS_EVIDENCE），不得编造。
+
+## 分支B：一段话成稿（one_paragraph）
+
+输入字段：账本（含 planned_goal 目标/年份节奏事实、explicit_requirement「一段话/不逐项列明细」要求）。
+输出字段：成稿 JSON，`document_kind=one_paragraph`；`paragraph_constraints.max=1`（默认，文本内不得有换行分段）；`word_target` 按用户要求。
+
+结构建议：一句总目标（保持目标口径）→ 分领域/资源主体一句带过（可省略非必保细节，但出现的数字/主体必须与账本一致）→ 节奏/年份一句（年份保持计划口径）。
+
+措辞规则：
+- 用户要求「不写这么详细」时：按派生规则压缩（策略记入账本 derived_rules，basis=derived_policy_not_explicit_user），可省略非必保细节，但不得把任何数字改错、不得把计划改成已完成。
+- 目标金额/年份一律「预计/目标」表述。
+
+## 目标 Word 处理
+
+用户提供目标 Word 文件：写入后仍需渲染核验并如实报告（校验器会把 written=true 列入 NEEDS_SEMANTIC_REVIEW 提示人工验证）。
+用户未提供：只交文本，`word_delivery={"target_provided": false, "written": false, "note": "未提供目标Word，仅交付文本"}`，并在最终答复中明确「未写入Word」。
+
+## 交付前的账本→成稿自检清单
+
+1. 每个成稿数字都有 declared_numbers 且与账本一致。
+2. planned_goal 全部 as_type=planned_goal。
+3. must_keep/explicit_requirement 全部被 fact_refs 覆盖。
+4. validate 结构通过；NEEDS_SEMANTIC_REVIEW 项逐条人工复核后才交付。
+5. 交付说明包含：用户陈述未经外部核实、Word 状态、遗留事实缺口。

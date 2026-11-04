@@ -1,0 +1,558 @@
+{
+  "programs": [
+    {
+      "path": "scripts/extract_topic_spec.py",
+      "documented_usage": "python {SKILL}/scripts/extract_topic_spec.py {INPUT}/conversation.json --out {OUT}/page_spec.json",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/extract_topic_spec.py",
+        "{INPUT}/conversation.json",
+        "--out",
+        "{OUT}/page_spec.json"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/extract_topic_spec.py {INPUT}/conversation.json --out {OUT}/page_spec.json",
+        "inputs": [
+          "conversation JSON export with session_id and messages"
+        ],
+        "outputs": [
+          "page-spec JSON with topic, request_text, source_id, source_message_id, interactions, sections"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_topic_spec.py",
+            "{INPUT}/conversation.json",
+            "--out",
+            "{OUT}/page_spec.json"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "source_id": "conv_e35903a5c526",
+            "message_ids": [
+              "conv_e35903a5c526:msg_1",
+              "conv_e35903a5c526:msg_10"
+            ],
+            "source_record_sha256": "a64d3f9302918b92b4143eac0111e2a1a70a8285ea32617cf40555ad3d44d1c4",
+            "origin": "real_source",
+            "pin": {
+              "path": "/workspace/inputs/conversations/conv_e35903a5c526.json",
+              "sha256": "c58d46defc2a6fd370f38cf8469d94b66031d05e962ecbb155cf4bfcdeb5ff48",
+              "bytes": 7279
+            }
+          },
+          "outputs": [
+            {
+              "path": "page_spec.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "page_spec.json",
+              "pointer": "",
+              "value": {
+                "interactions": [
+                  "slider",
+                  "auto_demo",
+                  "animation"
+                ],
+                "request_text": "生成一个摩擦力演示html动画",
+                "sections": [
+                  {
+                    "kind": "demo",
+                    "title": "互动演示"
+                  }
+                ],
+                "source_id": "conv_e35903a5c526",
+                "source_message_id": "conv_e35903a5c526:msg_1",
+                "topic": "摩擦力演示"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_topic_spec.py",
+            "{FIXTURE}/boundary_conversation.json",
+            "--out",
+            "{OUT}/page_spec.json"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "source_id": "conv_e35903a5c526",
+            "message_ids": [
+              "conv_e35903a5c526:msg_1"
+            ],
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/boundary_conversation.json",
+              "sha256": "e326b6640af0463ad7e9e901d9b350500fb944353f2b79d63358137cf918747f",
+              "bytes": 68
+            },
+            "origin": "generated_fixture"
+          },
+          "outputs": [
+            {
+              "path": "page_spec.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "page_spec.json",
+              "pointer": "",
+              "value": {
+                "interactions": [],
+                "request_text": "",
+                "sections": [],
+                "source_id": "conv_boundary",
+                "source_message_id": "m1",
+                "topic": ""
+              }
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_topic_spec.py",
+            "{FIXTURE}/invalid_conversation.json",
+            "--out",
+            "{OUT}/page_spec.json"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "source_id": "conv_e35903a5c526",
+            "message_ids": [
+              "conv_e35903a5c526:msg_1"
+            ],
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/invalid_conversation.json",
+              "sha256": "79726f006df2166d286037293fa73455cde5df06ff890a45b68f39aea069f024",
+              "bytes": 16
+            },
+            "origin": "generated_fixture"
+          },
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "invalid JSON in conversation file"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/extract_topic_spec.py",
+            "{INPUT}/missing_conversation.json",
+            "--out",
+            "{OUT}/page_spec.json"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "origin": "absent_path",
+            "source_id": "conv_e35903a5c526",
+            "message_ids": [
+              "conv_e35903a5c526:msg_1"
+            ],
+            "source_record_sha256": "a64d3f9302918b92b4143eac0111e2a1a70a8285ea32617cf40555ad3d44d1c4",
+            "absent_root": "INPUT",
+            "absent_relative_path": "missing_conversation.json",
+            "parent_directory_pin": {
+              "kind": "directory_listing",
+              "path": "/workspace/inputs",
+              "entries": [
+                {
+                  "name": "conversations",
+                  "kind": "directory"
+                },
+                {
+                  "name": "generation.md",
+                  "kind": "file",
+                  "sha256": "cb8ea643a59605156567198e4ee8405ea12dee87426e497ecc06c43a23004b86",
+                  "bytes": 1762
+                },
+                {
+                  "name": "making_contract.json",
+                  "kind": "file",
+                  "sha256": "188ebf7722862f26cf76367fc61c86a625ff07a20a423e8e230fb2f2a505454d",
+                  "bytes": 13543
+                },
+                {
+                  "name": "making_input_index.json",
+                  "kind": "file",
+                  "sha256": "5bd841d50c4dae5eff6518e58215d05cc7ff916513303829ef6a8fa432f009b8",
+                  "bytes": 30489
+                },
+                {
+                  "name": "making_lineage.json",
+                  "kind": "file",
+                  "sha256": "710500228dbdfb16d8fe1fda079a9b85528d89ae8005cbb61684ebc1e7556419",
+                  "bytes": 215
+                },
+                {
+                  "name": "making_tools",
+                  "kind": "directory"
+                },
+                {
+                  "name": "resource_catalog.json",
+                  "kind": "file",
+                  "sha256": "dbdcb89abc00c33ed216c3328759a644195c3628d9f830acb89a12639932ce54",
+                  "bytes": 312
+                },
+                {
+                  "name": "reusable",
+                  "kind": "directory"
+                },
+                {
+                  "name": "reusable_packages.json",
+                  "kind": "file",
+                  "sha256": "01b119afd6cc991bf72b51b40b6306fefc846c80a82bf66a95afad3c3b73a65b",
+                  "bytes": 7107
+                },
+                {
+                  "name": "route_card.json",
+                  "kind": "file",
+                  "sha256": "8667c499dc9f62d1ff031ebd7c5f0e5db506f2399eaf6a2c16ac36875cb243d3",
+                  "bytes": 10814
+                },
+                {
+                  "name": "source_bindings.json",
+                  "kind": "file",
+                  "sha256": "b7594456576083b9ce41acc98e43963dc81a764848fbb4ada8d7ca0048f71d4e",
+                  "bytes": 1633
+                }
+              ],
+              "sha256": "c6869f0330b2c29f6af6f66b8e54e7ab37ea44681f61348ce1f9a3d96524c6ee"
+            },
+            "source_material_pin": {
+              "path": "/workspace/inputs/conversations/conv_e35903a5c526.json",
+              "sha256": "c58d46defc2a6fd370f38cf8469d94b66031d05e962ecbb155cf4bfcdeb5ff48",
+              "bytes": 7279
+            },
+            "generated": true,
+            "purpose": "invalid_input",
+            "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed."
+          },
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "cannot read source file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/build_teaching_page.py",
+      "documented_usage": "python {SKILL}/scripts/build_teaching_page.py {INPUT}/page_spec.json --out {OUT}/teaching.html",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/build_teaching_page.py",
+        "{INPUT}/page_spec.json",
+        "--out",
+        "{OUT}/teaching.html"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/build_teaching_page.py {INPUT}/page_spec.json --out {OUT}/teaching.html",
+        "inputs": [
+          "page-spec JSON with topic, interactions, sections"
+        ],
+        "outputs": [
+          "single self-contained teaching demo HTML file"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        },
+        {
+          "kind": "resource",
+          "resource_id": "f7e86c2c6958fd4c23466ec8c8433d69c10fb94a0d66d63c8bb53d707184bcb9",
+          "content_sha256": "f7e86c2c6958fd4c23466ec8c8433d69c10fb94a0d66d63c8bb53d707184bcb9"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_teaching_page.py",
+            "{INPUT}/page_spec.json",
+            "--out",
+            "{OUT}/teaching.html"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "source_id": "conv_e35903a5c526",
+            "message_ids": [
+              "conv_e35903a5c526:msg_1",
+              "conv_e35903a5c526:msg_10"
+            ],
+            "origin": "generated_fixture",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/page_spec_friction.json",
+              "sha256": "f37c475d679235758636df9b4dddbb1d9d172cdfff11d681521a03e053d42f47",
+              "bytes": 335
+            }
+          },
+          "outputs": [
+            {
+              "path": "teaching.html",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "teaching.html",
+              "value": "9776f72e4343d3e11e5cc3fb4fd8c3195c9aef846b2fc23f34b9cc87e60ba341"
+            }
+          ],
+          "note": "命令实际读取 {INPUT}/page_spec.json，其内容即 fixtures[0] 的 page_spec_friction.json（由真实会话 msg_1/msg_10 推导并经 extract_topic_spec.py 实际产出）。"
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_teaching_page.py",
+            "{FIXTURE}/boundary_page_spec.json",
+            "--out",
+            "{OUT}/teaching.html"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "source_id": "conv_e35903a5c526",
+            "message_ids": [
+              "conv_e35903a5c526:msg_1"
+            ],
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/boundary_page_spec.json",
+              "sha256": "b29c0edddc6303e169d789ec49a99bb9d89f60dc429a3547ed10e9f6167f646a",
+              "bytes": 115
+            },
+            "origin": "generated_fixture"
+          },
+          "outputs": [
+            {
+              "path": "teaching.html",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "sha256",
+              "path": "teaching.html",
+              "value": "9b0188cc7cade6b3dd9a1e27d8f8b021f3b16ac2eb3ca62a22d815ae7f609876"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_teaching_page.py",
+            "{FIXTURE}/invalid_page_spec.json",
+            "--out",
+            "{OUT}/teaching.html"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "source_id": "conv_e35903a5c526",
+            "message_ids": [
+              "conv_e35903a5c526:msg_1"
+            ],
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/invalid_page_spec.json",
+              "sha256": "620443dc9f101414d33b25100b733cec880601ae09d6151d48fc84df9e6ec149",
+              "bytes": 134
+            },
+            "origin": "generated_fixture"
+          },
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "missing required field: topic"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "page_spec_friction.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/page_spec_friction.json",
+        "sha256": "f37c475d679235758636df9b4dddbb1d9d172cdfff11d681521a03e053d42f47",
+        "bytes": 335
+      },
+      "source_id": "conv_e35903a5c526",
+      "message_ids": [
+        "conv_e35903a5c526:msg_1",
+        "conv_e35903a5c526:msg_10"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "由真实会话 conv_e35903a5c526 的请求消息 msg_1 经 extract_topic_spec.py 确定性关键词规则推导（msg_10 的交互要素描述佐证词表）；运行 extract_topic_spec.py 对真实原件的实际输出，非历史原件。"
+    },
+    {
+      "path": "boundary_conversation.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/boundary_conversation.json",
+        "sha256": "e326b6640af0463ad7e9e901d9b350500fb944353f2b79d63358137cf918747f",
+        "bytes": 68
+      },
+      "source_id": "conv_e35903a5c526",
+      "message_ids": [
+        "conv_e35903a5c526:msg_1"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "按真实会话消息结构（session_id + messages[{id,content}]）构造的最小空文本消息会话，验证空请求边界；非历史原件。"
+    },
+    {
+      "path": "invalid_conversation.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/invalid_conversation.json",
+        "sha256": "79726f006df2166d286037293fa73455cde5df06ff890a45b68f39aea069f024",
+        "bytes": 16
+      },
+      "source_id": "conv_e35903a5c526",
+      "message_ids": [
+        "conv_e35903a5c526:msg_1"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "非JSON字节数据，验证会话解析错误路径与 extract_topic_spec_error 诊断；非历史原件。"
+    },
+    {
+      "path": "boundary_page_spec.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/boundary_page_spec.json",
+        "sha256": "b29c0edddc6303e169d789ec49a99bb9d89f60dc429a3547ed10e9f6167f646a",
+        "bytes": 115
+      },
+      "source_id": "conv_e35903a5c526",
+      "message_ids": [
+        "conv_e35903a5c526:msg_1"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "与 boundary_conversation.json 的提取输出等价的最小规格（空主题、空章节），验证合成器空场景边界；非历史原件。"
+    },
+    {
+      "path": "invalid_page_spec.json",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/invalid_page_spec.json",
+        "sha256": "620443dc9f101414d33b25100b733cec880601ae09d6151d48fc84df9e6ec149",
+        "bytes": 134
+      },
+      "source_id": "conv_e35903a5c526",
+      "message_ids": [
+        "conv_e35903a5c526:msg_1"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "删除必填 topic 字段的规格副本，验证 build_teaching_page.py 必填字段校验；非历史原件。"
+    }
+  ],
+  "non_executable_resources": [
+    {
+      "path": "templates/teaching_page.template.html",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "templates/teaching_page.template.html",
+          "value": "{{TITLE}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/teaching_page.template.html",
+          "value": "{{SUBTITLE}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/teaching_page.template.html",
+          "value": "{{NAV_ITEMS}}"
+        },
+        {
+          "kind": "contains",
+          "path": "templates/teaching_page.template.html",
+          "value": "{{SECTIONS}}"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_e35903a5c526",
+          "message_ids": [
+            "conv_e35903a5c526:msg_1"
+          ],
+          "source_record_sha256": "a64d3f9302918b92b4143eac0111e2a1a70a8285ea32617cf40555ad3d44d1c4",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_e35903a5c526.json",
+            "sha256": "c58d46defc2a6fd370f38cf8469d94b66031d05e962ecbb155cf4bfcdeb5ff48",
+            "bytes": 7279
+          }
+        },
+        {
+          "source_id": "conv_eca9c2676037",
+          "message_ids": [
+            "600aa861-3ead-4606-8ecf-f58dfcc1a72e",
+            "cd045e21-bb9b-468d-b9da-86a55498ff6d"
+          ],
+          "source_record_sha256": "75a4b46199310c82ac8245de90a30096ce11758c31cafbbde27c4aa00d32df7f",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_eca9c2676037.json",
+            "sha256": "68b7a1a9153dd90ab8d5c60e3044e05afd99ec4c5df613b597b0b5b113ec9b0f",
+            "bytes": 5937
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "关键词规则与章节模板仅由两个真实教学案例（摩擦力演示、太阳系教学）支撑，其他学科表达可能识别不全，需人工确认后进入设计阶段。",
+    "模板提供布局与交互脚手架；具体主题的动画逻辑仍需按 s2 设计补写进 demo 区。",
+    "quiz 正确答案索引来自输入规格数据，程序与模板不预填任何题目答案。",
+    "两个程序仅依赖 Python 3 标准库；输出为确定性结果，sha256 可复验。",
+    "s1 提取的规格可仅有章节计划（无数据字段），合成器为对应章节渲染待填充占位区。"
+  ]
+}

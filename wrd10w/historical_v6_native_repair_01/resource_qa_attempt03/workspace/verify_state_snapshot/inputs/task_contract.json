@@ -1,0 +1,218 @@
+{
+  "contract_id": "data_field_mask_request_v1",
+  "task_family": "DATA: Excel指定字段文本脱敏，保留其他内容和格式",
+  "source_boundary": {
+    "real_evolution_session": "conv_b5e6f3d3bab9",
+    "real_user_turns": 2,
+    "directly_supported_user_requirement": "表格脱敏；后续用户明确只留前两个字和后两个字，中间用***替代",
+    "attachment_identity": "可用既有附件为synthetic恢复材料，不是获认证的原企业文件",
+    "historical_tools": "历史助手描述不是本轮真实工具执行证据",
+    "new_public_pilot_contract": [
+      "按指定工作表、表头和数据行区间选择目标列，避免按固定列序误改金额等非目标数据",
+      "前后保留长度和替换标记参数化；新参数必须在当题request.json中公开",
+      "短文本、空值、非文本与公式的明确处理方式",
+      "精确保留其他单元格、公式、数值类型、单元格样式、工作表顺序和表格布局",
+      "同名文本独立按同一规则处理，不增碰撞编号，不删括号，不改业务内容",
+      "脱敏报告中的计数、可核验输入输出和未覆盖说明"
+    ],
+    "instruction_priority": "本题明确业务契约高于历史助手自行增加的规则，不把历史助手建议升级为企业政策"
+  },
+  "request_json_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "schema_version",
+      "input_workbook",
+      "output_workbook",
+      "report_file",
+      "worksheets",
+      "masking"
+    ],
+    "properties": {
+      "schema_version": {
+        "const": "data_field_mask_request_v1"
+      },
+      "input_workbook": {
+        "type": "string",
+        "description": "可读xlsx输入；相对路径以request.json所在目录为基准"
+      },
+      "output_workbook": {
+        "type": "string",
+        "description": "交付xlsx路径；不得与输入路径相同"
+      },
+      "report_file": {
+        "type": "string",
+        "description": "交付JSON报告路径"
+      },
+      "worksheets": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "header_row",
+            "data_start_row",
+            "data_end_row",
+            "columns"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "header_row": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "data_start_row": {
+              "type": "integer",
+              "minimum": 2
+            },
+            "data_end_row": {
+              "type": "integer",
+              "minimum": 2
+            },
+            "columns": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "masking": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "prefix_chars",
+          "suffix_chars",
+          "replacement"
+        ],
+        "properties": {
+          "prefix_chars": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "suffix_chars": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "replacement": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16
+          }
+        }
+      }
+    }
+  },
+  "business_rules": [
+    {
+      "id": "R01",
+      "rule": "输入和交付均为真实可读xlsx；保留输入文件，不覆盖原件。"
+    },
+    {
+      "id": "R02",
+      "rule": "工作表名精确匹配；在header_row中按完整表头精确匹配columns；表头不得自动trim、模糊猜测或按原列号硬编码。每个目标表头在该表头行必须唯一。"
+    },
+    {
+      "id": "R03",
+      "rule": "只处理明确指定sheet、data_start_row至data_end_row（含两端）和目标表头列交集；不自动扫描或额外清理其他字段、其他行或其他工作表。header_row<data_start_row<=data_end_row。"
+    },
+    {
+      "id": "R04",
+      "rule": "对目标单元格的非空普通字符串按Unicode码点计数，不trim、不做Unicode归一化、不删括号。长度大于prefix_chars+suffix_chars时，输出前prefix_chars个字符+replacement+后suffix_chars个字符；suffix_chars=0时尾部为空。"
+    },
+    {
+      "id": "R05",
+      "rule": "目标字符串长度小于等于前后保留数之和时原样保留，不重叠拼接、不全打码。真正空单元格与空字符串也原样保留。此项为试点公开业务规则，不冒称历史用户已规定。"
+    },
+    {
+      "id": "R06",
+      "rule": "目标单元格若是数值、布尔值或公式，原样保留并在报告分别统计；不把数值先转文本脱敏。公式是否存在以xlsx公式定义为准。新任务不会要求对公式结果打码。"
+    },
+    {
+      "id": "R07",
+      "rule": "相同字符串按相同参数得到相同结果；不同字符串脱敏后相同也不添加编号或其他后缀。无重新编号、联系人识别、实体识别或真实外部查询要求。"
+    },
+    {
+      "id": "R08",
+      "rule": "非目标值、公式文本及其位置、数字/布尔/日期存储类型、行列位置、工作表名字和顺序保持；不排序、不增删行列或工作表、不新增工作簿内报告页。"
+    },
+    {
+      "id": "R09",
+      "rule": "原有单元格字体、填充、边框、对齐、数字格式，行高、列宽、隐藏状态、合并区域、冻结窗格和原有Excel表格范围及样式保持。不要求保留ZIP元数据或XML序列化顺序，不要求逐字节相同。"
+    },
+    {
+      "id": "R10",
+      "rule": "交付脱敏xlsx及JSON报告。报告不放原文或原文到脱敏值对照；只记录本契约规定的范围、参数、计数、输入输出哈希、真实检查和未覆盖项。"
+    },
+    {
+      "id": "R11",
+      "rule": "缺文件、缺目标sheet、缺表头、重复目标表头、行区间无效或输出覆盖输入时，明确报错，不猜测目标、不交付声称成功的半成品。正式6题均满足有效输入前提；错误输入只用于开发边界验证。"
+    },
+    {
+      "id": "R12",
+      "rule": "工具和方法可自由选择；不能以是否调用技能或是否采用某个代码实现直接作为质量分。执行器自然结束，独立评分不回传。"
+    }
+  ],
+  "report_schema": {
+    "type": "object",
+    "required": [
+      "schema_version",
+      "input_sha256",
+      "output_sha256",
+      "masking",
+      "sheets",
+      "totals",
+      "checks",
+      "uncovered"
+    ],
+    "properties": {
+      "schema_version": {
+        "const": "data_field_mask_report_v1"
+      },
+      "input_sha256": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "output_sha256": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "masking": {
+        "description": "与request.json中masking逐字段相同"
+      },
+      "sheets": {
+        "description": "数组；每项含name、header_row、data_start_row、data_end_row、columns、counts"
+      },
+      "totals": {
+        "description": "六项整数计数：selected_cells、changed_cells、unchanged_text_cells、blank_cells、non_text_cells、formula_cells"
+      },
+      "checks": {
+        "description": "数组；每项含name/status/evidence；status为PASS/FAIL/UNKNOWN；只声称实际做过的检查，证据为真实统计或交付文件位置"
+      },
+      "uncovered": {
+        "description": "字符串数组；仍未验证的事项可明确列出，空数组不得用来冒充完整视觉或原生Excel验证"
+      }
+    },
+    "counting": "每个选择单元格先分公式、真空/空字符串、非文本、普通非空字符串；字符串按规则计算后，与原值不同计changed_cells，相同计unchanged_text_cells（含短字符串及已恰好具有相同掩码的长字符串）。selected_cells为全部选择单元格数；changed_cells+unchanged_text_cells+blank_cells+non_text_cells+formula_cells应等于selected_cells。"
+  },
+  "path_resolution_addendum": {
+    "addendum_id": "data_field_mask_request_v1_paths_a1",
+    "parent_contract_sha256": "9ba04ae8dfb37efd9b8fedb4aecd16f4fde2b5c26eba96e5bb1aadea8c04e6fa",
+    "status": "EXPLICIT_PATH_CLARIFICATION_NO_RULE_CHANGE",
+    "path_base": "input_workbook、output_workbook、report_file的相对路径都以request.json所在目录为基准，绝对路径保持绝对；不得随工作目录漂移。",
+    "optional_cli": "入口可接受--request PATH及可选--output-root DIR；提供output-root时按其隔离交付目录写产物，实际文件位置必须明确报告给运行器，内容和业务规则不变。",
+    "public_delegation": "三组业务委托均附此相对路径说明；共享执行器按相同规则解析，未改冻结parent contract原字节。"
+  },
+  "projection_note": "Only public business requirements. No held-out scenario plan, evaluator implementation, data, expected outputs or previous skills."
+}

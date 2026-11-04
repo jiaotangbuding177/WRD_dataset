@@ -1,0 +1,8 @@
+data: {"id":"chatcmpl-1793081304550","object":"chat.completion.chunk","created":1793081304,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793081304550","object":"chat.completion.chunk","created":1793081304,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"call890e525b23af43189965a36717b271ab","type":"function","function":{"name":"exec","arguments":"{\"command\":\"cd /workspace/outputs && python3 -c \\\"import json;d=json.load(open('independent_retest/RESULTS.json'));[print(r['label'],'pass=',r['pass_'],'rc=',r['rc']) for r in d['tests']]\\\" && find skill fixtures -type f | sort | xargs sha256sum > before_repair/repaired_versions.sha256 && python3 - <<'EOF'\\ndef load(p):\\n    d={}\\n    for line in open(p):\\n        h,f=line.split()\\n        d[f]=h\\n    return d\\no=load('before_repair/original_versions.sha256'); r=load('before_repair/repaired_versions.sha256')\\nchanged={'skill/examples/ball_bounce/topic.js','skill/scripts/gen_animation.py','skill/scripts/verify_animation.mjs'}\\nsame=[f for f in o if o[f]==r.get(f)]\\ndiff=[f for f in o if o[f]!=r.get(f)]\\nnew=[f for f in r if f not in o]\\nassert set(diff)==changed, (diff,new)\\nprint('changed:',sorted(diff)); print('byte-identical count:',len(same)); print('unexpected new files:',new)\\nEOF\"}"}}]},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-1793081304550","object":"chat.completion.chunk","created":1793081304,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+

@@ -1,0 +1,19 @@
+"""Making-side static check; no models, program execution or business judging."""
+import argparse
+import json
+from pathlib import Path
+import sys
+if __package__ in (None, ''):
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import contract
+else:
+    from . import contract
+
+def main():
+    p = argparse.ArgumentParser(); p.add_argument('--skill', required=True); p.add_argument('--replay', required=True); p.add_argument('--manifest', required=True)
+    a = p.parse_args()
+    result = contract.preflight(a.skill, contract.read(a.replay), contract.read(a.manifest))
+    print(json.dumps(result, ensure_ascii=False))
+    return 0 if result['status'] == 'PASS' else 2
+
+if __name__ == '__main__': raise SystemExit(main())

@@ -1,0 +1,686 @@
+{
+  "manifest_sha256": "596a587e1fb5871560ad21950a3a432e80aa99dd0496210fcdc40b4a3e11f109",
+  "manifest_design_revision": "5.0.42",
+  "counts": {
+    "sequences": 526,
+    "input_tokens": 3210576,
+    "supervised_tokens": 143156,
+    "le16k": 446,
+    "le32k": 526,
+    "weighted_label_mass": 60040.49999999964,
+    "component_F": 2616,
+    "component_D": 72300,
+    "weighted_F": 315.00000000000057,
+    "weighted_D": 42087.0,
+    "component_R": 55022,
+    "weighted_R": 13806.25,
+    "component_A": 13218,
+    "weighted_A": 3832.25
+  },
+  "groups": {
+    "contract": {
+      "sequences": 436,
+      "input_tokens": 1454282,
+      "supervised_tokens": 74758,
+      "weighted_label_mass": 42362.5,
+      "components": {
+        "F": 2616,
+        "D": 72142
+      },
+      "weighted_components": {
+        "F": 315.00000000000057,
+        "D": 42047.5
+      },
+      "sources": 266,
+      "joined_components": 255,
+      "le16k": 420,
+      "le32k": 436,
+      "supervised_fraction_of_serialized_input": 0.05140543580956101,
+      "weighted_label_mass_per_input_token": 0.029129494829751038
+    },
+    "process": {
+      "sequences": 90,
+      "input_tokens": 1756294,
+      "supervised_tokens": 68398,
+      "weighted_label_mass": 17678.0,
+      "components": {
+        "R": 55022,
+        "A": 13218,
+        "D": 158
+      },
+      "weighted_components": {
+        "R": 13806.25,
+        "A": 3832.25,
+        "D": 39.5
+      },
+      "sources": 12,
+      "joined_components": 9,
+      "le16k": 26,
+      "le32k": 90,
+      "supervised_fraction_of_serialized_input": 0.038944504735539724,
+      "weighted_label_mass_per_input_token": 0.010065512949426463
+    }
+  },
+  "by_bank": {
+    "source_contract_main": {
+      "sequences": 436,
+      "input_tokens": 1454282,
+      "supervised_tokens": 74758,
+      "le16k": 420,
+      "le32k": 436,
+      "weighted_label_mass": 42362.49999999964,
+      "component_F": 2616,
+      "component_D": 72142,
+      "weighted_F": 315.00000000000057,
+      "weighted_D": 42047.5,
+      "distinct_sources": 266,
+      "joined_components_across_banks": 255,
+      "weight_histogram_labels": {
+        "0.2": 534,
+        "1.0": 11953,
+        "0.1": 2082,
+        "0.5": 60189
+      },
+      "positive_tool_calls_by_name": {}
+    },
+    "native_wrd_main": {
+      "sequences": 2,
+      "input_tokens": 61387,
+      "supervised_tokens": 5202,
+      "le16k": 0,
+      "le32k": 2,
+      "weighted_label_mass": 1300.5,
+      "component_R": 5202,
+      "weighted_R": 1300.5,
+      "distinct_sources": 3,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 5202
+      },
+      "positive_tool_calls_by_name": {}
+    },
+    "real_state_repair_main": {
+      "sequences": 3,
+      "input_tokens": 42726,
+      "supervised_tokens": 2314,
+      "le16k": 3,
+      "le32k": 3,
+      "weighted_label_mass": 1157.0,
+      "component_R": 203,
+      "component_A": 2111,
+      "weighted_R": 101.5,
+      "weighted_A": 1055.5,
+      "distinct_sources": 3,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.5": 2314
+      },
+      "positive_tool_calls_by_name": {
+        "exec": 2,
+        "edit": 1
+      }
+    },
+    "native_C_execution_local_02": {
+      "sequences": 2,
+      "input_tokens": 53017,
+      "supervised_tokens": 781,
+      "le16k": 0,
+      "le32k": 2,
+      "weighted_label_mass": 195.25,
+      "component_A": 781,
+      "weighted_A": 195.25,
+      "distinct_sources": 4,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 781
+      },
+      "positive_tool_calls_by_name": {
+        "write": 2
+      }
+    },
+    "native_C_review_partial_02": {
+      "sequences": 1,
+      "input_tokens": 15277,
+      "supervised_tokens": 387,
+      "le16k": 1,
+      "le32k": 1,
+      "weighted_label_mass": 96.75,
+      "component_R": 387,
+      "weighted_R": 96.75,
+      "distinct_sources": 4,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 387
+      },
+      "positive_tool_calls_by_name": {}
+    },
+    "new_real_state_cost_stop_02": {
+      "sequences": 1,
+      "input_tokens": 7995,
+      "supervised_tokens": 290,
+      "le16k": 1,
+      "le32k": 1,
+      "weighted_label_mass": 72.5,
+      "component_R": 132,
+      "component_D": 158,
+      "weighted_R": 33.0,
+      "weighted_D": 39.5,
+      "distinct_sources": 4,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 290
+      },
+      "positive_tool_calls_by_name": {}
+    },
+    "historical_semantic_R_main": {
+      "sequences": 26,
+      "input_tokens": 582457,
+      "supervised_tokens": 33153,
+      "le16k": 2,
+      "le32k": 26,
+      "weighted_label_mass": 8288.25,
+      "component_R": 33153,
+      "weighted_R": 8288.25,
+      "distinct_sources": 6,
+      "joined_components_across_banks": 6,
+      "weight_histogram_labels": {
+        "0.25": 33153
+      },
+      "positive_tool_calls_by_name": {}
+    },
+    "historical_v6_native_repair_01": {
+      "sequences": 3,
+      "input_tokens": 42727,
+      "supervised_tokens": 1098,
+      "le16k": 3,
+      "le32k": 3,
+      "weighted_label_mass": 274.5,
+      "component_R": 155,
+      "component_A": 943,
+      "weighted_R": 38.75,
+      "weighted_A": 235.75,
+      "distinct_sources": 1,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 1098
+      },
+      "positive_tool_calls_by_name": {
+        "edit": 1,
+        "exec": 2
+      }
+    },
+    "native_CV_B_training_01": {
+      "sequences": 21,
+      "input_tokens": 376848,
+      "supervised_tokens": 6469,
+      "le16k": 7,
+      "le32k": 21,
+      "weighted_label_mass": 1617.25,
+      "component_R": 4988,
+      "component_A": 1481,
+      "weighted_R": 1247.0,
+      "weighted_A": 370.25,
+      "distinct_sources": 1,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 6469
+      },
+      "positive_tool_calls_by_name": {
+        "read": 2,
+        "exec": 8
+      }
+    },
+    "native_HTML_B_training_01": {
+      "sequences": 27,
+      "input_tokens": 537617,
+      "supervised_tokens": 14193,
+      "le16k": 5,
+      "le32k": 27,
+      "weighted_label_mass": 3548.25,
+      "component_R": 10624,
+      "component_A": 3569,
+      "weighted_R": 2656.0,
+      "weighted_A": 892.25,
+      "distinct_sources": 1,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 14193
+      },
+      "positive_tool_calls_by_name": {
+        "read": 4,
+        "exec": 11,
+        "write": 2,
+        "edit": 2,
+        "process": 2
+      }
+    },
+    "CV_clean_resource_construction_02": {
+      "sequences": 4,
+      "input_tokens": 36243,
+      "supervised_tokens": 4511,
+      "le16k": 4,
+      "le32k": 4,
+      "weighted_label_mass": 1127.75,
+      "component_R": 178,
+      "component_A": 4333,
+      "weighted_R": 44.5,
+      "weighted_A": 1083.25,
+      "distinct_sources": 1,
+      "joined_components_across_banks": 1,
+      "weight_histogram_labels": {
+        "0.25": 4511
+      },
+      "positive_tool_calls_by_name": {
+        "write": 4
+      }
+    }
+  },
+  "by_stage": {
+    "A_source_contract_management": {
+      "sequences": 429,
+      "input_tokens": 1451895,
+      "supervised_tokens": 73295,
+      "le16k": 413,
+      "le32k": 429,
+      "weighted_label_mass": 41647.799999999654,
+      "component_F": 2574,
+      "component_D": 70721,
+      "weighted_F": 310.8000000000004,
+      "weighted_D": 41337.0
+    },
+    "A_current_user_delta_checkpoint": {
+      "sequences": 7,
+      "input_tokens": 2387,
+      "supervised_tokens": 1463,
+      "le16k": 7,
+      "le32k": 7,
+      "weighted_label_mass": 714.7,
+      "component_F": 42,
+      "component_D": 1421,
+      "weighted_F": 4.200000000000001,
+      "weighted_D": 710.5
+    },
+    "A_screen": {
+      "sequences": 1,
+      "input_tokens": 31091,
+      "supervised_tokens": 2742,
+      "le16k": 0,
+      "le32k": 1,
+      "weighted_label_mass": 685.5,
+      "component_R": 2742,
+      "weighted_R": 685.5
+    },
+    "B_make": {
+      "sequences": 1,
+      "input_tokens": 30296,
+      "supervised_tokens": 2460,
+      "le16k": 0,
+      "le32k": 1,
+      "weighted_label_mass": 615.0,
+      "component_R": 2460,
+      "weighted_R": 615.0
+    },
+    "B_revision_real_state_reproduce": {
+      "sequences": 1,
+      "input_tokens": 13317,
+      "supervised_tokens": 332,
+      "le16k": 1,
+      "le32k": 1,
+      "weighted_label_mass": 166.0,
+      "component_R": 54,
+      "component_A": 278,
+      "weighted_R": 27.0,
+      "weighted_A": 139.0
+    },
+    "B_revision_real_state_repair": {
+      "sequences": 1,
+      "input_tokens": 15330,
+      "supervised_tokens": 1676,
+      "le16k": 1,
+      "le32k": 1,
+      "weighted_label_mass": 838.0,
+      "component_R": 87,
+      "component_A": 1589,
+      "weighted_R": 43.5,
+      "weighted_A": 794.5
+    },
+    "B_revision_real_state_retest": {
+      "sequences": 1,
+      "input_tokens": 14079,
+      "supervised_tokens": 306,
+      "le16k": 1,
+      "le32k": 1,
+      "weighted_label_mass": 153.0,
+      "component_R": 62,
+      "component_A": 244,
+      "weighted_R": 31.0,
+      "weighted_A": 122.0
+    },
+    "C_trial_skill": {
+      "sequences": 2,
+      "input_tokens": 53017,
+      "supervised_tokens": 781,
+      "le16k": 0,
+      "le32k": 2,
+      "weighted_label_mass": 195.25,
+      "component_A": 781,
+      "weighted_A": 195.25
+    },
+    "C_review": {
+      "sequences": 1,
+      "input_tokens": 15277,
+      "supervised_tokens": 387,
+      "le16k": 1,
+      "le32k": 1,
+      "weighted_label_mass": 96.75,
+      "component_R": 387,
+      "weighted_R": 96.75
+    },
+    "D_new_post_terminal_state": {
+      "sequences": 1,
+      "input_tokens": 7995,
+      "supervised_tokens": 290,
+      "le16k": 1,
+      "le32k": 1,
+      "weighted_label_mass": 72.5,
+      "component_R": 132,
+      "component_D": 158,
+      "weighted_R": 33.0,
+      "weighted_D": 39.5
+    },
+    "historical_workflow_design_diagnosis_and_falsifiable_plan": {
+      "sequences": 26,
+      "input_tokens": 582457,
+      "supervised_tokens": 33153,
+      "le16k": 2,
+      "le32k": 26,
+      "weighted_label_mass": 8288.25,
+      "component_R": 33153,
+      "weighted_R": 8288.25
+    },
+    "B_historical_local_resource_repair": {
+      "sequences": 3,
+      "input_tokens": 42727,
+      "supervised_tokens": 1098,
+      "le16k": 3,
+      "le32k": 3,
+      "weighted_label_mass": 274.5,
+      "component_R": 155,
+      "component_A": 943,
+      "weighted_R": 38.75,
+      "weighted_A": 235.75
+    },
+    "B_make_CV_extract_evidence_process": {
+      "sequences": 21,
+      "input_tokens": 376848,
+      "supervised_tokens": 6469,
+      "le16k": 7,
+      "le32k": 21,
+      "weighted_label_mass": 1617.25,
+      "component_R": 4988,
+      "component_A": 1481,
+      "weighted_R": 1247.0,
+      "weighted_A": 370.25
+    },
+    "B_make_HTML_animation_resource_process": {
+      "sequences": 27,
+      "input_tokens": 537617,
+      "supervised_tokens": 14193,
+      "le16k": 5,
+      "le32k": 27,
+      "weighted_label_mass": 3548.25,
+      "component_R": 10624,
+      "component_A": 3569,
+      "weighted_R": 2656.0,
+      "weighted_A": 892.25
+    },
+    "B_new_state_complete_verified_resource_write": {
+      "sequences": 4,
+      "input_tokens": 36243,
+      "supervised_tokens": 4511,
+      "le16k": 4,
+      "le32k": 4,
+      "weighted_label_mass": 1127.75,
+      "component_R": 178,
+      "component_A": 4333,
+      "weighted_R": 44.5,
+      "weighted_A": 1083.25
+    }
+  },
+  "supervision_origin_tokens": {
+    "new_source_contract_annotation_tokens": 74758,
+    "original_native_R_tokens": 21201,
+    "new_authored_R_tokens": 668,
+    "revalidated_original_action_A_tokens": 2111,
+    "original_native_execution_A_tokens": 781,
+    "new_authored_cost_stop_D_tokens": 158,
+    "historical_original_R_tokens": 33153,
+    "new_authored_native_action_projection_A_tokens": 5276,
+    "original_native_local_process_A_tokens": 5050
+  },
+  "source_count": 271,
+  "joined_source_component_count": 258,
+  "process_joined_component_weighted_masses": {
+    "group:v10_group_a9888c113f951f3e210c": 1090.0,
+    "group:v10_group_d232834ae4771255211d": 2745.0,
+    "group:v10_group_78010452aa3b5495ae3b": 2822.0,
+    "group:v10_group_818d5f492889c3f48b4a": 1288.0,
+    "group:v10_group_7283faaa16d8b6aaa439": 3548.25,
+    "group:v10_group_4ac07820147f2ca4e848": 1566.25,
+    "group:v10_group_dfb0f616be787262b0df": 1654.75,
+    "group:v10_group_7542675a06fadec75d5b": 1664.0,
+    "group:v10_group_dea5a43b333952ac5e8a": 1299.75
+  },
+  "process_component_mass_concentration_inverse_HHI": 7.700098511377132,
+  "inverse_HHI_is_mass_dispersion_not_independent_sample_size": true,
+  "positive_actual_native_action_owners": 36,
+  "positive_new_projected_action_owners": 7,
+  "whole_program_write_targets": [
+    {
+      "record_id": "new_CV_clean_build_scripts_cvlib_py_1e0b24f57ea7d230:core7",
+      "bank": "CV_clean_resource_construction_02",
+      "path": "/workspace/outputs/skill/scripts/cvlib.py",
+      "kind": "complete_program_file",
+      "tool_call_id": "new_projection_1",
+      "actual_native_tool_dispatch": false,
+      "positive_A_tokens_in_response": 1481,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "new_CV_clean_build_scripts_cv_extract_py_e24ef61ea3066d9b:core7",
+      "bank": "CV_clean_resource_construction_02",
+      "path": "/workspace/outputs/skill/scripts/cv_extract.py",
+      "kind": "complete_program_file",
+      "tool_call_id": "new_projection_2",
+      "actual_native_tool_dispatch": false,
+      "positive_A_tokens_in_response": 502,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "new_CV_clean_build_scripts_evidence_check_py_cb6c3e6e438ff039:core7",
+      "bank": "CV_clean_resource_construction_02",
+      "path": "/workspace/outputs/skill/scripts/evidence_check.py",
+      "kind": "complete_program_file",
+      "tool_call_id": "new_projection_3",
+      "actual_native_tool_dispatch": false,
+      "positive_A_tokens_in_response": 1313,
+      "whole_write_may_have_explicit_zero_subranges": false
+    }
+  ],
+  "other_positive_write_targets": [
+    {
+      "record_id": "native_C_E_skill_01_0014_87e70ca8a6c5436aa71687ce26c239f5_local_write",
+      "bank": "native_C_execution_local_02",
+      "path": "/workspace/outputs/deliverable.md",
+      "kind": "business_or_other_document",
+      "tool_call_id": "callf79409fd2d86414c862a6facd3c7451b",
+      "actual_native_tool_dispatch": true,
+      "positive_A_tokens_in_response": 431,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "native_C_L_skill_01_0020_fc8f371caa404e90849e48b3edc2a42d_local_write",
+      "bank": "native_C_execution_local_02",
+      "path": "/workspace/outputs/deliverable.md",
+      "kind": "business_or_other_document",
+      "tool_call_id": "call728cec70d6424299954826ccdcbc15f8",
+      "actual_native_tool_dispatch": true,
+      "positive_A_tokens_in_response": 350,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "native_B_phase2_html_01_0007_355d6047496f4bf89893aac4c82bea27",
+      "bank": "native_HTML_B_training_01",
+      "path": "/workspace/outputs/fixtures/skating/config.json",
+      "kind": "config_or_data",
+      "tool_call_id": "call7784c825a7a440b1af1195281c45dbd1",
+      "actual_native_tool_dispatch": true,
+      "positive_A_tokens_in_response": 478,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "native_B_phase2_html_01_0021_735515431af248218dba423811702e08",
+      "bank": "native_HTML_B_training_01",
+      "path": "/workspace/outputs/skill/examples/ball_bounce/config.json",
+      "kind": "config_or_data",
+      "tool_call_id": "call1a3bb580d1eb46f2b453d6657e1c3825",
+      "actual_native_tool_dispatch": true,
+      "positive_A_tokens_in_response": 300,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "new_CV_clean_build_scripts_cvlib_py_1e0b24f57ea7d230:core7",
+      "bank": "CV_clean_resource_construction_02",
+      "path": "/workspace/outputs/skill/scripts/cvlib.py",
+      "kind": "complete_program_file",
+      "tool_call_id": "new_projection_1",
+      "actual_native_tool_dispatch": false,
+      "positive_A_tokens_in_response": 1481,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "new_CV_clean_build_scripts_cv_extract_py_e24ef61ea3066d9b:core7",
+      "bank": "CV_clean_resource_construction_02",
+      "path": "/workspace/outputs/skill/scripts/cv_extract.py",
+      "kind": "complete_program_file",
+      "tool_call_id": "new_projection_2",
+      "actual_native_tool_dispatch": false,
+      "positive_A_tokens_in_response": 502,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "new_CV_clean_build_scripts_evidence_check_py_cb6c3e6e438ff039:core7",
+      "bank": "CV_clean_resource_construction_02",
+      "path": "/workspace/outputs/skill/scripts/evidence_check.py",
+      "kind": "complete_program_file",
+      "tool_call_id": "new_projection_3",
+      "actual_native_tool_dispatch": false,
+      "positive_A_tokens_in_response": 1313,
+      "whole_write_may_have_explicit_zero_subranges": false
+    },
+    {
+      "record_id": "new_CV_clean_build_SKILL_md_c7563d6965de1352:core7",
+      "bank": "CV_clean_resource_construction_02",
+      "path": "/workspace/outputs/skill/SKILL.md",
+      "kind": "skill_document",
+      "tool_call_id": "new_projection_4",
+      "actual_native_tool_dispatch": false,
+      "positive_A_tokens_in_response": 1037,
+      "whole_write_may_have_explicit_zero_subranges": true
+    }
+  ],
+  "R_share_of_process_raw_supervision": 0.8044387262785462,
+  "R_share_of_process_weighted_mass": 0.7809848399140175,
+  "contract_share_of_raw_supervision": 0.5222135292967113,
+  "contract_share_of_weighted_label_mass": 0.7055654100149108,
+  "observed_stage_linked_chains": 1,
+  "positive_qualified_retained_skill_chains": 0,
+  "single_native_session_autonomous_A_through_D_demonstrations": 0,
+  "full_WRD_ready": false,
+  "model_weights_loaded": false,
+  "training_started": false,
+  "all_active_file_pins_verified": [
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/source_events_02/source_contract_main.train.16k.jsonl.gz",
+      "bytes": 3308628,
+      "sha256": "33f049d80b2d5b576e4e43db790e4ed8497db96beefbe6df88f6da64f0ceba45"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/source_events_02/source_contract_main.train.32k.jsonl.gz",
+      "bytes": 889312,
+      "sha256": "bc1084249eba0ef8e36ab99a0c2ec4cb32267af429e3297efa9e02b3101e0dfb"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/native_A_partial_03/native_wrd_main.train.32k.jsonl.gz",
+      "bytes": 81073,
+      "sha256": "07db8ab6f0a03e5d6d0b459449313a602c0b145be20117ba07071308b62b35eb"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/native_B_partial_01/native_wrd_main.train.32k.jsonl.gz",
+      "bytes": 97409,
+      "sha256": "216bf6c81a21f0b80dea43a5ed3e6770502b8844f70a82bc254c964d8d4d7074"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/real_state_repair_02/real_state_repair_main.train.16k.jsonl.gz",
+      "bytes": 105930,
+      "sha256": "dc0a35a99120d0778a390ae41e6dc13d12a89372e9399ce6b0238712ca985fe1"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/c_review_dataset_02/native_C_execution_local_02.train.32k.jsonl.gz",
+      "bytes": 137811,
+      "sha256": "8cdfa4a0f9fc6b33c23cd3ca8f0b30a07f1fa43deddce044d56496960abdf36a"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/c_review_dataset_02/native_C_review_partial_02.train.16k.jsonl.gz",
+      "bytes": 51048,
+      "sha256": "2405462789841dc3760c089f5134b7e8f1f6045c5b85572832edce42049501b9"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/c_review_dataset_02/new_real_state_cost_stop_02.train.16k.jsonl.gz",
+      "bytes": 22769,
+      "sha256": "d333c74e708082a73299338a1cde7f4389084a151aee8503a9d221413bd9076f"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/historical_semantic_R_26_01/historical_semantic_R_main.train.16k.jsonl.gz",
+      "bytes": 53066,
+      "sha256": "2f4bf1aa2f84464efe1138921a39f2f68f58e5ec32796ff4fbb1cb3a9a922e10"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/historical_semantic_R_26_01/historical_semantic_R_main.train.32k.jsonl.gz",
+      "bytes": 1104534,
+      "sha256": "d5a34e4b56c9acb036118f384493f39862c7ba5d3028b3be871a8553a3dbd1d9"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/historical_v6_native_repair_01/historical_v6_native_repair_01.train.16k.jsonl.gz",
+      "bytes": 105939,
+      "sha256": "196031016517da2f98c980f769541a8ee33f40a0dc38c9d20cb99020d49a3088"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/native_CV_B_partial_01/native_CV_B_training_01.train.16k.jsonl.gz",
+      "bytes": 273634,
+      "sha256": "9c30ebdce4fac48c7c9f22a2c4290b0bd9b491ee22fb43b9aa38159baf2fc20f"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/native_CV_B_partial_01/native_CV_B_training_01.train.32k.jsonl.gz",
+      "bytes": 825758,
+      "sha256": "6fa3100eae8eb8a506e782d5e4dc53efbe102550d3ed7093791b3a50fdebc0c6"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/native_HTML_B_partial_01/native_HTML_B_training_01.train.16k.jsonl.gz",
+      "bytes": 181104,
+      "sha256": "6142a9826c92f5a0f9edfc679583a0768aae8cda0d6b429d79023489829f6fc4"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/native_HTML_B_partial_01/native_HTML_B_training_01.train.32k.jsonl.gz",
+      "bytes": 1336415,
+      "sha256": "92130d7bc40dd289eb3ec5a603587b2aef98138956a9d8b43580bf1d8ba5eefd"
+    },
+    {
+      "path": "output/20261027_wrd_main_v10/compiled/CV_clean_resource_construction_02/CV_clean_resource_construction_02.train.16k.jsonl.gz",
+      "bytes": 131341,
+      "sha256": "83ff694c7dcbacfeb1578ded2072d3ac1054c3b70e40c03714793441815a0c94"
+    }
+  ],
+  "CPU_only_original_ids_and_spans_scan_not_model_inference": true,
+  "AI_curation_or_cash_cost": "UNKNOWN_NOT_ZERO"
+}

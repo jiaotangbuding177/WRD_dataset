@@ -1,0 +1,749 @@
+{
+  "schema": "wrd11-new-authored-cpu-resource-counterfactual-v1",
+  "status": "PASS_CPU_OBSERVATIONS_NEW_AUTHORED_CASES_PENDING_ROOT_SEMANTIC_AND_TOKEN_ADMISSION",
+  "families": 10,
+  "cases": 60,
+  "family_correlated_cases_not_independent_enterprise_examples": true,
+  "real_CPU_program_invocations": 40,
+  "local_fixture_checks_per_version": 35,
+  "actual_total_local_fixture_checks": 140,
+  "by_case_kind": {
+    "diagnose_v0": 10,
+    "write_verified_repair": 10,
+    "noop_repair_still_fails": 10,
+    "regression_detected": 10,
+    "local_pass_needs_consumption": 10,
+    "cost_unknown_hold": 10
+  },
+  "by_stage": {
+    "C": 40,
+    "B": 10,
+    "D": 10
+  },
+  "all_v0_and_noop_fail": true,
+  "all_v1_pass": true,
+  "all_regression_fail": true,
+  "cases_file": {
+    "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\CASES.jsonl",
+    "bytes": 339825,
+    "sha256": "468f261e38734ccb7405ad07fd01ef2eb97399a322af123aca3e3456018adfb0"
+  },
+  "source_code": {
+    "path": "D:\\skillloop\\research\\data_prep\\wrd_curation11\\resource_cases11.py",
+    "bytes": 32319,
+    "sha256": "25620acf9f6a49f15a97f14ed83d71a11cfb2017c2697da49d5fd1342caae35f"
+  },
+  "proposed_synthetic_weight": 0.05,
+  "original_teacher_R_added": 0,
+  "original_native_A_added": 0,
+  "business_qualified_KEEP_added": 0,
+  "full_native_WRD_chains_added": 0,
+  "training_admitted": false,
+  "model_or_training_started": false,
+  "native_business_sessions_started": 0,
+  "GPU_or_token_cost_measured": false,
+  "cost_unknown_is_not_zero": true,
+  "independent_peer_QA_required": true,
+  "families_index": [
+    {
+      "family_id": "stderr_exit",
+      "fixtures": 3,
+      "expected_outputs": 3,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\versions\\v0\\resource.py",
+            "bytes": 906,
+            "sha256": "66d16ccdcaada770e70ac8c5e88274162ef732376bb4b8a5846f3c15c8b251cb"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 2382,
+            "sha256": "20a8d36e094393aa2c64d81ffb66527017d9efa339f2628b1b59fbe424d21ce7"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\versions\\noop\\resource.py",
+            "bytes": 906,
+            "sha256": "66d16ccdcaada770e70ac8c5e88274162ef732376bb4b8a5846f3c15c8b251cb"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 2387,
+            "sha256": "1dc7fddefd11e244eedf6a28ab26e78515de81f0be1e1007af89f37d4078c0a8"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\versions\\v1\\resource.py",
+            "bytes": 884,
+            "sha256": "4be90061d80bdc4e89b1de8ab9f3265e670bbc5ddcc51eda369fe10d48dba692"
+          },
+          "passed": 3,
+          "total": 3,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 2371,
+            "sha256": "a3dbff934d859f394e4559fdd204bdd33f75be420f88d840663fd66d77a973c1"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\versions\\regression\\resource.py",
+            "bytes": 902,
+            "sha256": "d8f6f6714012301cb6d40cfb527a9e163360e32949cdca12e6fd83a0dbd5fb0d"
+          },
+          "passed": 2,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\stderr_exit\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 2396,
+            "sha256": "f2c5aa4e1805029a79db5ee6f5cecac22030cbe1909dc2fced43e7aa18d2518d"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "nested_references",
+      "fixtures": 3,
+      "expected_outputs": 3,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\versions\\v0\\resource.py",
+            "bytes": 688,
+            "sha256": "31caf731b5e162871e7ad7ebd94a36ad3922e8abe519039ce72d41d7593ac9fa"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 2191,
+            "sha256": "6eceae1eac3a8785b0827db1c0d049200aff80bf817b05c3a1b13c79106d5dab"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\versions\\noop\\resource.py",
+            "bytes": 688,
+            "sha256": "31caf731b5e162871e7ad7ebd94a36ad3922e8abe519039ce72d41d7593ac9fa"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 2197,
+            "sha256": "ba1a96d4ec6d69b2e1ea66c2c4f95cddf9ea6751efeda8b988d35fbbc2b68793"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\versions\\v1\\resource.py",
+            "bytes": 646,
+            "sha256": "0c42da9ff773bcfb775c84ce8c794e4238b0d8fcfa818406eb8d09dc31dbd74b"
+          },
+          "passed": 3,
+          "total": 3,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 2318,
+            "sha256": "6e51d52f1d4c2b8079414213b30fa38577129a554861448e284090e46fa9614d"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\versions\\regression\\resource.py",
+            "bytes": 658,
+            "sha256": "aa357f31808f27de0aea7bb50430c050b2a4154a6d470c66f20d3c96db45cde8"
+          },
+          "passed": 1,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\nested_references\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 2244,
+            "sha256": "798600af6cf49440f5399d27764401abce19c3058e36e87820c80c3c91b3b64d"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "xml_field_preservation",
+      "fixtures": 3,
+      "expected_outputs": 3,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\versions\\v0\\resource.py",
+            "bytes": 932,
+            "sha256": "3913fb4303d831364bf8e20406dc4b269cb00458052c92b5ed03c4948cdbb7bf"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 2300,
+            "sha256": "c583cf9357ef202bbaf1f33deae1529fc63a87f8bae145e51001142a68ff8186"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\versions\\noop\\resource.py",
+            "bytes": 932,
+            "sha256": "3913fb4303d831364bf8e20406dc4b269cb00458052c92b5ed03c4948cdbb7bf"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 2307,
+            "sha256": "7707bbb57dc1c90b937ad2c68bb9e19081a857f78b41837b128dcf19a6bb4555"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\versions\\v1\\resource.py",
+            "bytes": 814,
+            "sha256": "1f9b1b95afad2938584758d8aebeeedf38c5108d796a29666744f70ca467651a"
+          },
+          "passed": 3,
+          "total": 3,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 2353,
+            "sha256": "e9a13bdf635093f18ff74cdfd69eb9402b22d3eb54de45483e397eda465f0e18"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\versions\\regression\\resource.py",
+            "bytes": 813,
+            "sha256": "3a123bd82feb5b0fb10861f888a7cd710cf4e291d383b9ef3aef3e3e4d7442d1"
+          },
+          "passed": 2,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\xml_field_preservation\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 2382,
+            "sha256": "bceaf426f7c5e11bafeefbfcd8a3d2d1ba029e739807927d43f89169dcc8a385"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "indent_conflict",
+      "fixtures": 3,
+      "expected_outputs": 3,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\versions\\v0\\resource.py",
+            "bytes": 482,
+            "sha256": "74d55df98225764a808047ff82e3f3d5c8e45b1c6fd536ce2ca90fbe94ea5c3f"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 2034,
+            "sha256": "32d8cac6bdde29ed27a0d2b5ac54557649e748cec0420c1b83de3292afc1b51f"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\versions\\noop\\resource.py",
+            "bytes": 482,
+            "sha256": "74d55df98225764a808047ff82e3f3d5c8e45b1c6fd536ce2ca90fbe94ea5c3f"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 2040,
+            "sha256": "bd56fb9f317444b161e7c7abaef053b78e41f283df87d78f5a10fe6eb35ed634"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\versions\\v1\\resource.py",
+            "bytes": 562,
+            "sha256": "60100443b482bb6b41b7e665aa5d0d99546662225d0ac0586ffe4bffcb90381c"
+          },
+          "passed": 3,
+          "total": 3,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 1907,
+            "sha256": "b36b133e2d51972b215d9e37363bed53be8da870da21d3abb140539a3957ed22"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\versions\\regression\\resource.py",
+            "bytes": 545,
+            "sha256": "11b04de4febb689e49526b117255983ebe51a79fb5fa77f7adc5792b78279bef"
+          },
+          "passed": 1,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\indent_conflict\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 2000,
+            "sha256": "e2386f00e470deec73ba0814fc1a7e9d3811456bbe6d84a80b1d78def9d6db69"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "structured_table",
+      "fixtures": 3,
+      "expected_outputs": 3,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\versions\\v0\\resource.py",
+            "bytes": 280,
+            "sha256": "80caa817a705841fa2cd406e2532b6a3b87aa3245e726b042790ffbefe53f320"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 2176,
+            "sha256": "6afa3d0ba0c61e11d25bda16698a7cdcfe9edc40d43f76e134c13ef1a6423183"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\versions\\noop\\resource.py",
+            "bytes": 280,
+            "sha256": "80caa817a705841fa2cd406e2532b6a3b87aa3245e726b042790ffbefe53f320"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 2182,
+            "sha256": "add68c028eee7d600930654de4754f345b9582ce8f60e11caa2cb3c67dc8bbbd"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\versions\\v1\\resource.py",
+            "bytes": 277,
+            "sha256": "dd789a2400e6826ebe55f279107f096ab029c4c761f451f3b7c854d7d5375665"
+          },
+          "passed": 3,
+          "total": 3,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 2222,
+            "sha256": "4cf82bdf68e501cecd7c2ae7e039759212e98db7d2defc5a8ef5a75ed202097d"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\versions\\regression\\resource.py",
+            "bytes": 283,
+            "sha256": "24627feee006d3c6a2957f1b3bfdb091feaf6f2b4199e46bc7dcb6e16386e7ee"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\structured_table\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 2246,
+            "sha256": "96b3622181434eef83724f0e1815ad591e7eafebc4c050d3117410035bcce692"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "fact_plan",
+      "fixtures": 3,
+      "expected_outputs": 3,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\versions\\v0\\resource.py",
+            "bytes": 467,
+            "sha256": "8a67bb02d760d695dbe75b7ac1c09ea8bca6c49faa7e5051dcdd57c2ea71d138"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 3194,
+            "sha256": "562523e3f7a634f2045b2f7398de4ff53022245030807f270145d5df25789c84"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\versions\\noop\\resource.py",
+            "bytes": 467,
+            "sha256": "8a67bb02d760d695dbe75b7ac1c09ea8bca6c49faa7e5051dcdd57c2ea71d138"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 3200,
+            "sha256": "882c26842c787346be5b639e7b7a0c6da00a8e35536998b16dcf6943cecd43c0"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\versions\\v1\\resource.py",
+            "bytes": 527,
+            "sha256": "c628558ee176238d4c03844eaf3d3f2b60d4881a0f1227231349b52c91d71e52"
+          },
+          "passed": 3,
+          "total": 3,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 3206,
+            "sha256": "c33aca89b460b40f859f93b0ae633efd86bfbba2f34489343f135938ebdc4738"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\versions\\regression\\resource.py",
+            "bytes": 510,
+            "sha256": "8b355c5f078d60442bc5932b3ed99db38a5d78df193c00b019346b8f8a67fca3"
+          },
+          "passed": 2,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\fact_plan\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 3224,
+            "sha256": "d36c2001403d7c4ef87dc5316a0b540f68748a36b6e7d995ec2e86d77f74bb4d"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "decimal_rounding",
+      "fixtures": 4,
+      "expected_outputs": 4,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\versions\\v0\\resource.py",
+            "bytes": 249,
+            "sha256": "a0b7e45fee2118cf1b459bc7585288b14a7c33c75714531fcf33863b57e18ec3"
+          },
+          "passed": 0,
+          "total": 4,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 1831,
+            "sha256": "061393f565f50e08ba6a0ac3aaf54e8b04dc7663bda152c2bfd82d6489f0c142"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\versions\\noop\\resource.py",
+            "bytes": 249,
+            "sha256": "a0b7e45fee2118cf1b459bc7585288b14a7c33c75714531fcf33863b57e18ec3"
+          },
+          "passed": 0,
+          "total": 4,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 1837,
+            "sha256": "cf67fdae0773db37976238bbe8a2ebc153f0215bc0b6b9f63347c387eb364a5f"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\versions\\v1\\resource.py",
+            "bytes": 334,
+            "sha256": "79877686c8a0951e22b63303c3fa59e5c2c5c73f55965b97e5ae9a8153a5e60d"
+          },
+          "passed": 4,
+          "total": 4,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 1826,
+            "sha256": "b573e5ba547b4aee28ee85da14b6a8d1ac02a0cf0fc36be5dd359b1e86f82598"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\versions\\regression\\resource.py",
+            "bytes": 341,
+            "sha256": "596180c4a507d040aedbe6232515c865f27dd31e1ca8eee615c1fa46c43285ed"
+          },
+          "passed": 0,
+          "total": 4,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\decimal_rounding\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 1855,
+            "sha256": "fce3c302c10255ab9e092ba4c9f4c05dda7c1042effeb4079a3b36fb2d16489d"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "typed_boolean",
+      "fixtures": 6,
+      "expected_outputs": 6,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\versions\\v0\\resource.py",
+            "bytes": 248,
+            "sha256": "0e264271209b0e08b383331a376305267efe1164fb923cbea5fed3e9359da6c8"
+          },
+          "passed": 3,
+          "total": 6,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 2585,
+            "sha256": "741613770a8a19e7be54267484545295bc50ddca4526bd760a383d2fa0779814"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\versions\\noop\\resource.py",
+            "bytes": 248,
+            "sha256": "0e264271209b0e08b383331a376305267efe1164fb923cbea5fed3e9359da6c8"
+          },
+          "passed": 3,
+          "total": 6,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 2592,
+            "sha256": "f8a1d7dcaa7b583399054cfa4bef81300d2313ae407b757b8ada85338b02b80e"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\versions\\v1\\resource.py",
+            "bytes": 504,
+            "sha256": "3d4cfc13afbd624d91d6f099c514bc1b5a1bd5a43c0622debb31e54f636b7e08"
+          },
+          "passed": 6,
+          "total": 6,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 2584,
+            "sha256": "e1136e5517d7a003647135cdc6232e693cd0b7904ec29fe21c7293f51734b803"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\versions\\regression\\resource.py",
+            "bytes": 337,
+            "sha256": "e6a6b8b90275c493d92e59eade34d56b8be76fa70da98416fca25c9d6073eb9e"
+          },
+          "passed": 4,
+          "total": 6,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\typed_boolean\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 2610,
+            "sha256": "5998ceca69bcb9a34243077592e8a92f2d21a2d30fde9c19f4cc0a20ad42a3fd"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "output_identity",
+      "fixtures": 4,
+      "expected_outputs": 4,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\versions\\v0\\resource.py",
+            "bytes": 525,
+            "sha256": "e68fcd36e2dc5cb3a837dff549e04f3663abdc271aa6765bc2c605b359b3d47b"
+          },
+          "passed": 0,
+          "total": 4,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 3201,
+            "sha256": "6ea0ab295dc723af3b8e56099284508ee8fe664d7410993721e9d24397294cf1"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\versions\\noop\\resource.py",
+            "bytes": 525,
+            "sha256": "e68fcd36e2dc5cb3a837dff549e04f3663abdc271aa6765bc2c605b359b3d47b"
+          },
+          "passed": 0,
+          "total": 4,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 3204,
+            "sha256": "89ae8bf6aea2d948d3bcecc9d1d55d52d9fd7da01c8f85c8b9cb00e7c116a957"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\versions\\v1\\resource.py",
+            "bytes": 735,
+            "sha256": "d048944e12b1132d8bd674db8c1fb55862e7d73fec42493c8440ebecc6eab23e"
+          },
+          "passed": 4,
+          "total": 4,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 3148,
+            "sha256": "d9aa5180bbde7d4d9940c9d40a0f8b1a9745f0a961117fdf351eb133f578ea3f"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\versions\\regression\\resource.py",
+            "bytes": 619,
+            "sha256": "3a00dde999875d10120ad07318d3fbfd9fb46434ed87ca169b9d03ef851faa72"
+          },
+          "passed": 3,
+          "total": 4,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\output_identity\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 3383,
+            "sha256": "8a5c80fb79cc1b10b9d01677db658c5a71d356e39240c3101a0b74a4fac8fb8d"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    },
+    {
+      "family_id": "html_escape",
+      "fixtures": 3,
+      "expected_outputs": 3,
+      "versions": {
+        "v0": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\versions\\v0\\resource.py",
+            "bytes": 255,
+            "sha256": "bfc028e1b437d91d1ef5d19adcfb80def7a1e3426646309f61572a7f261f359c"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\runs\\v0\\CPU_RESULT.json",
+            "bytes": 1970,
+            "sha256": "602070a8cb9dc3bbcee13606f2db625d75e7e0c061d087f2ea9a8ec031c36435"
+          }
+        },
+        "noop": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\versions\\noop\\resource.py",
+            "bytes": 255,
+            "sha256": "bfc028e1b437d91d1ef5d19adcfb80def7a1e3426646309f61572a7f261f359c"
+          },
+          "passed": 0,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\runs\\noop\\CPU_RESULT.json",
+            "bytes": 1977,
+            "sha256": "7cb044143aa854e1c018841231fbd98a3c9fc76482d3b02c5b2ab4d02d9b682f"
+          }
+        },
+        "v1": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\versions\\v1\\resource.py",
+            "bytes": 465,
+            "sha256": "8ce72996b43ce0add371d1a03238ec59da3248c54bf49b2295ba2390c0081eaf"
+          },
+          "passed": 3,
+          "total": 3,
+          "all_passed": true,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\runs\\v1\\CPU_RESULT.json",
+            "bytes": 1966,
+            "sha256": "e8ec9c7ab47faaaacd216107bc8a4dc76395c50a875037d810c4bf2180a8f415"
+          }
+        },
+        "regression": {
+          "source": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\versions\\regression\\resource.py",
+            "bytes": 441,
+            "sha256": "57b9628705b7014428cfe0aaebb3737f9455b5f898ec58d4267aba0703e592fc"
+          },
+          "passed": 1,
+          "total": 3,
+          "all_passed": false,
+          "result": {
+            "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\resource_cases\\run02\\families\\html_escape\\runs\\regression\\CPU_RESULT.json",
+            "bytes": 1981,
+            "sha256": "70c40eeabfcce08157c07b2cd6d584248293fcc2472394d488fafa6e019ca9ab"
+          }
+        }
+      },
+      "same_input_noop_detected": true,
+      "same_input_regression_detected": true,
+      "business_KEEP_supported": false
+    }
+  ]
+}

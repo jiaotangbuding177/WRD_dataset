@@ -1,0 +1,18 @@
+{
+  "id": "form-fill-from-source-docs",
+  "name": "按源附件填写目标表格表单",
+  "category": "OFFICE",
+  "source_ids": [
+    "conv_c1ad314b1771"
+  ],
+  "steps": [
+    "读源附件（含补充件）提取可填字段的事实内容",
+    "逐项映射填入目标附件，缺失信息标注待补，不虚构",
+    "填完核对目标与来源一致后导出交付"
+  ],
+  "reuse_reason": "源材料到目标表格的字段映射与填写核对是可重复的数据处理，替代每次重新判断填什么、哪里来；与financial-statement-filling等财务专用填报不同，本路线覆盖通用附件填报",
+  "conditions": [
+    "内容仅取自用户提供的源附件与确认说明"
+  ],
+  "conflicts": []
+}

@@ -1,0 +1,308 @@
+#!/usr/bin/env node
+/**
+ * 规范DOCX生成器：封面（无页眉页脚）→ 目录独占一页 → 正文（页码从1起算）。
+ * 用法: node make_docx.js content.json OUTPUT.docx [--minimal]
+ *   content.json 结构见 templates/content.example.json（字段注释齐全）。
+ *   --minimal（或 content.json 写 "minimal": true）：跳过封面节/目录节/页眉页脚，
+ *   只输出正文（标题层级/表格统一/加粗逻辑不变），用于明确要求「不添加封面、
+ *   目录、页眉页脚等装饰元素」的纯格式转换委托；此时无需再跑 fix_toc.py。
+ *   minimal 分支内置委托通用默认版式：正文宋体小四(12pt)/1.5倍行距、中西文字体
+ *   分离（西文 Times New Roman）、标题黑体加粗纯黑（一级三号/二级四号，西文 Arial），
+ *   已覆盖 docx-js 默认的 11pt 与标题蓝色 1F4E79/2E74B5，无需解包改 styles.xml。
+ *   字体可在 content.json 用 fontEastAsia/fontAscii/headingFontEastAsia/headingFontAscii 覆盖。
+ *   纯格式转换需要保留的 run 级格式：段落/列表项可用 runs 数组
+ *   （[{text, bold?, italic?, super?, sub?}]，如上标 10^{6}、原斜体术语）；
+ *   普通文本里也可直接写 ^{上标} 标记（表格单元格同样生效）；
+ *   原文档页脚信息按正文保留：写 {"type":"p","text":"…","small":true}（9pt 灰字）。
+ *   对齐/字号/表题（两分支通用）：一级标题（sections[].h1 搭配 sections[].align/fontSize）、段落/二级标题/列表项可用 align（center/right/left/both）
+ *   与 fontSize（单位 pt，如 10.5）；表格可用 caption（表题，表上方居中加粗）与
+ *   fontSize（全表单元格字号，表题随同）。字段总表见 templates/content.minimal.example.json。
+ * 生成后必须再跑: python3 fix_toc.py OUTPUT.docx OUTPUT_final.docx（目录条目+页码+自动更新域）。
+ * 依赖: docx（npm）；本容器已全局安装，直接 node 即可；若报 Cannot find module 'docx'，
+ *   设 NODE_PATH=$(npm root -g) 再运行。
+ */
+const fs = require("fs");
+const {
+  Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType,
+  Table, TableRow, TableCell, WidthType, BorderStyle, ShadingType, VerticalAlign,
+  Header, Footer, PageNumber, PageNumberType, TableOfContents, SectionType,
+} = require("docx");
+
+const rawArgs = process.argv.slice(2);
+let MINIMAL = rawArgs.includes("--minimal");
+const [contentPath, outPath] = rawArgs.filter(a => a !== "--minimal");
+if (!contentPath || !outPath) {
+  console.error("用法: node make_docx.js content.json OUTPUT.docx [--minimal]");
+  process.exit(2);
+}
+const C = JSON.parse(fs.readFileSync(contentPath, "utf8"));
+if (C.minimal === true) MINIMAL = true; // content.json 亦可声明 minimal
+
+// minimal 分支按委托通用默认（宋体小四/黑体标题、中西文分离）；完整版式分支保持原有蓝标题风格
+const FONT = MINIMAL
+  ? { ascii: C.fontAscii || "Times New Roman", eastAsia: C.fontEastAsia || "宋体" }
+  : { ascii: "Calibri", eastAsia: C.fontEastAsia || "Noto Sans CJK SC" };
+const FONT_HEAD = MINIMAL
+  ? { ascii: C.headingFontAscii || "Arial", eastAsia: C.headingFontEastAsia || "黑体" }
+  : FONT;
+const BODY_SIZE = MINIMAL ? 24 : 22; // minimal：小四 12pt（docx-js 默认 11pt 需覆盖）
+const PAGE_BODY_DXA = 9026; // A4 减去左右 1440 twips 页边距后的正文宽度
+
+// 对齐/字号（两分支通用）：align 取 center/right/left/both；fontSize 单位 pt（如 10.5）；一级标题对齐/字号在 sections[] 上（align/fontSize）
+const ALIGN = { center: AlignmentType.CENTER, right: AlignmentType.RIGHT, left: AlignmentType.LEFT, both: AlignmentType.JUSTIFIED };
+function alignOf(b) { const a = b && ALIGN[b.align]; return a ? { alignment: a } : {}; }
+function halfPoints(pt) { return Math.round(parseFloat(pt) * 2); }
+
+// —— 关键结论加粗：段落文本中出现的 boldTerms 子串加粗（不改文字本身） ——
+function boldRuns(text, extra) {
+  const terms = (C.boldTerms || []).slice().sort((a, b) => b.length - a.length);
+  const opts = extra || {};
+  const runs = [];
+  let rest = text, plain = "";
+  const flush = () => { if (plain) { runs.push(new TextRun({ text: plain, font: FONT, ...opts })); plain = ""; } };
+  while (rest) {
+    let hit = null;
+    for (const t of terms) { if (t && rest.startsWith(t)) { hit = t; break; } }
+    if (hit) {
+      flush();
+      runs.push(new TextRun({ text: hit, bold: true, font: FONT, ...opts }));
+      rest = rest.slice(hit.length);
+    } else {
+      plain += rest[0];
+      rest = rest.slice(1);
+    }
+  }
+  flush();
+  return runs;
+}
+
+// 文本 → runs：先按 ^{...} 拆出上标段，非上标段再命中 boldTerms；extra 传基础 run 样式
+function richRuns(text, extra) {
+  const out = [];
+  String(text).split(/\^\{([^}]*)\}/).forEach((seg, i) => {
+    if (seg === undefined || seg === "") return;
+    if (i % 2 === 1) out.push(new TextRun({ text: seg, superScript: true, font: FONT, ...(extra || {}) }));
+    else for (const r of boldRuns(seg, extra)) out.push(r);
+  });
+  return out.length ? out : [new TextRun({ text: "", font: FONT })];
+}
+
+// 段落/列表项 → runs：优先用显式 runs 数组（run 级 bold/italic/super/sub），否则按文本处理
+function runsOf(b, extra) {
+  if (b.runs) {
+    return b.runs.map(r => new TextRun({
+      text: r.text, font: FONT, ...(extra || {}),
+      bold: r.bold || undefined, italics: r.italic || undefined,
+      superScript: r.super || undefined, subScript: r.sub || undefined,
+    }));
+  }
+  return richRuns(b.text ?? "", extra);
+}
+
+function para(block) {
+  // small: true → 9pt 灰字（用于把原文档页脚信息按正文保留等场景）；fontSize 覆盖段落字号
+  let base = block.small ? { size: 18, color: "595959" } : {};
+  if (block.fontSize) base = { ...base, size: halfPoints(block.fontSize) };
+  const children = block.bold && !block.runs
+    ? [new TextRun({ text: block.text, bold: true, font: FONT, ...base })]
+    : runsOf(block, base);
+  return new Paragraph({ children, spacing: { after: 120, line: 360 }, ...alignOf(block) });
+}
+
+function makeTable(block) {
+  const cellExtra = block.fontSize ? { size: halfPoints(block.fontSize) } : {};
+  const widths = block.widths && block.widths.length === (block.headers || []).length
+    ? block.widths : (block.headers || ["字段", "内容"]).map(() => 1 / (block.headers || [1, 1]).length);
+  const colDxa = widths.map(w => Math.round(w * PAGE_BODY_DXA));
+  const thin = { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" };
+  const borders = { top: thin, bottom: thin, left: thin, right: thin };
+  const rows = [];
+  if (block.headers) {
+    rows.push(new TableRow({
+      tableHeader: true,
+      children: block.headers.map((h, i) => new TableCell({
+        width: { size: colDxa[i], type: WidthType.DXA },
+        shading: { type: ShadingType.CLEAR, fill: "DEEBF7" },
+        margins: { top: 60, bottom: 60, left: 120, right: 120 },
+        verticalAlign: VerticalAlign.CENTER,
+        children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, font: FONT, ...cellExtra })] })],
+      })),
+    }));
+  }
+  (block.rows || []).forEach((row, ri) => {
+    rows.push(new TableRow({
+      children: row.map((cell, ci) => new TableCell({
+        width: { size: colDxa[ci] || 2000, type: WidthType.DXA },
+        shading: ri % 2 === 1 ? { type: ShadingType.CLEAR, fill: "F2F8FD" } : undefined,
+        margins: { top: 60, bottom: 60, left: 120, right: 120 },
+        verticalAlign: VerticalAlign.CENTER,
+        children: [new Paragraph({
+          children: (block.boldAllCells || block.boldCol === ci)
+            ? richRuns(String(cell), { ...cellExtra, bold: true })
+            : richRuns(String(cell), cellExtra),
+        })],
+      })),
+    }));
+  });
+  return new Table({
+    width: { size: PAGE_BODY_DXA, type: WidthType.DXA },
+    columnWidths: colDxa,
+    alignment: AlignmentType.CENTER,
+    borders: { ...borders, insideHorizontal: thin, insideVertical: thin },
+    rows,
+  });
+}
+
+function blockToChildren(block) {
+  if (block.type === "h2") {
+    return [new Paragraph({ heading: HeadingLevel.HEADING_2, ...alignOf(block), children: [new TextRun({ text: block.text, font: FONT_HEAD, ...(block.fontSize ? { size: halfPoints(block.fontSize) } : {}) })] })];
+  }
+  if (block.type === "list") {
+    return block.items.map(it => {
+      const o = typeof it === "string" ? { text: it } : it;
+      const extra = o.fontSize ? { size: halfPoints(o.fontSize) } : {};
+      return new Paragraph({
+        bullet: { level: 0 }, spacing: { after: 80, line: 360 }, ...alignOf(o),
+        children: o.bold && !o.runs
+          ? [new TextRun({ text: o.text, bold: true, font: FONT, ...extra })]
+          : runsOf(o, extra),
+      });
+    });
+  }
+  if (block.type === "table") {
+    const out = [];
+    if (block.caption) { // 表题：表上方居中加粗，字号随表格 fontSize（缺省 10.5pt）
+      out.push(new Paragraph({
+        alignment: AlignmentType.CENTER, spacing: { after: 80 },
+        children: [new TextRun({ text: block.caption, bold: true, font: FONT, size: halfPoints(block.fontSize || 10.5) })],
+      }));
+    }
+    out.push(makeTable(block));
+    out.push(new Paragraph({ spacing: { after: 160 }, children: [] }));
+    return out;
+  }
+  return [para(block)]; // p
+}
+
+const bodyChildren = [];
+for (const sec of C.sections) {
+  bodyChildren.push(new Paragraph({
+    heading: HeadingLevel.HEADING_1,
+    ...alignOf(sec), // 一级标题对齐：sections[].align（center/right/left/both）
+    children: [new TextRun({ text: sec.h1, font: FONT_HEAD, ...(sec.fontSize ? { size: halfPoints(sec.fontSize) } : {}) })],
+  }));
+  for (const b of sec.blocks || []) bodyChildren.push(...blockToChildren(b));
+}
+
+// 封面信息表
+const metaTable = new Table({
+  alignment: AlignmentType.CENTER,
+  width: { size: 6600, type: WidthType.DXA },
+  columnWidths: [2200, 4400],
+  borders: {
+    top: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    bottom: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    left: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    right: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    insideHorizontal: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+    insideVertical: { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" },
+  },
+  rows: (C.meta || []).map(([k, v]) => new TableRow({
+    children: [
+      new TableCell({
+        width: { size: 2200, type: WidthType.DXA },
+        shading: { type: ShadingType.CLEAR, fill: "DEEBF7" },
+        margins: { top: 80, bottom: 80, left: 140, right: 140 },
+        children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: k, bold: true, font: FONT })] })],
+      }),
+      new TableCell({
+        width: { size: 4400, type: WidthType.DXA },
+        margins: { top: 80, bottom: 80, left: 140, right: 140 },
+        children: [new Paragraph({ children: [new TextRun({ text: v, font: FONT })] })],
+      }),
+    ],
+  })),
+});
+
+const doc = new Document({
+  styles: {
+    default: {
+      document: {
+        run: { font: FONT, size: BODY_SIZE },
+        ...(MINIMAL ? { paragraph: { spacing: { line: 360 } } } : {}), // minimal：默认 1.5 倍行距
+      },
+    },
+    paragraphStyles: [
+      { // 拉开一二级标题字号差（16pt / 14pt）；minimal 按委托默认用黑体加粗纯黑，覆盖 docx-js 蓝色标题
+        id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 32, bold: true, color: MINIMAL ? "000000" : "1F4E79", font: FONT_HEAD },
+        paragraph: { spacing: { before: 360, after: 200 } },
+      },
+      {
+        id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 28, bold: true, color: MINIMAL ? "000000" : "2E74B5", font: FONT_HEAD },
+        paragraph: { spacing: { before: 280, after: 160 } },
+      },
+    ],
+  },
+  sections: MINIMAL ? [
+    { // minimal：单节正文，无封面/目录/页眉页脚，交付给 fix_toc 也不可用（无 TOC 域）
+      properties: {},
+      children: bodyChildren,
+    },
+  ] : [
+    { // 第1节：封面 —— 不指定 headers/footers，天然无页眉页脚
+      properties: {},
+      children: [
+        new Paragraph({ spacing: { before: 3200 }, children: [] }),
+        new Paragraph({
+          alignment: AlignmentType.CENTER, spacing: { after: 600 },
+          children: [new TextRun({ text: C.title, bold: true, size: 56, color: "1F4E79", font: FONT })],
+        }),
+        ...(C.subtitle ? [new Paragraph({
+          alignment: AlignmentType.CENTER, spacing: { after: 800 },
+          children: [new TextRun({ text: C.subtitle, size: 26, color: "595959", font: FONT })],
+        })] : []),
+        metaTable,
+      ],
+    },
+    { // 第2节：目录独占一页；标题用非标题样式，避免“目录”二字进目录
+      properties: { type: SectionType.NEXT_PAGE },
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.CENTER, spacing: { after: 400 },
+          children: [new TextRun({ text: "目  录", bold: true, size: 32, font: FONT })],
+        }),
+        new TableOfContents("目录", { hyperlink: true, headingStyleRange: "1-2" }),
+      ],
+    },
+    { // 第3节：正文 —— 页眉右上+分隔线，页脚“第 X 页”，页码从 1 重新起算
+      properties: { type: SectionType.NEXT_PAGE, page: { pageNumbers: { start: 1 } } },
+      headers: {
+        default: new Header({
+          children: [new Paragraph({
+            alignment: AlignmentType.RIGHT,
+            border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: "9DC3E6", space: 2 } },
+            children: [new TextRun({ text: C.headerText || C.title, size: 18, color: "595959", font: FONT })],
+          })],
+        }),
+      },
+      footers: {
+        default: new Footer({
+          children: [new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ children: ["第 ", PageNumber.CURRENT, " 页"], size: 18, color: "595959", font: FONT })],
+          })],
+        }),
+      },
+      children: bodyChildren,
+    },
+  ],
+});
+
+Packer.toBuffer(doc).then(buf => {
+  fs.writeFileSync(outPath, buf);
+  console.log(MINIMAL
+    ? `make_docx: 已生成 ${outPath}（${buf.length} 字节，minimal 模式：无封面/目录/页眉页脚）。无需 fix_toc，直接渲染核验。`
+    : `make_docx: 已生成 ${outPath}（${buf.length} 字节）。下一步: python3 fix_toc.py ${outPath} <输出_final.docx>`);
+}).catch(e => { console.error(e); process.exit(3); });

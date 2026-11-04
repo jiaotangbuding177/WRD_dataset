@@ -1,0 +1,11 @@
+Two failures in edge_transposed. Let me analyze whether the failure is in the candidate or in my test expectations.
+
+C2 = ' 北京某某科技有限公司 ' — with leading/trailing spaces, total length: ' 北京某某科技有限公司 ' =1 +10 +1 =12 chars. prefix2 = '北' + ' ' → wait prefix_chars=2 → first two chars are ' ', '北' → ' 北'. suffix2 = '司 '? last two chars: '公司 ' → '司 '. So expected = ' 北***司 '. The program returned exactly that — the R04 rule explicitly says "不trim". My test expectation was wrong (I expected ' 北京***公司 ' ignoring leading space and counting from... my expectation was just sloppy).
+
+A2 = 'TEST-P-1' (8 chars) → prefix 'TE', suffix '-1' → 'TE***-1' ✓ PASSED actually. The check `edge_transposed_masked` failed because of C2 expectation.
+
+C3 = '上海某某厂' (5 chars) → prefix '上海', suffix '某厂' → '上海***某厂'. Program returned that. My test expected C3 unchanged ('上海某某厂') — wrong: C3 is within rows2..3 and column客户名称 is targeted, so it should be masked. My test bug: I wrote check expecting C3 unchanged, but data_end_row=3 covers both rows.
+
+So both failures are test-expectation bugs, not candidate bugs. The contract says R04: no trim — program behavior correct. Per discipline: "只在实际失败位置修改候选" — here the candidate is correct; failures were in test expectations. I should record the failure evidence (logs already saved: run_edge_transposed.log + edge_case_tests_run1.log), and fix the test script expectations with a documented revision (test revision, not candidate). Save the failed test script snapshot too.
+
+Let me snapshot the failing test script, write a revision note, fix the two assertions, rerun.

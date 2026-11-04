@@ -1,0 +1,14 @@
+{
+  "schema": "wrd-native-sqlite-lockfile-clarification-v1",
+  "applies_to": "SQLITE_RECOVERY.json",
+  "observation": "The mode=ro/query_only connection changed the local copied SQLite SHM lock/index bytes. It did not change the recovered main database or WAL bytes, the native events, or the stopped original container.",
+  "source_untouched_false_scope": "all three local copied files, including SHM; this is not a claim of changed original transcript rows",
+  "main_db_sha256_unchanged": "ee715a43d651c6c42d95a7e081688c8d2feedac827c3bfcb6d57bd21d7390827",
+  "wal_sha256_unchanged": "f4185459f52fcb650b38430f4228418acf7f6c04ef23fa7315f8fbb414d07183",
+  "original_shm_sha256": "5c97c5c86acf66639ec155e62929591cdfd44b30d4fbda4c318737ee389ba293",
+  "local_after_read_shm_sha256": "222bec4b26445c47d8015badc6b7298e8513ec19293196e027f8c9e1f472b251",
+  "original_shm_recopied_from_stopped_container_and_sha_verified": true,
+  "original_shm_preserved_private_as": "openclaw-agent.sqlite-shm.original",
+  "raw_private_directory_must_not_be_published": true,
+  "model_calls": 0
+}

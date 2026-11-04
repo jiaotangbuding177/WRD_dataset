@@ -1,0 +1,20 @@
+---
+name: five-page-image-ppt
+description: 主题与页数明确的图片型PPT请求。按四步路线生成计划、逐页画面提示词、逐页出图并拼装为可直接打开的PPTX；仅当用户明确免确认时跳过大纲确认。不覆盖大量精确文字排版或中途大幅改题重做。
+---
+
+# 图片型PPT最短路线
+
+输入：用户请求原文（主题、页数取自原文，不虚构）；环境内已配置的图像生成能力。产出：按页序拼装、可直接打开播放的16:9 PPTX。
+
+1. 计划：把请求写成请求JSON（字段见下），运行
+   `python {SKILL}/scripts/build_slide_plan.py REQUEST_JSON --out {OUT}/slide_plan.json`
+   请求JSON字段：`topic`（非空字符串）、`pages`（1-50整数）、`style`（可选）、`confirm_free`（可选布尔）。
+   例：`{"topic":"小学一年级-开学第一课","pages":5,"confirm_free":true}`。
+2. 确认判断：`needs_confirmation=true` 时，先向用户给大纲与风格方案并等确认；仅当用户明确说"不需要确认，直接生成"时在请求JSON加 `confirm_free=true`（输出 `needs_confirmation=false`，跳过确认）。主题与页数必须来自请求原文。
+3. 逐页提示词：按 templates/slide_prompt_plan.template.md 填写逐页画面提示词表，并把标题/提示词写回计划每页 `title` / `image_prompt`；从第2页起注明参考前面页画风。程序不改这两个字段，属于业务判断。
+4. 逐页出图：用环境内图像生成能力按 `image_prompt` 出图，16:9（2048x1152），文件名与计划 `image_path` 一致（slide_001.png 起），放入同一图片目录。
+5. 拼装：`python {SKILL}/scripts/assemble_image_ppt.py {OUT}/slide_plan.json --images IMAGES_DIR --out {OUT}/result.pptx`
+   校验每页图片存在且为PNG/JPEG后按页序生成整页图片式PPTX；校验失败退出码2、不写输出。
+
+程序方法、参数、错误与分阶段来源依据：查阅 references/stage_notes.md。

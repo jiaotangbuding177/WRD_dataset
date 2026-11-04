@@ -1,0 +1,32 @@
+{
+  "schema": "wrd-scoped-independent-C-decision-feedback-errata-v1",
+  "original_files_preserved_unchanged": true,
+  "not_full_semantic_review": true,
+  "findings": [
+    {
+      "id": "CURRENT_REVIEW_COST_NOT_IN_PRE_REVIEW_TOTAL",
+      "source": "decision.json rationale[2] and final answer broad cumulative wording",
+      "original_pre_review_known_tokens": 7367237,
+      "actual_current_review_known_tokens": 1293310,
+      "correct_after_terminal_known_tokens": 8660547,
+      "explanation": "7367237 is a correct prior-stage subtotal including four trials, but not the current native review. Do not train claims that this number already includes current review. Current review cost was unavailable before its own terminal."
+    },
+    {
+      "id": "COUNTING_CONVENTION_VS_REPORT_BOUNDARY",
+      "source": "feedback.json same_version_concrete_issues F2",
+      "explanation": "Whole-delivery 624 including non-newline whitespace and 620 excluding whitespace both exceed600; report-body534 is a different assessed-text boundary. This case does not demonstrate threshold crossing caused by whitespace counting convention. A conservative default recommendation is an unverified policy suggestion."
+    },
+    {
+      "id": "HONEST_SEMANTIC_LIMIT_NOT_AUTOMATIC_RESOURCE_BUG",
+      "source": "feedback.json F3",
+      "explanation": "The deterministic tool explicitly delegates unverified evaluative statements to semantic review; lack of a reliable deterministic semantic guarantee is a declared scope limit. Strong-word scanning is an unvalidated proposal, not a proven fix."
+    },
+    {
+      "id": "NOISE_MAGNITUDE_NOT_MEASURED",
+      "source": "decision.json quality_evidence_uncalibrated note",
+      "explanation": "Q is exploratory and uncalibrated. Two-case score differences do not measure a noise distribution; do not claim the observed gap is statistically within a quantified noise scale."
+    }
+  ],
+  "STOP_supported_scope": "This specific candidate increased actual calls/tokens on both tested writing cases, while qualities remain exploratory. Do not generalize STOP to all writing skills or all WRD resources.",
+  "no_entire_review_or_reasoning_auto_positive_loss": true
+}

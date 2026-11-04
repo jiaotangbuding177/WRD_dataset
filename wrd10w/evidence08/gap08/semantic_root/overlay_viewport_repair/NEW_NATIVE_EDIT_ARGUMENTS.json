@@ -1,0 +1,9 @@
+{
+  "path": "/workspace/tmp/archery/render_overlays.py",
+  "edits": [
+    {
+      "oldText": "            h = 520 if len(text) <= 5 else 300\n            await page.set_content",
+      "newText": "            h = 520 if len(text) <= 5 else 300\n            await page.set_viewport_size({\"width\": 2000, \"height\": h})\n            await page.set_content"
+    }
+  ]
+}

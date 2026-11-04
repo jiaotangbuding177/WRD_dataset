@@ -1,0 +1,582 @@
+{
+  "all_executables_covered": true,
+  "checks": [],
+  "complete_reproduction": false,
+  "derived_replay_pin": {
+    "bytes": 18169,
+    "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\declared_replay.json",
+    "sha256": "bfae920e0ba3ae65080ae0ca94cccc7cd76391ff9b2548ca21b7f745984180dc"
+  },
+  "documented_usage_verified": false,
+  "image_id": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+  "independent_replay": true,
+  "limitations": [
+    "Finite tested inputs do not prove correctness for every future input.",
+    "Generated fixture source/message references are verified; derivation is a declared making-side operation, not authenticated historical bytes.",
+    "These checks establish resource execution evidence, not Actor token or model-call savings."
+  ],
+  "metadata_conversion_pin": {
+    "bytes": 4780,
+    "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\metadata_path_conversions.json",
+    "sha256": "2c3d048be2855434d51150e50322ceb8b719f8ba4618b9bc1a4b01d39eae9548"
+  },
+  "native_agent_modified": false,
+  "no_model_calls": true,
+  "non_executable_resources": [],
+  "optional_fixture_root_absent": false,
+  "original_replay_pin": {
+    "bytes": 17283,
+    "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\replay_original.json",
+    "sha256": "a17ce3e4a57ccd96b12d0793dd1829f553444468d1388109d6c19cf45a1e71ac"
+  },
+  "package_sha256": {
+    "SKILL.md": "d7bc4c8ee07b7594d0dc87862823443fc769bd344b751b02cfe0b8683566dc05",
+    "references/method.md": "95f2d9490edcdd3888aee8a44f789d997a2509877ad6bfbe9a23680a6cd106d4",
+    "scripts/fill_scored_feedback.py": "8d29b3cb2a152b69f2c71095a810a23e03475d2c1ed7d503858013f209a6e67a"
+  },
+  "programs": [
+    {
+      "cases": [
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{INPUT}/score_results.json",
+            "{INPUT}/feedback_form.docx",
+            "--out",
+            "{OUT}/filled_feedback.docx"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "fixture_message_evidence_invalid",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 0,
+          "full_input": false,
+          "full_output": false,
+          "id": "0001",
+          "kind": "normal",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "fixture_message_evidence_invalid"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{FIXTURE}/score_results_normal.json",
+            "{FIXTURE}/feedback_form_vmerge.docx",
+            "--out",
+            "{OUT}/filled_feedback_boundary.docx"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "fixture_message_evidence_invalid",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 0,
+          "full_input": false,
+          "full_output": false,
+          "id": "0002",
+          "kind": "boundary",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "fixture_message_evidence_invalid"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "actual_argv": null,
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{FIXTURE}/score_results_invalid.json",
+            "{FIXTURE}/feedback_form_normal.docx",
+            "--out",
+            "{OUT}/filled_invalid.docx"
+          ],
+          "checks": [
+            {
+              "kind": "failed_external_reproduction",
+              "output_pins": [],
+              "reason": "fixture_message_evidence_invalid",
+              "status": "HOLD"
+            }
+          ],
+          "commands": [],
+          "expected_exit": 2,
+          "full_input": false,
+          "full_output": false,
+          "id": "0003",
+          "kind": "invalid_input",
+          "outputs": [],
+          "public_usage_executed": false,
+          "reasons": [
+            "fixture_message_evidence_invalid"
+          ],
+          "returncode": null,
+          "status": "HOLD",
+          "stderr": null,
+          "stdout": null
+        },
+        {
+          "absence_observation": {
+            "bytes": 5902,
+            "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\absence_observation.json",
+            "sha256": "60d20ff368feee918beaa7498f8a38d6e29c80fa067598273c484ca9f96aaa52"
+          },
+          "actual_argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{INPUT}/never_exists.json",
+            "{FIXTURE}/feedback_form_normal.docx",
+            "--out",
+            "{OUT}/filled_absent.docx"
+          ],
+          "argv": [
+            "python",
+            "{SKILL}/scripts/fill_scored_feedback.py",
+            "{INPUT}/never_exists.json",
+            "{FIXTURE}/feedback_form_normal.docx",
+            "--out",
+            "{OUT}/filled_absent.docx"
+          ],
+          "checks": [
+            {
+              "kind": "execution",
+              "output_pins": [
+                {
+                  "bytes": 3314,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.json",
+                  "sha256": "798f5e42454285100779d6e5ef18f0649092ab26c5727a4b81a85f4b700d1f38"
+                },
+                {
+                  "bytes": 0,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "bytes": 76,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.stderr",
+                  "sha256": "88b37c4cd8ad740d13f1b85467243b4cfde5965ff693b72841db519d62c9bc30"
+                }
+              ],
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "kind": "input_absence",
+              "output_pins": [
+                {
+                  "bytes": 5902,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\absence_observation.json",
+                  "sha256": "60d20ff368feee918beaa7498f8a38d6e29c80fa067598273c484ca9f96aaa52"
+                }
+              ],
+              "status": "PASS"
+            },
+            {
+              "assertion_kind": "contains",
+              "exhaustive": false,
+              "kind": "content",
+              "output_pins": [
+                {
+                  "bytes": 76,
+                  "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.stderr",
+                  "sha256": "88b37c4cd8ad740d13f1b85467243b4cfde5965ff693b72841db519d62c9bc30"
+                }
+              ],
+              "path": "$stderr",
+              "status": "PASS"
+            }
+          ],
+          "commands": [
+            {
+              "actual_argv": [
+                "python",
+                "{SKILL}/scripts/fill_scored_feedback.py",
+                "{INPUT}/never_exists.json",
+                "{FIXTURE}/feedback_form_normal.docx",
+                "--out",
+                "{OUT}/filled_absent.docx"
+              ],
+              "argv": [
+                "python",
+                "{SKILL}/scripts/fill_scored_feedback.py",
+                "{INPUT}/never_exists.json",
+                "{FIXTURE}/feedback_form_normal.docx",
+                "--out",
+                "{OUT}/filled_absent.docx"
+              ],
+              "binding_changes_test_input_location_only": true,
+              "docker_argv": [
+                "docker",
+                "run",
+                "--rm",
+                "--name",
+                "wrd-resource-replay-74431ca60d6d4b9f8aec7f49daa3837b",
+                "--label",
+                "wrd.resource-replay=74431ca60d6d4b9f8aec7f49daa3837b",
+                "--network",
+                "none",
+                "--read-only",
+                "--cap-drop",
+                "ALL",
+                "--security-opt",
+                "no-new-privileges",
+                "--pids-limit",
+                "128",
+                "--tmpfs",
+                "/tmp:rw,nosuid,nodev,size=256m",
+                "-e",
+                "PYTHONDONTWRITEBYTECODE=1",
+                "-e",
+                "HOME=/tmp",
+                "-v",
+                "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\outputs\\candidate\\skill:/skill:ro",
+                "-v",
+                "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\inputs:/input:ro",
+                "-v",
+                "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\out:/out",
+                "--workdir",
+                "/out",
+                "-v",
+                "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\outputs\\reproduction_inputs:/fixtures:ro",
+                "--entrypoint",
+                "python",
+                "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+                "/skill/scripts/fill_scored_feedback.py",
+                "/input/never_exists.json",
+                "/fixtures/feedback_form_normal.docx",
+                "--out",
+                "/out/filled_absent.docx"
+              ],
+              "docker_lifecycle": null,
+              "execution_boundary": {
+                "reason_code": "observed_resource_process_result",
+                "resource_fault_exonerated": false,
+                "status": "RESOURCE_RESULT"
+              },
+              "execution_record": {
+                "bytes": 3314,
+                "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.json",
+                "sha256": "798f5e42454285100779d6e5ef18f0649092ab26c5727a4b81a85f4b700d1f38"
+              },
+              "expanded_argv": [
+                "python",
+                "/skill/scripts/fill_scored_feedback.py",
+                "/input/never_exists.json",
+                "/fixtures/feedback_form_normal.docx",
+                "--out",
+                "/out/filled_absent.docx"
+              ],
+              "expected_exit": 2,
+              "host_spawn_error": null,
+              "original_argv": [
+                "python",
+                "{SKILL}/scripts/fill_scored_feedback.py",
+                "{INPUT}/never_exists.json",
+                "{FIXTURE}/feedback_form_normal.docx",
+                "--out",
+                "{OUT}/filled_absent.docx"
+              ],
+              "owned_timeout_cleanup": null,
+              "program": "scripts/fill_scored_feedback.py",
+              "raw_public_argv_preserved": true,
+              "resolved_argv": [
+                "python",
+                "/skill/scripts/fill_scored_feedback.py",
+                "/input/never_exists.json",
+                "/fixtures/feedback_form_normal.docx",
+                "--out",
+                "/out/filled_absent.docx"
+              ],
+              "returncode": 2,
+              "seconds": 0.937,
+              "stderr": {
+                "bytes": 76,
+                "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.stderr",
+                "sha256": "88b37c4cd8ad740d13f1b85467243b4cfde5965ff693b72841db519d62c9bc30"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "temporary_input_bindings": null,
+              "timed_out": false
+            }
+          ],
+          "expanded_argv": [
+            "python",
+            "/skill/scripts/fill_scored_feedback.py",
+            "/input/never_exists.json",
+            "/fixtures/feedback_form_normal.docx",
+            "--out",
+            "/out/filled_absent.docx"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "absence_verified_before": true,
+            "absent_host_path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\inputs\\never_exists.json",
+            "absent_relative_path": "never_exists.json",
+            "absent_root": "INPUT",
+            "container_path": "/input/never_exists.json",
+            "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed.",
+            "generated": true,
+            "message_ids": [
+              "conv_d296b8df4dfc:msg_1"
+            ],
+            "not_a_file_input_pin": true,
+            "origin": "absent_path",
+            "parent_directory_pin": {
+              "entries": [
+                {
+                  "kind": "directory",
+                  "name": "conversations"
+                },
+                {
+                  "bytes": 1592,
+                  "kind": "file",
+                  "name": "generation.md",
+                  "sha256": "11b5e57c204e00d3fc775248cfd1d206772cba4a0a15a8db350678cdb4faf93e"
+                },
+                {
+                  "bytes": 13542,
+                  "kind": "file",
+                  "name": "making_contract.json",
+                  "sha256": "d3e35089fbde6205d2036677234e008f76700b4ca29b82e8dcc073b4199e967c"
+                },
+                {
+                  "bytes": 4202,
+                  "kind": "file",
+                  "name": "making_input_index.json",
+                  "sha256": "f72cd1ff26e281e59525ce195919fbd1e606b5281c042c744ddd1ee7371d5924"
+                },
+                {
+                  "kind": "directory",
+                  "name": "making_tools"
+                },
+                {
+                  "bytes": 759,
+                  "kind": "file",
+                  "name": "merge_context.json",
+                  "sha256": "ccdc6b5e3be70db9eb704fdc416e9e7bee3222e3f9ab92b7b1193985265d2dca"
+                },
+                {
+                  "kind": "directory",
+                  "name": "new_route"
+                },
+                {
+                  "bytes": 312,
+                  "kind": "file",
+                  "name": "resource_catalog.json",
+                  "sha256": "dbdcb89abc00c33ed216c3328759a644195c3628d9f830acb89a12639932ce54"
+                },
+                {
+                  "bytes": 11772,
+                  "kind": "file",
+                  "name": "route_card.json",
+                  "sha256": "911c486ff6e858b20910d5fe8f598d1829635f6a808231df85ce144ee3571063"
+                },
+                {
+                  "bytes": 2520,
+                  "kind": "file",
+                  "name": "source_bindings.json",
+                  "sha256": "671302102474d46bf80d6cc0e0bc88053245e60de8ec5de0b2b4ae9312e2f2ba"
+                }
+              ],
+              "kind": "directory_listing",
+              "path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\inputs",
+              "sha256": "92503a9a1e3639ce080d2ad6a274770f91ba92ec9643bccff7f5ad80316265d4"
+            },
+            "purpose": "invalid_input",
+            "source_id": "conv_d296b8df4dfc",
+            "source_material_pin": {
+              "bytes": 33308,
+              "path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\inputs\\conversations\\conv_d296b8df4dfc.json",
+              "sha256": "15a421d7b86b50308e23baad44bc65a899e2830a937e68c8868824e1279ea318"
+            },
+            "source_record_sha256": "5ae3b37ab1a16b27a6558eb3bdeb35368df537f7694a79168ad09369b9571dfb",
+            "whole_file_bytes_supplied": false
+          },
+          "fixture_refs": [
+            {
+              "absence_verified_before": true,
+              "absent_host_path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\inputs\\never_exists.json",
+              "absent_relative_path": "never_exists.json",
+              "absent_root": "INPUT",
+              "container_path": "/input/never_exists.json",
+              "derivation": "New missing-path negative observed in the actual read-only input tree; no historical or nonexistent-file bytes are claimed.",
+              "generated": true,
+              "message_ids": [
+                "conv_d296b8df4dfc:msg_1"
+              ],
+              "not_a_file_input_pin": true,
+              "origin": "absent_path",
+              "parent_directory_pin": {
+                "entries": [
+                  {
+                    "kind": "directory",
+                    "name": "conversations"
+                  },
+                  {
+                    "bytes": 1592,
+                    "kind": "file",
+                    "name": "generation.md",
+                    "sha256": "11b5e57c204e00d3fc775248cfd1d206772cba4a0a15a8db350678cdb4faf93e"
+                  },
+                  {
+                    "bytes": 13542,
+                    "kind": "file",
+                    "name": "making_contract.json",
+                    "sha256": "d3e35089fbde6205d2036677234e008f76700b4ca29b82e8dcc073b4199e967c"
+                  },
+                  {
+                    "bytes": 4202,
+                    "kind": "file",
+                    "name": "making_input_index.json",
+                    "sha256": "f72cd1ff26e281e59525ce195919fbd1e606b5281c042c744ddd1ee7371d5924"
+                  },
+                  {
+                    "kind": "directory",
+                    "name": "making_tools"
+                  },
+                  {
+                    "bytes": 759,
+                    "kind": "file",
+                    "name": "merge_context.json",
+                    "sha256": "ccdc6b5e3be70db9eb704fdc416e9e7bee3222e3f9ab92b7b1193985265d2dca"
+                  },
+                  {
+                    "kind": "directory",
+                    "name": "new_route"
+                  },
+                  {
+                    "bytes": 312,
+                    "kind": "file",
+                    "name": "resource_catalog.json",
+                    "sha256": "dbdcb89abc00c33ed216c3328759a644195c3628d9f830acb89a12639932ce54"
+                  },
+                  {
+                    "bytes": 11772,
+                    "kind": "file",
+                    "name": "route_card.json",
+                    "sha256": "911c486ff6e858b20910d5fe8f598d1829635f6a808231df85ce144ee3571063"
+                  },
+                  {
+                    "bytes": 2520,
+                    "kind": "file",
+                    "name": "source_bindings.json",
+                    "sha256": "671302102474d46bf80d6cc0e0bc88053245e60de8ec5de0b2b4ae9312e2f2ba"
+                  }
+                ],
+                "kind": "directory_listing",
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\inputs",
+                "sha256": "92503a9a1e3639ce080d2ad6a274770f91ba92ec9643bccff7f5ad80316265d4"
+              },
+              "purpose": "invalid_input",
+              "source_id": "conv_d296b8df4dfc",
+              "source_material_pin": {
+                "bytes": 33308,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\inputs\\conversations\\conv_d296b8df4dfc.json",
+                "sha256": "15a421d7b86b50308e23baad44bc65a899e2830a937e68c8868824e1279ea318"
+              },
+              "source_record_sha256": "5ae3b37ab1a16b27a6558eb3bdeb35368df537f7694a79168ad09369b9571dfb",
+              "whole_file_bytes_supplied": false
+            }
+          ],
+          "full_input": false,
+          "full_output": true,
+          "id": "0004",
+          "input_pin": {
+            "bytes": 5902,
+            "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\absence_observation.json",
+            "sha256": "60d20ff368feee918beaa7498f8a38d6e29c80fa067598273c484ca9f96aaa52"
+          },
+          "input_pin_role": "absence_observation_not_input_file",
+          "input_pins": [],
+          "kind": "invalid_input",
+          "outputs": [],
+          "public_usage_executed": false,
+          "returncode": 2,
+          "status": "PASS",
+          "stderr": {
+            "bytes": 76,
+            "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.stderr",
+            "sha256": "88b37c4cd8ad740d13f1b85467243b4cfde5965ff693b72841db519d62c9bc30"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "E:\\skillloop_runs\\w10\\rep\\rubric-scored-feedback\\r1\\check\\runs\\run_01\\cases\\0004\\command_01.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "documented_usage": "python {SKILL}/scripts/fill_scored_feedback.py {INPUT}/score_results.json {INPUT}/feedback_form.docx --out {OUT}/filled_feedback.docx",
+      "path": "scripts/fill_scored_feedback.py",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/fill_scored_feedback.py",
+        "{INPUT}/score_results.json",
+        "{INPUT}/feedback_form.docx",
+        "--out",
+        "{OUT}/filled_feedback.docx"
+      ],
+      "sha256": "8d29b3cb2a152b69f2c71095a810a23e03475d2c1ed7d503858013f209a6e67a"
+    }
+  ],
+  "reasons": [
+    "one_or_more_program_cases_failed"
+  ],
+  "resource_reports": [],
+  "schema": "wrd-library-reproduction-v7",
+  "skill_tree_pins": {
+    "SKILL.md": {
+      "bytes": 1537,
+      "path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\outputs\\candidate\\skill\\SKILL.md",
+      "sha256": "d7bc4c8ee07b7594d0dc87862823443fc769bd344b751b02cfe0b8683566dc05"
+    },
+    "references/method.md": {
+      "bytes": 2605,
+      "path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\outputs\\candidate\\skill\\references\\method.md",
+      "sha256": "95f2d9490edcdd3888aee8a44f789d997a2509877ad6bfbe9a23680a6cd106d4"
+    },
+    "scripts/fill_scored_feedback.py": {
+      "bytes": 8032,
+      "path": "E:\\skillloop_runs\\w9\\native_episodes\\rubric-scored-feedback__make1\\workspace\\outputs\\candidate\\skill\\scripts\\fill_scored_feedback.py",
+      "sha256": "8d29b3cb2a152b69f2c71095a810a23e03475d2c1ed7d503858013f209a6e67a"
+    }
+  },
+  "source_evidence_verified": false,
+  "status": "HOLD",
+  "validator": {
+    "bytes": 3606,
+    "path": "D:\\skillloop\\research\\pipelines\\wrd_workflow_library_v10\\reproduction.py",
+    "sha256": "e86d561df00c57264cd0c539085ccc7edb48acac91ac770a2e5594c499c312d8"
+  },
+  "verified_source_ids": [
+    "conv_0945c1554661",
+    "conv_d296b8df4dfc"
+  ]
+}

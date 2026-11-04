@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""用 LibreOffice 重算 xlsx 公式并把计算结果作为缓存值写回文件，再验证重算是否成功。
+填完数据后跑这一步：交付版本同时带公式和缓存值，Excel/WPS/程序读取都正确。
+
+用法:
+  python3 recalc_xlsx.py <文件.xlsx> [--out <输出.xlsx>]
+  --out 缺省为原地覆盖输入文件（填好的成品就是交付版）。
+
+做法: 用全新 LibreOffice 配置（强制 xlsx 载入时重算）--convert-to xlsx 重算并保存，
+然后读回检查所有公式单元格是否都有缓存值（缺缓存说明重算失败，别拿去交付）。
+
+退出码: 0 重算成功且所有公式有缓存值; 2 用法/输入错误; 3 有公式缺缓存值（重算失败）。
+"""
+import argparse
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+from openpyxl import load_workbook
+
+XCU = """<?xml version="1.0" encoding="UTF-8"?>
+<oor:items xmlns:oor="http://openoffice.org/2001/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+ <item oor:path="/org.openoffice.Office.Calc/Formula/Load"><prop oor:name="OOXMLRecalcMode" oor:op="fuse"><value>0</value></prop></item>
+ <item oor:path="/org.openoffice.Office.Common/Security"><prop oor:name="UseDocumentSystemFileLocking" oor:op="fuse"><value>false</value></prop></item>
+</oor:items>
+"""
+
+
+def main(argv):
+    ap = argparse.ArgumentParser(description="LibreOffice 重算公式并验证缓存值（详见模块docstring）")
+    ap.add_argument("infile")
+    ap.add_argument("--out", help="输出路径，缺省原地覆盖")
+    args = ap.parse_args(argv)
+
+    src = Path(args.infile)
+    if not src.is_file():
+        print("文件不存在: %s" % src, file=sys.stderr)
+        return 2
+    out = Path(args.out) if args.out else src
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    with tempfile.TemporaryDirectory() as td:
+        profile = Path(td) / "lo_profile"
+        (profile / "user").mkdir(parents=True)
+        (profile / "user" / "registrymodifications.xcu").write_text(XCU, encoding="utf-8")
+        outdir = Path(td) / "conv"
+        outdir.mkdir()
+        cmd = ["soffice", "-env:UserInstallation=file://%s" % profile,
+               "--headless", "--norestore", "--convert-to", "xlsx",
+               "--outdir", str(outdir), str(src.resolve())]
+        try:
+            subprocess.run(cmd, check=True, capture_output=True, timeout=300)
+        except (subprocess.SubprocessError, OSError) as e:
+            print("soffice 重算失败: %s" % e, file=sys.stderr)
+            return 3
+        conv = outdir / (src.stem + ".xlsx")
+        if not conv.is_file():
+            print("soffice 未产出重算文件", file=sys.stderr)
+            return 3
+        shutil.copy2(conv, out)
+
+    # 验证：所有公式单元格应有缓存值
+    wb_f = load_workbook(out, data_only=False)
+    wb_v = load_workbook(out, data_only=True)
+    n_formula = n_missing = 0
+    missing_samples = []
+    for ws_f, ws_v in zip(wb_f.worksheets, wb_v.worksheets):
+        for row in ws_f.iter_rows():
+            for c in row:
+                if c.data_type == "f" or (isinstance(c.value, str) and c.value.startswith("=")):
+                    n_formula += 1
+                    cached = ws_v[c.coordinate].value
+                    if cached is None:
+                        n_missing += 1
+                        if len(missing_samples) < 10:
+                            missing_samples.append("%s!%s = %s" % (ws_f.title, c.coordinate, c.value))
+    print("重算完成 -> %s；公式单元格 %d 个，缺缓存值 %d 个" % (out, n_formula, n_missing))
+    if n_missing:
+        for m in missing_samples:
+            print("  缓存缺失: " + m, file=sys.stderr)
+        return 3
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

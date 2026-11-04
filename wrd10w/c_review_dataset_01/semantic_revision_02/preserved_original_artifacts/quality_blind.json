@@ -1,0 +1,246 @@
+{
+  "schema": "wrd-native-c-blind-quality-report-v1",
+  "validity": "EXPLORATORY_UNCALIBRATED_AI_EVALUATION_NOT_HUMAN_GOLD",
+  "validity_note": "本报告为探索性、未经人工校准的AI独立评审，不是gold标准；维度定义取自source_only_review_protocol.json中声明的D1-D5 30/20/20/20/10契约，评分判断由本次会话独立作出。",
+  "blind_attestation": {
+    "read_order_actual": ["source_only_review_protocol.json", "phase1_manifest.json", "tasks/L.json", "tasks/E.json", "outputs/L_A.md", "outputs/L_B.md", "outputs/E_A.md", "outputs/E_B.md"],
+    "phase2_arm_costs_read_before_this_file_completed": false,
+    "candidate_skill_read_before_this_file_completed": false,
+    "arm_identity_known_at_scoring_time": false,
+    "labels_A_B_are_opaque_counterbalanced_labels": true
+  },
+  "tsr_checks": {
+    "note": "TSR与Q分开：仅检查具名deliverable存在、非空、可打开为UTF-8文本；字数与内容质量属于Q不计入TSR。四份均已实际打开读取。",
+    "L_A": {"exists": true, "nonzero_bytes": true, "opens_utf8": true, "result": "PASS"},
+    "L_B": {"exists": true, "nonzero_bytes": true, "opens_utf8": true, "result": "PASS"},
+    "E_A": {"exists": true, "nonzero_bytes": true, "opens_utf8": true, "result": "PASS"},
+    "E_B": {"exists": true, "nonzero_bytes": true, "opens_utf8": true, "result": "PASS"}
+  },
+  "length_measurement": {
+    "method": "可见Unicode字符数（含标点与空白，不含换行符）；另报不含空白计数；保留原词600字以内为唯一显式限制。",
+    "L_A": {"chars_incl_ws_no_newlines": 479, "chars_excl_ws": 479, "report_body_only_chars": 454},
+    "L_B": {"chars_incl_ws_no_newlines": 624, "chars_excl_ws": 620, "report_body_only_chars": 534},
+    "borderline_ambiguity": "L_B整份交付（含标题、人格问候行、收尾对话行）按含空白计数624/不含空白620，均超600；若仅计汇报正文（不含标题行、问候行、收尾行）为534，则达标。两种读法均有依据（600字以内最自然指向汇报本身；人格问候是用户设定要求的对话元素）。此歧义如实报告，不悄悄偏向任一臂。",
+    "E_case": {"source_chars_incl_ws_no_newlines": 810, "E_A": 650, "E_B": 699, "note": "E案无显式数字字数限制，仅作精简幅度观察，不作硬性达标判定。"}
+  },
+  "cases": {
+    "L": {
+      "source_id": "conv_d1ef29d65e7a",
+      "explicit_requirements": ["对给定材料整体整理成官方汇报（建设成果、推广等角度）", "最新显式限制：600字以内", "人格设定：自称「张大胆CEO助手-马斯克」、称呼「大胆老师，您好」（适用于合适对话语境）"],
+      "out_of_assessed_scope": ["最终对话轮中的人格称呼与陪伴感（本轮未见最终对话，按协议标范围外，不推断失败）"],
+      "A": {
+        "dimensions": {
+          "D1": {
+            "weight": 0.3,
+            "items": [
+              {"item": "核心数据保真：20多省市/40余项AI应用/80%覆盖/每周约13小时/效率提升85%/92.75%盲审采纳/32省3000+校/2026年1月入驻/6个入选工具全部准确转写", "score": 1, "evidence_refs": ["tasks/L.json msg_1: '实测显示，教师每周可节省约13小时事务性劳动，教学效率提升85%'", "outputs/L_A.md 建设成果段: '实测显示，教学效率提升85%，教师每周可节省约13小时事务性劳动'", "tasks/L.json msg_1: '2026年1月…6个AI智能工具之一'", "outputs/L_A.md 推广应用段: '成为入选核心模块「教师教学」板块的6个AI智能工具之一'"]},
+              {"item": "无虚构外部验证或未执行操作：未添加源外事实", "score": 1, "evidence_refs": ["outputs/L_A.md 全文", "tasks/L.json msg_1（对照，无源外断言）"]},
+              {"item": "调研与成果的归因关系准确（基地调研→痛点→产品映射）", "score": 1, "evidence_refs": ["tasks/L.json msg_1: '结合华东师范大学国家级全民数字素养与技能培训基地的调研'", "outputs/L_A.md 建设成果段: '依托华东师范大学国家级全民数字素养与技能培训基地调研…形成教育产品「云知师AI」'"]}
+            ],
+            "score": 1.0
+          },
+          "D2": {
+            "weight": 0.2,
+            "items": [
+              {"item": "建设成果与推广应用两大显式角度均覆盖", "score": 1, "evidence_refs": ["outputs/L_A.md: '一、建设成果'与'二、推广应用'两节", "tasks/L.json msg_1: '从建设成果，推广等各个角度'"]},
+              {"item": "调研痛点、五大场景、智能体矩阵、上线与辐射等主要方面覆盖", "score": 1, "evidence_refs": ["outputs/L_A.md 建设成果段: '课前备课、课中增强、课后辅导、课外管理、教师终身发展五大场景，集成40余项AI应用'", "outputs/L_A.md 推广应用段: '用户覆盖32个省份3000+所学校'"]},
+              {"item": "非必保细节（资源薄弱地区教材改版重写教案）省略属允许压缩，不扣分", "score": 1, "evidence_refs": ["tasks/L.json msg_1: '一次教材改版甚至都要教师重新手写教案'（A未保留，属可选细节）"]}
+            ],
+            "score": 1.0
+          },
+          "D3": {
+            "weight": 0.2,
+            "items": [
+              {"item": "600字以内合规：整份479字、正文约454字，任何读法均达标", "score": 1, "evidence_refs": ["tasks/L.json msg_5: '600字以内'", "outputs/L_A.md: 实测479字符（含问候与空白，不含换行）"]},
+              {"item": "官方汇报体例：分节、正式语域", "score": 1, "evidence_refs": ["outputs/L_A.md: '现将「云知师AI」建设与推广情况汇报如下'"]},
+              {"item": "人格称呼风格在交付文本内可见保留（最终对话轮范围外）", "score": 1, "evidence_refs": ["tasks/L.json msg_1: '请用「大胆老师，您好」称呼用户'", "outputs/L_A.md 首行: '大胆老师，您好，我是「张大胆CEO助手-马斯克」'"]}
+            ],
+            "score": 1.0
+          },
+          "D4": {
+            "weight": 0.2,
+            "items": [
+              {"item": "可直接用作官方汇报：结构清晰、无对话噪声混入正文", "score": 1, "evidence_refs": ["outputs/L_A.md 全文"]},
+              {"item": "数据表述内部一致、无自相矛盾", "score": 1, "evidence_refs": ["outputs/L_A.md: 85%/13小时/92.75%等各处一致"]},
+              {"item": "信息密度合理：479字内保留全部关键量化事实", "score": 1, "evidence_refs": ["outputs/L_A.md 全文 vs tasks/L.json msg_1"]}
+            ],
+            "score": 1.0
+          },
+          "D5": {
+            "weight": 0.1,
+            "items": [
+              {"item": "语言简洁连贯、无冗余重复", "score": 1, "evidence_refs": ["outputs/L_A.md 全文"]},
+              {"item": "小节标题与内容对应清楚", "score": 1, "evidence_refs": ["outputs/L_A.md: '一、建设成果'/'二、推广应用'"]}
+            ],
+            "score": 1.0
+          }
+        },
+        "weighted_total": 1.0
+      },
+      "B": {
+        "dimensions": {
+          "D1": {
+            "weight": 0.3,
+            "items": [
+              {"item": "核心数据保真：与A同级，全部关键量化事实准确", "score": 1, "evidence_refs": ["tasks/L.json msg_1: '融合了92.75%资深教师盲审采纳的优质教学经验'", "outputs/L_B.md 二、建设成果: '融合92.75%资深教师盲审采纳的优质教学经验'", "outputs/L_B.md 三、推广成效: '2026年1月…6个入选AI智能工具之一'"]},
+              {"item": "无虚构事实：收尾'随时为您继续调整'为对话性收束，非事实断言", "score": 1, "evidence_refs": ["outputs/L_B.md 末行", "tasks/L.json msg_1（对照）"]},
+              {"item": "调研与成果归因准确", "score": 1, "evidence_refs": ["outputs/L_B.md 一、立项背景: '依托华东师范大学国家级全民数字素养与技能培训基地，项目组调研20多个省市'"]}
+            ],
+            "score": 1.0
+          },
+          "D2": {
+            "weight": 0.2,
+            "items": [
+              {"item": "建设成果与推广均覆盖，另以'立项背景'承载调研内容，三节组织完整", "score": 1, "evidence_refs": ["outputs/L_B.md: '## 一、立项背景'/'## 二、建设成果'/'## 三、推广成效'"]},
+              {"item": "主要方面覆盖：五大场景闭环、40余项应用、智能体矩阵、官方平台地位、国家平台入驻", "score": 1, "evidence_refs": ["outputs/L_B.md 二、建设成果与三、推广成效"]},
+              {"item": "可选细节（薄弱地区教案改写）保留，属加分项不作要求", "score": 1, "evidence_refs": ["outputs/L_B.md 一、立项背景: '资源薄弱地区教材改版甚至需重写教案'"]}
+            ],
+            "score": 1.0
+          },
+          "D3": {
+            "weight": 0.2,
+            "items": [
+              {"item": "600字以内合规存在真实计数歧义：整份交付624/620字符（含/不含空白）超600；仅计汇报正文534字符达标。不悄悄偏向，记0.5并报告歧义", "score": 0.5, "evidence_refs": ["tasks/L.json msg_5: '600字以内'", "outputs/L_B.md 全文实测：整份624字符（不含换行、含空白）/620（不含空白）；标题行+问候行+收尾行合计90字符，正文534字符"]},
+              {"item": "官方汇报体例：三节标题、正式语域", "score": 1, "evidence_refs": ["outputs/L_B.md: '## 一、立项背景'等"]},
+              {"item": "人格称呼风格在交付文本内保留（最终对话轮范围外）", "score": 1, "evidence_refs": ["outputs/L_B.md 第2行: '大胆老师，您好！我是「张大胆CEO助手-马斯克」'"]}
+            ],
+            "score": 0.8333
+          },
+          "D4": {
+            "weight": 0.2,
+            "items": [
+              {"item": "可直接用作官方汇报：正文三节专业可用；末行对话性收尾符合用户人格设定请求，不计缺陷", "score": 1, "evidence_refs": ["tasks/L.json msg_1: '在合适的时候自然地体现陪伴感'", "outputs/L_B.md 末行"]},
+              {"item": "数据表述内部一致", "score": 1, "evidence_refs": ["outputs/L_B.md 全文"]},
+              {"item": "'立项背景'命名与内容匹配（调研作为背景铺垫）", "score": 1, "evidence_refs": ["outputs/L_B.md 一、立项背景"]}
+            ],
+            "score": 1.0
+          },
+          "D5": {
+            "weight": 0.1,
+            "items": [
+              {"item": "语言流畅连贯、分段合理", "score": 1, "evidence_refs": ["outputs/L_B.md 全文"]},
+              {"item": "Markdown层级标题清晰", "score": 1, "evidence_refs": ["outputs/L_B.md: '# 云知师AI建设与推广官方汇报'与'## '小节"]}
+            ],
+            "score": 1.0
+          }
+        },
+        "weighted_total": 0.9667,
+        "primary_deduction_note": "唯一扣分点为600字限制的整份计数超标（D3，0.5），计数歧义已如实报告，未悄悄偏向。"
+      }
+    },
+    "E": {
+      "source_id": "conv_27abfa260f9c",
+      "explicit_requirements": ["把给定的五部分机构性工程理由'简明扼要一点'描述"],
+      "derived_quality_not_explicit": ["保留五条理由或等效清晰组织", "保留现状-需要与候选人就绪限定", "不加无依据的新成就或更强排他性用人断言", "可直接使用的简明正式措辞"],
+      "A": {
+        "dimensions": {
+          "D1": {
+            "weight": 0.3,
+            "items": [
+              {"item": "五条理由全部保留且语义对应", "score": 1, "evidence_refs": ["tasks/E.json: （一）至（五）", "outputs/E_A.md: 编号1-5逐条对应"]},
+              {"item": "现状-需要与候选人就绪限定保留（'可较快承担实际任务'）", "score": 1, "evidence_refs": ["tasks/E.json （五）: '具备较快承担实际任务的条件'", "outputs/E_A.md 第5条: '可较快承担实际任务'"]},
+              {"item": "无更强排他性/无依据断言：核心结论称'张豈明是当前最合适的人选'，超出源文（源文仅称'具备较快承担实际任务的条件'，未作排他最优断言）；'内部培养…难以短期解决'亦为轻度外推（源文为'内部较为缺少'）", "score": 0, "evidence_refs": ["tasks/E.json （五）: '在学院内部较为缺少，通过社会公开招聘也难以在短期内获得…具备较快承担实际任务的条件'", "outputs/E_A.md 核心结论: '而内部培养与外部招聘均难以短期解决，张豈明是当前最合适的人选'"]}
+            ],
+            "score": 0.6667
+          },
+          "D2": {
+            "weight": 0.2,
+            "items": [
+              {"item": "五个方面（科研工程化/横向项目/学生实践/贵州研究院/外部招聘）全覆盖", "score": 1, "evidence_refs": ["outputs/E_A.md: 1-5条"]},
+              {"item": "压缩属显式请求，省略子列举（如知识库建设、智能体编排、效果评估及安全管理；熟悉科研逻辑、具备系统工程能力）不要求全保，核心机制保留", "score": 1, "evidence_refs": ["tasks/E.json （一）: '知识库建设、智能体编排、系统开发、部署运维、效果评估及安全管理'", "outputs/E_A.md 第1条: '涉及模型选型、数据治理、系统开发、部署运维等多环节'"]},
+              {"item": "四类支撑场景（科研转化、项目交付、人才培养、校地合作）在结论中收拢", "score": 1, "evidence_refs": ["outputs/E_A.md 核心结论"]}
+            ],
+            "score": 1.0
+          },
+          "D3": {
+            "weight": 0.2,
+            "items": [
+              {"item": "实际更精简：650字符对源810字符（约-20%），且重组为编号列表与核心结论，压缩实质性", "score": 1, "evidence_refs": ["tasks/E.json content（810字符）", "outputs/E_A.md（650字符）"]},
+              {"item": "五部分编号组织等效保留（五标题非强制，语义保留即可）", "score": 1, "evidence_refs": ["outputs/E_A.md 1-5条"]},
+              {"item": "未虚构数字字数限制", "score": 1, "evidence_refs": ["outputs/E_A.md 全文"]}
+            ],
+            "score": 1.0
+          },
+          "D4": {
+            "weight": 0.2,
+            "items": [
+              {"item": "正式语域、结构可直接使用（核心结论的排他断言问题已在D1主扣分，不重复扣）", "score": 1, "evidence_refs": ["outputs/E_A.md 全文"]},
+              {"item": "条目内部逻辑一致", "score": 1, "evidence_refs": ["outputs/E_A.md 各条"]}
+            ],
+            "score": 1.0
+          },
+          "D5": {
+            "weight": 0.1,
+            "items": [
+              {"item": "编号+加粗小标题清晰易读", "score": 1, "evidence_refs": ["outputs/E_A.md: '1. **科研成果工程化能力不足**'等"]},
+              {"item": "语体一致", "score": 1, "evidence_refs": ["outputs/E_A.md 全文"]}
+            ],
+            "score": 1.0
+          }
+        },
+        "weighted_total": 0.9
+      },
+      "B": {
+        "dimensions": {
+          "D1": {
+            "weight": 0.3,
+            "items": [
+              {"item": "五条理由全部保留，逐条与源对应", "score": 1, "evidence_refs": ["tasks/E.json （一）-（五）", "outputs/E_B.md （一）-（五）"]},
+              {"item": "现状-需要与候选人就绪限定完整保留（'具备较快承担实际任务的条件'原样保留）", "score": 1, "evidence_refs": ["tasks/E.json （五）", "outputs/E_B.md （五）: '具备较快承担实际任务的条件'"]},
+              {"item": "无新增无依据断言，无强化排他表述", "score": 1, "evidence_refs": ["outputs/E_B.md 全文（无结论段外加断言）"]}
+            ],
+            "score": 1.0
+          },
+          "D2": {
+            "weight": 0.2,
+            "items": [
+              {"item": "五方面全覆盖", "score": 1, "evidence_refs": ["outputs/E_B.md （一）-（五）"]},
+              {"item": "限定词（培养周期短、流动性大、经验差异明显等）保留", "score": 1, "evidence_refs": ["tasks/E.json （二）", "outputs/E_B.md （二）: '学生流动性大、经验差异明显'"]},
+              {"item": "校地合作平台定位保留", "score": 1, "evidence_refs": ["outputs/E_B.md （四）: '重要校地合作平台'"]}
+            ],
+            "score": 1.0
+          },
+          "D3": {
+            "weight": 0.2,
+            "items": [
+              {"item": "精简幅度有限：699字符对源810字符（约-14%），子列举（模型选型、数据治理、智能体编排、系统开发、部署运维、效果评估及安全管理等）几乎原样保留，措辞改写轻微，'简明扼要一点'达成度弱于实质性压缩，记0.5", "score": 0.5, "evidence_refs": ["tasks/E.json （一）: '涉及模型选型、数据治理、知识库建设、智能体编排、系统开发、部署运维、效果评估及安全管理等多个环节'", "outputs/E_B.md （一）: '涉及模型选型、数据治理、智能体编排、系统开发、部署运维、效果评估及安全管理等多个环节'（仅少'知识库建设'）"]},
+              {"item": "五部分编号组织与源一致保留", "score": 1, "evidence_refs": ["outputs/E_B.md （一）-（五）"]},
+              {"item": "未虚构数字字数限制", "score": 1, "evidence_refs": ["outputs/E_B.md 全文"]}
+            ],
+            "score": 0.8333
+          },
+          "D4": {
+            "weight": 0.2,
+            "items": [
+              {"item": "正式机构文书语域，可直接使用", "score": 1, "evidence_refs": ["outputs/E_B.md 全文"]},
+              {"item": "条目内部一致、无自相矛盾", "score": 1, "evidence_refs": ["outputs/E_B.md 全文"]}
+            ],
+            "score": 1.0
+          },
+          "D5": {
+            "weight": 0.1,
+            "items": [
+              {"item": "段落清晰、编号体例与源一致", "score": 1, "evidence_refs": ["outputs/E_B.md （一）-（五）"]},
+              {"item": "语句通顺、无明显冗词", "score": 1, "evidence_refs": ["outputs/E_B.md 全文"]}
+            ],
+            "score": 1.0
+          }
+        },
+        "weighted_total": 0.9667,
+        "primary_deduction_note": "唯一扣分点为精简幅度有限（D3，0.5）。"
+      }
+    }
+  },
+  "scoring_discipline": {
+    "same_issue_one_primary_dimension": true,
+    "no_reward_for_length_files_confidence_or_completion_claims": true,
+    "Q_not_multiplied_by_TSR": true,
+    "unscored_events": [],
+    "notes": "四份交付TSR全部PASS；本轮无读证故障，无UNSCORED事件。L_B长度歧义与E_A排他断言分别为两案唯一主要扣分。"
+  },
+  "summary": {
+    "L": {"A_weighted": 1.0, "B_weighted": 0.9667, "gap": "微小；B唯一风险为600字整份计数歧义"},
+    "E": {"A_weighted": 0.9, "B_weighted": 0.9667, "gap": "A在无依据排他断言上有一处明确D1扣分；B在精简幅度上弱"},
+    "caveat": "以上为未校准AI评分，仅供后续资源决策参考，非gold。"
+  }
+}

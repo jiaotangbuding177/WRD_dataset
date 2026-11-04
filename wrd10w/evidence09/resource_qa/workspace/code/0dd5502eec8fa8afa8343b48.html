@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>太阳系教学演示 — 八大行星公转</title>
+<style>
+  :root{
+    --bg:#0b1026;
+    --panel:rgba(255,255,255,.06);
+    --text:#eaf0ff;
+    --muted:#9fb0d8;
+    --accent:#f7c948;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:radial-gradient(ellipse at 50% 35%, #17224a 0%, #0b1026 55%, #060917 100%);
+    color:var(--text);
+    font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  header{
+    text-align:center;
+    padding:22px 16px 10px;
+  }
+  header h1{
+    font-size:28px;
+    letter-spacing:2px;
+    color:var(--accent);
+    text-shadow:0 0 18px rgba(247,201,72,.35);
+  }
+  header p{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:6px;
+  }
+  .stage-wrap{
+    position:relative;
+    width:min(920px,96vw);
+    margin:10px auto 0;
+  }
+  #stage{
+    display:block;
+    width:100%;
+    height:auto;
+    background:transparent;
+    border-radius:14px;
+  }
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+    align-items:center;
+    margin:14px auto 4px;
+    padding:12px 16px;
+    width:min(920px,96vw);
+    background:var(--panel);
+    border-radius:12px;
+  }
+  .controls label{
+    font-size:14px;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .controls input[type=range]{width:160px;accent-color:var(--accent);}
+  .controls button{
+    background:rgba(247,201,72,.15);
+    border:1px solid rgba(247,201,72,.5);
+    color:var(--accent);
+    padding:7px 16px;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .controls button:hover{background:rgba(247,201,72,.3);}
+  .info{
+    width:min(920px,96vw);
+    margin:14px auto 30px;
+    background:var(--panel);
+    border-radius:12px;
+    padding:16px 20px;
+  }
+  .info h2{
+    font-size:18px;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  .info .tip{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:12px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  th,td{
+    padding:8px 10px;
+    text-align:left;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  th{color:var(--accent);font-weight:600;white-space:nowrap;}
+  td .dot{
+    display:inline-block;
+    width:12px;height:12px;
+    border-radius:50%;
+    margin-right:8px;
+    vertical-align:middle;
+  }
+  .note{
+    margin-top:14px;
+    padding:10px 14px;
+    background:rgba(255,255,255,.04);
+    border-left:3px solid var(--accent);
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.7;
+  }
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:0 16px 24px;
+  }
+  .star{position:fixed;background:#fff;border-radius:50%;pointer-events:none;opacity:.7;}
+</style>
+</head>
+<body>
+<header>
+  <h1>太阳系教学演示</h1>
+  <p>八大行星绕太阳公转动画 · 适用于课堂演示（示意图，天体大小与距离未按真实比例）</p>
+</header>
+
+<div class="stage-wrap">
+  <canvas id="stage" width="1840" height="1100"></canvas>
+</div>
+
+<div class="controls">
+  <button id="btnToggle">暂停 / 继续</button>
+  <label>速度 <input id="speed" type="range" min="0.2" max="4" step="0.1" value="1"></label>
+  <label><input id="orbits" type="checkbox" checked> 显示轨道线</label>
+  <label><input id="labels" type="checkbox" checked> 显示行星名称</label>
+</div>
+
+<div class="info">
+  <h2>八大行星基本信息（通用教学常识）</h2>
+  <p class="tip">点击上方画布中的行星，可在此处高亮显示该行星；距离数值为与太阳的平均距离（天文单位 AU，1 AU ≈ 1.5 亿千米）。</p>
+  <table>
+    <thead>
+      <tr>
+        <th>行星</th><th>位置（由近到远）</th><th>平均距离</th><th>公转周期（约）</th><th>类型</th><th>教学要点</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="note">
+    <strong>页面说明（未指定模块按通用默认处理）：</strong><br>
+    1. 本页为单文件 HTML，所有样式与脚本均内联，浏览器直接打开即可运行，无需后端或外部数据；<br>
+    2. 行星公转动画为教学示意：行星大小、间距与公转速度均<strong>未按真实比例</strong>，仅体现“由近到远、由快到慢”的相对顺序关系（水星最快、海王星最慢）；<br>
+    3. 表中数据取通用的教学常识数值（四舍五入），本页不虚构具体数据来源，精确数据请查阅教材或权威天文资料；<br>
+    4. 默认动画速度 1×，可通过滑块调节；轨道线与行星名称默认显示，可勾选关闭；<br>
+    5. 页面未指定视觉主题，默认采用深色星空课堂演示风格；背景星星为纯装饰元素。
+  </div>
+</div>
+
+<footer>太阳系教学演示页 · 课堂使用 · 内容为通用教学常识</footer>
+
+<script>
+(function(){
+  "use strict";
+  // 行星数据：radius=画面像素大小(示意), orbit=轨道半径(画面像素,示意),
+  // period=公转周期(地球年,真实相对值用于速度排序), color=示意色
+  var planets = [
+    {name:"水星", en:"Mercury", r:6,  orbit:70,  period:0.24, color:"#b8b0a6", dist:"0.39 AU", type:"类地行星", year:"88 天",   fact:"离太阳最近、体积最小，表面昼夜温差极大"},
+    {name:"金星", en:"Venus",   r:9,  orbit:110, period:0.62, color:"#e8c46b", dist:"0.72 AU", type:"类地行星", year:"225 天",  fact:"天空中最亮的行星，被称为“启明星”"},
+    {name:"地球", en:"Earth",   r:10, orbit:150, period:1.0,  color:"#4a90d9", dist:"1.00 AU", type:"类地行星", year:"365 天",  fact:"目前已知唯一存在生命的行星，有一颗卫星——月球"},
+    {name:"火星", en:"Mars",    r:8,  orbit:190, period:1.88, color:"#d9603b", dist:"1.52 AU", type:"类地行星", year:"687 天",  fact:"表面呈红色（氧化铁），被称为“红色星球”"},
+    {name:"木星", en:"Jupiter", r:20, orbit:260, period:11.9, color:"#d8a86a", dist:"5.20 AU", type:"气态巨行星", year:"约 12 年", fact:"八大行星中体积、质量最大，有著名的大红斑风暴"},
+    {name:"土星", en:"Saturn",  r:17, orbit:330, period:29.5, color:"#e3cf9a", dist:"9.58 AU", type:"气态巨行星", year:"约 29 年", fact:"拥有壮观的行星环，主要由冰粒与岩石碎块构成"},
+    {name:"天王星", en:"Uranus", r:13, orbit:395, period:84,   color:"#8fd4d9", dist:"19.2 AU", type:"冰巨星",  year:"约 84 年", fact:"自转轴几乎“躺倒”，像在轨道上滚动前进"},
+    {name:"海王星", en:"Neptune",r:13, orbit:455, period:165,  color:"#4f6fd9", dist:"30.1 AU", type:"冰巨星",  year:"约 165 年", fact:"离太阳最远的行星，风速在行星中最快"}
+  ];
+
+  var canvas = document.getElementById("stage");
+  var ctx = canvas.getContext("2d");
+  var W = canvas.width, H = canvas.height;
+  var CX = W/2, CY = H/2;
+
+  var running = true;
+  var speed = 1;
+  var showOrbits = true;
+  var showLabels = true;
+  var selected = -1;
+  var t = 0;              // 动画时间（年）
+  var lastTs = null;
+
+  // 角速度 ∝ 1/period（开普勒式示意：内快外慢）
+  planets.forEach(function(p){ p.angle = Math.random()*Math.PI*2; });
+
+  // 背景装饰星星（固定随机种子，避免闪烁变化）
+  var stars = [];
+  var seed = 42;
+  function rnd(){ seed = (seed*16807)%2147483647; return seed/2147483647; }
+  for(var i=0;i<120;i++){
+    stars.push({x:rnd()*W, y:rnd()*H, r:rnd()*1.8+0.4, a:rnd()*0.5+0.3});
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    // 装饰星星
+    stars.forEach(function(s){
+      ctx.globalAlpha = s.a;
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    // 轨道线
+    if(showOrbits){
+      planets.forEach(function(p){
+        ctx.strokeStyle = (planets.indexOf(p)===selected) ? "rgba(247,201,72,.55)" : "rgba(255,255,255,.13)";
+        ctx.lineWidth = (planets.indexOf(p)===selected) ? 2.5 : 1.2;
+        ctx.beginPath();
+        ctx.arc(CX,CY,p.orbit,0,Math.PI*2);
+        ctx.stroke();
+      });
+    }
+
+    // 太阳
+    var sunGrad = ctx.createRadialGradient(CX,CY,4,CX,CY,46);
+    sunGrad.addColorStop(0,"#fff3b0");
+    sunGrad.addColorStop(0.45,"#f7c948");
+    sunGrad.addColorStop(1,"rgba(247,150,50,0)");
+    ctx.fillStyle = sunGrad;
+    ctx.beginPath();
+    ctx.arc(CX,CY,46,0,Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = "#ffd94d";
+    ctx.beginPath();
+    ctx.arc(CX,CY,26,0,Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = "#7a5a12";
+    ctx.font = "600 18px 'Noto Sans CJK SC',sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("太阳", CX, CY+62);
+
+    // 行星
+    planets.forEach(function(p,idx){
+      var x = CX + p.orbit*Math.cos(p.angle);
+      var y = CY + p.orbit*Math.sin(p.angle)*0.92; // 轻微椭圆，避免超出画布
+      p.x = x; p.y = y;
+
+      // 光晕
+      var g = ctx.createRadialGradient(x,y,p.r*0.6,x,y,p.r*2.4);
+      g.addColorStop(0,"rgba(255,255,255,.28)");
+      g.addColorStop(1,"rgba(255,255,255,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x,y,p.r*2.4,0,Math.PI*2);
+      ctx.fill();
+
+      // 土星环（示意）
+      if(p.name==="土星"){
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(-0.35);
+        ctx.strokeStyle = "rgba(227,207,154,.75)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.ellipse(0,0,p.r*2.1,p.r*0.7,0,0,Math.PI*2);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 本体
+      ctx.fillStyle = p.color;
+      if(idx===selected){
+        ctx.shadowColor = "#f7c948";
+        ctx.shadowBlur = 18;
+      }
+      ctx.beginPath();
+      ctx.arc(x,y,p.r,0,Math.PI*2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // 名称标签
+      if(showLabels){
+        ctx.fillStyle = (idx===selected) ? "#f7c948" : "#cdd8f5";
+        ctx.font = "16px 'Noto Sans CJK SC',sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(p.name, x, y - p.r - 10);
+      }
+    });
+  }
+
+  function frame(ts){
+    if(lastTs===null) lastTs = ts;
+    var dt = (ts - lastTs)/1000;
+    lastTs = ts;
+    if(running){
+      t += dt*speed;
+      planets.forEach(function(p){
+        p.angle += dt*speed*(Math.PI*2/p.period)/12; // 除以12：整体放慢便于课堂观察
+      });
+    }
+    draw();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // 控件
+  document.getElementById("btnToggle").addEventListener("click",function(){
+    running = !running;
+  });
+  document.getElementById("speed").addEventListener("input",function(e){
+    speed = parseFloat(e.target.value);
+  });
+  document.getElementById("orbits").addEventListener("change",function(e){
+    showOrbits = e.target.checked;
+  });
+  document.getElementById("labels").addEventListener("change",function(e){
+    showLabels = e.target.checked;
+  });
+
+  // 点击行星高亮 + 表格滚动提示
+  function canvasPos(evt){
+    var rect = canvas.getBoundingClientRect();
+    var px = (evt.touches ? evt.touches[0].clientX : evt.clientX) - rect.left;
+    var py = (evt.touches ? evt.touches[0].clientY : evt.clientY) - rect.top;
+    return { x: px * (W/rect.width), y: py * (H/rect.height) };
+  }
+  function pick(pos){
+    for(var i=0;i<planets.length;i++){
+      var p = planets[i];
+      if(p.x!=null && Math.hypot(pos.x-p.x, pos.y-p.y) <= Math.max(p.r+12,18)){
+        return i;
+      }
+    }
+    return -1;
+  }
+  canvas.addEventListener("click",function(evt){
+    var pos = canvasPos(evt);
+    selected = pick(pos);
+    var rows = document.querySelectorAll("#tbody tr");
+    rows.forEach(function(tr,i){
+      tr.style.background = (i===selected) ? "rgba(247,201,72,.14)" : "";
+    });
+  });
+
+  // 填充表格
+  var tbody = document.getElementById("tbody");
+  planets.forEach(function(p,idx){
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td><span class="dot" style="background:'+p.color+'"></span>'+p.name+'（'+p.en+'）</td>'+
+      '<td>第 '+(idx+1)+' 位</td>'+
+      '<td>'+p.dist+'</td>'+
+      '<td>'+p.year+'</td>'+
+      '<td>'+p.type+'</td>'+
+      '<td>'+p.fact+'</td>';
+    tbody.appendChild(tr);
+  });
+})();
+</script>
+</body>
+</html>

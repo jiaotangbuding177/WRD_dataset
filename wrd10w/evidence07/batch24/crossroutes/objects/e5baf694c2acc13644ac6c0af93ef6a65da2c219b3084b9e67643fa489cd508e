@@ -1,0 +1,195 @@
+{
+  "schema": "wrd-resource-manifest-v1",
+  "route_id": "knowledge-base-maintenance",
+  "resources": [
+    {
+      "id": "kb_inventory",
+      "path": "scripts/kb_inventory.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/kb_inventory.py {INPUT}/kb --out {OUT}/inventory.json",
+        "inputs": [
+          "知识库目录路径"
+        ],
+        "outputs": [
+          "知识库清单JSON：schema/kb_name/total_files/total_bytes/dirs/files，每文件含bytes/ext/sha256"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_1e8e6e53ac34",
+          "message_id": "conv_1e8e6e53ac34:83327489"
+        },
+        {
+          "source_id": "conv_6cedf31d582f",
+          "message_id": "conv_6cedf31d582f:msg_4"
+        },
+        {
+          "source_id": "conv_63914080dfaf",
+          "message_id": "conv_63914080dfaf:msg_6"
+        }
+      ]
+    },
+    {
+      "id": "kb_organize",
+      "path": "scripts/kb_organize.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/kb_organize.py {INPUT}/kb --rules {SKILL}/templates/organize_rules.json --out {OUT}/organize_plan.json",
+        "inputs": [
+          "知识库目录路径",
+          "整理口径JSON"
+        ],
+        "outputs": [
+          "整理计划JSON：summary/categories/moves/renames/duplicates，默认不动文件"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_1e8e6e53ac34",
+          "message_id": "conv_1e8e6e53ac34:83327489"
+        },
+        {
+          "source_id": "conv_6cedf31d582f",
+          "message_id": "conv_6cedf31d582f:msg_100"
+        },
+        {
+          "source_id": "conv_7c09ae1a1aad",
+          "message_id": "conv_7c09ae1a1aad:msg_16"
+        }
+      ]
+    },
+    {
+      "id": "kb_report",
+      "path": "scripts/kb_report.py",
+      "kind": "program",
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/kb_report.py {INPUT}/plan.json --template {SKILL}/templates/maintenance_report_template.md --out {OUT}/maintenance_report.md",
+        "inputs": [
+          "整理计划JSON",
+          "报告模板MD"
+        ],
+        "outputs": [
+          "知识库整理报告Markdown：概览/分类明细/重复文件/整理动作"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "conv_63914080dfaf",
+          "message_id": "da7dd4b4-c922-47fc-95c7-f2391fef8f55"
+        },
+        {
+          "source_id": "conv_63914080dfaf",
+          "message_id": "bf769d76-7772-4cf8-b490-5a1fe570cb0d"
+        },
+        {
+          "source_id": "conv_6cedf31d582f",
+          "message_id": "conv_6cedf31d582f:msg_116"
+        }
+      ]
+    },
+    {
+      "id": "organize_rules",
+      "path": "templates/organize_rules.json",
+      "kind": "template",
+      "interface": {
+        "kind": "template",
+        "contract_version": "1",
+        "usage": "复制 templates/organize_rules.json 后按用户确认的口径改分类映射",
+        "inputs": [
+          "用户确认的分类/去重/归档/命名口径"
+        ],
+        "outputs": [
+          "kb_organize.py 可读的口径JSON"
+        ]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {
+          "source_id": "conv_1e8e6e53ac34",
+          "message_id": "conv_1e8e6e53ac34:83327489"
+        }
+      ]
+    },
+    {
+      "id": "maintenance_report_template",
+      "path": "templates/maintenance_report_template.md",
+      "kind": "template",
+      "interface": {
+        "kind": "template",
+        "contract_version": "1",
+        "usage": "复制 templates/maintenance_report_template.md，占位符由 kb_report.py 自动填充",
+        "inputs": [
+          "kb_organize.py 产出的整理计划"
+        ],
+        "outputs": [
+          "知识库整理报告Markdown"
+        ]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {
+          "source_id": "conv_63914080dfaf",
+          "message_id": "bf769d76-7772-4cf8-b490-5a1fe570cb0d"
+        }
+      ]
+    },
+    {
+      "id": "stage_notes",
+      "path": "references/stage_notes.md",
+      "kind": "material",
+      "interface": {
+        "kind": "material",
+        "contract_version": "1",
+        "usage": "按需阅读 references/stage_notes.md",
+        "inputs": [
+          "阶段编号"
+        ],
+        "outputs": [
+          "该阶段的逐字来源证据与操作细节"
+        ]
+      },
+      "dependencies": [],
+      "source_evidence": [
+        {
+          "source_id": "conv_1e8e6e53ac34",
+          "message_id": "conv_1e8e6e53ac34:83327489"
+        },
+        {
+          "source_id": "conv_63914080dfaf",
+          "message_id": "da7dd4b4-c922-47fc-95c7-f2391fef8f55"
+        }
+      ]
+    }
+  ]
+}

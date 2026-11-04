@@ -1,0 +1,145 @@
+import json, os
+os.makedirs('outputs', exist_ok=True)
+
+learning = {
+  "source_session": "conv_b5e6f3d3bab9",
+  "evidence_basis": {
+    "conversation_identity": "完整真实演化会话（inputs/conversation.json, schema effective-whole-source-semantic-trace-v8）",
+    "native_reply_to_verified": False,
+    "historical_event_identity_verified": False,
+    "historical_native_tool_events_verified": False,
+    "conclusion": "历史assistant消息为语义痕迹，不是本轮可认证的原生工具执行证据；不记录任何历史成功/失败执行记录"
+  },
+  "requirements_and_corrections": [
+    {
+      "message_id": "conv_b5e6f3d3bab9:msg_1",
+      "role": "user",
+      "quote": "帮我把这份表格做一下脱敏处理",
+      "interpretation": "初始需求：对工作簿做脱敏；未指定字段与规则（历史由助手自行扫描决定）"
+    },
+    {
+      "message_id": "conv_b5e6f3d3bab9:513257c0",
+      "role": "assistant",
+      "quote": "客户统一编号、销售按 A/B/C 编号、删除内嵌个人信息、保持原表格格式",
+      "interpretation": "初期方案：编号化+删除括号备注+保留格式；其中'保持原表格格式'可复用，编号化/删备注为助手自拟规则"
+    },
+    {
+      "message_id": "conv_b5e6f3d3bab9:7d49b5af",
+      "role": "assistant",
+      "quote": "2025 表的销售对接人列是第 12 列，我误写成第 10 列（金额列），导致金额被误替换",
+      "interpretation": "关键教训：按固定列号定位导致金额列被误改；可复用改进=按表头精确定位目标列（对应契约R02/R03）"
+    },
+    {
+      "message_id": "conv_b5e6f3d3bab9:a3392ed8",
+      "role": "assistant",
+      "quote": "还剩 2 处残留：C21 的地址尾巴、C43 备注里的销售姓名（芦建明）",
+      "interpretation": "教训：首轮范围遗漏（按单元格坐标逐处补丁）；可复用改进=一次性按'指定sheet+行区间+表头列'矩形交集选取，避免逐格补漏"
+    },
+    {
+      "message_id": "conv_b5e6f3d3bab9:23a61c50",
+      "role": "assistant",
+      "quote": "🔒 `2026-07-31_脱敏对照表_内部使用.xlsx`（客户001→原名称、销售A→原姓名、1287条变更明细）",
+      "interpretation": "历史交付含原值映射对照表；本次契约R10明确报告不得放原文或原值对照，新技能不生成原值映射"
+    },
+    {
+      "message_id": "conv_b5e6f3d3bab9:msg_43",
+      "role": "user",
+      "quote": "只留前两个字和后两个字，中间用***替代",
+      "interpretation": "用户后续纠正：放弃编号化，改为'前2字+***+后2字'掩码；即本次契约参数化的 prefix_chars=2, suffix_chars=2, replacement=*** 的来源需求"
+    },
+    {
+      "message_id": "conv_b5e6f3d3bab9:9619dde6",
+      "role": "assistant",
+      "quote": "不同客户打码后撞名的（比如 8 家\"浙江开头、公司结尾\"的），加 (2)(3)…后缀区分，避免数据混淆",
+      "interpretation": "历史助手的撞名后缀做法；本次契约R07明确不添加任何后缀，该做法不采用"
+    }
+  ],
+  "initial_plan_problems": [
+    "按固定列号（第10/12列）硬编码定位，导致金额列被误替换（7d49b5af）",
+    "首轮目标范围靠全文扫描+逐格坐标补丁（C21/C43/H9），无明确矩形选取规则（a3392ed8）",
+    "自拟规则混入业务需求：统一编号、销售A~F、删除括号备注均非用户明确要求（513257c0）",
+    "交付了含原始敏感值的对照表文件（23a61c50）"
+  ],
+  "reusable_actions": [
+    "先读工作簿结构（sheet清单、表头、数据形态）再决定处理（4bcac133）",
+    "按表头名称精确定位目标列，而非列号（历史bug教训+本次契约R02）",
+    "保持原表格格式：列宽、样式、布局不动（513257c0/9619dde6，本次契约R09）",
+    "完成后做残留核验并给出统计（75c53935/9619dde6，本次契约报告要求）",
+    "掩码规则：保留前N字+替换标记+后N字（msg_43→契约R04参数化）"
+  ],
+  "instance_values": {
+    "note": "以下为历史会话中的合成示例值，仅作规则形态示例，不代表任何真实企业数据，也不构成本次任务的默认参数",
+    "masked_examples": ["宁德***公司", "国防***学院", "伟创***创力", "宁波***医院", "齐鲁***大学"],
+    "historical_rule_morphology": "前2字 + *** + 后2字；2字以内名称历史上被整体打码为***（该处理与本次契约R05冲突，见不可推广项）"
+  },
+  "unknowns": [
+    "历史会话无获认证的原生工具执行记录（historical_native_tool_events_verified=false），无法引用历史运行成功/失败作为证据",
+    "原企业文件字节缺失，历史附件为synthetic恢复材料（material_identity.json input_identity），历史示例值不可作为真实业务数据",
+    "历史会话未出现：空单元格、公式单元格、数值/布尔/日期目标、列换位、suffix_chars=0 等边界的处理记录，本次以契约R04/R05/R06自行定义并在开发测试中真实验证"
+  ],
+  "non_generalizable_history": [
+    {"suggestion": "撞名时加(2)(3)后缀", "source": "9619dde6", "why_not": "本次契约R07：不同字符串脱敏后相同也不添加编号或其他后缀"},
+    {"suggestion": "删除括号内联系人备注", "source": "513257c0/23a61c50", "why_not": "本次契约R04：不trim、不删括号；R07：无联系人识别要求"},
+    {"suggestion": "2字以内名称统一打码为***", "source": "9619dde6", "why_not": "本次契约R05：长度<=前后保留数之和时原样保留"},
+    {"suggestion": "交付含原值的脱敏对照表", "source": "23a61c50", "why_not": "本次契约R10：报告不放原文或原值对照；且本次请求未要求对照表，不额外生成"},
+    {"suggestion": "固定引用3个sheet、第12列等历史文件结构", "source": "4bcac133/7d49b5af", "why_not": "实例特有结构；新技能必须从请求JSON读取sheet/表头/行区间"}
+  ]
+}
+with open('outputs/learning_evidence.json','w',encoding='utf-8') as f:
+    json.dump(learning, f, ensure_ascii=False, indent=2)
+
+plan = {
+  "plan_id": "candidate_plan_data_field_mask_v1",
+  "contract": "data_field_mask_request_v1",
+  "boundary_note": "公开新增边界（参数化、明确边界处理、精确保留、报告规范）全部来自本次task_contract.json的new_public_pilot_contract，不是历史会话已学出的结论。",
+  "automation_targets": [
+    {"repetitive_work": "按sheet名/表头/行区间定位目标单元格（历史按列号硬编码+逐格补漏的重复排查）", "replaced_by": "run.py按请求JSON自动定位，表头精确匹配且要求唯一", "basis": "契约R02/R03"},
+    {"repetitive_work": "对每个文本值计算前缀+***+后缀掩码", "replaced_by": "mask_text按Unicode码点统一计算，同参数同结果", "basis": "契约R04/R05/R07"},
+    {"repetitive_work": "区分并跳过空值/数值/布尔/公式目标", "replaced_by": "程序按xlsx类型定义分类并分别计数", "basis": "契约R06"},
+    {"repetitive_work": "人工重开文件核验未改范围、格式、sheet顺序", "replaced_by": "保存后重读输出与输入逐格比对值/样式/布局，六项计数恒等式自检", "basis": "契约R08/R09/报告schema"},
+    {"repetitive_work": "编写脱敏报告（参数、计数、哈希、检查、未覆盖项）", "replaced_by": "程序生成data_field_mask_report_v1报告，不含原值", "basis": "契约R10"},
+    {"repetitive_work": "输入校验（缺文件/缺sheet/缺表头/重复表头/行区间无效/输出覆盖输入）", "replaced_by": "程序显式报错退出，不交付半成品", "basis": "契约R11"}
+  ],
+  "model_reserved_judgments": [
+    "确认本次请求参数（哪些sheet、哪些表头、行区间、前后保留数）符合业务意图——程序只校验结构合法性，不判断业务合理性",
+    "审阅程序返回的检查摘要：PASS/FAIL/UNKNOWN的真实性、uncovered项是否需要补充人工核验",
+    "发现uncovered或边界外特性（如图表、图片、超链接、透视表）时判断是否需要声明不适用",
+    "交付决策：全部检查PASS且路径可定位才交付；否则如实报告阻塞"
+  ],
+  "applicability": {
+    "applicable_when": [
+      "输入为可读xlsx，且请求符合data_field_mask_request_v1 schema",
+      "目标为指定工作表内header_row<data_start_row<=data_end_row与指定表头列的矩形交集",
+      "目标单元格为普通非空字符串（按Unicode码点做前后保留掩码）"
+    ],
+    "not_applicable_when": [
+      "需要按语义识别敏感信息（实体识别、联系人抽取、真实外部查询）——契约R07明确无此要求",
+      "需要对公式结果、数值做脱敏——契约R06原样保留",
+      "需要撞名区分、重编号、删括号、生成原值对照表——契约R07/R04/R10明确排除",
+      "目标文件不是xlsx（如csv/xls），或需要保留图表/图片等富对象的逐字节保真——本次未验证，属未覆盖项",
+      "请求结构非法（缺字段/区间倒置/表头重复）——程序报错而非猜测"
+    ]
+  },
+  "io": {
+    "input": {
+      "request_json": "CLI --request传入；schema_version=data_field_mask_request_v1",
+      "path_resolution": "input_workbook相对路径以request.json所在目录为基准；绝对路径保持绝对；--output-root只映射output_workbook/report_file的相对路径到隔离输出根，inputs永不写入",
+      "workbook": "openpyxl读取，保留公式定义（data_only=False）"
+    },
+    "output": {
+      "output_workbook": "脱敏xlsx：仅目标矩形交集内的普通非空字符串被替换，其余值/类型/公式/样式/布局保持",
+      "report_file": "data_field_mask_report_v1：schema_version/input_sha256/output_sha256/masking/sheets(counts)/totals(六项)/checks/uncovered；不含任何原值或原值映射",
+      "stdout": "简短执行/检查摘要与实际交付路径"
+    }
+  },
+  "check_basis": [
+    "契约business_rules R01-R12",
+    "报告schema与counting口径（changed+unchanged_text+blank+non_text+formula=selected）",
+    "path_resolution_addendum_a1（相对路径以request.json所在目录为基准；--output-root隔离交付）",
+    "保存后重读输出做真实核验：目标值=预期掩码、非目标值逐格一致、样式/列宽/行高/合并/冻结/表顺序一致、输入文件SHA前后一致",
+    "边界开发测试（短文本/空值/公式/非文本/列换位/错误输入）真实运行留痕于outputs/validation_history"
+  ]
+}
+with open('outputs/candidate_plan.json','w',encoding='utf-8') as f:
+    json.dump(plan, f, ensure_ascii=False, indent=2)
+print('written:', os.listdir('outputs'))

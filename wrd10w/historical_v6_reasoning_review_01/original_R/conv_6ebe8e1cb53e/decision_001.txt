@@ -1,0 +1,47 @@
+Let me analyze this source. The task: user wants a usage summary report (Excel first, then Word), with specific corrections:
+- Turn 0: initial request, Chinese, report on account openings, token usage, image generation, billing. First period starts 2026-06-27.
+- Turn 1: wants an externally-deliverable Word document.
+- Turn 2: corrections: platform name "Portal Claw"; image gen analysis simplified to request count, input tokens, output tokens, total tokens, average duration, cost; cost unit is CNY not USD; remove key findings & suggestions.
+- Turn 3: second page blank; add per-capita image generation cost to fee summary.
+
+I have a real input asset: 账号使用原始数据_UB.xlsx (7335 bytes, workspace_relative inputs/b1f49c3b0da7/账号使用原始数据_UB.xlsx).
+
+I need to build a reusable workflow. Budget: 12 decisions, 6 tool calls, 2 execution branches.
+
+Plan:
+1. INSPECT the xlsx to learn structure (sheet names, columns).
+2. Maybe READ history (turn 0..3) — but I already have full source in payload. READ is allowed for actual source turns. Since I have complete source, maybe skip READ or use to confirm assistant turns. The payload already includes assistant messages. But evidence_refs need turn_index and quote from user. I can use the source content directly.
+
+Let me use INSPECT to see the actual xlsx structure. Then TRY to build a reconciliation script that computes key metrics (total accounts, token totals, image gen stats) from the raw data, with assertions. Then UPDATE to create W/G/U. Then FINISH.
+
+Let me start with INSPECT.
+
+Actually let me think about the workflow design. The reusable task: given a raw usage workbook (multiple sheets: account openings, token usage, image gen, billing), produce a client-facing Word report with specified sections and formatting, applying the corrections (platform name parameter, cost currency parameter, simplified image gen section, no conclusions, no blank page). 
+
+The workflow steps:
+s1: inspect input workbook structure (sheets, headers).
+s2: compute aggregates per sheet (account count by class, token totals, top10, image gen totals, supplementary packages, billing).
+s3: validate cross-sheet consistency (e.g., sum of per-account tokens equals total; counts match).
+s4: render Excel summary.
+s5: render Word report with cover, sections, page numbering; avoid blank page (no trailing page break; use section break).
+s6: basic delivery checks.
+
+Key requirements from user corrections:
+- Reply in Chinese unless otherwise.
+- Platform name is "Portal Claw" (parameter).
+- Image gen section only: request count, input tokens, output tokens, total tokens, average duration, cost.
+- Image cost unit CNY (¥), not USD.
+- Remove key findings and suggestions.
+- No blank second page (cover ends naturally, body starts page 2).
+- Include per-capita image cost in fee summary.
+
+Now, what's reusably stable vs instance: platform name "Portal Claw" was explicit correction — it's a stable preference for this user's reports? Actually it's about a specific platform name; may be user-specific. Keep as parameter with default maybe. Better as parameter `platform_name`. Cost currency CNY is a correction — keep as parameter `cost_currency` default CNY.
+
+Let me do INSPECT first.
+
+I have only 6 tool calls and 12 decisions. Let me be economical.
+
+Decision 1: INSPECT xlsx.
+Decision 2: TRY single_repair — a Python script computing aggregates from the xlsx with assertions. Actually the raw sheet might be small. Let me inspect first to know structure.
+
+Let me start.

@@ -1,0 +1,25 @@
+{
+  "schema": "wrd-Brev-original-R-review-nondestructive-erratum-v2",
+  "original_review_sha256": "7f5ff85c2a6cf7b328b768ad5f9e84a97c8485b3dac9fabc4fbed30809037233",
+  "original_review_retained": true,
+  "corrections": [
+    {
+      "field": "explicit_zero_ranges[2].rationale",
+      "old_claim": "R proposes str shape checks for source/message IDs not fully implemented in the actual old/new code.",
+      "verdict": "WITHDRAW_INCORRECT_REVIEWER_REASON",
+      "correct_observation": "Old validator already checks source_id/message_id are nonempty str and quote is nonempty str. Leaving this unselected text at zero is conservative unreviewed scope, not evidence that those field shape rules are wrong.",
+      "evidence_fact_id": "F_EXISTING_REF_FIELDS",
+      "positive_arrays_change": false
+    },
+    {
+      "field": "ranges.BREV_R022 and ranges.BREV_R019",
+      "verdict": "KNOWN_FALSE_PATH_CLAUSE_PENDING_PRECISE_V2_REVOKE",
+      "correct_observation": "The pre-existing and new code put non-list fact-level ledger_basics at $.facts[i], not $.facts[i].evidence_refs. The separate missing_required_evidence has the longer path. A runner mixing failure-ID existence and some other failure path is insufficient to prove same-failure path correctness.",
+      "evidence_fact_id": "F_OPTIONAL_VS_REQUIRED",
+      "positive_arrays_change": "Current 2689 tokens remain candidate only; they MUST NOT be admitted until this clause and peer findings are removed in a new revision."
+    }
+  ],
+  "concrete_facts_sha256": "06cd4badf1db95dda250c02d2b36255e8be07ca5505407ad92b5b7fb3e98856d",
+  "ACTIVE_modified": false,
+  "training_started": false
+}

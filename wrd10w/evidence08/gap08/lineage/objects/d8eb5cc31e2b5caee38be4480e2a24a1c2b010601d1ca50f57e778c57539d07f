@@ -1,0 +1,81 @@
+{
+  "schema": "wrd-making-evidence-record-v1",
+  "workflow_id": "legal-document-drafting",
+  "attempt": 2,
+  "route_card": {
+    "path": "/workspace/inputs/route_card.json",
+    "sha256": "86d8bdc8aa078cff73e9649fe0a20f60f23440552d26d2c1cdcef6cf91d64ecf",
+    "candidate_gate_status": "PASS",
+    "candidate_plan_sha256": "5d9a343430b7c2fc9fc7e33a6a2573b33a1d4bead2635da4c4dac04259c3f4e1"
+  },
+  "branch_note": "attempt=2 局部修复分支，非原会话空输出后的第二分支：making_lineage.json 显示 previous.skill_present=true，上一真实episode（legal-document-drafting__make1）已投递完整技能（SKILL.md/stage_notes/legal_document_skeleton）。本次按 inputs/feedback/report_0.json 的唯一 HOLD 原因 full_source_text_not_proven_received（report_4 源收据中 conv_f7e2139afd98 status=UNKNOWN）作局部修复：沿上一原生读取的 next_cursor=8:725 续读未读原文至 complete=true，技能三个文件原字节复制（sha256 与上一episode产物 pin 完全一致，未手工改动），replay/resource_manifest 沿用上一已通过独立复现的记录。reusable_packages.json 中无法律文书起草匹配资源（均为 docx/翻译/投标/知识库/课程/QA 程序），未复用任何副本，无公共 bank 或 shared_dependency。",
+  "full_read_receipts": [
+    {
+      "episode": "legal-document-drafting__make1 (attempt=1 原生episode，经 making_lineage.json source_continuation.resume_proven=true 认证)",
+      "tool": "exec:python /workspace/inputs/making_tools/read_source.py",
+      "argv": ["python", "/workspace/inputs/making_tools/read_source.py", "--source", "/workspace/inputs/conversations/conv_f7ae916abc7a.json", "/workspace/inputs/conversations/conv_f7e2139afd98.json", "--max-bytes", "6500"],
+      "cursor_in": "0:0",
+      "next_cursor": "8:725",
+      "complete": false,
+      "received": true,
+      "pin": {
+        "path": "/workspace/inputs/making_lineage.json",
+        "sha256": "b8384b2fc8a7e3fce083fc20055a049ab79644f06ea94c855287d7acf3f63e90",
+        "bytes": 5170
+      }
+    },
+    {
+      "episode": "本次 attempt=2 局部修复制作（本episode真实原生工具输出，逐字接收）",
+      "tool": "exec:python /workspace/inputs/making_tools/read_source.py",
+      "argv": ["python", "/workspace/inputs/making_tools/read_source.py", "--source", "/workspace/inputs/conversations/conv_f7ae916abc7a.json", "/workspace/inputs/conversations/conv_f7e2139afd98.json", "--max-bytes", "6500", "--cursor", "8:725"],
+      "cursor_in": "8:725",
+      "next_cursor": null,
+      "complete": true,
+      "received": true,
+      "chunks": [
+        {
+          "source_id": "conv_f7e2139afd98",
+          "message_id": "conv_f7e2139afd98:0f2356a4",
+          "byte_start": 725,
+          "byte_end": 1988,
+          "leaf_sha256": "15a2edd621b70559820c15a96ea3f17a73d92fba4cac1e24b32dc7c129faa960",
+          "text_sha256": "effb38de5df90c2e074c5c178d51c8c81fc0f0c0d06e51a72e1cc49cc42c0122"
+        }
+      ]
+    }
+  ],
+  "source_evidence": [
+    {
+      "source_id": "conv_f7ae916abc7a",
+      "message_ids": ["conv_f7ae916abc7a:916e8b6b", "conv_f7ae916abc7a:36b8724d", "conv_f7ae916abc7a:756ff1f2", "conv_f7ae916abc7a:81d1e861", "conv_f7ae916abc7a:41ee1343"],
+      "source_record_sha256": "d057706795ff84c6ffb136558bb988e12d59756685191c3d90892b8be33a3b34",
+      "learning_notes": "媒体/广告业兼职合同案（全文于 attempt=1 原生episode接收，attempt=1 收据 conv_f7ae916abc7a status=PASS）：要素一句话给足即直接成文（916e8b6b）；采用非全日制用工形式并做行业专属条款设计（756ff1f2）；交付12条结构合同，硬约束为不设试用期、日工时≤4小时/周累计≤24小时、结算周期≤15日、不低于当地最低小时工资、随时终止且甲方无需经济补偿，专属条款含保密/著作权归公司/外拍安全，计酬双选项（41ee1343）；关键分岔：项目制外包属劳务关系应签劳务协议（41ee1343）；docx生成与pandoc校验属当时环境行为（81d1e861）。"
+    },
+    {
+      "source_id": "conv_f7e2139afd98",
+      "message_ids": ["conv_f7e2139afd98:d6f2f71c", "conv_f7e2139afd98:9a90919c", "conv_f7e2139afd98:33a5e4ff", "conv_f7e2139afd98:0f2356a4"],
+      "source_record_sha256": "6ea526386741cdc4a0dccc1ac6b60f3a918340818e5bddaefa26502b8492dd62",
+      "learning_notes": "税务大厅身份信息变更委托书案：主体信息（薛守光/马雨欣）与事项由用户给定（d6f2f71c，attempt=1 episode接收至 cursor 8:725）；委托书结构为当事人信息→委托事项→委托权限→委托期限→法律后果承认→签署栏，身份信息与日期留空待填，委托人签名处建议按手印（0f2356a4 字节725-1988 于本episode逐字接收：受托人办理上述事项所签署的文件委托人均予承认、法律后果由委托人承担；办理提醒含身份证号/委托期限留空待填、携带双方身份证原件复印件、单位变更需营业执照副本公章决议、12366确认能否纯代办、上海税务APP实名核验）；docx库调用属当时环境行为（9a90919c、33a5e4ff）。"
+    }
+  ],
+  "skill_provenance": {
+    "source": "inputs/previous_skill（上一episode原字节复制，未手工编辑）",
+    "files": [
+      {"path": "outputs/candidate/skill/SKILL.md", "sha256": "e9e8abba002a53777642ef41f5f6179c5aa3b9ec3dd1ed018dfd22e75376ac22", "bytes": 1753},
+      {"path": "outputs/candidate/skill/references/stage_notes.md", "sha256": "7ac6d9d338c9bb89fdcf8d3a4f86bf6e92eeefac137d661ada4ab2133a2d3574", "bytes": 3136},
+      {"path": "outputs/candidate/skill/templates/legal_document_skeleton.md", "sha256": "81ea7a3772942639fdf6c3f30cf85d84849b965ccdba89987b786e6b5432a47f", "bytes": 3343}
+    ],
+    "hashes_verified_match_previous_pins": true
+  },
+  "repair_record": {
+    "hold_reason_from_feedback": "full_source_text_not_proven_received (report_0.reasons / report_4 conv_f7e2139afd98 status=UNKNOWN)",
+    "fix": "沿 lineage 认证的 next_cursor=8:725 以原命令续读，本episode真实接收 conv_f7e2139afd98:0f2356a4 剩余字节 725-1988，返回 next_cursor=null、complete=true；全源文本跨原episode+修复episode均已实际接收。技能字节零改动（sha256 三文件与上一episode pin 一致）。",
+    "skill_bytes_changed": false
+  },
+  "limitations": [
+    "来源会话仅证明当时起草口径与结构，历史原生工具事件与最终文件身份不由transcript单独认证（source_bindings limitations）。",
+    "两条来源均未涉及特殊行业专有条款的实体法律判断，模板不覆盖该范围，也不替代法条现行有效性核实。",
+    "同路线两来源已合并制作为一个技能；仅业务值变化不另造技能。",
+    "attempt=1 episode中 conv_f7ae916abc7a 原文与 conv_f7e2139afd98 至字节725的接收由 making_lineage.json 的原生读取证据认证（resume_proven=true），本episode未重复读取，仅接收未读尾部。"
+  ]
+}

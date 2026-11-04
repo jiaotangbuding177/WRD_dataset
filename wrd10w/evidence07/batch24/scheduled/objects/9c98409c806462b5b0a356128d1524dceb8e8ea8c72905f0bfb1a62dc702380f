@@ -1,0 +1,599 @@
+{
+  "fixtures": [
+    {
+      "derivation": "Reconstructed from the real weekly investment-digest request (conv_6802694e2036:msg_1: weekly Monday 07:00, domestic+overseas, per-industry, amount/valuation/time/investors, PDF) and its confirmed config overview (conv_6802694e2036:661f7be8: name 每周投融资事件汇总, Asia/Shanghai, PDF path 成果文件/投融资周报). No test answers embedded.",
+      "generated": true,
+      "message_ids": [
+        "conv_6802694e2036:msg_1",
+        "conv_6802694e2036:661f7be8"
+      ],
+      "origin": "generated_fixture",
+      "path": "task_spec_normal.json",
+      "pin": {
+        "bytes": 435,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_normal.json",
+        "sha256": "7d07751a4fbdf95c84c583e1d715d30f3798a4b72ffdbacc7fee41ca121848ff"
+      },
+      "purpose": "source_reconstruction",
+      "source_id": "conv_6802694e2036",
+      "source_record_sha256": "50f07fc73b82deb840d47efc8c06c46b816fdc4c3a13e4e87bd61fde3e77ec36"
+    },
+    {
+      "derivation": "Reconstructed from the real update request (c8d61759: weekly Friday 12:00 weekly overview MD, image generation removed, timeout back to 300s) with only the fields the user asked to change, exercising update preservation.",
+      "generated": true,
+      "message_ids": [
+        "conv_7be8a0b341b5:msg_1",
+        "c8d61759-83ea-49b6-9f8b-a1367940f58f"
+      ],
+      "origin": "generated_fixture",
+      "path": "task_spec_update.json",
+      "pin": {
+        "bytes": 328,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_update.json",
+        "sha256": "7c8c925ba3d746d54de1d0c7b2fc8ec646632249f32f322cb492096dad58a345"
+      },
+      "purpose": "source_reconstruction",
+      "source_id": "conv_7be8a0b341b5",
+      "source_record_sha256": "9c151303e76d7eb26df1d0f0f1fddf78fff323e2ba474b85ad642c029fe73a57"
+    },
+    {
+      "derivation": "Reconstructed from the pre-update task state reported in the real conversation (msg_22 final daily 12:00 config with image output and 3000s timeout; c8d61759 before-table). Used as --base for the update-preservation case.",
+      "generated": true,
+      "message_ids": [
+        "conv_7be8a0b341b5:msg_22",
+        "c8d61759-83ea-49b6-9f8b-a1367940f58f"
+      ],
+      "origin": "generated_fixture",
+      "path": "existing_config.json",
+      "pin": {
+        "bytes": 484,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\existing_config.json",
+        "sha256": "1bd02b0595679293b26803f9395f34cd8080eaf01358ce16d1d1692e46ba93bb"
+      },
+      "purpose": "source_reconstruction",
+      "source_id": "conv_7be8a0b341b5",
+      "source_record_sha256": "9c151303e76d7eb26df1d0f0f1fddf78fff323e2ba474b85ad642c029fe73a57"
+    },
+    {
+      "derivation": "Boundary: only the five required fields; timeout_seconds and delivery omitted so the documented defaults (900, announce) apply.",
+      "generated": true,
+      "message_ids": [
+        "conv_6802694e2036:msg_1"
+      ],
+      "origin": "generated_fixture",
+      "path": "task_spec_minimal.json",
+      "pin": {
+        "bytes": 219,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_minimal.json",
+        "sha256": "05d3ccdc538aae7c2067a56444fd665770edc9243ae132ea26144d1d6d8ddb9a"
+      },
+      "purpose": "boundary_case",
+      "source_id": "conv_6802694e2036",
+      "source_record_sha256": "50f07fc73b82deb840d47efc8c06c46b816fdc4c3a13e4e87bd61fde3e77ec36"
+    },
+    {
+      "derivation": "Invalid negative derived from the boundary spec by dropping one cron field (expr '0 12 * *'); expected documented error task_spec_error: schedule.expr must contain 5 fields, exit 2.",
+      "generated": true,
+      "message_ids": [
+        "conv_6802694e2036:msg_1"
+      ],
+      "origin": "generated_fixture",
+      "path": "task_spec_invalid.json",
+      "pin": {
+        "bytes": 218,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_invalid.json",
+        "sha256": "6bd695729e0f8a0e231a76cc87224dfaca3bfe492ba6b47c566ec7cddee90f4e"
+      },
+      "purpose": "invalid_input",
+      "source_id": "conv_6802694e2036",
+      "source_record_sha256": "50f07fc73b82deb840d47efc8c06c46b816fdc4c3a13e4e87bd61fde3e77ec36"
+    },
+    {
+      "derivation": "Reconstructed from the real dated artifact listing in conv_f4b82e638325:msg_13/msg_51 (follow-builders digest files 06-06..06-19 plus generic 分析摘要.md / 选题推荐.md that were overwritten); 15 entries, no bytes invented.",
+      "generated": true,
+      "message_ids": [
+        "conv_f4b82e638325:msg_13",
+        "conv_f4b82e638325:msg_51"
+      ],
+      "origin": "generated_fixture",
+      "path": "artifacts_normal.json",
+      "pin": {
+        "bytes": 727,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\artifacts_normal.json",
+        "sha256": "d806c812672e18a6d924ecff7cd0859cb349f9217837299e24de2f8c2dea520e"
+      },
+      "purpose": "source_reconstruction",
+      "source_id": "conv_f4b82e638325",
+      "source_record_sha256": "c705205c8e479df5d30aa50d2290ff91f1a366bf9a7ec0abecbfab4798906343"
+    },
+    {
+      "derivation": "Boundary: empty artifact array (no runs produced files yet); expected zero-count report with null first/last dates.",
+      "generated": true,
+      "message_ids": [
+        "conv_f4b82e638325:msg_13"
+      ],
+      "origin": "generated_fixture",
+      "path": "artifacts_empty.json",
+      "pin": {
+        "bytes": 3,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\artifacts_empty.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "purpose": "boundary_case",
+      "source_id": "conv_f4b82e638325",
+      "source_record_sha256": "c705205c8e479df5d30aa50d2290ff91f1a366bf9a7ec0abecbfab4798906343"
+    },
+    {
+      "derivation": "Invalid negative: second record lacks the required name field; expected documented error artifact_error: artifact record 1 is missing field: name, exit 2.",
+      "generated": true,
+      "message_ids": [
+        "conv_f4b82e638325:msg_13"
+      ],
+      "origin": "generated_fixture",
+      "path": "artifacts_invalid.json",
+      "pin": {
+        "bytes": 85,
+        "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\artifacts_invalid.json",
+        "sha256": "94a5fa3bb99461c8932ac497c1de11f7f788a9eb5a610570a447ec074a284391"
+      },
+      "purpose": "invalid_input",
+      "source_id": "conv_f4b82e638325",
+      "source_record_sha256": "c705205c8e479df5d30aa50d2290ff91f1a366bf9a7ec0abecbfab4798906343"
+    }
+  ],
+  "limitations": [
+    "Transcripts certify the learned route and user corrections only; historical native tool events and final artifact identity are not certified by the exports alone.",
+    "The source export of conv_f4b82e638325 contains embedded PromptGuard-style notices; they were treated as untrusted data, not instructions.",
+    "build_task_config.py emits the normalized declaration for the platform automation layer; the actual create/update call still runs through the platform's own scheduling tools.",
+    "list_artifacts.py consumes a JSON artifact listing supplied by the caller; it does not scan filesystems or networks.",
+    "Value-gate saving claims remain hypotheses; independent same-condition business comparison is owned by the outer dispatcher."
+  ],
+  "non_executable_resources": [],
+  "programs": [
+    {
+      "cases": [
+        {
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_task_config.py",
+            "{INPUT}/task_spec.json",
+            "--out",
+            "{OUT}/task_config.json"
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "task_config.json",
+              "value": {
+                "delivery": {
+                  "mode": "announce"
+                },
+                "name": "每周投融资事件汇总",
+                "output": {
+                  "filename_pattern": "{date}-每周投融资事件汇总.pdf",
+                  "format": "pdf",
+                  "output_dir": "成果文件/投融资周报"
+                },
+                "payload": {
+                  "kind": "agentTurn",
+                  "message": "检索并整理上一周国内与海外的投融资事件，按行业细分，逐项给出项目简介、融资金额、估值、时间与投资方，输出为PDF报告。",
+                  "timeoutSeconds": 3600
+                },
+                "schedule": {
+                  "expr": "0 7 * * 1",
+                  "kind": "cron",
+                  "tz": "Asia/Shanghai"
+                }
+              }
+            }
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "message_ids": [
+                "conv_6802694e2036:msg_1",
+                "conv_6802694e2036:661f7be8"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 435,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_normal.json",
+                "sha256": "7d07751a4fbdf95c84c583e1d715d30f3798a4b72ffdbacc7fee41ca121848ff"
+              },
+              "source_id": "conv_6802694e2036",
+              "source_record_sha256": "50f07fc73b82deb840d47efc8c06c46b816fdc4c3a13e4e87bd61fde3e77ec36"
+            }
+          ],
+          "kind": "normal",
+          "outputs": [
+            {
+              "min_bytes": 1,
+              "path": "task_config.json"
+            }
+          ]
+        },
+        {
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_task_config.py",
+            "{FIXTURE}/task_spec_update.json",
+            "--base",
+            "{FIXTURE}/existing_config.json",
+            "--out",
+            "{OUT}/task_config_update.json"
+          ],
+          "assertions": [
+            {
+              "kind": "field_preservation",
+              "path": "task_config_update.json",
+              "pointer": "/delivery/mode",
+              "value": "none"
+            },
+            {
+              "kind": "json_equals",
+              "path": "task_config_update.json",
+              "value": {
+                "delivery": {
+                  "mode": "none"
+                },
+                "name": "AI Builders Digest 每周总览",
+                "output": {
+                  "filename_pattern": "{date}-AI Builders Digest 每周总览.md",
+                  "format": "md",
+                  "output_dir": "成果文件/AI Builders Digest 每周总览"
+                },
+                "payload": {
+                  "kind": "agentTurn",
+                  "message": "汇总本周 AI Builders 情报，生成一份当周总览 MD 文档。",
+                  "timeoutSeconds": 300
+                },
+                "schedule": {
+                  "expr": "0 12 * * 5",
+                  "kind": "cron",
+                  "tz": "Asia/Shanghai"
+                }
+              }
+            }
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "message_ids": [
+                "conv_7be8a0b341b5:msg_1",
+                "c8d61759-83ea-49b6-9f8b-a1367940f58f"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 328,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_update.json",
+                "sha256": "7c8c925ba3d746d54de1d0c7b2fc8ec646632249f32f322cb492096dad58a345"
+              },
+              "source_id": "conv_7be8a0b341b5",
+              "source_record_sha256": "9c151303e76d7eb26df1d0f0f1fddf78fff323e2ba474b85ad642c029fe73a57"
+            },
+            {
+              "message_ids": [
+                "conv_7be8a0b341b5:msg_22",
+                "c8d61759-83ea-49b6-9f8b-a1367940f58f"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 484,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\existing_config.json",
+                "sha256": "1bd02b0595679293b26803f9395f34cd8080eaf01358ce16d1d1692e46ba93bb"
+              },
+              "source_id": "conv_7be8a0b341b5",
+              "source_record_sha256": "9c151303e76d7eb26df1d0f0f1fddf78fff323e2ba474b85ad642c029fe73a57"
+            }
+          ],
+          "kind": "normal",
+          "outputs": [
+            {
+              "min_bytes": 1,
+              "path": "task_config_update.json"
+            }
+          ]
+        },
+        {
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_task_config.py",
+            "{FIXTURE}/task_spec_minimal.json",
+            "--out",
+            "{OUT}/task_config_minimal.json"
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "task_config_minimal.json",
+              "value": {
+                "delivery": {
+                  "mode": "announce"
+                },
+                "name": "每日情报",
+                "output": {
+                  "filename_pattern": "{date}-每日情报.md",
+                  "format": "md",
+                  "output_dir": "成果文件/每日情报"
+                },
+                "payload": {
+                  "kind": "agentTurn",
+                  "message": "生成每日情报摘要。",
+                  "timeoutSeconds": 900
+                },
+                "schedule": {
+                  "expr": "0 8 * * *",
+                  "kind": "cron",
+                  "tz": "Asia/Shanghai"
+                }
+              }
+            }
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "message_ids": [
+                "conv_6802694e2036:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 219,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_minimal.json",
+                "sha256": "05d3ccdc538aae7c2067a56444fd665770edc9243ae132ea26144d1d6d8ddb9a"
+              },
+              "source_id": "conv_6802694e2036",
+              "source_record_sha256": "50f07fc73b82deb840d47efc8c06c46b816fdc4c3a13e4e87bd61fde3e77ec36"
+            }
+          ],
+          "kind": "boundary",
+          "outputs": [
+            {
+              "min_bytes": 1,
+              "path": "task_config_minimal.json"
+            }
+          ]
+        },
+        {
+          "argv": [
+            "python",
+            "{SKILL}/scripts/build_task_config.py",
+            "{FIXTURE}/task_spec_invalid.json",
+            "--out",
+            "{OUT}/task_config_invalid.json"
+          ],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "task_spec_error: schedule.expr must contain 5 fields"
+            }
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "message_ids": [
+                "conv_6802694e2036:msg_1"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 218,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\task_spec_invalid.json",
+                "sha256": "6bd695729e0f8a0e231a76cc87224dfaca3bfe492ba6b47c566ec7cddee90f4e"
+              },
+              "source_id": "conv_6802694e2036",
+              "source_record_sha256": "50f07fc73b82deb840d47efc8c06c46b816fdc4c3a13e4e87bd61fde3e77ec36"
+            }
+          ],
+          "kind": "invalid_input",
+          "outputs": []
+        }
+      ],
+      "dependencies": [
+        {
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2"
+        }
+      ],
+      "documented_usage": "python {SKILL}/scripts/build_task_config.py {INPUT}/task_spec.json --out {OUT}/task_config.json",
+      "interface": {
+        "contract_version": "1",
+        "inputs": [
+          "task spec JSON (name, schedule{kind,expr,tz}, message, output_format, output_dir[, timeout_seconds][, delivery])"
+        ],
+        "kind": "program",
+        "outputs": [
+          "normalized scheduled-task config JSON {name, schedule, payload, delivery, output}"
+        ],
+        "update_mode": "--base {INPUT}/existing_config.json merges the spec over an existing config; fields absent from the spec are preserved",
+        "usage": "python {SKILL}/scripts/build_task_config.py {INPUT}/task_spec.json --out {OUT}/task_config.json"
+      },
+      "path": "scripts/build_task_config.py",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/build_task_config.py",
+        "{INPUT}/task_spec.json",
+        "--out",
+        "{OUT}/task_config.json"
+      ]
+    },
+    {
+      "cases": [
+        {
+          "argv": [
+            "python",
+            "{SKILL}/scripts/list_artifacts.py",
+            "{INPUT}/artifacts.json",
+            "--out",
+            "{OUT}/artifact_report.json"
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "artifact_report.json",
+              "value": {
+                "by_date": {
+                  "2026-06-06": 1,
+                  "2026-06-07": 1,
+                  "2026-06-08": 1,
+                  "2026-06-10": 2,
+                  "2026-06-11": 1,
+                  "2026-06-12": 1,
+                  "2026-06-13": 1,
+                  "2026-06-14": 1,
+                  "2026-06-15": 1,
+                  "2026-06-16": 1,
+                  "2026-06-18": 1,
+                  "2026-06-19": 1
+                },
+                "dated": 13,
+                "first_date": "2026-06-06",
+                "last_date": "2026-06-19",
+                "total": 15,
+                "undated": [
+                  "分析摘要.md",
+                  "选题推荐.md"
+                ]
+              }
+            }
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "message_ids": [
+                "conv_f4b82e638325:msg_13",
+                "conv_f4b82e638325:msg_51"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 727,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\artifacts_normal.json",
+                "sha256": "d806c812672e18a6d924ecff7cd0859cb349f9217837299e24de2f8c2dea520e"
+              },
+              "source_id": "conv_f4b82e638325",
+              "source_record_sha256": "c705205c8e479df5d30aa50d2290ff91f1a366bf9a7ec0abecbfab4798906343"
+            }
+          ],
+          "kind": "normal",
+          "outputs": [
+            {
+              "min_bytes": 1,
+              "path": "artifact_report.json"
+            }
+          ]
+        },
+        {
+          "argv": [
+            "python",
+            "{SKILL}/scripts/list_artifacts.py",
+            "{FIXTURE}/artifacts_empty.json",
+            "--out",
+            "{OUT}/artifact_report_empty.json"
+          ],
+          "assertions": [
+            {
+              "kind": "json_equals",
+              "path": "artifact_report_empty.json",
+              "value": {
+                "by_date": {},
+                "dated": 0,
+                "first_date": null,
+                "last_date": null,
+                "total": 0,
+                "undated": []
+              }
+            }
+          ],
+          "expected_exit": 0,
+          "inputs": [
+            {
+              "message_ids": [
+                "conv_f4b82e638325:msg_13"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 3,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\artifacts_empty.json",
+                "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+              },
+              "source_id": "conv_f4b82e638325",
+              "source_record_sha256": "c705205c8e479df5d30aa50d2290ff91f1a366bf9a7ec0abecbfab4798906343"
+            }
+          ],
+          "kind": "boundary",
+          "outputs": [
+            {
+              "min_bytes": 1,
+              "path": "artifact_report_empty.json"
+            }
+          ]
+        },
+        {
+          "argv": [
+            "python",
+            "{SKILL}/scripts/list_artifacts.py",
+            "{FIXTURE}/artifacts_invalid.json",
+            "--out",
+            "{OUT}/artifact_report_invalid.json"
+          ],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "artifact_error: artifact record 1 is missing field: name"
+            }
+          ],
+          "expected_exit": 2,
+          "inputs": [
+            {
+              "message_ids": [
+                "conv_f4b82e638325:msg_13"
+              ],
+              "origin": "generated_fixture",
+              "pin": {
+                "bytes": 85,
+                "path": "E:\\skillloop_runs\\w9\\native_episodes\\scheduled-task-config__make1\\workspace\\outputs\\reproduction_inputs\\artifacts_invalid.json",
+                "sha256": "94a5fa3bb99461c8932ac497c1de11f7f788a9eb5a610570a447ec074a284391"
+              },
+              "source_id": "conv_f4b82e638325",
+              "source_record_sha256": "c705205c8e479df5d30aa50d2290ff91f1a366bf9a7ec0abecbfab4798906343"
+            }
+          ],
+          "kind": "invalid_input",
+          "outputs": []
+        }
+      ],
+      "dependencies": [
+        {
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2"
+        }
+      ],
+      "documented_usage": "python {SKILL}/scripts/list_artifacts.py {INPUT}/artifacts.json --out {OUT}/artifact_report.json",
+      "interface": {
+        "contract_version": "1",
+        "inputs": [
+          "artifacts JSON array [{\"name\": \"<file name>\"}, ...]"
+        ],
+        "kind": "program",
+        "outputs": [
+          "artifact report JSON {total, dated, undated, by_date, first_date, last_date}"
+        ],
+        "update_mode": "none",
+        "usage": "python {SKILL}/scripts/list_artifacts.py {INPUT}/artifacts.json --out {OUT}/artifact_report.json"
+      },
+      "path": "scripts/list_artifacts.py",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/list_artifacts.py",
+        "{INPUT}/artifacts.json",
+        "--out",
+        "{OUT}/artifact_report.json"
+      ]
+    }
+  ],
+  "schema": "wrd-making-replay-v1"
+}

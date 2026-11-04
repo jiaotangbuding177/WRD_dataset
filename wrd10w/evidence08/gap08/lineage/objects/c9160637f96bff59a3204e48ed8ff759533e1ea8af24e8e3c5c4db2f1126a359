@@ -1,0 +1,36 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/scripts/compose_plan.py",
+    "outputs/skill/scripts/check_missing.py",
+    "outputs/skill/scripts/revise_plan.py",
+    "outputs/skill/scripts/images_to_pdf.py",
+    "outputs/skill/scripts/make_cover.py",
+    "outputs/skill/scripts/make_comic_pages.py",
+    "outputs/skill/scripts/make_dieline.py",
+    "outputs/skill/templates/spec.example.json",
+    "outputs/skill/templates/cover.example.json",
+    "outputs/skill/templates/comic_pages.example.json",
+    "outputs/skill/references/lessons.md"
+  ],
+  "replaced_work": "复用 previous_skill（与 value-revision 版 64bec262792d 逐字一致，diff 确认）全部脚本/模板/lessons 不重写；批量出图与纠正沿用 reusable skill_1（theme-image-generation），成册复用 skill_3，均已在前次制作集成。本轮只修 previous_feedback 指出的两处具体问题：①SKILL.md description 增加触发词（逐页批量生图/批量出图成册/按系列批量出图/整册页图），修复业务执行器面对完全明确批量委托未经阅读即判\"与本任务无关\"的描述错配；②阶段1+2 成册步骤补一句交付底线：成册 PDF（含页序）是本路线交付底线，只有页图不算完成。无其他改动，未新增核验循环或脚本。",
+  "program_runs": [
+    {"cmd": "python scripts/compose_plan.py spec_ok.json --out plan.json", "result": "exit 0，2 条 prompts"},
+    {"cmd": "python scripts/compose_plan.py spec_unclarified.json --out plan_u.json", "result": "exit 3 theme_not_clarified（边界）"},
+    {"cmd": "python scripts/compose_plan.py spec_bad.json --out plan_b.json", "result": "exit 2 spec_load_error（非法 JSON）"},
+    {"cmd": "python scripts/check_missing.py plan.json --generated generated.txt --out missing.json", "result": "partial（仅 s1）missing=[s2_overview]，全量 missing=[]"},
+    {"cmd": "python scripts/revise_plan.py plan.json --ids s2_overview --correction ... --out plan_v2.json", "result": "exit 0，revision 2 落盘"},
+    {"cmd": "python scripts/revise_plan.py plan.json --ids nope ...", "result": "exit 4 unknown_item_id（边界）"},
+    {"cmd": "python scripts/images_to_pdf.py pages_dir --out deck_test.pdf", "result": "exit 0，pymupdf 复核 3 页"},
+    {"cmd": "python scripts/images_to_pdf.py broken.png / no_such_dir", "result": "exit 2 pdf_error（损坏文件/路径不存在边界）"},
+    {"cmd": "python scripts/make_cover.py cover_spec.json --out cover_test.png", "result": "exit 0，1280x720；vision 逐字复核标题/副题/两列清单/底部信息全部正确，无乱码无截断"},
+    {"cmd": "python scripts/make_cover.py cover_bad.json", "result": "exit 2 cover_error（缺 title 边界）"},
+    {"cmd": "python scripts/make_comic_pages.py pages_spec.json", "result": "exit 0，1536x2048 4格；vision 复核台词黑/旁白金逐字正确，无乱码遮挡"},
+    {"cmd": "python scripts/make_comic_pages.py pages_bad.json", "result": "exit 2 pages_error: cell image not found（缺图边界）"},
+    {"cmd": "python scripts/make_dieline.py --width 80 --depth 80 --height 80 --front front_test.png --list 强袭,自由,正义,决斗 --out dieline_test.png", "result": "exit 0，2200x2160；vision 复核尺寸标注/款式列表完整可读、无遮挡无乱码（顶盖/插舌标注细节为既有状态，非回归）"},
+    {"cmd": "python scripts/make_dieline.py --width 90 --depth 60 --height 120（无 --list）", "result": "exit 0，2080x2160（空列表回归）"},
+    {"cmd": "python scripts/make_dieline.py --front no_such.png", "result": "exit 2 dieline_error（缺主视觉边界）"},
+    {"cmd": "/usr/bin/chromium --headless=new --no-sandbox --screenshot=html_render_test.png --window-size=2048,1152 file://page_html_test.html", "result": "exit 0，降级渲染路径本环境实测可用"}
+  ],
+  "known_issues": "①vision 探针对漫画页首次提问时把蓝色圆形图案误读为角色图形，属测试样例占位画面，文字复核部分正确；②make_dieline 顶盖/底盖/插舌缺少个别高度标注为脚本既有状态（前次制作已修遮挡问题，本轮未改动该脚本）；③样例均为 making_samples 测试数据，非业务交付。"
+}

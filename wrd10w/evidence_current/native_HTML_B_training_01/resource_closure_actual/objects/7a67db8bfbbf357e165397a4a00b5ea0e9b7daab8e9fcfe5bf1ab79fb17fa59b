@@ -1,0 +1,184 @@
+{
+  "status": "ACTUAL_OFFLINE_NO_AGENT_MODEL_RESOURCE_REVIEW",
+  "image": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+  "host_available_bytes_before": [
+    10502934528,
+    8421609472
+  ],
+  "original_functional_files_sha256": {
+    "assets/scaffold.js": "0cae30afb3675a51bed3ba30714e989cbeae11d95598988e7de3627079bc6751",
+    "examples/ball_bounce/config.json": "2e3ae1471d6eba20c3e9afa55f3fbf16c7e9fa911477e82df2af41e7f34199b6",
+    "examples/ball_bounce/topic.js": "5d86867f33391e8f398ee26e38029a1e3ebb2cd73102b8010cd2833ac936e2b0",
+    "scripts/gen_animation.py": "f8059b820333059e38670d3521c67d8274755744a626a25e7b52c6635a193acc",
+    "scripts/verify_animation.mjs": "e24cded8329d502c88992904fd0bb20401cd70c9d8360785608f86931f015c16",
+    "SKILL.md": "0cf830281a98e4a3a650635c5f3095101317db0020007aa814d7fcd1d1b5fac4"
+  },
+  "original_skill_bytes_unchanged": true,
+  "commands": [
+    {
+      "label": "REGENERATE_MAKER",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/outputs/skill/scripts/gen_animation.py",
+        "--config",
+        "/workspace/outputs/fixtures/skating/config.json",
+        "--topic",
+        "/workspace/outputs/fixtures/skating/topic.js",
+        "--scaffold",
+        "/workspace/outputs/skill/assets/scaffold.js",
+        "--out",
+        "/workspace/independent_results/maker.html"
+      ],
+      "rc": 0,
+      "stdout": "gen_animation: 已生成 /workspace/independent_results/maker.html (14920 字节)\n",
+      "stderr": ""
+    },
+    {
+      "label": "EXACT_PUBLIC_MAKER_VERIFY",
+      "argv": [
+        "node",
+        "/workspace/outputs/skill/scripts/verify_animation.mjs",
+        "/workspace/independent_results/maker.html",
+        "--out",
+        "/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.json",
+        "--screenshot",
+        "/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.png"
+      ],
+      "rc": 0,
+      "stdout": "{\n  \"url\": \"file:///workspace/independent_results/maker.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 28,\n      \"f2\": 76\n    },\n    \"播放中画面内容变化\": true,\n    \"HUD 时间推进\": {\n      \"t1\": 1.6,\n      \"t2\": 2.2\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2.3,\n      \"pt2\": 2.3\n    },\n    \"继续后恢复播放\": true,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": true,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.png\"\n  },\n  \"ok\": true,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/EXACT_PUBLIC_MAKER_VERIFY.png\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "label": "REGENERATE_SYNTHETIC_BALL",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/outputs/skill/scripts/gen_animation.py",
+        "--config",
+        "/workspace/outputs/skill/examples/ball_bounce/config.json",
+        "--topic",
+        "/workspace/outputs/skill/examples/ball_bounce/topic.js",
+        "--scaffold",
+        "/workspace/outputs/skill/assets/scaffold.js",
+        "--out",
+        "/workspace/independent_results/ball.html"
+      ],
+      "rc": 0,
+      "stdout": "gen_animation: 已生成 /workspace/independent_results/ball.html (11547 字节)\n",
+      "stderr": ""
+    },
+    {
+      "label": "EXACT_PUBLIC_BALL_VERIFY",
+      "argv": [
+        "node",
+        "/workspace/outputs/skill/scripts/verify_animation.mjs",
+        "/workspace/independent_results/ball.html",
+        "--out",
+        "/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.json",
+        "--screenshot",
+        "/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.png"
+      ],
+      "rc": 1,
+      "stdout": "{\n  \"url\": \"file:///workspace/independent_results/ball.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 23,\n      \"f2\": 71\n    },\n    \"播放中画面内容变化\": false,\n    \"HUD 时间推进\": {\n      \"t1\": 1.5,\n      \"t2\": 2.1\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2.1,\n      \"pt2\": 2.1\n    },\n    \"继续后恢复播放\": true,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": true,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.png\"\n  },\n  \"ok\": false,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/EXACT_PUBLIC_BALL_VERIFY.png\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "label": "VERIFIER_FALSE_RESUME_CANARY",
+      "argv": [
+        "node",
+        "/workspace/outputs/skill/scripts/verify_animation.mjs",
+        "/workspace/independent_results/resume_disabled_canary.html",
+        "--out",
+        "/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.json",
+        "--screenshot",
+        "/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.png"
+      ],
+      "rc": 1,
+      "stdout": "{\n  \"url\": \"file:///workspace/independent_results/resume_disabled_canary.html\",\n  \"consoleErrors\": [],\n  \"pageErrors\": [],\n  \"checks\": {\n    \"WRD scaffold 已加载\": true,\n    \"无启动错误\": true,\n    \"播放中帧数增长\": {\n      \"f1\": 24,\n      \"f2\": 73\n    },\n    \"播放中画面内容变化\": false,\n    \"HUD 时间推进\": {\n      \"t1\": 1.4,\n      \"t2\": 2\n    },\n    \"暂停按钮切换为“继续”\": \"继续\",\n    \"暂停后画面/时间冻结\": {\n      \"pt\": 2,\n      \"pt2\": 2\n    },\n    \"继续后恢复播放\": true,\n    \"重置后 HUD 时间归零\": true,\n    \"重置后仍在播放\": true,\n    \"无console/页面错误\": true,\n    \"截图已保存\": \"/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.png\"\n  },\n  \"ok\": false,\n  \"consoleErrorCount\": 0,\n  \"pageErrorCount\": 0,\n  \"screenshot\": \"/workspace/independent_results/VERIFIER_FALSE_RESUME_CANARY.png\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "label": "BAD_OPTIONAL_SUBTITLE_TYPE",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/outputs/skill/scripts/gen_animation.py",
+        "--config",
+        "/workspace/independent_results/subtitle_nonstring.json",
+        "--topic",
+        "/workspace/outputs/skill/examples/ball_bounce/topic.js",
+        "--scaffold",
+        "/workspace/outputs/skill/assets/scaffold.js",
+        "--out",
+        "/workspace/independent_results/bad_subtitle.html"
+      ],
+      "rc": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/outputs/skill/scripts/gen_animation.py\", line 159, in <module>\n    main()\n  File \"/workspace/outputs/skill/scripts/gen_animation.py\", line 136, in main\n    \"<!DOCTYPE html>\\n<html lang=\\\"\" + cfg.get(\"lang\", \"zh\") + \"\\\">\\n<head>\\n\"\nTypeError: can only concatenate str (not \"int\") to str\n"
+    }
+  ],
+  "independent_browser": [
+    {
+      "name": "maker.html",
+      "errors": [],
+      "actual_times": {
+        "a": 0.3,
+        "b": 0.8,
+        "c": 0.8,
+        "d": 0.8,
+        "e": 0.9,
+        "f": 1.4,
+        "g": 0.1,
+        "h": 0.5
+      },
+      "initial_time_advances": true,
+      "paused_time_frozen": true,
+      "resumed_time_actually_advances": true,
+      "reset_time_near_zero": true,
+      "reset_then_time_advances": true,
+      "canvas_visible": true
+    },
+    {
+      "name": "ball.html",
+      "errors": [],
+      "actual_times": {
+        "a": 0.3,
+        "b": 0.7,
+        "c": 0.8,
+        "d": 0.8,
+        "e": 0.9,
+        "f": 1.3,
+        "g": 0.1,
+        "h": 0.5
+      },
+      "initial_time_advances": true,
+      "paused_time_frozen": true,
+      "resumed_time_actually_advances": true,
+      "reset_time_near_zero": true,
+      "reset_then_time_advances": true,
+      "canvas_visible": true
+    },
+    {
+      "name": "resume_disabled_canary.html",
+      "errors": [],
+      "actual_times": {
+        "a": 0.3,
+        "b": 0.8,
+        "c": 0.8,
+        "d": 0.8,
+        "e": 0.8,
+        "f": 0.8,
+        "g": 0,
+        "h": 0
+      },
+      "initial_time_advances": true,
+      "paused_time_frozen": true,
+      "resumed_time_actually_advances": false,
+      "reset_time_near_zero": true,
+      "reset_then_time_advances": false,
+      "canvas_visible": true
+    }
+  ],
+  "synthetic_canary_is_not_new_business_source": true,
+  "new_model_calls": 0,
+  "new_native_agent_sessions": 0,
+  "quality_scope": "Runtime/control testing only; not physics/pedagogy gold or consumption value."
+}

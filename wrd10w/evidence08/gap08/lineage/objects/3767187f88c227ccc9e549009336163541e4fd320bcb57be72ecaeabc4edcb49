@@ -1,0 +1,130 @@
+#!/usr/bin/env python3
+"""重算现金流量汇总表公式并打印各行数值，可选与银行日记账期末余额对账。
+
+用法:
+  python3 summary_verify.py 汇总.xlsx [--rules rules.json] \
+      [--journal journal.json --end YYYY-MM-DD] [--out 报告.json]
+
+行为:
+- 用 LibreOffice 无头模式把文件重算另存（openpyxl 写出的公式无缓存值，LO 加载时会计算）；
+- 打印项目名称→数值 全表，小计/净现金流/累计行单独标注；
+- 给了 --journal 和 --end 时，取截止日前最后一笔余额与 rules.cum_label 行数值对账，
+  一致退出 0，不一致退出 4；LO 不可用退出 5；文件/参数错误退出 2。
+不修改输入文件。
+"""
+import argparse
+import json
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+from openpyxl import load_workbook
+
+DEFAULT_RULES = Path(__file__).resolve().parent.parent / "templates" / "summary_rules.json"
+
+
+def recalc(path):
+    """LibreOffice 重算另存到临时目录，返回重算后的值工作簿；失败返回 None。"""
+    soffice = shutil.which("soffice") or shutil.which("libreoffice")
+    if not soffice:
+        return None
+    tmp = Path(tempfile.mkdtemp(prefix="sumverify_"))
+    try:
+        proc = subprocess.run(
+            [soffice, "--headless", "--convert-to", "xlsx", "--outdir", str(tmp), str(path)],
+            capture_output=True, text=True, timeout=120)
+        converted = tmp / (Path(path).stem + ".xlsx")
+        if not converted.is_file():
+            print("summary_verify error: LibreOffice 转换失败: " + proc.stderr.strip(), file=sys.stderr)
+            return None
+        return load_workbook(converted, data_only=True)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("file", help="要核验的汇总表 xlsx")
+    ap.add_argument("--rules", default=None)
+    ap.add_argument("--journal", help="journal_extract.py 输出的流水 JSON（对账用）")
+    ap.add_argument("--end", help="对账截止日 YYYY-MM-DD")
+    ap.add_argument("--out", help="可选：把核验结果写成 JSON")
+    args = ap.parse_args()
+
+    import datetime as dt
+    rules = json.loads(Path(args.rules or DEFAULT_RULES).read_text(encoding="utf-8"))
+    src = Path(args.file)
+    if not src.is_file():
+        print("summary_verify error: 文件不存在", file=sys.stderr)
+        return 2
+
+    wb_v = recalc(src)
+    if wb_v is None:
+        return 5
+    ws_v = wb_v.worksheets[0]
+
+    markers = [rules.get("cum_label", "累计净现金流"), rules.get("net_label", "净现金流")]
+    report = {"rows": [], "markers": {}}
+    for row in ws_v.iter_rows():
+        name, value = None, None
+        for cell in row:
+            if name is None and isinstance(cell.value, str) and cell.value.strip() and not str(cell.value).startswith("="):
+                name = cell.value.strip()
+            elif value is None and isinstance(cell.value, (int, float)):
+                value = cell.value
+        if name is not None and value is not None:
+            tag = "" if not any(m in name for m in markers) else "  <== " + name
+            print("%-24s %14.2f%s" % (name, value, tag))
+            report["rows"].append({"name": name, "value": value})
+            for m in markers:
+                if m in name and m not in report["markers"]:
+                    report["markers"][m] = value
+
+    rc = 0
+    if args.journal and args.end:
+        data = json.loads(Path(args.journal).read_text(encoding="utf-8"))
+        end = dt.date.fromisoformat(args.end)
+        balances = []
+        for f in data.get("files", []):
+            for s in f.get("sheets", []):
+                for e in s.get("entries", []):
+                    d = str(e.get("date") or "")[:10]
+                    m = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})", d.replace("/", "-").replace("年", "-").replace("月", "-").replace("日", ""))
+                    if not m:
+                        continue
+                    try:
+                        date = dt.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+                    except ValueError:
+                        continue
+                    b = (e.get("amounts") or {}).get("balance")
+                    if b is not None and date <= end:
+                        balances.append((date, b))
+        if not balances:
+            print("summary_verify: 流水中截止日前无余额，跳过对账", file=sys.stderr)
+        else:
+            balances.sort()
+            bank = balances[-1][1]
+            cum = report["markers"].get(rules.get("cum_label", "累计净现金流"))
+            report["bank_end_balance"] = bank
+            if cum is None:
+                print("summary_verify: 表中未找到 [%s] 行，无法对账" % rules.get("cum_label"), file=sys.stderr)
+                rc = 3
+            elif abs(cum - bank) < 0.005:
+                print("对账通过: %s = %.2f 与银行日记账 %s 余额 %.2f 一致" % (rules.get("cum_label"), cum, end, bank))
+                report["reconciled"] = True
+            else:
+                print("对账不符: %s = %.2f，银行日记账 %s 余额 %.2f，差 %.2f" % (rules.get("cum_label"), cum, end, bank, cum - bank), file=sys.stderr)
+                report["reconciled"] = False
+                rc = 4
+
+    if args.out:
+        Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.out).write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return rc
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

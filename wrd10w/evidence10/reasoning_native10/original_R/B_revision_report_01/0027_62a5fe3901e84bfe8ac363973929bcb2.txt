@@ -1,0 +1,11 @@
+All12 extra cases pass. Wait — X9: declared_numbers=[] passed and text has no digits; good. X12: exit1 with ledger_basics + path; good.
+
+Now double-check one subtle thing: the fixed check9 no longer sets ok; I replaced with unconditional checks_passed.append("conflicts"). But wait — in my edit for check9, is there any leftover use of `ok` variable that would conflict with the following check10's `ok = True`? Check10 sets ok=True at start, fine. And check9 previously declared ok=True — removed. Python-wise compiled fine.
+
+Also verify draft-side walker catches draft nested refs — X11 passed.
+
+Now also confirm: original21 rerun used the fixed CLI (log at /workspace/outputs/tests/test_run_log.json now has new cli_sha256). Check the new log summary + new CLI sha. Also verify unchanged resources still have identical SHAs to originals (SKILL.md, schemas, templates).
+
+Then produce:
+- /workspace/outputs/changes.md (change list old→new)
+- /workspace/outputs/resource_validation.json- /workspace/outputs/revision_summary.jsonAlso save a before/after diff of validate_pack.py into outputs/tests/ (e.g., diff vs inputs copy). Let me collect: diff file, SHAs.

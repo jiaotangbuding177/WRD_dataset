@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+"""将 Markdown 报告导出为 PDF（经 docx 中转），并校验中文正常渲染。
+
+用法（原样可执行）:
+  python3 export_pdf.py <报告.md> --out <报告.pdf> [--keep-docx <中间docx路径>]
+
+行为:
+- pandoc(gfm) 先转 docx，再用 soffice 转 PDF（环境已有中文字体 Noto Sans CJK，直接可用）。
+- 生成后用 pdftotext 回读校验：中文字符数 >= 50，否则判定渲染失败退出 3
+  （历史教训：中文字体配置不对会产出空白/乱码 PDF，必须回读校验）。
+- 退出码: 0 成功; 2 输入缺失/工具缺失; 3 转换或渲染校验失败。
+- --keep-docx 指定路径时保留中间 docx（用户常接着要 Word 版，可复用）。
+"""
+import argparse
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="Markdown 报告导出 PDF（中文校验）")
+    ap.add_argument("input", help="报告 .md 路径")
+    ap.add_argument("--out", required=True, help="输出 .pdf 路径")
+    ap.add_argument("--keep-docx", default=None, help="同时保存中间 docx 到该路径")
+    args = ap.parse_args(argv)
+
+    if not os.path.isfile(args.input):
+        print("export_pdf error: 输入不存在: %s" % args.input, file=sys.stderr)
+        return 2
+    for tool in ("pandoc", "soffice", "pdftotext"):
+        if not shutil.which(tool):
+            print("export_pdf error: 缺少 %s" % tool, file=sys.stderr)
+            return 2
+
+    out_dir = os.path.dirname(os.path.abspath(args.out)) or "."
+    os.makedirs(out_dir, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        docx = os.path.join(tmp, "report.docx")
+        r = subprocess.run(["pandoc", "-f", "gfm", "-t", "docx", "-o", docx, args.input],
+                           capture_output=True, text=True, timeout=600)
+        if r.returncode != 0:
+            print("export_pdf error: pandoc 失败: %s" % r.stderr[:300], file=sys.stderr)
+            return 3
+        if args.keep_docx:
+            os.makedirs(os.path.dirname(os.path.abspath(args.keep_docx)) or ".", exist_ok=True)
+            shutil.copyfile(docx, args.keep_docx)
+        r = subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", tmp, docx],
+                           capture_output=True, text=True, timeout=900)
+        pdf = os.path.join(tmp, "report.pdf")
+        if r.returncode != 0 or not os.path.isfile(pdf):
+            print("export_pdf error: soffice 转 PDF 失败: %s" % r.stderr[:300], file=sys.stderr)
+            return 3
+        rd = subprocess.run(["pdftotext", pdf, "-"], capture_output=True, timeout=300)
+        text = rd.stdout.decode("utf-8", "replace")
+        cjk = len(re.findall(r"[\u4e00-\u9fff]", text))
+        pages = text.count("\f") or 1
+        if cjk < 50:
+            print("export_pdf error: 回读仅 %d 个中文字符，疑似字体渲染失败" % cjk, file=sys.stderr)
+            return 3
+        shutil.copyfile(pdf, args.out)
+
+    print("export_pdf: %s（约 %d 页，回读中文字符 %d）" % (args.out, pages, cjk))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

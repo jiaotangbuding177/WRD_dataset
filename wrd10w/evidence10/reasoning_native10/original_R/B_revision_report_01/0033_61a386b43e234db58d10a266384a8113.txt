@@ -1,0 +1,11 @@
+Now a final sanity pass:
+1. Verify the original21 rerun really ran against the fixed CLI (test_run_log.json cli_sha256 =86336921... — already confirmed above ✓).
+2. Also double check E3 (nested bad quote) still passes and no shape false-positives were introduced in original fixtures —21/21 confirms.
+3. Verify JSON deliverables parse.
+4. One more check per requirement: "已有其他/tmp路径的图先复制..." not relevant. "不得以yield结束" — fine.
+
+Also verify that the extra X9 case didn't accidentally rely on draft declared_numbers=[] being accepted... it passed, fine.
+
+Let me validate the two JSON deliverables parse, and do a final overall listing + summary. Also I should double check the fixed CLI handles the draft with evidence_refs inside fact_refs? Not needed.
+
+One more requirement check: "用原公开参数接口复跑原21测试" ✓ (run_tests.py unmodified, same commands). "既有预期不能为了变绿被改" ✓ (run_tests.py + make_fixtures.py byte-identical? I copied them; verify cmp). Let me verify runner/generator unchanged vs inputs.

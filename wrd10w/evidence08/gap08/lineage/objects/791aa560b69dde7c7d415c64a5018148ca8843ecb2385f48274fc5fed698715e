@@ -1,0 +1,197 @@
+"""Making-side metadata builder: replay.json / resource_manifest.json / evidence.json."""
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+sys.path.insert(0, "/workspace/inputs/making_tools")
+from contract import absent_reference, pin
+
+OUT = Path("/workspace/outputs")
+FIX = OUT / "reproduction_inputs"
+USAGE = ("python {SKILL}/scripts/fill_scored_feedback.py {INPUT}/score_results.json "
+         "{INPUT}/feedback_form.docx --out {OUT}/filled_feedback.docx")
+PUBLIC = ["python", "{SKILL}/scripts/fill_scored_feedback.py", "{INPUT}/score_results.json",
+          "{INPUT}/feedback_form.docx", "--out", "{OUT}/filled_feedback.docx"]
+DEPS = [{"kind": "runtime", "name": "OpenClaw-python", "version": "2026.9.5-python3.11.2",
+         "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"}]
+INTERFACE = {
+    "kind": "program", "contract_version": "1", "usage": USAGE,
+    "inputs": ["score_results JSON: {\"rows\":[{\"label\",\"value\"}...],\"total\":{\"label\",\"value\"} optional}",
+               "editable .docx feedback form whose rows are located by exact cell text"],
+    "outputs": ["filled feedback form .docx with scores and opinions written, re-read verified"],
+}
+SRCS = {
+    "conv_d296b8df4dfc": {
+        "pin": pin("/workspace/inputs/conversations/conv_d296b8df4dfc.json"),
+        "record": "5ae3b37ab1a16b27a6558eb3bdeb35368df537f7694a79168ad09369b9571dfb",
+        "messages": ["conv_d296b8df4dfc:msg_1", "conv_d296b8df4dfc:msg_2", "conv_d296b8df4dfc:msg_7",
+                     "conv_d296b8df4dfc:msg_17", "conv_d296b8df4dfc:msg_21", "conv_d296b8df4dfc:msg_25",
+                     "conv_d296b8df4dfc:msg_27", "conv_d296b8df4dfc:msg_29", "conv_d296b8df4dfc:msg_31",
+                     "conv_d296b8df4dfc:msg_33", "conv_d296b8df4dfc:msg_35", "conv_d296b8df4dfc:msg_37",
+                     "conv_d296b8df4dfc:msg_41", "conv_d296b8df4dfc:msg_43", "conv_d296b8df4dfc:msg_44",
+                     "conv_d296b8df4dfc:msg_45", "conv_d296b8df4dfc:msg_47"],
+    },
+    "conv_0945c1554661": {
+        "pin": pin("/workspace/inputs/conversations/conv_0945c1554661.json"),
+        "record": "db9da57372b0602df1bb986df1f3c2c8d9b81b55fad8f0f21fe56457f7e5a35b",
+        "messages": ["conv_0945c1554661:msg_1", "conv_0945c1554661:367200db", "conv_0945c1554661:db361ef7",
+                     "conv_0945c1554661:e6563821", "conv_0945c1554661:43655abb", "conv_0945c1554661:f659166b",
+                     "conv_0945c1554661:2a48eb4a", "conv_0945c1554661:a5a4e240", "conv_0945c1554661:7fb647bf",
+                     "conv_0945c1554661:9e067f13", "conv_0945c1554661:74f138f3", "conv_0945c1554661:0196b4dd",
+                     "conv_0945c1554661:fd7666dd", "conv_0945c1554661:b1955bf4", "conv_0945c1554661:ec306910"],
+    },
+}
+
+def fixture(path, source_id, message_ids, purpose, derivation):
+    p = pin(str(FIX / path))
+    return {"path": path, "pin": p, "source_id": source_id, "message_ids": message_ids,
+            "origin": "generated_fixture", "generated": True, "purpose": purpose,
+            "derivation": derivation}
+
+def gen_ref(fix_entry):
+    return {k: fix_entry[k] for k in ("source_id", "message_ids", "pin", "origin")}
+
+DER_FORM = ("Reconstruction of the editable feedback-form structure described in the selected "
+            "real conversations (12-indicator scoring table with per-row score cells plus an "
+            "expert opinion table). Original attachments were not supplied in the package "
+            "(attachment_count: 0), so these are newly generated ordinary files, not the "
+            "historical bytes; indicator names follow conv_0945c1554661:ec306910.")
+DER_SCORES = ("Score values transcribed from the real scoring result reported in "
+              "conv_0945c1554661:ec306910 (total 78, twelve indicators); opinion field labels "
+              "follow conv_d296b8df4dfc:msg_41. Used as business input data only; the program "
+              "and skill templates contain no pre-filled answers.")
+DER_INVALID = ("Truncated JSON derived from score_results_normal.json to reproduce the real "
+               "parse-error path; never a historical file.")
+DER_VMERGE = (DER_FORM + " The score cells of rows 10 and 11 (验证实施方案完整性 / 经费预算合理性) "
+              "are vertically merged with w:vMerge restart/continue, reproducing the template "
+              "defect reported in conv_d296b8df4dfc:msg_29-msg_35 and "
+              "conv_0945c1554661:9e067f13-0196b4dd.")
+
+fx_scores = fixture("score_results_normal.json", "conv_0945c1554661", ["conv_0945c1554661:ec306910", "conv_d296b8df4dfc:msg_41"], "source_reconstruction", DER_SCORES)
+fx_form = fixture("feedback_form_normal.docx", "conv_0945c1554661", ["conv_0945c1554661:ec306910", "conv_d296b8df4dfc:msg_21"], "source_reconstruction", DER_FORM)
+fx_vmerge = fixture("feedback_form_vmerge.docx", "conv_d296b8df4dfc", ["conv_d296b8df4dfc:msg_29", "conv_d296b8df4dfc:msg_31", "conv_0945c1554661:0196b4dd"], "boundary_case", DER_VMERGE)
+fx_invalid = fixture("score_results_invalid.json", "conv_0945c1554661", ["conv_0945c1554661:ec306910"], "invalid_input", DER_INVALID)
+
+absent = absent_reference(
+    "/workspace/inputs", "never_exists.json",
+    source_id="conv_d296b8df4dfc",
+    message_ids=["conv_d296b8df4dfc:msg_1"],
+    source_record_sha256=SRCS["conv_d296b8df4dfc"]["record"],
+    source_material_pin=SRCS["conv_d296b8df4dfc"]["pin"])
+
+def office_asserts(path, texts):
+    out = [{"kind": "zip_members", "path": path, "value": ["word/document.xml"]},
+           {"kind": "zip_member_count", "path": path, "pattern": "word/document\\.xml", "value": 1}]
+    for t in texts:
+        out.append({"kind": "zip_xml_contains", "path": path, "member": "word/document.xml", "value": t})
+    return out
+
+normal_texts = ["7.5", "6.5", "4.5", "78", "是", "高，战略卡脖子环节，同意开展概念验证", "工艺方案成熟，需补充实验验证阶段排期"]
+boundary_texts = ["6.5", "78", "是"]
+
+replay = {
+    "schema": "wrd-replay-v1",
+    "programs": [{
+        "path": "scripts/fill_scored_feedback.py",
+        "documented_usage": USAGE,
+        "public_argv": PUBLIC,
+        "interface": INTERFACE,
+        "dependencies": DEPS,
+        "cases": [
+            {
+                "kind": "normal", "argv": PUBLIC, "expected_exit": 0,
+                "inputs": [gen_ref(fx_scores), gen_ref(fx_form)],
+                "outputs": [{"path": "filled_feedback.docx", "min_bytes": 1}],
+                "assertions": office_asserts("filled_feedback.docx", normal_texts),
+            },
+            {
+                "kind": "boundary",
+                "argv": ["python", "{SKILL}/scripts/fill_scored_feedback.py",
+                         "{FIXTURE}/score_results_normal.json", "{FIXTURE}/feedback_form_vmerge.docx",
+                         "--out", "{OUT}/filled_feedback_boundary.docx"],
+                "expected_exit": 0,
+                "inputs": [gen_ref(fx_scores), gen_ref(fx_vmerge)],
+                "outputs": [{"path": "filled_feedback_boundary.docx", "min_bytes": 1}],
+                "assertions": office_asserts("filled_feedback_boundary.docx", boundary_texts),
+            },
+            {
+                "kind": "invalid_input",
+                "argv": ["python", "{SKILL}/scripts/fill_scored_feedback.py",
+                         "{FIXTURE}/score_results_invalid.json", "{FIXTURE}/feedback_form_normal.docx",
+                         "--out", "{OUT}/filled_invalid.docx"],
+                "expected_exit": 2,
+                "inputs": [gen_ref(fx_invalid), gen_ref(fx_form)],
+                "outputs": [],
+                "assertions": [{"kind": "contains", "path": "$stderr", "value": "score_results is not valid JSON"}],
+            },
+            {
+                "kind": "invalid_input",
+                "argv": ["python", "{SKILL}/scripts/fill_scored_feedback.py",
+                         "{INPUT}/never_exists.json", "{FIXTURE}/feedback_form_normal.docx",
+                         "--out", "{OUT}/filled_absent.docx"],
+                "expected_exit": 2,
+                "inputs": [absent],
+                "outputs": [],
+                "assertions": [{"kind": "contains", "path": "$stderr", "value": "score_results file not found"}],
+            },
+        ],
+    }],
+    "fixtures": [fx_scores, fx_form, fx_vmerge, fx_invalid],
+    "non_executable_resources": [],
+    "limitations": [
+        "Original attachment bytes (evaluation form, opinion form) were not supplied with the package; feedback-form fixtures are newly generated reconstructions bound to the structure described in the selected conversations, not historical artifacts.",
+        "Scoring judgment itself stays with the business actor; the program only replaces transcription of scores and opinions into the editable form and its built-in unmerge/verification.",
+        "Sub-agent reproduction must bind {INPUT} to a staging directory containing the fixture files declared for the public usage case; the pipeline performs this temporary binding outside the skill.",
+    ],
+}
+
+manifest = {
+    "schema": "wrd-resource-manifest-v1",
+    "resources": [{
+        "id": "fill_scored_feedback",
+        "path": "scripts/fill_scored_feedback.py",
+        "kind": "program",
+        "interface": INTERFACE,
+        "dependencies": DEPS,
+        "source_evidence": [
+            {"source_id": "conv_d296b8df4dfc", "message_id": "conv_d296b8df4dfc:msg_1"},
+            {"source_id": "conv_d296b8df4dfc", "message_id": "conv_d296b8df4dfc:msg_31"},
+            {"source_id": "conv_d296b8df4dfc", "message_id": "conv_d296b8df4dfc:msg_44"},
+            {"source_id": "conv_0945c1554661", "message_id": "conv_0945c1554661:msg_1"},
+            {"source_id": "conv_0945c1554661", "message_id": "conv_0945c1554661:0196b4dd"},
+        ],
+    }],
+}
+
+evidence = {
+    "schema": "wrd-making-evidence-v1",
+    "source_learning": {
+        "reader": "python /workspace/inputs/making_tools/read_source.py --source /workspace/inputs/conversations/conv_d296b8df4dfc.json /workspace/inputs/conversations/conv_0945c1554661.json --max-bytes 6500",
+        "cursor_chain": ["0:0", "12:481", "19:0", "31:311"],
+        "complete": True,
+        "native_receipts": "/workspace/outputs/making_records/source_read_chunks/",
+    },
+    "source_evidence": [
+        {"source_id": "conv_d296b8df4dfc", "message_ids": SRCS["conv_d296b8df4dfc"]["messages"],
+         "source_record_sha256": SRCS["conv_d296b8df4dfc"]["record"],
+         "learning_notes": "Representative real run of the route: parse the 12-indicator evaluation form, score strictly against the proposal attachment (77/100, no pass/fail decision), fill the expert opinion table, export copies on request (msg_44-47). Critical defect: adjacent score cells of 验证实施方案完整性/经费预算合理性 were vertically merged so the second write overwrote the first (msg_29-msg_35); fix was to split the merge at XML level and rewrite per cell, then re-verify."},
+        {"source_id": "conv_0945c1554661", "message_ids": SRCS["conv_0945c1554661"]["messages"],
+         "source_record_sha256": SRCS["conv_0945c1554661"]["record"],
+         "learning_notes": "Independent second run of the same route (78/100) confirming the reusable steps and the same vMerge defect (9e067f13-0196b4dd): R10/R11 score cells merged, 6.5 overwritten by 7; fixed by removing vMerge in XML and writing each cell, with per-dimension sum check (12 indicators sum to total). Also confirmed format-preserving cell writes (12pt Times New Roman/SimSun)."},
+    ],
+    "conditions_from_sources": [
+        "评分标准由附件提供，不自行增设或放宽标准",
+        "评语写入用户指定的反馈表结构后导出",
+        "仅输出评分与意见，不做通过/录用决定",
+    ],
+    "unsupported_from_sources": ["扫描件或手写批注", "细则缺失时的自定标准"],
+    "unlearned_context": "Other member-card previews (conv_fbed0e8da465, conv_edc9bbda3d45) were not selected and were not learned; no broader applicability is claimed.",
+}
+
+for name, payload in (("replay.json", replay), ("resource_manifest.json", manifest), ("evidence.json", evidence)):
+    (OUT / name).write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+print("metadata written; fixture pins:")
+for f in replay["fixtures"]:
+    print(" ", f["path"], f["pin"]["sha256"][:12], f["pin"]["bytes"])
+print("absent parent entries:", len(absent["parent_directory_pin"]["entries"]))

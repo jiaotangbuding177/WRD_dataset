@@ -1,0 +1,27 @@
+{
+  "id": "chatcmpl-1793079190235",
+  "model": "glm-5.3-flash",
+  "usage": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "call9a672ae5f8884731a5d50e4a3a359246",
+            "type": "function",
+            "function": {
+              "name": "exec",
+              "arguments": "{\"command\":\"set -e\\ncd /workspace\\n# Record BEFORE SHAs: resources (copied originals) + fixtures + tests\\necho '== resource SHAs (outputs/skill, verbatim copy) ==' | tee /workspace/tmp/evidence/sha_versions.txt\\nsha256sum outputs/skill/SKILL.md outputs/skill/scripts/*.py | tee -a /workspace/tmp/evidence/sha_versions.txt\\necho '== input original SHAs ==' | tee -a /workspace/tmp/evidence/sha_versions.txt\\nsha256sum inputs/previous_skill/SKILL.md inputs/previous_skill/scripts/*.py | tee -a /workspace/tmp/evidence/sha_versions.txt\\necho '== fixtures SHAs ==' | tee -a /workspace/tmp/evidence/sha_versions.txt\\nsha256sum /workspace/tmp/fixtures/* /workspace/independent_fixtures/* /workspace/extra_type_checks/*.json /workspace/inputs/original_tests/*.py /workspace/inputs/original_tests/*.json /workspace/inputs/original_tests/test_report.txt /workspace/inputs/independent/repair_contract_tests.py /workspace/inputs/independent/*.json 2>/dev/null | tee -a /workspace/tmp/evidence/sha_versions.txt\\necho '== copy identity check (input == outputs/skill) =='\\ndiff -r /workspace/inputs/previous_skill /workspace/outputs/skill && echo VERBATIM_COPY_OK\",\"workdir\":\"/workspace\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ],
+  "_inspection_only_reconstructed_from_SSE": true,
+  "_event_count": 3
+}

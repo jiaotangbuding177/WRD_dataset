@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1240px; height:1754px; font-family:'Noto Sans CJK SC'; color:#eaf6ff; }
+  .poster { position:relative; width:1240px; height:1754px; overflow:hidden;
+    background: linear-gradient(160deg,#04122b 0%, #062244 34%, #08405f 62%, #0a5b57 100%); }
+  svg.deco { position:absolute; }
+
+  /* ===== header ===== */
+  .header { position:relative; z-index:5; padding:44px 64px 0 64px; display:flex; justify-content:space-between; align-items:center; }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .logo { width:52px; height:52px; border-radius:14px;
+    background:linear-gradient(135deg,#17e2b8,#0aa6c9); display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:30px; color:#04122b; }
+  .brand-name { font-size:30px; font-weight:700; letter-spacing:2px; }
+  .brand-en { font-size:13px; letter-spacing:3px; color:#7fd8cf; font-weight:500; }
+  .badge { border:2px solid #2ee6b8; color:#2ee6b8; border-radius:999px; padding:8px 22px;
+    font-size:20px; font-weight:700; letter-spacing:2px; background:rgba(46,230,184,.08); }
+
+  /* ===== hero ===== */
+  .hero { position:relative; z-index:5; padding:64px 64px 0 64px; }
+  .kicker { display:inline-block; font-size:19px; letter-spacing:4px; color:#8ee9d6; font-weight:600;
+    border-left:5px solid #2ee6b8; padding-left:14px; margin-bottom:18px; }
+  h1 { font-size:74px; font-weight:900; line-height:1.18; letter-spacing:2px;
+    background:linear-gradient(90deg,#ffffff 30%, #8ff0dc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .tagline { margin-top:20px; font-size:26px; color:#c6ecff; font-weight:500; letter-spacing:1px; }
+  .tagline b { color:#2ee6b8; }
+  .chips { margin-top:26px; display:flex; gap:16px; }
+  .chip { background:rgba(10,60,90,.55); border:1px solid rgba(126,222,255,.35); border-radius:12px;
+    padding:10px 20px; font-size:20px; font-weight:600; color:#dff4ff; }
+  .chip em { font-style:normal; color:#2ee6b8; }
+
+  /* ===== modules ===== */
+  .content { position:relative; z-index:5; padding:40px 64px 0 64px; display:flex; flex-direction:column; gap:26px; }
+  .module { background:rgba(7,32,58,.62); border:1px solid rgba(90,200,230,.28); border-radius:20px;
+    padding:26px 30px; backdrop-filter:blur(2px); }
+  .mod-head { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .mod-num { width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#17e2b8,#0aa6c9);
+    color:#04122b; font-weight:900; font-size:22px; display:flex; align-items:center; justify-content:center; }
+  .mod-title { font-size:28px; font-weight:800; letter-spacing:3px; }
+  .mod-title span { font-size:14px; color:#7fd8cf; letter-spacing:2px; font-weight:500; margin-left:10px; }
+
+  .hl-row { display:flex; gap:16px; }
+  .hl { flex:1; background:rgba(46,230,184,.10); border:1px solid rgba(46,230,184,.35); border-radius:14px;
+    padding:18px 14px; text-align:center; }
+  .hl .t { font-size:22px; font-weight:800; color:#5ff2cf; letter-spacing:1px; }
+  .hl .d { font-size:14px; color:#bfe4f5; margin-top:6px; }
+
+  .duty { display:flex; align-items:flex-start; gap:14px; padding:9px 0; }
+  .duty + .duty { border-top:1px dashed rgba(120,200,230,.22); }
+  .duty-ico { flex:none; width:30px; height:30px; margin-top:2px; border-radius:8px; background:rgba(46,230,184,.16);
+    border:1px solid rgba(46,230,184,.45); color:#5ff2cf; font-size:16px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; }
+  .duty .tx { font-size:19px; line-height:1.5; color:#e6f6ff; }
+  .duty .tx b { color:#7ff0d8; }
+
+  .req { display:flex; gap:14px; }
+  .req-item { flex:1; background:rgba(10,50,80,.5); border-radius:14px; padding:16px 18px; border:1px solid rgba(120,210,240,.22); }
+  .req-item .k { font-size:15px; color:#8ee9d6; font-weight:700; letter-spacing:2px; margin-bottom:8px; }
+  .req-item .v { font-size:17px; line-height:1.5; color:#eaf6ff; font-weight:500; }
+
+  /* ===== footer ===== */
+  .footer { position:absolute; z-index:5; left:0; right:0; bottom:0; height:150px;
+    background:linear-gradient(90deg,#0bbfa0,#0a8fb8); display:flex; align-items:center; justify-content:space-between;
+    padding:0 64px; }
+  .footer .msg1 { font-size:36px; font-weight:900; color:#032230; letter-spacing:2px; }
+  .footer .msg2 { font-size:18px; color:#063a4d; font-weight:600; margin-top:6px; letter-spacing:1px; }
+  .qr-wrap { display:flex; align-items:center; gap:16px; }
+  .qr { width:96px; height:96px; background:#fff; border-radius:10px; padding:8px; }
+  .qr-label { font-size:20px; font-weight:800; color:#032230; line-height:1.5; letter-spacing:1px; }
+</style></head>
+<body><div class="poster">
+
+  <!-- decorative DNA helix -->
+  <svg class="deco" style="right:-60px; top:60px;" width="620" height="980" viewBox="0 0 620 980" fill="none">
+    <g opacity="0.5">
+      <path d="M310 0 C 210 160, 410 240, 310 400 C 210 560, 410 640, 310 800 C 260 880, 280 940, 300 980" stroke="#2ee6b8" stroke-width="6" fill="none" opacity="0.85"/>
+      <path d="M310 0 C 410 160, 210 240, 310 400 C 410 560, 210 640, 310 800 C 360 880, 340 940, 320 980" stroke="#38bdf8" stroke-width="6" fill="none" opacity="0.85"/>
+      <g stroke="#7ff0d8" stroke-width="4" opacity="0.8">
+        <line x1="252" y1="80"  x2="368" y2="80"/><line x1="228" y1="160" x2="392" y2="160"/>
+        <line x1="252" y1="240" x2="368" y2="240"/><line x1="232" y1="320" x2="388" y2="320"/>
+        <line x1="252" y1="400" x2="368" y2="400"/><line x1="228" y1="480" x2="392" y2="480"/>
+        <line x1="252" y1="560" x2="368" y2="560"/><line x1="232" y1="640" x2="388" y2="640"/>
+        <line x1="252" y1="720" x2="368" y2="720"/><line x1="250" y1="800" x2="370" y2="800"/>
+      </g>
+      <circle cx="252" cy="80" r="9" fill="#2ee6b8"/><circle cx="368" cy="80" r="9" fill="#38bdf8"/>
+      <circle cx="228" cy="160" r="9" fill="#38bdf8"/><circle cx="392" cy="160" r="9" fill="#2ee6b8"/>
+      <circle cx="252" cy="240" r="9" fill="#2ee6b8"/><circle cx="368" cy="240" r="9" fill="#38bdf8"/>
+      <circle cx="232" cy="320" r="9" fill="#38bdf8"/><circle cx="388" cy="320" r="9" fill="#2ee6b8"/>
+      <circle cx="252" cy="400" r="9" fill="#2ee6b8"/><circle cx="368" cy="400" r="9" fill="#38bdf8"/>
+      <circle cx="228" cy="480" r="9" fill="#38bdf8"/><circle cx="392" cy="480" r="9" fill="#2ee6b8"/>
+      <circle cx="252" cy="560" r="9" fill="#2ee6b8"/><circle cx="368" cy="560" r="9" fill="#38bdf8"/>
+      <circle cx="232" cy="640" r="9" fill="#38bdf8"/><circle cx="388" cy="640" r="9" fill="#2ee6b8"/>
+    </g>
+  </svg>
+
+  <!-- glowing cells / strains -->
+  <svg class="deco" style="left:-90px; top:520px;" width="420" height="420" viewBox="0 0 420 420" fill="none">
+    <circle cx="150" cy="150" r="96" stroke="#2ee6b8" stroke-width="3" opacity="0.30"/>
+    <circle cx="150" cy="150" r="66" stroke="#7ff0d8" stroke-width="2" opacity="0.35"/>
+    <circle cx="150" cy="150" r="30" fill="#2ee6b8" opacity="0.12"/>
+    <circle cx="300" cy="290" r="52" stroke="#38bdf8" stroke-width="3" opacity="0.30"/>
+    <circle cx="300" cy="290" r="18" fill="#38bdf8" opacity="0.15"/>
+    <circle cx="64" cy="330" r="14" fill="#2ee6b8" opacity="0.35"/>
+    <circle cx="356" cy="120" r="10" fill="#7ff0d8" opacity="0.4"/>
+  </svg>
+
+  <!-- lab flask bottom-left -->
+  <svg class="deco" style="left:-40px; bottom:110px;" width="360" height="430" viewBox="0 0 360 430" fill="none" opacity="0.5">
+    <path d="M150 40 h60 M165 40 v120 L90 350 q-10 40 30 40 h120 q40 0 30 -40 L195 160 V40"
+      stroke="#2ee6b8" stroke-width="6" fill="rgba(46,230,184,0.06)" stroke-linecap="round"/>
+    <path d="M118 300 L242 300 L262 355 q8 32 -26 32 H124 q-34 0 -26 -32 Z" fill="#2ee6b8" opacity="0.25"/>
+    <circle cx="150" cy="330" r="7" fill="#7ff0d8"/><circle cx="190" cy="350" r="5" fill="#7ff0d8"/><circle cx="220" cy="325" r="6" fill="#7ff0d8"/>
+  </svg>
+
+  <!-- fine grid -->
+  <svg class="deco" style="inset:0;" width="1240" height="1754" viewBox="0 0 1240 1754" fill="none" opacity="0.05">
+    <defs><pattern id="g" width="62" height="62" patternUnits="userSpaceOnUse">
+      <path d="M62 0 H0 V62" stroke="#9fe8ff" stroke-width="1" fill="none"/></pattern></defs>
+    <rect width="1240" height="1754" fill="url(#g)"/>
+  </svg>
+
+  <div class="header">
+    <div class="brand">
+      <div class="logo">合</div>
+      <div><div class="brand-name">合生纪康</div><div class="brand-en">HosynBiomeX</div></div>
+    </div>
+    <div class="badge">2025届秋季校园招聘</div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">研发事业部 · 工程菌方向 · 校企协同培养</div>
+    <h1>工程菌助理研发工程师</h1>
+    <div class="tagline">聚焦<b>工程菌验证</b>与<b>产业化落地</b>，站在合成生物学前沿</div>
+    <div class="chips">
+      <div class="chip">📍 上海 · 闵行</div>
+      <div class="chip">💰 年薪 <em>18万</em></div>
+      <div class="chip">🎓 面向 2025 届硕士应届生</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="module">
+      <div class="mod-head"><div class="mod-num">1</div><div class="mod-title">岗位亮点<span>WHY US</span></div></div>
+      <div class="hl-row">
+        <div class="hl"><div class="t">顶刊团队科研背书</div><div class="d">华东师大团队 · Nature/Science · 30+专利</div></div>
+        <div class="hl"><div class="t">从0搭建工程菌管线</div><div class="d">直接参与核心方向 · 成长路径清晰</div></div>
+        <div class="hl"><div class="t">赛道红利天花板高</div><div class="d">益生菌政策窗口 · 产业化落地前沿</div></div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="mod-head"><div class="mod-num">2</div><div class="mod-title">核心职责<span>WHAT YOU DO</span></div></div>
+      <div class="duty"><div class="duty-ico">🧫</div><div class="tx"><b>菌株验证：</b>底盘菌株编辑与筛选，发酵小试与功能产物检测验证</div></div>
+      <div class="duty"><div class="duty-ico">🧬</div><div class="tx"><b>实验设计：</b>基因克隆、表达载体构建，在负责人指导下推进实验</div></div>
+      <div class="duty"><div class="duty-ico">🤝</div><div class="tx"><b>跨校协作：</b>联动高校团队与天然菌、工艺团队，交叉实验与数据共享</div></div>
+      <div class="duty"><div class="duty-ico">📊</div><div class="tx"><b>数据闭环：</b>规范记录归档、维护菌株档案，周期性整理进展并汇报</div></div>
+    </div>
+
+    <div class="module">
+      <div class="mod-head"><div class="mod-num">3</div><div class="mod-title">应聘要求<span>WHO WE NEED</span></div></div>
+      <div class="req">
+        <div class="req-item"><div class="k">学历</div><div class="v">硕士及以上，实验功底扎实的优秀应届硕士可投</div></div>
+        <div class="req-item"><div class="k">专业</div><div class="v">合成生物学 / 微生物学 / 发酵工程 / 生物化工</div></div>
+        <div class="req-item"><div class="k">能力关键词</div><div class="v">分子克隆 · 大肠杆菌遗传操作 · 发酵培养 · 严谨规范</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div><div class="msg1">9月启动高校宣讲 · 扫码投递</div>
+    <div class="msg2">华东理工大学 / 江南大学 等高校专场 · 合生纪康（上海）期待与你共筑工程菌未来</div></div>
+    <div class="qr-wrap">
+      <div class="qr-label">扫码<br>投递简历</div>
+      <svg class="qr" viewBox="0 0 100 100"><rect width="100" height="100" fill="#fff"/>
+        <g fill="#032230">
+          <rect x="6" y="6" width="28" height="28"/><rect x="66" y="6" width="28" height="28"/><rect x="6" y="66" width="28" height="28"/>
+          <rect x="12" y="12" width="16" height="16" fill="#fff"/><rect x="72" y="12" width="16" height="16" fill="#fff"/><rect x="12" y="72" width="16" height="16" fill="#fff"/>
+          <rect x="16" y="16" width="8" height="8"/><rect x="76" y="16" width="8" height="8"/><rect x="16" y="76" width="8" height="8"/>
+          <rect x="44" y="8" width="8" height="8"/><rect x="44" y="24" width="8" height="8"/><rect x="52" y="44" width="8" height="8"/>
+          <rect x="8" y="44" width="8" height="8"/><rect x="24" y="52" width="8" height="8"/><rect x="68" y="44" width="8" height="8"/>
+          <rect x="84" y="52" width="8" height="8"/><rect x="44" y="68" width="8" height="8"/><rect x="60" y="76" width="8" height="8"/>
+          <rect x="76" y="68" width="8" height="8"/><rect x="44" y="84" width="8" height="8"/><rect x="92" y="84" width="4" height="8"/>
+          <rect x="36" y="36" width="8" height="8"/><rect x="52" y="60" width="8" height="8"/><rect x="68" y="88" width="8" height="4"/>
+        </g></svg>
+    </div>
+  </div>
+
+</div></body></html>

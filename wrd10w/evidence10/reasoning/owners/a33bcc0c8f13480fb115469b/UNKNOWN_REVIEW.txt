@@ -1,0 +1,77 @@
+BLOCK 5484:6161
+Then FINISH with decision for w1.
+
+Budget: 6 decisions left including this? "decisions_left_including_this": 6, model_calls 6, tool_calls 4. So we have room.
+
+Plan: 
+- Decision 7: UPDATE (fixed).
+- Decision 8: FINISH.
+
+That's within budget.
+
+Let me construct the UPDATE carefully following the contract.
+
+UPDATE arguments:
+{
+  "graph": {"base_version": 2, "nodes": [], "edges": []},
+  "workflows": [{"workflow_id": "conv_948cdaa668ef_w1", "base_version": 2, "patch": {...}}],
+  "issues": [{"spec": {...u1 with status DEFERRED}, "base_version": 1}]
+}
+
+The patch: "steps": full list (complete replacement field). Provide all 5 steps with proper fields.
+
+Let me write the steps:
+
+
+
+BLOCK 6547:10030
+s2: proposed, quote "根据合生纪康的银行日记账来编制记账凭证".
+
+s3: proposed, asset_ids ["conv_948cdaa668ef:conv948_try_w1_voucher_core_v2:repair"], evidence quote "所有利息收入用来冲减财务费用".
+
+s4: proposed, quote "我采用的是金蝶账无忧系统".
+
+s5: proposed, asset_ids ["conv_948cdaa668ef:conv948_try_w1_voucher_core_v2:repair"], quote "所有利息收入用来冲减财务费用".
+
+Also patch checks, failure_handling, unknowns, asset_refs.
+
+Also parameters/requirements aren't being patched (they stay). Fine.
+
+Hmm, wait: does patch require "spec" or field-level patch? The contract says {"workflow_id": "<existing id>", "base_version": 1, "patch": {"checks": [...]}}. So patch is a partial field replacement. Fine.
+
+Now quote validity: must be exact substring of source content. "根据合生纪康的银行日记账来编制记账凭证" — source user content: "根据合生纪康的银行日记账来编制记账凭证，请注意所有利息收入..." Yes contains it. "所有利息收入用来冲减财务费用" — yes. "我采用的是金蝶账无忧系统" — yes.
+
+Issue u1 evidence_refs use assistant role quote "我发现了两个版本的银行日记账文件有差异" — that was from assistant message c590a19b: "我发现了两个版本的银行日记账文件有差异。" Actually it says "我发现了两个版本的银行日记账文件有差异。" Yes exact substring appears. Keep.
+
+Now FINISH: decisions [{workflow_id: conv_948cdaa668ef_w1, status: READY, reason: ...}], reason.
+
+Is READY appropriate? The core voucher generation logic is verified by actual execution (exit 0, asset verified, reusable). The xlsx reading step is unresolved (openpyxl missing) — that's an unknown but the workflow can proceed via host INSPECT or an available parser; the user must confirm the parser. Hmm, READY is "structural trial readiness" not task success. The workflow has a verified core asset and documented steps. I'd say READY with reason noting limitations. Alternatively DEFERRED because xlsx parsing unverified. Hmm.
+
+The workflow's s1 depends on a parser that's unverified. But it's a bounded unknown with a fallback (host INSPECT). I think READY is defensible: independent future consumer can use it, with documented unknowns. Given guidance "READY is structural trial readiness... not admitted library", and we have a verified reusable asset plus full method, READY seems fine.
+
+Let me be careful: the update must not claim verified for steps; use proposed. The asset itself is verified.
+
+Now let me double-check the previous rejection: "Execution support label lacks registered actual receipt". If the issue is also that I might need to reference the receipt for current_executed... but we're avoiding current_executed entirely. Good.
+
+Hmm, but risk: maybe the rejection is about asset_ids on steps? No, the error explicitly mentions "Execution support label". So it's support_status.
+
+Actually wait, could it be that the workflow-level... no. Fine.
+
+One more consideration: should I also record the openpyxl failure as a failure_handling and unknown. Yes.
+
+Let me write final JSON for decision 7.
+
+action_id: "conv948_update_w1_v3" — unique. Previous was "conv948_update_w1_v3_final" which was rejected. Use a new one to be safe: "conv948_update_w1_v4_receipt_fix".
+
+Purpose: explain fixing rejected support labels by using proposed status while keeping verified asset refs.
+
+Now the FINISH action must be decision 8. But note: "保留最后决策用于合法结束" - fine.
+
+Let me write out the JSON now.
+
+For the patch, I need to include full steps replacement. Let me ensure step objects include id, purpose, input_refs, preconditions, operation, output_refs, postconditions, asset_ids, evidence_refs, support_status.
+
+Write it.
+
+Also include "asset_refs": ["conv_948cdaa668ef:conv948_try_w1_voucher_core_v2:repair"].
+

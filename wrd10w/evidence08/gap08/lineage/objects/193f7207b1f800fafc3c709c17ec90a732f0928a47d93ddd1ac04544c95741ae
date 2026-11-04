@@ -1,0 +1,34 @@
+{
+  "route_id": "ai-adoption-advisory",
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/advisory_playbook.md",
+    "outputs/skill/references/research_playbook.md",
+    "outputs/skill/templates/advisory_report.md",
+    "outputs/skill/scripts/md2docx.py"
+  ],
+  "replaced_work": [
+    "Word文档生成：来源会话每次交付都现写docx脚本并反复踩坑（import缺失、编号重复、连续编号、替换逻辑写反，msg 18/30/32/36），沉淀为 scripts/md2docx.py 一次调用完成（规避自动编号，A4/深蓝标题/浅蓝表头/页眉页脚页码）",
+    "法规/政策类子议题取证：复制 reusable/skill_1 的 references/research_playbook.md（官方渠道+效力核对+不确定性标注），服务于路线第2/4步的合规类结论口径",
+    "方案组稿与追加议题模式：来源会话三份文档的固定结构（盘点→分领域→路线→风险）与同文档追加章节做法写入 SKILL.md 路线和 templates/advisory_report.md",
+    "诊断与样板间框架（三转变、聚焦样板间、数据红线）写入 SKILL.md 路线第1-2步，细节在 references/advisory_playbook.md"
+  ],
+  "program_runs": [
+    {
+      "command": "python /workspace/outputs/skill/scripts/md2docx.py sample_report.md -o sample_report.docx",
+      "input": "outputs/making_samples/sample_report.md（中文标题/引言/加粗/列表/表格/有序编号样例）",
+      "result": "成功；pandoc 提取全文核对内容齐全；LibreOffice 转 PDF 渲染检查",
+      "issues": "首轮发现页脚PAGE字段缺fldChar包装渲染成字面PAGE，已修复（补begin/instr/separate/cached/end结构）；表头浅蓝在60dpi截图被误读为灰色，120dpi复核确认正常"
+    },
+    {
+      "command": "python /workspace/outputs/skill/scripts/md2docx.py <缺文件|空文件|fake.pdf> -o x.docx",
+      "result": "三种错误情形均 exit=2 并给出明确错误信息（input not found / input is empty / unsupported input type）"
+    },
+    {
+      "command": "ecnu_tools.py vision 渲染图复核（vision_check.txt / vision_check2.txt）",
+      "result": "修复后：标题居中深蓝、表头浅蓝、列表编号正常无重复、页脚显示'第 1 页'实际页码、无乱码溢出"
+    }
+  ],
+  "known_issues": "页码字段缓存值固定为'1'，Word打开时会按域自动更新为实际页码，LibreOffice渲染亦已验证显示正确；md2docx.py 仅覆盖方案文档所需 Markdown 子集（标题/段落/加粗/表格/列表/引用/分隔线），不支持图片和代码块",
+  "previous_feedback": "previous.json 指向的反馈文件 E:\\skillloop_runs\\workflow_library\\make__ai-adoption-advisory\\attempt_1\\workspace\\outputs\\making.json 在本环境不存在（宿主Windows路径），本次无可复用的旧制作记录"
+}

@@ -1,0 +1,43 @@
+from pathlib import Path
+import json,subprocess,sys
+W=Path('/workspace');S=W/'outputs/skill';O=W/'outputs/independent_retest';O.mkdir(parents=True,exist_ok=True)
+rows=[]
+def run(label,args):
+ r=subprocess.run(list(map(str,args)),capture_output=True,text=True);row={'label':label,'argv':list(map(str,args)),'rc':r.returncode,'stdout':r.stdout,'stderr':r.stderr};rows.append(row);return r,row
+def mark(row,ok,expected):row.update(pass_=bool(ok),expected=expected)
+def gen(label,cfg,topic,out):return run(label,[sys.executable,S/'scripts/gen_animation.py','--config',cfg,'--topic',topic,'--scaffold',S/'assets/scaffold.js','--out',out])
+def verify(label,page):
+ r,row=run(label,['node',S/'scripts/verify_animation.mjs',page,'--out',O/(label+'.json'),'--screenshot',O/(label+'.png')])
+ try:report=json.loads((O/(label+'.json')).read_text())
+ except (ValueError,OSError):report=None
+ return r,report,row
+maker=O/'maker.html';ball=O/'ball.html'
+for name,cfg,topic,target in [('maker',W/'outputs/fixtures/skating/config.json',W/'outputs/fixtures/skating/topic.js',maker),('ball',S/'examples/ball_bounce/config.json',S/'examples/ball_bounce/topic.js',ball)]:
+ r,row=gen(name+'_generate',cfg,topic,target);mark(row,r.returncode==0 and target.exists(),'Unchanged public generation CLI produces a self-contained actual page.')
+ r,report,row=verify(name+'_baseline_verify',target);mark(row,r.returncode==0 and isinstance(report,dict) and report.get('ok') is True,'Actual Maker and distinct declared synthetic example pass public runtime/control verification.')
+# Only these two intended mutations differ from the baseline Maker page.
+# A failed check must name the disabled function, never borrow another error.
+for label,selector,handler,words in [
+ ('resume_disabled','.wrd-btn-toggle',"let n=0;function(e){if(++n>=2){e.stopImmediatePropagation();e.preventDefault();}}",['继续','恢复','resume']),
+ ('reset_disabled','.wrd-btn-reset',"function(e){e.stopImmediatePropagation();e.preventDefault();}",['重置','reset']),
+]:
+ if label=='resume_disabled':code="{let n=0;document.querySelector('.wrd-btn-toggle').addEventListener('click',function(e){if(++n>=2){e.stopImmediatePropagation();e.preventDefault();}},true);}"
+ else:code="document.querySelector('.wrd-btn-reset').addEventListener('click',function(e){e.stopImmediatePropagation();e.preventDefault();},true);"
+ p=O/(label+'.html');p.write_text(maker.read_text().replace('</body>','<script>'+code+'</script></body>'))
+ r,report,row=verify(label,p)
+ checks=report.get('checks',{}) if isinstance(report,dict) else {}
+ own_failure=any(value is False and any(w in key.lower() for w in words) for key,value in checks.items())
+ mark(row,r.returncode!=0 and isinstance(report,dict) and report.get('ok') is False and own_failure,'Intentionally disabled '+label+' is rejected for that same function, not unrelated pixels, missing file or another failed assertion.')
+cfg=json.loads((S/'examples/ball_bounce/config.json').read_text());cfg['subtitle']=42;p=O/'subtitle_integer.json';p.write_text(json.dumps(cfg));bad=O/'bad_subtitle.html'
+r,row=gen('subtitle_type_error',p,S/'examples/ball_bounce/topic.js',bad);text=(r.stdout+r.stderr).lower()
+mark(row,r.returncode==2 and not bad.exists() and 'subtitle' in text and any(x in text for x in ['string','字符串']) and 'traceback' not in text,'Invalid optional subtitle type has field-specific string diagnosis/exit2 and produces no page.')
+# The original module exposes only HUD values, so sample its public height,
+# rather than requiring a particular rewritten state representation.
+probe=O/'ball_step_probe.mjs';probe.write_text("""import fs from 'node:fs';import vm from 'node:vm';const c={window:{}};vm.createContext(c);vm.runInContext(fs.readFileSync('/workspace/outputs/skill/examples/ball_bounce/topic.js','utf8'),c);const cfg=JSON.parse(fs.readFileSync('/workspace/outputs/skill/examples/ball_bounce/config.json','utf8'));const sim=c.window.TopicSim.create(cfg,{},{});const height=()=>parseFloat(sim.hudValues().find(x=>x.label.includes('高度')).value);const start=height();let heights=[];for(let i=0;i<500;i++){sim.step(1/120);heights.push(height());}let low=heights.findIndex(x=>x<=0.03);const bounced=low>=0&&heights.slice(low+1).some(x=>x>0.1);console.log(JSON.stringify({dropHeight:cfg.physics.dropHeight,start,first:heights[0],min:Math.min(...heights),max:Math.max(...heights),contactIndex:low,bounced,heights}));""")
+r,row=run('synthetic_height_fall_and_bounce',['node',probe])
+try:v=json.loads(r.stdout)
+except ValueError:v={}
+h=v.get('dropHeight',0)
+mark(row,r.returncode==0 and h>0 and abs(v.get('start',-999)-h)<0.02 and h-0.1<v.get('first',-999)<=h+0.02 and v.get('min',-999)>=-0.02 and v.get('max',999)<=h+0.05 and v.get('bounced') is True,'Positive initial height persists after the first1/120s, then decreases to ground and rebounds with no below-ground or energy-gaining jump; synthetic example only, not expert gold.')
+result={'new_authored_deterministic_test':True,'tests':rows,'pass':sum(r['pass_'] for r in rows),'total':len(rows)}
+(O/'RESULTS.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n');print(json.dumps({'pass':result['pass'],'total':result['total']}));raise SystemExit(0 if result['pass']==result['total'] else 1)

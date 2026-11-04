@@ -1,0 +1,170 @@
+{
+  "schema": "wrd-v10-source-only-workflow-candidates-v1",
+  "annotation_origin": "fresh_source_only_native_teacher",
+  "reuse_benefit_empirically_verified": false,
+  "candidates": [
+    {
+      "candidate_id": "zh_source_to_purposed_prose",
+      "name": "中文用户素材按指定用途/角度/字数的压缩成稿",
+      "decision": "NEW_CANDIDATE",
+      "source_task_units": [
+        {"source_id": "conv_d1ef29d65e7a", "task_unit_id": "tu_1"},
+        {"source_id": "conv_41874c950938", "task_unit_id": "tu_2"}
+      ],
+      "mechanism_and_reuse_reason": "替代的重复操作链是：用户全文粘贴成段中文素材 → 登记交付约束（角度/用途/字数或详细度/目标载体）→ 区分用户陈述数据与需求 → 压缩改写成指定形态成稿 → 字数与数字专名保真自检。两处来源都完整走过该链条（d1: 素材+角度+600字收口；418: 素材+一段话+去逐项金额）。可复用的是约束登记、成稿、保真自检这些步骤本身，不是云知师AI或合作到款的具体业务内容。",
+      "evidence_refs": [
+        {"source_id": "conv_d1ef29d65e7a", "message_id": "conv_d1ef29d65e7a:msg_1", "quote": "帮我把下面这段话做一个整体的整理，从建设成果，推广等各个角度，做一个官方的汇报"},
+        {"source_id": "conv_d1ef29d65e7a", "message_id": "conv_d1ef29d65e7a:msg_5", "quote": "600字以内"},
+        {"source_id": "conv_41874c950938", "message_id": "conv_41874c950938:msg_59", "quote": "帮我把下面的内容整理成一段话：具体项目合作与到款规划"},
+        {"source_id": "conv_41874c950938", "message_id": "conv_41874c950938:msg_29", "quote": "不要写这么详细，每个多少钱"}
+      ],
+      "scope_conditions": [
+        "素材由用户全文粘贴，无需补充外部新事实",
+        "成稿为中文散文/段落形态（汇报稿或一段话）",
+        "存在明确的字数或详细度收口约束",
+        "素材中的数据只能作为用户陈述保留，不改写为独立核实事实"
+      ],
+      "non_applicable_or_partial_sources": [
+        {"source_id": "conv_246b5e915810", "task_unit_id": "tu_3", "reason": "末轮已切换为只出题的需求描述版，成段汇报/一段话的成稿形态不适用其收口要求"},
+        {"source_id": "conv_41874c950938", "task_unit_id": "tu_1", "reason": "素材整合机制部分适用，但目标Word未提供且交付为类目式清单而非压缩成稿，属部分适用"}
+      ],
+      "workflow": [
+        {"step_id": "s1", "action": "冻结用户素材原文并逐条登记交付约束（角度/用途、字数上限、详细度、目标载体）", "depends_on": [], "inputs": ["用户消息原文（含末轮收口约束）"], "outputs": ["素材与约束登记表"], "checks": ["每条约束有原文出处"], "stop_conditions": ["关键约束缺失且无法向用户确认时停止询问"]},
+        {"step_id": "s2", "action": "标记素材中所有数字、专名、效果数据为用户陈述，形成保真对照清单", "depends_on": ["s1"], "inputs": ["素材与约束登记表"], "outputs": ["数字/专名保真对照表"], "checks": ["清单中每项能回指素材原文"], "stop_conditions": ["素材数字前后冲突且无法确认时停止"]},
+        {"step_id": "s3", "action": "按登记的角度/用途拟定成稿结构（如：建设成果→推广辐射→平台地位）", "depends_on": ["s2"], "inputs": ["素材与约束登记表", "保真对照表"], "outputs": ["结构大纲"], "checks": ["大纲覆盖全部登记角度"], "stop_conditions": []},
+        {"step_id": "s4", "action": "按结构压缩改写成成稿，保持用户陈述数据的原值与口径（目标/预计不改为已实现）", "depends_on": ["s3"], "inputs": ["结构大纲", "素材原文"], "outputs": ["成稿文本"], "checks": ["无素材外新增事实"], "stop_conditions": []},
+        {"step_id": "s5", "action": "字数/详细度核对：统计成稿字数并对照收口约束", "depends_on": ["s4"], "inputs": ["成稿文本", "字数上限"], "outputs": ["字数核对结果"], "checks": ["字数≤上限或详细度符合登记约束"], "stop_conditions": ["超限时回到s4删减而非放弃约束"]},
+        {"step_id": "s6", "action": "保真自检：成稿中每个数字与专名均能在保真对照表中找到且数值一致", "depends_on": ["s5"], "inputs": ["成稿文本", "保真对照表"], "outputs": ["自检报告"], "checks": ["数字专名零漂移"], "stop_conditions": ["出现素材外数据即删除或退回"]}
+      ],
+      "resource_interfaces": [
+        {"resource": "素材与约束登记表模板", "input_format": "用户消息原文+末轮收口约束", "output_format": "结构化JSON清单（角度/字数/载体/详细度）", "required": true, "missing_policy": "约束缺失时在s1停止并向用户确认，不臆测"},
+        {"resource": "字数核对脚本", "input_format": "成稿文本+字数上限", "output_format": "字数统计与达标布尔值", "required": true, "missing_policy": "无字数上限的单元跳过该步并记录"},
+        {"resource": "数字专名保真对照表", "input_format": "素材中的数字/专名/效果数据清单", "output_format": "成稿逐项比对结果", "required": true, "missing_policy": "素材无数据项时对照表置空并记录"}
+      ],
+      "validation_plan": {
+        "local_checks": [
+          "成稿非空且为合法中文文本",
+          "字数统计≤登记上限",
+          "成稿中所有数字与专名可在素材原文中定位且一致"
+        ],
+        "boundary_or_error_cases": [
+          "素材为空或仅有人设设定",
+          "角度多而字数上限极小的冲突",
+          "素材内部数字前后不一致"
+        ],
+        "independent_trial_still_required": true
+      },
+      "unknowns": [
+        "该候选仅由source-only分析得出，未经独立试跑验证，不能宣称已产生复用收益",
+        "宣传性效果数据（如85%、92.75%）在官方汇报语气下的保真呈现方式无既定标准"
+      ]
+    },
+    {
+      "candidate_id": "final_turn_detail_gate",
+      "name": "末轮字数/详细度收口的登记-执行-核对局部机制",
+      "decision": "REUSE_PARTIAL",
+      "source_task_units": [
+        {"source_id": "conv_d1ef29d65e7a", "task_unit_id": "tu_1"},
+        {"source_id": "conv_41874c950938", "task_unit_id": "tu_2"},
+        {"source_id": "conv_246b5e915810", "task_unit_id": "tu_3"}
+      ],
+      "mechanism_and_reuse_reason": "三处来源末轮都出现了对字数/详细度的收口：绝对字数上限（600字以内）、删去逐项金额明细（不要写这么详细，每个多少钱）、降低复杂度并删除做法指导（简单一点…只是出题）。共同可复用的局部仅是：把末轮收口约束显式登记为可检查项、在成稿后强制核对、不通过即返工。三者的约束类型与输出形态互不相同，因此只能复用这个登记-执行-核对的局部步骤，不能合并成同一输出模板，也不能据此宣称任何已有技能通过验证。",
+      "evidence_refs": [
+        {"source_id": "conv_d1ef29d65e7a", "message_id": "conv_d1ef29d65e7a:msg_5", "quote": "600字以内"},
+        {"source_id": "conv_41874c950938", "message_id": "conv_41874c950938:msg_29", "quote": "帮我整理成一段话写到那个word里面，不要写这么详细，每个多少钱"},
+        {"source_id": "conv_246b5e915810", "message_id": "conv_246b5e915810:msg_35", "quote": "帮我再做一个内容，简单一点，不要告诉学生怎么做，只是出题，把需求描述一下"}
+      ],
+      "scope_conditions": [
+        "存在可辨识的末轮收口消息",
+        "约束可操作化：字数可直接统计；'简单''不要这么详细'等主观约束需先转成明确检查项",
+        "收口约束优先于前轮更详细的要求，但该优先级依赖消息时间，顺序未经认证"
+      ],
+      "non_applicable_or_partial_sources": [
+        {"source_id": "conv_246b5e915810", "task_unit_id": "tu_1", "reason": "单条提问无收口约束，不适用"},
+        {"source_id": "conv_41874c950938", "task_unit_id": "tu_1", "reason": "该单元无字数/详细度收口，仅可部分参考登记步骤"}
+      ],
+      "workflow": [
+        {"step_id": "g1", "action": "识别并逐字登记末轮收口约束及其作用对象", "depends_on": [], "inputs": ["按时间排序的用户消息"], "outputs": ["收口约束登记项"], "checks": ["约束有原文引文"], "stop_conditions": ["消息顺序无法判定何为末轮时标记不确定并停止"]},
+        {"step_id": "g2", "action": "把收口约束转成可检查规则（字数阈值/禁止逐项金额/禁止做法指导）", "depends_on": ["g1"], "inputs": ["收口约束登记项"], "outputs": ["检查规则集"], "checks": ["每条规则可机械或语义复核"], "stop_conditions": []},
+        {"step_id": "g3", "action": "成稿后执行检查，不通过即回到成稿步骤返工", "depends_on": ["g2"], "inputs": ["成稿文本", "检查规则集"], "outputs": ["收口核对结果"], "checks": ["全部规则通过"], "stop_conditions": ["主观约束（如'简单'）无法操作化时向用户确认阈值"]},
+        {"step_id": "g4", "action": "在交付说明中报告收口约束满足情况", "depends_on": ["g3"], "inputs": ["收口核对结果"], "outputs": ["交付附注"], "checks": ["逐条约束有结论"], "stop_conditions": []}
+      ],
+      "resource_interfaces": [
+        {"resource": "收口约束登记表", "input_format": "末轮用户消息原文", "output_format": "约束项+可检查规则JSON", "required": true, "missing_policy": "无收口约束时该机制整体跳过"}
+      ],
+      "validation_plan": {
+        "local_checks": [
+          "600字类约束：字数统计",
+          "禁止逐项金额类：金额符号与逐项列举扫描",
+          "禁止做法指导类：步骤性内容语义复核"
+        ],
+        "boundary_or_error_cases": [
+          "收口约束与前轮要求冲突（角度覆盖 vs 字数极小）",
+          "多条收口约束相互冲突时以何者为准"
+        ],
+        "independent_trial_still_required": true
+      },
+      "unknowns": [
+        "'末轮'判定依赖消息时间戳，historical_order_is_not_authenticated，真实会话中需以实际顺序为准",
+        "主观约束的合格阈值未与用户对齐"
+      ]
+    },
+    {
+      "candidate_id": "assignment_brief_only",
+      "name": "项目素材转只出题需求描述题面",
+      "decision": "NEW_CANDIDATE",
+      "source_task_units": [
+        {"source_id": "conv_246b5e915810", "task_unit_id": "tu_3"}
+      ],
+      "mechanism_and_reuse_reason": "替代的操作是：把含背景/任务/做法提示的完整项目素材，改造成面向学生的题面——剥离一切解题做法（如调用深度研究、打通工具等实现路径），仅保留背景与需求描述，并压缩篇幅。该机制与成稿汇报（C1）不同：目的不是替用户成文，而是留白给学生作答。",
+      "evidence_refs": [
+        {"source_id": "conv_246b5e915810", "message_id": "conv_246b5e915810:msg_35", "quote": "帮我再做一个内容，简单一点，不要告诉学生怎么做，只是出题，把需求描述一下"},
+        {"source_id": "conv_246b5e915810", "message_id": "conv_246b5e915810:msg_5", "quote": "帮我把下面的设计思维课程的作业整理好"}
+      ],
+      "scope_conditions": [
+        "用户明确要求只出题、描述需求、不给做法",
+        "素材本身具有背景+任务的结构可供改写",
+        "题面覆盖范围（是否全部方向）需确认后才可宣称完整"
+      ],
+      "non_applicable_or_partial_sources": [
+        {"source_id": "conv_246b5e915810", "task_unit_id": "tu_2", "reason": "tu_2是完整整理（可含素材要点），不是题面留白版"},
+        {"source_id": "conv_d1ef29d65e7a", "task_unit_id": "tu_1", "reason": "官方汇报成稿，与出题目的相反"},
+        {"source_id": "conv_41874c950938", "task_unit_id": "tu_2", "reason": "合作规划一段话成稿，与出题目的不同"}
+      ],
+      "workflow": [
+        {"step_id": "b1", "action": "冻结素材方向清单并与用户确认题面覆盖范围（是否全部四方向）", "depends_on": [], "inputs": ["msg_5素材原文"], "outputs": ["方向清单+范围确认状态"], "checks": ["每个方向有素材出处"], "stop_conditions": ["范围未确认时先以假设标注产出，不宣称完整覆盖"]},
+        {"step_id": "b2", "action": "逐方向生成'背景+任务需求'两段式题面，剥离做法/实现路径内容", "depends_on": ["b1"], "inputs": ["方向清单", "素材原文"], "outputs": ["题面初稿"], "checks": ["不出现实现步骤描述"], "stop_conditions": ["发现做法指导残留即删除"]},
+        {"step_id": "b3", "action": "复杂度自检：题面篇幅与信息密度显著低于完整整理版，且需求要素（要做什么、交付什么）完整", "depends_on": ["b2"], "inputs": ["题面初稿", "完整整理版（如存在）"], "outputs": ["题面终稿"], "checks": ["无'怎么做'类内容；需求描述可作答"], "stop_conditions": ["题面简到需求不可作答时回补需求要素而非做法"]}
+      ],
+      "resource_interfaces": [
+        {"resource": "题面模板（背景/任务两段式）", "input_format": "各方向素材要点", "output_format": "每方向一段题面", "required": true, "missing_policy": "模板缺失时按素材原有背景/任务结构直接生成"},
+        {"resource": "做法指导扫描清单", "input_format": "题面全文", "output_format": "疑似做法内容的定位与判定", "required": true, "missing_policy": "无该清单时以语义复核替代并在报告中声明"}
+      ],
+      "validation_plan": {
+        "local_checks": [
+          "题面中不出现实现路径词汇序列（如'调用…->…生成'等原素材中的做法描述）",
+          "每方向题面含需求要素",
+          "题面总篇幅低于完整整理版"
+        ],
+        "boundary_or_error_cases": [
+          "范围未确认（是否仅四方向）",
+          "用户同时需要完整版与题面版时两版混淆",
+          "素材某方向本身即做法描述，剥离后为空"
+        ],
+        "independent_trial_still_required": true
+      },
+      "unknowns": [
+        "msg_35'再做一个内容'的对象范围未经用户确认，是覆盖四方向还是另选主题未知",
+        "候选未经独立试跑，无已验证的复用收益"
+      ]
+    }
+  ],
+  "source_decisions": [
+    {"source_id": "conv_d1ef29d65e7a", "task_unit_id": "tu_1", "decision": "NEW_CANDIDATE", "candidate_id": "zh_source_to_purposed_prose", "reason": "素材全文在案、成稿形态明确（官方汇报+600字收口），是压缩成稿机制的完整样本，可作新候选的来源单元", "evidence_refs": [{"source_id": "conv_d1ef29d65e7a", "message_id": "conv_d1ef29d65e7a:msg_1", "quote": "帮我把下面这段话做一个整体的整理，从建设成果，推广等各个角度，做一个官方的汇报"}, {"source_id": "conv_d1ef29d65e7a", "message_id": "conv_d1ef29d65e7a:msg_5", "quote": "600字以内"}]},
+    {"source_id": "conv_41874c950938", "task_unit_id": "tu_1", "decision": "DEFER", "candidate_id": null, "reason": "操作对象是未提供的Word/任务稿（'添加类目'需现有文档结构），关键输入缺失；机制并非无价值，但无法在source-only条件下形成可验证工作流，故推迟而非判无价值", "evidence_refs": [{"source_id": "conv_41874c950938", "message_id": "conv_41874c950938:msg_1", "quote": "目前这个任务的比较空泛，帮我添加一个类目：具体项目合作和到款，预计五年500万"}, {"source_id": "conv_41874c950938", "message_id": "conv_41874c950938:msg_29", "quote": "帮我整理成一段话写到那个word里面"}]},
+    {"source_id": "conv_41874c950938", "task_unit_id": "tu_2", "decision": "NEW_CANDIDATE", "candidate_id": "zh_source_to_purposed_prose", "reason": "末轮素材全文在案且要求明确（一段话+去逐项金额），与d1的成稿机制同构，作为新候选第二来源；其Word载体缺失仅影响落盘，不影响成稿机制本身", "evidence_refs": [{"source_id": "conv_41874c950938", "message_id": "conv_41874c950938:msg_59", "quote": "帮我把下面的内容整理成一段话：具体项目合作与到款规划"}, {"source_id": "conv_41874c950938", "message_id": "conv_41874c950938:msg_29", "quote": "不要写这么详细，每个多少钱"}]},
+    {"source_id": "conv_246b5e915810", "task_unit_id": "tu_1", "decision": "NO_VALUE", "candidate_id": null, "reason": "单条知识咨询（基金形式审查怎么做），无素材、无交付物、无重复性操作可替代；是真正没有可复用公共工作的单元，并非因缺输入而判无价值", "evidence_refs": [{"source_id": "conv_246b5e915810", "message_id": "conv_246b5e915810:msg_1", "quote": "基金形式审查怎么做"}]},
+    {"source_id": "conv_246b5e915810", "task_unit_id": "tu_2", "decision": "REUSE_PARTIAL", "candidate_id": "zh_source_to_purposed_prose", "reason": "素材整理环节与压缩成稿机制部分同构（素材→结构化整理），但其目的与形态（课程作业整理、后被msg_35追加只出题版）与成段汇报/一段话成稿存在差异，故仅部分复用；该部分复用是新分析结论，尚无独立试跑支持", "evidence_refs": [{"source_id": "conv_246b5e915810", "message_id": "conv_246b5e915810:msg_5", "quote": "帮我把下面的设计思维课程的作业整理好"}]},
+    {"source_id": "conv_246b5e915810", "task_unit_id": "tu_3", "decision": "NEW_CANDIDATE", "candidate_id": "assignment_brief_only", "reason": "只出题需求描述是独特机制（剥离做法、留白作答），与其他来源的成稿路线不同主路线，单独成候选", "evidence_refs": [{"source_id": "conv_246b5e915810", "message_id": "conv_246b5e915810:msg_35", "quote": "帮我再做一个内容，简单一点，不要告诉学生怎么做，只是出题，把需求描述一下"}]}
+  ]
+}

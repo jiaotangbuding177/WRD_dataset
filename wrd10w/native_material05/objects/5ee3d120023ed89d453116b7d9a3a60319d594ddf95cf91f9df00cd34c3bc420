@@ -1,0 +1,34 @@
+{
+  "task": "制作一个候选WRD技能(仅制作，不运行消费题/不训练/不建子Agent)",
+  "maker_task_source": "/workspace/inputs/task/source_input.json (html_M0: 用中文生成展示冬天溜冰作用力的HTML)",
+  "maker_brief_source": "/workspace/inputs/protocol/maker_brief.json",
+  "deliverables": {
+    "skill_package": "/workspace/outputs/skill/ (SKILL.md + assets/scaffold.js + scripts/gen_animation.py + scripts/verify_animation.mjs + examples/ball_bounce/)",
+    "case_demo": "/workspace/outputs/demo_skating_forces.html (真实Maker个案产出，未硬编码进技能资源)",
+    "fixtures_outside_package": "/workspace/outputs/fixtures/ (个案config/topic、验证结果JSON、截图、坏输入测试记录、物理探针)",
+    "reports": ["/workspace/outputs/resource_validation.json", "/workspace/outputs/making_summary.json"]
+  },
+  "what_was_actually_done": [
+    "读取两份输入；确认唯一真实Maker任务为冬天溜冰作用力HTML；未读取其它case/旧WRD/旧成品",
+    "在本环境实际复现Maker任务：题材代码(溜冰物理/简笔画滑冰者/力箭头)与可复用骨架分离，经生成器产出14720→14920字节自包含HTML",
+    "Playwright实测：加载无错、画面持续变化、暂停冻结、继续恢复、重置归零且继续播放、0 console/页面错误、截图留存",
+    "独立视觉探针(vision)确认页面实际可见内容与预期一致",
+    "物理时间序列采样确认速度收敛、阻力∝v²、无发散",
+    "第二良性模板输入(合成落球示例，技能内)全检通过；坏输入6例实测均有明确报错且行为符合文档约定",
+    "制作中发现并修复2个真实问题(开局空转、暂停判定依据)，失败版本与修复版均保留"
+  ],
+  "commands_public_usage": {
+    "generate": "python3 /workspace/outputs/skill/scripts/gen_animation.py --config C.json --topic T.js --scaffold /workspace/outputs/skill/assets/scaffold.js --out OUT.html (exit 0成功/2配置错/3模块错)",
+    "verify": "node /workspace/outputs/skill/scripts/verify_animation.mjs OUT.html --screenshot S.png --out R.json (全部检查true才算通过)",
+    "deps": "python3/node/playwright//usr/bin/chromium --no-sandbox(本固定环境已具备)；无网络依赖、无全局安装"
+  },
+  "boundaries_respected": {
+    "no_external_sends": true,
+    "no_global_install": true,
+    "no_downstream_task_read_or_hardcode": true,
+    "persona_language_preserved_not_authority_expanded": "演示与文案保留中文；源内自称设定未转化为额外执行授权",
+    "simplified_physics_explicit": "页面副标题与resource_validation均注明简化模型与箭头缩放假设"
+  },
+  "unknowns": "同 resource_validation.json 的 explicit_unknowns_and_limits 字段",
+  "business_benefit_claim": "无。本包仅声明『已实测可运行/可交互/坏输入有明确行为』，不声称已产生业务收益或retained。"
+}

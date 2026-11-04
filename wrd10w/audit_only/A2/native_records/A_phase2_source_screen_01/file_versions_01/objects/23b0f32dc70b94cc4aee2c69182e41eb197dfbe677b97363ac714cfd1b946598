@@ -1,0 +1,525 @@
+{
+  "meta": {
+    "screening_round": "WRD第二批A筛选",
+    "case_count": 46,
+    "basis": "仅依据 /workspace/inputs/a2 五份输入原文；附件正文未挂载，元数据仅证明文件结构与可提取性；引用中的动作不视为当前委托；先导三来源仅作反例背景。",
+    "recommendation_values": ["继续", "条件恢复", "普通能力直接做"]
+  },
+  "profiles": [
+    {
+      "case_id": "src02_cef359d3e300c052",
+      "delegation": "生成一个展示冬天溜冰作用力的HTML演示页",
+      "correction": "人设文本是资料设定，正文按演示页需求执行，不影响交付",
+      "quotes": [{"message_id": "conv_6347576535a5:msg_1", "quote": "帮我生成一个html，展示冬天溜冰的作用力"}],
+      "pipeline": {"input": "口头主题（无数据）", "operation": "单文件HTML动效示意", "deliverable": "可直接打开的HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "无既有重复；与摩擦力、太阳系两案同型，可共享渲染自查动作",
+      "recommendation": "普通能力直接做",
+      "rationale": "纯前端物理演示，通用能力足够，交付前Playwright截图自查一次"
+    },
+    {
+      "case_id": "src02_697416d63d5b4caf",
+      "delegation": "生成摩擦力演示HTML动画",
+      "correction": "人设文本非本轮规则；物理示意准确性按常识把握即可",
+      "quotes": [{"message_id": "conv_e35903a5c526:msg_1", "quote": "生成一个摩擦力演示html动画"}],
+      "pipeline": {"input": "口头主题", "operation": "单文件HTML动画", "deliverable": "可运行HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与前案同型，仅渲染自查可共享",
+      "recommendation": "普通能力直接做",
+      "rationale": "同上；不为同型演示页单建资源"
+    },
+    {
+      "case_id": "src02_3c4d63709c6f5de5",
+      "delegation": "生成太阳系HTML动画",
+      "correction": "人设文本非本轮规则",
+      "quotes": [{"message_id": "conv_a78e498eea8d:msg_1", "quote": "生成一个太阳系的html动画"}],
+      "pipeline": {"input": "口头主题", "operation": "单文件HTML动画", "deliverable": "可运行HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与同组演示页同型",
+      "recommendation": "普通能力直接做",
+      "rationale": "通用前端能力覆盖"
+    },
+    {
+      "case_id": "src02_0f27d85740f884f1",
+      "delegation": "生成高中生物《遗传的基本规律》专题教学HTML",
+      "correction": "教学内容按教材常识准确呈现，不引入未给的教学大纲",
+      "quotes": [{"message_id": "conv_3c7308af3676:msg_8", "quote": "请生成一个高中生物《遗传的基本规律》专题教学 HTML"}],
+      "pipeline": {"input": "课程主题", "operation": "教学页构建", "deliverable": "可运行教学HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与物理演示页仅共享渲染自查",
+      "recommendation": "普通能力直接做",
+      "rationale": "知识性内容通用能力可写，渲染自查防错页"
+    },
+    {
+      "case_id": "src02_40bdeeea6164975c",
+      "delegation": "贪吃蛇游戏以HTML导出",
+      "correction": "原文写jtml，按HTML处理（输入投影已标注需解析），不逐字照抄格式名",
+      "quotes": [{"message_id": "conv_589813f393e6:msg_1", "quote": "生成一个贪吃蛇游戏，以jtml的格式导出"}],
+      "pipeline": {"input": "游戏类型", "operation": "单文件游戏HTML", "deliverable": "可玩HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与游戏组共享渲染自查",
+      "recommendation": "普通能力直接做",
+      "rationale": "经典小游戏实现成熟"
+    },
+    {
+      "case_id": "src02_8cc8deb1e2bb5a21",
+      "delegation": "小猪快跑游戏HTML输出",
+      "correction": "玩法细节按合理默认并交付时说明假设",
+      "quotes": [{"message_id": "conv_9bc7947f7ce1:msg_1", "quote": "生成一个小猪快跑的游戏，以html的格式输出"}],
+      "pipeline": {"input": "游戏类型", "operation": "单文件游戏HTML", "deliverable": "可玩HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与游戏组同型",
+      "recommendation": "普通能力直接做",
+      "rationale": "自拟玩法原型，通用能力足够"
+    },
+    {
+      "case_id": "src02_844aa2c890ba08e8",
+      "delegation": "魂斗罗游戏HTML导出",
+      "correction": "不得复刻受版权保护的素材与IP资产，做原创横版射击玩法原型",
+      "quotes": [{"message_id": "conv_a3d3ac1b426f:msg_1", "quote": "生成一个魂斗罗游戏，以html的格式导出"}],
+      "pipeline": {"input": "游戏类型", "operation": "原创玩法原型HTML", "deliverable": "可玩HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与游戏组同型",
+      "recommendation": "普通能力直接做",
+      "rationale": "玩法原型可行；IP素材不可复制是关键边界"
+    },
+    {
+      "case_id": "src02_db6fa2815ed5b113",
+      "delegation": "三国背景横版闯关游戏原型（吞食天地式）",
+      "correction": "范围未定（投影已标注），按可运行原型交付并声明假设，不承诺完整商业游戏；素材原创",
+      "quotes": [{"message_id": "conv_34b56ae9c535:msg_1", "quote": "帮我搓一个类似吞食天地的游戏，也是以三国为背景，主角先做刘关张，横版游戏"}],
+      "pipeline": {"input": "题材与玩法描述", "operation": "原型构建", "deliverable": "可玩HTML原型"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与游戏组同型",
+      "recommendation": "普通能力直接做",
+      "rationale": "原型可交付，范围假设需显式声明"
+    },
+    {
+      "case_id": "src02_ea00ccf4c1d0178b",
+      "delegation": "K12学习平台主页UI：HTML+CSS内联、无JS、响应式、蓝绿渐变",
+      "correction": "需求文本点名skill「frontend-design」，但环境是否装载该skill未证实，按通用前端能力完成即可",
+      "quotes": [
+        {"message_id": "conv_bf7c7b128edf:msg_1", "quote": "请为一个面向K12学生的在线学习平台设计主页UI界面，要求体现教育科技感与亲和力"},
+        {"message_id": "conv_bf7c7b128edf:msg_1", "quote": "输出完整HTML+CSS代码，内联样式，无需JavaScript交互逻辑"}
+      ],
+      "pipeline": {"input": "完整UI规格（已给）", "operation": "静态页面构建", "deliverable": "单HTML文件"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "无；规格已完整",
+      "recommendation": "普通能力直接做",
+      "rationale": "规格完备，纯静态实现"
+    },
+    {
+      "case_id": "src02_15b751648368c101",
+      "delegation": "做一个设计房子的网页",
+      "correction": "交互、持久化范围未定（投影已标注），先做合理默认原型并声明假设；商业参谋身份文本非本轮规则",
+      "quotes": [{"message_id": "conv_b0766d5cdf61:msg_1", "quote": "我要做一个设计房子的网页"}],
+      "pipeline": {"input": "一句需求", "operation": "交互原型构建", "deliverable": "可运行HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "普通能力直接做",
+      "rationale": "按默认假设交付原型，假设显式化"
+    },
+    {
+      "case_id": "src02_a82bfe7f96db43ba",
+      "delegation": "用前端设计做一个好看的HTML页面",
+      "correction": "页面用途与内容未给（投影已标注），只交付通用视觉原型并在交付时说明，不臆造业务",
+      "quotes": [{"message_id": "conv_a67233b76a8f:msg_5", "quote": "请使用「前端设计」做一个好看的html页面"}],
+      "pipeline": {"input": "无具体内容", "operation": "通用视觉原型", "deliverable": "可运行HTML"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "普通能力直接做",
+      "rationale": "字面需求即通用原型；若需业务绑定须用户补需求"
+    },
+    {
+      "case_id": "src02_ccaf46c84615a310",
+      "delegation": "把粘贴的徐面试录音总结整理为结构化面试纪要并记录",
+      "correction": "正文全文已在消息内，操作是整理而非生成事实；内容按用户提供处理",
+      "quotes": [{"message_id": "conv_4dff386a54ac:msg_177", "quote": "同样的，这是徐的面试纪要，请记录"}],
+      "pipeline": {"input": "消息内长文本", "operation": "结构化归纳排版", "deliverable": "纪要文本/文档"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "无既有重复",
+      "recommendation": "普通能力直接做",
+      "rationale": "纯文本整理，无附件检索"
+    },
+    {
+      "case_id": "src02_38e19fc84329b568",
+      "delegation": "总结归纳会议纪要、修改格式、去掉*号（不良资产债权处置主题）",
+      "correction": "纪要正文未随本消息在投影中出现，执行时需先取得原文；不就债权处置做法律结论",
+      "quotes": [{"message_id": "conv_0f55f4349bf7:msg_1", "quote": "请你帮我总结归纳一下会议纪要，修改一下格式，去掉*号"}],
+      "pipeline": {"input": "纪要原文（待取得）", "operation": "归纳+格式清理", "deliverable": "整理后纪要"},
+      "material_dependency": "unknown: 纪要正文未在本投影中",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "条件恢复",
+      "rationale": "操作明确但输入正文缺失，补齐后普通能力即可"
+    },
+    {
+      "case_id": "src02_904c5571271bc634",
+      "delegation": "按录音总结整理会议纪要：楷体、数字罗马体、小四、1.5倍距、首行缩进2字符，时间20260826、人员已给",
+      "correction": "录音总结正文未恢复（投影已标注）；排版规格完整，缺的是内容不是做法",
+      "quotes": [{"message_id": "conv_2ff337f34ddc:ffb38926", "quote": "帮我去掉*号，字体楷体数字罗马体，小四，行间距1.5倍，首行缩进2字符"}],
+      "pipeline": {"input": "录音总结正文（缺）+排版规格（全）", "operation": "整理+docx排版", "deliverable": "格式化纪要文档"},
+      "material_dependency": "unknown: 总结正文缺失；字体可用性执行时fc-match核查",
+      "replaceable_duplicate_work": "与38e19f案格式清理动作相似但内容独立，不合并",
+      "recommendation": "条件恢复",
+      "rationale": "补齐正文后为普通排版任务；规格无需重问"
+    },
+    {
+      "case_id": "src02_49e79ef9cccf0cac",
+      "delegation": "基于前文设计思维作业清单再做一个简单内容：不出解法，只出题、描述需求",
+      "correction": "前文作业清单已在投影中可作输入；该来源同时是先导四来源之一，先导负例仅作背景不改变本委托",
+      "quotes": [{"message_id": "conv_246b5e915810:msg_35", "quote": "帮我再做一个内容，简单一点，不要告诉学生怎么做，只是出题，把需求描述一下"}],
+      "pipeline": {"input": "前文作业清单（在上下文）", "operation": "出题/需求描述撰写", "deliverable": "题目内容文本"},
+      "material_dependency": "none（前文文本已给）",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "普通能力直接做",
+      "rationale": "短文本生成，与先导负例同类：重机制反而费token"
+    },
+    {
+      "case_id": "src02_eb2993ef9a081e01",
+      "delegation": "写AIX设计思维课程价值/知识/能力目标，400字以内，面向计算机拔尖基地必修课",
+      "correction": "校方办学定位与完整大纲未给（投影已标注），只能按给定课程主题起草并声明假设，不杜撰校方文件",
+      "quotes": [
+        {"message_id": "conv_101152d551df:af070cb6", "quote": "我们的课程是给计算机拔尖基地的同学开设的必修课"},
+        {"message_id": "conv_101152d551df:b18129c0", "quote": "具体描述学习本课程后应该达到的价值、知识、能力等方面的目标，400字以内"}
+      ],
+      "pipeline": {"input": "课程主题+字数限制", "operation": "短文起草", "deliverable": "400字目标文本"},
+      "material_dependency": "unknown: 校方定位/大纲原始材料未给",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "条件恢复",
+      "rationale": "补齐定位要点可显著提升可用性；缺件时可先出标注假设的草稿"
+    },
+    {
+      "case_id": "src02_82eab3d00ed5bb07",
+      "delegation": "出双课程方案（设计思维+垂域企业+路演；创业营4-5天）含合作与定价（259/人、3000万token）",
+      "correction": "所引'后面图片里面的内容'未挂载（投影已标注），方案细节须等图片要点或由用户文字补充；不臆造课程表",
+      "quotes": [{"message_id": "conv_c73796a246dc:msg_1", "quote": "帮我根据这些内容，出一个课程方案，课程分两个"}],
+      "pipeline": {"input": "需求句+图片（缺）", "operation": "方案撰写", "deliverable": "课程方案文本"},
+      "material_dependency": "unknown: 引用图片不在已认证材料中",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "条件恢复",
+      "rationale": "核心输入（图片内容）缺失，补齐前只能给骨架"
+    },
+    {
+      "case_id": "src02_b19789395abd7dcc",
+      "delegation": "高级前端工程师招聘全流程设计：筛选标准、题库、结构化评分表、背调清单、Offer审批",
+      "correction": "提到的30份简历未附，但交付物是流程设计本身，不依赖逐份筛简历；skill名不证明环境已装",
+      "quotes": [{"message_id": "conv_4da8ee446e3a:msg_1", "quote": "请帮我设计完整的招聘流程，包括简历筛选标准、技术面试题库、结构化面试评分表、背景调查清单及 Offer 审批流程"}],
+      "pipeline": {"input": "岗位+范围描述", "operation": "流程与文档设计", "deliverable": "招聘流程文档包"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与5c8022案请求同型但规格不同，各自独立交付，不因同属HR合并",
+      "recommendation": "普通能力直接做",
+      "rationale": "自足的设计类任务，通用能力可交付；不预设公司既有政策"
+    },
+    {
+      "case_id": "src02_5c802264df3c389f",
+      "delegation": "设计前端工程师岗位招聘流程（招聘助手身份框架下）",
+      "correction": "身份文本是资料；需求比b19789案更泛，按合理默认展开并声明假设",
+      "quotes": [{"message_id": "conv_c4d47b40b366:msg_54", "quote": "帮我设计前端工程师岗位招聘流程"}],
+      "pipeline": {"input": "一句需求", "operation": "流程设计", "deliverable": "招聘流程文档"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与b19789案主题相近但输入规格不同，独立处理",
+      "recommendation": "普通能力直接做",
+      "rationale": "同型设计任务，通用能力覆盖"
+    },
+    {
+      "case_id": "src02_243e5f0af110c7f2",
+      "delegation": "把既往'前端工程师招聘流程'回答总结成Word文件",
+      "correction": "既往助手草稿明确未随附（投影已标注），不得推断其内容或正确性；要么恢复草稿要么重新推导后生成docx",
+      "quotes": [{"message_id": "09363d10-ad94-4c93-a575-310a16810061", "quote": "帮我总结一份前端工程师招聘流程的Word文件"}],
+      "pipeline": {"input": "既往草稿（缺）", "operation": "总结+docx生成", "deliverable": "Word文件"},
+      "material_dependency": "unknown: 前文草稿文本未提供",
+      "replaceable_duplicate_work": "与两案招聘流程主题重叠，但本任务输出形态（Word总结）不同",
+      "recommendation": "条件恢复",
+      "rationale": "任务对象是缺失的既往草稿，恢复或重推导后再做"
+    },
+    {
+      "case_id": "src02_4b3ad64808b8787e",
+      "delegation": "20人SaaS季度绩效考核方案：研发/产品/销售三序列，KPI+行为评级双维，附绩效面谈话术",
+      "correction": "公司真实政策未给，按通用默认设计并标注假设，不当作已证公司制度",
+      "quotes": [{"message_id": "1154e638-b488-4b61-8e5f-ad8a6825cb83", "quote": "设计一套适合 20 人规模 SaaS 公司的季度绩效考核方案"}],
+      "pipeline": {"input": "规模/岗位/维度规格（全）", "operation": "方案设计", "deliverable": "绩效方案文档"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与其他HR案仅主题相邻，机制不同，不合并",
+      "recommendation": "普通能力直接做",
+      "rationale": "规格完整的自足设计任务"
+    },
+    {
+      "case_id": "src02_54e02751607028b5",
+      "delegation": "起草泥炭藓培育研发项目计划书（≤5000字，word），含预算表：总500万，2025年30万至2029年100万逐年拆分",
+      "correction": "技术实力与组织事实未给，按给定预算拆分起草，技术段落标占位；不虚构项目既有成果",
+      "quotes": [{"message_id": "conv_230c66505a14:msg_1", "quote": "总预算金额为500万元，时间为2025年5月-2029年4月"}],
+      "pipeline": {"input": "主题+预算拆分（用户已给）", "operation": "长文起草+预算表", "deliverable": "Word计划书"},
+      "material_dependency": "none（数字自足）",
+      "replaceable_duplicate_work": "与39f09c案同为预算类但一个自足一个依赖附件，机制不同",
+      "recommendation": "普通能力直接做",
+      "rationale": "给定数据可直出的起草任务；预算数字照用户输入不擅改"
+    },
+    {
+      "case_id": "src02_39f09c88ab35215e",
+      "delegation": "依据附件申请书编制首笔300万预算计划：科目/金额/占比/说明表格+≤500字执行说明（Excel兼容）",
+      "correction": "必须以附件真实内容为测算依据，不得臆造科目与交付物；附件正文未挂载到本屏，后续阶段需挂真实字节",
+      "quotes": [{"message_id": "conv_5ca3f6271b31:9c9b1af7", "quote": "编制首笔300万元资金的详细预算计划"}],
+      "pipeline": {"input": "申请书docx（真实材料）+规则句", "operation": "读附件→提取实施计划→预算表编制", "deliverable": "Excel兼容预算表+说明"},
+      "material_dependency": "material_id 372546a7…（docx，结构已验证，正文10653字符可提取）",
+      "replaceable_duplicate_work": "提取与绑定核对动作可与其他附件案共享；表格自检一步即可",
+      "recommendation": "继续",
+      "rationale": "真实附件依赖且输出可校验（总额/占比可脚本重算），附件路线代表案"
+    },
+    {
+      "case_id": "src02_67980a5592e97f10",
+      "delegation": "20万AI客服系统商业案例报告：人力节约/效率/ROI/回收期量化+固定章节结构",
+      "correction": "所有假设数字已在需求中给全，按通用默认口径计算；skill名不证明已装",
+      "quotes": [{"message_id": "conv_71b145de3304:msg_1", "quote": "论证公司投入20万元引入AI客服系统的合理性"}],
+      "pipeline": {"input": "完整量化规格", "operation": "计算+报告撰写", "deliverable": "商业案例报告"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "无既有重复",
+      "recommendation": "普通能力直接做",
+      "rationale": "算术自足，用脚本复核ROI与回收期即可"
+    },
+    {
+      "case_id": "src02_0e242f6491425858",
+      "delegation": "销售费用按每人每年20万重算并折算月工资",
+      "correction": "这是会话中途改数重算，先前测算基线未随附，不能凭空重建整表",
+      "quotes": [{"message_id": "conv_f4efc3b555dc:ca14cde7", "quote": "销售费用按照每人一年20万重新计算，折算成月工资"}],
+      "pipeline": {"input": "先前测算（缺）+新参数", "operation": "重算", "deliverable": "更新后的测算"},
+      "material_dependency": "unknown: 先前测算数字未在投影中",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "条件恢复",
+      "rationale": "恢复基线后是一步算术；单独执行无从谈起"
+    },
+    {
+      "case_id": "src02_a0f8b9d2b3197cba",
+      "delegation": "股权投资合同查错别字+审风险",
+      "correction": "错别字与文本层面条款问题可据附件判定；整体法律风险结论需权威依据，仅给文本层发现并声明局限",
+      "quotes": [{"message_id": "conv_f4efc3b555dc:ca14cde7", "quote": "1、检查错别字；2、审核风险"}],
+      "pipeline": {"input": "合同docx（真实材料）", "operation": "全文读取→错字/条款筛查", "deliverable": "问题清单+风险提示"},
+      "material_dependency": "material_id 9e79eb52…（docx，11006字符可提取）",
+      "replaceable_duplicate_work": "提取步骤可与其他docx案共享",
+      "recommendation": "继续",
+      "rationale": "附件真实可读、输出为可核查的发现清单；与a0f4c1案同为文档审读但文体与输出不同，不硬并"
+    },
+    {
+      "case_id": "src02_a0f4c1c0972825f8",
+      "delegation": "从华师大知识产权转让协议PDF提取全部专利年费条款：位置/原文/要素解析，结构化输出",
+      "correction": "仅基于文本客观呈现，不补充未明示的法律后果",
+      "quotes": [{"message_id": "conv_ed0d158f38e3:1d9a8ed3", "quote": "重点识别并提取所有涉及“专利年费缴纳”的条款内容"}],
+      "pipeline": {"input": "18页协议PDF（真实材料）", "operation": "文本提取→定位条款→结构化摘录", "deliverable": "条款结构化清单"},
+      "material_dependency": "material_id 35fa2123…（PDF，18页，7500字符可提取，无需OCR）",
+      "replaceable_duplicate_work": "提取与定位动作可共享；引文核对是关键自检",
+      "recommendation": "继续",
+      "rationale": "附件检索代表案：引用正确性可用提取文本直接验证"
+    },
+    {
+      "case_id": "src02_426fd305a13a50d9",
+      "delegation": "回答附件pptx第一页内容",
+      "correction": "小查询任务：读首页文本/XML作答，不整本解读",
+      "quotes": [{"message_id": "conv_3fb6b3eb1269:msg_1", "quote": "ppt第一页是什么内容"}],
+      "pipeline": {"input": "6页pptx（真实材料）", "operation": "读首页", "deliverable": "页面内容回答"},
+      "material_dependency": "material_id 2193d038…（pptx，6页）",
+      "replaceable_duplicate_work": "无；单步读取",
+      "recommendation": "普通能力直接做",
+      "rationale": "单步附件读取，无需任何共享资源"
+    },
+    {
+      "case_id": "src02_03e65a43585f00fe",
+      "delegation": "统计'紧箍叙事'在《西游记》百回中的分布",
+      "correction": "口径需先定（按回、按出现次数、按情节段），统计可复现并给出方法说明",
+      "quotes": [{"message_id": "conv_457fafd7baf1:963de187", "quote": "紧箍叙事在西游记百回中的分布"}],
+      "pipeline": {"input": "74.5万字txt（真实材料）", "operation": "关键词/情节定位+回目统计", "deliverable": "分布统计与说明"},
+      "material_dependency": "material_id 7146e38c…（txt，utf-8-sig，745418字符）",
+      "replaceable_duplicate_work": "文本读入一步可共享；统计口径为本案特有",
+      "recommendation": "继续",
+      "rationale": "真实长文本附件+可验证产出，适合脚本统计"
+    },
+    {
+      "case_id": "src02_b7aeb008d9756484",
+      "delegation": "Word转GB/T 9704—2012公文格式PDF：仿宋_GB2312三号、小标宋二号标题、行距28磅、页边距给定、页码横线、红章位预留，单页输出",
+      "correction": "源文件唯一真实（docx 4487字符）；环境内公文字体是否可达unknown，需fc-match实测，近替代须声明；目标绑定执行时核对",
+      "quotes": [{"message_id": "conv_420fd0fd1158:db16bcac", "quote": "使用仿宋_GB2312 三号字，标题为小标宋体二号字"}],
+      "pipeline": {"input": "docx（真实材料）+格式规格（全）", "operation": "LibreOffice排版转PDF→渲染检查", "deliverable": "公文格式PDF"},
+      "material_dependency": "material_id 57be3fc9…；unknown: 仿宋_GB2312/小标宋字体在本环境可达性",
+      "replaceable_duplicate_work": "docx读取与PDF渲染检查可共享；公文格式参数为本案特有",
+      "recommendation": "继续",
+      "rationale": "条件=字体链路实测可达；输出可逐页渲染验证，格式化路线代表案"
+    },
+    {
+      "case_id": "src02_33cc3f70fa54b01e",
+      "delegation": "对照已学HRD岗位JD判断候选人（付连军简历PDF）是否可推荐面试，合适则出评估报告",
+      "correction": "JD全文在上下文（前条消息），简历PDF真实已挂；结论须逐条引简历原文，不虚构履历",
+      "quotes": [{"message_id": "conv_2b8fd8fdd8bc:db16bcac", "quote": "请匹配上述岗位  是否可推荐面试，如果合适出具一份候选人评估报告"}],
+      "pipeline": {"input": "JD文本（上下文）+简历PDF（真实材料）", "operation": "简历提取→JD逐条匹配→结论", "deliverable": "推荐判断+评估报告"},
+      "material_dependency": "material_id e474a806…（2页PDF，2586字符可提取，无需OCR）",
+      "replaceable_duplicate_work": "简历提取与逐条匹配步骤与990104案同构，可共享一个四步清单",
+      "recommendation": "继续",
+      "rationale": "输入齐备、结论可核查；与张琳案共享的是简历匹配机制，不是HR领域整体"
+    },
+    {
+      "case_id": "src02_99010467a2e9756e",
+      "delegation": "对照工程菌助理研发工程师JD判断张琳简历是否可推荐面试",
+      "correction": "JD在前文消息内，简历PDF真实已挂；生物岗评审维度与HRD案完全不同，各自独立",
+      "quotes": [{"message_id": "conv_66a8dc558785:2088c325", "quote": "是否可推荐面试"}],
+      "pipeline": {"input": "JD文本+简历PDF（真实材料）", "operation": "简历提取→逐条匹配→结论", "deliverable": "推荐判断+评估报告"},
+      "material_dependency": "material_id 3f8a1c51…（2页PDF，2505字符可提取）",
+      "replaceable_duplicate_work": "与33cc案共享四步匹配机制；维度表不共享",
+      "recommendation": "继续",
+      "rationale": "同机制第二例，支持一个小共享清单但不扩展到其他HR案"
+    },
+    {
+      "case_id": "src02_31af3b4b1e0f9b23",
+      "delegation": "学习'以上简历'并按前端JD推荐面试人选",
+      "correction": "引用的简历无已认证字节（投影已标注），不能凭JD空评人",
+      "quotes": [{"message_id": "conv_1c5e6b392159:msg_1", "quote": "推荐合适面试的人选"}],
+      "pipeline": {"input": "JD文本（全）+简历（缺）", "operation": "匹配", "deliverable": "推荐结论"},
+      "material_dependency": "unknown: 简历文件未提供",
+      "replaceable_duplicate_work": "恢复后可并入JD×简历匹配机制",
+      "recommendation": "条件恢复",
+      "rationale": "补齐简历文件后即可执行；JD已完整"
+    },
+    {
+      "case_id": "src02_f6ac09939a792ac2",
+      "delegation": "按快应用前端JD分析两份简历是否适合岗位",
+      "correction": "两份简历无已认证字节（投影已标注）；JD与31af3b案相同文本但案件独立",
+      "quotes": [{"message_id": "conv_f7c708bf6afb:msg_17", "quote": "结合两份简历内容，分析他们是否适合这个岗位"}],
+      "pipeline": {"input": "JD（全）+两份简历（缺）", "operation": "匹配", "deliverable": "适配分析"},
+      "material_dependency": "unknown: 两份简历未提供",
+      "replaceable_duplicate_work": "恢复后并入同一匹配机制",
+      "recommendation": "条件恢复",
+      "rationale": "同上，缺件是简历不是方法"
+    },
+    {
+      "case_id": "src02_e4b910a557228f7a",
+      "delegation": "在「丰富公司内容」多轮后要求「出ppt」",
+      "correction": "两份真实附件指向不同主体（上海威蓝介绍PDF 17页 vs 哈工大护理床BP.pptx 40页），目标公司与参考/内容角色未决，先解决绑定再制作；不臆测主体",
+      "quotes": [
+        {"message_id": "458ce303-05bb-4c70-82b0-8afa4a15ebc3", "quote": "出ppt"},
+        {"message_id": "e041cf8e-2f1f-4730-a66e-ea38c71d2cec", "quote": "丰富图片信息，内容介绍，主要丰富公司内容"}
+      ],
+      "pipeline": {"input": "两份附件（真实材料，角色未决）", "operation": "内容整合→PPT构建", "deliverable": "PPT文件"},
+      "material_dependency": "material_id 5053b559… 与 b190da5b…；unknown: 哪份为内容源、哪份为参考",
+      "replaceable_duplicate_work": "PPT构建渲染回路可与PPT组共享",
+      "recommendation": "条件恢复",
+      "rationale": "绑定歧义必须先解，制作步骤反而简单"
+    },
+    {
+      "case_id": "src02_5489c2ff9686ad9f",
+      "delegation": "创始人准备后端候选人面试（考察vibe coding、成长性、协作）",
+      "correction": "无简历无JD文本，交付为面试准备材料，不评具体人",
+      "quotes": [{"message_id": "conv_2e1d20b1fc34:msg_1", "quote": "我希望他对vibe codiing"}],
+      "pipeline": {"input": "考察点口述", "operation": "问题设计", "deliverable": "面试问题清单"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与84fb6a案同为出题但对象行业不同，独立交付",
+      "recommendation": "普通能力直接做",
+      "rationale": "短清单生成，通用能力足够"
+    },
+    {
+      "case_id": "src02_84fb6a706a3545b8",
+      "delegation": "视比特机器人海外市场负责人：能力要求清单+面试问题清单",
+      "correction": "不联网查企业资料，按通用品类常识+用户给定背景设计",
+      "quotes": [{"message_id": "conv_8aceda2d9422:msg_11", "quote": "需要具备什么样的能力？帮我准备一个面试的问题清单"}],
+      "pipeline": {"input": "岗位方向描述", "operation": "清单设计", "deliverable": "能力+问题清单"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与5489c2案机制相似但领域不同，不合并",
+      "recommendation": "普通能力直接做",
+      "rationale": "自足清单任务"
+    },
+    {
+      "case_id": "src02_7463d58abe9f5ab1",
+      "delegation": "优化攻防箭短视频分镜脚本（8镜头完整脚本已给，含场地规则与旁白）",
+      "correction": "是对既有脚本的润色优化，不是从零创作；生成式视频仅是脚本描述，不实际产出视频",
+      "quotes": [{"message_id": "conv_80e86b5805f5:msg_13", "quote": "这样的给我优化一下"}],
+      "pipeline": {"input": "完整脚本文本", "operation": "结构/文案优化", "deliverable": "优化后脚本"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "无",
+      "recommendation": "普通能力直接做",
+      "rationale": "文本编辑任务"
+    },
+    {
+      "case_id": "src02_da25cb2f8c4d27c1",
+      "delegation": "生成16:9企业科技概念图（医械CRO三部门协同，蓝白科技感，无可读小字）",
+      "correction": "图像provider在本环境可用性与16:9控制未实测，以实际生成结果为准并检查输出；skill名不证明已装",
+      "quotes": [{"message_id": "conv_fd3b83a1061c:msg_1", "quote": "生成一张16:9企业科技概念图"}],
+      "pipeline": {"input": "画面描述", "operation": "图像生成+结果检查", "deliverable": "图片文件"},
+      "material_dependency": "unknown: 图像provider实际能力（比例/文字约束）未验证",
+      "replaceable_duplicate_work": "与678c33案仅共享生成后检查动作",
+      "recommendation": "普通能力直接做",
+      "rationale": "单次生成+可人工检查；不可控项在交付时如实报告"
+    },
+    {
+      "case_id": "src02_678c330761fb1b17",
+      "delegation": "水墨'小桥流水人家'插图，PNG≥1920×1080，适配古诗词课件嵌入",
+      "correction": "分辨率与透明背景是否可控unknown，实测后如实报告；达不到时与用户确认替代",
+      "quotes": [{"message_id": "conv_fe3bd84392e1:69adfc56", "quote": "图像分辨率不低于1920×1080，格式为PNG"}],
+      "pipeline": {"input": "画面与规格描述", "operation": "图像生成+尺寸校验", "deliverable": "PNG插图"},
+      "material_dependency": "unknown: provider分辨率/背景控制能力",
+      "replaceable_duplicate_work": "无实质共享",
+      "recommendation": "条件恢复",
+      "rationale": "硬性技术规格（1920×1080）能否满足未证，先实测再定；规格不可满足即为阻塞项"
+    },
+    {
+      "case_id": "src02_584da9a4cacbbd21",
+      "delegation": "29行审查维度表转Excel三列",
+      "correction": "数据全在消息内，结构转换直出；用脚本生成并回读校验行列数",
+      "quotes": [{"message_id": "conv_769c8e9a7039:msg_1", "quote": "帮我做成excel，三列"}],
+      "pipeline": {"input": "29行表格文本", "operation": "xlsx生成", "deliverable": "Excel文件"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与9ade0e案同会话但任务独立（一个直转、一个需补内容），不合并",
+      "recommendation": "普通能力直接做",
+      "rationale": "确定性转换，脚本一步完成"
+    },
+    {
+      "case_id": "src02_9ade0e01adc2fd25",
+      "delegation": "Excel问答表：列=投资人最关心的主体/投资人当下什么/公司回复/改进建议",
+      "correction": "列结构已给，但各行的业务答复底稿未在投影中，不能编造公司答复",
+      "quotes": [{"message_id": "conv_769c8e9a7039:78535440", "quote": "做成Excel的图标式的，每列写一个问题"}],
+      "pipeline": {"input": "列结构（全）+答复内容（缺）", "operation": "填表", "deliverable": "Excel问答表"},
+      "material_dependency": "unknown: 底层业务答复未提供",
+      "replaceable_duplicate_work": "xlsx生成动作与584da9案相同",
+      "recommendation": "条件恢复",
+      "rationale": "缺的是内容不是做法；补底稿后一步填表"
+    },
+    {
+      "case_id": "src02_baeaf5a254fd7afe",
+      "delegation": "普拉提运动康复馆申报路演PPT，约13页，现代时尚运动风格",
+      "correction": "申报数据与馆方事实未给，内容按主题自拟并标注假设，不虚构真实经营数据",
+      "quotes": [{"message_id": "conv_fe8e6682fa62:msg_5", "quote": "大概需要13页左右"}],
+      "pipeline": {"input": "主题+页数+风格", "operation": "大纲→pptx构建→渲染检查", "deliverable": "PPT文件"},
+      "material_dependency": "none",
+      "replaceable_duplicate_work": "与PPT组共享构建+逐页渲染检查回路",
+      "recommendation": "普通能力直接做",
+      "rationale": "自拟内容类PPT，回路自查防排版缺陷"
+    },
+    {
+      "case_id": "src02_f134ffa42d8cec83",
+      "delegation": "5页图片型PPT《小学一年级-开学第一课》，免确认直出",
+      "correction": "依赖图像provider（可用性unknown，以实测为准）；不可用时降级为纯排版PPT并声明，不假装图片已生成",
+      "quotes": [{"message_id": "8f29f121-4999-4dc2-a24d-1ca887e2f7e0", "quote": "只要五页，主题是《小学一年级-开学第一课》"}],
+      "pipeline": {"input": "主题+页数", "operation": "逐页配图+组装pptx", "deliverable": "图片型PPT"},
+      "material_dependency": "unknown: 图像provider实际效果",
+      "replaceable_duplicate_work": "PPT组装与渲染检查与baeaf5案共享",
+      "recommendation": "普通能力直接做",
+      "rationale": "先实测图源；用户已免确认，降级路径在交付说明中声明"
+    },
+    {
+      "case_id": "src02_5ffa695073481303",
+      "delegation": "8页季度业务汇报PPT（业务回顾/数据亮点/问题分析/下季计划）",
+      "correction": "真实业务数据未给，只能做模板化框架并把数据位标占位，不编造业绩数字",
+      "quotes": [{"message_id": "conv_049156fe4bfc:msg_1", "quote": "做一份季度业务汇报 PPT，共 8 页"}],
+      "pipeline": {"input": "章节结构（全）+数据（缺）", "operation": "模板化pptx构建", "deliverable": "PPT模板文件"},
+      "material_dependency": "unknown: 真实季度数据未提供",
+      "replaceable_duplicate_work": "构建+渲染检查与PPT组共享",
+      "recommendation": "普通能力直接做",
+      "rationale": "模板交付可行，缺数据以占位明示"
+    },
+    {
+      "case_id": "src02_05162d4c13f284ee",
+      "delegation": "岗位裁撤协商解除流程：通知节点、补偿金计算、离职文件清单、交接事项",
+      "correction": "辖区/薪资未给，补偿只能给公式化框架并标默认假设；不输出具体法律结论，重大事项建议法务确认",
+      "quotes": [{"message_id": "conv_fee286579ecd:msg_1", "quote": "生成完整的离职处理流程，包括通知时间节点、经济补偿金计算、离职文件清单及交接事项"}],
+      "pipeline": {"input": "情景描述", "operation": "流程设计", "deliverable": "流程文档"},
+      "material_dependency": "unknown: 地区/薪资输入未给（影响补偿数字）",
+      "replaceable_duplicate_work": "与其他HR案主题相邻机制不同，不合并",
+      "recommendation": "普通能力直接做",
+      "rationale": "框架可交付；具体金额等用户输入后再算"
+    }
+  ]
+}

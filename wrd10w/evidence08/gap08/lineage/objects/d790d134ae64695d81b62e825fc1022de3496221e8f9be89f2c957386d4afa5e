@@ -1,0 +1,33 @@
+import json, re, sys
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlparse, parse_qs
+
+queries = []
+ISSUES = [{"id": i, "ident": "IT%05d" % i, "title": "工作项%d" % i, "type": ["需求", "缺陷", "任务"][i % 3], "state": "已完成", "updated_at": "2026-05-1%dT10:00:00+08:00" % (i % 8 + 1)} for i in range(250)]
+PRS = [{"id": i, "title": "pr%d" % i, "state": "merged", "merged_at": "2026-05-1%dT10:00:00+08:00" % (i % 8 + 1), "_repo": "owner/demo"} for i in range(130)]
+
+class H(BaseHTTPRequestHandler):
+    def log_message(self, *a):
+        pass
+    def do_GET(self):
+        u = urlparse(self.path)
+        q = parse_qs(u.query)
+        queries.append({"path": u.path, "state": q.get("state"), "page": q.get("page"), "per_page": q.get("per_page")})
+        if u.path == "/enterprises/demo/issues":
+            page = int(q.get("page", ["1"])[0]); per = int(q.get("per_page", ["100"])[0])
+            body = ISSUES[(page - 1) * per: page * per]
+        elif u.path == "/repos/owner/demo/pulls":
+            page = int(q.get("page", ["1"])[0]); per = int(q.get("per_page", ["100"])[0])
+            body = PRS[(page - 1) * per: page * per]
+        elif u.path == "/_queries":
+            body = queries
+        else:
+            self.send_response(404); self.end_headers(); return
+        data = json.dumps(body).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
+HTTPServer(("127.0.0.1", int(sys.argv[1])), H).serve_forever()

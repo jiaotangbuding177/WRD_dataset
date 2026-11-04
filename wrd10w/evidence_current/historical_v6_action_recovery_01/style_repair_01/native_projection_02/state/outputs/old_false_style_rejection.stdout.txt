@@ -1,0 +1,50 @@
+{
+  "status": "CHECKS_FAILED",
+  "delivery": {
+    "input_workbook": "/workspace/inputs/dev_input.xlsx",
+    "output_workbook": "/workspace/outputs/style_trial/dev_outputs/masked.xlsx",
+    "report_file": "/workspace/outputs/style_trial/dev_outputs/masking_report.json"
+  },
+  "input_sha256": "b6a4e5d4f3ef2d83ad739eb2731668835c453d6acb8588addab6bfbcd16e7f8b",
+  "output_sha256": "b5b52b3d1565fcc3fc05d4e4621869871e4113c34b1c22ffa7797394850e588c",
+  "totals": {
+    "selected_cells": 96,
+    "changed_cells": 84,
+    "unchanged_text_cells": 12,
+    "blank_cells": 0,
+    "non_text_cells": 0,
+    "formula_cells": 0
+  },
+  "checks": [
+    {
+      "name": "target_cells_match_expected",
+      "status": "PASS"
+    },
+    {
+      "name": "non_target_values_preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "styles_and_layout_preserved",
+      "status": "FAIL"
+    },
+    {
+      "name": "input_unchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "deliverable_hash_recorded",
+      "status": "PASS"
+    },
+    {
+      "name": "counting_identity",
+      "status": "PASS"
+    }
+  ],
+  "uncovered": [
+    "未在原生Excel应用程序中做视觉渲染验证；样式保留结论来自openpyxl属性级比对",
+    "未验证ZIP元数据与XML序列化顺序（契约R09明确不要求）",
+    "公式仅在xlsx定义层面识别与保留（R06），未做重算引擎结果验证",
+    "图表、图片、数据透视表等富对象不在本次契约与测试范围内，未验证其逐字节保真"
+  ]
+}

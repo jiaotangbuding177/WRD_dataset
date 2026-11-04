@@ -1,0 +1,58 @@
+{
+  "schema": "wrd-native-rebuild-job-v1",
+  "required": [
+    "job_id",
+    "stage",
+    "prompt",
+    "source_ids",
+    "source_split",
+    "protected_ancestry_checked",
+    "resources",
+    "skills"
+  ],
+  "stage_enum": [
+    "A_screen",
+    "B_make",
+    "B_prepare",
+    "B_revision",
+    "C_review",
+    "C_trial_no_skill",
+    "C_trial_skill",
+    "D_freeze",
+    "teacher_controller",
+    "technical_probe"
+  ],
+  "resource": {
+    "path": "absolute ordinary source file/directory",
+    "mount": "relative workspace path",
+    "sha256": "mandatory for every supplied file"
+  },
+  "skill": {
+    "id": "native discovery id",
+    "path": "fresh clean skill directory",
+    "sha256_tree": "mandatory canonical relative-path/file-sha mapping hash"
+  },
+  "source_split": "train only; never original226/newH/static dev/test",
+  "ancestry": "frozen source allowlist receipt required for every business job; filenames/status are not evidence",
+  "resource_manifest": {
+    "required_for_business": true,
+    "status": "PASS",
+    "source_allowlist_sha256": "exact allowlist receipt hash",
+    "files": [
+      {
+        "path": "absolute file path",
+        "sha256": "original immutable bytes hash",
+        "ancestry_source_ids": [
+          "all transitive enterprise source ancestors"
+        ]
+      }
+    ],
+    "note": "Every mounted resource and every learned-skill file must have an exact path/SHA row. Source IDs must be inside both job and frozen train allowlist."
+  },
+  "chain": "chain_id, parent_job_ids, exact skill/version sha and result ids are explicit metadata; do not supply future feedback",
+  "original_reasoning": "raw API request/JSON/SSE + native transcript; unavailable readable R stays unavailable",
+  "phase_control": "outer dispatch only complete sessions. No step-level tool/loop control.",
+  "teacher_controller": "not main-eligible until native child tool/model/trace/resource-scope probe passes",
+  "two_arm_fairness": "separate fresh native sessions unless native child resource isolation is independently proven",
+  "source_examples": "CLEAN_ACTOR_INVENTORY.json entries are candidates, not quality labels"
+}

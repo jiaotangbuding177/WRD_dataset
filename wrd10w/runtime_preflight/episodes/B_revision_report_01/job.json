@@ -1,0 +1,262 @@
+{
+  "job_id": "B_revision_report_01",
+  "stage": "B_revision",
+  "prompt": "继续WRD局部资源修订：前一候选已真实制作且21自测全绿，但独立固定环境工具复核发现两个具体缺陷。不是从零重造、不训练、不子Agent，不发外部消息/邮件/日程/远端写；仍使用本完整原生会话自主完成本地读取、局修、复现与真实测试。\n\n先读 /workspace/inputs/independent/actual_repair_feedback.json，以及其引用的真实失败报告和明确虚构的独立反例。候选原资源全部在 /workspace/inputs/previous_skill/，原21测试生成器/runner/fixtures/原日志在 /workspace/inputs/previous_tests/。五份原始源/源字段与A反馈仍按 /workspace/inputs/conversations/ 和 /workspace/inputs/a_stage/ 挂载，必要时回读以核适用范围；新纠错不是旧正式评测gold。\n\n先用原公开CLI实际复现两个缺陷并保存原失败，不把feedback当已自动修复。将候选副本实化到 /workspace/outputs/skill/，测试副本置 /workspace/outputs/tests/。只局部修改实际错误的冲突判定与嵌套evidence_refs形状核验及必要说明，不删功能、不放宽已有goal类型/数字/原文quote/字数/Word状态检查。原技能轻量首页、独立资源、用途范围保持；不把制作日志/企业素材/fixtures放包内。不要为了本次反例硬编码年份、数值、subject或文件名。\n\n用原公开参数接口复跑原21测试，既有预期不能为了变绿被改。补充真实正反例：不同年份actual/goal同值合法；同一年actual已完成值与goal目标同值也能合法共存；真实planned_goal引用为achieved_fact仍须拒；任意嵌套evidence_refs为非list、list内非object须明确拒并给路径；合法嵌套quote继续过、错误quote继续拒。空的可选引用列表不等于必需事实缺证。不能用AST/文件存在或exit非0替代精确断言。\n\n每次命令、原响应、fixture/资源版本SHA、前后修改、失败原因和复测都留 /workspace/outputs/tests/ 或其它包外位置。脚本若有语义无法可靠判断，仅显式NEEDS_SEMANTIC_REVIEW，不伪称完整语义通过。缺陷修正后输出 /workspace/outputs/resource_validation.json、/workspace/outputs/revision_summary.json（指出原两项缺陷证据→局改→新旧测试实数、每份变动资源SHA、保留的未知与限制），以及一份清楚的原版本到本版本变更清单；收益仍未独立业务试跑，不宣称retained/已入库。最后给非空简短文字实际结果，不以yield或只有tool call结束。",
+  "source_ids": [
+    "conv_d1ef29d65e7a",
+    "conv_41874c950938",
+    "conv_246b5e915810"
+  ],
+  "source_split": "train",
+  "protected_ancestry_checked": true,
+  "source_allowlist_receipt": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\dispatch_release_01\\cohorts\\narrative_fact_preserving_structuring\\source_allowlist_receipt.json",
+  "source_allowlist_sha256": "d969f0d1db461746f3cd43cc83086839e06aaeb59992be7b9c5aa2b218c17c40",
+  "resource_ancestry_receipt": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\jobs\\B_revision_report_01.resource_ancestry_receipt.json",
+  "resource_ancestry_sha256": "a0e28104811afd0a337995de75ba1e71d3391bca87e54cee9bae4a90655a980f",
+  "resources": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\dispatch_release_01\\cohorts\\narrative_fact_preserving_structuring\\conv_d1ef29d65e7a.user_requirements.json",
+      "mount": "inputs/conversations/conv_d1ef29d65e7a.json",
+      "sha256": "fae32ddf9ff88fa71a08e4a7a644343529b6d58666656f43b6a003ce236bd801"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\dispatch_release_01\\cohorts\\narrative_fact_preserving_structuring\\conv_41874c950938.user_requirements.json",
+      "mount": "inputs/conversations/conv_41874c950938.json",
+      "sha256": "dfb42f970e00bfdaf267b31bdc551b14ec70a632d886d69abc114b66dbd63040"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\clean_inputs\\dispatch_release_01\\cohorts\\narrative_fact_preserving_structuring\\conv_246b5e915810.user_requirements.json",
+      "mount": "inputs/conversations/conv_246b5e915810.json",
+      "sha256": "4401f932ccbbfea9c476aef17312acb432825b925d91af43171a1b395d9955ac"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\source_profiles.verified_fields.annotation.json",
+      "mount": "inputs/a_stage/source_profiles.verified_fields.annotation.json",
+      "sha256": "bcb7c66e1e76b70ba6d6f577ea612d8b4d8bb0208e215158aa7bcb7c3cf23cb2"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\A_B_MAKE_FEEDBACK.json",
+      "mount": "inputs/a_stage/A_B_MAKE_FEEDBACK.json",
+      "sha256": "e767ff762ba7a33be3415e44494d9db07e7e709316f7ad4111f5969f03f24865"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B_REVISION_01_ACTUAL_FEEDBACK.json",
+      "mount": "inputs/independent/actual_repair_feedback.json",
+      "sha256": "59ccb64c94ad7e06e155406a9a7a38dd56a84baf1ab1d29d6758fce404137a44"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\skill\\schemas\\draft.schema.json",
+      "mount": "inputs/previous_skill/schemas/draft.schema.json",
+      "sha256": "20db9fe2b2d31979cb9e403e2aa442d6de7cde37eed286b9bec50f797d5fa418"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\skill\\schemas\\fact_ledger.schema.json",
+      "mount": "inputs/previous_skill/schemas/fact_ledger.schema.json",
+      "sha256": "8986e1d100621ee6356d19f8e950305aa633a07d8599bae94b15c343fb975a65"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\skill\\scripts\\validate_pack.py",
+      "mount": "inputs/previous_skill/scripts/validate_pack.py",
+      "sha256": "6a1e951540750ded9fb1f8b688efe25e065352184f07e28c938081159473433a"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\skill\\SKILL.md",
+      "mount": "inputs/previous_skill/SKILL.md",
+      "sha256": "6604ae142be3f84e433c71b14bc631ddeb62cf90cd518ca4d1df7d6589eb5fd2"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\skill\\templates\\section_templates.md",
+      "mount": "inputs/previous_skill/templates/section_templates.md",
+      "sha256": "a1aa78e0039bc3f7f4c314bb9113f567e6b78142c1671529dd00033c97b77412"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\b1a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b1a_draft.json",
+      "sha256": "bff76691ec5ee3eaf12cbc9b403816664a45b3b52639afa4b125f9a5a45ed2a2"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\b1b_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b1b_draft.json",
+      "sha256": "4409cd25fd40224bec3402cd2bc43af86c5a35259836803571c0325393207e63"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\b2a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b2a_draft.json",
+      "sha256": "d12f80a9c79ff7cea9f3befa810bdff92645ae9c141d6b23ca35cac8193a9645"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\b2b_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b2b_draft.json",
+      "sha256": "333f4ad8e05e7b5355ad59a4536de4234b3da1671b5d8ed5cb08b03b8a0fcadc"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\b2b_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/b2b_ledger.json",
+      "sha256": "79e8928707b7b7eee4195d73124ef32286688aa9a84ddacf02d824a61b94ba2f"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\b3a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/b3a_draft.json",
+      "sha256": "5971e239312522536e75beb425937a63b7d5cd3041725b1e0fbbc267ca2e596a"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\c1_request.json",
+      "mount": "inputs/previous_tests/fixtures/c1_request.json",
+      "sha256": "5b6bb4e6832171ec9210cfc20dc994fea0e906493bcb0e6d04c2d9f1b78c4486"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\c2_request.json",
+      "mount": "inputs/previous_tests/fixtures/c2_request.json",
+      "sha256": "6e8a0b5f37f9055ec1a65a1b56c38eab6c743e1861e2f7b922bd497cd2ad327b"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\c3_request.json",
+      "mount": "inputs/previous_tests/fixtures/c3_request.json",
+      "sha256": "d662d17146f9853ef168f4230609b45fe31d9828a534d21633445eb18671188f"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\c4_request.json",
+      "mount": "inputs/previous_tests/fixtures/c4_request.json",
+      "sha256": "fa367ab9b105dd024c557e7288fa0f96f341dbf6387bfee1a7d7f410add06185"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\c5_request.json",
+      "mount": "inputs/previous_tests/fixtures/c5_request.json",
+      "sha256": "fdb74e74111905808e5372789000e6d91126ebe3f1da2d1fd662352f98b5e26d"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e1_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e1_draft.json",
+      "sha256": "9bde024e93a784d53d7216553f38e48124fbe2aba1b51ba24065a0b910a5716c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e2_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/e2_ledger.json",
+      "sha256": "8a73778095501a77e49805a2ef4ad274484f2067fde2da618b82d4fa36cd0317"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e3_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/e3_ledger.json",
+      "sha256": "8e4dfdae164957134eb4859fc84cb42fee9e02a378ae5306697777de35f8c391"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e4a_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e4a_draft.json",
+      "sha256": "499b91ffa8321e81d88ac9efa39d01709c1f90a4b5dfb7f3cf70c3d191cc65f4"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e4b_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e4b_draft.json",
+      "sha256": "0e657008be59dcf0001d5b9a0f588198b5d3de8d4c3286eb8d301ba4fa6c387c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e5_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e5_draft.json",
+      "sha256": "7eb60e4254a43339b557e04cef0fb9317c8b1ee623c968570889cb9e3bdee9f7"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e6_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/e6_ledger.json",
+      "sha256": "915167c8eb43feb53e200f9f30e8b066405ae257901ab704b5fb055b3394bf21"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\e7_draft.json",
+      "mount": "inputs/previous_tests/fixtures/e7_draft.json",
+      "sha256": "762cb64289bea07903fa21c660819bd828292faeb178bd873c50ac4cc159ce26"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\n1_draft.json",
+      "mount": "inputs/previous_tests/fixtures/n1_draft.json",
+      "sha256": "af8470a66966bd13ec4b3079a3bd361e943beb263897c5947e19ca4fcc07b63e"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/n1_ledger.json",
+      "sha256": "8b035acc5a0f62631e6fe4df971acb9fba8ec8669984bdc304ae6a27a7050214"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\n2_draft.json",
+      "mount": "inputs/previous_tests/fixtures/n2_draft.json",
+      "sha256": "7aaa3514aaa4a382fbdc744caeffdd27abb448623f3b74134246adde3943ce30"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\n2_ledger.json",
+      "mount": "inputs/previous_tests/fixtures/n2_ledger.json",
+      "sha256": "0e7e1c79cf57cbce2e7c5238b622e420025a809e22ca8e0068582a8e55e0239e"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\fixtures\\sources_demo.json",
+      "mount": "inputs/previous_tests/fixtures/sources_demo.json",
+      "sha256": "5687920b5dc3fd2d155b939ba991847b7d0f1e9c1e0e414e93f5b45ebe301ea1"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\make_fixtures.py",
+      "mount": "inputs/previous_tests/make_fixtures.py",
+      "sha256": "a2b3eecf91b079f780aa11a367641ea86e8c144cfa2a5095b1a3cd181a343a42"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\run_tests.py",
+      "mount": "inputs/previous_tests/run_tests.py",
+      "sha256": "c22027e126f5f394b6d2a8f6b6f34fe4011753ad3c29931763035157fc7d2d9b"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\outputs\\tests\\test_run_log.json",
+      "mount": "inputs/previous_tests/test_run_log.json",
+      "sha256": "26d0004a35e604706669c4bb18772925de88b0ea2f75b4e8ddadf828edd0ab2c"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\extra_fixtures\\legal_draft.json",
+      "mount": "inputs/independent/legal_draft.json",
+      "sha256": "fc8e46e5ac4627a85ff7893c3756000cba52e2300aadb38fb3695043fde925d8"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\extra_fixtures\\legal_ledger.json",
+      "mount": "inputs/independent/legal_ledger.json",
+      "sha256": "b2bf9ed0a13cc7037df6177b02a25585cd732998ddb99d8a2b16244313060666"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\extra_fixtures\\legal_sources.json",
+      "mount": "inputs/independent/legal_sources.json",
+      "sha256": "0933ec3b817defaa6f5abddc2c69a0a253eb777898ff99e6f7215dc98d05e7d2"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\extra_fixtures\\nested_refs_non_object_item.json",
+      "mount": "inputs/independent/nested_refs_non_object_item.json",
+      "sha256": "34a0b41e0900a63e5576455b4cdd30aeaf1b1a1076c028ed9d7ec3d1c111563a"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\extra_fixtures\\nested_refs_not_list.json",
+      "mount": "inputs/independent/nested_refs_not_list.json",
+      "sha256": "6e9c6a2fb9e0ff638ce0aa56388b89db11e6774420e82f23629b95ef8532fbcd"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\extra_fixtures\\valid_single_draft.json",
+      "mount": "inputs/independent/valid_single_draft.json",
+      "sha256": "b23fc907e6342d5b5c97b85b151d18bc87944a535454901096d91ac030083515"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\isolated_copy\\independent_temporal_report.json",
+      "mount": "inputs/independent/temporal_original_report.json",
+      "sha256": "f7defb7151e276dd6813b978f912912c129c72797b1c575fb7c050b02cfa1e56"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\isolated_copy\\nested_refs_not_list_report.json",
+      "mount": "inputs/independent/nested_refs_not_list_original_report.json",
+      "sha256": "8324daf579106f2c92c62af99f4ff6550b604e287fefd064868b03b1a044b042"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\B02_INDEPENDENT_RESOURCE_AUDIT\\isolated_copy\\nested_refs_non_object_item_report.json",
+      "mount": "inputs/independent/nested_refs_non_object_item_original_report.json",
+      "sha256": "8324daf579106f2c92c62af99f4ff6550b604e287fefd064868b03b1a044b042"
+    }
+  ],
+  "skills": [],
+  "execution_authorized": true,
+  "parent_job_id": "B_make_report_02",
+  "parent_job_sha256": "eb5ee718b4d01e40c70888d1a2df5bdc658198b74eda0defa93748d23855ec54",
+  "annotation_origin": "FRESH_NATIVE_LOCAL_REPAIR_AFTER_ACTUAL_INDEPENDENT_RESOURCE_FEEDBACK",
+  "training_eligibility": "PENDING_REAL_REPAIR_AND_INDEPENDENT_REVALIDATION",
+  "business_remote_side_effects_authorized": false,
+  "native_child_agents_authorized": false,
+  "status": "PREPARED_NOT_YET_DISPATCHED"
+}

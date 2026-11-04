@@ -1,0 +1,136 @@
+{
+  "schema": "wrd-native-interruption-census-v1",
+  "at": "2026-10-27T02:10:07.650665+00:00",
+  "episode": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_01",
+  "status": "DISPATCHED_UNRESOLVED_ORIGINAL_PROCESSES_EXITED",
+  "terminal_response_present": false,
+  "native_result_present": false,
+  "native_event_bytes": 5500,
+  "native_event_sha256": "901aea1bb20632d70ec513b89283db7ca729b66ee0b86296a1daa499f9a297ea",
+  "api_calls": [
+    {
+      "call_id": "0001_9764241a7f814bde8191339fbe8a1c68",
+      "receipt_status": "COMPLETE",
+      "request_sha256": "2f556c02616e62955d55f846a8456778519ff5c1e05ffe438ff32bbe012f3f3d",
+      "response_bytes": 22308,
+      "response_sha256": "cf0dd39062b72d44f20115b76e017a7abac89a5ebc45e3121d95c33868304495",
+      "explicit_reasoning_chars": 481,
+      "content_chars": 0,
+      "done_frame_observed": true,
+      "malformed_frames": 0,
+      "positive_loss_authorized": false
+    },
+    {
+      "call_id": "0002_db1793444e2c4d67842d1ab6fd10e243",
+      "receipt_status": "COMPLETE",
+      "request_sha256": "617bc99ce772fe35f320e8eb58571c46b8b5afc3b807989d7c22f7b631d220cc",
+      "response_bytes": 758,
+      "response_sha256": "36ed423aa3d9ce983f33abb4934fb20015453b4efcf5f17b200374f101755c63",
+      "explicit_reasoning_chars": 0,
+      "content_chars": 0,
+      "done_frame_observed": true,
+      "malformed_frames": 0,
+      "positive_loss_authorized": false
+    },
+    {
+      "call_id": "0003_5570e1f719bf4d989dc7d896b8ae0719",
+      "receipt_status": "COMPLETE",
+      "request_sha256": "ea7d155ceb1501599b785ea296c77d1e82854055f2f97923b0d87938dae71f40",
+      "response_bytes": 3166,
+      "response_sha256": "35f4c32fd87d7c26af10945662a923c0de848fc4b4cb462d119aa50fea0b2228",
+      "explicit_reasoning_chars": 68,
+      "content_chars": 0,
+      "done_frame_observed": true,
+      "malformed_frames": 0,
+      "positive_loss_authorized": false
+    },
+    {
+      "call_id": "0004_c822fc1960c34f00a8c2be19ac176b5b",
+      "receipt_status": "COMPLETE",
+      "request_sha256": "84e30e65a8e6ce78bf0dc3b0b95af4217bd0622ee1323af4b8028b68c56d7f91",
+      "response_bytes": 752,
+      "response_sha256": "f63f0cbea32abca2a751eb31582e05da6d81bd93e40d325d0b88df1e5502654d",
+      "explicit_reasoning_chars": 0,
+      "content_chars": 0,
+      "done_frame_observed": true,
+      "malformed_frames": 0,
+      "positive_loss_authorized": false
+    },
+    {
+      "call_id": "0005_02fd0154fd5243579853590bc9d372ee",
+      "receipt_status": "COMPLETE",
+      "request_sha256": "c88f773fe1e5b9d543c7658aea1e36021083bbd2de245e3ce2acc4545b60baed",
+      "response_bytes": 777,
+      "response_sha256": "2198a156731e18af8c2186b58642a8c9f57880292fb3359e8f1fa18fbce2624e",
+      "explicit_reasoning_chars": 0,
+      "content_chars": 0,
+      "done_frame_observed": true,
+      "malformed_frames": 0,
+      "positive_loss_authorized": false
+    },
+    {
+      "call_id": "0006_0fd90a556d664ee78bee25ecc0bf7541",
+      "receipt_status": "FORWARDING",
+      "request_sha256": "a79c288ebf35244d231157ea4757a9306a7ca535b7a3530119f7c3de52c61f43",
+      "response_bytes": 250851,
+      "response_sha256": "9161aacb0fa5b036e8de47cab646a4d7d2f944686dcd2484e2fa3834101ff3ec",
+      "explicit_reasoning_chars": 5608,
+      "content_chars": 0,
+      "done_frame_observed": false,
+      "malformed_frames": 0,
+      "positive_loss_authorized": false
+    }
+  ],
+  "usage": {
+    "measurement_status": "partial",
+    "known_input_tokens": 109931,
+    "known_output_tokens": 305,
+    "known_total_tokens": 110236,
+    "total_tokens": null,
+    "model_calls": 3,
+    "known_model_calls": 3,
+    "complete_usage_calls": 2,
+    "unknown_usage_calls": 1,
+    "errors": [],
+    "requests": [
+      {
+        "pid": 40636,
+        "request_id": "abb2961293d74564a70616e0a8beeb27",
+        "model": "glm-5.3-flash",
+        "input_tokens": 53676,
+        "output_tokens": 187,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 40636,
+        "request_id": "d8b16d8fa8ca4e70b596d72b22107aa0",
+        "model": "glm-5.3-flash",
+        "input_tokens": 56255,
+        "output_tokens": 118,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 40636,
+        "request_id": "3732143b734945958bc5312c58d0d62d",
+        "model": "glm-5.3-flash",
+        "input_tokens": null,
+        "output_tokens": null,
+        "complete": false,
+        "issues": [
+          "request_end_not_recorded",
+          "complete_provider_usage_missing"
+        ]
+      }
+    ],
+    "cash_cost": null,
+    "definition": "One distinct native provider request is one model call; missing usage is unknown, never zero. Reading and error recovery remain included."
+  },
+  "environment_observation": "Docker LinuxEngine named pipe absent; docker-desktop and Ubuntu WSL stopped; saved original consumer and bridge PIDs absent. Exact interruption cause UNKNOWN.",
+  "docker_desktop_start_requested_at_beijing": "2026-10-27 10:09:38",
+  "starting_daemon_is_not_authorization_to_resume_old_containers": true,
+  "original_dispatch_not_reissued": true,
+  "training_started": false,
+  "explicit_reasoning_is_original_visible_field_not_all_approved": true
+}

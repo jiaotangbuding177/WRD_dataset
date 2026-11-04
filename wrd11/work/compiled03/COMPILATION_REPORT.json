@@ -1,0 +1,150 @@
+{
+  "schema_version": "wrd-v10-actual-token-compilation",
+  "counts": {
+    "input_records": 595,
+    "sequences": 595,
+    "targets": 595,
+    "input_tokens": 16066158,
+    "supervised_tokens": 54228,
+    "32k_sequences": 595,
+    "train_sequences": 595,
+    "train_supervised_tokens": 54228,
+    "component_R": 18346,
+    "component_A": 8966,
+    "component_D": 26916
+  },
+  "stages": {
+    "B": {
+      "sequences": 170,
+      "targets": 170,
+      "input_tokens": 4593831,
+      "supervised_tokens": 17675,
+      "32k_sequences": 170,
+      "train_sequences": 170,
+      "train_supervised_tokens": 17675,
+      "component_R": 5469,
+      "component_A": 8230,
+      "component_D": 3976
+    },
+    "A": {
+      "sequences": 48,
+      "targets": 48,
+      "input_tokens": 1287606,
+      "supervised_tokens": 3168,
+      "32k_sequences": 48,
+      "train_sequences": 48,
+      "train_supervised_tokens": 3168,
+      "component_R": 1152,
+      "component_D": 1280,
+      "component_A": 736
+    },
+    "C": {
+      "sequences": 232,
+      "targets": 232,
+      "input_tokens": 6281200,
+      "supervised_tokens": 20187,
+      "32k_sequences": 232,
+      "train_sequences": 232,
+      "train_supervised_tokens": 20187,
+      "component_R": 6993,
+      "component_D": 13194
+    },
+    "D": {
+      "sequences": 145,
+      "targets": 145,
+      "input_tokens": 3903521,
+      "supervised_tokens": 13198,
+      "32k_sequences": 145,
+      "train_sequences": 145,
+      "train_supervised_tokens": 13198,
+      "component_R": 4732,
+      "component_D": 8466
+    }
+  },
+  "banks": {
+    "synthetic_controller_given_policy11": {
+      "sequences": 544,
+      "targets": 544,
+      "input_tokens": 14646367,
+      "supervised_tokens": 46838,
+      "32k_sequences": 544,
+      "train_sequences": 544,
+      "train_supervised_tokens": 46838,
+      "component_R": 15363,
+      "component_A": 7044,
+      "component_D": 24431,
+      "distinct_sources": 0,
+      "distinct_source_groups": 13
+    },
+    "synthetic_cpu_resource11": {
+      "sequences": 51,
+      "targets": 51,
+      "input_tokens": 1419791,
+      "supervised_tokens": 7390,
+      "32k_sequences": 51,
+      "train_sequences": 51,
+      "train_supervised_tokens": 7390,
+      "component_R": 2983,
+      "component_D": 2485,
+      "component_A": 1922,
+      "distinct_sources": 0,
+      "distinct_source_groups": 10
+    }
+  },
+  "files": [
+    {
+      "path": "synthetic_controller_given_policy11.train.32k.jsonl.gz",
+      "bytes": 34159581,
+      "sha256": "66b345b22c45691dcfc93863b1d4eba92c20b12c8523e3a982292d44d2a76df8"
+    },
+    {
+      "path": "synthetic_cpu_resource11.train.32k.jsonl.gz",
+      "bytes": 3299124,
+      "sha256": "5e55e185e125dd547da5c009a12fc391e4521ff6ba1e192299ac74619fe7eb50"
+    }
+  ],
+  "held_file": {
+    "path": "held.jsonl.gz",
+    "bytes": 36,
+    "sha256": "01a625cb5a2819687c2f46b02082a759a5402a64469f0ddb5702a09596ab9923"
+  },
+  "tokenizer_proof": {
+    "official_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "causal_template_sha256": "5b5e083127485923d9d66e3262ccfb08ceb51afec37b8c4abfafa30cb18a17b4",
+    "instrumented_template_sha256": "e32feaaf7ea205453c8d7083eaea652aaf53c541071bd453984c09a1e996916a",
+    "variant_is_not_unmodified_official_template": true,
+    "future_inference_api_must_use_same_causal_variant": true,
+    "inference_api_variant_already_integrated": false,
+    "two_tokenizer_asset_sets_byte_identical": true,
+    "asset_sha256": {
+      "primary_14b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "control_8b": {
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      }
+    },
+    "independent_second_tokenizer_calls": 38,
+    "reuse_rule": "identical assets + identical rendered bytes; independent canary then every 97th window"
+  },
+  "script_sha256": "caa4449936c9705f17d50c09e27923d7cbd572d369e26e36bc8f8a4f27fb496f",
+  "immutable_inputs": [
+    {
+      "path": "D:\\skillloop\\output\\20261031_wrd_curation11\\sft_candidates03\\CANDIDATES.raw.jsonl.gz",
+      "sha256": "32dee010e4424e03829acbb6cd67df0b95a3cbd1dc1c779d38fa65917d05208f",
+      "bytes": 18041631
+    }
+  ],
+  "weights_loaded": false,
+  "training_started": false,
+  "future_outcomes_are_metadata_only": true,
+  "input_size_does_not_prove_autonomous_pipeline_capability": true
+}

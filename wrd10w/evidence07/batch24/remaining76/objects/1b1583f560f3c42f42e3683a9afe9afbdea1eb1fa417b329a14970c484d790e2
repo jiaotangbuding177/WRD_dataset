@@ -1,0 +1,85 @@
+{
+  "programs": [],
+  "no_program_reason": "准入价值计划 r1 为模板资源（route_card.value_plan.resources[0].kind=template），起草与扩写由业务Agent按模板与阶段说明执行，路线中无可复用的重复性程序操作；本技能无可执行文件。",
+  "non_executable_resources": [
+    {
+      "path": "templates/intro_skeleton.md",
+      "assertions": [
+        {"kind": "contains", "path": "templates/intro_skeleton.md", "value": "{{对象名称}}"},
+        {"kind": "contains", "path": "templates/intro_skeleton.md", "value": "支撑点核对表"},
+        {"kind": "contains", "path": "templates/intro_skeleton.md", "value": "完整文档板块"},
+        {"kind": "not_contains", "path": "templates/intro_skeleton.md", "value": "上海智瞻"},
+        {"kind": "not_contains", "path": "templates/intro_skeleton.md", "value": "中科优势"},
+        {"kind": "not_contains", "path": "templates/intro_skeleton.md", "value": "生合万物"}
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_2f4c1f78f51d",
+          "message_ids": ["f353ba5f-4e77-4c45-85ec-e9e13932a595"],
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_2f4c1f78f51d.json",
+            "sha256": "c8fc9a68be50cda36318dc4e68e0e8d299b1d8d6c0b67b2a6d1270ee24f1e69b",
+            "bytes": 9440
+          }
+        },
+        {
+          "source_id": "conv_366ab6b1766a",
+          "message_ids": ["conv_366ab6b1766a:00b317d1", "conv_366ab6b1766a:c6487539"],
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_366ab6b1766a.json",
+            "sha256": "b50503f6ba223f8eb4c5d1b65d14556c804a5018ac8e3f1006a24b9d509e8ea8",
+            "bytes": 60186
+          }
+        },
+        {
+          "source_id": "conv_31fe5a08f6ee",
+          "message_ids": ["conv_31fe5a08f6ee:78f44edc"],
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_31fe5a08f6ee.json",
+            "sha256": "a5cad3c1b5425c958d4d04d8d81e8925cc21335b626e8303981704474a341801",
+            "bytes": 39212
+          }
+        }
+      ]
+    },
+    {
+      "path": "references/stage_notes.md",
+      "assertions": [
+        {"kind": "contains", "path": "references/stage_notes.md", "value": "3c817c13-b5f2-463c-bea9-ae86497bea32"},
+        {"kind": "contains", "path": "references/stage_notes.md", "value": "conv_366ab6b1766a:43afa4f6"},
+        {"kind": "contains", "path": "references/stage_notes.md", "value": "据公开报道"},
+        {"kind": "not_contains", "path": "references/stage_notes.md", "value": "3D打印钥匙扣答案"}
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_2f4c1f78f51d",
+          "message_ids": ["3c817c13-b5f2-463c-bea9-ae86497bea32"],
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_2f4c1f78f51d.json",
+            "sha256": "c8fc9a68be50cda36318dc4e68e0e8d299b1d8d6c0b67b2a6d1270ee24f1e69b",
+            "bytes": 9440
+          }
+        },
+        {
+          "source_id": "conv_3a27f499e502",
+          "message_ids": ["conv_3a27f499e502:msg_1", "conv_3a27f499e502:msg_32"],
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_3a27f499e502.json",
+            "sha256": "b193b303db1add0ecbdf98d9b965ca48ef7220fae57ca62866018a815440a626",
+            "bytes": 9972
+          }
+        }
+      ]
+    }
+  ],
+  "fixtures": [],
+  "limitations": [
+    "无程序因此无生成夹具；包外验证管道临时绑定的样例应放 outputs/reproduction_inputs，不得改入真实输入目录。",
+    "断言仅证明资源形状与无预填答案；来源真假与实际减负由外层正式复现器判断。"
+  ]
+}

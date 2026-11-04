@@ -1,0 +1,1065 @@
+{
+  "status": "completed",
+  "delivery_status": "not_evaluated",
+  "episode_dir": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01",
+  "finished_at": "2026-10-27T06:54:54.474672+00:00",
+  "returncode": 0,
+  "error": null,
+  "seconds": 800.7820000000065,
+  "recording_errors": [],
+  "response": {
+    "answer": "评审完成，三份交付文件均已实际写入并验证（JSON 解析通过、写入成功后才进入下一阶段）。\n\n**第一阶段（盲质量）**：按协议仅读 protocol/manifest/任务/7份PDF/四份原始输出。逐条独立复核了引用页码（E1_A 全部 8 处 P1/P2、E2_A 全部 6 位候选人的引文均与 PDF 实际页面一致）。记录了有限盲：E1_A/E2_A 自述跑过 evidence_check、E1_B 自述读 source_input.json，均未据此加减分。盲评分数（100 分制）：\n\n| 案例 | A（后解盲=skill） | B（=no_skill） |\n|---|---|---|\n| E1 | 93.75 | **97.5** |\n| E2 | 91.25 | 91.25 |\n\n两例方向不同：E1 无技能臂更好（年限核算更完整、覆盖 JD 职责印证）；E2 持平但各有强弱（skill 臂独有页码级可核引用且经我独立复核全对；无技能臂补出了邱景锋 React、梁勇其 qiankun 证据）。\n\n**第二阶段（解盲成本+建议）**：skill 消费有真实原生全读证据且字节与冻结候选树一致。成本：E1 skill 约 2.85× token、1.30× 耗时；E2 skill 已知 token 下限约 2.05×，但 NS 臂是 partial（1 次未知 usage 调用，subtotal 不是完整费用），444s 耗时含真实中断，不能精确比值或归因。制作/修订/共享筛选成本及全周期 20.2M 已知 token 已分别记录；token≠现金，ROI 因零合格成本分母未定义。\n\n**建议：REVISE（非保留、非淘汰、非封包）**——skill 的页码引用核验优势真实存在，但语义质量无增益而 token 溢价明显；当前同版本有具体缺陷（SKILL.md 两段逐字重复、缺年限/未来日期核对指引，对应 skill 臂 E1 实际内部口径不一致）。保留与否推迟到修订后再评更多案例。程序测试绿未被当作业务批准。全程未改候选、未复测、未追加子任务。",
+    "turn_answers": [
+      "评审完成，三份交付文件均已实际写入并验证（JSON 解析通过、写入成功后才进入下一阶段）。\n\n**第一阶段（盲质量）**：按协议仅读 protocol/manifest/任务/7份PDF/四份原始输出。逐条独立复核了引用页码（E1_A 全部 8 处 P1/P2、E2_A 全部 6 位候选人的引文均与 PDF 实际页面一致）。记录了有限盲：E1_A/E2_A 自述跑过 evidence_check、E1_B 自述读 source_input.json，均未据此加减分。盲评分数（100 分制）：\n\n| 案例 | A（后解盲=skill） | B（=no_skill） |\n|---|---|---|\n| E1 | 93.75 | **97.5** |\n| E2 | 91.25 | 91.25 |\n\n两例方向不同：E1 无技能臂更好（年限核算更完整、覆盖 JD 职责印证）；E2 持平但各有强弱（skill 臂独有页码级可核引用且经我独立复核全对；无技能臂补出了邱景锋 React、梁勇其 qiankun 证据）。\n\n**第二阶段（解盲成本+建议）**：skill 消费有真实原生全读证据且字节与冻结候选树一致。成本：E1 skill 约 2.85× token、1.30× 耗时；E2 skill 已知 token 下限约 2.05×，但 NS 臂是 partial（1 次未知 usage 调用，subtotal 不是完整费用），444s 耗时含真实中断，不能精确比值或归因。制作/修订/共享筛选成本及全周期 20.2M 已知 token 已分别记录；token≠现金，ROI 因零合格成本分母未定义。\n\n**建议：REVISE（非保留、非淘汰、非封包）**——skill 的页码引用核验优势真实存在，但语义质量无增益而 token 溢价明显；当前同版本有具体缺陷（SKILL.md 两段逐字重复、缺年限/未来日期核对指引，对应 skill 臂 E1 实际内部口径不一致）。保留与否推迟到修订后再评更多案例。程序测试绿未被当作业务批准。全程未改候选、未复测、未追加子任务。"
+    ],
+    "artifacts": [
+      "outputs/blind_quality.json",
+      "outputs/decision.json",
+      "outputs/feedback.json",
+      "tmp/3f8a1c51032c2b97.txt",
+      "tmp/6ce6df1590fed877.txt",
+      "tmp/8ad152dae625eda9.txt",
+      "tmp/91162cf64d5ec403.txt",
+      "tmp/96f97ee12f59ed80.txt",
+      "tmp/9c667aab99eaada6.txt",
+      "tmp/b4fd3bee09b14b32.txt"
+    ],
+    "loaded_skill_ids": [],
+    "loading_evidence": {
+      "kind": "openclaw_session_successful_full_read",
+      "loaded_skill_ids": [],
+      "reads": [],
+      "limitation": "Only successful full native read evidence is counted; other loading routes remain unknown."
+    },
+    "runtime": {
+      "backend": "openclaw-docker",
+      "session_id": "1b1f9a7d-a690-4803-b922-906d894ecf05",
+      "native_meta": {
+        "durationMs": 781848,
+        "agentMeta": {
+          "sessionId": "1b1f9a7d-a690-4803-b922-906d894ecf05",
+          "sessionFile": "agent:eval:explicit:1b1f9a7d-a690-4803-b922-906d894ecf05",
+          "provider": "ecnu",
+          "model": "glm-5.3-flash",
+          "contextTokens": 200000,
+          "contextTokensSource": "resolved",
+          "agentHarnessId": "openclaw",
+          "credentialSource": {
+            "kind": "direct",
+            "evidence": "environment",
+            "authorization": "declared"
+          },
+          "contextBudgetStatus": {
+            "schemaVersion": 1,
+            "source": "pre-prompt-estimate",
+            "updatedAt": 1793083306026,
+            "provider": "ecnu",
+            "model": "glm-5.3-flash",
+            "route": "fits",
+            "shouldCompact": false,
+            "estimatedPromptTokens": 47407,
+            "contextTokenBudget": 200000,
+            "promptBudgetBeforeReserve": 180000,
+            "reserveTokens": 20000,
+            "effectiveReserveTokens": 20000,
+            "remainingPromptBudgetTokens": 132593,
+            "overflowTokens": 0,
+            "toolResultReducibleChars": 0,
+            "messageCount": 0,
+            "unwindowedMessageCount": 0,
+            "sessionId": "1b1f9a7d-a690-4803-b922-906d894ecf05"
+          },
+          "codeModeEngaged": false,
+          "assistantTurns": 23,
+          "terminalReceipt": {
+            "runId": "b1ab191f-db03-4164-b311-13083accc423",
+            "sessionId": "1b1f9a7d-a690-4803-b922-906d894ecf05",
+            "turnId": "b1ab191f-db03-4164-b311-13083accc423",
+            "requested": {
+              "provider": "ecnu",
+              "model": "glm-5.3-flash"
+            },
+            "effective": {
+              "provider": "ecnu",
+              "model": "glm-5.3-flash",
+              "responseModel": "glm-5.3-flash"
+            },
+            "successfulToolNames": [
+              "exec",
+              "write"
+            ],
+            "rerouted": false
+          }
+        },
+        "aborted": false,
+        "systemPromptReport": {
+          "source": "run",
+          "generatedAt": 1793083305934,
+          "sessionId": "1b1f9a7d-a690-4803-b922-906d894ecf05",
+          "sessionKey": "agent:eval:explicit:1b1f9a7d-a690-4803-b922-906d894ecf05",
+          "provider": "ecnu",
+          "model": "glm-5.3-flash",
+          "workspaceDir": "/workspace",
+          "bootstrapMaxChars": 20000,
+          "bootstrapTotalMaxChars": 60000,
+          "bootstrapTruncation": {
+            "warningMode": "always",
+            "warningShown": false,
+            "truncatedFiles": 0,
+            "nearLimitFiles": 0,
+            "totalNearLimit": false
+          },
+          "sandbox": {
+            "mode": "off",
+            "sandboxed": false
+          },
+          "systemPrompt": {
+            "chars": 15483,
+            "hash": "cc93415c16aaad865aa5c27472606e226c8ae3c523022648e67165d43cea6b2c",
+            "projectContextChars": 940,
+            "nonProjectContextChars": 14543
+          },
+          "injectedWorkspaceFiles": [
+            {
+              "name": "AGENTS.md",
+              "path": "/workspace/AGENTS.md",
+              "missing": true,
+              "rawChars": 0,
+              "injectedChars": 43,
+              "truncated": false
+            },
+            {
+              "name": "SOUL.md",
+              "path": "/workspace/SOUL.md",
+              "missing": true,
+              "rawChars": 0,
+              "injectedChars": 41,
+              "truncated": false
+            },
+            {
+              "name": "IDENTITY.md",
+              "path": "/workspace/IDENTITY.md",
+              "missing": true,
+              "rawChars": 0,
+              "injectedChars": 45,
+              "truncated": false
+            },
+            {
+              "name": "BOOTSTRAP.md",
+              "path": "/workspace/BOOTSTRAP.md",
+              "missing": true,
+              "rawChars": 0,
+              "injectedChars": 0,
+              "truncated": false
+            }
+          ],
+          "skills": {
+            "promptChars": 967,
+            "hash": "fdaeff86db79a014eb82a3b796482c7ba9b2724d8ab0a3411e2c55da257236f6",
+            "entries": [
+              {
+                "name": "browser-automation",
+                "blockChars": 337
+              },
+              {
+                "name": "canvas",
+                "blockChars": 256
+              }
+            ]
+          },
+          "tools": {
+            "listChars": 0,
+            "schemaChars": 61897,
+            "entries": [
+              {
+                "name": "ls",
+                "summaryChars": 192,
+                "summaryHash": "90bdd7a772f66ad236d45f18e28ee873b8c795fe219804f2c19074a867423e20",
+                "schemaChars": 254,
+                "schemaHash": "ebe8d6a85b7011ec7e0d43a759b3b53b1ce96e682f54a64312b10e89260e9af9",
+                "propertiesCount": 3
+              },
+              {
+                "name": "read",
+                "summaryChars": 164,
+                "summaryHash": "d136f5b09e28d671addad4ca800b75b8aa6a36002bc739ead964f618d3e34829",
+                "schemaChars": 481,
+                "schemaHash": "b1b9b637dfe1dfade40f50c37cf840a298f1992b534cb9425b7470233a6b0cbb",
+                "propertiesCount": 5
+              },
+              {
+                "name": "edit",
+                "summaryChars": 130,
+                "summaryHash": "4149500b1f6501ec6450e4c048bdb6844764dd4a888a10846726cbbc7256152e",
+                "schemaChars": 501,
+                "schemaHash": "adf3140833ca927b84c66c989d6833fdcbd9de011dd2ffc59f9a2c4d3c25f127",
+                "propertiesCount": 2
+              },
+              {
+                "name": "write",
+                "summaryChars": 49,
+                "summaryHash": "f9ce3d8ac929a51498c03331b97c59bfaa2bb4d25580a5ddf0102e6a8e173aec",
+                "schemaChars": 191,
+                "schemaHash": "b61d2da23febf5fbda55e391526f36d283e9e9fb7f1a1dbadcf5c618a0632287",
+                "propertiesCount": 2
+              },
+              {
+                "name": "apply_patch",
+                "summaryChars": 71,
+                "summaryHash": "5c1173efe93d080a386a23216bc3e58db2e0033eb3ddea697eb2439938b7cae4",
+                "schemaChars": 153,
+                "schemaHash": "05521268363ff4f191472c90d69ef08a503ba9acf1d2febc50b3ee68db32ab65",
+                "propertiesCount": 1
+              },
+              {
+                "name": "exec",
+                "summaryChars": 503,
+                "summaryHash": "db730359f8e2e0af6b787dd3717ee4d33189b95f908103250e1e203079218503",
+                "schemaChars": 1242,
+                "schemaHash": "aeabc27dd35e066195bd6dc30a5fd0e3598974789e8784eb7303eee80fe82518",
+                "propertiesCount": 12
+              },
+              {
+                "name": "process",
+                "summaryChars": 258,
+                "summaryHash": "c9c81d9c38f731d0efcc810924c78c3161c38524baa561c6f9251638d9e164b2",
+                "schemaChars": 1164,
+                "schemaHash": "6cf3281369349e15ea532e644c8ec7f94c96fa6a4e3287272c8cfe90b0960516",
+                "propertiesCount": 12
+              },
+              {
+                "name": "dashboard",
+                "summaryChars": 1373,
+                "summaryHash": "b2fb814de22c52538a217bc3ad182b640974e66917d53e4857b5e1f904a1d1a9",
+                "schemaChars": 2581,
+                "schemaHash": "b52bda4f48ffdfd6e73d7bb2754f4d4b701e4aa2657da891efe38e9061b59c64",
+                "propertiesCount": 13
+              },
+              {
+                "name": "nodes",
+                "summaryChars": 516,
+                "summaryHash": "0ddada295a8604352fb098058e6462eda948afaac4fa62cabdaba0a5d2258ed7",
+                "schemaChars": 2897,
+                "schemaHash": "a1e60098fe934b0ce0fe2efe8e41421721a85ec6acfb33cd969796f029ff5a43",
+                "propertiesCount": 37
+              },
+              {
+                "name": "mobile_ui",
+                "summaryChars": 469,
+                "summaryHash": "bf1837a0eb9c82b6ac1da6394111f4786423d2a19831ec69acbd0a1466822810",
+                "schemaChars": 2042,
+                "schemaHash": "8750f2f6ed3052edcdae2037dfa9433d73a8ef31bd86c5057413c253b65975d4",
+                "propertiesCount": 8
+              },
+              {
+                "name": "automations",
+                "summaryChars": 5603,
+                "summaryHash": "6b1795cad94ff608682ac465d7c2f4b97a09371d8bdcbac35e54bbbcfb83c0b0",
+                "schemaChars": 8636,
+                "schemaHash": "43a8259f7ebadf31445bc271090a972e9200931b0e1b3298b4f5ef0bee23e389",
+                "propertiesCount": 17
+              },
+              {
+                "name": "sessions",
+                "summaryChars": 473,
+                "summaryHash": "4058858f3da7d33beed6639d6912b2f55dceb6b1aa0a7e009a40ad6c315adcae",
+                "schemaChars": 3734,
+                "schemaHash": "f4d1e1eaf36284b771f184d0bb665356064ec3efa1193cba77d8caf0e6bff23d",
+                "propertiesCount": 21
+              },
+              {
+                "name": "terminal",
+                "summaryChars": 281,
+                "summaryHash": "7cd87f59b6645de1e5e9f45cc730410e1bc1bb1ee90a2bb5a50e7a09b9a7af88",
+                "schemaChars": 419,
+                "schemaHash": "4ebd33330c3b006d29d39aed6bfce7bc3d5a9f81025bbb7ce9c81d3da88e4491",
+                "propertiesCount": 5
+              },
+              {
+                "name": "portal",
+                "summaryChars": 452,
+                "summaryHash": "1e3994e367a669538fefacade753495d004b560e2b596fb7e60458acac645bab",
+                "schemaChars": 374,
+                "schemaHash": "b3c43c083aef07aa746cd66139944d0e5b4b6d43bf2490a7a0645871572aef80",
+                "propertiesCount": 6
+              },
+              {
+                "name": "message",
+                "summaryChars": 64,
+                "summaryHash": "c76c94110d6313f5f35415528841472d4003682533cb3a07c48a9001bb63baae",
+                "schemaChars": 6639,
+                "schemaHash": "44aa3d0586515eb34ed41784cb525ceb0f1425da05809207c2a1bbbe5dcdb911",
+                "propertiesCount": 110
+              },
+              {
+                "name": "tts",
+                "summaryChars": 245,
+                "summaryHash": "841f7db9ad3ece79d54c59de7395e7a8591d24327be97750c4d76c1bff5a107a",
+                "schemaChars": 264,
+                "schemaHash": "e40695f92ef72d913ee5eb13ef738a15d6f33ae3af3ec609975c45991ef99a78",
+                "propertiesCount": 3
+              },
+              {
+                "name": "transcripts",
+                "summaryChars": 112,
+                "summaryHash": "77b3b93af0d12a84fa84e3f745a86e5730bacf60a66f683a8d9fdf708197d443",
+                "schemaChars": 999,
+                "schemaHash": "153465a071b65ff76e15f327e027e1e3b976bdd87fc2612e51a27e29a877a8d7",
+                "propertiesCount": 12
+              },
+              {
+                "name": "gateway",
+                "summaryChars": 180,
+                "summaryHash": "c981c37a4e7dea00f06387b5bb4bb5ae6fee78bc71d18779547769f265690dbf",
+                "schemaChars": 441,
+                "schemaHash": "50d83bbf3e75f780ef892bc2e2f5df5aa1485867d6557cf8cda24ff971f93ffb",
+                "propertiesCount": 6
+              },
+              {
+                "name": "plugins",
+                "summaryChars": 520,
+                "summaryHash": "659a769028cc0f864891da70265c4a8272fbc1ead01db8b762221db07a5049d5",
+                "schemaChars": 666,
+                "schemaHash": "ba6e3c1d726f50b09207908b1fe1750698b4c05417ad1b3bd36c3a073c18f343",
+                "propertiesCount": 8
+              },
+              {
+                "name": "openclaw",
+                "summaryChars": 350,
+                "summaryHash": "696c508d4eb6281d0454e09f27d5c728cf969829606beba510b6b50e580f7de4",
+                "schemaChars": 196,
+                "schemaHash": "9956b2b6fde1ca6ca3d035b66217a09c717a6503aa4e59a2ce184dbf67849bd3",
+                "propertiesCount": 2
+              },
+              {
+                "name": "agents_list",
+                "summaryChars": 116,
+                "summaryHash": "a86dafe00675913d8f07e9bac4c134435539c31e80cac7c431f879cc0285ab16",
+                "schemaChars": 33,
+                "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+                "propertiesCount": 0
+              },
+              {
+                "name": "get_goal",
+                "summaryChars": 101,
+                "summaryHash": "cb629fcdf8051a05b88fa535b74d7b4f9814ba14e79b027bfcc5bb2f3c3a2fea",
+                "schemaChars": 33,
+                "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+                "propertiesCount": 0
+              },
+              {
+                "name": "create_goal",
+                "summaryChars": 264,
+                "summaryHash": "4f431787069f93890b977aed5233531481f3e5b4618decbf53e72c197a7779c6",
+                "schemaChars": 306,
+                "schemaHash": "0e17e2116eb1b011e8798ec6272458493f9272ee578118cf2af05c3e372d7945",
+                "propertiesCount": 2
+              },
+              {
+                "name": "update_goal",
+                "summaryChars": 543,
+                "summaryHash": "8fcdb0dfdde868b2bd4b26828cc91d452d6d841293daee394ed9309ee6da74db",
+                "schemaChars": 207,
+                "schemaHash": "063df78da73d06b7cf4a20d6d98b15e29e1c76f2128b7a4edb22e859ca5e2ca1",
+                "propertiesCount": 2
+              },
+              {
+                "name": "skill_workshop",
+                "summaryChars": 1938,
+                "summaryHash": "82f3543efd0a07d6c1b38f2ecc5289b4131101b1f22df62473a6a611a1f117a4",
+                "schemaChars": 4448,
+                "schemaHash": "ae78d7447d83ddb35e490c680d4c9a3ffc052359611d766f48528cf3da83cdc2",
+                "propertiesCount": 18
+              },
+              {
+                "name": "progress_card",
+                "summaryChars": 1392,
+                "summaryHash": "2431e4c9536c11dab7381c89f8e5ce248c31714c7514b1d564fb985acf42284c",
+                "schemaChars": 401,
+                "schemaHash": "17936a8909b680a54f70957a8468dec2db700c94ee3fd327ddcad13e4e11c32f",
+                "propertiesCount": 2
+              },
+              {
+                "name": "ask_user",
+                "summaryChars": 857,
+                "summaryHash": "e903258acafe070ab656997ab2d4f0a52f52b557fa592724d97c9dca08938857",
+                "schemaChars": 1245,
+                "schemaHash": "611d5bb7a8fa8544b2f38280380b0e6ccb383f5e6589255b1be70c8771abe0fb",
+                "propertiesCount": 2
+              },
+              {
+                "name": "secrets",
+                "summaryChars": 798,
+                "summaryHash": "f7f4d365c0632c02381d35f7bc8c984e3d637ac421376ac2b32aa6070e7e46c2",
+                "schemaChars": 1211,
+                "schemaHash": "49b033ce8c2a0755641cb69dda2f3c27e42284029e637ac1b3ff51046d7ccd1e",
+                "propertiesCount": 6
+              },
+              {
+                "name": "sessions_list",
+                "summaryChars": 880,
+                "summaryHash": "8bdca38def2db23dbd73e4fd9dc7b425f49fdfb34fba25250fd1ed2ea2f4d6af",
+                "schemaChars": 1110,
+                "schemaHash": "ca4086d7bf7765be675436071ea039ab6176daa4bf3526af86e0d914610d1bce",
+                "propertiesCount": 20
+              },
+              {
+                "name": "sessions_history",
+                "summaryChars": 476,
+                "summaryHash": "f31dcca84bf2020b3d49288c9790dbb94ee21cbf51066d38078e9ba17311abe9",
+                "schemaChars": 647,
+                "schemaHash": "a8098f57114a3b24666630fd644f3a165daa3aff46ce0f8aac990b60f262b950",
+                "propertiesCount": 7
+              },
+              {
+                "name": "sessions_search",
+                "summaryChars": 177,
+                "summaryHash": "334f96a1cafd9325d695608fe065a4a00888f6b55279d396590575b39e62728a",
+                "schemaChars": 179,
+                "schemaHash": "6545acec45e540d9c7d7d76b79084ce439ba35f4cd626fa4f8ec406230f0913d",
+                "propertiesCount": 3
+              },
+              {
+                "name": "conversations_list",
+                "summaryChars": 159,
+                "summaryHash": "527335ff7cc669a406a88dbb1ea150631cea16155fa517fc76c8be38f8285190",
+                "schemaChars": 182,
+                "schemaHash": "49892a498ef1d6c253ce4a1bb1e97592906a526314ef999c31aa2319fd38e9b8",
+                "propertiesCount": 3
+              },
+              {
+                "name": "conversations_send",
+                "summaryChars": 152,
+                "summaryHash": "7031570c2ea879e8ebb39548c931374a864db8bfeb4d634de7d234a7f43fbbe3",
+                "schemaChars": 212,
+                "schemaHash": "28933715e5a7d6829a616ec68154d5da0a47072f6c1f333d0b4ba49f90692889",
+                "propertiesCount": 2
+              },
+              {
+                "name": "conversations_turn",
+                "summaryChars": 190,
+                "summaryHash": "67bb15e899769e37e6d2ff596dba9c33ac6c828e12ef2903fc40fbf5df56aeb3",
+                "schemaChars": 274,
+                "schemaHash": "3cc19168dc1491f82c30f2f38ad9a08c55314777fb7d99602e06d7a35ebbc58b",
+                "propertiesCount": 3
+              },
+              {
+                "name": "sessions_send",
+                "summaryChars": 1304,
+                "summaryHash": "61ead435a5231ef8b0a5e94705b82fbda9ab3cc0dc997c8eaa00b76050fd5508",
+                "schemaChars": 462,
+                "schemaHash": "c0425d6f0a2a89d682214c1bc8ce48680063816a26968d92b31922406c7b742a",
+                "propertiesCount": 7
+              },
+              {
+                "name": "sessions_spawn",
+                "summaryChars": 2457,
+                "summaryHash": "e0c79dc355a393cee8ad0307ba42a101a9b5895217746d86d884ce04121dec09",
+                "schemaChars": 4318,
+                "schemaHash": "37d06a2279d44235b37ef5458708b4570bb0cdd847e34f7c773666a5060fa316",
+                "propertiesCount": 29
+              },
+              {
+                "name": "agents_wait",
+                "summaryChars": 202,
+                "summaryHash": "eedf035982c7c4b9b386ed87e932630b03bc6f07fcdf94709b287665c77c168d",
+                "schemaChars": 190,
+                "schemaHash": "4fe95f5cd3a87b6a6fbc6905d57bc44949c99c72edea5125b3f113dabcc20164",
+                "propertiesCount": 2
+              },
+              {
+                "name": "sessions_yield",
+                "summaryChars": 337,
+                "summaryHash": "1dddf4158ea2c44cf79c93b483fd18bc48c6e32fe32fafca3fe83b5309310ce8",
+                "schemaChars": 457,
+                "schemaHash": "6f3649fb583d30499a48925363f0158ecff856d7bc44e9531dd9cbd8c23c6428",
+                "propertiesCount": 3
+              },
+              {
+                "name": "subagents",
+                "summaryChars": 194,
+                "summaryHash": "bc8a534adccc0b4a3f2e76710f98cea56111561e3dbed520bf1c7f7b7eeee7c9",
+                "schemaChars": 344,
+                "schemaHash": "9ce987456e121342e43f019460d31c7f32c4dff7792841d47289649469527a73",
+                "propertiesCount": 5
+              },
+              {
+                "name": "session_status",
+                "summaryChars": 192,
+                "summaryHash": "23343479c1bf552695627bd580795ca22cdc1020232f6984bf0cad5557f74dbd",
+                "schemaChars": 135,
+                "schemaHash": "528432b98ffdb5d86d4f09f43cb85eb3647387388109b84fc01183040a2406bd",
+                "propertiesCount": 3
+              },
+              {
+                "name": "web_search",
+                "summaryChars": 164,
+                "summaryHash": "4ec65764bf8e853aae0c06e334f54cd879efd9fb5d71c610e9c23bf7b285cb02",
+                "schemaChars": 991,
+                "schemaHash": "3879e368875d824b14e0e683f81408824e9a2a5850fa2f8514a68caebda54d18",
+                "propertiesCount": 12
+              },
+              {
+                "name": "web_fetch",
+                "summaryChars": 78,
+                "summaryHash": "616ac805dfdeaeadbb5e03504e84d52b01ecaa88c7e7100fa4c06eca8eb6195f",
+                "schemaChars": 317,
+                "schemaHash": "eca30c487911c9e897ba27b4650770cf23137fc6ed8d77756ea3952fa496ea61",
+                "propertiesCount": 3
+              },
+              {
+                "name": "browser",
+                "summaryChars": 4446,
+                "summaryHash": "fa3b99287f197a5f98951651f466128693f748db5c503d62a5dd4a4daf632ee4",
+                "schemaChars": 4933,
+                "schemaHash": "af9fe9594f8aec951a0522b0598bcb27eecb5c36a721c77d420542e78ea522f5",
+                "propertiesCount": 68
+              },
+              {
+                "name": "canvas",
+                "summaryChars": 67,
+                "summaryHash": "1f9f9d063d5eeb9a4ccc1b0709fd2420b08092e771a18d1b5914f5db0b37e1cc",
+                "schemaChars": 398,
+                "schemaHash": "6b3bfd0b0e58d89f23bc1e373d5c428b06415cbd1bf1f9bf104a3d696863a722",
+                "propertiesCount": 11
+              },
+              {
+                "name": "file_fetch",
+                "summaryChars": 642,
+                "summaryHash": "34d7b58f39d044fb09b6e6df42d57d510369ad0e94abd554bec83108525344b2",
+                "schemaChars": 609,
+                "schemaHash": "fafb2d121a41160e5ca3b42b286a199ec3be500877e673a51181d1a98854887f",
+                "propertiesCount": 6
+              },
+              {
+                "name": "dir_list",
+                "summaryChars": 795,
+                "summaryHash": "3d27dd93b528870a7036069538faad8b45f4d831cd7582f25e9fdf1afea81c3d",
+                "schemaChars": 724,
+                "schemaHash": "5a7ce71df247e0dfa197e040d34f95c6c2db1abeb76b37db6c85ff61123a7b97",
+                "propertiesCount": 7
+              },
+              {
+                "name": "dir_fetch",
+                "summaryChars": 796,
+                "summaryHash": "001fc4287f508af50c98c05bb35adaf8ee9ad09ee748e088aa819e22935b6947",
+                "schemaChars": 639,
+                "schemaHash": "da010ebc28d84f7ee723ecc6d8981a0a7c570521e170346636b6d149a3a97f42",
+                "propertiesCount": 6
+              },
+              {
+                "name": "file_write",
+                "summaryChars": 603,
+                "summaryHash": "91a18020223fa2bf59bb3f43640d80be81c17d40640d97f315653f890debd80b",
+                "schemaChars": 1028,
+                "schemaHash": "b5d971bb6d9a4340a7b0a27e49962d4166531af5091f9535f8eaa2af40017e51",
+                "propertiesCount": 7
+              },
+              {
+                "name": "memory_search",
+                "summaryChars": 878,
+                "summaryHash": "5cb75621432e6bd5f02b0beccf1007a84a5fe760a5fa204cf806c6cec1f6df3f",
+                "schemaChars": 250,
+                "schemaHash": "088cd2a3d3a47b251429ff7c56844cdedd1c45c3af0fa8bfaf7aa795766976bf",
+                "propertiesCount": 4
+              },
+              {
+                "name": "memory_get",
+                "summaryChars": 681,
+                "summaryHash": "97156dcb491b385583229cff85c5003edf179fdc7a6a9a02e7f09055f96eb38a",
+                "schemaChars": 241,
+                "schemaHash": "78f5d58460a82f9104deebad2f1873a8cde05d1ce7328b3ba4da6e994653e70a",
+                "propertiesCount": 4
+              },
+              {
+                "name": "intent",
+                "summaryChars": 266,
+                "summaryHash": "ff1256d0b5c53d9ec8dfd5e5ce9dc3cdc802359835a8e25a562cd3e952e2020a",
+                "schemaChars": 641,
+                "schemaHash": "0f0381dfd179cf5c563a3f84ab574b47e67377ceed2650fe02041a6c78a7fc69",
+                "propertiesCount": 10
+              },
+              {
+                "name": "node_inference",
+                "summaryChars": 206,
+                "summaryHash": "49c5e7e56c65dee8e708065c58240d64d8067dc07d9d13597890ecb5388ac88d",
+                "schemaChars": 646,
+                "schemaHash": "be130f0c61252e22f4d55745a82bc04926efb36ec1c8204bcfb49a7cda0aab20",
+                "propertiesCount": 8
+              },
+              {
+                "name": "talk_voice",
+                "summaryChars": 423,
+                "summaryHash": "1ef5de0b72ff39c136cb78b74795a69c7048a23f7e7b3f86323fbf780f926c67",
+                "schemaChars": 212,
+                "schemaHash": "a650995cb775a6b7dedaedc34b290488afaefa8c22e14408c4a4c98875fea349",
+                "propertiesCount": 2
+              }
+            ]
+          },
+          "currentTurn": {
+            "promptChars": 4537,
+            "runtimeContextChars": 52,
+            "modelOnlyPromptChars": 0
+          }
+        },
+        "finalPromptText": "实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。以下命令客户端（包括local-asr、remotion和ecnu_tools.py）均通过exec执行，不是额外的原生工具名。要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。Playwright Chromium executable_path=/usr/bin/chromium，launch args=[\"--no-sandbox\"]。原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。网络访问可用；用户要求下载的材料和skills请在任务中真实下载。当前ecnu-plus的文本与图片理解已通过独立接口探针；未提供额外搜索API密钥；公开网页可使用browser或HTTP读取。图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n公开参考skill的实际目录是 /workspace/skills/<名称>，脚本相对该skill根解析。兼容目录 /workspace/.claude/skills 指向同一目录；CLAUDE_PLUGIN_ROOT=/workspace。需要CLAUDE_SKILL_DIR的命令可用exec运行 python /opt/eval-adapter/runtime_compat.py run-skill --skill <名称> -- <命令及参数>，该变量只针对本条命令，不在多个skill之间共享固定值。跨包参考正文如果本题准入，会放在 /workspace/reference_support，作为依赖资料而非新增active skill；可运行 python /opt/eval-adapter/runtime_compat.py reference-path --skill <名称> --reference \"<SKILL中原相对引用>\" 查询真实存在的位置，再用read读取；不存在就报告缺项。GetNotes参考SDK的原缓存含跨平台开发依赖，从该skill的scripts目录可运行 getnote-tsx <tsx参数> 使用固定Linux兼容loader；这只修本地加载，不提供账号认证。agent-browser和lark-cli是通过exec运行的公共CLI，不是新增原生工具名；agent-browser使用本容器/usr/bin/chromium，外部Lark/邮件/GetNotes服务仍以实际认证结果为准。\n\n本题提供的文件：\n- /workspace/inputs/review/source_only_quality_protocol.json\n- /workspace/inputs/review/tasks/E1.json\n- /workspace/inputs/task/materials/3f8a1c51032c2b97.pdf\n- /workspace/inputs/review/outputs/E1_A.txt\n- /workspace/inputs/review/outputs/E1_B.txt\n- /workspace/inputs/review/tasks/E2.json\n- /workspace/inputs/task/materials/6ce6df1590fed877.pdf\n- /workspace/inputs/task/materials/b4fd3bee09b14b32.pdf\n- /workspace/inputs/task/materials/9c667aab99eaada6.pdf\n- /workspace/inputs/task/materials/91162cf64d5ec403.pdf\n- /workspace/inputs/task/materials/8ad152dae625eda9.pdf\n- /workspace/inputs/task/materials/96f97ee12f59ed80.pdf\n- /workspace/inputs/review/outputs/E2_A.txt\n- /workspace/inputs/review/outputs/E2_B.txt\n- /workspace/inputs/review/phase1_manifest.json\n- /workspace/inputs/review/phase2_arm_costs.json\n- /workspace/inputs/review/candidate_skill/scripts/cv_extract.py\n- /workspace/inputs/review/candidate_skill/scripts/cvlib.py\n- /workspace/inputs/review/candidate_skill/scripts/evidence_check.py\n- /workspace/inputs/review/candidate_skill/SKILL.md\n\n用户提供的上下文：\n\n\n用户任务：\n执行一场独立原生评审，先盲质量、再解盲成本并给C/D建议。不要子Agent、训练、外发、远端修改、全局安装、修订或重跑业务；不实际封装/入生产库。\n第一阶段只读 /workspace/inputs/review/source_only_quality_protocol.json 和 phase1_manifest.json，然后实际读取E1/E2完整原任务、同7份真实PDF、各A/B全部原始交付文本及如有明确引用的交付附件。此阶段不要读phase2_arm_costs.json、candidate_skill/或猜臂别。原输出完全未为隐藏方法而改写；如有自述方法线索，记录有限盲，不改原文也不假装完全盲。两例是train发展案例，不叫正式unseen/最终留出。\n按协议分别给各case A/B独立五维Q：D1正确性与依据30、D2覆盖充分性20、D3要求适配与跨轮一致性20、D4专业业务可用性20、D5表达呈现10；每维1—4个具体条目，score只0/.5/1，每条引用原要求/PDF页/原输出的具体依据并区分explicit_user与derived_quality。同一缺陷主要扣一次，不按长文、文件数、技能自称或完成状态加分。招聘只按工作相关证据，不用年龄/性别等；必需/优先、缺证/反证、关键词/已证实际经历要分开。没要求quote表或正式报告不能强加；如果给了quote/page就须对正确人/文件/页。不能用单纯字面匹配证明全部语义/录用正确。TSR与Q分开；文本回答可完成任务，不因没有额外文件就判失败。原PDF读证故障如实UNSCORED，不补0。\n将完整结果实际写 /workspace/outputs/blind_quality.json，确认写入成功且完整后才进入第二阶段。第一阶段记录method_cue/blinding_limit、事实核验及未知；AI评估未人工或招聘专家校准，是探索银标，不是gold。\n第二阶段才读 /workspace/inputs/review/phase2_arm_costs.json 和 candidate_skill/必要原资源，结合已经冻结的盲Q、原生真实读用/版本及实际成本，写 /workspace/outputs/decision.json 与 feedback.json，给RETAIN/REVISE/STOP/DEFER建议。质量不能被成本低掩盖，程序测试绿不能替代业务质量；语义更好但更贵的权衡、两例方向不同和证据不足要明说，不强行保留或全局淘汰。E2NS有真实partial和缺usage，已知subtotal不是完整Token费用，耗时也含该中断；不能补估0、虚构精确比值或把全部时间差归因技能。记录制作、真实修订、全部消费/失败、共享筛选与未知标注/CPU费用；零合格成本分母未定义。Token不是现金，Teacher结果不是14B/8B学生效果。若提修订须指向当前同版本具体缺陷，不能假装已经修或把新版本套旧消费。此场仅建议，不封包、不改候选，不追加Agent/复测/训练。\n保留完整工具/推理与实际读写顺序证据；最后非空简短如实答复。",
+        "finalAssistantVisibleText": "评审完成，三份交付文件均已实际写入并验证（JSON 解析通过、写入成功后才进入下一阶段）。\n\n**第一阶段（盲质量）**：按协议仅读 protocol/manifest/任务/7份PDF/四份原始输出。逐条独立复核了引用页码（E1_A 全部 8 处 P1/P2、E2_A 全部 6 位候选人的引文均与 PDF 实际页面一致）。记录了有限盲：E1_A/E2_A 自述跑过 evidence_check、E1_B 自述读 source_input.json，均未据此加减分。盲评分数（100 分制）：\n\n| 案例 | A（后解盲=skill） | B（=no_skill） |\n|---|---|---|\n| E1 | 93.75 | **97.5** |\n| E2 | 91.25 | 91.25 |\n\n两例方向不同：E1 无技能臂更好（年限核算更完整、覆盖 JD 职责印证）；E2 持平但各有强弱（skill 臂独有页码级可核引用且经我独立复核全对；无技能臂补出了邱景锋 React、梁勇其 qiankun 证据）。\n\n**第二阶段（解盲成本+建议）**：skill 消费有真实原生全读证据且字节与冻结候选树一致。成本：E1 skill 约 2.85× token、1.30× 耗时；E2 skill 已知 token 下限约 2.05×，但 NS 臂是 partial（1 次未知 usage 调用，subtotal 不是完整费用），444s 耗时含真实中断，不能精确比值或归因。制作/修订/共享筛选成本及全周期 20.2M 已知 token 已分别记录；token≠现金，ROI 因零合格成本分母未定义。\n\n**建议：REVISE（非保留、非淘汰、非封包）**——skill 的页码引用核验优势真实存在，但语义质量无增益而 token 溢价明显；当前同版本有具体缺陷（SKILL.md 两段逐字重复、缺年限/未来日期核对指引，对应 skill 臂 E1 实际内部口径不一致）。保留与否推迟到修订后再评更多案例。程序测试绿未被当作业务批准。全程未改候选、未复测、未追加子任务。",
+        "finalAssistantRawText": "评审完成，三份交付文件均已实际写入并验证（JSON 解析通过、写入成功后才进入下一阶段）。\n\n**第一阶段（盲质量）**：按协议仅读 protocol/manifest/任务/7份PDF/四份原始输出。逐条独立复核了引用页码（E1_A 全部 8 处 P1/P2、E2_A 全部 6 位候选人的引文均与 PDF 实际页面一致）。记录了有限盲：E1_A/E2_A 自述跑过 evidence_check、E1_B 自述读 source_input.json，均未据此加减分。盲评分数（100 分制）：\n\n| 案例 | A（后解盲=skill） | B（=no_skill） |\n|---|---|---|\n| E1 | 93.75 | **97.5** |\n| E2 | 91.25 | 91.25 |\n\n两例方向不同：E1 无技能臂更好（年限核算更完整、覆盖 JD 职责印证）；E2 持平但各有强弱（skill 臂独有页码级可核引用且经我独立复核全对；无技能臂补出了邱景锋 React、梁勇其 qiankun 证据）。\n\n**第二阶段（解盲成本+建议）**：skill 消费有真实原生全读证据且字节与冻结候选树一致。成本：E1 skill 约 2.85× token、1.30× 耗时；E2 skill 已知 token 下限约 2.05×，但 NS 臂是 partial（1 次未知 usage 调用，subtotal 不是完整费用），444s 耗时含真实中断，不能精确比值或归因。制作/修订/共享筛选成本及全周期 20.2M 已知 token 已分别记录；token≠现金，ROI 因零合格成本分母未定义。\n\n**建议：REVISE（非保留、非淘汰、非封包）**——skill 的页码引用核验优势真实存在，但语义质量无增益而 token 溢价明显；当前同版本有具体缺陷（SKILL.md 两段逐字重复、缺年限/未来日期核对指引，对应 skill 臂 E1 实际内部口径不一致）。保留与否推迟到修订后再评更多案例。程序测试绿未被当作业务批准。全程未改候选、未复测、未追加子任务。",
+        "replayInvalid": true,
+        "livenessState": "working",
+        "stopReason": "stop",
+        "executionTrace": {
+          "winnerProvider": "ecnu",
+          "winnerModel": "glm-5.3-flash",
+          "attempts": [
+            {
+              "provider": "ecnu",
+              "model": "glm-5.3-flash",
+              "result": "success",
+              "stage": "assistant"
+            }
+          ],
+          "fallbackUsed": false,
+          "runner": "embedded"
+        },
+        "requestShaping": {
+          "thinking": "off"
+        },
+        "completion": {
+          "stopReason": "stop",
+          "finishReason": "stop"
+        },
+        "toolSummary": {
+          "calls": 22,
+          "tools": [
+            "exec",
+            "write"
+          ],
+          "failures": 0
+        }
+      },
+      "tools": [
+        {
+          "name": "exec",
+          "call_id": "call3ae9dd383dc849de85f74e0147ae08f5",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call32ad90d3c6ae47e082b2c0f48a5cb017",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call32e01a4d0b86420da521473aacfaf41a",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "callc8231ceb7b5a428e9726664bd469720f",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call7029aad4cad04e2896edf0f7ffe51885",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call1e378c99db194a1a9998cf8c8a9dd6a5",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call0d9bbd3ec99d4548bc06ffc550775779",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call791c875cf97e4d8dadcc6f8edff5813d",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call1b15a574cb7d4e7687bcfab4ca579980",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call135286ccaa1548d482ac1e04e411b56e",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "calle2137e84581d4840a2bf31b6d75a9cf1",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "callbc3cd56a587b49cba2c9b694a4f4c445",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "callbd20dc6c74b1494cb394331ac0615505",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "write",
+          "call_id": "callbf3b4ad9b1d242d5931079ea1b2402e2",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": null,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call5d2cc9a1ddb744749f90c8c51a2cffba",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "calle3a448c665e24b23bb1c647d528f3f04",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "calle578ffd699d94ea1859e47a7fb3ae4be",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call82621e763c88475eb55e36a8068e73c5",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "call90264a2a5d244a3cb8c4da59c08b4f22",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        },
+        {
+          "name": "write",
+          "call_id": "callaf88958d56ba4843ae8bb441e78423e1",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": null,
+          "observed_failure": false
+        },
+        {
+          "name": "write",
+          "call_id": "call98075df7afe34bf1ae5cfdb89bc41718",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": null,
+          "observed_failure": false
+        },
+        {
+          "name": "exec",
+          "call_id": "callf8c79bfadd0c49169d259b2d3467df1b",
+          "is_error": false,
+          "process_failure": false,
+          "exit_code": 0,
+          "observed_failure": false
+        }
+      ],
+      "native_is_error_count": 0,
+      "structured_process_failure_count": 0,
+      "tool_error_count": 0
+    }
+  },
+  "usage": {
+    "measurement_status": "complete",
+    "known_input_tokens": 1916113,
+    "known_output_tokens": 25044,
+    "known_total_tokens": 1941157,
+    "total_tokens": 1941157,
+    "model_calls": 23,
+    "known_model_calls": 23,
+    "complete_usage_calls": 23,
+    "unknown_usage_calls": 0,
+    "errors": [],
+    "requests": [
+      {
+        "pid": 4508,
+        "request_id": "38499441f0b2439f87cf0f548d616c5f",
+        "model": "glm-5.3-flash",
+        "input_tokens": 53391,
+        "output_tokens": 132,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "5ba51a822d3c479db6ebcbebf96495c4",
+        "model": "glm-5.3-flash",
+        "input_tokens": 54401,
+        "output_tokens": 35,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "20f541680ed941d6bb0e2caf6f670217",
+        "model": "glm-5.3-flash",
+        "input_tokens": 55816,
+        "output_tokens": 54,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "b35fc6461eb84e0f8a28ee52a9e6dab5",
+        "model": "glm-5.3-flash",
+        "input_tokens": 58676,
+        "output_tokens": 223,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "bc26e4682c4b442596043ea1d760765c",
+        "model": "glm-5.3-flash",
+        "input_tokens": 59042,
+        "output_tokens": 42,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "67460a57aa7745939faf0a52faea1bc0",
+        "model": "glm-5.3-flash",
+        "input_tokens": 61029,
+        "output_tokens": 737,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "8e70a9657ded4ae890e842578bb18d6e",
+        "model": "glm-5.3-flash",
+        "input_tokens": 63170,
+        "output_tokens": 990,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "f17d1bb617b94d868faf97314e4750ed",
+        "model": "glm-5.3-flash",
+        "input_tokens": 66678,
+        "output_tokens": 257,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "39123d7d89bf4c3dbc2865a331f6a005",
+        "model": "glm-5.3-flash",
+        "input_tokens": 68671,
+        "output_tokens": 51,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "a6d75cac3295452ca08e528f38279287",
+        "model": "glm-5.3-flash",
+        "input_tokens": 70752,
+        "output_tokens": 49,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "f3b428522c5940b2a99e375e5213c3e0",
+        "model": "glm-5.3-flash",
+        "input_tokens": 74217,
+        "output_tokens": 201,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "90e8d2fbddae436fb631cdfcd777c040",
+        "model": "glm-5.3-flash",
+        "input_tokens": 77295,
+        "output_tokens": 139,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "6375955d1b3941799e67f83bc936b6ea",
+        "model": "glm-5.3-flash",
+        "input_tokens": 81501,
+        "output_tokens": 248,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "3d98d76547bf4481a29a29d6605655ba",
+        "model": "glm-5.3-flash",
+        "input_tokens": 83665,
+        "output_tokens": 14973,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "6a561a56922b499f80a3b821788dd285",
+        "model": "glm-5.3-flash",
+        "input_tokens": 98662,
+        "output_tokens": 147,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "a42efcf545694d668339334912cc9dff",
+        "model": "glm-5.3-flash",
+        "input_tokens": 98901,
+        "output_tokens": 97,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "3ea6f6f5fe064b3fa7e78af4ce60a363",
+        "model": "glm-5.3-flash",
+        "input_tokens": 106322,
+        "output_tokens": 353,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "3d032b30a0ff40f1915f63c353168a71",
+        "model": "glm-5.3-flash",
+        "input_tokens": 107997,
+        "output_tokens": 163,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "74ac949eb77e4675a253dc79370f1247",
+        "model": "glm-5.3-flash",
+        "input_tokens": 111376,
+        "output_tokens": 2167,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "ea582cccf2754ff58996628436772d46",
+        "model": "glm-5.3-flash",
+        "input_tokens": 113842,
+        "output_tokens": 2110,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "e101a11209a84c65abd99878c49594d1",
+        "model": "glm-5.3-flash",
+        "input_tokens": 115974,
+        "output_tokens": 1233,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "fc6d21a8b93644ef9aeafd84c97c3b1e",
+        "model": "glm-5.3-flash",
+        "input_tokens": 117232,
+        "output_tokens": 104,
+        "complete": true,
+        "issues": []
+      },
+      {
+        "pid": 4508,
+        "request_id": "dac8b9b01985404b824d50f56d80d899",
+        "model": "glm-5.3-flash",
+        "input_tokens": 117503,
+        "output_tokens": 539,
+        "complete": true,
+        "issues": []
+      }
+    ],
+    "cash_cost": null,
+    "definition": "One distinct native provider request is one model call; missing usage is unknown, never zero. Reading and error recovery remain included.",
+    "event_file": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\lane_10\\native_events.jsonl",
+    "start_offset": 671847,
+    "end_offset": 731042
+  },
+  "dispatch_state": "native_consumer_started",
+  "execution": {
+    "image": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+    "openclaw_version": "2026.9.5",
+    "model": "glm-5.3-flash",
+    "max_tokens": 32768,
+    "timeout_seconds": 1800,
+    "backend": "native",
+    "lane": 10,
+    "consumer": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\runtime_10\\consumer.py",
+    "credentials": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\private\\model_consumer.json",
+    "profile": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\profile_10.json",
+    "custom_agent_loop": false
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "schema_version": "wrd_curation09_writer_recovery_v1",
+  "canonical_owner_id": "d56a25fa24852c7f50784c36",
+  "writer_original": {
+    "canonical_owner_id": "d56a25fa24852c7f50784c36",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_c6feee653dbd0bc8b346",
+    "role": "actor",
+    "route_id": "ai-adoption-advisory",
+    "source_ids": [
+      "conv_71b145de3304"
+    ],
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "original_tool_call_id": "call6c6fb53fa8234f489c1a2a398cf892b1",
+    "native_path": "/workspace/tmp/gen_report.py",
+    "original_content_utf8_SHA256": "5ef25b67f2fb03a4fc3ebf4eb1633256b6d67b2e5e1816a70c21c60f056941d7",
+    "characters": 6206,
+    "whole_tool_write_content_recovered": true,
+    "original_body_ref": {
+      "context_episode_id": "ep_c6feee653dbd0bc8b346",
+      "message_index": 11,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "syntax_or_business_correctness_not_approved": true,
+    "positive_loss": 0,
+    "full_code": "# -*- coding: utf-8 -*-\n\"\"\"生成 AI 客服系统商业案例报告 (.docx)\"\"\"\nfrom docx import Document\nfrom docx.shared import Pt, Cm, RGBColor\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH\nfrom docx.enum.table import WD_TABLE_ALIGNMENT\nfrom docx.oxml.ns import qn\n\nFONT = \"Noto Sans CJK SC\"\n\ndoc = Document()\n\n# 全局样式\nstyle = doc.styles[\"Normal\"]\nstyle.font.name = FONT\nstyle.font.size = Pt(11)\nstyle.element.rPr.rFonts.set(qn(\"w:eastAsia\"), FONT)\n\nfor section in doc.sections:\n    section.top_margin = Cm(2.5)\n    section.bottom_margin = Cm(2.5)\n    section.left_margin = Cm(2.8)\n    section.right_margin = Cm(2.8)\n\ndef set_run(run, size=11, bold=False, color=None):\n    run.font.name = FONT\n    run.font.size = Pt(size)\n    run.font.bold = bold\n    run._element.rPr.rFonts.set(qn(\"w:eastAsia\"), FONT)\n    if color:\n        run.font.color.rgb = RGBColor(*color)\n\ndef heading(text, level=1):\n    p = doc.add_paragraph()\n    if level == 0:\n        p.alignment = WD_ALIGN_PARAGRAPH.CENTER\n        r = p.add_run(text)\n        set_run(r, size=18, bold=True)\n    else:\n        sizes = {1: 14, 2: 12}\n        r = p.add_run(text)\n        set_run(r, size=sizes.get(level, 12), bold=True, color=(0x1F, 0x4E, 0x79))\n        p.paragraph_format.space_before = Pt(14 if level == 1 else 8)\n        p.paragraph_format.space_after = Pt(6)\n    return p\n\ndef para(text, bold_prefix=None, size=11):\n    p = doc.add_paragraph()\n    p.paragraph_format.space_after = Pt(4)\n    p.paragraph_format.line_spacing = 1.4\n    if bold_prefix:\n        r = p.add_run(bold_prefix)\n        set_run(r, size=size, bold=True)\n    r = p.add_run(text)\n    set_run(r, size=size)\n    return p\n\ndef bullet(text, bold_prefix=None):\n    p = doc.add_paragraph(style=\"List Bullet\")\n    p.paragraph_format.line_spacing = 1.4\n    p.paragraph_format.space_after = Pt(3)\n    if bold_prefix:\n        r = p.add_run(bold_prefix)\n        set_run(r, bold=True)\n    r = p.add_run(text)\n    set_run(r)\n    return p\n\n# ===== 封面标题 =====\nheading(\"引入AI客服系统商业案例报告\", level=0)\np = doc.add_paragraph()\np.alignment = WD_ALIGN_PARAGRAPH.CENTER\nr = p.add_run(\"——20万元投资合理性论证\")\nset_run(r, size=12, color=(0x59, 0x59, 0x59))\np2 = doc.add_paragraph()\np2.alignment = WD_ALIGN_PARAGRAPH.CENTER\nr = p2.add_run(\"编制日期：2026年10月23日    计价单位：人民币\")\nset_run(r, size=10, color=(0x80, 0x80, 0x80))\n\n# ===== 一、执行摘要 =====\nheading(\"一、执行摘要\", 1)\npara(\"公司现有8人客服团队，月均处理工单3,000个，按人均月薪8,000元计，月度人力成本为64,000元。计划投入20万元引入AI客服系统，预计可自动处理60%的工单（1,800个/月）。\")\npara(\"经量化测算：系统上线后每月可节约人力成本38,400元，年节约460,800元，3年累计收益138.24万元。以20万元总投入计，3年周期ROI（投资回报率）达591.2%，净收益118.24万元；投资回收周期约为5.2个月（即第6个月内即可收回全部投入）。综上，本项目投入小、见效快、回报高，建议批准实施。\")\n\n# ===== 二、现状痛点 =====\nheading(\"二、现状痛点\", 1)\nbullet(\"（月均3,000个工单全部依赖8名人工客服处理，人均月处理量达375个，工作负荷趋于饱和）\", bold_prefix=\"人工压力大：\")\nbullet(\"（人工服务受工作时间限制，难以覆盖7×24小时服务需求，夜间与节假日响应滞后）\", bold_prefix=\"响应时效受限：\")\nbullet(\"（月度人力成本64,000元，年支出76.8万元；业务量每增长一步，均需同步增员，成本线性上升）\", bold_prefix=\"成本刚性增长：\")\nbullet(\"（重复性、标准化问题占比高，人工处理一致性差，高峰期排队等待时间长，客户满意度承压）\", bold_prefix=\"服务质量波动：\")\n\n# ===== 三、方案概述 =====\nheading(\"三、方案概述\", 1)\npara(\"引入AI客服系统，通过智能语义理解与知识库匹配，自动应答客户咨询并处理标准化工单。核心设定如下：\")\nbullet(\"（系统预计自动处理60%的工单，即1,800个/月；剩余1,200个/月复杂工单由人工处理）\", bold_prefix=\"自动化比例：\")\nbullet(\"（一次性投入20万元，含软件许可与部署费用；实施培训等成本已包含，不计其他隐性支出）\", bold_prefix=\"投入构成：\")\nbullet(\"（节约的人力转投复杂工单处理与客户关怀，AI承接高频重复咨询并实现7×24小时即时响应）\", bold_prefix=\"人机协同：\")\n\n# ===== 四、量化效益分析 =====\nheading(\"四、量化效益分析\", 1)\npara(\"测算口径：人均月薪8,000元，8人团队月人力成本64,000元；AI替代60%工单量对应节约60%人力成本，即38,400元/月；投资总额20万元；测算周期3年（36个月）。\")\n\nrows = [\n    [\"测算口径\", \"成本节约\", \"效率增益\", \"ROI\", \"回收期\"],\n    [\"月度\", \"38,400元（人力成本下降60%）\", \"自动处理1,800单/月，人工工单降至1,200单/月\", \"—\", \"—\"],\n    [\"年度\", \"460,800元\", \"等效处理能力提升150%（可支撑7,500单/月）\", \"—\", \"—\"],\n    [\"3年累计\", \"1,382,400元\", \"7×24小时即时响应，首响时间趋近于零\", \"591.2%（净收益1,182,400元）\", \"约5.2个月（第6个月内收回全部投入）\"],\n]\n\ntable = doc.add_table(rows=len(rows), cols=5)\ntable.style = \"Table Grid\"\ntable.alignment = WD_TABLE_ALIGNMENT.CENTER\nwidths = [Cm(2.2), Cm(4.2), Cm(4.2), Cm(3.6), Cm(3.6)]\nfor i, row_data in enumerate(rows):\n    row = table.rows[i]\n    for j, text in enumerate(row_data):\n        cell = row.cells[j]\n        cell.width = widths[j]\n        cp = cell.paragraphs[0]\n        cp.alignment = WD_ALIGN_PARAGRAPH.CENTER if i == 0 else WD_ALIGN_PARAGRAPH.LEFT\n        r = cp.add_run(text)\n        set_run(r, size=10, bold=(i == 0))\n        if i == 0:\n            from docx.oxml import OxmlElement\n            shd = OxmlElement(\"w:shd\")\n            shd.set(qn(\"w:val\"), \"clear\")\n            shd.set(qn(\"w:fill\"), \"1F4E79\")\n            cell._tc.get_or_add_tcPr().append(shd)\n            r.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)\n\npara(\"\")\npara(\"ROI =（3年累计总收益138.24万元 − 总投入20万元）÷ 总投入20万元 × 100% = 591.2%。投资回收期 = 总投入20万元 ÷ 月节约38,400元 ≈ 5.21个月，即系统上线后约第6个月实现盈亏平衡。\", bold_prefix=\"计算说明：\")\n\n# ===== 五、风险与应对建议 =====\nheading(\"五、风险与应对建议\", 1)\nrows2 = [\n    [\"风险\", \"影响\", \"应对建议\"],\n    [\"AI识别准确率不达预期\", \"自动处理率低于60%，节约缩水\", \"上线前充分训练知识库，灰度发布，逐月监控自动解决率并持续调优\"],\n    [\"复杂问题误转接或答非所问\", \"客户体验受损，投诉上升\", \"设置置信度阈值，低置信度自动转人工，保留人工兜底通道\"],\n    [\"客服团队抵触与人员波动\", \"过渡期服务质量不稳\", \"提前沟通转岗安排，将人工重心转向高价值服务，配套激励方案\"],\n    [\"数据安全与合规风险\", \"客户信息泄露隐患\", \"明确数据脱敏与权限管控要求，纳入采购合同与验收标准\"],\n    [\"业务量快速增长超预期\", \"AI容量不足需追加投入\", \"选择支持弹性扩容的方案，合同中锁定扩容单价\"],\n]\ntable2 = doc.add_table(rows=len(rows2), cols=3)\ntable2.style = \"Table Grid\"\ntable2.alignment = WD_TABLE_ALIGNMENT.CENTER\nw2 = [Cm(4.0), Cm(4.5), Cm(9.3)]\nfor i, row_data in enumerate(rows2):\n    row = table2.rows[i]\n    for j, text in enumerate(row_data):\n        cell = row.cells[j]\n        cell.width = w2[j]\n        cp = cell.paragraphs[0]\n        cp.alignment = WD_ALIGN_PARAGRAPH.CENTER if i == 0 else WD_ALIGN_PARAGRAPH.LEFT\n        r = cp.add_run(text)\n        set_run(r, size=10, bold=(i == 0))\n        if i == 0:\n            from docx.oxml import OxmlElement\n            shd = OxmlElement(\"w:shd\")\n            shd.set(qn(\"w:val\"), \"clear\")\n            shd.set(qn(\"w:fill\"), \"1F4E79\")\n            cell._tc.get_or_add_tcPr().append(shd)\n            r.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)\n\npara(\"\")\npara(\"综合以上分析，本项目以20万元投入换取月度38,400元的确定性人力成本节约，回收期仅约5.2个月，3年ROI达591.2%，同时显著提升工单处理效率与服务覆盖能力。在落实上述风险应对措施的前提下，建议公司尽快批准立项并推进实施。\", bold_prefix=\"结论与建议：\")\n\nimport os\nos.makedirs(\"/workspace/outputs\", exist_ok=True)\nout = \"/workspace/outputs/AI客服系统商业案例报告.docx\"\ndoc.save(out)\nprint(\"saved:\", out)\n"
+  },
+  "owner_proof_original": {
+    "canonical_owner_id": "d56a25fa24852c7f50784c36",
+    "population": "V9_OLD1763",
+    "episode_id": "ep_c6feee653dbd0bc8b346",
+    "native_session_id": "274543f4-891b-4415-b3f6-c09f7552d00a",
+    "source_message_index": 11,
+    "source_event_line": 21,
+    "original_message_sha256_sorted": "5db6a22c7419eca9bf8beb31927d5912ce964b8da28fd589d83b4a40bbff9a28",
+    "original_message_sha256_insertion_order": "70cbee3b318da75acedbca69bc135f20c571c47da22d00d7fb63e343fb8dc3c3",
+    "original_content_sha256_sorted": "01d197fc6843c0bc7a7aa40c6d5432cb9a0dd76e397ba62a6e1d2746182ef831",
+    "source_native": {
+      "path": "D:\\skillloop\\output\\20261025_wrd_training_dataset\\bundle\\archive\\objects\\e8\\e8877e4384a19065aad6d30acfa12e43407e83d93f455b2a1589427ff2b18839",
+      "bytes": 94308,
+      "sha256": "e8877e4384a19065aad6d30acfa12e43407e83d93f455b2a1589427ff2b18839"
+    },
+    "original_body_ref": {
+      "context_episode_id": "ep_c6feee653dbd0bc8b346",
+      "message_index": 11,
+      "context_file": "audit_inputs/native1843.contexts.original.jsonl.gz"
+    },
+    "historical_role": "actor",
+    "route_id": "ai-adoption-advisory",
+    "source_ids": [
+      "conv_71b145de3304"
+    ],
+    "current_source_statuses": {
+      "conv_71b145de3304": "TRAIN"
+    },
+    "source_disposition": "SCOPE_CLOSED_SEMANTIC_PENDING",
+    "old_source_admission": "ADMIT",
+    "old_source_scope_proof_id": "e79e20668c05156984425d971100a57d0a99e7384968e814b38a4bf53493bf33",
+    "late_protected_overlay": null,
+    "old_preflight_eligibility": null,
+    "v9_protocol_disposition": {
+      "id": "d56a25fa24852c7f50784c36",
+      "episode_id": "ep_c6feee653dbd0bc8b346",
+      "source_message_index": 11,
+      "stage": "actor",
+      "route_id": "ai-adoption-advisory",
+      "source_admission": "ADMIT",
+      "scope_status": "CLEAN_OBSERVED_SOURCE_PREFIX",
+      "source_ids": [
+        "conv_71b145de3304"
+      ],
+      "supervision_tier": null,
+      "loss_multiplier": 0.0,
+      "mask_reasons": [
+        "NO_ADMITTED_OUTCOME_OR_SEMANTIC_SUPERVISION"
+      ],
+      "original_message_sha256": "70cbee3b318da75acedbca69bc135f20c571c47da22d00d7fb63e343fb8dc3c3",
+      "original_content_sha256": "482059748d8bdae154a9ed913f47e60c0b850fb0bad7abddb4af7a9909566f02",
+      "quality_is_not_inferred_from_done_retain_or_exit0": true,
+      "training_started": false,
+      "student_response_end_tokens": 6363,
+      "admitted_in_common_32k": false,
+      "owned_spans_before_length_filter": [],
+      "length_filter_never_truncates_source_prefix_or_target": true
+    },
+    "maker405_static_byte_review": null,
+    "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+    "target_call_ids": [
+      "call6c6fb53fa8234f489c1a2a398cf892b1"
+    ],
+    "native_response_id": "chatcmpl-1792754129215",
+    "native_readable_R_blocks": 0,
+    "current_view_claims": [],
+    "withdrawn_view_claims": [],
+    "original_R_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "original_A_disposition": "NO_CURRENT_ORIGINAL_RANGE_ADMISSION_JOINED",
+    "semantics": "NOT_INFERRED_FROM_SOURCE_ADMIT_DONE_RETAIN_OR_EXIT0",
+    "no_new_positive_loss": true,
+    "current_disposition": "SOURCE_CLOSED_SEMANTIC_PENDING"
+  },
+  "context_ref": "episodes/ep_c6feee653dbd0bc8b346.context.original.json",
+  "timeline_ref": "episodes/ep_c6feee653dbd0bc8b346.timeline.json",
+  "code_ref": "code/d56a25fa24852c7f50784c36.py",
+  "code_utf8_sha256": "5ef25b67f2fb03a4fc3ebf4eb1633256b6d67b2e5e1816a70c21c60f056941d7",
+  "original_target_message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "python-docx 可用。现在生成报告脚本。",
+        "textSignature": "{\"v\":1,\"id\":\"commentary-0-7da9ad842d1147228d02b303\",\"phase\":\"commentary\"}"
+      },
+      {
+        "type": "toolCall",
+        "id": "call6c6fb53fa8234f489c1a2a398cf892b1",
+        "name": "write",
+        "arguments": {
+          "content": "# -*- coding: utf-8 -*-\n\"\"\"生成 AI 客服系统商业案例报告 (.docx)\"\"\"\nfrom docx import Document\nfrom docx.shared import Pt, Cm, RGBColor\nfrom docx.enum.text import WD_ALIGN_PARAGRAPH\nfrom docx.enum.table import WD_TABLE_ALIGNMENT\nfrom docx.oxml.ns import qn\n\nFONT = \"Noto Sans CJK SC\"\n\ndoc = Document()\n\n# 全局样式\nstyle = doc.styles[\"Normal\"]\nstyle.font.name = FONT\nstyle.font.size = Pt(11)\nstyle.element.rPr.rFonts.set(qn(\"w:eastAsia\"), FONT)\n\nfor section in doc.sections:\n    section.top_margin = Cm(2.5)\n    section.bottom_margin = Cm(2.5)\n    section.left_margin = Cm(2.8)\n    section.right_margin = Cm(2.8)\n\ndef set_run(run, size=11, bold=False, color=None):\n    run.font.name = FONT\n    run.font.size = Pt(size)\n    run.font.bold = bold\n    run._element.rPr.rFonts.set(qn(\"w:eastAsia\"), FONT)\n    if color:\n        run.font.color.rgb = RGBColor(*color)\n\ndef heading(text, level=1):\n    p = doc.add_paragraph()\n    if level == 0:\n        p.alignment = WD_ALIGN_PARAGRAPH.CENTER\n        r = p.add_run(text)\n        set_run(r, size=18, bold=True)\n    else:\n        sizes = {1: 14, 2: 12}\n        r = p.add_run(text)\n        set_run(r, size=sizes.get(level, 12), bold=True, color=(0x1F, 0x4E, 0x79))\n        p.paragraph_format.space_before = Pt(14 if level == 1 else 8)\n        p.paragraph_format.space_after = Pt(6)\n    return p\n\ndef para(text, bold_prefix=None, size=11):\n    p = doc.add_paragraph()\n    p.paragraph_format.space_after = Pt(4)\n    p.paragraph_format.line_spacing = 1.4\n    if bold_prefix:\n        r = p.add_run(bold_prefix)\n        set_run(r, size=size, bold=True)\n    r = p.add_run(text)\n    set_run(r, size=size)\n    return p\n\ndef bullet(text, bold_prefix=None):\n    p = doc.add_paragraph(style=\"List Bullet\")\n    p.paragraph_format.line_spacing = 1.4\n    p.paragraph_format.space_after = Pt(3)\n    if bold_prefix:\n        r = p.add_run(bold_prefix)\n        set_run(r, bold=True)\n    r = p.add_run(text)\n    set_run(r)\n    return p\n\n# ===== 封面标题 =====\nheading(\"引入AI客服系统商业案例报告\", level=0)\np = doc.add_paragraph()\np.alignment = WD_ALIGN_PARAGRAPH.CENTER\nr = p.add_run(\"——20万元投资合理性论证\")\nset_run(r, size=12, color=(0x59, 0x59, 0x59))\np2 = doc.add_paragraph()\np2.alignment = WD_ALIGN_PARAGRAPH.CENTER\nr = p2.add_run(\"编制日期：2026年10月23日    计价单位：人民币\")\nset_run(r, size=10, color=(0x80, 0x80, 0x80))\n\n# ===== 一、执行摘要 =====\nheading(\"一、执行摘要\", 1)\npara(\"公司现有8人客服团队，月均处理工单3,000个，按人均月薪8,000元计，月度人力成本为64,000元。计划投入20万元引入AI客服系统，预计可自动处理60%的工单（1,800个/月）。\")\npara(\"经量化测算：系统上线后每月可节约人力成本38,400元，年节约460,800元，3年累计收益138.24万元。以20万元总投入计，3年周期ROI（投资回报率）达591.2%，净收益118.24万元；投资回收周期约为5.2个月（即第6个月内即可收回全部投入）。综上，本项目投入小、见效快、回报高，建议批准实施。\")\n\n# ===== 二、现状痛点 =====\nheading(\"二、现状痛点\", 1)\nbullet(\"（月均3,000个工单全部依赖8名人工客服处理，人均月处理量达375个，工作负荷趋于饱和）\", bold_prefix=\"人工压力大：\")\nbullet(\"（人工服务受工作时间限制，难以覆盖7×24小时服务需求，夜间与节假日响应滞后）\", bold_prefix=\"响应时效受限：\")\nbullet(\"（月度人力成本64,000元，年支出76.8万元；业务量每增长一步，均需同步增员，成本线性上升）\", bold_prefix=\"成本刚性增长：\")\nbullet(\"（重复性、标准化问题占比高，人工处理一致性差，高峰期排队等待时间长，客户满意度承压）\", bold_prefix=\"服务质量波动：\")\n\n# ===== 三、方案概述 =====\nheading(\"三、方案概述\", 1)\npara(\"引入AI客服系统，通过智能语义理解与知识库匹配，自动应答客户咨询并处理标准化工单。核心设定如下：\")\nbullet(\"（系统预计自动处理60%的工单，即1,800个/月；剩余1,200个/月复杂工单由人工处理）\", bold_prefix=\"自动化比例：\")\nbullet(\"（一次性投入20万元，含软件许可与部署费用；实施培训等成本已包含，不计其他隐性支出）\", bold_prefix=\"投入构成：\")\nbullet(\"（节约的人力转投复杂工单处理与客户关怀，AI承接高频重复咨询并实现7×24小时即时响应）\", bold_prefix=\"人机协同：\")\n\n# ===== 四、量化效益分析 =====\nheading(\"四、量化效益分析\", 1)\npara(\"测算口径：人均月薪8,000元，8人团队月人力成本64,000元；AI替代60%工单量对应节约60%人力成本，即38,400元/月；投资总额20万元；测算周期3年（36个月）。\")\n\nrows = [\n    [\"测算口径\", \"成本节约\", \"效率增益\", \"ROI\", \"回收期\"],\n    [\"月度\", \"38,400元（人力成本下降60%）\", \"自动处理1,800单/月，人工工单降至1,200单/月\", \"—\", \"—\"],\n    [\"年度\", \"460,800元\", \"等效处理能力提升150%（可支撑7,500单/月）\", \"—\", \"—\"],\n    [\"3年累计\", \"1,382,400元\", \"7×24小时即时响应，首响时间趋近于零\", \"591.2%（净收益1,182,400元）\", \"约5.2个月（第6个月内收回全部投入）\"],\n]\n\ntable = doc.add_table(rows=len(rows), cols=5)\ntable.style = \"Table Grid\"\ntable.alignment = WD_TABLE_ALIGNMENT.CENTER\nwidths = [Cm(2.2), Cm(4.2), Cm(4.2), Cm(3.6), Cm(3.6)]\nfor i, row_data in enumerate(rows):\n    row = table.rows[i]\n    for j, text in enumerate(row_data):\n        cell = row.cells[j]\n        cell.width = widths[j]\n        cp = cell.paragraphs[0]\n        cp.alignment = WD_ALIGN_PARAGRAPH.CENTER if i == 0 else WD_ALIGN_PARAGRAPH.LEFT\n        r = cp.add_run(text)\n        set_run(r, size=10, bold=(i == 0))\n        if i == 0:\n            from docx.oxml import OxmlElement\n            shd = OxmlElement(\"w:shd\")\n            shd.set(qn(\"w:val\"), \"clear\")\n            shd.set(qn(\"w:fill\"), \"1F4E79\")\n            cell._tc.get_or_add_tcPr().append(shd)\n            r.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)\n\npara(\"\")\npara(\"ROI =（3年累计总收益138.24万元 − 总投入20万元）÷ 总投入20万元 × 100% = 591.2%。投资回收期 = 总投入20万元 ÷ 月节约38,400元 ≈ 5.21个月，即系统上线后约第6个月实现盈亏平衡。\", bold_prefix=\"计算说明：\")\n\n# ===== 五、风险与应对建议 =====\nheading(\"五、风险与应对建议\", 1)\nrows2 = [\n    [\"风险\", \"影响\", \"应对建议\"],\n    [\"AI识别准确率不达预期\", \"自动处理率低于60%，节约缩水\", \"上线前充分训练知识库，灰度发布，逐月监控自动解决率并持续调优\"],\n    [\"复杂问题误转接或答非所问\", \"客户体验受损，投诉上升\", \"设置置信度阈值，低置信度自动转人工，保留人工兜底通道\"],\n    [\"客服团队抵触与人员波动\", \"过渡期服务质量不稳\", \"提前沟通转岗安排，将人工重心转向高价值服务，配套激励方案\"],\n    [\"数据安全与合规风险\", \"客户信息泄露隐患\", \"明确数据脱敏与权限管控要求，纳入采购合同与验收标准\"],\n    [\"业务量快速增长超预期\", \"AI容量不足需追加投入\", \"选择支持弹性扩容的方案，合同中锁定扩容单价\"],\n]\ntable2 = doc.add_table(rows=len(rows2), cols=3)\ntable2.style = \"Table Grid\"\ntable2.alignment = WD_TABLE_ALIGNMENT.CENTER\nw2 = [Cm(4.0), Cm(4.5), Cm(9.3)]\nfor i, row_data in enumerate(rows2):\n    row = table2.rows[i]\n    for j, text in enumerate(row_data):\n        cell = row.cells[j]\n        cell.width = w2[j]\n        cp = cell.paragraphs[0]\n        cp.alignment = WD_ALIGN_PARAGRAPH.CENTER if i == 0 else WD_ALIGN_PARAGRAPH.LEFT\n        r = cp.add_run(text)\n        set_run(r, size=10, bold=(i == 0))\n        if i == 0:\n            from docx.oxml import OxmlElement\n            shd = OxmlElement(\"w:shd\")\n            shd.set(qn(\"w:val\"), \"clear\")\n            shd.set(qn(\"w:fill\"), \"1F4E79\")\n            cell._tc.get_or_add_tcPr().append(shd)\n            r.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)\n\npara(\"\")\npara(\"综合以上分析，本项目以20万元投入换取月度38,400元的确定性人力成本节约，回收期仅约5.2个月，3年ROI达591.2%，同时显著提升工单处理效率与服务覆盖能力。在落实上述风险应对措施的前提下，建议公司尽快批准立项并推进实施。\", bold_prefix=\"结论与建议：\")\n\nimport os\nos.makedirs(\"/workspace/outputs\", exist_ok=True)\nout = \"/workspace/outputs/AI客服系统商业案例报告.docx\"\ndoc.save(out)\nprint(\"saved:\", out)\n",
+          "path": "/workspace/tmp/gen_report.py"
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "ecnu",
+    "model": "glm-5.3-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1792754129186,
+    "responseId": "chatcmpl-1792754129215",
+    "openclawDelivery": {
+      "textPhaseRequiresTerminal": true
+    },
+    "__openclaw": {
+      "runId": "8915dfc3-94e7-4d70-b843-ca5c181caad5"
+    }
+  },
+  "original_write_ack": [
+    {
+      "index": 12,
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call6c6fb53fa8234f489c1a2a398cf892b1",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote 8656 bytes to /workspace/tmp/gen_report.py"
+          }
+        ],
+        "details": {
+          "persistedDetailsTruncated": true,
+          "originalDetailsBytesAtLeast": 8193,
+          "originalDetailKeys": [
+            "changed",
+            "created",
+            "diff",
+            "patch",
+            "firstChangedLine"
+          ]
+        },
+        "isError": false,
+        "timestamp": 1792754171923,
+        "__openclaw": {
+          "runId": "8915dfc3-94e7-4d70-b843-ca5c181caad5"
+        }
+      }
+    }
+  ],
+  "native_ref": "native/e8877e4384a19065aad6d30acfa12e43407e83d93f455b2a1589427ff2b18839.jsonl",
+  "original_system_capture_status": "ORIGINAL_CAPTURE_INCOMPLETE",
+  "original_prefix_equivalence_claimed": false,
+  "holdout_reservation_checked": false,
+  "semantic_training_admission": false,
+  "training_admitted": false,
+  "semantic_status": "RECOVERED_UNREVIEWED",
+  "cost": {
+    "new_business_teacher_actor_calls": 0,
+    "training_started": false,
+    "ai_cpu_curation_cost": "UNKNOWN_NOT_ZERO"
+  }
+}

@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/workspace/outputs/skill/scripts/evidence_check.py", line 83, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/workspace/outputs/skill/scripts/evidence_check.py", line 59, in main
+    cache[path] = (cvlib.extract_pdf(path), None)
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/outputs/skill/scripts/cvlib.py", line 54, in extract_pdf
+    p = Path(path)
+        ^^^^^^^^^^
+  File "/usr/lib/python3.11/pathlib.py", line 872, in __new__
+    self = cls._from_parts(args)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/pathlib.py", line 510, in _from_parts
+    drv, root, parts = self._parse_args(args)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/pathlib.py", line 494, in _parse_args
+    a = os.fspath(a)
+        ^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not int

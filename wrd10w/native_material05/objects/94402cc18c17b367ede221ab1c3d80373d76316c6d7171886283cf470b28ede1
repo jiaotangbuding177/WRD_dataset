@@ -1,0 +1,103 @@
+{
+  "protocol": "native-openclaw-only-v1",
+  "stage": "generation",
+  "task_id": "B_phase2_html_revision_01",
+  "input": "只局修三个已经实证的HTML候选资源缺陷，不运行任何消费者或旧业务任务、不训练、不子Agent、不外发/全局安装。先读 inputs/independent/REPAIR_FEEDBACK.json 和 ACTUAL_COUNTEREXAMPLES.json。只原Maker请求与原示范/明确合成测试在场，不能找E1/E2或旧Teacher答案。原语言/称呼偏好保留，不能据源内角色扩大授权。\n逐字复制 /workspace/inputs/previous_skill/ 到 /workspace/outputs/skill/；复制 /workspace/inputs/original_maker/ 中 fixtures/ 到 /workspace/outputs/fixtures/，两原报告只作历史留在输入。先真实复现原基线、禁恢复假绿、原ball高度首步跳零和subtitle类型错误，记录before/失败与完整版本SHA。\n然后只修：真实恢复/重置的判据（暂停时rAF重画不等于模拟在播放），合成ball例初始高度/地面/反弹坐标一致性，subtitle坏类型明确诊断及必要用法。不能靠改初高为0、删反弹、让恢复总失败或删测例变绿；不能把测量判据当物理/教学gold。不增加整案ledger、大schema或人工复核负担。\n保持生成/验证原公开CLI和必要独立资源，正常Maker及合成ball都应真实画面变化/暂停冻结/恢复时间推进/重置后正常；原五静态坏输入和运行时错误层继续实测且不改正确预期。实际运行 /workspace/inputs/independent/repair_contract_tests.py；若预期与原真实需求有冲突，保留失败并用具体契约举证，不静默改测试。可补不同参数/时序反例，避免硬编码这次文字或点击计数。先封存版本再做局修，不改源文件或隐藏旧fail。\n每个实际命令/结果、资源/fixture版本SHA和剩余unknown留技能包外。输出 /workspace/outputs/revision_summary.json 和 resource_validation.json；skill仅必要复用资源，不装企业原件、个案答案、测试/缓存。最后非空简短如实结果，不给retained或业务收益结论。",
+  "context": [],
+  "followup_inputs": [],
+  "required_commands": [
+    "python",
+    "openclaw"
+  ],
+  "resources": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\task\\source_input.json",
+      "mount": "inputs/task/source_input.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\protocol\\maker_brief.json",
+      "mount": "inputs/protocol/maker_brief.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\previous_skill\\assets\\scaffold.js",
+      "mount": "inputs/previous_skill/assets/scaffold.js"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\previous_skill\\examples\\ball_bounce\\config.json",
+      "mount": "inputs/previous_skill/examples/ball_bounce/config.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\previous_skill\\examples\\ball_bounce\\topic.js",
+      "mount": "inputs/previous_skill/examples/ball_bounce/topic.js"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\previous_skill\\scripts\\gen_animation.py",
+      "mount": "inputs/previous_skill/scripts/gen_animation.py"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\previous_skill\\scripts\\verify_animation.mjs",
+      "mount": "inputs/previous_skill/scripts/verify_animation.mjs"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\previous_skill\\SKILL.md",
+      "mount": "inputs/previous_skill/SKILL.md"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\skating\\config.json",
+      "mount": "inputs/original_maker/fixtures/skating/config.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\skating\\topic.js",
+      "mount": "inputs/original_maker/fixtures/skating/topic.js"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\results\\bad1.json",
+      "mount": "inputs/original_maker/fixtures/results/bad1.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\results\\bad2.json",
+      "mount": "inputs/original_maker/fixtures/results/bad2.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\results\\bad3.json",
+      "mount": "inputs/original_maker/fixtures/results/bad3.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\results\\bad_topic.js",
+      "mount": "inputs/original_maker/fixtures/results/bad_topic.js"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\results\\bad_runtime_topic.js",
+      "mount": "inputs/original_maker/fixtures/results/bad_runtime_topic.js"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\results\\runtime_err_check.mjs",
+      "mount": "inputs/original_maker/fixtures/results/runtime_err_check.mjs"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\fixtures\\results\\badinput_tests.txt",
+      "mount": "inputs/original_maker/fixtures/results/badinput_tests.txt"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\resource_validation.json",
+      "mount": "inputs/original_maker/resource_validation.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\original_maker\\making_summary.json",
+      "mount": "inputs/original_maker/making_summary.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\independent\\ACTUAL_COUNTEREXAMPLES.json",
+      "mount": "inputs/independent/ACTUAL_COUNTEREXAMPLES.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\independent\\REPAIR_FEEDBACK.json",
+      "mount": "inputs/independent/REPAIR_FEEDBACK.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_phase2_html_revision_01\\workspace\\inputs\\independent\\repair_contract_tests.py",
+      "mount": "inputs/independent/repair_contract_tests.py"
+    }
+  ],
+  "learned_skills": []
+}

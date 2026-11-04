@@ -1,0 +1,17 @@
+{
+  "id": "chatcmpl-1793079611858",
+  "model": "glm-5.3-flash",
+  "usage": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "完成。已确认的 CV 资源局部修订全部实际执行并通过验证：\n\n**Before（先复现、后修复，证据存于 /workspace/tmp/evidence/）**\n- 三个缺陷均用原 CLI 逐字复现：合法长 ASCII 文本被水印过滤吞掉→真实字面引文 rc=2 拒绝；image-only PDF 静默空成功 rc=0；8 类 claims 形状坏输入中 6 类未捕获 traceback rc=1，page true/2.0 被误收。\n- 原 22 测试基线 ALL PASS；原资源 SHA 与观察记录一致（verbatim 复制经 diff 验证）。\n\n**实际局修（/workspace/outputs/skill/）**\n- `cvlib.py`：每页保留 `raw_text`（显示层水印过滤不变）；引文匹配改对 raw 文本；全页无文本层→显式 `no usable text layer (scanned image; needs OCR)` 错误（全坏 exit2 / 混合 exit3 保留好候选）。\n- `evidence_check.py`：小型公开 claims 契约（每项对象；file/quote 非空字符串；page 可选正整数，拒 bool/float/字符串/0），结构化 exit2 诊断含 index/path/field/reason，无 traceback，first-error 短路已注明。\n- `SKILL.md`：仅补必要用法说明（needs-OCR 状态、raw_text 保留、claims 契约）；`cv_extract.py` 未改。\n\n**验证**\n- 原 22 修复后仍 ALL PASS（run_tests.py/fixtures SHA 未动：5c72bd91…）。\n- 新作者测试 repair_contract_tests.py 实际运行 17/17 PASS，无真实契约冲突。\n- 追加探针（新造 image-only PDF、不同文本/文件名/批量、错页/无页引文、负页码、空串、顶层对象、多坏字段）全部符合预期，无硬编码字面量、零 traceback。\n\n**交付**：`/workspace/outputs/revision_summary.json`、`resource_validation.json`（before→局修→双套测试结果、各资源/fixture SHA、命令与结果、仍有限制）；技能包仅含 4 个必要资源文件，测试/fixtures 均在包外。"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "_inspection_only_reconstructed_from_SSE": true,
+  "_event_count": 566
+}

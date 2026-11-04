@@ -1,0 +1,556 @@
+{
+  "schema": "wrd-b-test-run-log-v1",
+  "runner": "run_tests.py",
+  "cli_under_test": "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\skill\\scripts\\validate_pack.py",
+  "cli_sha256": "86336921615cb2d15ae7c7c531fa81a457ea201e353223e79de4900445b59f58",
+  "note": "全部夹具素材为虚构测试样本，非真实业务来源；断言精确到失败ID/决策值/边界标记，非仅退出码",
+  "cases": [
+    {
+      "name": "N1_normal_official_report",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\N1_normal_official_report_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json": "e218dc249bc6e2344e2593f8271e60c65f32bbe54684e1585a20904e0ec5ed8d",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "bb3c6a41b4a51b0f69f17d0fbd70e30ee8058d5d17cc100c2d7117fb5c9f5077",
+      "report_path": "reports\\N1_normal_official_report_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "N2_normal_one_paragraph_nested_ok",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\N2_normal_one_paragraph_nested_ok_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_ledger.json": "58794f6af56e4ef1b7829ca93430c187116f8d8d8f4680fb7511c84d20af5733",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_draft.json": "03578ba17baaa70bbfe50fc11ea33e54196db88c7ea1aa5d67a9ef45a164cba6",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 7 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2027,2028；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G001 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G002a 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G002b 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003a 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003b 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003c 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "40fab0d344758a3078c2fb9790bab7493015e2bd08bfc8f0d0d946ee5bf37c6d",
+      "report_path": "reports\\N2_normal_one_paragraph_nested_ok_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "review_contains:NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "B1a_length_exactly_at_limit",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b1a_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\B1a_length_exactly_at_limit_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b1a_draft.json": "9def0d1e889b44ea0ea915319429f9dac6a71c4d09995ee8dca74b7a25cfc34e",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=600 上限=600\nNOTE LENGTH_EXACTLY_AT_LIMIT: 字数恰好等于阈值（边界通过）\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "58f9c1f21a72d39a4df6ac96e466e71d109ea65777880f40bd11354115827471",
+      "report_path": "reports\\B1a_length_exactly_at_limit_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "notes_contains:LENGTH_EXACTLY_AT_LIMIT",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "B1b_length_over_by_one",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b1b_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\B1b_length_over_by_one_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b1b_draft.json": "54a8971f85d937c7d91647c57c580721e7f76602fec31d15748c92e3888fb99a",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL length_over_limit: 字数超限：口径=non_whitespace 实际=601 上限=600（超 1）\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "de75cfa32ee12badbbc94f868d157ed492e85824f63c6ae3287b14695fd28b7e",
+      "report_path": "reports\\B1b_length_over_by_one_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:length_over_limit",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "B2a_omit_optional_detail_numbers_ok",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b2a_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\B2a_omit_optional_detail_numbers_ok_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b2a_draft.json": "0b5384fd6b8d1dc6d94b52b8440748403601019d2e646b96ac8f9859c83df3cb",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 4 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE OMITTED_NON_MUST_KEEP_FACTS: 非必保事实未被成稿引用: F005\nNOTE LENGTH_OK: 口径=non_whitespace 实际=108 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "51293a2fb882997c34805711f4faef1960749666d72fa303257bd027b8220438",
+      "report_path": "reports\\B2a_omit_optional_detail_numbers_ok_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "notes_contains:OMITTED_NON_MUST_KEEP_FACTS",
+          "passed": true
+        },
+        {
+          "desc": "notes_contains:F005",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "B2b_must_keep_number_altered",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b2b_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b2b_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\B2b_must_keep_number_altered_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b2b_ledger.json": "d3314fc306864b25c50db8b1e26fb2597b906d92c85349bea4bb39587a2cd2e2",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b2b_draft.json": "aeda467de633e87d96373f7c37a56584a13e97fe4367804ae132331f7dbde619",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 2\nFAIL declared_number_value_mismatch: fact F002 数值不符：账本 value='5'，成稿声明 value='6' [$.declared_numbers[1]]\nFAIL declared_number_absent_from_text: 声明数值 '6'（fact F002）未出现在成稿文本中 [$.declared_numbers[1]]\nNEEDS_SEMANTIC_REVIEW: 6 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 5；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "22d779a4fbd1b266c4637c0811f79ce29f16359aad4ec587c67e626a3180746d",
+      "report_path": "reports\\B2b_must_keep_number_altered_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:declared_number_value_mismatch",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "B3a_no_word_target_text_only",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b3a_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\B3a_no_word_target_text_only_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\b3a_draft.json": "246fd26a11f93309a42f0238237185942c860d9eae60e36490ee47d2255ea699",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "bb3c6a41b4a51b0f69f17d0fbd70e30ee8058d5d17cc100c2d7117fb5c9f5077",
+      "report_path": "reports\\B3a_no_word_target_text_only_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "notes_contains:TEXT_ONLY_NO_WORD_TARGET",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "C1_classify_official_report_ok",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py classify --request D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c1_request.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\C1_classify_official_report_ok_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c1_request.json": "c270aff410687ffc936a273628681cff09acb2585b57bd6285f7297dc8450f45"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: CLASSIFY_DONE\nDECISION: PROCEED_OFFICIAL_REPORT\nFAILURES: 0",
+      "report_sha256": "7eaf31cbbd6adf3fdc52bf7c65b57006a9845d99694c08ab88f6c0cca26a5292",
+      "report_path": "reports\\C1_classify_official_report_ok_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "decision==PROCEED_OFFICIAL_REPORT",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "C2_classify_question_only_defer",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py classify --request D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c2_request.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\C2_classify_question_only_defer_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c2_request.json": "aecb918839f782bc1a3e1ee7f50442adb5a23549637123428d7adc619f246f3b"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: CLASSIFY_DONE\nDECISION: OUT_OF_SCOPE_DEFER\nFAILURES: 0",
+      "report_sha256": "d7e57fcbab94a7a2428f0efb4b97c73a9c1cb7e8b5a8c47ecce3160fb66d973f",
+      "report_path": "reports\\C2_classify_question_only_defer_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "decision==OUT_OF_SCOPE_DEFER",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "C3_classify_no_materials_needs_evidence",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py classify --request D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c3_request.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\C3_classify_no_materials_needs_evidence_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c3_request.json": "b3924189e4c8dd321991380d2ecc2c9e61d6701440549d9378bfeee4187b065d"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: CLASSIFY_DONE\nDECISION: NEEDS_EVIDENCE\nFAILURES: 0",
+      "report_sha256": "380d73f812c6a2b9bd55c55435416c5104b44e4412971d20e3dd67a6d2e4bc60",
+      "report_path": "reports\\C3_classify_no_materials_needs_evidence_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "decision==NEEDS_EVIDENCE",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "C4_classify_one_paragraph_ok",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py classify --request D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c4_request.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\C4_classify_one_paragraph_ok_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c4_request.json": "b14a2351c164b14fa71ff9f2eaa90af062aca182e4cc560958b1a52e54a88823"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: CLASSIFY_DONE\nDECISION: PROCEED_ONE_PARAGRAPH\nFAILURES: 0",
+      "report_sha256": "e38946d47a5453851378c658cf990ac37f8f9f147b9434ddb5e03e090fb9a3db",
+      "report_path": "reports\\C4_classify_one_paragraph_ok_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "decision==PROCEED_ONE_PARAGRAPH",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "C5_classify_unclear_needs_evidence_not_no_value",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py classify --request D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c5_request.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\C5_classify_unclear_needs_evidence_not_no_value_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\c5_request.json": "d24baed409cc19997200c5b6d22c2e1260a1b923c3b8acb0835617e08a3c8075"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: CLASSIFY_DONE\nDECISION: NEEDS_EVIDENCE\nFAILURES: 0",
+      "report_sha256": "380d73f812c6a2b9bd55c55435416c5104b44e4412971d20e3dd67a6d2e4bc60",
+      "report_path": "reports\\C5_classify_unclear_needs_evidence_not_no_value_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "decision==NEEDS_EVIDENCE",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E1_unknown_fact_id",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e1_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E1_unknown_fact_id_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e1_draft.json": "bdf8e8c1460d3224cdeecaa6ca1874ebd2104a48a52df054fdcd7e9442752892",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL unknown_fact_reference: 成稿引用了账本中不存在的 fact_id: F999 [$.fact_refs[7]]\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "b758adcf7b0d4b6e1e2d08c7d991d485bda3a2b377f4b0c685929291601a2c72",
+      "report_path": "reports\\E1_unknown_fact_id_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:unknown_fact_reference",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E2_quote_not_contiguous",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e2_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E2_quote_not_contiguous_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e2_ledger.json": "f9916a59bbfe40ae6d26b2c48af236bb39bf89eadd27468d2824b73a4e3fac33",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json": "e218dc249bc6e2344e2593f8271e60c65f32bbe54684e1585a20904e0ec5ed8d",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL evidence_quote_not_contiguous: quote 不是源消息的连续原文子串: source=demo_src_A message=demo_src_A:msg_1 quote='教师备课时间平均每周节省5小时' [ledger:$.facts[1].evidence_refs[0]]\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "4d7f979caf58855dd82b5302e372971a156291f6fdc673db3eac2ce57da93d08",
+      "report_path": "reports\\E2_quote_not_contiguous_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:evidence_quote_not_contiguous",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E3_nested_task_switches_bad_quote",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e3_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E3_nested_task_switches_bad_quote_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e3_ledger.json": "a34b02cee001eb2bcc56668ae9cde6422f8f8c79bde9cd4cc351c2464851c322",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_draft.json": "03578ba17baaa70bbfe50fc11ea33e54196db88c7ea1aa5d67a9ef45a164cba6",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL evidence_quote_not_contiguous: quote 不是源消息的连续原文子串: source=demo_src_B message=demo_src_B:msg_2 quote='整理成三段话' [ledger:$.facts[6].task_switches[0].evidence_refs[0]]\nNEEDS_SEMANTIC_REVIEW: 7 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2027,2028；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G001 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G002a 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G002b 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003a 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003b 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003c 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "8439aecf8389a7a43d3882e619412511a5b39609b06dd1acafcd4b782bf9126d",
+      "report_path": "reports\\E3_nested_task_switches_bad_quote_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:evidence_quote_not_contiguous",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:task_switches",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E4a_declared_unit_mismatch",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e4a_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E4a_declared_unit_mismatch_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e4a_draft.json": "4bcb60de20e5053f904dfe017df4914da390ec09098f34d09318cee08bbc8fa6",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL declared_number_unit_mismatch: fact F002 单位不符：账本 unit='小时'，成稿声明 unit='天' [$.declared_numbers[1]]\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "15c8e35c9c0b7803713e210242b03a69bad4f75633e3f28a18b6d12cefe9e462",
+      "report_path": "reports\\E4a_declared_unit_mismatch_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:declared_number_unit_mismatch",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E4b_declared_subject_mismatch",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e4b_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E4b_declared_subject_mismatch_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e4b_draft.json": "95fd8e58bedbb47cdb399871d46edb7743ef583a54d31dc9b9b1df043c71e5e9",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL declared_number_subject_mismatch: fact F002 主体关联不符：账本 subject='教师备课时间每周节省(实测口径)'，成稿声明 subject='行政事务耗时' [$.declared_numbers[1]]\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "5b386fc4cd6f35859851c69418cf7ea8e82d11e236a97cd3e0c629f69b57d218",
+      "report_path": "reports\\E4b_declared_subject_mismatch_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:declared_number_subject_mismatch",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E5_planned_goal_as_achieved",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e5_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E5_planned_goal_as_achieved_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n2_ledger.json": "58794f6af56e4ef1b7829ca93430c187116f8d8d8f4680fb7511c84d20af5733",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e5_draft.json": "ee042bd10d3c0d909aea661149b87dd07a74a218e08e84b2d772c70b68ae1e86",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL type_mismatch_planned_goal_as_achieved: 规划目标 G001 被声明为已实现事实（as_type=achieved_fact）；目标口径必须保持 [$.fact_refs[0]]\nNEEDS_SEMANTIC_REVIEW: 6 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2027,2028；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G002a 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G002b 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003a 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003b 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact G003c 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "0f9833d4807d4891cfa83b334c698bdf5a0a0c7e746b0e01edab2622a289039e",
+      "report_path": "reports\\E5_planned_goal_as_achieved_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:type_mismatch_planned_goal_as_achieved",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E6_missing_required_evidence",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e6_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E6_missing_required_evidence_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e6_ledger.json": "0c4f0f68678b5f8492dcd96bc5c5f3567082e5f3aa81f6ab749e856eea7e92d0",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json": "e218dc249bc6e2344e2593f8271e60c65f32bbe54684e1585a20904e0ec5ed8d",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL missing_required_evidence: fact F001（user_statement）缺少必需证据 evidence_refs 为空 [$.facts[0].evidence_refs]\nNEEDS_SEMANTIC_REVIEW: 5 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=118 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "8703aeca321180e83d2024f5d845b215d49d0fd7384370c5f83f61f6e8d3e7f1",
+      "report_path": "reports\\E6_missing_required_evidence_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:missing_required_evidence",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E7_undeclared_number_needs_semantic_review",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e7_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E7_undeclared_number_needs_semantic_review_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_ledger.json": "7811f53b263ca4c9fbb3208bbe4dc4f29020ae3bb6ed509118614a82eabbf28f",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\e7_draft.json": "735d2d74a9869cb0975790a0ec0420c9383c1dcaf563d1dfe6530fc501b9dd7b",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 6 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 90；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F001 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F002 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F003 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F004 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F005 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE LENGTH_OK: 口径=non_whitespace 实际=131 上限=600\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "ac1aed799d33f1e54340266c8079d3a0013e60722c3554f3908717b62a0460b5",
+      "report_path": "reports\\E7_undeclared_number_needs_semantic_review_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "review_contains:UNDECLARED_NUMBERS",
+          "passed": true
+        },
+        {
+          "desc": "review_contains:90",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "E8_missing_ledger_file_input_error",
+      "command": "C:\\Users\\22142\\AppData\\Local\\Programs\\Python\\Python311\\python.exe D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\..\\skill\\scripts\\validate_pack.py validate --ledger D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\nonexistent_ledger.json --draft D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json --sources D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json --report D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\reports\\E8_missing_ledger_file_input_error_report.json",
+      "input_sha256": {
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\n1_draft.json": "e218dc249bc6e2344e2593f8271e60c65f32bbe54684e1585a20904e0ec5ed8d",
+        "D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\sources_demo.json": "79fd9b2774a5e8c4f397093b10bbcaba6cb5f63ffbb0044430fe9c08cfb5bf2f"
+      },
+      "exit_code": 2,
+      "stdout_tail": "VERDICT: INPUT_ERROR\nFAILURES: 1\nFAIL input_error: missing ledger file: D:\\skillloop\\output\\20261031_wrd_curation10\\reasoning_semantic10\\cpu_checks02\\brevision_original21_and_extra12\\workspace\\outputs\\tests\\fixtures\\nonexistent_ledger.json",
+      "report_sha256": "b6413f69b2ca1a61302cdf8b78c609b1a84bfb0eabc94a0c62073a185ae0c677",
+      "report_path": "reports\\E8_missing_ledger_file_input_error_report.json",
+      "assertions": [
+        {
+          "desc": "exit_code==2",
+          "passed": true
+        },
+        {
+          "desc": "verdict==INPUT_ERROR",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    }
+  ],
+  "summary": {
+    "total": 21,
+    "passed": 21,
+    "failed": 0,
+    "interpretation_limit": "测试通过仅证明这些局部结构检查有效，不构成语义正确或技能质量/复用收益的批准"
+  }
+}

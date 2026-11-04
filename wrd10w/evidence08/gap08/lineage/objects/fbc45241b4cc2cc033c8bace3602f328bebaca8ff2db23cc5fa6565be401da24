@@ -1,0 +1,30 @@
+{
+  "skill_files": [
+    "outputs/skill/SKILL.md",
+    "outputs/skill/references/annuity_playbook.md",
+    "outputs/skill/templates/operator_checklist.md",
+    "outputs/skill/templates/legal_explanation.md",
+    "outputs/skill/scripts/scan_text_keywords.py",
+    "outputs/skill/scripts/extract_contract_text.py"
+  ],
+  "replaced_work": "替代每次重新查国知局缴费/恢复流程口径并从零组织法律解释的公共工作。本次为 revise：沿用上一版技能（资源可靠、真实被用、交付达线），只修 previous_feedback.json 的两处具体问题——(1) 法条口径成本：把 2020 专利法第43/44条、2023 细则（国务院令第769号）第4/6/115条、新颖性第22条与恢复费1000元等现行条号与要点预填进 references/annuity_playbook.md 第4节和 templates/legal_explanation.md，规则从'引用前逐条核实'改为'直接引用+统一标注一句以现行规定为准'，仅在出正式意见/被质疑时到 flk.npc.gov.cn 比对一次；SKILL.md 第5步与关键判断同步收窄。(2) web_search 不可用试错：playbook 第4节新增网络兜底行，失败时直接 web_fetch 固定官方地址（flk.npc.gov.cn / gov.cn / zh.wikisource.org）。预填条号本次经维基文库现行版本文本逐条核实（专利法2020、细则2023），与 feedback 预填口径一致。其余资源（条款提取、义务主体判断、渠道表、状态三档、缴费六步、OCR 排障、两个模板、两个脚本）原样保留；extract_contract_text.py 与 reusable/skill_1 逐字节一致（diff 确认，复制而非重写）。making_samples 含真实 PDF 扫描命中与 docx 提取样例。",
+  "program_runs": [
+    {
+      "command": "python3 outputs/skill/scripts/scan_text_keywords.py inputs/materials/conv_ed0d158f38e3/15_华师大知识产权转让协议.pdf --keywords 年费,维持费,未缴年费,滞纳金,维护,恢复 --out outputs/making_samples/scan_real_pdf.json",
+      "result": "exit=0，5 hits/6 keywords，真实输入命中第193行'未缴年费失效'归责条款与 7.1 '维持费协商承担'条款，重现'只搜年费会漏'教训；结果存 making_samples/scan_real_pdf.json"
+    },
+    {
+      "command": "python3 outputs/skill/scripts/scan_text_keywords.py <不存在的文件|inputs/route.json|.txt空文件> --keywords 年费 --out …",
+      "result": "三种错误情形均 exit=2 并给出明确 stderr（input not found / unsupported input type .json / text file is empty）"
+    },
+    {
+      "command": "python3 - 构造最小 docx + python3 outputs/skill/scripts/extract_contract_text.py outputs/making_samples/sample_contract.docx --out outputs/making_samples/extract_docx.json",
+      "result": "exit=0，extracted 2 paragraphs，中文段落与费用条款完整落在 JSON text 字段；非 docx 输入 exit=2（unsupported input type .json）"
+    },
+    {
+      "command": "curl zh.wikisource.org 专利法(2020年) 与 专利法实施细则(2023年) 正条文（/tmp/law_check.py）",
+      "result": "第四十三条/第四十四条、第四条/第六条/第一百一十五条条文要点与预填口径一致，确认 2020 专利法与 2023 细则（国务院令第769号）为现行有效版本；gov.cn 原发布页 404，印证需固定镜像 URL 兜底"
+    }
+  ],
+  "known_issues": "条款提取与状态查询分支仍仅有制作样例验证，未获附协议文件的真实业务委托试用（上版 review 同一遗留，本次无新真实案件可补）；scan_text_keywords.py 对纯扫描 PDF 只能提示 OCR，OCR 本身未脚本化（按 SKILL.md 手工两行命令执行）；法条条号预填基于 2026-10-23 现行版本，实施细则再修订需更新 playbook 第4节与模板。"
+}

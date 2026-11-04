@@ -1,0 +1,21 @@
+{
+  "schema": "wrd-making-reproduction-report-v1",
+  "runtime": "python 3.11.2, Linux (WSL2 kernel 6.6.87.2), tzdata available (Asia/Shanghai verified via zoneinfo)",
+  "skill_sha256": {
+    "SKILL.md": "24a7df4053a3b9d108dabd34db1a694d8e6ae83eea478c590ddfa2db56057f0e",
+    "scripts/build_task_config.py": "03a44a2a05e0ed752f8f274afc94537a136d42839bd5a290075ecddc88379512",
+    "scripts/list_artifacts.py": "0ccd7b94a42e9220968223f92863ceb37c6bc7ac829274779e4216ca42d27985"
+  },
+  "binding_note": "Case argv tokens were substituted as {SKILL}=/workspace/outputs/candidate/skill, {INPUT}/{FIXTURE}=/workspace/outputs/reproduction_inputs, {OUT}=/workspace/outputs/reproduction_out. The {INPUT}-bound files are byte-identical to the catalogued reproduction_inputs fixtures.",
+  "runs": [
+    {"case": "build_task_config/normal", "command": "python {SKILL}/scripts/build_task_config.py {INPUT}/task_spec_normal.json --out {OUT}/task_config.json", "exit": 0, "output": "/workspace/outputs/reproduction_out/task_config.json", "assertion": "json_equals task_config.json PASS (matches independently derived expected config)"},
+    {"case": "build_task_config/update_merge", "command": "python {SKILL}/scripts/build_task_config.py {FIXTURE}/task_spec_update.json --base {FIXTURE}/existing_config.json --out {OUT}/task_config_update.json", "exit": 0, "output": "/workspace/outputs/reproduction_out/task_config_update.json", "assertion": "json_equals PASS; field_preservation /delivery/mode=none PASS (base field kept because spec omitted it)"},
+    {"case": "build_task_config/boundary", "command": "python {SKILL}/scripts/build_task_config.py {FIXTURE}/task_spec_minimal.json --out {OUT}/task_config_minimal.json", "exit": 0, "output": "/workspace/outputs/reproduction_out/task_config_minimal.json", "assertion": "json_equals PASS (defaults timeoutSeconds=900, delivery=announce applied)"},
+    {"case": "build_task_config/invalid_input", "command": "python {SKILL}/scripts/build_task_config.py {FIXTURE}/task_spec_invalid.json --out {OUT}/task_config_invalid.json", "exit": 2, "stderr": "task_spec_error: schedule.expr must contain 5 fields", "assertion": "contains $stderr PASS; no output file written"},
+    {"case": "list_artifacts/normal", "command": "python {SKILL}/scripts/list_artifacts.py {INPUT}/artifacts.json --out {OUT}/artifact_report.json", "exit": 0, "output": "/workspace/outputs/reproduction_out/artifact_report.json", "assertion": "json_equals PASS (total 15, dated 13, undated overwritten generic names, by_date from real listing)"},
+    {"case": "list_artifacts/boundary", "command": "python {SKILL}/scripts/list_artifacts.py {FIXTURE}/artifacts_empty.json --out {OUT}/artifact_report_empty.json", "exit": 0, "output": "/workspace/outputs/reproduction_out/artifact_report_empty.json", "assertion": "json_equals PASS (zero counts, null dates)"},
+    {"case": "list_artifacts/invalid_input", "command": "python {SKILL}/scripts/list_artifacts.py {FIXTURE}/artifacts_invalid.json --out {OUT}/artifact_report_invalid.json", "exit": 2, "stderr": "artifact_error: artifact record 1 is missing field: name", "assertion": "contains $stderr PASS; no output file written"}
+  ],
+  "failures_retained": [],
+  "notes": "Expected values were derived from the documented validation rules and the real source data before execution; actual outputs matched. No failure occurred during reproduction; earlier read_source pagination runs are recorded in the session transcript as native tool results."
+}

@@ -1,0 +1,1006 @@
+{
+  "answer": "局修完成，两个独立缺陷均已真实复现→定点修复→复测通过。\n\n**实际结果**\n\n- **复现原失败**（原版 CLI，未改）：合法跨年 actual/goal 同值被硬判 `fact_type_conflict` exit 1；嵌套 `evidence_refs` 为字符串或 `[42]` 均 exit 0 漏报——与 feedback 附带的原报告逐项一致（`/workspace/outputs/tests/independent_baseline/`）。\n- **局部修改**（仅 `scripts/validate_pack.py`，SHA `6a1e95…→863369…`）：\n  1. 第9段冲突判定：同(主体/数值/单位)多 fact_type 不再硬失败，改为 `NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS`；planned_goal→achieved_fact 仍由第5段硬拒。\n  2. `iter_evidence_refs` 形状核验：任意位置 `evidence_refs` 非列表→`evidence_refs_not_list`、元素非对象→`evidence_refs_item_not_object`，均带完整路径；空可选列表合法，必需事实缺证判定不变。\n- **测试实数**：原 21 测试用未改动的 runner/generator 复跑 **21/21**（预期未动）；新增 12 例真实正反例（含非 feedback 示例年份 2024/2027/2030/2031，证无硬编码）**12/12**。\n- **未放宽**：goal 类型（E5/X3）、数字（B2b）、quote 连续性（E2/E3/X7/X8）、字数（B1a/B1b）、Word 状态（B3a）全部保持原断言通过。\n- **包洁癖**：`/workspace/outputs/skill/` 仅含 SKILL.md、schemas、scripts、templates；测试/日志/复现报告全在包外 `outputs/tests/`。\n\n**交付物**：`/workspace/outputs/resource_validation.json`、`revision_summary.json`、`changes.md`（原版→本版变更清单，含每份资源前后 SHA）、`tests/independent_baseline/`（复现+修复对照报告）、`tests/logs/validate_pack_before_after.diff`。\n\n**保留限制**：收益仍未独立业务试跑，不宣称 retained/已入库；类型口径分歧程序只给 `NEEDS_SEMANTIC_REVIEW`，语义判定永远留给人。",
+  "turn_answers": [
+    "局修完成，两个独立缺陷均已真实复现→定点修复→复测通过。\n\n**实际结果**\n\n- **复现原失败**（原版 CLI，未改）：合法跨年 actual/goal 同值被硬判 `fact_type_conflict` exit 1；嵌套 `evidence_refs` 为字符串或 `[42]` 均 exit 0 漏报——与 feedback 附带的原报告逐项一致（`/workspace/outputs/tests/independent_baseline/`）。\n- **局部修改**（仅 `scripts/validate_pack.py`，SHA `6a1e95…→863369…`）：\n  1. 第9段冲突判定：同(主体/数值/单位)多 fact_type 不再硬失败，改为 `NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS`；planned_goal→achieved_fact 仍由第5段硬拒。\n  2. `iter_evidence_refs` 形状核验：任意位置 `evidence_refs` 非列表→`evidence_refs_not_list`、元素非对象→`evidence_refs_item_not_object`，均带完整路径；空可选列表合法，必需事实缺证判定不变。\n- **测试实数**：原 21 测试用未改动的 runner/generator 复跑 **21/21**（预期未动）；新增 12 例真实正反例（含非 feedback 示例年份 2024/2027/2030/2031，证无硬编码）**12/12**。\n- **未放宽**：goal 类型（E5/X3）、数字（B2b）、quote 连续性（E2/E3/X7/X8）、字数（B1a/B1b）、Word 状态（B3a）全部保持原断言通过。\n- **包洁癖**：`/workspace/outputs/skill/` 仅含 SKILL.md、schemas、scripts、templates；测试/日志/复现报告全在包外 `outputs/tests/`。\n\n**交付物**：`/workspace/outputs/resource_validation.json`、`revision_summary.json`、`changes.md`（原版→本版变更清单，含每份资源前后 SHA）、`tests/independent_baseline/`（复现+修复对照报告）、`tests/logs/validate_pack_before_after.diff`。\n\n**保留限制**：收益仍未独立业务试跑，不宣称 retained/已入库；类型口径分歧程序只给 `NEEDS_SEMANTIC_REVIEW`，语义判定永远留给人。"
+  ],
+  "artifacts": [
+    "outputs/changes.md",
+    "outputs/resource_validation.json",
+    "outputs/revision_summary.json",
+    "outputs/skill/SKILL.md",
+    "outputs/skill/schemas/draft.schema.json",
+    "outputs/skill/schemas/fact_ledger.schema.json",
+    "outputs/skill/scripts/validate_pack.py",
+    "outputs/skill/scripts/__pycache__/validate_pack.cpython-311.pyc",
+    "outputs/skill/templates/section_templates.md",
+    "outputs/tests/extra_test_log.json",
+    "outputs/tests/make_fixtures.py",
+    "outputs/tests/make_fixtures_extra.py",
+    "outputs/tests/original_run_log_preserved.json",
+    "outputs/tests/run_tests.py",
+    "outputs/tests/run_tests_extra.py",
+    "outputs/tests/test_run_log.json",
+    "outputs/tests/fixtures/b1a_draft.json",
+    "outputs/tests/fixtures/b1b_draft.json",
+    "outputs/tests/fixtures/b2a_draft.json",
+    "outputs/tests/fixtures/b2b_draft.json",
+    "outputs/tests/fixtures/b2b_ledger.json",
+    "outputs/tests/fixtures/b3a_draft.json",
+    "outputs/tests/fixtures/c1_request.json",
+    "outputs/tests/fixtures/c2_request.json",
+    "outputs/tests/fixtures/c3_request.json",
+    "outputs/tests/fixtures/c4_request.json",
+    "outputs/tests/fixtures/c5_request.json",
+    "outputs/tests/fixtures/e1_draft.json",
+    "outputs/tests/fixtures/e2_ledger.json",
+    "outputs/tests/fixtures/e3_ledger.json",
+    "outputs/tests/fixtures/e4a_draft.json",
+    "outputs/tests/fixtures/e4b_draft.json",
+    "outputs/tests/fixtures/e5_draft.json",
+    "outputs/tests/fixtures/e6_ledger.json",
+    "outputs/tests/fixtures/e7_draft.json",
+    "outputs/tests/fixtures/n1_draft.json",
+    "outputs/tests/fixtures/n1_ledger.json",
+    "outputs/tests/fixtures/n2_draft.json",
+    "outputs/tests/fixtures/n2_ledger.json",
+    "outputs/tests/fixtures/sources_demo.json",
+    "outputs/tests/fixtures_extra/sources_extra.json",
+    "outputs/tests/fixtures_extra/x10_draft.json",
+    "outputs/tests/fixtures_extra/x10_ledger.json",
+    "outputs/tests/fixtures_extra/x11_draft.json",
+    "outputs/tests/fixtures_extra/x11_ledger.json",
+    "outputs/tests/fixtures_extra/x12_draft.json",
+    "outputs/tests/fixtures_extra/x12_ledger.json",
+    "outputs/tests/fixtures_extra/x1_draft.json",
+    "outputs/tests/fixtures_extra/x1_ledger.json",
+    "outputs/tests/fixtures_extra/x2_draft.json",
+    "outputs/tests/fixtures_extra/x2_ledger.json",
+    "outputs/tests/fixtures_extra/x3_draft.json",
+    "outputs/tests/fixtures_extra/x4_draft.json",
+    "outputs/tests/fixtures_extra/x4_ledger.json",
+    "outputs/tests/fixtures_extra/x5_draft.json",
+    "outputs/tests/fixtures_extra/x5_ledger.json",
+    "outputs/tests/fixtures_extra/x6_draft.json",
+    "outputs/tests/fixtures_extra/x6_ledger.json",
+    "outputs/tests/fixtures_extra/x7_draft.json",
+    "outputs/tests/fixtures_extra/x7_ledger.json",
+    "outputs/tests/fixtures_extra/x8_draft.json",
+    "outputs/tests/fixtures_extra/x8_ledger.json",
+    "outputs/tests/fixtures_extra/x9_draft.json",
+    "outputs/tests/fixtures_extra/x9_ledger.json",
+    "outputs/tests/independent_baseline/fixed_nested_non_object_report.json",
+    "outputs/tests/independent_baseline/fixed_nested_not_list_report.json",
+    "outputs/tests/independent_baseline/fixed_temporal_legal_report.json",
+    "outputs/tests/independent_baseline/repro_nested_non_object_report.json",
+    "outputs/tests/independent_baseline/repro_nested_not_list_report.json",
+    "outputs/tests/independent_baseline/REPRO_NOTES.md",
+    "outputs/tests/independent_baseline/repro_temporal_legal_report.json",
+    "outputs/tests/logs/extra_stdout.txt",
+    "outputs/tests/logs/rerun21_stdout.txt",
+    "outputs/tests/logs/validate_pack_before_after.diff",
+    "outputs/tests/reports/B1a_length_exactly_at_limit_report.json",
+    "outputs/tests/reports/B1b_length_over_by_one_report.json",
+    "outputs/tests/reports/B2a_omit_optional_detail_numbers_ok_report.json",
+    "outputs/tests/reports/B2b_must_keep_number_altered_report.json",
+    "outputs/tests/reports/B3a_no_word_target_text_only_report.json",
+    "outputs/tests/reports/C1_classify_official_report_ok_report.json",
+    "outputs/tests/reports/C2_classify_question_only_defer_report.json",
+    "outputs/tests/reports/C3_classify_no_materials_needs_evidence_report.json",
+    "outputs/tests/reports/C4_classify_one_paragraph_ok_report.json",
+    "outputs/tests/reports/C5_classify_unclear_needs_evidence_not_no_value_report.json",
+    "outputs/tests/reports/E1_unknown_fact_id_report.json",
+    "outputs/tests/reports/E2_quote_not_contiguous_report.json",
+    "outputs/tests/reports/E3_nested_task_switches_bad_quote_report.json",
+    "outputs/tests/reports/E4a_declared_unit_mismatch_report.json",
+    "outputs/tests/reports/E4b_declared_subject_mismatch_report.json",
+    "outputs/tests/reports/E5_planned_goal_as_achieved_report.json",
+    "outputs/tests/reports/E6_missing_required_evidence_report.json",
+    "outputs/tests/reports/E7_undeclared_number_needs_semantic_review_report.json",
+    "outputs/tests/reports/E8_missing_ledger_file_input_error_report.json",
+    "outputs/tests/reports/N1_normal_official_report_report.json",
+    "outputs/tests/reports/N2_normal_one_paragraph_nested_ok_report.json",
+    "outputs/tests/reports_extra/X10_required_fact_empty_refs_still_rejected_report.json",
+    "outputs/tests/reports_extra/X11_draft_side_nested_malformed_rejected_report.json",
+    "outputs/tests/reports_extra/X12_fact_level_refs_not_list_rejected_report.json",
+    "outputs/tests/reports_extra/X1_different_years_actual_goal_same_value_legal_report.json",
+    "outputs/tests/reports_extra/X2_same_year_actual_goal_same_value_coexist_legal_report.json",
+    "outputs/tests/reports_extra/X3_planned_goal_as_achieved_still_rejected_report.json",
+    "outputs/tests/reports_extra/X4_nested_evidence_refs_not_list_rejected_report.json",
+    "outputs/tests/reports_extra/X5_nested_evidence_refs_item_not_object_rejected_report.json",
+    "outputs/tests/reports_extra/X6_nested_evidence_refs_dict_rejected_report.json",
+    "outputs/tests/reports_extra/X7_nested_valid_quote_still_passes_report.json",
+    "outputs/tests/reports_extra/X8_nested_bad_quote_still_rejected_report.json",
+    "outputs/tests/reports_extra/X9_empty_optional_refs_legal_report.json"
+  ],
+  "loaded_skill_ids": [],
+  "loading_evidence": {
+    "kind": "openclaw_session_successful_full_read",
+    "loaded_skill_ids": [],
+    "reads": [],
+    "limitation": "Only successful full native read evidence is counted; other loading routes remain unknown."
+  },
+  "runtime": {
+    "backend": "openclaw-docker",
+    "session_id": "be8b024b-cd94-4d83-a4e2-f8a2ce18cbc9",
+    "native_meta": {
+      "durationMs": 636507,
+      "agentMeta": {
+        "sessionId": "be8b024b-cd94-4d83-a4e2-f8a2ce18cbc9",
+        "sessionFile": "agent:eval:explicit:be8b024b-cd94-4d83-a4e2-f8a2ce18cbc9",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "contextTokens": 200000,
+        "contextTokensSource": "resolved",
+        "agentHarnessId": "openclaw",
+        "credentialSource": {
+          "kind": "direct",
+          "evidence": "environment",
+          "authorization": "declared"
+        },
+        "contextBudgetStatus": {
+          "schemaVersion": 1,
+          "source": "pre-prompt-estimate",
+          "updatedAt": 1793068379388,
+          "provider": "ecnu",
+          "model": "glm-5.3-flash",
+          "route": "fits",
+          "shouldCompact": false,
+          "estimatedPromptTokens": 47784,
+          "contextTokenBudget": 200000,
+          "promptBudgetBeforeReserve": 180000,
+          "reserveTokens": 20000,
+          "effectiveReserveTokens": 20000,
+          "remainingPromptBudgetTokens": 132216,
+          "overflowTokens": 0,
+          "toolResultReducibleChars": 0,
+          "messageCount": 0,
+          "unwindowedMessageCount": 0,
+          "sessionId": "be8b024b-cd94-4d83-a4e2-f8a2ce18cbc9"
+        },
+        "codeModeEngaged": false,
+        "assistantTurns": 34,
+        "terminalReceipt": {
+          "runId": "48ed2b0a-3fec-4811-9eb1-45cf9fdf41ac",
+          "sessionId": "be8b024b-cd94-4d83-a4e2-f8a2ce18cbc9",
+          "turnId": "48ed2b0a-3fec-4811-9eb1-45cf9fdf41ac",
+          "requested": {
+            "provider": "ecnu",
+            "model": "glm-5.3-flash"
+          },
+          "effective": {
+            "provider": "ecnu",
+            "model": "glm-5.3-flash",
+            "responseModel": "glm-5.3-flash"
+          },
+          "successfulToolNames": [
+            "read",
+            "ls",
+            "exec",
+            "edit",
+            "write"
+          ],
+          "rerouted": false
+        }
+      },
+      "aborted": false,
+      "systemPromptReport": {
+        "source": "run",
+        "generatedAt": 1793068379298,
+        "sessionId": "be8b024b-cd94-4d83-a4e2-f8a2ce18cbc9",
+        "sessionKey": "agent:eval:explicit:be8b024b-cd94-4d83-a4e2-f8a2ce18cbc9",
+        "provider": "ecnu",
+        "model": "glm-5.3-flash",
+        "workspaceDir": "/workspace",
+        "bootstrapMaxChars": 20000,
+        "bootstrapTotalMaxChars": 60000,
+        "bootstrapTruncation": {
+          "warningMode": "always",
+          "warningShown": false,
+          "truncatedFiles": 0,
+          "nearLimitFiles": 0,
+          "totalNearLimit": false
+        },
+        "sandbox": {
+          "mode": "off",
+          "sandboxed": false
+        },
+        "systemPrompt": {
+          "chars": 15483,
+          "hash": "413091fddabbd156774fabe6883ce4644db5c1053e283b1f5807b30ad40408e1",
+          "projectContextChars": 940,
+          "nonProjectContextChars": 14543
+        },
+        "injectedWorkspaceFiles": [
+          {
+            "name": "AGENTS.md",
+            "path": "/workspace/AGENTS.md",
+            "missing": true,
+            "rawChars": 0,
+            "injectedChars": 43,
+            "truncated": false
+          },
+          {
+            "name": "SOUL.md",
+            "path": "/workspace/SOUL.md",
+            "missing": true,
+            "rawChars": 0,
+            "injectedChars": 41,
+            "truncated": false
+          },
+          {
+            "name": "IDENTITY.md",
+            "path": "/workspace/IDENTITY.md",
+            "missing": true,
+            "rawChars": 0,
+            "injectedChars": 45,
+            "truncated": false
+          },
+          {
+            "name": "BOOTSTRAP.md",
+            "path": "/workspace/BOOTSTRAP.md",
+            "missing": true,
+            "rawChars": 0,
+            "injectedChars": 0,
+            "truncated": false
+          }
+        ],
+        "skills": {
+          "promptChars": 967,
+          "hash": "fdaeff86db79a014eb82a3b796482c7ba9b2724d8ab0a3411e2c55da257236f6",
+          "entries": [
+            {
+              "name": "browser-automation",
+              "blockChars": 337
+            },
+            {
+              "name": "canvas",
+              "blockChars": 256
+            }
+          ]
+        },
+        "tools": {
+          "listChars": 0,
+          "schemaChars": 61897,
+          "entries": [
+            {
+              "name": "ls",
+              "summaryChars": 192,
+              "summaryHash": "90bdd7a772f66ad236d45f18e28ee873b8c795fe219804f2c19074a867423e20",
+              "schemaChars": 254,
+              "schemaHash": "ebe8d6a85b7011ec7e0d43a759b3b53b1ce96e682f54a64312b10e89260e9af9",
+              "propertiesCount": 3
+            },
+            {
+              "name": "read",
+              "summaryChars": 164,
+              "summaryHash": "d136f5b09e28d671addad4ca800b75b8aa6a36002bc739ead964f618d3e34829",
+              "schemaChars": 481,
+              "schemaHash": "b1b9b637dfe1dfade40f50c37cf840a298f1992b534cb9425b7470233a6b0cbb",
+              "propertiesCount": 5
+            },
+            {
+              "name": "edit",
+              "summaryChars": 130,
+              "summaryHash": "4149500b1f6501ec6450e4c048bdb6844764dd4a888a10846726cbbc7256152e",
+              "schemaChars": 501,
+              "schemaHash": "adf3140833ca927b84c66c989d6833fdcbd9de011dd2ffc59f9a2c4d3c25f127",
+              "propertiesCount": 2
+            },
+            {
+              "name": "write",
+              "summaryChars": 49,
+              "summaryHash": "f9ce3d8ac929a51498c03331b97c59bfaa2bb4d25580a5ddf0102e6a8e173aec",
+              "schemaChars": 191,
+              "schemaHash": "b61d2da23febf5fbda55e391526f36d283e9e9fb7f1a1dbadcf5c618a0632287",
+              "propertiesCount": 2
+            },
+            {
+              "name": "apply_patch",
+              "summaryChars": 71,
+              "summaryHash": "5c1173efe93d080a386a23216bc3e58db2e0033eb3ddea697eb2439938b7cae4",
+              "schemaChars": 153,
+              "schemaHash": "05521268363ff4f191472c90d69ef08a503ba9acf1d2febc50b3ee68db32ab65",
+              "propertiesCount": 1
+            },
+            {
+              "name": "exec",
+              "summaryChars": 503,
+              "summaryHash": "db730359f8e2e0af6b787dd3717ee4d33189b95f908103250e1e203079218503",
+              "schemaChars": 1242,
+              "schemaHash": "aeabc27dd35e066195bd6dc30a5fd0e3598974789e8784eb7303eee80fe82518",
+              "propertiesCount": 12
+            },
+            {
+              "name": "process",
+              "summaryChars": 258,
+              "summaryHash": "c9c81d9c38f731d0efcc810924c78c3161c38524baa561c6f9251638d9e164b2",
+              "schemaChars": 1164,
+              "schemaHash": "6cf3281369349e15ea532e644c8ec7f94c96fa6a4e3287272c8cfe90b0960516",
+              "propertiesCount": 12
+            },
+            {
+              "name": "dashboard",
+              "summaryChars": 1373,
+              "summaryHash": "b2fb814de22c52538a217bc3ad182b640974e66917d53e4857b5e1f904a1d1a9",
+              "schemaChars": 2581,
+              "schemaHash": "b52bda4f48ffdfd6e73d7bb2754f4d4b701e4aa2657da891efe38e9061b59c64",
+              "propertiesCount": 13
+            },
+            {
+              "name": "nodes",
+              "summaryChars": 516,
+              "summaryHash": "0ddada295a8604352fb098058e6462eda948afaac4fa62cabdaba0a5d2258ed7",
+              "schemaChars": 2897,
+              "schemaHash": "a1e60098fe934b0ce0fe2efe8e41421721a85ec6acfb33cd969796f029ff5a43",
+              "propertiesCount": 37
+            },
+            {
+              "name": "mobile_ui",
+              "summaryChars": 469,
+              "summaryHash": "bf1837a0eb9c82b6ac1da6394111f4786423d2a19831ec69acbd0a1466822810",
+              "schemaChars": 2042,
+              "schemaHash": "8750f2f6ed3052edcdae2037dfa9433d73a8ef31bd86c5057413c253b65975d4",
+              "propertiesCount": 8
+            },
+            {
+              "name": "automations",
+              "summaryChars": 5603,
+              "summaryHash": "6b1795cad94ff608682ac465d7c2f4b97a09371d8bdcbac35e54bbbcfb83c0b0",
+              "schemaChars": 8636,
+              "schemaHash": "43a8259f7ebadf31445bc271090a972e9200931b0e1b3298b4f5ef0bee23e389",
+              "propertiesCount": 17
+            },
+            {
+              "name": "sessions",
+              "summaryChars": 473,
+              "summaryHash": "4058858f3da7d33beed6639d6912b2f55dceb6b1aa0a7e009a40ad6c315adcae",
+              "schemaChars": 3734,
+              "schemaHash": "f4d1e1eaf36284b771f184d0bb665356064ec3efa1193cba77d8caf0e6bff23d",
+              "propertiesCount": 21
+            },
+            {
+              "name": "terminal",
+              "summaryChars": 281,
+              "summaryHash": "7cd87f59b6645de1e5e9f45cc730410e1bc1bb1ee90a2bb5a50e7a09b9a7af88",
+              "schemaChars": 419,
+              "schemaHash": "4ebd33330c3b006d29d39aed6bfce7bc3d5a9f81025bbb7ce9c81d3da88e4491",
+              "propertiesCount": 5
+            },
+            {
+              "name": "portal",
+              "summaryChars": 452,
+              "summaryHash": "1e3994e367a669538fefacade753495d004b560e2b596fb7e60458acac645bab",
+              "schemaChars": 374,
+              "schemaHash": "b3c43c083aef07aa746cd66139944d0e5b4b6d43bf2490a7a0645871572aef80",
+              "propertiesCount": 6
+            },
+            {
+              "name": "message",
+              "summaryChars": 64,
+              "summaryHash": "c76c94110d6313f5f35415528841472d4003682533cb3a07c48a9001bb63baae",
+              "schemaChars": 6639,
+              "schemaHash": "44aa3d0586515eb34ed41784cb525ceb0f1425da05809207c2a1bbbe5dcdb911",
+              "propertiesCount": 110
+            },
+            {
+              "name": "tts",
+              "summaryChars": 245,
+              "summaryHash": "841f7db9ad3ece79d54c59de7395e7a8591d24327be97750c4d76c1bff5a107a",
+              "schemaChars": 264,
+              "schemaHash": "e40695f92ef72d913ee5eb13ef738a15d6f33ae3af3ec609975c45991ef99a78",
+              "propertiesCount": 3
+            },
+            {
+              "name": "transcripts",
+              "summaryChars": 112,
+              "summaryHash": "77b3b93af0d12a84fa84e3f745a86e5730bacf60a66f683a8d9fdf708197d443",
+              "schemaChars": 999,
+              "schemaHash": "153465a071b65ff76e15f327e027e1e3b976bdd87fc2612e51a27e29a877a8d7",
+              "propertiesCount": 12
+            },
+            {
+              "name": "gateway",
+              "summaryChars": 180,
+              "summaryHash": "c981c37a4e7dea00f06387b5bb4bb5ae6fee78bc71d18779547769f265690dbf",
+              "schemaChars": 441,
+              "schemaHash": "50d83bbf3e75f780ef892bc2e2f5df5aa1485867d6557cf8cda24ff971f93ffb",
+              "propertiesCount": 6
+            },
+            {
+              "name": "plugins",
+              "summaryChars": 520,
+              "summaryHash": "659a769028cc0f864891da70265c4a8272fbc1ead01db8b762221db07a5049d5",
+              "schemaChars": 666,
+              "schemaHash": "ba6e3c1d726f50b09207908b1fe1750698b4c05417ad1b3bd36c3a073c18f343",
+              "propertiesCount": 8
+            },
+            {
+              "name": "openclaw",
+              "summaryChars": 350,
+              "summaryHash": "696c508d4eb6281d0454e09f27d5c728cf969829606beba510b6b50e580f7de4",
+              "schemaChars": 196,
+              "schemaHash": "9956b2b6fde1ca6ca3d035b66217a09c717a6503aa4e59a2ce184dbf67849bd3",
+              "propertiesCount": 2
+            },
+            {
+              "name": "agents_list",
+              "summaryChars": 116,
+              "summaryHash": "a86dafe00675913d8f07e9bac4c134435539c31e80cac7c431f879cc0285ab16",
+              "schemaChars": 33,
+              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+              "propertiesCount": 0
+            },
+            {
+              "name": "get_goal",
+              "summaryChars": 101,
+              "summaryHash": "cb629fcdf8051a05b88fa535b74d7b4f9814ba14e79b027bfcc5bb2f3c3a2fea",
+              "schemaChars": 33,
+              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+              "propertiesCount": 0
+            },
+            {
+              "name": "create_goal",
+              "summaryChars": 264,
+              "summaryHash": "4f431787069f93890b977aed5233531481f3e5b4618decbf53e72c197a7779c6",
+              "schemaChars": 306,
+              "schemaHash": "0e17e2116eb1b011e8798ec6272458493f9272ee578118cf2af05c3e372d7945",
+              "propertiesCount": 2
+            },
+            {
+              "name": "update_goal",
+              "summaryChars": 543,
+              "summaryHash": "8fcdb0dfdde868b2bd4b26828cc91d452d6d841293daee394ed9309ee6da74db",
+              "schemaChars": 207,
+              "schemaHash": "063df78da73d06b7cf4a20d6d98b15e29e1c76f2128b7a4edb22e859ca5e2ca1",
+              "propertiesCount": 2
+            },
+            {
+              "name": "skill_workshop",
+              "summaryChars": 1938,
+              "summaryHash": "82f3543efd0a07d6c1b38f2ecc5289b4131101b1f22df62473a6a611a1f117a4",
+              "schemaChars": 4448,
+              "schemaHash": "ae78d7447d83ddb35e490c680d4c9a3ffc052359611d766f48528cf3da83cdc2",
+              "propertiesCount": 18
+            },
+            {
+              "name": "progress_card",
+              "summaryChars": 1392,
+              "summaryHash": "2431e4c9536c11dab7381c89f8e5ce248c31714c7514b1d564fb985acf42284c",
+              "schemaChars": 401,
+              "schemaHash": "17936a8909b680a54f70957a8468dec2db700c94ee3fd327ddcad13e4e11c32f",
+              "propertiesCount": 2
+            },
+            {
+              "name": "ask_user",
+              "summaryChars": 857,
+              "summaryHash": "e903258acafe070ab656997ab2d4f0a52f52b557fa592724d97c9dca08938857",
+              "schemaChars": 1245,
+              "schemaHash": "611d5bb7a8fa8544b2f38280380b0e6ccb383f5e6589255b1be70c8771abe0fb",
+              "propertiesCount": 2
+            },
+            {
+              "name": "secrets",
+              "summaryChars": 798,
+              "summaryHash": "f7f4d365c0632c02381d35f7bc8c984e3d637ac421376ac2b32aa6070e7e46c2",
+              "schemaChars": 1211,
+              "schemaHash": "49b033ce8c2a0755641cb69dda2f3c27e42284029e637ac1b3ff51046d7ccd1e",
+              "propertiesCount": 6
+            },
+            {
+              "name": "sessions_list",
+              "summaryChars": 880,
+              "summaryHash": "8bdca38def2db23dbd73e4fd9dc7b425f49fdfb34fba25250fd1ed2ea2f4d6af",
+              "schemaChars": 1110,
+              "schemaHash": "ca4086d7bf7765be675436071ea039ab6176daa4bf3526af86e0d914610d1bce",
+              "propertiesCount": 20
+            },
+            {
+              "name": "sessions_history",
+              "summaryChars": 476,
+              "summaryHash": "f31dcca84bf2020b3d49288c9790dbb94ee21cbf51066d38078e9ba17311abe9",
+              "schemaChars": 647,
+              "schemaHash": "a8098f57114a3b24666630fd644f3a165daa3aff46ce0f8aac990b60f262b950",
+              "propertiesCount": 7
+            },
+            {
+              "name": "sessions_search",
+              "summaryChars": 177,
+              "summaryHash": "334f96a1cafd9325d695608fe065a4a00888f6b55279d396590575b39e62728a",
+              "schemaChars": 179,
+              "schemaHash": "6545acec45e540d9c7d7d76b79084ce439ba35f4cd626fa4f8ec406230f0913d",
+              "propertiesCount": 3
+            },
+            {
+              "name": "conversations_list",
+              "summaryChars": 159,
+              "summaryHash": "527335ff7cc669a406a88dbb1ea150631cea16155fa517fc76c8be38f8285190",
+              "schemaChars": 182,
+              "schemaHash": "49892a498ef1d6c253ce4a1bb1e97592906a526314ef999c31aa2319fd38e9b8",
+              "propertiesCount": 3
+            },
+            {
+              "name": "conversations_send",
+              "summaryChars": 152,
+              "summaryHash": "7031570c2ea879e8ebb39548c931374a864db8bfeb4d634de7d234a7f43fbbe3",
+              "schemaChars": 212,
+              "schemaHash": "28933715e5a7d6829a616ec68154d5da0a47072f6c1f333d0b4ba49f90692889",
+              "propertiesCount": 2
+            },
+            {
+              "name": "conversations_turn",
+              "summaryChars": 190,
+              "summaryHash": "67bb15e899769e37e6d2ff596dba9c33ac6c828e12ef2903fc40fbf5df56aeb3",
+              "schemaChars": 274,
+              "schemaHash": "3cc19168dc1491f82c30f2f38ad9a08c55314777fb7d99602e06d7a35ebbc58b",
+              "propertiesCount": 3
+            },
+            {
+              "name": "sessions_send",
+              "summaryChars": 1304,
+              "summaryHash": "61ead435a5231ef8b0a5e94705b82fbda9ab3cc0dc997c8eaa00b76050fd5508",
+              "schemaChars": 462,
+              "schemaHash": "c0425d6f0a2a89d682214c1bc8ce48680063816a26968d92b31922406c7b742a",
+              "propertiesCount": 7
+            },
+            {
+              "name": "sessions_spawn",
+              "summaryChars": 2457,
+              "summaryHash": "e0c79dc355a393cee8ad0307ba42a101a9b5895217746d86d884ce04121dec09",
+              "schemaChars": 4318,
+              "schemaHash": "37d06a2279d44235b37ef5458708b4570bb0cdd847e34f7c773666a5060fa316",
+              "propertiesCount": 29
+            },
+            {
+              "name": "agents_wait",
+              "summaryChars": 202,
+              "summaryHash": "eedf035982c7c4b9b386ed87e932630b03bc6f07fcdf94709b287665c77c168d",
+              "schemaChars": 190,
+              "schemaHash": "4fe95f5cd3a87b6a6fbc6905d57bc44949c99c72edea5125b3f113dabcc20164",
+              "propertiesCount": 2
+            },
+            {
+              "name": "sessions_yield",
+              "summaryChars": 337,
+              "summaryHash": "1dddf4158ea2c44cf79c93b483fd18bc48c6e32fe32fafca3fe83b5309310ce8",
+              "schemaChars": 457,
+              "schemaHash": "6f3649fb583d30499a48925363f0158ecff856d7bc44e9531dd9cbd8c23c6428",
+              "propertiesCount": 3
+            },
+            {
+              "name": "subagents",
+              "summaryChars": 194,
+              "summaryHash": "bc8a534adccc0b4a3f2e76710f98cea56111561e3dbed520bf1c7f7b7eeee7c9",
+              "schemaChars": 344,
+              "schemaHash": "9ce987456e121342e43f019460d31c7f32c4dff7792841d47289649469527a73",
+              "propertiesCount": 5
+            },
+            {
+              "name": "session_status",
+              "summaryChars": 192,
+              "summaryHash": "23343479c1bf552695627bd580795ca22cdc1020232f6984bf0cad5557f74dbd",
+              "schemaChars": 135,
+              "schemaHash": "528432b98ffdb5d86d4f09f43cb85eb3647387388109b84fc01183040a2406bd",
+              "propertiesCount": 3
+            },
+            {
+              "name": "web_search",
+              "summaryChars": 164,
+              "summaryHash": "4ec65764bf8e853aae0c06e334f54cd879efd9fb5d71c610e9c23bf7b285cb02",
+              "schemaChars": 991,
+              "schemaHash": "3879e368875d824b14e0e683f81408824e9a2a5850fa2f8514a68caebda54d18",
+              "propertiesCount": 12
+            },
+            {
+              "name": "web_fetch",
+              "summaryChars": 78,
+              "summaryHash": "616ac805dfdeaeadbb5e03504e84d52b01ecaa88c7e7100fa4c06eca8eb6195f",
+              "schemaChars": 317,
+              "schemaHash": "eca30c487911c9e897ba27b4650770cf23137fc6ed8d77756ea3952fa496ea61",
+              "propertiesCount": 3
+            },
+            {
+              "name": "browser",
+              "summaryChars": 4446,
+              "summaryHash": "fa3b99287f197a5f98951651f466128693f748db5c503d62a5dd4a4daf632ee4",
+              "schemaChars": 4933,
+              "schemaHash": "af9fe9594f8aec951a0522b0598bcb27eecb5c36a721c77d420542e78ea522f5",
+              "propertiesCount": 68
+            },
+            {
+              "name": "canvas",
+              "summaryChars": 67,
+              "summaryHash": "1f9f9d063d5eeb9a4ccc1b0709fd2420b08092e771a18d1b5914f5db0b37e1cc",
+              "schemaChars": 398,
+              "schemaHash": "6b3bfd0b0e58d89f23bc1e373d5c428b06415cbd1bf1f9bf104a3d696863a722",
+              "propertiesCount": 11
+            },
+            {
+              "name": "file_fetch",
+              "summaryChars": 642,
+              "summaryHash": "34d7b58f39d044fb09b6e6df42d57d510369ad0e94abd554bec83108525344b2",
+              "schemaChars": 609,
+              "schemaHash": "fafb2d121a41160e5ca3b42b286a199ec3be500877e673a51181d1a98854887f",
+              "propertiesCount": 6
+            },
+            {
+              "name": "dir_list",
+              "summaryChars": 795,
+              "summaryHash": "3d27dd93b528870a7036069538faad8b45f4d831cd7582f25e9fdf1afea81c3d",
+              "schemaChars": 724,
+              "schemaHash": "5a7ce71df247e0dfa197e040d34f95c6c2db1abeb76b37db6c85ff61123a7b97",
+              "propertiesCount": 7
+            },
+            {
+              "name": "dir_fetch",
+              "summaryChars": 796,
+              "summaryHash": "001fc4287f508af50c98c05bb35adaf8ee9ad09ee748e088aa819e22935b6947",
+              "schemaChars": 639,
+              "schemaHash": "da010ebc28d84f7ee723ecc6d8981a0a7c570521e170346636b6d149a3a97f42",
+              "propertiesCount": 6
+            },
+            {
+              "name": "file_write",
+              "summaryChars": 603,
+              "summaryHash": "91a18020223fa2bf59bb3f43640d80be81c17d40640d97f315653f890debd80b",
+              "schemaChars": 1028,
+              "schemaHash": "b5d971bb6d9a4340a7b0a27e49962d4166531af5091f9535f8eaa2af40017e51",
+              "propertiesCount": 7
+            },
+            {
+              "name": "memory_search",
+              "summaryChars": 878,
+              "summaryHash": "5cb75621432e6bd5f02b0beccf1007a84a5fe760a5fa204cf806c6cec1f6df3f",
+              "schemaChars": 250,
+              "schemaHash": "088cd2a3d3a47b251429ff7c56844cdedd1c45c3af0fa8bfaf7aa795766976bf",
+              "propertiesCount": 4
+            },
+            {
+              "name": "memory_get",
+              "summaryChars": 681,
+              "summaryHash": "97156dcb491b385583229cff85c5003edf179fdc7a6a9a02e7f09055f96eb38a",
+              "schemaChars": 241,
+              "schemaHash": "78f5d58460a82f9104deebad2f1873a8cde05d1ce7328b3ba4da6e994653e70a",
+              "propertiesCount": 4
+            },
+            {
+              "name": "intent",
+              "summaryChars": 266,
+              "summaryHash": "ff1256d0b5c53d9ec8dfd5e5ce9dc3cdc802359835a8e25a562cd3e952e2020a",
+              "schemaChars": 641,
+              "schemaHash": "0f0381dfd179cf5c563a3f84ab574b47e67377ceed2650fe02041a6c78a7fc69",
+              "propertiesCount": 10
+            },
+            {
+              "name": "node_inference",
+              "summaryChars": 206,
+              "summaryHash": "49c5e7e56c65dee8e708065c58240d64d8067dc07d9d13597890ecb5388ac88d",
+              "schemaChars": 646,
+              "schemaHash": "be130f0c61252e22f4d55745a82bc04926efb36ec1c8204bcfb49a7cda0aab20",
+              "propertiesCount": 8
+            },
+            {
+              "name": "talk_voice",
+              "summaryChars": 423,
+              "summaryHash": "1ef5de0b72ff39c136cb78b74795a69c7048a23f7e7b3f86323fbf780f926c67",
+              "schemaChars": 212,
+              "schemaHash": "a650995cb775a6b7dedaedc34b290488afaefa8c22e14408c4a4c98875fea349",
+              "propertiesCount": 2
+            }
+          ]
+        },
+        "currentTurn": {
+          "promptChars": 6194,
+          "runtimeContextChars": 52,
+          "modelOnlyPromptChars": 0
+        }
+      },
+      "finalPromptText": "实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。以下命令客户端（包括local-asr、remotion和ecnu_tools.py）均通过exec执行，不是额外的原生工具名。要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。Playwright Chromium executable_path=/usr/bin/chromium，launch args=[\"--no-sandbox\"]。原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。网络访问可用；用户要求下载的材料和skills请在任务中真实下载。当前ecnu-plus的文本与图片理解已通过独立接口探针；未提供额外搜索API密钥；公开网页可使用browser或HTTP读取。图像生成命令是 python /opt/eval-adapter/ecnu_tools.py image --text \"图片描述\" --output /workspace/outputs/结果.png；中文语音命令是 python /opt/eval-adapter/ecnu_tools.py speech --text \"需要朗读的内容\" --output /workspace/outputs/结果.wav；独立图片理解可调用该helper的 vision --image-path \"图片路径\" --text \"问题\" --output /workspace/outputs/说明.txt。helper自行读取私有模型凭据，禁止读取或展示密钥；本地离线中文语音识别可运行 local-asr \"输入音频路径\" --language zh --output /workspace/outputs/识别结果.json。工具执行成功与否以本次实际结果为准。不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n公开参考skill的实际目录是 /workspace/skills/<名称>，脚本相对该skill根解析。兼容目录 /workspace/.claude/skills 指向同一目录；CLAUDE_PLUGIN_ROOT=/workspace。需要CLAUDE_SKILL_DIR的命令可用exec运行 python /opt/eval-adapter/runtime_compat.py run-skill --skill <名称> -- <命令及参数>，该变量只针对本条命令，不在多个skill之间共享固定值。跨包参考正文如果本题准入，会放在 /workspace/reference_support，作为依赖资料而非新增active skill；可运行 python /opt/eval-adapter/runtime_compat.py reference-path --skill <名称> --reference \"<SKILL中原相对引用>\" 查询真实存在的位置，再用read读取；不存在就报告缺项。GetNotes参考SDK的原缓存含跨平台开发依赖，从该skill的scripts目录可运行 getnote-tsx <tsx参数> 使用固定Linux兼容loader；这只修本地加载，不提供账号认证。agent-browser和lark-cli是通过exec运行的公共CLI，不是新增原生工具名；agent-browser使用本容器/usr/bin/chromium，外部Lark/邮件/GetNotes服务仍以实际认证结果为准。\n\n本题提供的文件：\n- /workspace/inputs/conversations/conv_d1ef29d65e7a.json\n- /workspace/inputs/conversations/conv_41874c950938.json\n- /workspace/inputs/conversations/conv_246b5e915810.json\n- /workspace/inputs/a_stage/source_profiles.verified_fields.annotation.json\n- /workspace/inputs/a_stage/A_B_MAKE_FEEDBACK.json\n- /workspace/inputs/independent/actual_repair_feedback.json\n- /workspace/inputs/previous_skill/schemas/draft.schema.json\n- /workspace/inputs/previous_skill/schemas/fact_ledger.schema.json\n- /workspace/inputs/previous_skill/scripts/validate_pack.py\n- /workspace/inputs/previous_skill/SKILL.md\n- /workspace/inputs/previous_skill/templates/section_templates.md\n- /workspace/inputs/previous_tests/fixtures/b1a_draft.json\n- /workspace/inputs/previous_tests/fixtures/b1b_draft.json\n- /workspace/inputs/previous_tests/fixtures/b2a_draft.json\n- /workspace/inputs/previous_tests/fixtures/b2b_draft.json\n- /workspace/inputs/previous_tests/fixtures/b2b_ledger.json\n- /workspace/inputs/previous_tests/fixtures/b3a_draft.json\n- /workspace/inputs/previous_tests/fixtures/c1_request.json\n- /workspace/inputs/previous_tests/fixtures/c2_request.json\n- /workspace/inputs/previous_tests/fixtures/c3_request.json\n- /workspace/inputs/previous_tests/fixtures/c4_request.json\n- /workspace/inputs/previous_tests/fixtures/c5_request.json\n- /workspace/inputs/previous_tests/fixtures/e1_draft.json\n- /workspace/inputs/previous_tests/fixtures/e2_ledger.json\n- /workspace/inputs/previous_tests/fixtures/e3_ledger.json\n- /workspace/inputs/previous_tests/fixtures/e4a_draft.json\n- /workspace/inputs/previous_tests/fixtures/e4b_draft.json\n- /workspace/inputs/previous_tests/fixtures/e5_draft.json\n- /workspace/inputs/previous_tests/fixtures/e6_ledger.json\n- /workspace/inputs/previous_tests/fixtures/e7_draft.json\n- /workspace/inputs/previous_tests/fixtures/n1_draft.json\n- /workspace/inputs/previous_tests/fixtures/n1_ledger.json\n- /workspace/inputs/previous_tests/fixtures/n2_draft.json\n- /workspace/inputs/previous_tests/fixtures/n2_ledger.json\n- /workspace/inputs/previous_tests/fixtures/sources_demo.json\n- /workspace/inputs/previous_tests/make_fixtures.py\n- /workspace/inputs/previous_tests/run_tests.py\n- /workspace/inputs/previous_tests/test_run_log.json\n- /workspace/inputs/independent/legal_draft.json\n- /workspace/inputs/independent/legal_ledger.json\n- /workspace/inputs/independent/legal_sources.json\n- /workspace/inputs/independent/nested_refs_non_object_item.json\n- /workspace/inputs/independent/nested_refs_not_list.json\n- /workspace/inputs/independent/valid_single_draft.json\n- /workspace/inputs/independent/temporal_original_report.json\n- /workspace/inputs/independent/nested_refs_not_list_original_report.json\n- /workspace/inputs/independent/nested_refs_non_object_item_original_report.json\n\n用户提供的上下文：\n\n\n用户任务：\n继续WRD局部资源修订：前一候选已真实制作且21自测全绿，但独立固定环境工具复核发现两个具体缺陷。不是从零重造、不训练、不子Agent，不发外部消息/邮件/日程/远端写；仍使用本完整原生会话自主完成本地读取、局修、复现与真实测试。\n\n先读 /workspace/inputs/independent/actual_repair_feedback.json，以及其引用的真实失败报告和明确虚构的独立反例。候选原资源全部在 /workspace/inputs/previous_skill/，原21测试生成器/runner/fixtures/原日志在 /workspace/inputs/previous_tests/。五份原始源/源字段与A反馈仍按 /workspace/inputs/conversations/ 和 /workspace/inputs/a_stage/ 挂载，必要时回读以核适用范围；新纠错不是旧正式评测gold。\n\n先用原公开CLI实际复现两个缺陷并保存原失败，不把feedback当已自动修复。将候选副本实化到 /workspace/outputs/skill/，测试副本置 /workspace/outputs/tests/。只局部修改实际错误的冲突判定与嵌套evidence_refs形状核验及必要说明，不删功能、不放宽已有goal类型/数字/原文quote/字数/Word状态检查。原技能轻量首页、独立资源、用途范围保持；不把制作日志/企业素材/fixtures放包内。不要为了本次反例硬编码年份、数值、subject或文件名。\n\n用原公开参数接口复跑原21测试，既有预期不能为了变绿被改。补充真实正反例：不同年份actual/goal同值合法；同一年actual已完成值与goal目标同值也能合法共存；真实planned_goal引用为achieved_fact仍须拒；任意嵌套evidence_refs为非list、list内非object须明确拒并给路径；合法嵌套quote继续过、错误quote继续拒。空的可选引用列表不等于必需事实缺证。不能用AST/文件存在或exit非0替代精确断言。\n\n每次命令、原响应、fixture/资源版本SHA、前后修改、失败原因和复测都留 /workspace/outputs/tests/ 或其它包外位置。脚本若有语义无法可靠判断，仅显式NEEDS_SEMANTIC_REVIEW，不伪称完整语义通过。缺陷修正后输出 /workspace/outputs/resource_validation.json、/workspace/outputs/revision_summary.json（指出原两项缺陷证据→局改→新旧测试实数、每份变动资源SHA、保留的未知与限制），以及一份清楚的原版本到本版本变更清单；收益仍未独立业务试跑，不宣称retained/已入库。最后给非空简短文字实际结果，不以yield或只有tool call结束。",
+      "finalAssistantVisibleText": "局修完成，两个独立缺陷均已真实复现→定点修复→复测通过。\n\n**实际结果**\n\n- **复现原失败**（原版 CLI，未改）：合法跨年 actual/goal 同值被硬判 `fact_type_conflict` exit 1；嵌套 `evidence_refs` 为字符串或 `[42]` 均 exit 0 漏报——与 feedback 附带的原报告逐项一致（`/workspace/outputs/tests/independent_baseline/`）。\n- **局部修改**（仅 `scripts/validate_pack.py`，SHA `6a1e95…→863369…`）：\n  1. 第9段冲突判定：同(主体/数值/单位)多 fact_type 不再硬失败，改为 `NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS`；planned_goal→achieved_fact 仍由第5段硬拒。\n  2. `iter_evidence_refs` 形状核验：任意位置 `evidence_refs` 非列表→`evidence_refs_not_list`、元素非对象→`evidence_refs_item_not_object`，均带完整路径；空可选列表合法，必需事实缺证判定不变。\n- **测试实数**：原 21 测试用未改动的 runner/generator 复跑 **21/21**（预期未动）；新增 12 例真实正反例（含非 feedback 示例年份 2024/2027/2030/2031，证无硬编码）**12/12**。\n- **未放宽**：goal 类型（E5/X3）、数字（B2b）、quote 连续性（E2/E3/X7/X8）、字数（B1a/B1b）、Word 状态（B3a）全部保持原断言通过。\n- **包洁癖**：`/workspace/outputs/skill/` 仅含 SKILL.md、schemas、scripts、templates；测试/日志/复现报告全在包外 `outputs/tests/`。\n\n**交付物**：`/workspace/outputs/resource_validation.json`、`revision_summary.json`、`changes.md`（原版→本版变更清单，含每份资源前后 SHA）、`tests/independent_baseline/`（复现+修复对照报告）、`tests/logs/validate_pack_before_after.diff`。\n\n**保留限制**：收益仍未独立业务试跑，不宣称 retained/已入库；类型口径分歧程序只给 `NEEDS_SEMANTIC_REVIEW`，语义判定永远留给人。",
+      "finalAssistantRawText": "局修完成，两个独立缺陷均已真实复现→定点修复→复测通过。\n\n**实际结果**\n\n- **复现原失败**（原版 CLI，未改）：合法跨年 actual/goal 同值被硬判 `fact_type_conflict` exit 1；嵌套 `evidence_refs` 为字符串或 `[42]` 均 exit 0 漏报——与 feedback 附带的原报告逐项一致（`/workspace/outputs/tests/independent_baseline/`）。\n- **局部修改**（仅 `scripts/validate_pack.py`，SHA `6a1e95…→863369…`）：\n  1. 第9段冲突判定：同(主体/数值/单位)多 fact_type 不再硬失败，改为 `NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS`；planned_goal→achieved_fact 仍由第5段硬拒。\n  2. `iter_evidence_refs` 形状核验：任意位置 `evidence_refs` 非列表→`evidence_refs_not_list`、元素非对象→`evidence_refs_item_not_object`，均带完整路径；空可选列表合法，必需事实缺证判定不变。\n- **测试实数**：原 21 测试用未改动的 runner/generator 复跑 **21/21**（预期未动）；新增 12 例真实正反例（含非 feedback 示例年份 2024/2027/2030/2031，证无硬编码）**12/12**。\n- **未放宽**：goal 类型（E5/X3）、数字（B2b）、quote 连续性（E2/E3/X7/X8）、字数（B1a/B1b）、Word 状态（B3a）全部保持原断言通过。\n- **包洁癖**：`/workspace/outputs/skill/` 仅含 SKILL.md、schemas、scripts、templates；测试/日志/复现报告全在包外 `outputs/tests/`。\n\n**交付物**：`/workspace/outputs/resource_validation.json`、`revision_summary.json`、`changes.md`（原版→本版变更清单，含每份资源前后 SHA）、`tests/independent_baseline/`（复现+修复对照报告）、`tests/logs/validate_pack_before_after.diff`。\n\n**保留限制**：收益仍未独立业务试跑，不宣称 retained/已入库；类型口径分歧程序只给 `NEEDS_SEMANTIC_REVIEW`，语义判定永远留给人。",
+      "replayInvalid": true,
+      "livenessState": "working",
+      "stopReason": "stop",
+      "executionTrace": {
+        "winnerProvider": "ecnu",
+        "winnerModel": "glm-5.3-flash",
+        "attempts": [
+          {
+            "provider": "ecnu",
+            "model": "glm-5.3-flash",
+            "result": "success",
+            "stage": "assistant"
+          }
+        ],
+        "fallbackUsed": false,
+        "runner": "embedded"
+      },
+      "requestShaping": {
+        "thinking": "off"
+      },
+      "completion": {
+        "stopReason": "stop",
+        "finishReason": "stop"
+      },
+      "toolSummary": {
+        "calls": 33,
+        "tools": [
+          "read",
+          "ls",
+          "exec",
+          "edit",
+          "write"
+        ],
+        "failures": 1
+      }
+    },
+    "tools": [
+      {
+        "name": "read",
+        "call_id": "calld2a391e3be5b4e96bb8cbf6e7ee7dfbd",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "callb83eaa5e710c490fb585548fea8b303e",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call5ac1e39f9cbf4c708a6569f1b378f89d",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call1be0438af78f4d72aaf4004cbaf16066",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call75e3c045de5d455fa9d6ac9ee7b52589",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call35ee86993a42482090c9ed22ed76bbde",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "callfecf23fd8e984c7a9c1aa416654d299d",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call8ab4103f4b174fa98df2a1e24fe237b7",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call93a4d9b1fdd04752a1997ff4e522d401",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call5f9f77c42a57493bbf903241680fcf82",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "calld90c505de1c441ca8ccc34eb48241a55",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "callbefeefda6ce2443d88395236234faf6f",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "callcb32de0d5ff144a2b13e1e202b7b67bf",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "call423ce6a716d440799fe25c4459a899db",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "ls",
+        "call_id": "call230fa6c996b1418b956a210f9d6021d8",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "read",
+        "call_id": "callea902806546a4ac5bf4beeb0300dd590",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "exec",
+        "call_id": "callb9cc3f7a57db48ff82ccae8178788f17",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      },
+      {
+        "name": "exec",
+        "call_id": "call1764bd73df574be881a74c630ccaef41",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      },
+      {
+        "name": "edit",
+        "call_id": "calla545875ac6714675bd98341d82c52f5d",
+        "is_error": true,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": true
+      },
+      {
+        "name": "exec",
+        "call_id": "call6447784dbb2f4b4692cd580c4601031c",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      },
+      {
+        "name": "edit",
+        "call_id": "callf1e421bf16ad4cd1b41891d753d2fada",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "exec",
+        "call_id": "call8eb16819a733437e953c7404d1030b22",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      },
+      {
+        "name": "exec",
+        "call_id": "callb4ca245cc6c644d2b91fcefe016ea4c9",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      },
+      {
+        "name": "write",
+        "call_id": "calld3214307b4dd47b29fdb89eb942643af",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "write",
+        "call_id": "call623ce66d956f49efa36da170b4808fae",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "exec",
+        "call_id": "call01974209c79543769987afe64e16cf1a",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      },
+      {
+        "name": "exec",
+        "call_id": "call192dae63c3564a23a4cd9ede2648b348",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      },
+      {
+        "name": "ls",
+        "call_id": "call61ca25364fd542eba829a9b254910b6a",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "ls",
+        "call_id": "callb5b16bff54db4527ade5b146d51dff0b",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "write",
+        "call_id": "calld4e0722724444c66ad068b95fd56a72e",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "write",
+        "call_id": "call7bdae344c2a34830bdbcb8e90ecf3520",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "write",
+        "call_id": "call7a072d321e9643479f9b7a3b119fe8a1",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": null,
+        "observed_failure": false
+      },
+      {
+        "name": "exec",
+        "call_id": "call32c971033f1e423eba929bf4284f871e",
+        "is_error": false,
+        "process_failure": false,
+        "exit_code": 0,
+        "observed_failure": false
+      }
+    ],
+    "native_is_error_count": 1,
+    "structured_process_failure_count": 0,
+    "tool_error_count": 1
+  }
+}

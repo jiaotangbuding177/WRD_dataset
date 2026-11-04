@@ -1,0 +1,80 @@
+---
+name: doc-section-supplement
+description: 在既有文档（md/docx）上按用户逐条口径补充或修订指定章节/表格、按反馈调详略（简化/再详细）、导出Word时使用。触发：结合全文补充某一章节或表格、在这个版本上增加、只改这一块、简化一点、再详细一点、输出word。不适用：无原文档的从零起草。
+---
+
+# 既有文档指定章节表格补充修订
+
+{SKILL}=本技能根目录。核心约束：只改用户指定的部分，其余正文一字不动；补充内容只取自全文与用户确认口径，不虚构。
+
+## 路线（4步）
+
+**1. 读全文、定位、记口径**
+
+- md 直接读；docx/pdf/pptx 先提取：
+
+```
+python3 {SKILL}/scripts/extract_contract_text.py 文档.docx --out {OUT}/text.json   # docx 逐段全文
+python3 {SKILL}/scripts/extract_texts.py 文档或目录 --out {OUT}/extracted          # 多格式批量（退出3=有文件失败）
+```
+
+- docx 补充定位（空段占位/批注锚点/邻段格式、文本框、空占位括号）：
+
+```
+python3 {SKILL}/scripts/locate_gaps.py 文档.docx --out {OUT}/gaps.json
+python3 {SKILL}/scripts/docx_extras.py 文档.docx --out {OUT}/extras.json
+```
+
+- 正文在表格里的文档（TS/申报表类）提取后按单元格顺序读，定位占位行（如"加入……的注释、限制及表决条件；"）。
+- 用户口径逐条列出：改哪、加哪；明确说"不涉及/先不管"的单独记成禁改清单，全程不碰——哪怕审查发现那里有硬伤，也只口头提醒、不代改。
+
+**2. 结合全文起草**
+
+- 只用全文已有事实与用户口径；文档内查不到依据的实质结论列入"待核实清单"，写明核实办法，不在正文当已证事实。
+- 影响条款写法的外部事实先核实再落笔（如对方是否上市公司，决定要不要写"监管衔接"条款）。
+- 金额、比例、周期类数字用【】留白并提醒用户谈定，不替用户定数。
+- 格式先看再写：docx 看目标单元格/邻段的字体字号（如楷体）；md 看现有标题层级与编号风格。
+- 结构对齐占位要求（占位写"注释、限制及表决条件"就分三块对应），语言风格随文档文体。
+
+**3. 回写（只动指定部分）**
+
+- docx 表格单元格（保留单元格原格式）：
+
+```
+python3 {SKILL}/scripts/fill_cell.py 原文.docx --find "目标单元格内唯一子串" --text-file 新稿.txt --out 输出.docx
+```
+
+  --find 必须唯一命中（多命中报错并列候选，不猜第一处）；格式默认沿用目标单元格首段；换基准加 `--copy-format-from "其他段落唯一子串"`。新稿每行一段，空行成空段。不支持嵌套表格。
+
+- docx 空缺段落补写：
+
+```
+python3 {SKILL}/scripts/backfill_apply.py 原文.docx --insert-after "锚点唯一子串" --text-file 新稿.txt --out 输出.docx [--copy-format-from "邻段正文唯一子串"]
+```
+
+- 增补引起章节顺延的：同步改所有交叉引用（"见第十一条"类）与定义章、指向钩子，漏改是硬伤。
+- md：直接改当前正式版本文件；要留版本时另存 {日期}_{名称}_V{n}.md，主文件指向最新版。
+- **必须验证**：重跑提取脚本确认新内容在位、其余未动；`soffice --headless --convert-to pdf 输出.docx` 渲染抽查格式与残留。XML 报错时读 references/ooxml-lessons.md。
+
+**4. 导出 word 并回报**
+
+- md→docx 用 `pandoc 成文.md -o 成文.docx`（soffice 直转 .md 会残留 Markdown 标记）。用户要排版版时按其常用规格（宋体小四正文、黑体标题、1.5倍行距、表格加框线、粗体正确转换）转后核对章节齐全。
+- 回报固定三件：文件位置（主动报，不等追问）+ 改了什么（逐条对应口径）+ 【】留白与待核实清单。贴当前版本全文，方便用户直接判断详略。
+
+## 详略迭代（用户说"简化/再详细"时）
+
+- 小步走：每轮只动上一轮增删的部分，已确认内容不反复推翻。
+- "太复杂"→先砍结构与程序细节（长定义、双轨额度、书面程序类条款），保核心骨架（定价/审批回避/披露三类）。
+- "太简单"→回补实质保护点（交易类型范围、审批通过规则、关键防线条款），不是恢复第一版全部。
+- "不用写1、2、3"→去编号改自然段落，内容一条不丢，段落分工清晰（定义+定价→审批回避→披露衔接）。
+- docx 回写类默认覆盖当前正式版文件并报同一路径；不把中间稿只写进临时目录。
+
+## 资源入口（按需读取）
+
+- scripts/extract_contract_text.py：docx 逐段全文提取
+- scripts/extract_texts.py：docx/doc/pdf/pptx/md/txt 批量提取
+- scripts/locate_gaps.py：空段占位+批注锚点+邻段格式基准
+- scripts/docx_extras.py：批注/文本框/空占位预扫
+- scripts/fill_cell.py：表格单元格定位替换（保留原格式）
+- scripts/backfill_apply.py：空缺段落补写回写
+- references/ooxml-lessons.md：docx 直改教训（双 pPr、run 边界、多处编辑覆盖、修订痕迹），回写出错时读

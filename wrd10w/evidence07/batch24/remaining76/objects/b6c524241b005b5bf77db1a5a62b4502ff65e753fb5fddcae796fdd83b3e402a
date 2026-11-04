@@ -1,0 +1,191 @@
+#!/usr/bin/env python3
+"""Functional smoke test for a generated questionnaire HTML (Playwright + Chromium).
+
+Public usage:
+    python {SKILL}/scripts/smoke_test.py {OUT}/<问卷名>.html [--spec {OUT}/spec.json]
+
+Simulates a real filling session in headless Chromium:
+  1. empty submit is blocked with an error, no record saved
+  2. fill submitter fields + answer all questions + submit -> record saved with 记录编号
+  3. second submission accumulates (on-device continuous collection)
+  4. CSV export has header + one row per record
+  5. admin panel unlocks with the configured password and lists records
+  6. receipt merge dedupes by record id
+
+With --spec the admin password and submitter labels are read from the spec;
+otherwise the embedded QDATA in the HTML is used.
+Exit: 0 all passed; 1 any check failed; 2 usage/environment error.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+CHROMIUM = "/usr/bin/chromium"
+LAUNCH_ARGS = ["--no-sandbox"]
+
+
+def fail(msg: str) -> None:
+    print(f"FAIL: {msg}")
+
+
+def ok(msg: str) -> None:
+    print(f"PASS: {msg}")
+
+
+def load_qdata(html_path: str):
+    text = Path(html_path).read_text(encoding="utf-8")
+    import re
+
+    m = re.search(r"/\* QDATA-BEGIN \*/\s*const QDATA = (.*?);\s*/\* QDATA-END \*/", text, flags=re.S)
+    if not m:
+        return None
+    return json.loads(m.group(1).replace("<\\/", "</"))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Functional smoke test for a questionnaire HTML.")
+    parser.add_argument("html", help="generated questionnaire HTML file")
+    parser.add_argument("--spec", help="spec JSON (optional; falls back to embedded QDATA)")
+    args = parser.parse_args()
+    if not Path(args.html).is_file():
+        print(f"smoke_test_error: file not found: {args.html}", file=sys.stderr)
+        return 2
+    if args.spec:
+        cfg = json.loads(Path(args.spec).read_text(encoding="utf-8-sig"))
+    else:
+        cfg = load_qdata(args.html)
+    if not cfg:
+        print("smoke_test_error: no spec given and no embedded QDATA found", file=sys.stderr)
+        return 2
+
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError as error:
+        print(f"smoke_test_error: playwright not available: {error}", file=sys.stderr)
+        return 2
+
+    admin_password = (cfg.get("cfg") or {}).get("admin_password", "666888")
+    fields = cfg["submitter_fields"]
+    questions = cfg["questions"]
+    failures = []
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(executable_path=CHROMIUM, args=LAUNCH_ARGS)
+        page = browser.new_page()
+        page.goto(Path(args.html).resolve().as_uri())
+        page.wait_for_selector("#btnSubmit")
+
+        # 1. empty submit blocked
+        page.click("#btnSubmit")
+        if "还有必填项未完成" in page.text_content("#formError") or "必填" in page.text_content("#formError"):
+            ok("empty submit blocked with error message")
+        else:
+            failures.append("empty submit did not show validation error")
+            fail(failures[-1])
+        if page.evaluate("window.__qform.getRecords().length") == 0:
+            ok("no record saved on invalid submit")
+        else:
+            failures.append("record saved despite invalid submit")
+            fail(failures[-1])
+
+        # 2. fill and submit
+        def fill_and_submit(name: str) -> str:
+            for i, f in enumerate(fields):
+                page.fill(f"#sf_{i}", name if f.get("required", True) else "")
+            for qi, q in enumerate(questions, start=1):
+                sec = page.locator(f"#q{qi}")
+                if q["type"] == "radio":
+                    sec.locator(".opts input[type=radio]").first.check()
+                elif q["type"] == "checkbox":
+                    limit = min(2, len(q["options"]), q.get("max", 2))
+                    for oi in range(limit):
+                        sec.locator(".opts input[type=checkbox]").nth(oi).check()
+                else:
+                    sec.locator("input.qtext").fill(f"测试作答-{qi}")
+            page.click("#btnSubmit")
+            return page.text_content("#submitResult").strip()
+
+        result = fill_and_submit("测试张三")
+        if "记录编号" in result:
+            ok(f"first submit succeeded ({result[:40]}...)")
+        else:
+            failures.append(f"first submit failed: {result}")
+            fail(failures[-1])
+        records = page.evaluate("window.__qform.getRecords()")
+        if len(records) == 1 and records[0]["submitter"].get(fields[0]["label"]) == "测试张三":
+            ok("record saved with submitter info")
+        else:
+            failures.append(f"record content wrong: {json.dumps(records, ensure_ascii=False)[:200]}")
+            fail(failures[-1])
+        first_id = records[0]["id"] if records else ""
+        if records and records[0]["id"].startswith("SUB-"):
+            ok(f"record id format ok ({first_id})")
+        else:
+            failures.append(f"record id format wrong: {first_id}")
+            fail(failures[-1])
+
+        # 3. second submission accumulates
+        page.reload()
+        page.wait_for_selector("#btnSubmit")
+        fill_and_submit("测试李四")
+        count = page.evaluate("window.__qform.getRecords().length")
+        if count == 2:
+            ok("second submission accumulated (2 records)")
+        else:
+            failures.append(f"expected 2 records, got {count}")
+            fail(failures[-1])
+
+        # 4. CSV export
+        csv = page.evaluate("window.__qform.exportCSV()")
+        lines = [line for line in csv.split("\r\n") if line]
+        if "记录编号" in lines[0] and len(lines) == 3 and "测试张三" in csv and "测试李四" in csv:
+            ok("CSV export has header + 2 record rows")
+        else:
+            failures.append(f"CSV export unexpected: {len(lines)} lines, first={lines[0][:60] if lines else ''}")
+            fail(failures[-1])
+
+        # 5. admin unlock + list
+        page.click("#btnAdmin")
+        page.fill("#adminPass", "wrongpass")
+        page.click("#btnUnlock")
+        if "密码不正确" in page.text_content("#adminMsg"):
+            ok("wrong admin password rejected")
+        else:
+            failures.append("wrong admin password not rejected")
+            fail(failures[-1])
+        page.fill("#adminPass", admin_password)
+        page.click("#btnUnlock")
+        if not page.locator("#adminBody").is_hidden():
+            listed = page.locator("#recordList details").count()
+            if listed == 2:
+                ok("admin panel unlocked and lists 2 records")
+            else:
+                failures.append(f"admin record list shows {listed} entries, expected 2")
+                fail(failures[-1])
+        else:
+            failures.append("admin panel did not unlock with correct password")
+            fail(failures[-1])
+
+        # 6. receipt merge dedupes
+        receipt = page.evaluate("JSON.stringify(window.__qform.getRecords()[0])")
+        res = page.evaluate(f"window.__qform.mergeReceipts([{receipt}])")
+        if res["added"] == 0 and res["skipped"] == 1:
+            ok("receipt import dedupes existing record id")
+        else:
+            failures.append(f"receipt merge unexpected: {res}")
+            fail(failures[-1])
+
+        browser.close()
+
+    if failures:
+        print(f"smoke_test_result: {len(failures)} failure(s)")
+        return 1
+    print("smoke_test_result: all checks passed")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

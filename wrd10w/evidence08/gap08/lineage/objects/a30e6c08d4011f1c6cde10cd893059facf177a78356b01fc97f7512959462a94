@@ -1,0 +1,41 @@
+{
+  "decision": "revise",
+  "reason": "候选与attempt_2产出逐字节一致（diff通过），制作记录完整复现了资源用法：md2docx.py在样例上实跑、三种错误分支exit=2、LibreOffice渲染+vision复核并修复PAGE字段（making.json program_runs、vision_check*.txt及receipt）。两组业务workflow臂均实际读取SKILL.md全文（sha256 863533a7f7…与候选一致），case1另读模板并走md→docx流程，两臂md2docx.py均执行成功且按技能要求做了渲染验证；两例docx渲染核实内容实质、无占位（case1含执行摘要/痛点/方案/量化表（成本节约、效率增益、ROI、回收期）/风险应对，case2中文场景文档带来源）。但成本门槛不达标：全部业务尝试合计 no_skill 2,696,361 tok/48次 vs workflow 3,475,832 tok/53次，Token与调用均上升；其中case2因技能对研究型子议题无检索规模约束，workflow 2,775,523 tok/41次远超基线1,877,085/31次，抵消了case1的净降（819,276/17→700,309/12）。有具体可修点，故revise而非reject；材料与试用齐全，不需defer。",
+  "replaced_work": [
+    "Word成文：来源会话每次现写docx脚本并反复踩坑（import缺失、编号重复/连续、替换写反，msg 18/30/32/36），沉淀为scripts/md2docx.py一次调用，规避自动编号，A4/深蓝标题/浅蓝表头/页眉页脚页码——制作记录含实跑与渲染验证",
+    "法规/政策取证口径：复制reusable/skill_1的references/research_playbook.md（官方渠道+效力核对+不确定性标注），服务路线第2/4步",
+    "方案组稿骨架与追加议题模式：templates/advisory_report.md+SKILL.md路线（盘点→分领域→样板间→风险/行动），诊断与样板间框架入路线第1-2步"
+  ],
+  "resource_reliable": true,
+  "delivery_passed": true,
+  "resource_used": true,
+  "evidence_refs": [
+    "/workspace/inputs/making/f85d4e9ccfdf/workspace/outputs/making.json（program_runs：样例实跑、三分支exit=2、渲染复核；known_issues：页码域缓存值1、Markdown子集限制）",
+    "/workspace/inputs/making/f85d4e9ccfdf/workspace/outputs/making_samples/vision_check2.txt、vision_check2.txt.receipt.json（修复后渲染复核）",
+    "/workspace/inputs/making/14f7bd573fdb/result.json（attempt_1 failed，exit=1，未产出技能，不作为当前版本试用）",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:19（SKILL.md全文送达，sha 863533a7f7与候选一致）、:25（templates/advisory_report.md读取）、:30-31（md2docx.py执行OK）、:33（LibreOffice渲染验证）",
+    "/workspace/inputs/cases/1/workflow/read_usage_evidence.json（2读1执行，成功索引）",
+    "/workspace/inputs/cases/1/workflow/workspace/outputs/AI客服系统商业案例报告.docx（渲染核实：四列量化表、风险应对齐全）",
+    "/workspace/inputs/cases/2/workflow/openclaw_transport/session_events.jsonl:16（SKILL.md全文送达）、:18/108（联网核实+md2docx.py执行）、:111（渲染验证）",
+    "/workspace/inputs/cases/2/workflow/workspace/outputs/云知师AI学生端应用场景说明.docx（渲染核实：中文场景文档，来源标注，无占位）",
+    "/workspace/inputs/review_input.json（totals：no_skill[2696361,48] vs workflow[3475832,53]；cases各臂all_attempts账齐，无unknown/null项；cost_reduced=false）",
+    "/workspace/inputs/cases/1/no_skill/workspace/outputs/、/workspace/inputs/cases/2/no_skill/workspace/outputs/（基线对照均有docx交付）"
+  ],
+  "case_findings": [
+    {
+      "case_id": "conv_71b145de3304",
+      "delivery": "pass",
+      "reason": "docx渲染核实：执行摘要/现状痛点/方案概述/量化效益表（含成本节约、效率增益、ROI、回收期）/风险与应对齐全，数字自洽（3年节约138.24万、ROI≈591%、回收≈5.2月）；SKILL.md与模板实读，md2docx.py执行OK并渲染验证；成本819,276/17→700,309/12双降。"
+    },
+    {
+      "case_id": "conv_a3ec6234422a",
+      "delivery": "pass",
+      "reason": "docx渲染核实：中文应用场景文档内容详实、按官方来源标注口径、无占位；SKILL.md实读、md2docx.py执行OK并渲染验证。但未读模板（场景文档偏离advisory骨架可接受，属口径需明确），且研究型检索无约束致成本2,775,523 tok/41次 vs 基线1,877,085/31，显著上升。"
+    }
+  ],
+  "repair_notes": [
+    "SKILL.md路线补充研究型子议题的检索规模约束：对产品/行业背景类请求，先定文档大纲再限定检索轮次与来源数（如≤N轮、官方来源优先、足够即停），避免case2式41次调用、+90万token的过度核实。",
+    "SKILL.md明确templates/advisory_report.md的适用边界：仅公司内部AI落地方案类成文走该骨架；场景说明/产品介绍类文档明示不套用或给变体骨架，消除case2未读模板的口径模糊。",
+    "case1验证了token与调用双降（-14.5%/-29%），revise后重试用同类'直接成文型'委托复核成本结论；研究密集型委托单独评估是否仍在该路线范围内。"
+  ]
+}

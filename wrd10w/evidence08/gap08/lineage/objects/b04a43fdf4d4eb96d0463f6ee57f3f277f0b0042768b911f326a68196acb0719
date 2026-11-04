@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""Extract paragraphs from a .docx with highlight/bold flags.
+
+Method: OOXML zip -> word/document.xml, one entry per <w:p> in document order
+(table cell paragraphs included). A paragraph is flagged highlight=True when any
+run carries <w:highlight w:val=...> other than "none", bold=True when any run
+carries <w:b> (not explicitly off). Standard-library only.
+
+Usage:
+    python extract_docx_text.py <input.docx> --out <output.json>
+    python extract_docx_text.py <input.docx> --out <output.json> --highlighted-only
+
+Output JSON shape:
+{
+  "file": "basename.docx",
+  "bytes": 12345,
+  "sha256": "...",
+  "paragraph_count": 40,
+  "paragraphs": [{"n": 1, "text": "...", "highlight": true, "bold": false}, ...]
+}
+With --highlighted-only the paragraphs array keeps only highlighted entries
+(paragraph_count still counts all paragraphs).
+
+Exit codes: 0 success; 2 invalid input (missing file / not .docx / not a zip /
+no word/document.xml) with a one-line stderr message.
+"""
+import argparse
+import hashlib
+import json
+import os
+import re
+import sys
+import zipfile
+
+
+def unescape(text):
+    return (text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
+            .replace('&quot;', '"').replace('&apos;', "'"))
+
+
+def run_flags(run_xml):
+    rpr = re.search(r'<w:rPr[ >].*?</w:rPr>', run_xml, re.S)
+    if not rpr:
+        return False, False
+    rpr = rpr.group(0)
+    hl = re.search(r'<w:highlight\b[^>]*w:val="([^"]+)"', rpr)
+    highlight = bool(hl) and hl.group(1).lower() != 'none'
+    bold = False
+    b = re.search(r'<w:b\b(\s[^>]*)?/?>', rpr)
+    if b and 'val="false"' not in (b.group(1) or '') and 'val="0"' not in (b.group(1) or ''):
+        bold = True
+    return highlight, bold
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('input')
+    parser.add_argument('--out', required=True)
+    parser.add_argument('--highlighted-only', action='store_true')
+    args = parser.parse_args()
+    src = __import__('pathlib').Path(args.input)
+    try:
+        if not src.is_file():
+            raise ValueError('input not found: ' + str(src))
+        if src.suffix.lower() != '.docx':
+            raise ValueError('unsupported input type ' + src.suffix + ': expected .docx')
+        raw = src.read_bytes()
+        with zipfile.ZipFile(src) as archive:
+            xml = archive.read('word/document.xml').decode('utf-8')
+    except (OSError, ValueError, KeyError, zipfile.BadZipFile, UnicodeError) as error:
+        print('extract_docx_text error: ' + str(error), file=sys.stderr)
+        return 2
+    paragraphs = []
+    for match in re.findall(r'<w:p(?:\s[^>]*)?>(.*?)</w:p>', xml, re.S):
+        text = unescape(''.join(re.findall(r'<w:t[^>]*>(.*?)</w:t>', match, re.S)))
+        highlight = bold = False
+        for run_xml in re.findall(r'<w:r\b.*?</w:r>', match, re.S):
+            h, b = run_flags(run_xml)
+            highlight = highlight or h
+            bold = bold or b
+        paragraphs.append({'text': text, 'highlight': highlight, 'bold': bold})
+    while paragraphs and not paragraphs[-1]['text']:
+        paragraphs.pop()
+    shown = ([p for p in paragraphs if p['highlight']] if args.highlighted_only else paragraphs)
+    result = {
+        'file': os.path.basename(str(src)),
+        'bytes': len(raw),
+        'sha256': hashlib.sha256(raw).hexdigest(),
+        'paragraph_count': len(paragraphs),
+        'paragraphs': [
+            dict(n=i + 1, **p) for i, p in enumerate(shown)
+        ],
+    }
+    with open(args.out, 'w', encoding='utf-8') as fh:
+        json.dump(result, fh, ensure_ascii=False, indent=1)
+    print('extracted %d paragraphs (%d highlighted) from %s -> %s' % (
+        len(paragraphs), sum(1 for p in paragraphs if p['highlight']),
+        os.path.basename(str(src)), args.out))
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

@@ -1,0 +1,54 @@
+{
+  "schema": "wrd10-native-parent-protocol-draft-v1",
+  "is_launch_configuration": false,
+  "fixed_runtime": {
+    "image_digest": "sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2",
+    "openclaw_version": "2026.9.5",
+    "teacher_model": "glm-5.3-flash",
+    "native_discovery_read_and_session_loop_required": true,
+    "outer_step_controller_allowed": false
+  },
+  "train_first_batch_caps_including_public_precheck": {
+    "native_sessions": 24,
+    "provider_requests": 200,
+    "actual_input_plus_output_tokens": 6000000,
+    "elapsed_seconds": 21600
+  },
+  "per_route_caps": {
+    "parent_native_sessions": 1,
+    "parent_provider_requests": 32,
+    "consumer_sessions_max": 6,
+    "consumer_requests_per_session_max": 8,
+    "Q_sessions_max": 4,
+    "Q_requests_per_session_max": 4,
+    "native_sessions_max": 11,
+    "provider_requests_max": 96
+  },
+  "public_precheck_within_global_caps": {
+    "sessions": 2,
+    "provider_requests": 8,
+    "input_plus_output_tokens": 300000,
+    "elapsed_seconds": 3600
+  },
+  "native_session_caps": {
+    "elapsed_seconds_including_yield_wait_resume": 1800,
+    "maximum_response_tokens": 32768
+  },
+  "token_cap_must_reserve_full_actual_request_plus_maximum_response_before_dispatch": true,
+  "remaining_global_token_and_wall_budget_at_launch": null,
+  "blind_Q": "First each case uses one independent native Q session to score anonymous randomized NS and V0 outputs separately; optional V1 uses one additional Q per case; frozen NS/V0 scores never rewritten.",
+  "pre_outcome_qualification": {
+    "same_version_resource_SHA_required": true,
+    "real_delivery_and_source_fidelity_required": true,
+    "both_distinct_consumer_inputs_required": true,
+    "unknown_Q_not_zero": true,
+    "Q_not_multiplied_by_TSR": true,
+    "numeric_Q_threshold": null,
+    "calibration_pending": true,
+    "qualified_KEEP_credit_allowed_now": false
+  },
+  "input_only_does_not_authorize_native_dispatch": true,
+  "dev_test_native_budget_allocated_this_round": false,
+  "runtime_preflight_complete": false,
+  "launch_ready": false
+}

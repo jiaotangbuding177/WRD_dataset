@@ -1,0 +1,32 @@
+{
+  "decision": "revise",
+  "reason": "候选与制作版本逐字节一致，且被业务试用真实使用：workflow 臂完整读取 SKILL.md（session_events:10，全文1959字符），实际执行 extract_contract_text/docx_extras/locate_gaps 提取主文档与参考合同（session_events:13-14），用 backfill_apply.py 真实回写插入3段并继承格式（session_events:42-43），再重跑提取+soffice渲染验证（session_events:45-46）。我方独立抽取对比确认输出 docx 仅新增3段交付标准内容、其余正文零改动，交付达线。制作记录显示脚本经真实运行与错误分支测试（锚点多命中/缺失 exit=1、locate_gaps 非docx exit=2，制作期 KeyError 已修复）。资源可靠、复用属实、账目完整（无未知调用）。但不能 retain：全量尝试口径下 workflow 臂成本不降反升（1,780,021 tokens/25次 vs no_skill 1,266,673/19，review_input cost_reduced=false 且 completed_pair_reduced=false）。成本超支有具体可修原因：(1) 本案无批注且'五、交付标准与交付要求'章节已有完整表格，SKILL.md 无'用户指定章节、无空段'分支，执行臂仍跑满三个提取命令并整读 text.json/gaps.json/ref_text.json 大JSON进上下文，随后还回退到手工解包XML重定位（session_events:19-21），多耗约6次调用；(2) 验证环节除重跑提取+渲染外又加3次 vision 调用（response.json artifacts vision1-3.txt）；(3) 交付默认'docx+md+待核实清单'与本案'除Word外不需额外报告'的约束未做条件化。有明确局部修改空间，故 revise 而非 reject/defer。",
+  "replaced_work": "backfill_apply.py（锚点定位+继承邻段pPr/rPr+清高亮+吞占位空段+XML自校验）真实替代了每次手工解包OOXML直改document.xml、逐段对齐缩进编号字体的公共工作；extract_contract_text.py/docx_extras.py 复用自 reusable skill_1/2，locate_gaps.py 新写批注→锚段映射+空段格式摘要；ooxml-lessons.md 摘编保留来源。无批注、无空段的'已有章节追加'场景是当前脚本未覆盖的相邻公共工作，本案正是靠执行者现场补位完成的。",
+  "resource_reliable": true,
+  "delivery_passed": true,
+  "resource_used": true,
+  "evidence_refs": [
+    "/workspace/inputs/review_input.json#totals/cost_reduced/completed_pair_reduced",
+    "/workspace/inputs/candidate/SKILL.md",
+    "/workspace/inputs/making/a8d881c102f7/workspace/outputs/making.json#program_runs/known_issues（含视觉复核超时改用soffice+pdftotext的说明）",
+    "/workspace/inputs/candidate 与 /workspace/inputs/making/a8d881c102f7/workspace/outputs/skill 逐文件diff一致（试用版本即当前候选）",
+    "/workspace/inputs/cases/1/workflow/openclaw_transport/session_events.jsonl:10（SKILL.md全文读取）、:13-14（三脚本+参考合同提取）、:19-21（发现章节已有内容回退手工XML定位）、:42-43（backfill_apply inserted 3 paragraphs）、:45-46（重跑提取+渲染验证）",
+    "/workspace/inputs/cases/1/workflow/read_usage_evidence.json（read 1次成功、exec资源2次成功，skill_reads空仅指摘要口径）",
+    "/workspace/inputs/cases/1/workflow/workspace/outputs/热电池智能设计与验证平台技术协议-补充交付标准.docx（独立解析：原169段→172段，仅新增交付形式/交付与验收流程/异议与整改3段，原段零改动）",
+    "/workspace/inputs/cases/1/workflow/response.json#artifacts（vision1-3、PDF渲染件）、toolSummary 22次调用1次失败（一次write重试成功）",
+    "/workspace/inputs/cases/1/no_skill/workspace/outputs/热电池智能设计与验证平台技术协议-20260619-补充交付标准.docx 与 response.json（基线臂亦真实交付）"
+  ],
+  "case_findings": [
+    {
+      "case_id": "doc-section-supplement-001",
+      "delivery": "pass",
+      "reason": "workflow臂输出docx经独立解析确认：在'五、交付标准与交付要求'总述段后新增3段交付标准（交付形式/交付与验收流程/异议与整改），内容均出自主文档3.2/四/六条与EvoMind合同6.x口径，无虚构数字，其余正文逐段比对零改动；有插入位置与渲染PDF验证记录。基线no_skill臂亦交付（新增12段，含5.1/5.2小节）。未到线的不是交付而是成本：技能臂Token与调用均高于基线。"
+    }
+  ],
+  "repair_notes": [
+    "SKILL.md第1步加分支：用户已指明补充章节且docx_extras显示无批注时，只跑 extract_contract_text（或不整读text.json，按目标章节附近段落截取），跳过 locate_gaps 全量空段扫描；禁止把 text.json/gaps.json/ref_text.json 全文读入上下文，改为按章节关键字定位后局部读取。",
+    "第2步补'已有章节追加'分支：目标章节已有内容（含表格）时，锚点取该章节最后一段或表格后首段，并给 backfill_apply 在表格后插入的定位写法说明；本案执行臂因无此指引多花了3次调用重新定位。",
+    "第3步交付默认改为条件化：明确'用户已限定仅交付docx时不再附md稿与待核实清单，硬信息以回复内待核实说明替代'；验证项将3次vision视觉复核列为可选（制作期已两次超时），保留重跑提取+soffice渲染为必要项即可。",
+    "known_issues（locate_gaps不标注表格内段落、backfill不产生w:ins修订痕迹）可在SKILL.md入口区一句话提示，避免深嵌套文档场景踩坑。"
+  ]
+}

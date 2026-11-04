@@ -1,0 +1,35 @@
+{
+  "protocol": "native-openclaw-only-v1",
+  "stage": "generation",
+  "task_id": "B_make_report_02",
+  "input": "执行WRD阶段B：在一个完整原生主会话内，从本次干净用户材料和明确纠错反馈制作一个新的、可独立消费的通用技能资源包，并实际验证资源。不要训练、不要创建子Agent，不调用sessions_spawn/sessions_yield；不要发邮件/日程/消息、联网搜资料或远端写入，不安装无关依赖。当前没有旧29个skills、旧Q或旧route可用，不得寻找或臆造它们。原工具目录保持。\n\n先实际读取：\n1. /workspace/inputs/conversations/conv_d1ef29d65e7a.json\n2. /workspace/inputs/conversations/conv_41874c950938.json\n3. /workspace/inputs/conversations/conv_246b5e915810.json\n4. /workspace/inputs/a_stage/source_profiles.verified_fields.annotation.json\n5. /workspace/inputs/a_stage/A_B_MAKE_FEEDBACK.json\n\n原始用户原文是首要证据。第4/5项是独立AI银标和本次A结束后的真实新反馈，不是原Teacher CoT或效果gold；原A workflow/rubric未获整份批准且没有挂载，不按其错误内容制作。历史人设是材料，不作为本轮人设。原数据与效果只标用户陈述/目标，不能宣称外部独立核实。\n\n本次只制作“素材与事实/目标/约束账本→按用途成稿→字数/引用/事实缺口核对”这一候选机制，主学习来源为前两份的官方汇报/一段话成稿。第三份只作为不适用边界：只出题、描述需求且范围不明，不能盲合为官方稿，也不能因缺具体规则把早期基金咨询判NO_VALUE；应DEFER/NEEDS_EVIDENCE。不要机械把产品能力要求当学生实施方法删除。本次没有独立试跑，不宣称复用收益已验证。\n\n在 /workspace/outputs/skill/ 制作独立技能目录，至少具备：\n- 轻量 SKILL.md：适用/不适用条件、按需读取资源索引、简短有序workflow、明确公开调用方式、验证及停止/需澄清条件。不要把制作日志或评审记录放进包内。\n- 通用fact ledger/schema：事实ID、用户陈述/规划目标/明确要求/新假设等类型、值/单位/时间/主体与限定语、source_id/message_id/逐字quote引用、是否用户明确必保。不要把“用户提到某项事实”自动变成“最终摘要必须逐字保留全部细节”；派生质量规则与explicit_user区分。\n- 可复用section模板：官方汇报与一段话成稿的轻量分支；输入/输出字段、账本/引用接口清楚，不含企业名/产品效果/到款目标硬编码。目标Word没有提供就只交文本并明确未写Word。\n- 可执行校验脚本（尽量用标准库）：递归检查所有evidence_refs的源消息/连续原文quote；账本/成稿使用的fact ID与来源闭合；长度/段落约束；缺事实、未知引用和冲突/缺输入明确报出。规划目标不能被类型改成已实现事实。程序能核结构/数字/类型的范围与仍需语义复核的范围必须如实说明，不用关键词匹配冒充完整语义判定。\n\n脚本与模板使用公开参数/路径接口，不绑定这次maker目录、企业专名或固定三份源内容；保真数据从调用输入读取。技能可以带通用schema和说明，企业素材/制作痕迹/测试夹具置于技能包外。原文全量保留，缺件不虚构；不了解事实时停止/明确NEEDS_EVIDENCE，不生成看似正确的业务数字。\n\n必须实际运行有意义的正常、边界和错误fixture，不能只AST解析/文件存在。测试材料用明确虚构的小样例放 /workspace/outputs/tests/，不要伪装真实业务来源；通过技能公开接口执行，不改CLI只为测试路径方便。至少覆盖：\n1. 正常：有出处的建设成果素材→短官方稿；有计划目标/不同年份的素材→一段话，目标口径不变。\n2. 边界：长度恰好阈值与超1；可省略非必保细节但不能数字改错；缺目标Word/信息不足的明确状态；不适用的课程只出题任务不走官方稿。\n3. 错误：unknown fact ID；引文不是原文连续子串；嵌套字段中的错误引用（防A只查86/90的漏项）；数字/单位或主体关联不符；将planned_goal声明成achieved_fact；缺必需证据。无法通过确定程序可靠判断的语义错误应明确输出NEEDS_SEMANTIC_REVIEW，不假报PASS。\n用测试断言验证“预期拒绝确实被拒绝/边界确实被区分”，不把所有退出非0都算测试通过。保留每次实际命令、输入/产物SHA、实际返回/断言、失败原因；有失败先局部修复资源再通过同接口复测，不删除失败或把未执行写成成功。\n\n另输出 /workspace/outputs/resource_validation.json 和 /workspace/outputs/making_summary.json，记录资源相对路径/SHA、真实测试矩阵及限制、失败→修订→重测链；测试全过也只证明这些局部检查，不批准整个技能质量或收益。说明A六项反馈如何处理。最后检查包内资源引用/命令可解析，并给非空文字最终答复列出技能目录、测试实数与仍待真实独立试跑/语义审阅项。不要以yield或只有tool call结束。\n",
+  "context": [],
+  "followup_inputs": [],
+  "required_commands": [
+    "python",
+    "openclaw"
+  ],
+  "resources": [
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\inputs\\conversations\\conv_d1ef29d65e7a.json",
+      "mount": "inputs/conversations/conv_d1ef29d65e7a.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\inputs\\conversations\\conv_41874c950938.json",
+      "mount": "inputs/conversations/conv_41874c950938.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\inputs\\conversations\\conv_246b5e915810.json",
+      "mount": "inputs/conversations/conv_246b5e915810.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\inputs\\a_stage\\source_profiles.verified_fields.annotation.json",
+      "mount": "inputs/a_stage/source_profiles.verified_fields.annotation.json"
+    },
+    {
+      "path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\B_make_report_02\\workspace\\inputs\\a_stage\\A_B_MAKE_FEEDBACK.json",
+      "mount": "inputs/a_stage/A_B_MAKE_FEEDBACK.json"
+    }
+  ],
+  "learned_skills": []
+}

@@ -1,0 +1,363 @@
+{
+  "schema": "wrd-revision-extra-test-log-v1",
+  "runner": "run_tests_extra.py",
+  "cli_under_test": "/workspace/outputs/skill/scripts/validate_pack.py",
+  "cli_sha256": "86336921615cb2d15ae7c7c531fa81a457ea201e353223e79de4900445b59f58",
+  "note": "补充正反例均为明确虚构样本；断言精确到失败ID/路径/复核项，非仅退出码",
+  "cases": [
+    {
+      "name": "X1_different_years_actual_goal_same_value_legal",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x1_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x1_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X1_different_years_actual_goal_same_value_legal_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x1_ledger.json": "08e296af3bcf5325bb2742bbc448b764ac331d6a7ac2380f8327187830e7a1fe",
+        "/workspace/outputs/tests/fixtures_extra/x1_draft.json": "dafe52ff7596fe7ace35ecdbb0e001aabf06d9ab7e5342bd5a11195d75988cda",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 4 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2024,2027；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS: 同一主体/数值/单位存在多种 fact_type 声明: [('F1', 'user_statement', '2024'), ('F2', 'planned_goal', '2027')]；时间/口径差异可能合法共存，程序无法确定是否矛盾，需人工语义复核\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F1 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact F2 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "b124a1df45f40fcf56b7d0354fcd6542624ebd87fcbd55c3cc28c03256c50d01",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "fail_absent:fact_type_conflict",
+          "passed": true
+        },
+        {
+          "desc": "review_contains:FACT_TYPE_AMBIGUOUS",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X2_same_year_actual_goal_same_value_coexist_legal",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x2_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x2_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X2_same_year_actual_goal_same_value_coexist_legal_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x2_ledger.json": "a5f244bd14149b0e806a87e5bfb38fd5ca68d597b50fae85967f1987d24269b4",
+        "/workspace/outputs/tests/fixtures_extra/x2_draft.json": "2bfeb538764079dd565360bc7a7277c470c3e21918c37b47d53f81e17eb59e35",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 4 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS: 同一主体/数值/单位存在多种 fact_type 声明: [('F3', 'user_statement', '2030'), ('F4', 'planned_goal', '2030')]；时间/口径差异可能合法共存，程序无法确定是否矛盾，需人工语义复核\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F3 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nREVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact F4 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "a40c78ae093a9ae9b0069fc182744c46d3472884e1f6ea0dd5d5d372ecc1ca0d",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "verdict==STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "fail_absent:fact_type_conflict",
+          "passed": true
+        },
+        {
+          "desc": "review_contains:FACT_TYPE_AMBIGUOUS",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X3_planned_goal_as_achieved_still_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x1_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x3_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X3_planned_goal_as_achieved_still_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x1_ledger.json": "08e296af3bcf5325bb2742bbc448b764ac331d6a7ac2380f8327187830e7a1fe",
+        "/workspace/outputs/tests/fixtures_extra/x3_draft.json": "2985e84151b61cd5ffd652c1d1848be742dbaae224911dd5c799cfcb00a74f1f",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL type_mismatch_planned_goal_as_achieved: 规划目标 F2 被声明为已实现事实（as_type=achieved_fact）；目标口径必须保持 [$.fact_refs[1]]\nNEEDS_SEMANTIC_REVIEW: 3 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2024,2027；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS: 同一主体/数值/单位存在多种 fact_type 声明: [('F1', 'user_statement', '2024'), ('F2', 'planned_goal', '2027')]；时间/口径差异可能合法共存，程序无法确定是否矛盾，需人工语义复核\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F1 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "e4771e371c9ec79b888655225bd41277fca346365fc8b6a928613d36fc8ec8ab",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:type_mismatch_planned_goal_as_achieved",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X4_nested_evidence_refs_not_list_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x4_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x4_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X4_nested_evidence_refs_not_list_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x4_ledger.json": "63bab8f9eeb7be427c4b9793d13feb90448e71d71ed54ecd2d2740b7c1c7a370",
+        "/workspace/outputs/tests/fixtures_extra/x4_draft.json": "d7b6b043f9f2b047b269cddab5e3dd1e8d3db264b058d0abb0331a040e5c0fcd",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL evidence_refs_not_list: evidence_refs 必须是列表，实际为 str: 'malformed-reference-string' [ledger:$.facts[0].task_switches[0].evidence_refs]\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "a9fc28ed46faa60c56b20e084d8bad925aa860209ed77615cbe95b3b9b333877",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "failures_count==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:evidence_refs_not_list",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:task_switches",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:evidence_refs",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X5_nested_evidence_refs_item_not_object_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x5_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x5_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X5_nested_evidence_refs_item_not_object_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x5_ledger.json": "4a093a79167ab0291d7b0b3279f485e28c37e43d7fbe1afc96c05d356f76b00c",
+        "/workspace/outputs/tests/fixtures_extra/x5_draft.json": "d7b6b043f9f2b047b269cddab5e3dd1e8d3db264b058d0abb0331a040e5c0fcd",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL evidence_refs_item_not_object: evidence_refs 列表元素必须是对象，实际为 int: 42 [ledger:$.facts[0].task_switches[0].evidence_refs[0]]\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "b43ea2fd08fd06faba1afb72999d5467fc34f50f60f10d09ce466186d684a2df",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "failures_count==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:evidence_refs_item_not_object",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:task_switches",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:evidence_refs[0]",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X6_nested_evidence_refs_dict_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x6_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x6_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X6_nested_evidence_refs_dict_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x6_ledger.json": "7ffc629f447bd68b53aaf47ce2ee11988829246e706faf93fc58b39f27be09a3",
+        "/workspace/outputs/tests/fixtures_extra/x6_draft.json": "d7b6b043f9f2b047b269cddab5e3dd1e8d3db264b058d0abb0331a040e5c0fcd",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL evidence_refs_not_list: evidence_refs 必须是列表，实际为 dict: {'source_id': 'src_x'} [ledger:$.facts[0].task_switches[0].evidence_refs]\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "10dd57041ee3c0686cb1b1721aefff75cc0c5d62f51c95356ba997e632f82119",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:evidence_refs_not_list",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:task_switches",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X7_nested_valid_quote_still_passes",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x7_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x7_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X7_nested_valid_quote_still_passes_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x7_ledger.json": "e2edc81338553675eb3734e0f25fa3039289ed1d5ec6220f0ada8fab347c0ea7",
+        "/workspace/outputs/tests/fixtures_extra/x7_draft.json": "d7b6b043f9f2b047b269cddab5e3dd1e8d3db264b058d0abb0331a040e5c0fcd",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "d14aba5b3a8eea44fd02f189ed76bad54a66c9e4e28adb47b47073b47fb2ab6a",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X8_nested_bad_quote_still_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x8_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x8_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X8_nested_bad_quote_still_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x8_ledger.json": "6f3d335df222d1acf83acec6787013dc9de1487a050f577b40783fca4850c0bc",
+        "/workspace/outputs/tests/fixtures_extra/x8_draft.json": "d7b6b043f9f2b047b269cddab5e3dd1e8d3db264b058d0abb0331a040e5c0fcd",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL evidence_quote_not_contiguous: quote 不是源消息的连续原文子串: source=src_x message=src_x:msg3 quote='2031年运维支出80万元' [ledger:$.facts[0].task_switches[0].evidence_refs[0]]\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "2c1e320998968f9c87d83c25a7d4e6b4e92a4df3f1aa88763372fd9b6b6564ec",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:evidence_quote_not_contiguous",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:task_switches",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X9_empty_optional_refs_legal",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x9_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x9_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X9_empty_optional_refs_legal_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x9_ledger.json": "1dc27058bb6328b20d08206146121d6c75ad08686801685a2180a135a65b3c5e",
+        "/workspace/outputs/tests/fixtures_extra/x9_draft.json": "0c3dc41dabfe12db0ccc56d8c9e150b9f7831ea539bc21cacd515b8ef782a034",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 0,
+      "stdout_tail": "VERDICT: STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING\nFAILURES: 0\nNEEDS_SEMANTIC_REVIEW: 1 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:ASSUMPTION_MARKING: fact A1 为新假设；成稿中必须明确标注为假设，需人工复核\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "26239a6ad6b21ebd2f3e80abc851446afebaf0116a2ace6dee68d8c3a16736d6",
+      "assertions": [
+        {
+          "desc": "exit_code==0",
+          "passed": true
+        },
+        {
+          "desc": "failures==[]",
+          "passed": true
+        },
+        {
+          "desc": "fail_absent:missing_required_evidence",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X10_required_fact_empty_refs_still_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x10_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x10_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X10_required_fact_empty_refs_still_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x10_ledger.json": "6b0453bf138659fc6f40ce4aebc1315f20e812fe138aaadf5f79ddc2c829934e",
+        "/workspace/outputs/tests/fixtures_extra/x10_draft.json": "d7b6b043f9f2b047b269cddab5e3dd1e8d3db264b058d0abb0331a040e5c0fcd",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL missing_required_evidence: fact F5（user_statement）缺少必需证据 evidence_refs 为空 [$.facts[0].evidence_refs]\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "0670c2118165b1f209f0c20cd47b5f3f432ea3b2bbf1682fab7229d5802d2054",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:missing_required_evidence",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X11_draft_side_nested_malformed_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x11_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x11_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X11_draft_side_nested_malformed_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x11_ledger.json": "7d1771f552ede7e7a6596b61a0f68a0408e0fde402a9f69e2fd263655405ffe2",
+        "/workspace/outputs/tests/fixtures_extra/x11_draft.json": "6a1fba9535e29e8f6e067d1c08fa637ffbc0c6418c8e9b4060a04ef4be0b6b88",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 1\nFAIL evidence_refs_not_list: evidence_refs 必须是列表，实际为 str: 'oops-not-a-list' [draft:$.attachments[0].evidence_refs]\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "9cc5b40160458aa66f7b1854b6b5858136b07805bc9613caf966ffb623a4df5a",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:evidence_refs_not_list",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:draft",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:attachments",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    },
+    {
+      "name": "X12_fact_level_refs_not_list_rejected",
+      "command": "/opt/eval-venv/bin/python /workspace/outputs/tests/../skill/scripts/validate_pack.py validate --ledger /workspace/outputs/tests/fixtures_extra/x12_ledger.json --draft /workspace/outputs/tests/fixtures_extra/x12_draft.json --sources /workspace/outputs/tests/fixtures_extra/sources_extra.json --report /workspace/outputs/tests/reports_extra/X12_fact_level_refs_not_list_rejected_report.json",
+      "input_sha256": {
+        "/workspace/outputs/tests/fixtures_extra/x12_ledger.json": "f91edf68adf7fb0ff210f67723974068f7371edcb561d4b1d4f65bdd15d9a309",
+        "/workspace/outputs/tests/fixtures_extra/x12_draft.json": "d7b6b043f9f2b047b269cddab5e3dd1e8d3db264b058d0abb0331a040e5c0fcd",
+        "/workspace/outputs/tests/fixtures_extra/sources_extra.json": "b54ea0f83557ae0c32fd01b0e483a96fa1f8b1877df647cc80a3dc05f9add408"
+      },
+      "exit_code": 1,
+      "stdout_tail": "VERDICT: STRUCTURAL_FAIL\nFAILURES: 2\nFAIL ledger_basics: fact F5 缺少 evidence_refs 列表 [$.facts[0]]\nFAIL missing_required_evidence: fact F5（user_statement）缺少必需证据 evidence_refs 为空 [$.facts[0].evidence_refs]\nNEEDS_SEMANTIC_REVIEW: 2 item(s)\nREVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2030；需人工语义复核是否与账本一致\nREVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F5 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因\nNOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word",
+      "report_sha256": "8bd4e450cf75a8586192958e142b2549b9cea0dca7aa9701b69b4b86d347f855",
+      "assertions": [
+        {
+          "desc": "exit_code==1",
+          "passed": true
+        },
+        {
+          "desc": "fail_present:ledger_basics",
+          "passed": true
+        },
+        {
+          "desc": "fail_path_contains:$.facts[0].evidence_refs",
+          "passed": true
+        }
+      ],
+      "case_result": "PASS"
+    }
+  ],
+  "summary": {
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "interpretation_limit": "补充测试通过仅证明局部修订后的结构检查有效，不构成语义正确或技能质量/复用收益的批准"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "schema_version": "wrd-preflight-staging-validation-v1",
+  "status": "PASS",
+  "checked_utc": "2026-10-25T09:00:01.561762+00:00",
+  "source": "release_staging/preflight/20261025",
+  "source_manifest_sha256": "d57e8bd80dbeb4c70f807306b1ed778955e2cfa4ffea6c15214efb341abe231e",
+  "checks": {
+    "payload_manifest": {
+      "expected": 108,
+      "verified": 108,
+      "actual_payload_files": 108,
+      "payload_bytes": 461211272,
+      "manifest_sha256": "d57e8bd80dbeb4c70f807306b1ed778955e2cfa4ffea6c15214efb341abe231e"
+    },
+    "restricted_exclusion": {
+      "prohibited_path_count": 0,
+      "raw_weight_binary_or_key_count": 0,
+      "outside_resolved_count": 0,
+      "controlled_B_array_directories_absent": true,
+      "B_metadata_only": true,
+      "scope": "Filename/root allowlist and metadata field checks; not a new semantic PII certification."
+    },
+    "admission_files": {
+      "expected": 4,
+      "verified": 4
+    },
+    "public_compiler_files": {
+      "expected": 25,
+      "verified": 25
+    },
+    "public_inputs": {
+      "expected": 2,
+      "verified": 2
+    },
+    "admission_public_inputs": {
+      "expected": 2,
+      "verified": 2
+    },
+    "controlled_metadata_receipts": {
+      "expected": 2,
+      "verified": 2
+    },
+    "cross_domain_public_identity": {
+      "public_success_rows": 4109,
+      "controlled_success_rows": 7100,
+      "controlled_failure_rows": 17,
+      "mismatched_public_rows": 0,
+      "metadata_extra_field_rows": 0
+    },
+    "self_contained_code": {
+      "python_files_syntax_checked": 14,
+      "syntax_failures": [],
+      "required_labels_helper_entrypoints_self_contained": true,
+      "required_labels_helper_closure_functions": 8,
+      "required_labels_helper_imports_stdlib_only": true,
+      "local_helper_resources_present": true,
+      "dormant_full_legacy_export_is_not_public_reproduction_entrypoint": true,
+      "scope": "The documented labels helper and CPU compile/finalize entrypoints are self-contained; the dormant full legacy exporter requires its original build module and is not invoked."
+    },
+    "tokenizer_assets": {
+      "official_frozen_asset_receipts_verified": 10,
+      "model_asset_sets": 2,
+      "weights_present": false
+    },
+    "scope_flags": {
+      "full_scale_training_ready": false,
+      "training_execution_authorized": false,
+      "human_gold": 0,
+      "training_started": false,
+      "model_or_tokenizer_instantiated": false
+    },
+    "final_manifest_recheck": {
+      "expected": 108,
+      "verified": 108
+    },
+    "independent_sft_validation": {
+      "method": "independent_assistant_readonly_integrity_review",
+      "source": "same immutable staging only; no original bundle/work candidate comparison",
+      "admission_unique_rows": 7117,
+      "final_admitted_ids": 93,
+      "sft_rows": 93,
+      "common16k_rows": 32,
+      "common32k_long_only_rows": 61,
+      "duplicate_ids_between_buckets": 0,
+      "admission_id_or_bucket_mismatches": 0,
+      "kind_counts": {
+        "make": 70,
+        "screen": 23
+      },
+      "common16k_token_range": {
+        "min": 3758,
+        "max": 15924
+      },
+      "common32k_long_only_token_range": {
+        "min": 16389,
+        "max": 32330
+      },
+      "total_input_tokens": 1620754,
+      "prompt_tokens": 1602549,
+      "supervised_tokens": 18205,
+      "all_uint32_input_hashes_valid": true,
+      "all_completion_mask_hashes_valid": true,
+      "all_spans_exact_current_completion": true,
+      "all_ignore_index_minus100_labels_reversible": true,
+      "all_dual_model_equality_proofs_present": true,
+      "all_historical_tool_calls_results_paired": true,
+      "all_admission_flags_and_token_proofs_match": true,
+      "sft_readme_inline_labels_ast_valid": true,
+      "sft_readme_imports_cpu_compiler_or_cuda": false,
+      "exceptional_ids": [],
+      "semantic_gold_added": 0
+    }
+  },
+  "issues": [],
+  "source_staging_modified": false,
+  "output_report_not_part_of_checked_manifest": true,
+  "training_started": false,
+  "weights_loaded": false,
+  "gpu_used": false,
+  "external_model_tool_api_calls": 0,
+  "new_teacher_actor_judge_experiment_calls": 0,
+  "assistant_review_compute_cost": null,
+  "human_gold": 0,
+  "elapsed_seconds": 1.203,
+  "elapsed_seconds_scope": "Main offline metadata/hash pass only; excludes assistant reasoning and independent SFT review.",
+  "limitations": [
+    "Payload integrity, declared interface and allowlist verification only; not a new complete semantic privacy certification or model quality assessment.",
+    "Controlled B arrays are deliberately absent; their no-body report/index provenance was checked without reading those arrays."
+  ],
+  "nonblocking_scope_notes": [
+    "The frozen legacy training.py is supplied for documented labels helper functions, not as the complete old exporter; its dormant full export function has a deferred original-build dependency.",
+    "Validation report is written outside staging and is not part of the 108-payload snapshot being checked. If appended for publication, rebuild the outer MANIFEST without changing this snapshot receipt."
+  ],
+  "independent_assistant_integrity_review_complete": true
+}

@@ -1,0 +1,126 @@
+Let me analyze the current state. Two workflows exist: w1 (valuation, tested with real asset) and w2 (fault code reading, blocked by no OCR).
+
+Budget: 7 decisions left including this one, 4 tool calls, 506 seconds.
+
+I need to decide: is there anything more to verify? w1 has a real executed asset with assertions passing. w2 is blocked (no OCR, no fault code table).
+
+Options:
+1. Do a paired_comparison TRY to test w1's edge cases (e.g., pre_registered > pre_money should fail; missing param branch). But that costs 2 branches. Actually the existing asset already tested both branches. Hmm.
+2. Just FINISH with w1 READY, w2 DEFERRED.
+
+Let me think about whether w1 is truly ready. The asset was executed with assertions passing. The workflow has checks. The one concern: the script's self-verification branch uses hardcoded episode params (480/0.142012/1000) — but that's only in the `if __name__ == "__main__"` fallback when no --increase arg. The main path is parameterized. That's acceptable but slightly instance-coupled. Actually the fallback hardcodes the episode's numbers, which is a mild concern for reusability but the CLI path is generic.
+
+Should I do a bounded TRY to verify the failure branch (pre_registered > pre_money → assertion error)? That would strengthen w1. But is it necessary? The checks are declared and the code has the assertion. A TRY with a different parameter set would demonstrate generality. Given budget (4 tool calls, 7 decisions), one more TRY is feasible.
+
+Actually, let me consider: the task says "不要凑调用". The w1 asset already ran and passed. But it only ran with one parameter set. A bounded verification with a different parameter set (e.g., different increase/stake) would test generality — that's a genuine evidence need. Let me do a single_repair TRY with different parameters to confirm the generic path works, including the negative case (pre_registered > pre_money should raise).
+
+Hmm, but a TRY that raises an assertion would exit nonzero — that's a learnable observation, fine. But I want the main run to succeed. Let me design: run with different params (e.g., increase=1000, post_stake=0.20, pre_registered=3000) and assert results; also test that pre_registered > pre_money raises AssertionError (caught).
+
+Actually, is this worth it? The existing asset is verified=true, reusable=true, with checks_declared. The workflow already references it. I think w1 is READY. But a generality test would be good evidence. Given I have budget, let me do one bounded TRY to test a different parameter set — this addresses the unknown "脚本仅在本次参数上实测过".
+
+Let me do that. Then UPDATE to record the new evidence, then FINISH.
+
+Wait — but each TRY creates a new asset. If I do a TRY with a new script, it becomes a new asset. I could reference the existing asset via REPLAY? No, REPLAY runs recorded historical Python. The existing asset is current_executed, not historical_recorded. Hmm, REPLAY requires "existing historical_recorded_code asset id". The asset is origin_type current_executed, so REPLAY may not apply.
+
+Actually I could do a TRY with mode single_repair reusing the same code but different params. But the code is fixed in the proposal. I'd write a variant script that imports/uses the same logic with different params. That's fine.
+
+Let me think about whether this is over-engineering. The instruction: "可从L0直接形成有据工作流，也可检查文件、局部执行、有限对照。" and "不要凑调用". 
+
+I think one bounded generality TRY is justified because the unknown explicitly says only one parameter set was tested. Let me do it.
+
+Actually, let me reconsider the budget: 4 tool calls remaining, 7 decisions. If I do TRY (1 tool call), then UPDATE (0 tool calls), then FINISH (0 tool calls), that's 3 decisions. Fine.
+
+Let me write the TRY code: a generic function, run with a different parameter set, assert:
+- post_money = increase/post_stake
+- pre_money = post_money - increase
+- back-substitution
+- split sums
+- implied stake
+- negative case: pre_registered > pre_money raises AssertionError
+
+Let me pick params: increase=1000, post_stake=0.25 → post_money=4000, pre_money=3000. pre_registered=2000 → price=1.5, new_registered=666.67, capital_reserve=333.33, implied=666.67/2666.67=0.25. Good.
+
+Negative: pre_registered=3500 > 3000 → should raise.
+
+Let me write it.
+
+Actually, I should be careful: the TRY code runs in WORKSPACE with outputs/. Let me write clean code.
+
+Let me produce the TRY action.
+
+Then UPDATE: add the new asset to w1 asset_refs and update unknowns (remove "only tested on one param set" or refine). Then FINISH.
+
+Actually, can I combine? UPDATE is atomic. Let me do TRY, then UPDATE, then FINISH.
+
+Let me write the TRY proposal.
+
+code:
+
+```python
+import json, os, argparse
+
+def compute_valuation(increase_amount, post_stake, pre_registered_capital=None, tol=1e-6):
+    assert increase_amount > 0
+    assert 0.0 < post_stake < 1.0
+    post_money = increase_amount / post_stake
+    pre_money = post_money - increase_amount
+    assert abs(post_stake * post_money - increase_amount) <= tol * increase_amount
+    out = {...}
+    if pre_registered_capital is not None:
+        assert pre_registered_capital > 0
+        assert pre_registered_capital <= pre_money + tol
+        ...
+    else:
+        out["formula"] = {...}
+    return out
+
+def main():
+    # generality check with a different parameter set
+    r = compute_valuation(1000.0, 0.25, 2000.0)
+    assert abs(r["post_money_valuation"] - 4000.0) < 1e-6
+    assert abs(r["pre_money_valuation"] - 3000.0) < 1e-6
+    assert abs(r["new_registered_capital"] - 666.6666667) < 1e-3
+    assert abs(r["capital_reserve"] - 333.3333333) < 1e-3
+    assert abs(r["implied_post_stake"] - 0.25) < 1e-9
+    # missing param branch
+    r2 = compute_valuation(1000.0, 0.25, None)
+    assert "formula" in r2 and "new_registered_capital" not in r2
+    # negative case must raise
+    raised = False
+    try:
+        compute_valuation(1000.0, 0.25, 3500.0)
+    except AssertionError:
+        raised = True
+    assert raised, "pre_registered > pre_money must raise"
+    os.makedirs("outputs", exist_ok=True)
+    with open("outputs/valuation_generality_check.json", "w", encoding="utf-8") as f:
+        json.dump({"case": r, "missing_param_keys": sorted(r2.keys()), "negative_case_raised": raised}, f, ensure_ascii=False, indent=2)
+    print(json.dumps({"ok": True, "post_money": r["post_money_valuation"], "new_registered": r["new_registered_capital"], "capital_reserve": r["capital_reserve"], "negative_raised": raised}, ensure_ascii=False))
+
+if __name__ == "__main__":
+    main()
+```
+
+This is a reusable generality check. reusable_asset=true? It's a diagnostic check script. Hmm, it's a one-off diagnostic for this episode's generality. The instruction says "脚本若是只用于诊断的一次性尝试，reusable_asset=false". This is a diagnostic generality check — arguably one-off. But it could be reusable as a test harness. I'll set reusable_asset=false since it's a diagnostic verification, not a deliverable method asset. Actually, hmm. Let me think — the main deliverable asset is the valuation script. This is a test. I'll mark reusable_asset=false to be honest.
+
+Wait, but then it won't be registered as a reusable asset, and I can't reference it in W. That's fine — I just use the observation as evidence.
+
+Actually, if reusable_asset=false, does the TRY still produce an observation? Yes, it runs and produces observation. Good.
+
+Hmm, but actually maybe I should make it reusable=true so it can serve as a regression test. But the instruction warns against marking diagnostic one-offs as reusable. I'll go with false.
+
+Let me now write the action.
+
+Actually, let me reconsider whether to do this TRY at all. The risk: it consumes budget and might fail. But it's a genuine evidence need (generality). I'll do it.
+
+Let me write the JSON.
+
+For the TRY arguments: mode single_repair, workflow_id conv_1702b763a7ee_w1, step_ids ["s2","s3","s4"], resource_ids [], existing_asset_ids ["conv_1702b763a7ee:try_w1_valuation_conv1702b763a7ee:repair"], code, checks, reusable_asset false.
+
+Hmm, existing_asset_ids — should I reference the existing asset? The code is self-contained. I'll include it to show relation. Actually existing_asset_ids is for assets used. Since my code reimplements, maybe leave empty. I'll leave empty to avoid confusion. Actually including it signals I'm testing the same logic. I'll include it.
+
+Let me finalize.
+
+checks list: describe assertions actually in code.
+
+Now write.

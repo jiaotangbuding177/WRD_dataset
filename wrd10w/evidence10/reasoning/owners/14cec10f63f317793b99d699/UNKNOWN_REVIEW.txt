@@ -1,0 +1,280 @@
+BLOCK 467:1249
+Turn 1: User asks a finance question: 增资480万元占项目公司14.2012%的股权，投后估值？进入注册资本金？进入资本公积？ AI computes 投后估值 = 480/0.142012 ≈ 3379.99万 ≈ 3380万. Then says 注册资本/资本公积 cannot be determined without 投前注册资本. That's actually correct — you need the pre-money registered capital. The AI gives a formula Δ = 480 × (投前注册资本 / 投前估值2900万). Hmm, let's check: 投后注册资本总额 × 14.2012% = Δ. 投后注册资本总额 = 投前注册资本 + Δ. So Δ = (C + Δ)×0.142012 → Δ(1-0.142012) = C×0.142012 → Δ = C×0.142012/0.857988 = C×0.16552. And 480×C/2900 = C×0.165517. Yes matches. Good.
+
+So the reusable workflow: given 增资额 and 股权比例, compute 投后估值 = 增资额/比例, 投前估值 = 投后 - 增资额; then 注册资本/资本公积 split requires 投前注册资本; formula Δ = 增资额 × 投前注册资本/投前估值; 资本公积 = 增资额 - Δ. Also constraint 投前注册资本 ≤ 投前估值.
+
+This is a good DATA/finance workflow. Let me build it.
+
+
+
+BLOCK 4061:4796
+Hmm, but the FINISH must give exactly one decision per current W. Fine.
+
+Let me be careful: workflow id must start with current source_id + '_w'. So "conv_1702b763a7ee_w1" and "conv_1702b763a7ee_w2".
+
+Now let's write the finance workflow spec.
+
+Task: 根据本轮增资额与增资后持股比例，计算投后/投前估值，并在给定投前注册资本时拆分新增注册资本与资本公积。
+
+Parameters: input_path (future user input), 增资额, 增资后持股比例, 投前注册资本(可选).
+
+Requirements with evidence refs from turn 1 user quote: "增资480万元占项目公司14.2012%的股权，请问项目公司的投后估值是多少？其中进入注册资本金是多少？进入资本公积是多少？"
+
+Steps:
+s1: 计算投后估值 = 增资额 / 增资后持股比例；投前估值 = 投后估值 - 增资额。校验反推比例。
+s2: 判断是否给出投前注册资本；若未给出，输出公式与约束（投前注册资本 ≤ 投前估值），不臆造拆分。
+s3: 若给出投前注册资本 C，计算 Δ = 增资额 × C / 投前估值，资本公积 = 增资额 - Δ；校验 Δ/(C+Δ) ≈ 持股比例。
+
+Checks: 反推比例误差 < 1e-6；Δ + 资本公积 == 增资额；Δ/(C+Δ) ≈ 比例。
+
+
+
+BLOCK 5137:11926
+Let me write:
+
+```python
+import os, json, math
+
+def compute_post_money(increase, ratio):
+    assert 0 < ratio < 1
+    post = increase / ratio
+    pre = post - increase
+    return post, pre
+
+def split_registered_capital(increase, ratio, pre_registered_capital):
+    post, pre = compute_post_money(increase, ratio)
+    assert pre_registered_capital <= pre + 1e-9, "投前注册资本不得超过投前估值"
+    delta = increase * pre_registered_capital / pre
+    capital_reserve = increase - delta
+    return delta, capital_reserve
+
+# test with instance values
+increase = 480.0
+ratio = 0.142012
+post, pre = compute_post_money(increase, ratio)
+assert abs(post - 3380.0) < 0.5, post
+assert abs(pre - 2900.0) < 0.5, pre
+# reverse check
+assert abs(increase/post - ratio) < 1e-6
+for C in [1000.0, 2000.0, 2900.0]:
+    delta, cr = split_registered_capital(increase, ratio, C)
+    assert abs(delta + cr - increase) < 1e-9
+    assert abs(delta/(C+delta) - ratio) < 1e-6
+# 平价 case
+delta, cr = split_registered_capital(increase, ratio, pre)
+assert abs(delta - increase) < 1e-6 and abs(cr) < 1e-6
+print(json.dumps({"post": post, "pre": pre, "ok": True}))
+```
+
+Wait, for C = pre = 2900: delta = 480*2900/2900 = 480, cr = 0. And delta/(C+delta) = 480/3380 = 0.142012. Good.
+
+For C=1000: delta = 480*1000/2900 = 165.517, cr = 314.483. delta/(1000+165.517)=165.517/1165.517=0.142012. Good.
+
+Also write output to outputs/. Let's write a JSON output.
+
+Now the image workflow w2. Task: 从设备线控器/面板照片识别品牌、机型、故障代码并给出排查建议。Steps: s1 读取图片元数据（尺寸/格式），s2 需要 OCR/视觉识别故障码 — 当前工具仅能给出尺寸，无法解析文本 → 阻塞。So DEFERRED.
+
+Issue u1: 图片内容（故障代码）无法用现有工具验证，AI 历史回答中的 U2 属于 historical_report，未经验证。blocking true, status DEFERRED.
+
+Hmm, but issue workflow_id must reference a workflow. Attach to w2.
+
+Actually, maybe simpler: only one workflow (finance) READY, and one issue attached to it? No, the image issue doesn't belong to finance workflow. Let me create w2 for image diagnosis and attach the issue there. That's cleaner.
+
+Let me now think about the graph. Nodes: requirement nodes, procedure nodes, evidence. Keep it modest.
+
+Graph patch base_version 1 (current graph_version is 1). Nodes:
+- req_finance_v1 (requirement) source conv_1702b763a7ee, evidence turn 1 user quote.
+- proc_finance_v1 (procedure) evidence turn 1.
+- req_image_v1 (requirement) evidence turn 0 user quote "这个是什么故障？"
+- unknown_image_v1 (unknown) evidence turn 0.
+Edges: req_finance_v1 -> proc_finance_v1 supports; req_image_v1 -> unknown_image_v1 supports.
+
+Hmm, node type "unknown" — allowed? "Node type is a descriptive string". OK.
+
+Actually let me keep it simpler and safe. Nodes with evidence_refs nonempty, source_ids nonempty.
+
+Let me now write the UPDATE action.
+
+Note: UPDATE arguments: graph, workflows, issues. workflows is a list of either {spec} or {workflow_id, base_version, patch}.
+
+Since W is empty, we create new workflows with spec.
+
+Let me write the full WorkflowSpec for w1.
+
+```json
+{
+  "id": "conv_1702b763a7ee_w1",
+  "task": "根据本轮增资额与增资后持股比例计算投后/投前估值，并在给定投前注册资本时拆分新增注册资本与资本公积",
+  "parameters": {
+    "increase_amount": "本轮增资额（未来用户输入）",
+    "post_ratio": "增资后持股比例（小数或百分数）",
+    "pre_registered_capital": "项目公司投前注册资本（可选，未来用户输入）",
+    "input_path": "未来用户输入文件路径（可选）",
+    "output_path": "outputs/ 下的结果文件路径"
+  },
+  "requirements": [
+    {"text": "必须给出投后估值", "evidence_refs": [{"source_id": "conv_1702b763a7ee", "turn_index": 1, "role": "user", "quote": "请问项目公司的投后估值是多少？"}]},
+    {"text": "必须拆分进入注册资本金与资本公积的金额", "evidence_refs": [{"source_id": "conv_1702b763a7ee", "turn_index": 1, "role": "user", "quote": "其中进入注册资本金是多少？进入资本公积是多少？"}]}
+  ],
+  ...
+}
+```
+
+Quote must be exact substring. Turn 1 user content: "请使用中文回复，除非用户明确使用其他语言。\n\n增资480万元占项目公司14.2012%的股权，请问项目公司的投后估值是多少？其中进入注册资本金是多少？进入资本公积是多少？"
+
+So "请问项目公司的投后估值是多少？" is a substring. "其中进入注册资本金是多少？进入资本公积是多少？" is a substring. Good.
+
+Also "增资480万元占项目公司14.2012%的股权" is a substring.
+
+Steps:
+s1: 计算投后估值与投前估值。operation: "投后估值 = 增资额 ÷ 增资后持股比例；投前估值 = 投后估值 − 增资额；用 增资额 ÷ 投后估值 反推比例校验". output_refs: ["post_money_valuation", "pre_money_valuation"].
+s2: 判断投前注册资本是否已知。operation: "若未提供投前注册资本，输出公式 Δ = 增资额 × 投前注册资本 ÷ 投前估值 与约束 投前注册资本 ≤ 投前估值，不臆造拆分结果". 
+s3: 拆分。operation: "Δ = 增资额 × 投前注册资本 ÷ 投前估值；资本公积 = 增资额 − Δ；校验 Δ ÷ (投前注册资本 + Δ) ≈ 增资后持股比例".
+
+control_flow: dependencies [["s1","s2"],["s2","s3"]], branches: [{"from":"s2","to":"s3","type":"conditional","condition":"用户提供了投前注册资本"}], repair_loops: [].
+
+failure_handling: ["若投前注册资本 > 投前估值，停止并报告约束冲突，不输出负资本公积", "若反推比例与给定比例偏差超过 1e-6，报告输入不一致"].
+
+checks: ["投后估值反推比例与给定比例一致", "Δ + 资本公积 == 增资额", "Δ ÷ (投前注册资本 + Δ) ≈ 增资后持股比例"].
+
+asset_refs: [] (no script asset yet since TRY is not a recorded asset... actually TRY creates an execution but not necessarily an asset. The instruction says UPDATE can include real asset_id if tested. But we don't have an asset_id from TRY unless the runner returns one. Let's not include asset_ids.)
+
+Hmm, actually TRY returns observation with execution_id. We can reference execution_id in evidence_refs? The rules say "References must cite existing complete source turns, exact quotes or registered runtime execution ids". So we could add evidence_ref with execution_id. But the shape given is {source_id, turn_index, role, quote}. Let me keep to source refs to be safe, and mention execution in support_status "current_executed".
+
+Actually support_status for steps: "historical_report|proposed|current_executed". After TRY succeeds, s1/s3 could be current_executed. But the TRY is a test of the method, not the workflow step itself. Hmm. I'll mark s1 and s3 as current_executed if the TRY passes, s2 as proposed. Actually let me be careful — the TRY executes the computation logic which corresponds to s1 and s3. I'll mark them current_executed.
+
+Hmm, but is that overclaiming? The TRY ran the code with instance values and assertions passed. That's genuine current execution of the method. I think it's fine to mark current_executed for the steps whose logic was executed.
+
+Let me keep it conservative: mark s1 and s3 as current_executed, s2 as proposed.
+
+Now w2 spec:
+
+```json
+{
+  "id": "conv_1702b763a7ee_w2",
+  "task": "从设备线控器/面板照片识别品牌、机型与故障代码，并给出可核验的故障排查建议",
+  "parameters": {"image_path": "未来用户提供的设备照片路径", "output_path": "outputs/ 下的诊断结果路径"},
+  "requirements": [{"text": "用户要求识别照片中的故障", "evidence_refs": [{"source_id":"conv_1702b763a7ee","turn_index":0,"role":"user","quote":"这个是什么故障？"}]}],
+  "conditions": ["需要可解析图片文本的 OCR/视觉能力"],
+  "steps": [
+    {"id":"s1","purpose":"读取图片元数据","input_refs":["image_path"],"operation":"用 inspect 读取图片格式与像素尺寸","output_refs":["image_meta"],"support_status":"current_executed",...},
+    {"id":"s2","purpose":"识别故障代码","input_refs":["image_path"],"operation":"对图片做 OCR/视觉识别，读出品牌、机型、故障代码","output_refs":["fault_code"],"support_status":"proposed",...}
+  ],
+  "unknowns": ["当前工具目录中 JPG 仅返回尺寸，无 OCR；故障代码无法从图片字节验证"],
+  ...
+}
+```
+
+
+
+BLOCK 12207:15155
+Let me also consider: is the finance workflow really "reusable"? Yes — 增资估值拆分 is a standard finance calculation. Good.
+
+Now let me write the actions.
+
+Action 1: INSPECT
+```json
+{"action_id":"inspect_img_conv1702","kind":"INSPECT","source_id":"conv_1702b763a7ee","purpose":"确认图片资源实际可解析内容，判断历史回答中的故障码是否可被现有工具验证","arguments":{"resource_ids":["res_5f05e6b623e5706725c5__file_bd2d84054c0c"],"property":"图片格式、像素尺寸、是否可提取文本"}}
+```
+
+Action 2: TRY single_repair.
+
+Action 3: UPDATE.
+
+Action 4: FINISH.
+
+Let me write the TRY code carefully.
+
+```python
+import os, json
+
+def post_money(increase, ratio):
+    assert 0 < ratio < 1, "ratio must be in (0,1)"
+    assert increase > 0
+    post = increase / ratio
+    pre = post - increase
+    return post, pre
+
+def split_capital(increase, ratio, pre_registered_capital):
+    post, pre = post_money(increase, ratio)
+    assert pre_registered_capital <= pre + 1e-6, "pre registered capital exceeds pre-money valuation"
+    delta = increase * pre_registered_capital / pre
+    reserve = increase - delta
+    return delta, reserve
+
+def run(increase, ratio, pre_registered_capital=None):
+    post, pre = post_money(increase, ratio)
+    assert abs(increase / post - ratio) < 1e-9
+    result = {"post_money": round(post, 2), "pre_money": round(pre, 2)}
+    if pre_registered_capital is None:
+        result["split"] = None
+        result["note"] = "need pre_registered_capital; constraint: pre_registered_capital <= pre_money"
+    else:
+        delta, reserve = split_capital(increase, ratio, pre_registered_capital)
+        assert abs(delta + reserve - increase) < 1e-6
+        assert abs(delta / (pre_registered_capital + delta) - ratio) < 1e-9
+        result["split"] = {"registered_capital": round(delta, 2), "capital_reserve": round(reserve, 2)}
+    return result
+
+# instance test
+r = run(480.0, 0.142012)
+assert abs(r["post_money"] - 3380.0) < 0.5, r
+assert abs(r["pre_money"] - 2900.0) < 0.5, r
+assert r["split"] is None
+for C in (1000.0, 2000.0, 2900.0):
+    rr = run(480.0, 0.142012, C)
+    assert abs(rr["split"]["registered_capital"] + rr["split"]["capital_reserve"] - 480.0) < 1e-6
+rr = run(480.0, 0.142012, 2900.0)
+assert abs(rr["split"]["registered_capital"] - 480.0) < 1e-6
+assert abs(rr["split"]["capital_reserve"]) < 1e-6
+
+os.makedirs("outputs", exist_ok=True)
+with open("outputs/conv_1702b763a7ee_capital_split.json", "w", encoding="utf-8") as f:
+    json.dump({"no_pre_capital": r, "with_pre_capital_1000": run(480.0, 0.142012, 1000.0)}, f, ensure_ascii=False, indent=2)
+print(json.dumps(r, ensure_ascii=False))
+```
+
+Wait: 480/0.142012 = 3379.996... let me compute: 0.142012 * 3380 = 480.00056. So 480/0.142012 = 3379.996... ≈ 3379.996. round to 3380.0. abs(3379.996-3380)=0.004 < 0.5. Good.
+
+pre = 3379.996 - 480 = 2899.996. abs - 2900 = 0.004 < 0.5. Good.
+
+delta for C=1000: 480*1000/2899.996 = 165.5175. reserve = 314.4825. Sum = 480. Good.
+
+delta/(1000+165.5175) = 165.5175/1165.5175 = 0.142012. Good.
+
+
+
+BLOCK 16655:17169
+Now, the checks list for TRY: ["投后估值反推比例与给定比例一致", "Δ + 资本公积 == 增资额", "Δ ÷ (投前注册资本 + Δ) ≈ 增资后持股比例", "投前注册资本超过投前估值时断言失败"].
+
+reusable_asset: true? The code is a reusable function. But it's a TRY, not a recorded asset. The instruction says "脚本若是只用于诊断的一次性尝试，reusable_asset=false". This is a reusable method script. I'll set reusable_asset: true. Hmm, but then it becomes an asset? The TRY returns an execution; whether it registers an asset depends on the runner. Let me set true since the code is genuinely reusable.
+
+
+
+BLOCK 17545:17567
+OK. Let me finalize.
+
+
+
+BLOCK 19943:21326
+One more consideration: the TRY needs resource_ids. The finance workflow doesn't use a file resource. Hmm, TRY requires resource_ids. I could pass the image resource? No, irrelevant. Maybe pass [] — but schema says resource_ids: ["r1"]. Let me pass an empty list? Risky. Alternatively, the finance TRY doesn't need resources; I'll pass [] and hope it's accepted. Hmm.
+
+Actually, maybe better: make the TRY about the finance computation with no resource. The contract shows resource_ids as a list. Empty list should be acceptable. Let me use [].
+
+Hmm, but risk of rejection. Alternatively I could combine: the TRY could read the image metadata too. But that's a different workflow.
+
+Let me just use resource_ids: [] for the finance TRY. If rejected, I'll adjust.
+
+Actually, to reduce risk, maybe I should do the INSPECT first and then decide. But I can only return one action per turn. Let me do INSPECT first (turn 1), then TRY (turn 2), then UPDATE (turn 3), then FINISH (turn 4). That's 4 decisions, well within 12.
+
+Let me start with INSPECT.
+
+Actually, hmm — is INSPECT worth it? It gives dimensions only, confirming no OCR. It's decent evidence for the unknown. Yes, do it.
+
+Let me write action 1.
+
+purpose: "确认 IMG_6961.jpeg 的实际可解析内容，判断历史回答中的故障码 U2 能否被现有工具验证"
+
+arguments: {"resource_ids": ["res_5f05e6b623e5706725c5__file_bd2d84054c0c"], "property": "图片格式、像素尺寸、是否可提取文本内容"}
+
+OK.

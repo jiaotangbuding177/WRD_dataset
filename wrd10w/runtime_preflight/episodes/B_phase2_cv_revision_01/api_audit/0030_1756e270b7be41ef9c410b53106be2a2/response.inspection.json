@@ -1,0 +1,27 @@
+{
+  "id": "chatcmpl-1793079460701",
+  "model": "glm-5.3-flash",
+  "usage": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "calle410fd53d27344fc9885e1eb3149ede7",
+            "type": "function",
+            "function": {
+              "name": "exec",
+              "arguments": "{\"command\":\"cd /workspace\\nPY=/opt/eval-venv/bin/python\\nS=/workspace/outputs/skill/scripts\\nE=/workspace/tmp/evidence/probes\\nF=/workspace/tmp/probe_fixtures\\nREAL=/workspace/inputs/task/materials/e474a80615c085d4.pdf\\n$PY $S/cv_extract.py $F/probe_cv_zhaoliu_resume_v2.pdf $F/probe_scan_othername.pdf $F/probe_partial_blank.pdf > $E/p2_batch_mixed.json 2> $E/p2.stderr; echo \\\"p2 rc=$?\\\"\\n$PY $S/cv_extract.py $REAL > $E/p12_real_default.json 2> $E/p12.stderr; echo \\\"p12 rc=$?\\\"\\n$PY - <<'EOF'\\nimport json\\nE='/workspace/tmp/evidence/probes'\\no=json.load(open(f'{E}/p2_batch_mixed.json'))\\nprint('batch rc3 check: results=%d errors=%d'%(len(o['results']),len(o['errors'])))\\nfor r in o['results']:\\n    print('  ',r['candidate_id'],'pages=%d'%r['page_count'],'id0=',r['identity_lines'][:1])\\nprint('  err:',o['errors'][0]['error'][:80])\\nprint('  distinct ids:',len({r['candidate_id'] for r in o['results']})==len(o['results']))\\nr=json.load(open(f'{E}/p12_real_default.json'))['results'][0]\\np1=r['pages'][0]\\nhas_wm_display='8b35b455' in p1['text']\\nhas_wm_raw='8b35b455' in p1.get('raw_text','')\\nprint('real CV page1: display-filtered watermark=%s (want False), raw keeps watermark=%s (want True)'%(has_wm_display,has_wm_raw))\\nprint('real CV has no lines key in default output:', 'lines' not in p1, '| raw_text present:', 'raw_text' in p1)\\nEOF\\ngrep -l Traceback $E/*.stderr 2>/dev/null || echo NO_TRACEBACKS\",\"workdir\":\"/workspace\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ],
+  "_inspection_only_reconstructed_from_SSE": true,
+  "_event_count": 320
+}

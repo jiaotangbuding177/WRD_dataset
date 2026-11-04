@@ -1,0 +1,87 @@
+"""Explicitly authorized two whole native B sessions, serial; no Agent loop."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse
+import hashlib
+import importlib.util
+import json
+import os
+import sys
+
+ROOT = Path(__file__).resolve().parents[3]
+RUN = ROOT / 'output/20261027_wrd_main_v10/runtime_preflight'
+
+
+def load(p):
+    return json.loads(Path(p).read_text(encoding='utf-8-sig'))
+
+
+def sha(p):
+    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+
+def save(p, value):
+    p.write_text(json.dumps(value, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--release', type=Path, required=True)
+    parser.add_argument('--execute-authorized', action='store_true')
+    args = parser.parse_args()
+    assert args.execute_authorized, 'Final explicit root dispatch go is required'
+    release = args.release.resolve()
+    assert release.is_relative_to((RUN/'jobs').resolve())
+    freeze = load(release/'EXECUTION_FREEZE.json')
+    assert freeze['authorized_job_ids'] == ['B_phase2_cv_01', 'B_phase2_html_01']
+    assert freeze['maximum_new_native_sessions_this_owner'] == 2
+    assert freeze['cumulative_native_cap'] == 120
+    assert sha(Path(__file__)) == freeze['serial_owner_script_sha256']
+    marker = release/'SERIAL_B_OWNER.json'
+    assert not marker.exists(), 'Inspect prior owner/paid states instead of blindly restarting'
+    state = {'schema':'wrd-two-whole-B-serial-owner-v1','pid':os.getpid(),
+             'started_at':datetime.now(timezone.utc).isoformat(),'status':'STARTED','jobs':[],
+             'C_or_collector_or_training_authorized':False,'agent_steps_overridden':False}
+    save(marker,state)
+    spec=importlib.util.spec_from_file_location('unchanged_phase2_native', ROOT/'research/data_prep/wrd_main_v10/native_rebuild.py')
+    native=importlib.util.module_from_spec(spec)
+    sys.modules[spec.name]=native
+    spec.loader.exec_module(native)
+    try:
+        for index,row in enumerate(freeze['jobs']):
+            path=Path(row['path'])
+            assert sha(path)==row['sha256']
+            job=native.validate_job(load(path))
+            assert job['execution_authorized'] is True and job['stage']=='B_make'
+            assert native.design()==freeze['design_pair']
+            assert sha(RUN/'PREPARED_LANE.json')==freeze['prepared_lane_sha256']
+            actual_dispatches=len(list((RUN/'episodes').glob('*/dispatch.json')))
+            assert actual_dispatches==freeze['prior_outer_dispatches']+index
+            assert not (RUN/'episodes'/job['job_id']/'dispatch.json').exists()
+            state['status']='WHOLE_NATIVE_B_RUNNING'
+            state['current_job']=job['job_id']
+            save(marker,state)
+            # The original wrapper alone starts the complete native session,
+            # enforces lane lock/headroom, and captures original observations.
+            result=native.run_job(path, authorized=True, pilot_only=False)
+            state['jobs'].append({'job_id':job['job_id'],'status':result.get('status'),
+                'result_path':str(RUN/'episodes'/job['job_id']/'result.json')})
+            state['current_job']=None
+            save(marker,state)
+            if result.get('status')!='completed':
+                raise RuntimeError('First failed/infrastructure-unsettled B requires inspection; no automatic second dispatch')
+        state['status']='TWO_B_NATIVE_TERMINALS_COLLECTED_RESOURCE_QUALITY_PENDING'
+        state['finished_at']=datetime.now(timezone.utc).isoformat()
+        save(marker,state)
+        print(json.dumps({'status':state['status'],'jobs':state['jobs'],'training_started':False}))
+    except BaseException as e:
+        state['status']='STOPPED_REQUIRES_INSPECTION_NO_REPLAY'
+        state['error_type']=type(e).__name__
+        state['error']=str(e)
+        state['stopped_at']=datetime.now(timezone.utc).isoformat()
+        save(marker,state)
+        raise
+
+
+if __name__=='__main__':
+    main()

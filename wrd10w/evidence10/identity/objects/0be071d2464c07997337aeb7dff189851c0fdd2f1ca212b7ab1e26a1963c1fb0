@@ -1,0 +1,766 @@
+{
+  "programs": [
+    {
+      "path": "scripts/apply_minutes_format.py",
+      "documented_usage": "python {SKILL}/scripts/apply_minutes_format.py {INPUT}/meeting_minutes.docx --out {OUT}/minutes_formatted.docx --report {OUT}/format_summary.json --remove-stars",
+      "public_argv": [
+        "python",
+        "{SKILL}/scripts/apply_minutes_format.py",
+        "{INPUT}/meeting_minutes.docx",
+        "--out",
+        "{OUT}/minutes_formatted.docx",
+        "--report",
+        "{OUT}/format_summary.json",
+        "--remove-stars"
+      ],
+      "interface": {
+        "kind": "program",
+        "contract_version": "1",
+        "usage": "python {SKILL}/scripts/apply_minutes_format.py {INPUT}/meeting_minutes.docx --out {OUT}/minutes_formatted.docx --report {OUT}/format_summary.json --remove-stars",
+        "inputs": [
+          "meeting_minutes_docx（录音转写/录音总结或既有纪要整理成的docx正文，中文段落可含行首*号列表标记）"
+        ],
+        "outputs": [
+          "formatted_minutes_docx（排版后纪要正文，可直接接续成文或交付）",
+          "format_report_json（样式参数、段落数、去星数、paragraph_texts全文清单）"
+        ]
+      },
+      "dependencies": [
+        {
+          "kind": "runtime",
+          "name": "OpenClaw-python",
+          "version": "2026.9.5-python3.11.2",
+          "identity_sha256": "97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2"
+        }
+      ],
+      "cases": [
+        {
+          "kind": "normal",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/apply_minutes_format.py",
+            "{INPUT}/meeting_minutes.docx",
+            "--out",
+            "{OUT}/minutes_formatted.docx",
+            "--report",
+            "{OUT}/format_summary.json",
+            "--remove-stars"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "source_id": "conv_2ff337f34ddc",
+            "message_ids": [
+              "conv_2ff337f34ddc:ffb38926",
+              "conv_2ff337f34ddc:e4d3bf72"
+            ],
+            "source_record_sha256": "1888a2d6079447d8921fc65e4f236b04c8a01c5286f9e0798030bdb47199b4db",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/meeting_minutes.docx",
+              "sha256": "747a8e16275ad3316862877f458f3639fbad0cac3d70621f4bfb7ccc28e627f0",
+              "bytes": 36904
+            },
+            "origin": "generated_fixture"
+          },
+          "outputs": [
+            {
+              "path": "minutes_formatted.docx",
+              "min_bytes": 1000
+            },
+            {
+              "path": "format_summary.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "zip_members",
+              "path": "minutes_formatted.docx",
+              "value": [
+                "word/document.xml",
+                "word/styles.xml"
+              ]
+            },
+            {
+              "kind": "zip_member_count",
+              "path": "minutes_formatted.docx",
+              "pattern": "word/document\\.xml",
+              "value": 1
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "minutes_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:eastAsia=\"楷体\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "minutes_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:ascii=\"Times New Roman\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "minutes_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:sz w:val=\"24\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "minutes_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:spacing w:line=\"360\" w:lineRule=\"auto\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "minutes_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:ind w:firstLineChars=\"200\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "minutes_formatted.docx",
+              "member": "word/document.xml",
+              "value": "广州项目当前核心困境"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "minutes_formatted.docx",
+              "member": "word/document.xml",
+              "value": "备注：本纪要系录音转写归纳，名称可能有识别偏差"
+            },
+            {
+              "kind": "json_equals",
+              "path": "format_summary.json",
+              "value": {
+                "cn_font": "楷体",
+                "western_font": "Times New Roman",
+                "body_size_pt": 12,
+                "line_spacing": 1.5,
+                "first_line_indent_chars": 2,
+                "remove_stars": true,
+                "paragraphs_total": 6,
+                "paragraphs_styled": 5,
+                "headings_kept_size": 0,
+                "stars_removed": 3,
+                "paragraph_texts": [
+                  "广州项目当前核心困境",
+                  "停工现状：原计划2025年8月竣工未实现，3500万贷款未放款",
+                  "外资大股东SC收回管理权后未推进建设，各方权责边界待界定",
+                  "股权收购、法律诉讼两条可选路径",
+                  "",
+                  "备注：本纪要系录音转写归纳，名称可能有识别偏差"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "kind": "boundary",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/apply_minutes_format.py",
+            "{FIXTURE}/boundary_meeting_minutes.docx",
+            "--out",
+            "{OUT}/boundary_formatted.docx",
+            "--report",
+            "{OUT}/boundary_summary.json"
+          ],
+          "expected_exit": 0,
+          "fixture_provenance": {
+            "source_id": "conv_d640957a9820",
+            "message_ids": [
+              "conv_d640957a9820:744539ef",
+              "conv_d640957a9820:efad402a"
+            ],
+            "source_record_sha256": "56633f6bdc8e0aaa001e839b3001fd82c5f0fc99717f7c7d0368a4b541a12bd1",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/boundary_meeting_minutes.docx",
+              "sha256": "f4608db2d9c9e3f4e5c946d9dc4d719fd53dba42098ea24cc36c0cda9fe57052",
+              "bytes": 36907
+            },
+            "origin": "generated_fixture"
+          },
+          "outputs": [
+            {
+              "path": "boundary_formatted.docx",
+              "min_bytes": 1000
+            },
+            {
+              "path": "boundary_summary.json",
+              "min_bytes": 1
+            }
+          ],
+          "assertions": [
+            {
+              "kind": "zip_members",
+              "path": "boundary_formatted.docx",
+              "value": [
+                "word/document.xml",
+                "word/styles.xml"
+              ]
+            },
+            {
+              "kind": "zip_member_count",
+              "path": "boundary_formatted.docx",
+              "pattern": "word/document\\.xml",
+              "value": 1
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:eastAsia=\"楷体\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:ascii=\"Times New Roman\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "pStyle w:val=\"Heading1\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:sz w:val=\"32\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:sz w:val=\"24\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:spacing w:line=\"360\" w:lineRule=\"auto\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "w:ind w:firstLineChars=\"200\""
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "测试会议纪要标题"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "2026年10月31日前付清尾款1.8497亿元"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "上海亚格投资管理有限公司（亚格平台）"
+            },
+            {
+              "kind": "zip_xml_contains",
+              "path": "boundary_formatted.docx",
+              "member": "word/document.xml",
+              "value": "已有格式段落"
+            },
+            {
+              "kind": "json_equals",
+              "path": "boundary_summary.json",
+              "value": {
+                "cn_font": "楷体",
+                "western_font": "Times New Roman",
+                "body_size_pt": 12,
+                "line_spacing": 1.5,
+                "first_line_indent_chars": 2,
+                "remove_stars": false,
+                "paragraphs_total": 5,
+                "paragraphs_styled": 5,
+                "headings_kept_size": 1,
+                "stars_removed": 0,
+                "paragraph_texts": [
+                  "测试会议纪要标题",
+                  "*   ",
+                  "2026年10月31日前付清尾款1.8497亿元，逾期按0.05%/天计息",
+                  "*上海亚格投资管理有限公司（亚格平台）",
+                  "已有格式段落"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/apply_minutes_format.py",
+            "{FIXTURE}/invalid_input.docx",
+            "--out",
+            "{OUT}/should_not_exist.docx"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "source_id": "conv_2ff337f34ddc",
+            "message_ids": [
+              "conv_2ff337f34ddc:2549b84e"
+            ],
+            "source_record_sha256": "1888a2d6079447d8921fc65e4f236b04c8a01c5286f9e0798030bdb47199b4db",
+            "pin": {
+              "path": "/workspace/outputs/reproduction_inputs/invalid_input.docx",
+              "sha256": "af7ecc95483c9a6b1bcce87c72ccab3319c2ee7686dc50af530137104a3bb1d1",
+              "bytes": 22
+            },
+            "origin": "generated_fixture"
+          },
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "error: input is not a valid docx"
+            }
+          ]
+        },
+        {
+          "kind": "invalid_input",
+          "argv": [
+            "python",
+            "{SKILL}/scripts/apply_minutes_format.py",
+            "{INPUT}/never_exists.docx",
+            "--out",
+            "{OUT}/absent_should_not_exist.docx"
+          ],
+          "expected_exit": 2,
+          "fixture_provenance": {
+            "origin": "absent_path",
+            "source_id": "conv_2ff337f34ddc",
+            "message_ids": [
+              "conv_2ff337f34ddc:2549b84e"
+            ],
+            "source_record_sha256": "1888a2d6079447d8921fc65e4f236b04c8a01c5286f9e0798030bdb47199b4db",
+            "absent_root": "INPUT",
+            "absent_relative_path": "never_exists.docx",
+            "parent_directory_pin": {
+              "kind": "directory_listing",
+              "path": "/workspace/inputs",
+              "entries": [
+                {
+                  "name": "conversations",
+                  "kind": "directory"
+                },
+                {
+                  "name": "feedback",
+                  "kind": "directory"
+                },
+                {
+                  "name": "generation.md",
+                  "kind": "file",
+                  "sha256": "3c4a7a5721a28127b54b789822a94b8cde7d5cf061d50cdaad322b74e1a6f307",
+                  "bytes": 17045
+                },
+                {
+                  "name": "making_contract.json",
+                  "kind": "file",
+                  "sha256": "2dbe3a2fe3138400b37c5fa0dece9b615d4d2bad02bc0d6cd633c2252e726fc9",
+                  "bytes": 14748
+                },
+                {
+                  "name": "making_input_index.json",
+                  "kind": "file",
+                  "sha256": "da0630acd9bd2f24341853eec344b7c37d9608e2b84c79ae3f4d806b62e8344d",
+                  "bytes": 17089
+                },
+                {
+                  "name": "making_tools",
+                  "kind": "directory"
+                },
+                {
+                  "name": "previous",
+                  "kind": "directory"
+                },
+                {
+                  "name": "previous_skill",
+                  "kind": "directory"
+                },
+                {
+                  "name": "repair",
+                  "kind": "directory"
+                },
+                {
+                  "name": "resource_catalog.json",
+                  "kind": "file",
+                  "sha256": "457db6853ed8bf23e23dfb0e8eeb9cb51aef20da7f123f1007cdcf0a897ee95a",
+                  "bytes": 161
+                },
+                {
+                  "name": "route_card.json",
+                  "kind": "file",
+                  "sha256": "1b2f89efd0903f47e15b3bb4124bf4646b1263b4663b3b06248185368a1d1d25",
+                  "bytes": 9205
+                },
+                {
+                  "name": "source_bindings.json",
+                  "kind": "file",
+                  "sha256": "9a89b9bc70fadb30f1ac603b0415747fbb7ec31b4a39a8996292f81036445eb2",
+                  "bytes": 5644
+                }
+              ],
+              "sha256": "06ed4ac6470f05fc585a764c40e2f51a30701eb44aa6631556647de2ebd5d4a9"
+            },
+            "source_material_pin": {
+              "path": "/workspace/inputs/conversations/conv_2ff337f34ddc.json",
+              "sha256": "0fbc93087c327a57ab91075e290c8562c4b1ac6896d4b3734adc5f2e8d8d6bbd",
+              "bytes": 36242
+            },
+            "generated": true,
+            "purpose": "invalid_input",
+            "derivation": "新建缺失路径负例：读取实际只读inputs根目录生成父目录清单与SHA，目标文件在运行前后均不存在；仅证明本次新建负例，不冒称历史曾有缺失文件。"
+          },
+          "outputs": [],
+          "assertions": [
+            {
+              "kind": "contains",
+              "path": "$stderr",
+              "value": "error: input file not found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "composition_cases": [
+    {
+      "kind": "composition",
+      "commands": [
+        [
+          "python",
+          "{SKILL}/scripts/apply_minutes_format.py",
+          "{FIXTURE}/meeting_minutes.docx",
+          "--out",
+          "{OUT}/step1_kaiti.docx",
+          "--report",
+          "{OUT}/step1_summary.json",
+          "--remove-stars"
+        ],
+        [
+          "python",
+          "{SKILL}/scripts/apply_minutes_format.py",
+          "{OUT}/step1_kaiti.docx",
+          "--out",
+          "{OUT}/step2_songti.docx",
+          "--cn-font",
+          "宋体",
+          "--report",
+          "{OUT}/step2_summary.json"
+        ]
+      ],
+      "expected_exit": 0,
+      "expected_exits": [
+        0,
+        0
+      ],
+      "fixture_provenance": {
+        "source_id": "conv_ce34559870b8",
+        "message_ids": [
+          "conv_ce34559870b8:5316633f",
+          "conv_ce34559870b8:a2c7d9db"
+        ],
+        "source_record_sha256": "fe647695b60b09c8c15753559ce98591d4fefab028779eed0f8b2b47cb467fc6",
+        "pin": {
+          "path": "/workspace/outputs/reproduction_inputs/meeting_minutes.docx",
+          "sha256": "747a8e16275ad3316862877f458f3639fbad0cac3d70621f4bfb7ccc28e627f0",
+          "bytes": 36904
+        },
+        "origin": "generated_fixture"
+      },
+      "outputs": [
+        {
+          "path": "step1_kaiti.docx",
+          "min_bytes": 1000
+        },
+        {
+          "path": "step2_songti.docx",
+          "min_bytes": 1000
+        },
+        {
+          "path": "step1_summary.json",
+          "min_bytes": 1
+        },
+        {
+          "path": "step2_summary.json",
+          "min_bytes": 1
+        }
+      ],
+      "assertions": [
+        {
+          "kind": "zip_members",
+          "path": "step1_kaiti.docx",
+          "value": [
+            "word/document.xml",
+            "word/styles.xml"
+          ]
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step1_kaiti.docx",
+          "member": "word/document.xml",
+          "value": "w:eastAsia=\"楷体\""
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step1_kaiti.docx",
+          "member": "word/document.xml",
+          "value": "广州项目当前核心困境"
+        },
+        {
+          "kind": "zip_members",
+          "path": "step2_songti.docx",
+          "value": [
+            "word/document.xml",
+            "word/styles.xml"
+          ]
+        },
+        {
+          "kind": "zip_member_count",
+          "path": "step2_songti.docx",
+          "pattern": "word/document\\.xml",
+          "value": 1
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step2_songti.docx",
+          "member": "word/document.xml",
+          "value": "w:eastAsia=\"宋体\""
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step2_songti.docx",
+          "member": "word/document.xml",
+          "value": "w:ascii=\"Times New Roman\""
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step2_songti.docx",
+          "member": "word/document.xml",
+          "value": "w:sz w:val=\"24\""
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step2_songti.docx",
+          "member": "word/document.xml",
+          "value": "w:spacing w:line=\"360\" w:lineRule=\"auto\""
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step2_songti.docx",
+          "member": "word/document.xml",
+          "value": "w:ind w:firstLineChars=\"200\""
+        },
+        {
+          "kind": "zip_xml_contains",
+          "path": "step2_songti.docx",
+          "member": "word/document.xml",
+          "value": "备注：本纪要系录音转写归纳，名称可能有识别偏差"
+        },
+        {
+          "kind": "json_equals",
+          "path": "step1_summary.json",
+          "value": {
+            "cn_font": "楷体",
+            "western_font": "Times New Roman",
+            "body_size_pt": 12,
+            "line_spacing": 1.5,
+            "first_line_indent_chars": 2,
+            "remove_stars": true,
+            "paragraphs_total": 6,
+            "paragraphs_styled": 5,
+            "headings_kept_size": 0,
+            "stars_removed": 3,
+            "paragraph_texts": [
+              "广州项目当前核心困境",
+              "停工现状：原计划2025年8月竣工未实现，3500万贷款未放款",
+              "外资大股东SC收回管理权后未推进建设，各方权责边界待界定",
+              "股权收购、法律诉讼两条可选路径",
+              "",
+              "备注：本纪要系录音转写归纳，名称可能有识别偏差"
+            ]
+          }
+        },
+        {
+          "kind": "json_equals",
+          "path": "step2_summary.json",
+          "value": {
+            "cn_font": "宋体",
+            "western_font": "Times New Roman",
+            "body_size_pt": 12,
+            "line_spacing": 1.5,
+            "first_line_indent_chars": 2,
+            "remove_stars": false,
+            "paragraphs_total": 6,
+            "paragraphs_styled": 5,
+            "headings_kept_size": 0,
+            "stars_removed": 0,
+            "paragraph_texts": [
+              "广州项目当前核心困境",
+              "停工现状：原计划2025年8月竣工未实现，3500万贷款未放款",
+              "外资大股东SC收回管理权后未推进建设，各方权责边界待界定",
+              "股权收购、法律诉讼两条可选路径",
+              "",
+              "备注：本纪要系录音转写归纳，名称可能有识别偏差"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "meeting_minutes.docx",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/meeting_minutes.docx",
+        "sha256": "747a8e16275ad3316862877f458f3639fbad0cac3d70621f4bfb7ccc28e627f0",
+        "bytes": 36904
+      },
+      "source_id": "conv_2ff337f34ddc",
+      "message_ids": [
+        "conv_2ff337f34ddc:ffb38926",
+        "conv_2ff337f34ddc:e4d3bf72"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "source_reconstruction",
+      "derivation": "generated_fixture：按 conv_2ff337f34ddc:ffb38926 的样式要求（楷体、数字罗马体、小四、1.5倍行距、首行缩进2字符、去*号）与 conv_2ff337f34ddc:e4d3bf72 执行摘要中真实纪要的内容片段（广州项目困境、SC收回管理权、3500万贷款、两条路径、备注）重构的微型录音总结形输入（*号列表+中英数字混排）。历史原始Word附件（录音总结/会议纪要.docx）未随会话导出恢复（source_bindings该源materials为空），本文件是制作侧重构样例，不宣称原附件已完整复现，不冒充历史原件。"
+    },
+    {
+      "path": "boundary_meeting_minutes.docx",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/boundary_meeting_minutes.docx",
+        "sha256": "f4608db2d9c9e3f4e5c946d9dc4d719fd53dba42098ea24cc36c0cda9fe57052",
+        "bytes": 36907
+      },
+      "source_id": "conv_d640957a9820",
+      "message_ids": [
+        "conv_d640957a9820:744539ef",
+        "conv_d640957a9820:efad402a"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "boundary_case",
+      "derivation": "generated_fixture，来源身份已按原始会话逐一核正（修复旧版把 conv_d640957a9820:744539ef 挂到 conv_2ff337f34ddc 名下的错误）：人名规范全称取自 conv_d640957a9820:744539ef（用户确认的\"上海亚格投资管理有限公司（亚格平台）\"），数字日期金额段落取自 conv_d640957a9820:efad402a（尾款1.8497亿元、2026年10月31日、0.05%/天）；边界形状来自其他来源并在其原始身份下引用——Heading 1 标题预置16pt（验证标题字号保留，对应 conv_ce34559870b8:a2c7d9db 的\"主标题16pt保留层级\"）、纯*号段落与无空格*号行（对应 conv_2ff337f34ddc:ffb38926 的星号列表形输入）、预置楷体+Times New Roman格式的run（验证重复设置幂等）。非历史原件。"
+    },
+    {
+      "path": "invalid_input.docx",
+      "pin": {
+        "path": "/workspace/outputs/reproduction_inputs/invalid_input.docx",
+        "sha256": "af7ecc95483c9a6b1bcce87c72ccab3319c2ee7686dc50af530137104a3bb1d1",
+        "bytes": 22
+      },
+      "source_id": "conv_2ff337f34ddc",
+      "message_ids": [
+        "conv_2ff337f34ddc:2549b84e"
+      ],
+      "origin": "generated_fixture",
+      "generated": true,
+      "purpose": "invalid_input",
+      "derivation": "generated_fixture：22字节非docx文本流，覆盖用户可能误投非docx文件的错误路径；验证退出码2、stderr报错、不产输出文件。非历史原件。"
+    }
+  ],
+  "non_executable_resources": [
+    {
+      "path": "references/minutes_style_reference.md",
+      "assertions": [
+        {
+          "kind": "contains",
+          "path": "references/minutes_style_reference.md",
+          "value": "楷体"
+        },
+        {
+          "kind": "contains",
+          "path": "references/minutes_style_reference.md",
+          "value": "宋体"
+        },
+        {
+          "kind": "contains",
+          "path": "references/minutes_style_reference.md",
+          "value": "Times New Roman（罗马体）"
+        },
+        {
+          "kind": "contains",
+          "path": "references/minutes_style_reference.md",
+          "value": "小四（12pt）"
+        },
+        {
+          "kind": "contains",
+          "path": "references/minutes_style_reference.md",
+          "value": "序号必须顺延重排"
+        },
+        {
+          "kind": "contains",
+          "path": "references/minutes_style_reference.md",
+          "value": "不覆盖录音转写本身"
+        }
+      ],
+      "fixture_refs": [
+        {
+          "source_id": "conv_2ff337f34ddc",
+          "message_ids": [
+            "conv_2ff337f34ddc:ffb38926",
+            "conv_2ff337f34ddc:e4b0fbbf"
+          ],
+          "source_record_sha256": "1888a2d6079447d8921fc65e4f236b04c8a01c5286f9e0798030bdb47199b4db",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_2ff337f34ddc.json",
+            "sha256": "0fbc93087c327a57ab91075e290c8562c4b1ac6896d4b3734adc5f2e8d8d6bbd",
+            "bytes": 36242
+          }
+        },
+        {
+          "source_id": "conv_d640957a9820",
+          "message_ids": [
+            "conv_d640957a9820:753aaf0c",
+            "conv_d640957a9820:03f8fd61",
+            "conv_d640957a9820:0c1fc619"
+          ],
+          "source_record_sha256": "56633f6bdc8e0aaa001e839b3001fd82c5f0fc99717f7c7d0368a4b541a12bd1",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_d640957a9820.json",
+            "sha256": "d6efb9eeee4b2d8c4193420c8849a7dc2b68777073cb08046e224564b7aa68cd",
+            "bytes": 101184
+          }
+        },
+        {
+          "source_id": "conv_ce34559870b8",
+          "message_ids": [
+            "conv_ce34559870b8:a2c7d9db"
+          ],
+          "source_record_sha256": "fe647695b60b09c8c15753559ce98591d4fefab028779eed0f8b2b47cb467fc6",
+          "origin": "real_source",
+          "pin": {
+            "path": "/workspace/inputs/conversations/conv_ce34559870b8.json",
+            "sha256": "22eb51b5f36074f5d9bd128f0b3e228d0137c9710c89bd1a68b266ae346fc0b3",
+            "bytes": 44281
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "历史会话未恢复可核的原始Word附件（source_bindings三个来源materials均为空，导出限制明示历史原生工具事件与最终产物身份不受会话记录认证）；三个fixtures均为制作侧generated_fixture重构输入，不宣称原附件已完整复现",
+    "边界样例来源身份已按原始会话逐一核正：旧版把 conv_d640957a9820:744539ef 挂在 conv_2ff337f34ddc 名下，现改为 conv_d640957a9820 名下并引用 conv_d640957a9820:efad402a；跨会话贡献在derivation中按各自原始身份以文字注明",
+    "楷体/宋体等用户选择与后续纠正保留为条件分支（沿用既往格式→默认楷体；用户明确改宋体→--cn-font 宋体），不是一条硬规则",
+    "程序只处理docx正文段落（doc.paragraphs），不处理表格内段落；历史会话中含表格的纪要未在三个来源出现，如遇表格需执行器另行处理",
+    "输出docx由python-docx重打包，zip时间戳导致字节级不完全确定，故不用docx整体sha256断言；normal/boundary/composition均以zip_members/zip_member_count/zip_xml_contains实查生成文档的Office XML（字体、字号、行距、缩进、正文保留），并以report的json_equals（含paragraph_texts全文清单）做完整内容对应",
+    "渲染验证基于LibreOffice+Noto替代字体输出PDF并抽取可见文本；楷体/宋体在用户Windows环境的最终显示以其系统字体为准",
+    "collect_meeting_content与compose_minutes_document两步未沉淀为程序（内容组织与成文由执行器完成），样式结构约定沉淀在references/minutes_style_reference.md",
+    "资源目录resource_catalog为空，无既有可复用资源；独立复现、两套真实开发同环境无技能/workflow对照与减负准入均在外层执行，本候选不代表资源已通过或已节省开销"
+  ]
+}

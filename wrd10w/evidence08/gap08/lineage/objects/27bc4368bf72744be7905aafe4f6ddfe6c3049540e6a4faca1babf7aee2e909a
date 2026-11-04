@@ -1,0 +1,25 @@
+# 阶段细节（按需读取）
+
+## s1 解析主题需求
+从教学请求原文抽取演示对象、交互要素与展示目标。程序化入口：
+
+    python {SKILL}/scripts/extract_topic_spec.py {INPUT}/conversation.json --out {OUT}/page_spec.json
+
+- 输入：会话JSON（{"session_id","messages":[{"id","content"}]}），content 允许字符串或嵌套列表/字典。
+- 输出：页面规格JSON {"topic","request_text","source_id","source_message_id","interactions","sections"}。
+- 规则：取第一条含请求动词（生成/教学/演示/讲解/制作等）的消息为请求原文；剥离礼貌前缀与请求动词后，用"XX演示/教学/动画"模式提取主题；跨全部消息按关键词表识别交互要素（slider/auto_demo/quiz/nav/animation）与章节计划（demo/cards/table/timeline/quiz），顺序按规则表、去重。
+- 边界：无请求消息时回退首条消息文本；空文本产出空主题规格（exit 0）。错误：不可读、非法JSON、缺session_id、消息缺字符串id 均以 "extract_topic_spec_error: ..." 单行输出到 stderr 并 exit 2。
+- 限制：关键词规则来自两个真实教学案例（摩擦力演示、太阳系教学），其他学科表达可能识别不全；识别结果需人工确认后再进入 s2。
+
+## s2 设计单页交互场景
+在规格基础上确定：动画流程（时间轴/循环）、控件布局（滑块范围、按钮、自动演示开关）、参数调节（数值范围与实时反馈）。章节体量参照来源案例：摩擦力=双面板演示+实时矢量；太阳系=导航+卡片+对比表格+时间线+小测验。section kind 映射：demo（画布挂载区+控制徽章）、cards（items: name/desc/facts）、table（headers/rows）、timeline（items: year/event）、quiz（questions: question/options/answer 索引）、text（body 段落）。
+
+## s3 合成自包含HTML
+合成脚本读取 {SKILL}/templates/teaching_page.template.html 并填充 {{TITLE}}、{{SUBTITLE}}、{{NAV_ITEMS}}、{{SECTIONS}} 占位符生成单页演示：
+
+    python {SKILL}/scripts/build_teaching_page.py {INPUT}/page_spec.json --out {OUT}/teaching.html
+
+- 模板自带深色科技感布局、粘性导航滚动高亮、卡片/表格/时间线组件与测验即时判定JS；全部用户数据经HTML转义，无外部依赖。
+- quiz 的正确答案索引来自输入规格，不由程序或模板预填。
+- 错误：非法JSON、缺 topic/interactions/sections、section 缺 kind、未知 kind、quiz 非法答案索引均以 "build_teaching_page_error: ..." 单行输出到 stderr 并 exit 2。
+- 交付检查：成品为单文件，可直接双击在浏览器打开；具体主题动画脚本仍需按 s2 设计补写进 demo 区。

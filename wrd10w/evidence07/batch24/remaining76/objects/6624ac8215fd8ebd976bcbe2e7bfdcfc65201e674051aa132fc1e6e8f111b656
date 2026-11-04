@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+"""Build a 16:9 text/vector PPTX from a page outline JSON.
+
+Method: read an outline JSON (slides list with kind/title/subtitle/bullets/
+notes), validate it, and write a widescreen (13.333x7.5in) PPTX with one
+slide per entry. Cover slides center the title; content slides place the
+title top-left with bullets below and a page number bottom-right. Per-slide
+notes text is written into the slide's notes pane so the speaker script
+(pacing included) travels with the deck. Chinese text uses the East-Asian
+typeface set via --font (default Microsoft YaHei) on every run.
+
+Public usage:
+  python outline_to_pptx.py OUTLINE_JSON --out RESULT_PPTX [--font NAME]
+
+Inputs: outline JSON with a non-empty "slides" list; each entry an object
+with kind ("cover"|"content", default content), title (non-empty string),
+subtitle (cover only, optional), bullets (content only, list of non-empty
+strings), notes (optional string). Optional top-level "colors" object with
+hex values text/background/accent (no leading '#').
+Outputs: PPTX file at the --out path; stdout prints the output path.
+Errors: exit 2 with 'pptx_error: ...' on stderr for unreadable/invalid JSON,
+empty or wrong-typed slides, missing/empty title, bad bullets, or an
+unwritable output path. Nothing is written when validation fails.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+from pptx import Presentation
+from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import PP_ALIGN
+from pptx.oxml.ns import qn
+from pptx.util import Emu, Inches, Pt
+
+SLIDE_W_IN = 13.333
+SLIDE_H_IN = 7.5
+DEFAULT_COLORS = {"text": "0E2A47", "background": "FFFFFF", "accent": "D97706"}
+DEFAULT_FONT = "Microsoft YaHei"
+
+
+def fail(message: str) -> None:
+    print("pptx_error: " + message, file=sys.stderr)
+    raise SystemExit(2)
+
+
+def hex_color(value, name: str) -> RGBColor:
+    if not isinstance(value, str) or not value.strip():
+        fail(f"colors.{name} must be a non-empty string")
+    text = value.strip().lstrip("#")
+    if len(text) != 6 or any(c not in "0123456789abcdefABCDEF" for c in text):
+        fail(f"colors.{name} must be a 6-digit hex color")
+    return RGBColor.from_string(text.upper())
+
+
+def apply_font(run, font: str, size: Pt, bold: bool, color: RGBColor) -> None:
+    run.font.size = size
+    run.font.bold = bold
+    run.font.color.rgb = color
+    run.font.name = font
+    r_pr = run._r.get_or_add_rPr()
+    ea = r_pr.find(qn("a:ea"))
+    if ea is None:
+        ea = r_pr.makeelement(qn("a:ea"), {})
+        r_pr.append(ea)
+    ea.set("typeface", font)
+
+
+def build(outline: dict, font: str):
+    colors = outline.get("colors", {})
+    if not isinstance(colors, dict):
+        fail("colors must be a JSON object")
+    merged = {**DEFAULT_COLORS, **{k: v for k, v in colors.items() if v is not None}}
+    c_text = hex_color(merged["text"], "text")
+    c_bg = hex_color(merged["background"], "background")
+    c_accent = hex_color(merged["accent"], "accent")
+
+    prs = Presentation()
+    prs.slide_width = Inches(SLIDE_W_IN)
+    prs.slide_height = Inches(SLIDE_H_IN)
+    blank = prs.slide_layouts[6]
+    total = len(outline["slides"])
+    for position, slide_spec in enumerate(outline["slides"], start=1):
+        slide = prs.slides.add_slide(blank)
+        background = slide.background
+        background.fill.solid()
+        background.fill.fore_color.rgb = c_bg
+        kind = slide_spec.get("kind", "content")
+        if kind not in ("cover", "content"):
+            fail(f"slide {position}: kind must be 'cover' or 'content'")
+        if kind == "cover":
+            title = slide_spec.get("title")
+            if not isinstance(title, str) or not title.strip():
+                fail(f"slide {position}: cover title must be a non-empty string")
+            box = slide.shapes.add_textbox(
+                Emu(0), Inches(2.6), Inches(SLIDE_W_IN), Inches(1.4))
+            frame = box.text_frame
+            frame.word_wrap = True
+            para = frame.paragraphs[0]
+            para.alignment = PP_ALIGN.CENTER
+            apply_font(para.add_run(), font, Pt(40), True, c_text)
+            para.runs[0].text = title.strip()
+            subtitle = slide_spec.get("subtitle", "")
+            if isinstance(subtitle, str) and subtitle.strip():
+                sub = frame.add_paragraph()
+                sub.alignment = PP_ALIGN.CENTER
+                apply_font(sub.add_run(), font, Pt(18), False, c_accent)
+                sub.runs[0].text = subtitle.strip()
+        else:
+            title = slide_spec.get("title")
+            if not isinstance(title, str) or not title.strip():
+                fail(f"slide {position}: title must be a non-empty string")
+            bullets = slide_spec.get("bullets")
+            if not isinstance(bullets, list) or not bullets:
+                fail(f"slide {position}: bullets must be a non-empty list")
+            title_box = slide.shapes.add_textbox(
+                Inches(0.6), Inches(0.45), Inches(SLIDE_W_IN - 1.2), Inches(1.0))
+            t_frame = title_box.text_frame
+            t_frame.word_wrap = True
+            t_para = t_frame.paragraphs[0]
+            apply_font(t_para.add_run(), font, Pt(30), True, c_text)
+            t_para.runs[0].text = title.strip()
+            bar = slide.shapes.add_shape(
+                MSO_SHAPE.RECTANGLE,
+                Inches(0.62), Inches(1.45), Inches(1.6), Inches(0.06))
+            bar.fill.solid()
+            bar.fill.fore_color.rgb = c_accent
+            bar.line.fill.background()
+            body = slide.shapes.add_textbox(
+                Inches(0.6), Inches(1.8), Inches(SLIDE_W_IN - 1.2),
+                Inches(SLIDE_H_IN - 2.6))
+            b_frame = body.text_frame
+            b_frame.word_wrap = True
+            for index, item in enumerate(bullets):
+                if not isinstance(item, str) or not item.strip():
+                    fail(f"slide {position}: bullets[{index}] must be a non-empty string")
+                para = b_frame.paragraphs[0] if index == 0 else b_frame.add_paragraph()
+                para.space_after = Pt(14)
+                apply_font(para.add_run(), font, Pt(20), False, c_text)
+                para.runs[0].text = "· " + item.strip()
+            number_box = slide.shapes.add_textbox(
+                Inches(SLIDE_W_IN - 1.5), Inches(SLIDE_H_IN - 0.55),
+                Inches(1.1), Inches(0.35))
+            n_para = number_box.text_frame.paragraphs[0]
+            n_para.alignment = PP_ALIGN.CENTER
+            apply_font(n_para.add_run(), font, Pt(11), False, c_accent)
+            n_para.runs[0].text = f"{position} / {total}"
+        notes = slide_spec.get("notes")
+        if isinstance(notes, str) and notes.strip():
+            slide.notes_slide.notes_text_frame.text = notes.strip()
+    return prs
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Build a 16:9 text PPTX from a page outline JSON.")
+    parser.add_argument("outline", help="outline JSON path")
+    parser.add_argument("--out", required=True, help="output PPTX path")
+    parser.add_argument("--font", default=DEFAULT_FONT,
+                        help=f"CJK font name (default {DEFAULT_FONT})")
+    args = parser.parse_args()
+    try:
+        raw = Path(args.outline).read_bytes()
+    except OSError as error:
+        fail(f"cannot read outline file: {error}")
+    try:
+        outline = json.loads(raw.decode("utf-8-sig"))
+    except (UnicodeError, ValueError) as error:
+        fail(f"outline is not valid JSON: {error}")
+    if not isinstance(outline, dict):
+        fail("outline must be a JSON object")
+    slides = outline.get("slides")
+    if not isinstance(slides, list) or not slides:
+        fail("slides must be a non-empty list")
+    for position, slide_spec in enumerate(slides, start=1):
+        if not isinstance(slide_spec, dict):
+            fail(f"slide {position} must be a JSON object")
+    prs = build(outline, args.font)
+    out = Path(args.out)
+    try:
+        if out.parent and not out.parent.exists():
+            out.parent.mkdir(parents=True, exist_ok=True)
+        prs.save(str(out))
+    except OSError as error:
+        fail(f"cannot write pptx file: {error}")
+    print(str(out))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

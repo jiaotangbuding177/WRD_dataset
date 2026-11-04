@@ -1,0 +1,217 @@
+import hashlib, json, subprocess
+from pathlib import Path
+
+REP = Path('/workspace/outputs/reproduction_inputs')
+OUT = Path('/workspace/outputs')
+SRC_B = Path('/workspace/inputs/conversations/conv_b8618dade74b.json')
+SRC_C = Path('/workspace/inputs/conversations/conv_c19f3434fa4f.json')
+RUNTIME = {'kind': 'runtime', 'name': 'OpenClaw-python', 'version': '2026.9.5-python3.11.2',
+           'identity_sha256': '97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2'}
+MSG_B = '2dd9b116-c054-4bf5-9418-ce8ed60ebbf7'
+MSG_B_REQ = '8554d421-5488-4c80-aaef-a205bb39c502'
+MSG_C = '59d46b9f-b3af-4317-b2ba-f320d297bc2c'
+MSG_C_REQ = '98e8a048-c7d5-4db8-89a0-84be0d5431e0'
+
+def pin(p):
+    raw = Path(p).read_bytes()
+    return {'path': str(Path(p).absolute()), 'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)}
+
+def fix(name, purpose, derivation):
+    return {'path': name, 'pin': pin(REP/name), 'source_id': 'conv_b8618dade74b',
+            'message_ids': [MSG_B], 'origin': 'generated_fixture', 'generated': True,
+            'purpose': purpose, 'derivation': derivation}
+
+fixtures = [
+    fix('manuscript.txt', 'source_reconstruction',
+        'manuscript.txt fixture reconstructed from the full UTF-8 leaf text of real message 2dd9b116-c054-4bf5-9418-ce8ed60ebbf7 (conv_b8618dade74b final review report); its sha256 equals the leaf_sha256 reported by the native read_source batch, so bytes are exactly the received source text. The original paper PDF is not present in the transcript; this fixture stands in for a text-layer manuscript.'),
+    fix('manuscript.docx', 'source_reconstruction',
+        'docx fixture built with python-docx from the same real message leaf text, one paragraph per non-empty line, to exercise the .docx extraction and keyword-scan paths of the real route.'),
+    fix('manuscript.pdf', 'source_reconstruction',
+        'pdf fixture converted from manuscript.docx with LibreOffice soffice --headless to exercise the pdftotext path; original paper PDF absent from transcript.'),
+    fix('tiny.txt', 'boundary_case',
+        'minimal 4-byte file ENSO (topic term appearing in real message 2dd9b116) with no trailing newline; exercises minimal-input boundary of extract_texts.'),
+    fix('unsupported.xyz', 'invalid_input',
+        'byte copy of the reconstructed manuscript.txt under a .xyz extension to drive the unsupported-input-type error of extract_texts.'),
+    fix('broken.pdf', 'invalid_input',
+        'truncated PDF: %PDF-1.4 header plus the first 64 bytes of the real message leaf text; drives pdftotext failure recorded in index.json errors with exit 3.'),
+]
+
+EXTRACT_USAGE = 'python {SKILL}/scripts/extract_texts.py {INPUT}/manuscript --out {OUT}/extracts'
+SCAN_USAGE = 'python {SKILL}/scripts/scan_docx_keywords.py {INPUT}/manuscript.docx --keywords 南移,CMIP6 --out {OUT}/keyword_hits.json'
+TPL_USAGE = '复制 {SKILL}/templates/review_report.md 并按占位符填写，生成最终审查报告。'
+NOTES_USAGE = '维度顺序、问题清单格式与报告段式见 {SKILL}/references/stage_notes.md。'
+
+def fref(name):
+    f = [x for x in fixtures if x['path'] == name][0]
+    return dict(f)
+
+def stdout_eq(v):
+    return {'kind': 'text_equals', 'path': '$stdout', 'value': v}
+
+extract_cases = [
+    {'kind': 'normal', 'argv': ['python', '{SKILL}/scripts/extract_texts.py', '{INPUT}/manuscript', '--out', '{OUT}/extracts'],
+     'expected_exit': 0,
+     'inputs': [fref('manuscript.txt')],
+     'outputs': [{'path': 'extracts/manuscript.txt', 'min_bytes': 1}, {'path': 'extracts/index.json', 'min_bytes': 1}],
+     'assertions': [stdout_eq('{"extracted": 1, "errors": 0}'),
+                    {'kind': 'sha256', 'path': 'extracts/manuscript.txt', 'value': '97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e'},
+                    {'kind': 'json_count', 'path': 'extracts/index.json', 'pointer': '/files', 'value': 1},
+                    {'kind': 'source_mapping', 'path': 'extracts/index.json', 'pointer': '/files/0/sha256', 'value': '97163938e330832895f66ce1d8a1c6c220ac56992e16f352a8c77fd52c79b24e'},
+                    {'kind': 'json_equals', 'path': 'extracts/index.json', 'pointer': '/files/0/output', 'value': 'manuscript.txt'}]},
+    {'kind': 'normal', 'argv': ['python', '{SKILL}/scripts/extract_texts.py', '{INPUT}/manuscript.docx', '--out', '{OUT}/extracts'],
+     'expected_exit': 0,
+     'inputs': [fref('manuscript.docx')],
+     'outputs': [{'path': 'extracts/manuscript.txt', 'min_bytes': 1}, {'path': 'extracts/index.json', 'min_bytes': 1}],
+     'assertions': [stdout_eq('{"extracted": 1, "errors": 0}'),
+                    {'kind': 'sha256', 'path': 'extracts/manuscript.txt', 'value': '3795553c225027bfaf5d947ff6262c92e513f0db67eeae0b4d22fcb09e1384f5'},
+                    {'kind': 'json_count', 'path': 'extracts/index.json', 'pointer': '/files', 'value': 1},
+                    {'kind': 'source_mapping', 'path': 'extracts/index.json', 'pointer': '/files/0/sections', 'value': 28}]},
+    {'kind': 'normal', 'argv': ['python', '{SKILL}/scripts/extract_texts.py', '{INPUT}/manuscript.pdf', '--out', '{OUT}/extracts'],
+     'expected_exit': 0,
+     'inputs': [fref('manuscript.pdf')],
+     'outputs': [{'path': 'extracts/manuscript.txt', 'min_bytes': 1}, {'path': 'extracts/index.json', 'min_bytes': 1}],
+     'assertions': [stdout_eq('{"extracted": 1, "errors": 0}'),
+                    {'kind': 'sha256', 'path': 'extracts/manuscript.txt', 'value': 'ab306979f8724e5e865096a486982f8d0a41301a98f6f6394b8194974209caf2'},
+                    {'kind': 'json_count', 'path': 'extracts/index.json', 'pointer': '/files', 'value': 1},
+                    {'kind': 'source_mapping', 'path': 'extracts/index.json', 'pointer': '/files/0/sections', 'value': 3}]},
+    {'kind': 'boundary', 'argv': ['python', '{SKILL}/scripts/extract_texts.py', '{INPUT}/tiny.txt', '--out', '{OUT}/out_boundary'],
+     'expected_exit': 0,
+     'inputs': [fref('tiny.txt')],
+     'outputs': [{'path': 'out_boundary/tiny.txt', 'min_bytes': 1}, {'path': 'out_boundary/index.json', 'min_bytes': 1}],
+     'assertions': [stdout_eq('{"extracted": 1, "errors": 0}'),
+                    {'kind': 'sha256', 'path': 'out_boundary/tiny.txt', 'value': 'ca2b18456e57410b18fbb54332e92c81bce143e41b916128619a15a5f4a32b4f'},
+                    {'kind': 'json_count', 'path': 'out_boundary/index.json', 'pointer': '/files', 'value': 1},
+                    {'kind': 'source_mapping', 'path': 'out_boundary/index.json', 'pointer': '/files/0/chars', 'value': 4}]},
+    {'kind': 'invalid_input', 'argv': ['python', '{SKILL}/scripts/extract_texts.py', '{INPUT}/unsupported.xyz', '--out', '{OUT}/out_invalid'],
+     'expected_exit': 2, 'inputs': [fref('unsupported.xyz')], 'outputs': [],
+     'assertions': [{'kind': 'contains', 'path': '$stderr', 'value': '不支持的输入类型'}]},
+    {'kind': 'invalid_input', 'argv': ['python', '{SKILL}/scripts/extract_texts.py', '{INPUT}/broken.pdf', '--out', '{OUT}/out_invalid_pdf'],
+     'expected_exit': 3, 'inputs': [fref('broken.pdf')], 'outputs': [],
+     'assertions': [{'kind': 'contains', 'path': '$stderr', 'value': '提取失败 broken.pdf'},
+                    {'kind': 'contains', 'path': '$stdout', 'value': '{"extracted": 0, "errors": 1}'}]},
+]
+
+scan_cases = [
+    {'kind': 'normal', 'argv': ['python', '{SKILL}/scripts/scan_docx_keywords.py', '{INPUT}/manuscript.docx', '--keywords', '南移,CMIP6', '--out', '{OUT}/keyword_hits.json'],
+     'expected_exit': 0, 'inputs': [fref('manuscript.docx')],
+     'outputs': [{'path': 'keyword_hits.json', 'min_bytes': 1}],
+     'assertions': [{'kind': 'contains', 'path': '$stdout', 'value': '4 hits for 2 keywords across 1 members'},
+                    {'kind': 'sha256', 'path': 'keyword_hits.json', 'value': '1adf9ddd9269fe78d7a3e9aa23325442923f14a4c35a2fe97bc4ab606f1433fa'},
+                    {'kind': 'json_count', 'path': 'keyword_hits.json', 'pointer': '/hits', 'value': 4},
+                    {'kind': 'source_mapping', 'path': 'keyword_hits.json', 'pointer': '/total', 'value': 4},
+                    {'kind': 'source_mapping', 'path': 'keyword_hits.json', 'pointer': '/keywords', 'value': ['南移', 'CMIP6']}]},
+    {'kind': 'boundary', 'argv': ['python', '{SKILL}/scripts/scan_docx_keywords.py', '{INPUT}/manuscript.docx', '--keywords', '量子纠缠', '--out', '{OUT}/keyword_hits_boundary.json'],
+     'expected_exit': 0, 'inputs': [fref('manuscript.docx')],
+     'outputs': [{'path': 'keyword_hits_boundary.json', 'min_bytes': 1}],
+     'assertions': [{'kind': 'contains', 'path': '$stdout', 'value': '0 hits for 1 keywords across 1 members'},
+                    {'kind': 'sha256', 'path': 'keyword_hits_boundary.json', 'value': '532437187e1d3868d6ac02eda135891b9b6f2c3f88cc403c691e69353f074f93'},
+                    {'kind': 'json_count', 'path': 'keyword_hits_boundary.json', 'pointer': '/hits', 'value': 0}]},
+    {'kind': 'invalid_input', 'argv': ['python', '{SKILL}/scripts/scan_docx_keywords.py', '{INPUT}/manuscript.txt', '--keywords', '南移', '--out', '{OUT}/keyword_hits_invalid.json'],
+     'expected_exit': 2, 'inputs': [fref('manuscript.txt')], 'outputs': [],
+     'assertions': [{'kind': 'contains', 'path': '$stderr', 'value': 'unsupported input type .txt'}]},
+]
+
+programs = [
+    {'path': 'scripts/extract_texts.py', 'documented_usage': EXTRACT_USAGE,
+     'public_argv': ['python', '{SKILL}/scripts/extract_texts.py', '{INPUT}/manuscript', '--out', '{OUT}/extracts'],
+     'interface': {'kind': 'program', 'contract_version': '1', 'usage': EXTRACT_USAGE,
+                   'inputs': ['论文/评审材料目录或文件（.pptx/.docx/.doc/.pdf/.md/.txt；.pptx 需 python-pptx，.docx 需 python-docx，.doc 需 soffice，.pdf 需 pdftotext）'],
+                   'outputs': ['每个源一个同名 .txt 提取件', 'index.json（源 sha256、bytes、sections、chars、errors 索引）', '$stdout JSON {"extracted": n, "errors": m}']},
+     'dependencies': [RUNTIME], 'cases': extract_cases},
+    {'path': 'scripts/scan_docx_keywords.py', 'documented_usage': SCAN_USAGE,
+     'public_argv': ['python', '{SKILL}/scripts/scan_docx_keywords.py', '{INPUT}/manuscript.docx', '--keywords', '南移,CMIP6', '--out', '{OUT}/keyword_hits.json'],
+     'interface': {'kind': 'program', 'contract_version': '1', 'usage': SCAN_USAGE,
+                   'inputs': ['.docx 稿件', '逗号分隔关键词'],
+                   'outputs': ['keyword_hits.json（关键词、member、±12字上下文、计数）', '$stdout 命中摘要行']},
+     'dependencies': [RUNTIME], 'cases': scan_cases},
+]
+
+non_exec = [{
+    'path': 'templates/review_report.md',
+    'assertions': [
+        {'kind': 'contains', 'path': 'templates/review_report.md', 'value': '{{PAPER_TITLE}}'},
+        {'kind': 'contains', 'path': 'templates/review_report.md', 'value': '{{SEVERITY}}'},
+        {'kind': 'contains', 'path': 'templates/review_report.md', 'value': '{{ISSUE_LOCATION}}'},
+        {'kind': 'contains', 'path': 'templates/review_report.md', 'value': 'AI 判断不能作为最终结果，需人工复核'},
+    ],
+    'fixture_refs': [
+        {'source_id': 'conv_b8618dade74b', 'message_ids': [MSG_B], 'pin': pin(SRC_B), 'origin': 'real_source'},
+        {'source_id': 'conv_c19f3434fa4f', 'message_ids': [MSG_C], 'pin': pin(SRC_C), 'origin': 'real_source'},
+    ],
+}]
+
+replay = {'schema': 'wrd-replay-v1', 'programs': programs, 'fixtures': fixtures,
+          'non_executable_resources': non_exec,
+          'limitations': [
+              'extract_texts.py 的 .pptx/.doc/.xlsx 旁路依赖 python-pptx/soffice；本次复现用例覆盖 .txt/.docx/.pdf 主路径，python-pptx 未被用例执行。',
+              '两程序均为公开可复用包的完整字节副本（sha256 与 making_input_index pin 一致），未改动；期望值均来自本次真实运行。',
+              'manuscript.txt/docx/pdf 为真实消息文本重构的稿件替身；原论文 PDF 不在会话记录中。',
+              '阶段2核查判断与阶段3报告成文由执行者完成，不属程序化复现范围。',
+          ]}
+(OUT/'replay.json').write_text(json.dumps(replay, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+manifest = {'schema': 'wrd-resource-manifest-v1', 'resources': [
+    {'id': 'extract_texts', 'path': 'scripts/extract_texts.py', 'kind': 'program',
+     'interface': programs[0]['interface'], 'dependencies': [RUNTIME],
+     'source_evidence': [{'source_id': 'conv_b8618dade74b', 'message_id': MSG_B_REQ},
+                         {'source_id': 'conv_c19f3434fa4f', 'message_id': MSG_C_REQ}]},
+    {'id': 'scan_docx_keywords', 'path': 'scripts/scan_docx_keywords.py', 'kind': 'program',
+     'interface': programs[1]['interface'], 'dependencies': [RUNTIME],
+     'source_evidence': [{'source_id': 'conv_b8618dade74b', 'message_id': MSG_B},
+                         {'source_id': 'conv_c19f3434fa4f', 'message_id': MSG_C}]},
+    {'id': 'review_report_template', 'path': 'templates/review_report.md', 'kind': 'template',
+     'interface': {'kind': 'template', 'contract_version': '1', 'usage': TPL_USAGE,
+                   'inputs': ['阶段2问题清单（含编号/维度/严重性/位置/依据）', '论文信息与总体裁定'],
+                   'outputs': ['标准化审查报告 .md，含人工复核提示']},
+     'dependencies': [],
+     'source_evidence': [{'source_id': 'conv_b8618dade74b', 'message_id': MSG_B},
+                         {'source_id': 'conv_c19f3434fa4f', 'message_id': MSG_C}]},
+    {'id': 'stage_notes', 'path': 'references/stage_notes.md', 'kind': 'material',
+     'interface': {'kind': 'material', 'contract_version': '1', 'usage': NOTES_USAGE,
+                   'inputs': ['extracts/ 提取件与 keyword_hits.json 定位输出'],
+                   'outputs': ['默认维度顺序、问题清单行格式、报告填写与诚信边界']},
+     'dependencies': [],
+     'source_evidence': [{'source_id': 'conv_b8618dade74b', 'message_id': MSG_B},
+                         {'source_id': 'conv_c19f3434fa4f', 'message_id': MSG_C}]},
+]}
+(OUT/'resource_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+evidence = {
+    'schema': 'wrd-making-evidence-v1',
+    'workflow_id': 'paper-review',
+    'lineage': {'attempt': 1, 'previous': None, 'previous_skill_dir': None,
+                'note': 'inputs 下不存在 previous_skill 或 feedback/report_*.json；本候选为该路线首次完整制作，非旧技能局部修复分支。'},
+    'full_read': {
+        'tool': 'python /workspace/inputs/making_tools/read_source.py',
+        'command': 'python /workspace/inputs/making_tools/read_source.py --source /workspace/inputs/conversations/conv_b8618dade74b.json /workspace/inputs/conversations/conv_c19f3434fa4f.json --max-bytes 6500',
+        'batches': 1, 'cursor_in': '0:0', 'next_cursor': None, 'complete': True,
+        'received_chunks': 4,
+        'log': '/workspace/outputs/making_records/source_read_batch1.json'},
+    'source_evidence': [
+        {'source_id': 'conv_b8618dade74b',
+         'message_ids': [MSG_B_REQ, MSG_B],
+         'source_record_sha256': '85db2af8f2f22bb3e79f9b298958c9fbcfe3597f4b8bfc223a59ec089c18458d',
+         'learning_notes': '用户要求对论文 PDF/Word 稿件做多维数据智审（源数据一致性、表格数值、诚信风险）并输出标准化内部审查报告；助手回复展示可复用的报告段式（论文信息/优势/关键发现表含严重性与详情/29维评分概要/产出文件/最需人工核对项），其中"90%物种南移"与源数据61%（19/31）不符是带原文位置与依据的问题条目样例。evomind-paper-scan 专有29维体系不可核实，不作复刻。'},
+        {'source_id': 'conv_c19f3434fa4f',
+         'message_ids': [MSG_C_REQ, MSG_C],
+         'source_record_sha256': 'e9176e72590824d4edf90ed470c5acd8c3fd3a32d42ddcdf0052ab1a08052a07',
+         'learning_notes': '同一论文的第二条审查线确认同一报告结构（论文信息/总体裁定/维度评价/核心发现/风险提示含严重度/已生成文件/AI判断需人工复核），并确认边界条件：源数据不可得时记为可复现性风险而非定性结论；EOF计算范围、推论跨度等按"未明确说明/并非完全等价"表述。'},
+    ],
+    'reuse_decisions': [
+        {'from_package': 'project-review-qa-prep', 'resource': 'scripts/extract_texts.py',
+         'action': 'byte-exact copy into candidate/skill/scripts',
+         'verified_sha256': 'b405d75e015eab7952025f093304d6253452ad5802b549bf8cf848f3e016ee7d',
+         'match_reason': '路线 s1 extract_manuscript_content：批量提取评审/论文文档文本，与源会话提取稿件步骤同型。'},
+        {'from_package': 'contract-review-revision', 'resource': 'scripts/scan_docx_keywords.py',
+         'action': 'byte-exact copy into candidate/skill/scripts',
+         'verified_sha256': '6dc232054302661cc79a68a828ae5814a06fa6788ddc82eb721cdb14fc12e700',
+         'match_reason': '路线 s2 audit_quality_and_consistency：在 .docx 内按关键词定位并输出上下文，支撑"问题标注原文位置"。'},
+    ],
+    'expectations_from_source': [
+        '审查维度以用户指定为准；每条问题标注原文位置与依据',
+        '不虚构学术定性结论；诚信风险仅提示',
+        '报告末尾注明 AI 判断需人工复核',
+    ],
+}
+(OUT/'evidence.json').write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+print('records written')

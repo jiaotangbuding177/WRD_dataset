@@ -1,0 +1,8 @@
+import json
+for sid in ['conv_366ab6b1766a','conv_31fe5a08f6ee','conv_3a27f499e502','conv_8ea470804bed','conv_2680d1b5f71e','conv_34843d227bc0']:
+    d=json.load(open(f'/workspace/inputs/conversations/{sid}.json'))
+    print('='*20, sid, d.get('title'))
+    for m in d['messages']:
+        print('--- [%s] %s' % (m['role'], m['id']))
+        print(m['content'][:2600])
+        print()

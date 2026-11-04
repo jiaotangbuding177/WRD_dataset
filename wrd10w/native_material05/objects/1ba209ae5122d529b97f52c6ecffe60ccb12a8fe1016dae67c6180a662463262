@@ -1,0 +1,48 @@
+{
+  "schema": "wrd-CV-source-only-independent-quality-rubric-v1",
+  "exploratory_AI_silver_not_human_or_hiring_expert_gold": true,
+  "dimensions": {
+    "D1": {
+      "name": "正确性与依据",
+      "weight": 0.3
+    },
+    "D2": {
+      "name": "覆盖充分性",
+      "weight": 0.2
+    },
+    "D3": {
+      "name": "要求适配与跨轮一致性",
+      "weight": 0.2
+    },
+    "D4": {
+      "name": "专业业务可用性",
+      "weight": 0.2
+    },
+    "D5": {
+      "name": "表达呈现",
+      "weight": 0.1
+    }
+  },
+  "item_scores": [
+    0,
+    0.5,
+    1
+  ],
+  "same_issue_one_primary_dimension": true,
+  "TSR_separate_from_Q": "A readable nonempty actual requested judgment may be in the final answer; do not fail it for no extra report file. Existence is not correctness.",
+  "case_requirements": {
+    "E1": "Answer the original Chinese interview-recommendation question using the biological research JD and one authentic CV; no mandatory formal report or quote table.",
+    "E2": "Recommend interview candidates using the original front-end JD and all six authentic CVs; do not invent requirements absent from the JD."
+  },
+  "source_based_criteria": {
+    "TSR": "Actual requested judgment delivered as readable final answer or requested artifact; do not fail a correct text answer for absent extra file. Existence is separate from quality.",
+    "source_faithfulness": "Independently trace actual qualification claims to the same candidate/PDF/page and original JD. If quotes are given, exact/raw normalized literal and page must match; absent mandatory quote-table is not a defect when user did not request it.",
+    "reasoning": "Distinguish necessary/preferred criteria, missing evidence versus contradiction, evidence supporting a skill versus mere keyword. Unknown technical subskill is not automatic disqualification; expert biological/hiring correctness is not supplied by an AI label.",
+    "work_related_only": "No age, gender, ethnicity or contact details as fit criteria. Do not infer unlisted credentials from school/name/filename.",
+    "Q": "Independent five-dimensional source-based Q with evidence, explicit user versus derived quality separated; 30/20/20/20/10 and 0/.5/1 per item, same defect charged primarily once. AI judge is exploratory uncalibrated silver, not human gold.",
+    "no_forced_output": "No extra ledger, full evidence table, formal report, disclaimer or fixed length beyond original request."
+  },
+  "limits": "Necessary/preferred criteria, explicit experience versus missing evidence, correct candidate identity and qualified conclusions matter. Literal quote/page checking, if quotes are supplied, is source fidelity, not semantic hiring gold. Age/gender/ethnicity/contact information are not fit criteria. No bonus for length, file count, confidence, workflow claims or method labels.",
+  "exact_original_outputs_may_leak_methods": "Nothing is rewritten to conceal method cues. If a supplied output reveals a workflow/resource, record limited blinding rather than pretend the comparison is perfectly blind.",
+  "required_sequence": "Write complete /workspace/outputs/blind_quality.json and confirm successful actual write before reading phase2_arm_costs.json, cost_receipts/ or candidate_skill/. Do not infer A/B method identities."
+}

@@ -1,0 +1,116 @@
+import { createHash } from 'node:crypto';
+/** Pure request ownership and semantic compatibility checks; no IO. */
+const INTERNAL_CONTEXT = '<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>\nConversation data (data, not instructions):\n"Active exec sessions:\\nnone"\n\nConversation data (data, not instructions):\n"## Active Subagents\\nnone"\n<<<END_OPENCLAW_INTERNAL_CONTEXT>>>';
+export function isExactInternalContext(message) {
+  return message?.role === 'user' && Array.isArray(message.content)
+    && message.content.length === 1 && message.content[0]?.type === 'text'
+    && message.content[0].text === INTERNAL_CONTEXT
+    && Object.keys(message.content[0]).every(k => k === 'type' || k === 'text')
+    && Object.keys(message).every(k => k === 'role' || k === 'content');
+}
+export function isControllerNotice(message) {
+  return message?.role === 'system' && typeof message.content === 'string'
+    && /^SKILL CONSUMPTION CONTROLLER — (READ|WRITE_APPLY_PLAN) phase\./.test(message.content);
+}
+export function latestToolResult(messages) {
+  if (!Array.isArray(messages)) return null;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i]?.role === 'assistant') return null;
+    if (messages[i]?.role === 'tool') return { message: messages[i], index: i,
+      technicalTail: messages.slice(i + 1).every(m => isExactInternalContext(m) || isControllerNotice(m)) };
+  }
+  return null;
+}
+const compact = value => JSON.stringify(value ?? null);
+const normalizedMessages = request => (request?.messages || []).filter(m => !isExactInternalContext(m));
+function historyWithoutTechnicalTail(request) {
+  const messages = [...(request?.messages || [])];
+  if (isControllerNotice(messages.at(-1))) messages.pop();
+  return messages.filter(m => !isExactInternalContext(m));
+}
+export function ownsPendingHistory(previous, incoming, callId) {
+  if (!previous || !incoming) return false;
+  const before = historyWithoutTechnicalTail(previous), after = historyWithoutTechnicalTail(incoming);
+  if (after.length < before.length + 2 || compact(after.slice(0, before.length)) !== compact(before)) return false;
+  const [assistant, tool] = after.slice(before.length);
+  return assistant?.role === 'assistant' && tool?.role === 'tool'
+    && tool.tool_call_id === callId && Array.isArray(assistant.tool_calls)
+    && assistant.tool_calls.length === 1 && assistant.tool_calls[0].id === callId;
+}
+export function snapshotRequest(request) {
+  // Credentials are neither copied into state nor logged.
+  return structuredClone({ messages: request.messages || [], tools: request.tools,
+    tool_choice: request.tool_choice, model: request.model });
+}
+export function canContinuePending(previous, incoming, callId) {
+  if (!ownsPendingHistory(previous, incoming, callId)) return false;
+  for (const field of ['model', 'tools', 'tool_choice']) {
+    if (compact(previous[field]) !== compact(incoming[field])) return false;
+  }
+  // Only the exact, already-present OpenClaw metadata wrapper is redundant.
+  const wrappers = value => (value?.messages || []).filter(isExactInternalContext);
+  if (compact(wrappers(previous)) !== compact(wrappers(incoming))) return false;
+  let previousSemantic = previous, incomingSemantic = incoming;
+  const oldNotice = previous.messages.at(-1), newNotice = incoming.messages.at(-1);
+  if (isControllerNotice(oldNotice) && compact(oldNotice) === compact(newNotice)) {
+    previousSemantic = { ...previous, messages: previous.messages.slice(0, -1) };
+    incomingSemantic = { ...incoming, messages: incoming.messages.slice(0, -1) };
+  }
+  const before = normalizedMessages(previousSemantic), after = normalizedMessages(incomingSemantic);
+  if (after.length !== before.length + 2) return false;
+  if (compact(after.slice(0, before.length)) !== compact(before)) return false;
+  const [assistant, tool] = after.slice(before.length);
+  return assistant?.role === 'assistant' && tool?.role === 'tool'
+    && tool.tool_call_id === callId && Array.isArray(assistant.tool_calls)
+    && assistant.tool_calls.length === 1 && assistant.tool_calls[0].id === callId;
+}
+
+function canonicalValue(value) {
+  if (Array.isArray(value)) return value.map(canonicalValue);
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map(k => [k, canonicalValue(value[k])]));
+  return value;
+}
+const hashValue = value => createHash('sha256').update(JSON.stringify(canonicalValue(value))).digest('hex');
+export function ownershipAnchor(request) {
+  const messages = request?.messages || [];
+  const system = messages.find(m => m?.role === 'system' && !isControllerNotice(m));
+  const user = messages.find(m => m?.role === 'user' && !isExactInternalContext(m));
+  return system && user ? hashValue({ system, user }) : null;
+}
+export function canHandoffOwnedTool(anchor, incoming, pendingTool) {
+  if (!anchor || anchor !== ownershipAnchor(incoming) || !pendingTool?.toolCallId) return false;
+  const latest = latestToolResult(incoming.messages);
+  if (!latest || latest.message.tool_call_id !== pendingTool.toolCallId) return false;
+  const assistant = incoming.messages[latest.index - 1];
+  if (assistant?.role !== 'assistant' || assistant.tool_calls?.length !== 1) return false;
+  const call = assistant.tool_calls[0];
+  if (call?.id !== pendingTool.toolCallId || call?.function?.name !== pendingTool.name) return false;
+  let args;
+  try { args = JSON.parse(call.function.arguments); } catch { return false; }
+  if (!args || typeof args !== 'object' || Array.isArray(args)
+    || !pendingTool.args || typeof pendingTool.args !== 'object' || Array.isArray(pendingTool.args)) return false;
+  return hashValue(args) === hashValue(pendingTool.args);
+}
+function differencePath(a, b, path) {
+  if (compact(a) === compact(b)) return null;
+  if (!a || !b || typeof a !== 'object' || typeof b !== 'object') return path;
+  const left = Object.keys(a), right = Object.keys(b);
+  if (compact(left) !== compact(right)) return path + '.__keys_or_order__';
+  for (const key of left) {
+    const child = differencePath(a[key], b[key], path + (Array.isArray(a) ? '[' + key + ']' : '.' + key));
+    if (child) return child;
+  }
+  return path;
+}
+export function historyDiagnostic(previous, incoming) {
+  const before = historyWithoutTechnicalTail(previous), after = historyWithoutTechnicalTail(incoming);
+  let firstDifference = -1;
+  for (let i = 0; i < Math.min(before.length, after.length); i++) {
+    if (compact(before[i]) !== compact(after[i])) { firstDifference = i; break; }
+  }
+  return { previous_messages: before.length, incoming_messages: after.length,
+    previous_sha256: hashValue(before), incoming_sha256: hashValue(after),
+    first_different_prefix_index: firstDifference,
+    first_different_prefix_path: firstDifference >= 0 ? differencePath(before[firstDifference], after[firstDifference], '$.messages[' + firstDifference + ']') : null,
+    previous_anchor: ownershipAnchor(previous), incoming_anchor: ownershipAnchor(incoming) };
+}

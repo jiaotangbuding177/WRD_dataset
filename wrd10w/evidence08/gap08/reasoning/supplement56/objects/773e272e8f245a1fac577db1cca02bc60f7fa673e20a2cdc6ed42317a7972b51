@@ -1,0 +1,42 @@
+{
+  "protocol": "task-group-pipeline-v1",
+  "stage": "evaluation",
+  "task_id": "T0145",
+  "input": "客服经理要把 inputs/客户台账.xlsx 交给外部培训方，请仅对客户机构名称、联系人员、联系电话、邮箱四列脱敏，字符串长度大于4时保留前2字和后2字，中间用***，长度不超过4的非空值全部替为***，空值保持为空；客户编码、应收金额和城市原样保留。交付 外发客户台账.xlsx 及 脱敏处理说明.docx，说明实际处理字段和空值/短串政策，不附原始敏感值。",
+  "context": {
+    "workspace_inputs": "/workspace/inputs",
+    "delivery_directory": "/workspace/outputs",
+    "instruction": "按清单name读取本题输入；所有交付文件保存到/workspace/outputs，保留委托指定名称；一次用户委托，无后轮。"
+  },
+  "followup_inputs": [],
+  "resources": [
+    {
+      "name": "inputs/客户台账.xlsx",
+      "path": "D:\\skillloop\\output\\20261020_one_request_wrd\\T0145_wrd\\workspace\\inputs\\客户台账.xlsx",
+      "sha256": "04ffdc819c96558b7975e776f155462624f5f1c34e1af02bd32ff0cf156d80b2",
+      "mount": "inputs/客户台账.xlsx"
+    }
+  ],
+  "learned_skills": [
+    {
+      "id": "excel_field_mask",
+      "source_package_id": "wrd-t0145",
+      "path": "D:\\skillloop\\output\\20261020_one_request_wrd\\T0145_wrd\\workspace\\learned_skills\\excel_field_mask",
+      "files": {
+        "assets/report_template.md": "e5d4ff187a838254e50959a86dc7b42a2a50b7e573fbf16b86cde97b12e6f3d6",
+        "README.md": "adb5b87471c562e809b4af5779369b8faff8472df9edacbb9acaab4fc82a10c9",
+        "request.template.json": "0f0cffe20b4f82d7c1d9a22224fe88d39986f6d5cb1f26e920d918ff470ac99f",
+        "scripts/run.py": "ee6c3f8b94a7f7f7e6f95407980ff41d7370c22e834d8d3bb29b5476b1de1ab2",
+        "SKILL.md": "ecc99f4665e3d7acffe1384551b0914bcc1c22593f47c168d020c9cc33a00b90",
+        "workflow.json": "5a7681bd76b93b2214b2984dbe482efb65bb2c96df2026bb3e606c109f0c3462"
+      }
+    }
+  ],
+  "required_commands": [
+    "python",
+    "node",
+    "libreoffice",
+    "pdftoppm"
+  ],
+  "runtime_observation_seconds": 0
+}

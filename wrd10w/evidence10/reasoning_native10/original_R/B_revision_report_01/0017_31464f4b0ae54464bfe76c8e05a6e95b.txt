@@ -1,0 +1,216 @@
+Now I understand the full picture. Let me plan:
+
+1. Set up /workspace/outputs/skill (copy of previous_skill) and /workspace/outputs/tests (copy of previous_tests minus the original log maybe — keep it? The task says "测试副本置 /workspace/outputs/tests/". I'll copy previous_tests into outputs/tests but excluding test_run_log.json? Actually the runner regenerates the log. But keeping the original log for comparison is fine, but the runner will overwrite it. Better: copy fixtures/scripts; preserve original log elsewhere (e.g., /workspace/outputs/tests/original_baseline/test_run_log_original.json) for the before/after record. Actually simpler: copy previous_tests fully to outputs/tests, then move original log to a preserved name before running.
+
+2. Reproduce the two defects with the ORIGINAL skill CLI (from /workspace/inputs/previous_skill/scripts/validate_pack.py) against the independent fixtures, saving original failure reports to /workspace/outputs/tests/independent_baseline/ (outside the skill package, fine).
+
+3. Compute SHA256 of original resources.
+
+4. Localize fixes in /workspace/outputs/skill/scripts/validate_pack.py:
+ - Defect1 (OVERSTRONG_TEMPORAL_CONFLICT): the conflict check (section9) keys on (subject, value, unit) and fails if fact_types differ. Required: do not infer contradiction from equal subject/value/unit with differing fact_type. But must keep "real planned_goal→achieved_fact reference mismatch rejection" — that's check5 (type_rules), untouched. Also must keep... wait, does check9 have any legitimate purpose? What should the new conflict check be? Requirements from the feedback:
+ - Legal: different years, actual/goal same value → OK (legal_sources case: F1 user_statement time=2025, F2 planned_goal time=2026, same subject/value/unit → must PASS).
+ - Legal: same year, actual completed value and goal target same value coexisting → also legal ("同一年actual已完成值与goal目标同值也能合法共存").
+ - Reject: planned_goal referenced as achieved_fact → that's check5, keep it.
+ So what remains of check9? The feedback says "uncertain conflicts may require semantic review rather than unsupported hard failure". Options: (a) remove the hard failure entirely and replace with a NEEDS_SEMANTIC_REVIEW item when same subject/value/unit has differing fact_types — since the program cannot reliably determine whether it's a genuine conflict. But careful: the task says "只局部修改实际错误的冲突判定与嵌套evidence_refs形状核验及必要说明,不删功能". Changing hard-fail to semantic review is a modification of the conflict judgment. But is any case still a hard conflict? Consider same subject/value/unit AND same time with differing fact_types — e.g., "2025年培训100人(实际)" vs "2025年培训100人(目标)"? Feedback says same-year actual value and goal target same value can legally coexist. So no hard conflict remains determinable. The safest deterministic behavior: when same (subject,value,unit) has >1 fact_type, emit NEEDS_SEMANTIC_REVIEW (TEMPORAL/TYPE ambiguity needs human review) instead of hard fail. That preserves a "conflict detection" capability without unsupported hard failure. But do any of the original21 tests rely on fact_type_conflict as a failure? Looking at the21 cases: no case expects fact_type_conflict. N1 has all user_statement; N2 all planned_goal. B2b ledger: all user_statement. So no original test depends on check9 hard failure. Good.
+ Also keep the checks_passed "conflicts" name? If we keep the check structure but output review instead of fail, "checks_passed.append('conflicts')" would still happen. The nested_refs original reports show "conflicts" in checks_passed. To keep consistency with original behavior of that list, we can keep it. But should a fact_type conflict still count as pass? The verdict would then be STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING with review item. That's consistent with the tool philosophy: uncertain → semantic review.
+
+ Wait, but should same-type duplicates conflict? Original also fails when same key with same type? No — only if len(types)>1. OK.
+
+ New behavior for check9: group by (subject,value,unit); if >1 distinct fact_types → review item NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS (with detail listing entries and noting time fields if available), not a failure. Also maybe include time in the detail for human review. No hardcoding of years/values.
+
+ Also "真实planned_goal引用为achieved_fact仍须拒" — check5 handles that (E5 test). Keep.
+
+ - Defect2 (MALFORMED_NESTED_REFS_SKIPPED): iter_evidence_refs only yields refs when the value is a list AND the item is a dict. Malformed: evidence_refs as string, or list with non-dict item (42), or maybe list itself nested? Requirements:
+ - Any encountered evidence_refs must have valid list/object/reference shape.
+ - Malformed top-level or nested evidence_refs → specific structural/input error with location.
+ - Preserve valid empty optional lists (empty evidence_refs list = not malformed; missing-required-evidence for user_statement/planned_goal/explicit_requirement is a separate existing check; empty list for a non-required fact type like... actually all fact types except new_assumption require non-empty? Check: user_statement, planned_goal, explicit_requirement require non-empty. new_assumption may have empty. And "空的可选引用列表不等于必需事实缺证" — meaning empty optional list ≠ required-fact-missing-evidence. Hmm, that phrase: "An empty optional reference list is not the same as a required fact lacking evidence." I think it means: for a fact where evidence is optional (e.g., new_assumption), an empty list is legal; the missing_required_evidence failure should only apply to required types. The current code already does that. But also in nested contexts: task_switches[0].evidence_refs = [] should be legal (valid empty optional list). So empty list → not malformed, skip validation (no refs to check).
+ - Shape rules: evidence_refs must be a list (if present); each item must be an object; each object must have source_id (str), message_id (str), quote (non-empty str). Malformed → specific failure with path.
+ - Where should these failures be emitted? The required_behavior says "produce a specific structural/input error, with location". Options: verdict STRUCTURAL_FAIL with failure id like "evidence_refs_malformed" and path, exit1. I'll use structural failure (exit1) with distinct failure ids: "evidence_refs_not_list", "evidence_refs_item_not_object". And keep existing evidence_ref_invalid for missing fields within dict items.
+ Implementation: rewrite iter_evidence_refs into a walker that yields (path, node_kind, payload): for any key == "evidence_refs":
+ - if not isinstance(v, list): yield (path, "not_list", v)
+ - else: for i, ref: if not isinstance(ref, dict): yield (path+"[i]", "item_not_object", ref); else yield (path, "ref", ref).
+ Also recurse into dict values that are not evidence_refs, and into lists (including lists of dicts that contain nested evidence_refs — note: original code, when key is evidence_refs and v is a list, does NOT recurse into v for nested evidence_refs. Should we recurse deeper? e.g., task_switches: [{evidence_refs: [{...}]}] — recursion handles. A ref dict containing nested "evidence_refs" key? Unlikely, but recursing into the ref dict itself could find nested evidence_refs. Original code didn't recurse into evidence_refs list items. Keep the same scope but it's harmless to recurse into dict items? Hmm, careful: recursing into a ref dict would re-walk it, but it has no "evidence_refs" keys normally. To stay conservative and preserve behavior, keep not recursing into evidence_refs list items... Actually wait — recursing into items is needed if a nested structure has evidence_refs inside evidence_refs? Not a real shape. Keep original scope: do not recurse into the evidence_refs value itself (only validate shape and each dict item's fields). That matches original semantics plus new shape checks.
+
+ But there's a subtlety: the walker in check3 runs over ledger and draft. The top-level fact evidence_refs check in check1 also catches not-list for facts ("fact %s缺少 evidence_refs列表" — currently fails with ledger_basics for non-list). Fine — but then it sets f["evidence_refs"] = refs ([]). Mutating. For non-list evidence_refs in a fact, currently message is "缺少 evidence_refs列表". I could keep that but ideally make it consistent with new ids. The task says: "任意嵌套evidence_refs为非list、list内非object须明确拒并给路径". The independent fixtures put malformed refs in task_switches (nested), not in facts. The fact-level check already rejects non-list at fact level (ledger_basics fail). I'll leave fact-level handling but the walker now catches every evidence_refs key anywhere, including fact-level (since facts are dicts with evidence_refs). Wait — if fact evidence_refs is a string, check1 fails with ledger_basics AND walker would also emit evidence_refs_not_list. Double reporting is acceptable but changes... does any original test have fact-level non-list evidence_refs? No. E6 has empty list (missing_required_evidence) — empty list is fine for the walker (valid list, zero items). Good.
+
+ Careful about original E6: e6 ledger F001 evidence_refs=[] → missing_required_evidence, exit1. Walker: empty list → no refs, not malformed. Good.
+
+ Draft fact_refs don't have evidence_refs keys. Draft might have nested evidence_refs? Possibly; walker covers both roots already.
+
+ - Also, must not break: N2 fixture has nested evidence_refs in task_switches with valid dict → passes.
+
+5. New tests: extend runner? The task says "用原公开参数接口复跑原21测试" — rerun run_tests.py unchanged (it must stay as-is so original expectations are unchanged). Then "补充真实正反例" — add a supplementary runner (new file, e.g., run_tests_extra.py) in outputs/tests that uses the same CLI public interface with new fixtures, asserting precise failure IDs etc. New fixtures must not hardcode years/values/subjects/filenames per counterexample? "不要为了本次反例硬编码年份、数值、subject或文件名" — meaning don't hardcode fixes in the validator keyed to the specific counterexample values (e.g., don't special-case year "2026" or value "100"). Fixtures themselves obviously contain concrete values; the fix must be generic.
+
+ Required new cases:
+ a. Different years, actual/goal same value → legal (use legal_sources/legal_ledger/legal_draft as given, or generate our own with different years? We can use the provided independent ones directly — they are provided for this purpose). Expect exit0, no failures, no fact_type_conflict; but note there WILL be a review item FACT_TYPE_AMBIGUOUS if I add review on type ambiguity. Hmm — wait. If same subject/value/unit with differing fact types now triggers a semantic review, then legal_draft case would exit0 with STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING. Is that acceptable per required_behavior? "Do not infer contradiction just from equal subject/value/unit and differing fact_type... uncertain conflicts may require semantic review rather than unsupported hard failure." Yes — review instead of fail is explicitly sanctioned. So expecting exit0 + verdict STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING + no failures + contains FACT_TYPE_AMBIGUOUS review. That's fine.
+ But careful: does adding this review break any original test? N1: all facts user_statement → single type per key → no review. N2: G001 subject "五年到款总目标(预计)" value500, G003b subject "挑战目标(预计)" value500 — different subjects → different keys. No same-key cross-type in N2. B2b ledger all user_statement. So original21 unaffected. b. Same year, actual completed value and goal target same value → legal. Need new fixture: same time "2026", F_actual user_statement value100, F_goal planned_goal value100, same subject? The feedback says legal. Construct fixture with distinct evidence quotes. Expect exit0 no failures.
+ c. planned_goal referenced as achieved_fact must still be rejected → reuse E5-style but as new independent fixture? "真实planned_goal引用为achieved_fact仍须拒" — E5 in original21 already covers; but to be a real new counterexample I can build one from the legal two-year ledger (F2 planned_goal as achieved_fact) → expect fail type_mismatch_planned_goal_as_achieved. Good — that shows the fix didn't relax type checks.
+ d. Nested evidence_refs non-list → fail with new id + path (use nested_refs_not_list.json with valid_single_draft.json and its sources... wait nested fixtures use source_id "independent_synthetic" — need sources file legal_sources.json).
+ e. Nested evidence_refs list item non-object ([42]) → fail with path.
+ f. Legal nested quote continues to pass (N2 already covers; can also assert via N2 in rerun). Also "合法嵌套quote继续过、错误quote继续拒" — E3 covers rejection; N2 covers pass. In extra tests I can add a nested valid quote case + nested bad quote case with distinct fixtures? E3 exists; to keep supplements genuine I'll add: nested_valid_quote_ok (reuse n2 fixtures via direct validate) — actually rerunning originals covers that. But better make extra tests self-contained: create extra fixtures folder.
+ g. Empty optional evidence_refs list: new_assumption fact with evidence_refs=[] → legal (no missing_required_evidence). And "空的可选引用列表不等于必需事实缺证" — also maybe: task_switches[0].evidence_refs=[] legal. Build fixture: new_assumption with empty refs must pass; and user_statement with empty refs still fails (covered by E6, but add explicit case? The statement says empty optional list ≠ required missing; I'll add a case where a nested optional empty list is OK and doesn't trigger missing_required_evidence).
+
+ Assertions must be precise (failure IDs, paths, verdicts), not exit-code-only.
+
+6. Update SKILL.md necessary explanations? "只局部修改实际错误的冲突判定与嵌套evidence_refs形状核验及必要说明" — the SKILL.md doesn't mention the conflict check details; check the section_templates or SKILL.md mention "fact_type_conflict"? SKILL.md doesn't. Maybe add brief note in SKILL.md? "必要说明" — minimal: maybe not needed. Actually there might be description of validator behavior in SKILL.md — it says "结构校验" generally. I'll leave SKILL.md unchanged unless it contradicts. Hmm, but the change list document will describe changes. Let me check templates quickly — probably not needed. Actually, to be safe, check whether SKILL.md/templates mention conflict semantics. SKILL.md content read above — no mention of conflicts. Fine.
+
+7. Outputs:
+ - /workspace/outputs/resource_validation.json — validation results summary.
+ - /workspace/outputs/revision_summary.json — defects evidence → localized change → old/new test counts, SHA of each changed resource, unknowns/limits.
+ - A change list (changelog) from old version to this version — e.g., /workspace/outputs/CHANGELOG.md or as part of revision_summary; task says "以及一份清楚的原版本到本版本变更清单" — separate file is clearer: /workspace/outputs/changes.md.
+ - Logs of every command/result in /workspace/outputs/tests/.
+
+Let me now execute. First create dirs, copy, compute SHAs, reproduce defects with original CLI.
+
+Plan exec commands:
+- mkdir -p /workspace/outputs/skill /workspace/outputs/tests /workspace/tmp- cp -r /workspace/inputs/previous_skill/. /workspace/outputs/skill/
+- cp -r /workspace/inputs/previous_tests/. /workspace/outputs/tests/ (includes old log; I'll preserve original log copy then let runner overwrite)
+
+Wait — the runner writes log to HERE/test_run_log.json and reports into HERE/reports. Copying old log then running overwrites it. I'll first copy original log to /workspace/outputs/tests/original_run_log_preserved.json before rerun.
+
+- Reproduce: run original CLI (inputs/previous_skill) with legal sources/ledger/draft → expect exit1 fact_type_conflict; save report to outputs/tests/independent_baseline/temporal_original_report_repro.json. Also nested two cases → expect exit0 with no structural failures; save reports. Record stdout into a log file.
+
+Also compute SHA256 of original validate_pack.py and compare with feedback's parent_job_sha256? Feedback parent_job_sha256 is eb5ee718... — that's the job sha, not necessarily CLI sha. The original test log cli_sha256 is6a1e9515... Let me compute and record.
+
+Note the original log's CLI path was /workspace/outputs/skill/scripts/validate_pack.py — interesting, previous run was done in the same outputs layout. Good, our layout matches.
+
+One consideration: run_tests.py SKILL_CLI = HERE/../skill/scripts/validate_pack.py → /workspace/outputs/tests/../skill/... = /workspace/outputs/skill/... ✓.
+
+Also make_fixtures.py imports count_chars from the skill — works with fixed copy.
+
+Now the code changes. Let me write the new validate_pack.py sections.
+
+New iter_evidence_refs replacement — I'll write a function `iter_evidence_refs_and_shape_errors(node, path="$")` yielding tuples (kind, path, payload) where kind in {"ref", "not_list", "item_not_object"}.
+
+```pythondef iter_evidence_refs(node, path="$"):
+ """递归遍历 JSON树，产出 (kind, path, payload)：
+ - ("ref", path, ref)：一个合法位置的 dict 引用对象，待字段级校验；
+ - ("not_list", path, value)：evidence_refs 出现但不是列表（结构性错误）；
+ - ("item_not_object", path, value)：evidence_refs列表内出现非对象元素（结构性错误）。
+任何键名恰为 evidence_refs 的位置都被形状核验，保证嵌套结构（如 task_switches等自定义字段）内的引用既不漏检、也不跳过畸形形状。空列表合法（可选引用为空 不等于必需事实缺证），只不做逐条引用校验。
+ """
+ if isinstance(node, dict):
+ for k, v in node.items():
+ if k == "evidence_refs":
+ if not isinstance(v, list):
+ yield "not_list", path + ".evidence_refs", v else:
+ for i, ref in enumerate(v):
+ if isinstance(ref, dict):
+ yield "ref", "%s.evidence_refs[%d]" % (path, i), ref else:
+ yield "item_not_object", "%s.evidence_refs[%d]" % (path, i), ref else:
+ yield from iter_evidence_refs(v, path + "." + str(k))
+ elif isinstance(node, list):
+ for i, v in enumerate(node):
+ yield from iter_evidence_refs(v, "%s[%d]" % (path, i))
+```
+
+Wait, one nuance: for not_list and item_not_object, the path in original failure style: "%s.evidence_refs" — but path here is like "$.task_switches[0]" so full "$.task_switches[0].evidence_refs". Good. Hmm but for item_not_object, path yields "...evidence_refs[0]" — good, that's the location of the item.
+
+But note: when the value is a list, we do NOT recurse into it anymore (original didn't either). However — wait, original recursed into the evidence_refs list when... no, original: `if k == "evidence_refs" and isinstance(v, list):` → yield dict items; no recursion into v. And when evidence_refs is not a list (e.g., string), the else branch recursed into it — for a string it's neither dict nor list, so nothing. For a dict (evidence_refs as dict), it would recurse into it! Edge: evidence_refs = {} (dict) → original recursed into dict, keys walked... wouldn't find evidence_refs keys inside typically. New behavior: dict is not a list → not_list failure. That's correct per new requirement ("Every encountered evidence_refs must have valid list/object/reference shape").
+
+Now check3 modification:
+
+```python # ----------3)递归校验全部 evidence_refs（账本+成稿，含任意嵌套） ----------
+ ok = True for root_name, root in (("ledger", ledger), ("draft", draft)):
+ for kind, path, payload in iter_evidence_refs(root):
+ if kind == "not_list":
+ fail("evidence_refs_not_list",
+ "evidence_refs必须是列表，实际为 %s: %r" % (type(payload).__name__, payload),
+ "%s:%s" % (root_name, path))
+ ok = False continue if kind == "item_not_object":
+ fail("evidence_refs_item_not_object",
+ "evidence_refs列表元素必须是对象，实际为 %s: %r" % (type(payload).__name__, payload),
+ "%s:%s" % (root_name, path))
+ ok = False continue sid = payload.get("source_id") ... (same as before with ref=payload)
+```
+
+Also, fact-level non-list evidence_refs (check1) currently fails with "fact %s缺少 evidence_refs列表" under ledger_basics — keep that as-is (it's a pre-existing fact-level shape check; fine). But note: after check1 detects non-list, it mutates f["evidence_refs"]=[] so the walker in check3 would then see an empty list, not the malformed value. Hmm — check1 runs before check3, mutating the ledger. Then the walker won't flag fact-level not_list with the new specific ID. That's OK because it already fails (structural). But for precision maybe update check1 to keep the original failure but not mutate? Mutation exists to allow downstream. Changing could affect E6? E6 has empty list — `refs = f.get("evidence_refs")` is [], isinstance list → no mutation issue. Non-list case doesn't occur in the21. I'll keep mutation but ALSO let check1 report a distinct shape failure? Minimal change: keep as is; the requirement targets "任意嵌套" which the walker covers for everything including fact-level in the draft. For ledger facts, the pre-existing ledger_basics failure already rejects with path $.facts[i].evidence_refs. Acceptable — it's "明确拒并给路径". But for extra-test precision I'll test nested non-list (task_switches), not fact-level.
+
+Wait, actually there's a subtlety: if a fact's evidence_refs is a non-list, check1 mutates it to [] and flags ledger_basics. The mutation also loses information but that's pre-existing. Fine.
+
+Check9 (conflicts) modification:
+
+```python # ----------9)事实类型口径提示（同主体+数值+单位但类型不同） ----------
+ #诚实边界修正：相同主体/数值/单位而 fact_type 不同，并不能确定性地判定为矛盾—— # 不同年份的 actual 与 goal 同值是常见合法口径（如2025实际、2026计划），
+ # 同一年内已完成值与目标值同值也可合法共存。程序无法可靠区分合法口径差异与真实 #冲突，因此不再做硬性结构失败，改为列入 NEEDS_SEMANTIC_REVIEW 由人工复核；
+ # planned_goal被声明为已实现事实仍在第5步被硬性拒绝。
+ seen = {}
+ for fid, f in fact_map.items():
+ if f.get("value") is None:
+ continue key = (norm(str(f.get("subject") or "")), norm(str(f.get("value"))), norm(str(f.get("unit") or "")))
+ seen.setdefault(key, []).append((fid, f.get("fact_type"), f.get("time")))
+ for key, entries in seen.items():
+ types = {t for _, t, _ in entries}
+ if len(types) >1:
+ review("FACT_TYPE_AMBIGUOUS",
+ "同一主体/数值/单位存在多种 fact_type声明: %s；时间口径差异（如不同年份 actual/goal）'
+ '可能合法共存，程序无法确定是否矛盾，需人工语义复核" % (entries,))
+ checks_passed.append("conflicts")
+```
+
+Hmm wait — if ok was used before. I'll restructure: this check can no longer fail, so just append "conflicts" to checks_passed always. But careful: should we still call it "checks_passed" when ambiguity found? checks_passed means the check ran. Fine.
+
+But wait: entries with time — including time in the review detail is helpful. Include as (fid, fact_type, time).
+
+One more consideration: is there any real conflict case that should remain a hard failure? E.g., same subject/value/unit/fact_type... no. What about same subject+value+unit where one is explicit_requirement vs user_statement? explicit_requirement has value None usually. OK.
+
+What about the possibility that the same key has user_statement and new_assumption — new_assumption is derived, potentially conflicting? Still can't determine reliably; review is the honest answer.
+
+Now — potential regression: original nested_refs original reports show checks_passed including "conflicts" — with new code, "conflicts" always appended. Fine.
+
+Now new review id: "NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS". For the legal two-year case, expected verdict STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING, exit0, failures==[].
+
+Hmm, but is that the desired behavior for "同一年actual已完成值与goal目标同值也能合法共存"? Yes — passes with review.
+
+Now the extra test runner (run_tests_extra.py) in outputs/tests. Cases (using public CLI interface, subprocess, precise assertions):
+
+E9_extra_temporal_different_years_legal: ledger=legal_ledger.json, draft=legal_draft.json, sources=legal_sources.json → exit0, verdict STRUCTURAL_PASS_SEMANTIC_REVIEW_PENDING, failures==[], review_contains FACT_TYPE_AMBIGUOUS. Wait — must it contain FACT_TYPE_AMBIGUOUS? The feedback allows review. I'll assert no fact_type_conflict failure and failures==[]; also assert review contains FACT_TYPE_AMBIGUOUS (deterministic given my implementation). Good.
+
+Where do these extra fixtures live? Copy independent fixtures into outputs/tests/fixtures_extra/? But "不把fixtures放包内" — package = outputs/skill. tests dir is fine. I'll generate extra fixtures via a script make_fixtures_extra.py to keep reproducibility, plus reference the provided independent files (copy them into fixtures_extra for self-containment, with provenance notes). Actually the provided independent files are inputs; copying them into outputs/tests/fixtures_extra is fine (tests dir outside skill package).
+
+E10_extra_same_year_actual_and_goal_same_value_legal: same time "2026", F_actual (user_statement, value100, subject "培训人数(2026实际)"), F_goal (planned_goal, value100, subject "培训人数(2026计划)")... wait if subjects differ then keys differ and no ambiguity arises at all. The feedback says "同一年actual已完成值与goal目标同值也能合法共存" — to make it a genuine test of the ambiguity path, keep same subject "培训人数" and same value/unit, time "2026" for both. Different evidence quotes needed: quote must be contiguous substrings of source content. Craft source message: "2026年实际培训100人；2026年计划培训100人。" quotes "2026年实际培训100人" and "2026年计划培训100人".Hmm, but "不要为了本次反例硬编码年份" — that instruction is about not hardcoding in the validator (fix must be generic), fixtures obviously have concrete data. Fine. But to reduce suspicion of hardcoding, use years not from the examples? Use2024/2027 maybe. Yes, use different years than feedback examples to demonstrate genericity: E9:2024 actual /2027 goal. E10: same year2030. Good.
+
+E11_extra_planned_goal_as_achieved_still_rejected: ledger = E9's two-year ledger, draft with F_goal as_type achieved_fact → exit1, fail type_mismatch_planned_goal_as_achieved.
+
+E12_extra_nested_refs_not_list_rejected: ledger=nested_refs_not_list copy, draft=valid_single_draft, sources=legal_sources → exit1, fail id evidence_refs_not_list, path contains task_switches and evidence_refs.
+
+E13_extra_nested_refs_item_not_object_rejected: [42] case → exit1, fail evidence_refs_item_not_object, path contains task_switches.
+
+E14_extra_nested_valid_quote_still_passes: ledger with task_switches valid ref (like n2 style) → exit0. I'll construct from my same-year fixture + task_switches nested valid ref. Assert no failures.
+
+E15_extra_nested_bad_quote_still_rejected: same but quote not contiguous → exit1 evidence_quote_not_contiguous with path contains task_switches.
+
+E16_extra_empty_optional_refs_legal: new_assumption fact with evidence_refs=[] (allowed) + nested task_switches evidence_refs=[] → exit0 no failures. Also verify no missing_required_evidence.
+
+E17_extra_required_fact_empty_refs_still_rejected: user_statement with evidence_refs=[] → exit1 missing_required_evidence (mirrors E6, ensures empty list isn't silently accepted for required types).
+
+Also maybe E18: nested evidence_refs as dict {} → not_list. Optional; include for shape completeness? The feedback only lists string and [42]. Keep scope: add it cheaply? "只局部修改" — tests are cheap. I'll include as an extra shape case. Hmm, keep it minimal but valuable: yes include.
+
+Also top-level? "Malformed top-level or arbitrary nested evidence_refs must produce..." — top-level meaning fact-level. Fact-level non-list is caught by ledger_basics ("fact X缺少 evidence_refs列表" with path). Add a test asserting that path/id for fact-level non-list. Include E19.
+
+Also draft-side nested evidence_refs? The walker covers draft too. Could add one: draft has a custom key with malformed evidence_refs → rejected. Include E20 maybe. Keep total reasonable:10 extra cases.
+
+Draft-side malformed: draft dict with "attachments": [{"evidence_refs": "oops"}] → exit1 evidence_refs_not_list path $.attachments[0].evidence_refs with root "draft". Good.
+
+Now also must verify: valid_single_draft with nested_refs_not_list ledger — the draft is valid_single_draft.json with text "2025年实际培训100人。" and F1 declared. Note ledger F1 time=2025, single fact → no ambiguity review. Expect failures only the shape one. After fix, exit1 with exactly [evidence_refs_not_list]. Original report had exit0 (that's the defect).Now also the "原失败" reproduction: run ORIGINAL CLI from /workspace/inputs/previous_skill/scripts/validate_pack.py on:
+- legal trio → expect exit1 fact_type_conflict (matches temporal_original_report.json)
+- nested not_list → exit0 (matches nested_refs_not_list_original_report.json)
+- nested non-object → exit0Save repro reports + stdout into outputs/tests/independent_baseline/. Also compare with provided original reports (SHA or semantic equality) — good evidence.
+
+Then rerun original21 with outputs/skill (fixed CLI) via run_tests.py → expect21/21.
+
+Then run extra runner → all pass.
+
+Then compute SHAs of changed resources (skill/scripts/validate_pack.py new SHA; other files unchanged — verify SHAs equal to originals).
+
+resource_validation.json: structure with validation of the outputs: original defect repro results, post-fix results,21/21, extra results, SHA table.
+
+revision_summary.json: defects → evidence → localized change → old/new test counts (old21/21 baseline, new21/21 + extra N/N), changed resource SHAs, unknowns/limits (no real business trial, semantic review semantics, benefit unapproved).
+
+CHANGELOG file: /workspace/outputs/changes.md listing old→new.
+
+Also record command logs. I'll write an execution log JSON as I go (or a markdown log). Let me do it pragmatically: capture each command + stdout to outputs/tests/execution_log.md appended via exec, or write at end summarizing with SHAs. The requirement: "每次命令、原响应、fixture/资源版本SHA、前后修改、失败原因和复测都留 /workspace/outputs/tests/ 或其它包外位置". I'll write a script-driven log: I'll run each step with tee into outputs/tests/logs/. Simpler: run commands individually with exec and save outputs to files. Let me be efficient: write a small shell/python driver? Direct exec calls are fine; I'll save key outputs.
+
+Let me start executing. Use bash via exec. Note working dir is Temp on Windows?? The env says working directory c:\Users\22142\AppData\Local\Temp, platform win32... but the task says /workspace with Linux container. The runtime context says host=a37d1d028096, os=Linux. The exec tool presumably runs in the container. Paths /workspace. I'll use forward slashes.
+
+Step1: setup dirs and copies, compute SHAs.

@@ -1,0 +1,134 @@
+{
+  "schema": "wrd09-evaluator-rubric-v1",
+  "task_id": "wrd09_test_0689083597c7f4169ad1",
+  "annotation_author": "/root/scheduled_batch24 (new offline annotation)",
+  "not_original_teacher_reasoning_or_tool_feedback": true,
+  "source_basis": [
+    {
+      "source_id": "conv_12ac99dd2fa7",
+      "user_occurrence_index": 0,
+      "message_id": "conv_12ac99dd2fa7:b54d0388",
+      "full_original_content_sha256": "6a98838ab047a082bc1afcf5f78f50e7441f9734f9c7041fe0aaab8a741e6113",
+      "selected_text_sha256": "6a98838ab047a082bc1afcf5f78f50e7441f9734f9c7041fe0aaab8a741e6113",
+      "extraction": "verbatim full original user occurrence"
+    },
+    {
+      "source_id": "conv_12ac99dd2fa7",
+      "user_occurrence_index": 1,
+      "message_id": "conv_12ac99dd2fa7:be1125f3",
+      "full_original_content_sha256": "246112dd6024b0ac08a95a212023e4dc7a6c067eb3dedd3ea9667cf158ff89f1",
+      "selected_text_sha256": "246112dd6024b0ac08a95a212023e4dc7a6c067eb3dedd3ea9667cf158ff89f1",
+      "extraction": "verbatim full original user occurrence"
+    },
+    {
+      "source_id": "conv_12ac99dd2fa7",
+      "user_occurrence_index": 2,
+      "message_id": "conv_12ac99dd2fa7:20b67deb",
+      "full_original_content_sha256": "283dd0796f99019e923e5e117254c95bcff5b954bdd8008916d90d521a5e461e",
+      "selected_text_sha256": "283dd0796f99019e923e5e117254c95bcff5b954bdd8008916d90d521a5e461e",
+      "extraction": "verbatim full original user occurrence"
+    },
+    {
+      "source_id": "conv_12ac99dd2fa7",
+      "user_occurrence_index": 3,
+      "message_id": "conv_12ac99dd2fa7:d818ddec",
+      "full_original_content_sha256": "279f041540262e9367c3f5a97c528716ada97a0bdc2334ff493df9741228fae9",
+      "selected_text_sha256": "279f041540262e9367c3f5a97c528716ada97a0bdc2334ff493df9741228fae9",
+      "extraction": "verbatim full original user occurrence"
+    },
+    {
+      "source_id": "conv_12ac99dd2fa7",
+      "user_occurrence_index": 4,
+      "message_id": "conv_12ac99dd2fa7:1543eee7",
+      "full_original_content_sha256": "a8254f0c87683d61ac0094c565606b2a7401f37c2fa7b24d8e222c6bbab46395",
+      "selected_text_sha256": "a8254f0c87683d61ac0094c565606b2a7401f37c2fa7b24d8e222c6bbab46395",
+      "extraction": "verbatim full original user occurrence"
+    },
+    {
+      "source_id": "conv_12ac99dd2fa7",
+      "user_occurrence_index": 5,
+      "message_id": "conv_12ac99dd2fa7:9a0ced68",
+      "full_original_content_sha256": "121cdf08cb3161464133186296555d11d078dd70f139c7d2ab92d32169537586",
+      "selected_text_sha256": "121cdf08cb3161464133186296555d11d078dd70f139c7d2ab92d32169537586",
+      "extraction": "verbatim full original user occurrence"
+    }
+  ],
+  "task_specific_criteria": [
+    "围绕AI连接百行百业、企业需求与青年FDE工程师社区提出名字。",
+    "响应用户希望大胆、有辨识度的偏好；不重复仅保守地域式命名。",
+    "不保证商标/域名可注册或虚构市场调研结果。"
+  ],
+  "quality_dimensions": [
+    {
+      "id": "source_fidelity",
+      "name": "事实与来源忠实",
+      "weight": 20,
+      "anchors": {
+        "0": "出现关键捏造/错归属",
+        "2": "基本正确但关键证据或限定缺失",
+        "4": "关键事实、引文和未知项均忠实可核"
+      }
+    },
+    {
+      "id": "requirement_coverage",
+      "name": "需求覆盖",
+      "weight": 20,
+      "anchors": {
+        "0": "未回应核心委托",
+        "2": "覆盖部分要求",
+        "4": "核心要求和明确纠正均覆盖"
+      }
+    },
+    {
+      "id": "functional_usability",
+      "name": "交付可用性",
+      "weight": 20,
+      "anchors": {
+        "0": "没有真实交付或不可用",
+        "2": "有限可用/主要功能待证",
+        "4": "目标格式/功能在实际运行或人工核验中可用"
+      }
+    },
+    {
+      "id": "organization_presentation",
+      "name": "组织与表达",
+      "weight": 20,
+      "anchors": {
+        "0": "难以理解或严重版式问题",
+        "2": "基本清楚有明显冗余/层次问题",
+        "4": "清晰、有序、适配受众与格式"
+      }
+    },
+    {
+      "id": "evidence_boundaries",
+      "name": "证据边界与判断",
+      "weight": 20,
+      "anchors": {
+        "0": "无证成功/权限/法律或业务确定性",
+        "2": "部分区分事实和建议",
+        "4": "推断、条件、未知和实际执行状态区分清楚"
+      }
+    }
+  ],
+  "quality_formula": "Q=sum(weight*dimension_score/4), each dimension 0..4; report all five separately and missing dimensions UNKNOWN; not multiplied by TSR.",
+  "threshold_status": "UNCALIBRATED_NEW_RUBRIC_DEV_ONLY_CALIBRATION_REQUIRED",
+  "qualified_skill_threshold": null,
+  "student_quality_observed": null,
+  "TSR_observed": null,
+  "business_completion_denominator_eligible": true,
+  "clarification_scoring_separate_from_business_TSR": false,
+  "no_exact_reference_answer_or_ranking_fabricated": true,
+  "checks_that_require_future_execution": false,
+  "full_autonomous_WRD_or_KEEP_evidence_created": false,
+  "cost_fields_to_record": [
+    "request/response usage including unknown",
+    "all tool execution elapsed time",
+    "retries/failures",
+    "model and runtime identity",
+    "energy if metered",
+    "cash if known",
+    "human/AI curation cost not zero"
+  ],
+  "historical226_H12_static_results_used_to_choose_thresholds": false,
+  "review_protocol": "Freeze before any student output. Development may calibrate a later version; keep original rubric immutable. Blind test outputs must not drive training/threshold changes."
+}

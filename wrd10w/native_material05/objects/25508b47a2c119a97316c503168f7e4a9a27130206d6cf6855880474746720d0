@@ -1,0 +1,704 @@
+{
+  "schema": "wrd-CV-review-actual-sequence-and-score-arithmetic-audit-v1",
+  "status": "ORDER_PASS_LIMITED_BLIND_ARITHMETIC_AND_SEMANTIC_ISSUES_HOLD",
+  "original_quality_sha256": "735c89706206b98efa034fa310f32e0be9026730ac3a38d88b5351f9a875be7e",
+  "original_decision_sha256": "a02c02f792f02aa944c40f1362deb16a2a715b0980f835a66657c79c817de937",
+  "original_feedback_sha256": "995daf9ab8c9eb6eb6c5a85b09e8b826aa0e45b809168ed15dd3f3f3689a77dd",
+  "actual_blind_writer": {
+    "call_id": "0014_8a42d6aff4d4471bb51b7fbffd815c7f",
+    "tool_call_id": "callbf3b4ad9b1d242d5931079ea1b2402e2",
+    "tool": "write",
+    "original_arguments_sha256_utf8": "2792b072ff8a63697511e6448ee1c7ad13146f7b2594c05d3ec3d99632215f1c",
+    "path": "/workspace/outputs/blind_quality.json",
+    "command": "",
+    "actual_observation": {
+      "first_delivered_in_call_id": "0015_d5ceb61d31084e36837b5aea3ae03170",
+      "message_index": 29,
+      "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0015_d5ceb61d31084e36837b5aea3ae03170\\request.raw.json",
+      "request_sha256": "53cffcf6d1f61d14d822cc695b1827f51616501200f299cb0e7cbae9e3f93b6a",
+      "message_sha256": "838689d1eeb2872e20e20366b7f42ce23941d53b2af9794f229f1f8dc6066b9d",
+      "object": "838689d1eeb2872e20e20366b7f42ce23941d53b2af9794f229f1f8dc6066b9d"
+    },
+    "content_sha256_utf8": "735c89706206b98efa034fa310f32e0be9026730ac3a38d88b5351f9a875be7e",
+    "original_successful_ack": true
+  },
+  "actual_JSON_validation": {
+    "call_id": "0015_d5ceb61d31084e36837b5aea3ae03170",
+    "tool_call_id": "call5d2cc9a1ddb744749f90c8c51a2cffba",
+    "tool": "exec",
+    "original_arguments_sha256_utf8": "8c7dfde680f560c27fda615700234d223ea99f5c7fc95ec7993455884f427285",
+    "path": "",
+    "command": "python -c \"import json; d=json.load(open('/workspace/outputs/blind_quality.json')); print('valid JSON'); print('cases:', list(d['cases'].keys())); print('E1', {a:d['cases']['E1']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('E2', {a:d['cases']['E2']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('cues:', [(c['case'],c['arm']) for c in d['blinding']['method_cues']])\"",
+    "actual_observation": {
+      "first_delivered_in_call_id": "0016_3ef6cf3e03d8457b82c6568cb7d6a51c",
+      "message_index": 31,
+      "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0016_3ef6cf3e03d8457b82c6568cb7d6a51c\\request.raw.json",
+      "request_sha256": "d6325a91362d8e7d4842239a414705e890b4c75266d8fb09fbc26134b877b1cb",
+      "message_sha256": "bc6a63b0e430b521d6fc269427b3610791272d4b1e5837daee065d85021f4c04",
+      "object": "bc6a63b0e430b521d6fc269427b3610791272d4b1e5837daee065d85021f4c04"
+    }
+  },
+  "first_actual_phase2_read": {
+    "call_id": "0016_3ef6cf3e03d8457b82c6568cb7d6a51c",
+    "tool_call_id": "calle3a448c665e24b23bb1c647d528f3f04",
+    "tool": "exec",
+    "original_arguments_sha256_utf8": "1476cf46af63d95ca31ed4520d109915eab399312758aee4ae93d80ac3018822",
+    "path": "",
+    "command": "cat /workspace/inputs/review/phase2_arm_costs.json",
+    "actual_observation": {
+      "first_delivered_in_call_id": "0017_9de6e23f640d4bcc882c49ed45a087c9",
+      "message_index": 33,
+      "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0017_9de6e23f640d4bcc882c49ed45a087c9\\request.raw.json",
+      "request_sha256": "35ab9770b3fca951100f2da19af5644d4912184911fb22646b04aac9c235a473",
+      "message_sha256": "88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796",
+      "object": "88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796"
+    }
+  },
+  "later_phase2_reads": [
+    {
+      "call_id": "0016_3ef6cf3e03d8457b82c6568cb7d6a51c",
+      "tool_call_id": "calle3a448c665e24b23bb1c647d528f3f04",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "1476cf46af63d95ca31ed4520d109915eab399312758aee4ae93d80ac3018822",
+      "path": "",
+      "command": "cat /workspace/inputs/review/phase2_arm_costs.json",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0017_9de6e23f640d4bcc882c49ed45a087c9",
+        "message_index": 33,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0017_9de6e23f640d4bcc882c49ed45a087c9\\request.raw.json",
+        "request_sha256": "35ab9770b3fca951100f2da19af5644d4912184911fb22646b04aac9c235a473",
+        "message_sha256": "88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796",
+        "object": "88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796"
+      }
+    },
+    {
+      "call_id": "0017_9de6e23f640d4bcc882c49ed45a087c9",
+      "tool_call_id": "calle578ffd699d94ea1859e47a7fb3ae4be",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "cd7c6026c917066eabb189b66126b78a22d4f02cbb5d272f3fb22fa73099ccd2",
+      "path": "",
+      "command": "wc -c /workspace/inputs/review/candidate_skill/SKILL.md /workspace/inputs/review/candidate_skill/scripts/*.py; echo ---; cat /workspace/inputs/review/candidate_skill/SKILL.md",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0018_f245e293c4084e9db69255a320002fa1",
+        "message_index": 35,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0018_f245e293c4084e9db69255a320002fa1\\request.raw.json",
+        "request_sha256": "f125009becafc3a44600da5fbc3e48657fbcbfb09a3ee545a9e21a08137e73a3",
+        "message_sha256": "8a26f36bc62882cb164fb22a37dc1d751664c37d970f28e23518f9531ecd795d",
+        "object": "8a26f36bc62882cb164fb22a37dc1d751664c37d970f28e23518f9531ecd795d"
+      }
+    },
+    {
+      "call_id": "0018_f245e293c4084e9db69255a320002fa1",
+      "tool_call_id": "call82621e763c88475eb55e36a8068e73c5",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "0e83c0505cd85a810078667d38e10555508792d946c9d1d473c213b5467306d7",
+      "path": "",
+      "command": "cat /workspace/inputs/review/candidate_skill/scripts/cv_extract.py; echo '=====cvlib====='; cat /workspace/inputs/review/candidate_skill/scripts/cvlib.py; echo '=====evidence_check====='; cat /workspace/inputs/review/candidate_skill/scripts/evidence_check.py",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0019_90c953cabc584d7a92be907c33429c06",
+        "message_index": 37,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0019_90c953cabc584d7a92be907c33429c06\\request.raw.json",
+        "request_sha256": "9cef13eeb31c9cb2d424b9bfdf94d0452f81269fcddc6f7d93f68b2d27bbb842",
+        "message_sha256": "e1b76d773e71ff1af8e8457eb030a179a166dbbda81971a45bb2f2835f314da7",
+        "object": "e1b76d773e71ff1af8e8457eb030a179a166dbbda81971a45bb2f2835f314da7"
+      }
+    },
+    {
+      "call_id": "0019_90c953cabc584d7a92be907c33429c06",
+      "tool_call_id": "call90264a2a5d244a3cb8c4da59c08b4f22",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "5ba834a53c027ae9800e4c1e58a14522456685be4d2a1ba894b236851718a822",
+      "path": "",
+      "command": "sha256sum /workspace/outputs/blind_quality.json /workspace/inputs/review/candidate_skill/SKILL.md /workspace/inputs/review/candidate_skill/scripts/*.py",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0020_9f65f4af21964b7ca343c6a26c6334c5",
+        "message_index": 39,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0020_9f65f4af21964b7ca343c6a26c6334c5\\request.raw.json",
+        "request_sha256": "1643111b4f7fca08955fbb34df8eb01daadc0d5fc3f632824aa69e9944067021",
+        "message_sha256": "552d6097da5b984060d72be26d3e56a4a6354545d500357831c3df3fd1c13985",
+        "object": "552d6097da5b984060d72be26d3e56a4a6354545d500357831c3df3fd1c13985"
+      }
+    }
+  ],
+  "only_one_original_blind_write": true,
+  "unchanged_quality_after_unblinding": true,
+  "full_action_timeline": [
+    {
+      "call_id": "0001_5d8c04ba1b7c439a9d33081ffb0c5059",
+      "tool_call_id": "call3ae9dd383dc849de85f74e0147ae08f5",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "6858f9af8380a5e082f2468ba38ba449671eecfb39559144ab4dbd2585197da3",
+      "path": "",
+      "command": "cat /workspace/inputs/review/source_only_quality_protocol.json",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0002_84ca3b6e155e41a4bbbd1df2a74d1563",
+        "message_index": 3,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0002_84ca3b6e155e41a4bbbd1df2a74d1563\\request.raw.json",
+        "request_sha256": "f099b7a1505828f0e21ba2e085b4d637186c93c6f11416c36aa6907f24e28705",
+        "message_sha256": "59fc3577509b127f3f16958e14436e5a7faa0646301a3a3cb9feff8ae26443bd",
+        "object": "59fc3577509b127f3f16958e14436e5a7faa0646301a3a3cb9feff8ae26443bd"
+      }
+    },
+    {
+      "call_id": "0002_84ca3b6e155e41a4bbbd1df2a74d1563",
+      "tool_call_id": "call32ad90d3c6ae47e082b2c0f48a5cb017",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "fddecf8b1fd06087704036ca011b1892b479bc6378844c64a53f4aa52cef09c0",
+      "path": "",
+      "command": "cat /workspace/inputs/review/phase1_manifest.json",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0003_0c70118c8d1c47e7beb1015e94aae6d8",
+        "message_index": 5,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0003_0c70118c8d1c47e7beb1015e94aae6d8\\request.raw.json",
+        "request_sha256": "25b010a21b6ebea97d52aca560d05897560973138c85319b8a671a60b6524b8a",
+        "message_sha256": "5e33673af3a785e46763f4e3ce9dd6d765d4fae5b61fea88a7f57c9e323a7b39",
+        "object": "5e33673af3a785e46763f4e3ce9dd6d765d4fae5b61fea88a7f57c9e323a7b39"
+      }
+    },
+    {
+      "call_id": "0003_0c70118c8d1c47e7beb1015e94aae6d8",
+      "tool_call_id": "call32e01a4d0b86420da521473aacfaf41a",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "296023ed1ba57f44a11d78df02a9ff917f034411afbbda6b9a95ee2789eb21ca",
+      "path": "",
+      "command": "cat /workspace/inputs/review/tasks/E1.json; echo '=====E2====='; cat /workspace/inputs/review/tasks/E2.json",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0004_6566991bfd1c41e193fc767ec58190e2",
+        "message_index": 7,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0004_6566991bfd1c41e193fc767ec58190e2\\request.raw.json",
+        "request_sha256": "38126a4183b2dc8f300fdf35e85d7830d817bdaf9212406362fa89055a472ef9",
+        "message_sha256": "44215c85bcb725f5615cc45f527dd4caa790cc3b497874b822636d0b92b4250a",
+        "object": "44215c85bcb725f5615cc45f527dd4caa790cc3b497874b822636d0b92b4250a"
+      }
+    },
+    {
+      "call_id": "0004_6566991bfd1c41e193fc767ec58190e2",
+      "tool_call_id": "callc8231ceb7b5a428e9726664bd469720f",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "bdc7a8c1ba0cfac74fff3cabe342191baf59c81552729306f4d2d80f6fb6ed67",
+      "path": "",
+      "command": "mkdir -p /workspace/tmp && cd /workspace/inputs/task/materials && for f in 3f8a1c51032c2b97 6ce6df1590fed877 b4fd3bee09b14b32 9c667aab99eaada6 91162cf64d5ec403 8ad152dae625eda9 96f97ee12f59ed80; do pdftotext -layout $f.pdf /workspace/tmp/$f.txt 2>/dev/null || python -c \"import fitz; d=fitz.open('$f.pdf'); open('/workspace/tmp/$f.txt','w').write('\\n'.join(p.get_text() for p in d))\"; done; wc -c /workspace/tmp/*.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0005_31232eb294b24b2a8209b8df8e94e8af",
+        "message_index": 9,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0005_31232eb294b24b2a8209b8df8e94e8af\\request.raw.json",
+        "request_sha256": "293aa06a96f991373783dbf8e672b76a972b0337fd60435827f992713b668dd6",
+        "message_sha256": "dcc33e63ceb269d9313a649e84ed07d7dd23a413e9257634c883881269f60667",
+        "object": "dcc33e63ceb269d9313a649e84ed07d7dd23a413e9257634c883881269f60667"
+      }
+    },
+    {
+      "call_id": "0005_31232eb294b24b2a8209b8df8e94e8af",
+      "tool_call_id": "call7029aad4cad04e2896edf0f7ffe51885",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "6512dcba47f9df784ced8bb7a2badf9cecd71d9d3f20174aad339275c6d8af8e",
+      "path": "",
+      "command": "cat /workspace/tmp/3f8a1c51032c2b97.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0006_0f919f22b6c94988a78505c9e0bf24c4",
+        "message_index": 11,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0006_0f919f22b6c94988a78505c9e0bf24c4\\request.raw.json",
+        "request_sha256": "1b29cfe261736bb80b1e505ff603301b8d1ec7a47d00ff8ee3cc816d3f131057",
+        "message_sha256": "31b70fd187a7975c2152238d9d7de778d1d90373487cd1defc4874646d1a1ebe",
+        "object": "31b70fd187a7975c2152238d9d7de778d1d90373487cd1defc4874646d1a1ebe"
+      }
+    },
+    {
+      "call_id": "0006_0f919f22b6c94988a78505c9e0bf24c4",
+      "tool_call_id": "call1e378c99db194a1a9998cf8c8a9dd6a5",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "8e158dcdf3bbb0de476c5191e5af2b3d6fcf8b40363a129037a59d29519aff83",
+      "path": "",
+      "command": "echo '=====E1_A====='; cat /workspace/inputs/review/outputs/E1_A.txt; echo; echo '=====E1_B====='; cat /workspace/inputs/review/outputs/E1_B.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0007_ffb8202a89514b67bb9fcda575bd089c",
+        "message_index": 13,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0007_ffb8202a89514b67bb9fcda575bd089c\\request.raw.json",
+        "request_sha256": "c78ad4ec490d5036dd1ea0fa52287fc9547ec3bd87442d8d8dd0786ef4588ebe",
+        "message_sha256": "6a7cb9d83372d3d7fde4b3674bea413f30e08b77babd0ad14931e18a2a957a80",
+        "object": "6a7cb9d83372d3d7fde4b3674bea413f30e08b77babd0ad14931e18a2a957a80"
+      }
+    },
+    {
+      "call_id": "0007_ffb8202a89514b67bb9fcda575bd089c",
+      "tool_call_id": "call0d9bbd3ec99d4548bc06ffc550775779",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "c1a7bad996ad634ab3798dda4794a44831e467a5caeb7cf7d0447f6d8869f567",
+      "path": "",
+      "command": "echo '=====6ce 梁勇其====='; cat /workspace/tmp/6ce6df1590fed877.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0008_c15dd26670c2473f8219cb6e948e8839",
+        "message_index": 15,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0008_c15dd26670c2473f8219cb6e948e8839\\request.raw.json",
+        "request_sha256": "df6b98fd64595686cc3c00611451c17700aef1bdbf411c4856e8ad626fbbe197",
+        "message_sha256": "f36cb607624eb721f0ef13ac0ac46b911553702690621b02660d891f1ae17cef",
+        "object": "f36cb607624eb721f0ef13ac0ac46b911553702690621b02660d891f1ae17cef"
+      }
+    },
+    {
+      "call_id": "0008_c15dd26670c2473f8219cb6e948e8839",
+      "tool_call_id": "call791c875cf97e4d8dadcc6f8edff5813d",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "1e1d6c0d922675f11c0386fc7ab61af3b1dc24084ae3d4db8f61c14f1f69862f",
+      "path": "",
+      "command": "echo '=====b4f 邱景锋====='; cat /workspace/tmp/b4fd3bee09b14b32.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0009_6a18717492b54b789704eedbf50b2814",
+        "message_index": 17,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0009_6a18717492b54b789704eedbf50b2814\\request.raw.json",
+        "request_sha256": "3477f9ca10f7cdb8d012d5d0f93793b4044f3b7125035cad701136d8e993d95a",
+        "message_sha256": "630af51167b6c31701d2f35bf74c036ebf5fbfb3b22539c14bc48a0fe821223d",
+        "object": "630af51167b6c31701d2f35bf74c036ebf5fbfb3b22539c14bc48a0fe821223d"
+      }
+    },
+    {
+      "call_id": "0009_6a18717492b54b789704eedbf50b2814",
+      "tool_call_id": "call1b15a574cb7d4e7687bcfab4ca579980",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "4af2e5b5b49e4d1665f4d7a639e82b2d49fb34d8386c43b24a7602f5f5ca06b1",
+      "path": "",
+      "command": "echo '=====9c6 王丹====='; cat /workspace/tmp/9c667aab99eaada6.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0010_f56a6868f2f24e92ae396f36e9791bd3",
+        "message_index": 19,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0010_f56a6868f2f24e92ae396f36e9791bd3\\request.raw.json",
+        "request_sha256": "71e712960e36910ff9cdf3212d5e364e93d212b3d1efe7b1ee7325b4b7d1d5a9",
+        "message_sha256": "eb5506f3847aa88b955d9681afb1f6d2c780be7deffaeb0aa7b8451f0c24e287",
+        "object": "eb5506f3847aa88b955d9681afb1f6d2c780be7deffaeb0aa7b8451f0c24e287"
+      }
+    },
+    {
+      "call_id": "0010_f56a6868f2f24e92ae396f36e9791bd3",
+      "tool_call_id": "call135286ccaa1548d482ac1e04e411b56e",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "b4186f040f0814c57abf67006886c3d7e844228ac338b0f0116b49bc653ecf6e",
+      "path": "",
+      "command": "echo '=====911 李萍====='; cat /workspace/tmp/91162cf64d5ec403.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0011_c6cfeed7e727490383550a77cbf043f8",
+        "message_index": 21,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0011_c6cfeed7e727490383550a77cbf043f8\\request.raw.json",
+        "request_sha256": "a0bf36fa321580b94a16b03b9755c85e2f861b37c9e3e3ffe99ecbe44e6d26af",
+        "message_sha256": "705a6843c73bc313e9106dfea90a725240f8429fd07a9ba4c44e3b8ec2076388",
+        "object": "705a6843c73bc313e9106dfea90a725240f8429fd07a9ba4c44e3b8ec2076388"
+      }
+    },
+    {
+      "call_id": "0011_c6cfeed7e727490383550a77cbf043f8",
+      "tool_call_id": "calle2137e84581d4840a2bf31b6d75a9cf1",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "36ce29d0cc91286a13ddd553b398224499463588e48692e48e2898325bef53cb",
+      "path": "",
+      "command": "echo '=====8ad 王俊涛====='; cat /workspace/tmp/8ad152dae625eda9.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0012_8b06e92710d043bd8337ed164d204f25",
+        "message_index": 23,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0012_8b06e92710d043bd8337ed164d204f25\\request.raw.json",
+        "request_sha256": "2f61b144f7369045f5c7b3225aabf80ed1fae4d3d3f26a2bfdca05f9d10aff23",
+        "message_sha256": "4e61aaa326a0f5f234b60d327fe06b2ed97fb74169fa81ea2c53e82ec1a3b76b",
+        "object": "4e61aaa326a0f5f234b60d327fe06b2ed97fb74169fa81ea2c53e82ec1a3b76b"
+      }
+    },
+    {
+      "call_id": "0012_8b06e92710d043bd8337ed164d204f25",
+      "tool_call_id": "callbc3cd56a587b49cba2c9b694a4f4c445",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "7ed4bd06ade0cb9e7d81d3d1c4c2f1e97928f34b4ab5db60b38618274df9ac11",
+      "path": "",
+      "command": "echo '=====96f 纵天华====='; cat /workspace/tmp/96f97ee12f59ed80.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0013_891cf13f72304388b07674898b6b019e",
+        "message_index": 25,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0013_891cf13f72304388b07674898b6b019e\\request.raw.json",
+        "request_sha256": "f3f262ad5f08c0104a905f3503e919e0cea844f1d8971f15e3d2d86b911e38bb",
+        "message_sha256": "ef2924042374f454dde1ed46047a160a5013f5919146e864f2e2bfa1c4a88cbe",
+        "object": "ef2924042374f454dde1ed46047a160a5013f5919146e864f2e2bfa1c4a88cbe"
+      }
+    },
+    {
+      "call_id": "0013_891cf13f72304388b07674898b6b019e",
+      "tool_call_id": "callbd20dc6c74b1494cb394331ac0615505",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "d4acdf8c21dd4cfbd39ce4a020846f0eb075cc08cd78fb78f63e63abaeab6ad9",
+      "path": "",
+      "command": "echo '=====E2_A====='; cat /workspace/inputs/review/outputs/E2_A.txt; echo; echo '=====E2_B====='; cat /workspace/inputs/review/outputs/E2_B.txt",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0014_8a42d6aff4d4471bb51b7fbffd815c7f",
+        "message_index": 27,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0014_8a42d6aff4d4471bb51b7fbffd815c7f\\request.raw.json",
+        "request_sha256": "7e9d48ef2b97934ae7f8f04a55da069335c18da68c6ff7e2f741b720f61ce906",
+        "message_sha256": "1e6124884a5c8aaaa345928d74ae8f9fecb2663123b002496800086928d21b7f",
+        "object": "1e6124884a5c8aaaa345928d74ae8f9fecb2663123b002496800086928d21b7f"
+      }
+    },
+    {
+      "call_id": "0014_8a42d6aff4d4471bb51b7fbffd815c7f",
+      "tool_call_id": "callbf3b4ad9b1d242d5931079ea1b2402e2",
+      "tool": "write",
+      "original_arguments_sha256_utf8": "2792b072ff8a63697511e6448ee1c7ad13146f7b2594c05d3ec3d99632215f1c",
+      "path": "/workspace/outputs/blind_quality.json",
+      "command": "",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0015_d5ceb61d31084e36837b5aea3ae03170",
+        "message_index": 29,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0015_d5ceb61d31084e36837b5aea3ae03170\\request.raw.json",
+        "request_sha256": "53cffcf6d1f61d14d822cc695b1827f51616501200f299cb0e7cbae9e3f93b6a",
+        "message_sha256": "838689d1eeb2872e20e20366b7f42ce23941d53b2af9794f229f1f8dc6066b9d",
+        "object": "838689d1eeb2872e20e20366b7f42ce23941d53b2af9794f229f1f8dc6066b9d"
+      },
+      "content_sha256_utf8": "735c89706206b98efa034fa310f32e0be9026730ac3a38d88b5351f9a875be7e",
+      "original_successful_ack": true
+    },
+    {
+      "call_id": "0015_d5ceb61d31084e36837b5aea3ae03170",
+      "tool_call_id": "call5d2cc9a1ddb744749f90c8c51a2cffba",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "8c7dfde680f560c27fda615700234d223ea99f5c7fc95ec7993455884f427285",
+      "path": "",
+      "command": "python -c \"import json; d=json.load(open('/workspace/outputs/blind_quality.json')); print('valid JSON'); print('cases:', list(d['cases'].keys())); print('E1', {a:d['cases']['E1']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('E2', {a:d['cases']['E2']['arms'][a]['weighted_total_100'] for a in 'AB'}); print('cues:', [(c['case'],c['arm']) for c in d['blinding']['method_cues']])\"",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0016_3ef6cf3e03d8457b82c6568cb7d6a51c",
+        "message_index": 31,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0016_3ef6cf3e03d8457b82c6568cb7d6a51c\\request.raw.json",
+        "request_sha256": "d6325a91362d8e7d4842239a414705e890b4c75266d8fb09fbc26134b877b1cb",
+        "message_sha256": "bc6a63b0e430b521d6fc269427b3610791272d4b1e5837daee065d85021f4c04",
+        "object": "bc6a63b0e430b521d6fc269427b3610791272d4b1e5837daee065d85021f4c04"
+      }
+    },
+    {
+      "call_id": "0016_3ef6cf3e03d8457b82c6568cb7d6a51c",
+      "tool_call_id": "calle3a448c665e24b23bb1c647d528f3f04",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "1476cf46af63d95ca31ed4520d109915eab399312758aee4ae93d80ac3018822",
+      "path": "",
+      "command": "cat /workspace/inputs/review/phase2_arm_costs.json",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0017_9de6e23f640d4bcc882c49ed45a087c9",
+        "message_index": 33,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0017_9de6e23f640d4bcc882c49ed45a087c9\\request.raw.json",
+        "request_sha256": "35ab9770b3fca951100f2da19af5644d4912184911fb22646b04aac9c235a473",
+        "message_sha256": "88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796",
+        "object": "88e9c48b787dd796e259fa2deb3a7230e6f731aa34b2d06f327a93ff7e1ed796"
+      }
+    },
+    {
+      "call_id": "0017_9de6e23f640d4bcc882c49ed45a087c9",
+      "tool_call_id": "calle578ffd699d94ea1859e47a7fb3ae4be",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "cd7c6026c917066eabb189b66126b78a22d4f02cbb5d272f3fb22fa73099ccd2",
+      "path": "",
+      "command": "wc -c /workspace/inputs/review/candidate_skill/SKILL.md /workspace/inputs/review/candidate_skill/scripts/*.py; echo ---; cat /workspace/inputs/review/candidate_skill/SKILL.md",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0018_f245e293c4084e9db69255a320002fa1",
+        "message_index": 35,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0018_f245e293c4084e9db69255a320002fa1\\request.raw.json",
+        "request_sha256": "f125009becafc3a44600da5fbc3e48657fbcbfb09a3ee545a9e21a08137e73a3",
+        "message_sha256": "8a26f36bc62882cb164fb22a37dc1d751664c37d970f28e23518f9531ecd795d",
+        "object": "8a26f36bc62882cb164fb22a37dc1d751664c37d970f28e23518f9531ecd795d"
+      }
+    },
+    {
+      "call_id": "0018_f245e293c4084e9db69255a320002fa1",
+      "tool_call_id": "call82621e763c88475eb55e36a8068e73c5",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "0e83c0505cd85a810078667d38e10555508792d946c9d1d473c213b5467306d7",
+      "path": "",
+      "command": "cat /workspace/inputs/review/candidate_skill/scripts/cv_extract.py; echo '=====cvlib====='; cat /workspace/inputs/review/candidate_skill/scripts/cvlib.py; echo '=====evidence_check====='; cat /workspace/inputs/review/candidate_skill/scripts/evidence_check.py",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0019_90c953cabc584d7a92be907c33429c06",
+        "message_index": 37,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0019_90c953cabc584d7a92be907c33429c06\\request.raw.json",
+        "request_sha256": "9cef13eeb31c9cb2d424b9bfdf94d0452f81269fcddc6f7d93f68b2d27bbb842",
+        "message_sha256": "e1b76d773e71ff1af8e8457eb030a179a166dbbda81971a45bb2f2835f314da7",
+        "object": "e1b76d773e71ff1af8e8457eb030a179a166dbbda81971a45bb2f2835f314da7"
+      }
+    },
+    {
+      "call_id": "0019_90c953cabc584d7a92be907c33429c06",
+      "tool_call_id": "call90264a2a5d244a3cb8c4da59c08b4f22",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "5ba834a53c027ae9800e4c1e58a14522456685be4d2a1ba894b236851718a822",
+      "path": "",
+      "command": "sha256sum /workspace/outputs/blind_quality.json /workspace/inputs/review/candidate_skill/SKILL.md /workspace/inputs/review/candidate_skill/scripts/*.py",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0020_9f65f4af21964b7ca343c6a26c6334c5",
+        "message_index": 39,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0020_9f65f4af21964b7ca343c6a26c6334c5\\request.raw.json",
+        "request_sha256": "1643111b4f7fca08955fbb34df8eb01daadc0d5fc3f632824aa69e9944067021",
+        "message_sha256": "552d6097da5b984060d72be26d3e56a4a6354545d500357831c3df3fd1c13985",
+        "object": "552d6097da5b984060d72be26d3e56a4a6354545d500357831c3df3fd1c13985"
+      }
+    },
+    {
+      "call_id": "0020_9f65f4af21964b7ca343c6a26c6334c5",
+      "tool_call_id": "callaf88958d56ba4843ae8bb441e78423e1",
+      "tool": "write",
+      "original_arguments_sha256_utf8": "50bdb572abbb2c4540dd482207ddb7819f3e9e72878113c6b3a093c5a9620619",
+      "path": "/workspace/outputs/decision.json",
+      "command": "",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0021_34848ccafee34170af7f0dec01ba829b",
+        "message_index": 41,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0021_34848ccafee34170af7f0dec01ba829b\\request.raw.json",
+        "request_sha256": "e99c3008eb290e98e8344d453995865166589f970706e761cf28561eca7a9096",
+        "message_sha256": "792c1a00c0e639007d877e4b06c1edaf1b17562af1c47bb5a7e7a6c88ecd826d",
+        "object": "792c1a00c0e639007d877e4b06c1edaf1b17562af1c47bb5a7e7a6c88ecd826d"
+      }
+    },
+    {
+      "call_id": "0021_34848ccafee34170af7f0dec01ba829b",
+      "tool_call_id": "call98075df7afe34bf1ae5cfdb89bc41718",
+      "tool": "write",
+      "original_arguments_sha256_utf8": "3bf70bdef4748a66713698781bb10f9f0a73183f547b35db922a60c1540cbedd",
+      "path": "/workspace/outputs/feedback.json",
+      "command": "",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0022_7c54d4ec0c59458ca4ba7c99e990b09f",
+        "message_index": 43,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0022_7c54d4ec0c59458ca4ba7c99e990b09f\\request.raw.json",
+        "request_sha256": "f7be428d8f9e37917cfde7c8cd942abfc755f35817c869ac9e61163ac5f49efa",
+        "message_sha256": "d1e8dcc96e00d1e8de17c3cd364ee570cd338d6564d4f9aaf76253523d813629",
+        "object": "d1e8dcc96e00d1e8de17c3cd364ee570cd338d6564d4f9aaf76253523d813629"
+      }
+    },
+    {
+      "call_id": "0022_7c54d4ec0c59458ca4ba7c99e990b09f",
+      "tool_call_id": "callf8c79bfadd0c49169d259b2d3467df1b",
+      "tool": "exec",
+      "original_arguments_sha256_utf8": "9cc10e52b8057b5b7e932ceb8c4250bea59e592fc8bf3c6d5a307ad57a1ada74",
+      "path": "",
+      "command": "python -c \"import json; d=json.load(open('/workspace/outputs/decision.json')); f=json.load(open('/workspace/outputs/feedback.json')); print('decision valid; overall:', d['recommendation']['overall']); print('feedback valid; defects:', [x['id'] for x in f['current_version_concrete_defects']])\"; ls -la /workspace/outputs/",
+      "actual_observation": {
+        "first_delivered_in_call_id": "0023_a0d1edd0cc2c4a56a3fed2dd6e89dd9e",
+        "message_index": 45,
+        "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0023_a0d1edd0cc2c4a56a3fed2dd6e89dd9e\\request.raw.json",
+        "request_sha256": "5a9cf545a912bf8c94ef40742a65cabb1aacaa75b5fc115bf9dbab2c28a45da5",
+        "message_sha256": "4cd7cf083febb32cc750316bb1d35169db206b7b681308f11ff4acfc1e1e34b6",
+        "object": "4cd7cf083febb32cc750316bb1d35169db206b7b681308f11ff4acfc1e1e34b6"
+      }
+    }
+  ],
+  "arithmetic_pass": false,
+  "arithmetic": [
+    {
+      "case": "E1",
+      "arm": "A",
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "item_count": 4,
+          "item_sum": 3.5,
+          "reported_dimension_sum": 3.5,
+          "matches": true
+        },
+        {
+          "dimension": "D2",
+          "item_count": 4,
+          "item_sum": 3.5,
+          "reported_dimension_sum": 3.5,
+          "matches": true
+        },
+        {
+          "dimension": "D3",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D4",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D5",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        }
+      ],
+      "computed_weighted_total_100": 93.75,
+      "original_weighted_total_100": 93.75,
+      "matches": true
+    },
+    {
+      "case": "E1",
+      "arm": "B",
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D2",
+          "item_count": 4,
+          "item_sum": 3.5,
+          "reported_dimension_sum": 3.5,
+          "matches": true
+        },
+        {
+          "dimension": "D3",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D4",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D5",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        }
+      ],
+      "computed_weighted_total_100": 97.5,
+      "original_weighted_total_100": 97.5,
+      "matches": true
+    },
+    {
+      "case": "E2",
+      "arm": "A",
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "item_count": 4,
+          "item_sum": 3.5,
+          "reported_dimension_sum": 3.5,
+          "matches": true
+        },
+        {
+          "dimension": "D2",
+          "item_count": 4,
+          "item_sum": 2.5,
+          "reported_dimension_sum": 3,
+          "matches": false
+        },
+        {
+          "dimension": "D3",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D4",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D5",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        }
+      ],
+      "computed_weighted_total_100": 88.75,
+      "original_weighted_total_100": 91.25,
+      "matches": false
+    },
+    {
+      "case": "E2",
+      "arm": "B",
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "item_count": 4,
+          "item_sum": 3.5,
+          "reported_dimension_sum": 3.5,
+          "matches": true
+        },
+        {
+          "dimension": "D2",
+          "item_count": 4,
+          "item_sum": 3.0,
+          "reported_dimension_sum": 3,
+          "matches": true
+        },
+        {
+          "dimension": "D3",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D4",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        },
+        {
+          "dimension": "D5",
+          "item_count": 4,
+          "item_sum": 4,
+          "reported_dimension_sum": 4,
+          "matches": true
+        }
+      ],
+      "computed_weighted_total_100": 91.25,
+      "original_weighted_total_100": 91.25,
+      "matches": true
+    }
+  ],
+  "blinding": {
+    "policy": "original outputs untouched; arm identity inference prohibited and not attempted; A/B are positional labels",
+    "method_cues": [
+      {
+        "case": "E1",
+        "arm": "A",
+        "cue": "opening line: '引用已全部通过 evidence_check 校验（6/6 页码一致）'",
+        "blinding_limit": "limited blinding: reveals an automated quote/page validation workflow existed; reviewer did not credit the claim itself and instead independently re-verified every cited page against the PDF (all matched)"
+      },
+      {
+        "case": "E2",
+        "arm": "A",
+        "cue": "opening line: 'evidence_check 全部通过'",
+        "blinding_limit": "limited blinding, same as E1_A; all sampled page citations independently re-verified against PDFs (matched)"
+      },
+      {
+        "case": "E1",
+        "arm": "B",
+        "cue": "opening line: '已读取 source_input.json 并解析简历 PDF'",
+        "blinding_limit": "limited blinding: reveals the arm consumed a packaged input artifact; no quality credit or penalty applied for it"
+      },
+      {
+        "case": "E2",
+        "arm": "B",
+        "cue": "none observed beyond generic '6 份简历已全部解析完毕'",
+        "blinding_limit": "effectively blind for method"
+      }
+    ]
+  },
+  "semantics_errata_path": "D:\\skillloop\\output\\20261027_wrd_main_v10\\runtime_preflight\\quality\\C_PHASE2_CV_REVIEW_AUDIT_02\\Q_SEMANTIC_ERRATA.json",
+  "date_evidence": {
+    "request_path": "output\\20261027_wrd_main_v10\\runtime_preflight\\episodes\\C_phase2_cv_review_01\\api_audit\\0001_5d8c04ba1b7c439a9d33081ffb0c5059\\request.raw.json",
+    "request_sha256": "50f060c189c26f8d6f36613891a2682f10bf1a62d264b59246248a323d7c8f0d",
+    "message_index": 0,
+    "role": "system",
+    "character_start": 11837,
+    "character_end": 11861,
+    "exact_text": "Current date: 2026-10-27",
+    "text_sha256_utf8": "3f637d0d5d7abe2bb65887289d81cf923be5ae5203791d175dddc8b056ec660b",
+    "date_not_taken_from_later_clock_or_metadata": true
+  },
+  "semantic_Q_or_REVISE_not_automatically_positive": true,
+  "new_Agent_or_model_calls": 0,
+  "training_started": false
+}

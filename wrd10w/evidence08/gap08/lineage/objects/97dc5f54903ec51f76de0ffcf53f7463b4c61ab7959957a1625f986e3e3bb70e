@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""三表勾稽逐项复算：读 statements.json（把从报表提取的数字按固定字段填入），
+逐项计算勾稽关系，输出核对结果（通过/差异/跳过+缺哪些字段），防手算错。
+
+用法（原样可执行）:
+  python3 check_gouji.py <statements.json> [--tol 0.005] [--out <核对结果.json>]
+
+statements.json 固定字段（全部可选，缺哪个字段就跳过对应勾稽项并注明；金额两位小数）:
+{
+  "balance_sheet": {
+    "period_end":  {"total_assets":, "total_liabilities":, "total_equity":, "money_funds":},
+    "year_begin":  {同上}
+  },
+  "income_statement": {"operating_revenue":, "operating_profit":, "total_profit":,
+                        "income_tax":, "net_profit":},
+  "cash_flow": {"begin_cash":, "end_cash":, "net_increase":, "net_profit":, "dividends_paid":},
+  "equity": {"retained_earnings_begin":, "retained_earnings_end":},
+  "detail_sums": [ {"name": "流动资产合计(期末)", "expect": , "items": [数值...]}, ... ]
+}
+
+固化的勾稽项:
+  1 资产=负债+权益（期末/年初各一次）          2 净利润=利润总额-所得税
+  3 期末现金=期初现金+现金净增加额            4 现金流量表净利润=利润表净利润
+  5 资产负债表货币资金=现金流量表现金（期末/年初）6 期末未分配利润=年初+净利润-分配股利
+  7 detail_sums 自定义合计复算（合计行=明细之和，OCR 后必做）
+
+退出码: 0 全部核对通过（跳过不算失败）; 1 有勾稽差异; 2 用法/输入错误。
+注意: 勾稽不过不一定是报表错——先回原图放大复核相关单元格是否 OCR 误读，
+再定性。识别不清的科目不要估算填数，留空并在报告中写明。
+"""
+import argparse
+import json
+import sys
+
+# 每条: (id, 标签, [(节点路径, 所需字段)...], 计算函数 fn(按序的节点dict列表) -> 差额)
+CHECKS = [
+    ("bs_balance_end", "资产负债表平衡(期末): 资产=负债+权益",
+     [("balance_sheet/period_end", ("total_assets", "total_liabilities", "total_equity"))],
+     lambda n: n[0]["total_assets"] - (n[0]["total_liabilities"] + n[0]["total_equity"])),
+    ("bs_balance_begin", "资产负债表平衡(年初): 资产=负债+权益",
+     [("balance_sheet/year_begin", ("total_assets", "total_liabilities", "total_equity"))],
+     lambda n: n[0]["total_assets"] - (n[0]["total_liabilities"] + n[0]["total_equity"])),
+    ("is_net_profit", "利润表: 净利润=利润总额-所得税费用",
+     [("income_statement", ("total_profit", "income_tax", "net_profit"))],
+     lambda n: n[0]["net_profit"] - (n[0]["total_profit"] - n[0]["income_tax"])),
+    ("cf_cash_roll", "现金流量表: 期末现金=期初现金+净增加额",
+     [("cash_flow", ("begin_cash", "net_increase", "end_cash"))],
+     lambda n: n[0]["end_cash"] - (n[0]["begin_cash"] + n[0]["net_increase"])),
+    ("cf_is_net_profit_tie", "三表联动: 现金流量表净利润=利润表净利润",
+     [("cash_flow", ("net_profit",)), ("income_statement", ("net_profit",))],
+     lambda n: n[0]["net_profit"] - n[1]["net_profit"]),
+    ("cash_tie_end", "三表联动: 货币资金(期末)=现金流量表期末现金",
+     [("balance_sheet/period_end", ("money_funds",)), ("cash_flow", ("end_cash",))],
+     lambda n: n[0]["money_funds"] - n[1]["end_cash"]),
+    ("cash_tie_begin", "三表联动: 货币资金(年初)=现金流量表期初现金",
+     [("balance_sheet/year_begin", ("money_funds",)), ("cash_flow", ("begin_cash",))],
+     lambda n: n[0]["money_funds"] - n[1]["begin_cash"]),
+    ("retained_earnings_roll",
+     "三表联动: 期末未分配利润=年初未分配利润+净利润-分配股利利润",
+     [("equity", ("retained_earnings_begin", "retained_earnings_end")),
+      ("cash_flow", ("net_profit", "dividends_paid"))],
+     lambda n: n[0]["retained_earnings_end"]
+     - (n[0]["retained_earnings_begin"] + n[1]["net_profit"] - n[1]["dividends_paid"])),
+]
+
+
+def pick(data, path, fields):
+    """按 'a/b/c' 路径取节点；任一所需字段缺失/非数值返回 (None, 缺失字段全路径列表)。"""
+    node = data
+    for key in path.split("/"):
+        if not isinstance(node, dict) or not isinstance(node.get(key), dict):
+            return None, ["%s/%s" % (path, f) for f in fields]
+        node = node[key]
+    missing = ["%s/%s" % (path, f) for f in fields
+               if not isinstance(node.get(f), (int, float))
+               or isinstance(node.get(f), bool)]
+    if missing:
+        return None, missing
+    return node, []
+
+
+def main(argv):
+    ap = argparse.ArgumentParser(description="三表勾稽逐项复算（详见模块docstring）")
+    ap.add_argument("statements", help="statements.json 路径")
+    ap.add_argument("--tol", type=float, default=0.005,
+                    help="允许差异（元），默认0.005")
+    ap.add_argument("--out", help="核对结果 JSON 输出路径（可选）")
+    args = ap.parse_args(argv)
+
+    try:
+        with open(args.statements, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except OSError as e:
+        print("无法读取输入: %s" % e, file=sys.stderr)
+        return 2
+    except json.JSONDecodeError as e:
+        print("statements.json 不是合法 JSON: %s" % e, file=sys.stderr)
+        return 2
+    if not isinstance(data, dict):
+        print("statements.json 顶层应为对象", file=sys.stderr)
+        return 2
+
+    results = []
+    n_fail = 0
+    for cid, label, spec, fn in CHECKS:
+        nodes, missing = [], []
+        for path, fields in spec:
+            node, miss = pick(data, path, fields)
+            if node is None:
+                missing.extend(miss)
+            else:
+                nodes.append(node)
+        if missing:
+            results.append({"id": cid, "label": label, "status": "skipped",
+                            "missing": missing})
+            continue
+        diff = round(fn(nodes), 2)
+        ok = abs(diff) <= args.tol
+        if not ok:
+            n_fail += 1
+        results.append({"id": cid, "label": label, "status": "pass" if ok else "fail",
+                        "diff": diff})
+
+    for ds in data.get("detail_sums") or []:
+        if not isinstance(ds, dict) or not isinstance(ds.get("items"), list) \
+                or not isinstance(ds.get("expect"), (int, float)):
+            results.append({"id": "detail_sum", "label": str(ds.get("name", "未命名")),
+                            "status": "skipped", "missing": ["需 name/expect/items"]})
+            continue
+        nums = [x for x in ds["items"] if isinstance(x, (int, float))]
+        diff = round(ds["expect"] - sum(nums), 2)
+        ok = abs(diff) <= args.tol
+        if not ok:
+            n_fail += 1
+        results.append({"id": "detail_sum", "label": "合计复算: %s" % ds["name"],
+                        "status": "pass" if ok else "fail", "diff": diff})
+
+    n_skip = sum(1 for r in results if r["status"] == "skipped")
+    n_pass = sum(1 for r in results if r["status"] == "pass")
+    report = {"summary": {"pass": n_pass, "fail": n_fail, "skipped": n_skip},
+              "tol": args.tol, "results": results}
+
+    lines = ["勾稽复算: 通过 %d / 差异 %d / 跳过 %d（允许差异 %.3f 元）"
+             % (n_pass, n_fail, n_skip, args.tol)]
+    for r in results:
+        if r["status"] == "pass":
+            lines.append("  [PASS] %s（差 %.2f）" % (r["label"], r.get("diff", 0)))
+        elif r["status"] == "fail":
+            lines.append("  [FAIL] %s（差 %.2f）" % (r["label"], r.get("diff", 0)))
+        else:
+            lines.append("  [SKIP] %s（缺 %s）"
+                         % (r["label"], ", ".join(r.get("missing", []))))
+    print("\n".join(lines))
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=1)
+    return 1 if n_fail else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

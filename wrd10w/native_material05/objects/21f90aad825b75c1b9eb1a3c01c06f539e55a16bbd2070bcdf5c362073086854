@@ -1,0 +1,259 @@
+{
+  "schema": "wrd-actual-local-CV-failure-observations-v1",
+  "old_skill_functional_files_sha256": {
+    "SKILL.md": "760588c09a441a04ceb51f075bc87bd32a74832e21a48421d0bb6a3392a89606",
+    "scripts/cvlib.py": "ab1cb9548250980cdb00c1aa9b5803eb71d69e2a3a20e00842f32e556caf02d4",
+    "scripts/cv_extract.py": "e24ef61ea3066d9b05a47136bb213517e6a1f2c850073ffe9c2e30ef3969f347",
+    "scripts/evidence_check.py": "0ee5220c59ac6ae8111251a9927d5843fdcc36151730c256ec4ffc9a29a11a33"
+  },
+  "actual_original22_reproduction_and_synthetic_failures_only": [
+    {
+      "label": "EXACT_ORIGINAL_22_ASSERTIONS",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/tmp/run_tests.py"
+      ],
+      "returncode": 0,
+      "stdout": "PASS T1 real extract exit0, 2 pages\nPASS T1 candidate_id from content hash\nPASS T1 identity line has name\nPASS T1 watermark lines filtered\nPASS T2 renamed copy same sha256+candidate_id\nPASS T3 batch exit0, 3 results 0 errors\nPASS T3 each candidate keeps own identity\nPASS T3 no cross-mixing A\nPASS T3 no cross-mixing B\nPASS T3 distinct candidate_ids\nPASS T4 valid quotes pass (exit0)\nPASS T5 wrong-page quote rejected\nPASS T6 out-of-range page rejected\nPASS T7 absent quote rejected\nPASS T8 empty file -> explicit error\nPASS T8 corrupt file -> explicit error\nPASS T8 missing file -> explicit error\nPASS T9 empty -> exit2 empty-file error\nPASS T9 corrupt -> exit2 explicit error\nPASS T9 missing -> exit2 file-not-found\nPASS T10 mixed batch exit3\nPASS T10 good file still extracted with own identity\n\nALL PASS\n",
+      "stderr": ""
+    },
+    {
+      "label": "VALID_IMAGE_ONLY_PDF",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/cv_extract.py",
+        "/workspace/independent_fixtures/image_only.pdf"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"results\": [\n    {\n      \"file\": \"/workspace/independent_fixtures/image_only.pdf\",\n      \"candidate_id\": \"cv_2cbe2b3065b8\",\n      \"sha256\": \"2cbe2b3065b8043366eddb6ecc2b5f6582bdb71b2cc5b2356ea353b13a247c61\",\n      \"bytes\": 363578,\n      \"page_count\": 1,\n      \"identity_lines\": [],\n      \"pages\": [\n        {\n          \"page\": 1,\n          \"text\": \"\"\n        }\n      ]\n    }\n  ],\n  \"errors\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "label": "LEGITIMATE_LONG_ASCII_TEXT_EXTRACTION",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/cv_extract.py",
+        "/workspace/independent_fixtures/legitimate_long_ascii.pdf"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"results\": [\n    {\n      \"file\": \"/workspace/independent_fixtures/legitimate_long_ascii.pdf\",\n      \"candidate_id\": \"cv_83bc33f2f6ab\",\n      \"sha256\": \"83bc33f2f6abce21e60561ce6915e148b7925e22cfc016f7274c9315c9a5485c\",\n      \"bytes\": 882,\n      \"page_count\": 1,\n      \"identity_lines\": [\n        \"Candidate Alpha\"\n      ],\n      \"pages\": [\n        {\n          \"page\": 1,\n          \"text\": \"Candidate Alpha\"\n        }\n      ]\n    }\n  ],\n  \"errors\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "label": "ACTUAL_LITERAL_QUOTE_FROM_RAW_PDF",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/independent_fixtures/literal_claim.json"
+      ],
+      "returncode": 2,
+      "stdout": "{\n  \"ok\": false,\n  \"claims\": [\n    {\n      \"index\": 0,\n      \"file\": \"/workspace/independent_fixtures/legitimate_long_ascii.pdf\",\n      \"ok\": false,\n      \"candidate_id\": \"cv_83bc33f2f6ab\",\n      \"reason\": \"quote not on claimed page\",\n      \"found_pages\": []\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "label": "claims_item_is_integer",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/independent_fixtures/claims_item_is_integer.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 51, in main\n    entry = {\"index\": idx, \"file\": claim.get(\"file\"), \"ok\": False}\n                                   ^^^^^^^^^\nAttributeError: 'int' object has no attribute 'get'\n"
+    },
+    {
+      "label": "quote_is_integer",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/independent_fixtures/quote_is_integer.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 68, in main\n    res = cvlib.find_quote(cv, claim.get(\"quote\", \"\"), claim.get(\"page\"))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 109, in find_quote\n    norm = normalize(quote)\n           ^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 35, in normalize\n    return re.sub(r\"\\s+\", \"\", text)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/re/__init__.py\", line 185, in sub\n    return _compile(pattern, flags).sub(repl, string, count)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: expected string or bytes-like object, got 'int'\n"
+    },
+    {
+      "label": "page_is_string",
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/independent_fixtures/page_is_string.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 68, in main\n    res = cvlib.find_quote(cv, claim.get(\"quote\", \"\"), claim.get(\"page\"))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 113, in find_quote\n    if page is not None and (page < 1 or page > cv[\"page_count\"]):\n                             ^^^^^^^^\nTypeError: '<' not supported between instances of 'str' and 'int'\n"
+    }
+  ],
+  "actual_Maker_only_type_probes": [
+    {
+      "case": "item_integer",
+      "claims_path": "/workspace/extra_type_checks/item_integer.json",
+      "claims": [
+        42
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/item_integer.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 51, in main\n    entry = {\"index\": idx, \"file\": claim.get(\"file\"), \"ok\": False}\n                                   ^^^^^^^^^\nAttributeError: 'int' object has no attribute 'get'\n"
+    },
+    {
+      "case": "file_integer",
+      "claims_path": "/workspace/extra_type_checks/file_integer.json",
+      "claims": [
+        {
+          "file": 42,
+          "quote": "海南大学",
+          "page": 2
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/file_integer.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 59, in main\n    cache[path] = (cvlib.extract_pdf(path), None)\n                   ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 54, in extract_pdf\n    p = Path(path)\n        ^^^^^^^^^^\n  File \"/usr/lib/python3.11/pathlib.py\", line 872, in __new__\n    self = cls._from_parts(args)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/pathlib.py\", line 510, in _from_parts\n    drv, root, parts = self._parse_args(args)\n                       ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/pathlib.py\", line 494, in _parse_args\n    a = os.fspath(a)\n        ^^^^^^^^^^^^\nTypeError: expected str, bytes or os.PathLike object, not int\n"
+    },
+    {
+      "case": "file_bool",
+      "claims_path": "/workspace/extra_type_checks/file_bool.json",
+      "claims": [
+        {
+          "file": true,
+          "quote": "海南大学",
+          "page": 2
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/file_bool.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 59, in main\n    cache[path] = (cvlib.extract_pdf(path), None)\n                   ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 54, in extract_pdf\n    p = Path(path)\n        ^^^^^^^^^^\n  File \"/usr/lib/python3.11/pathlib.py\", line 872, in __new__\n    self = cls._from_parts(args)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/pathlib.py\", line 510, in _from_parts\n    drv, root, parts = self._parse_args(args)\n                       ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/pathlib.py\", line 494, in _parse_args\n    a = os.fspath(a)\n        ^^^^^^^^^^^^\nTypeError: expected str, bytes or os.PathLike object, not bool\n"
+    },
+    {
+      "case": "quote_bool",
+      "claims_path": "/workspace/extra_type_checks/quote_bool.json",
+      "claims": [
+        {
+          "file": "/workspace/inputs/task/materials/e474a80615c085d4.pdf",
+          "quote": true,
+          "page": 2
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/quote_bool.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 68, in main\n    res = cvlib.find_quote(cv, claim.get(\"quote\", \"\"), claim.get(\"page\"))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 109, in find_quote\n    norm = normalize(quote)\n           ^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 35, in normalize\n    return re.sub(r\"\\s+\", \"\", text)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/re/__init__.py\", line 185, in sub\n    return _compile(pattern, flags).sub(repl, string, count)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: expected string or bytes-like object, got 'bool'\n"
+    },
+    {
+      "case": "quote_none",
+      "claims_path": "/workspace/extra_type_checks/quote_none.json",
+      "claims": [
+        {
+          "file": "/workspace/inputs/task/materials/e474a80615c085d4.pdf",
+          "quote": null,
+          "page": 2
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/quote_none.json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 83, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py\", line 68, in main\n    res = cvlib.find_quote(cv, claim.get(\"quote\", \"\"), claim.get(\"page\"))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 109, in find_quote\n    norm = normalize(quote)\n           ^^^^^^^^^^^^^^^^\n  File \"/workspace/skills/cv-jd-interview-screening/scripts/cvlib.py\", line 35, in normalize\n    return re.sub(r\"\\s+\", \"\", text)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/re/__init__.py\", line 185, in sub\n    return _compile(pattern, flags).sub(repl, string, count)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: expected string or bytes-like object, got 'NoneType'\n"
+    },
+    {
+      "case": "page_true",
+      "claims_path": "/workspace/extra_type_checks/page_true.json",
+      "claims": [
+        {
+          "file": "/workspace/inputs/task/materials/e474a80615c085d4.pdf",
+          "quote": "付连军",
+          "page": true
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/page_true.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"claims\": [\n    {\n      \"index\": 0,\n      \"file\": \"/workspace/inputs/task/materials/e474a80615c085d4.pdf\",\n      \"ok\": true,\n      \"candidate_id\": \"cv_e474a80615c0\",\n      \"page\": true\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "page_float",
+      "claims_path": "/workspace/extra_type_checks/page_float.json",
+      "claims": [
+        {
+          "file": "/workspace/inputs/task/materials/e474a80615c085d4.pdf",
+          "quote": "海南大学",
+          "page": 2.0
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/page_float.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"claims\": [\n    {\n      \"index\": 0,\n      \"file\": \"/workspace/inputs/task/materials/e474a80615c085d4.pdf\",\n      \"ok\": true,\n      \"candidate_id\": \"cv_e474a80615c0\",\n      \"page\": 2.0\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "page_zero",
+      "claims_path": "/workspace/extra_type_checks/page_zero.json",
+      "claims": [
+        {
+          "file": "/workspace/inputs/task/materials/e474a80615c085d4.pdf",
+          "quote": "海南大学",
+          "page": 0
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/page_zero.json"
+      ],
+      "returncode": 2,
+      "stdout": "{\n  \"ok\": false,\n  \"claims\": [\n    {\n      \"index\": 0,\n      \"file\": \"/workspace/inputs/task/materials/e474a80615c085d4.pdf\",\n      \"ok\": false,\n      \"candidate_id\": \"cv_e474a80615c0\",\n      \"reason\": \"page 0 out of range (1..2)\",\n      \"found_pages\": [\n        2\n      ]\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "valid_int",
+      "claims_path": "/workspace/extra_type_checks/valid_int.json",
+      "claims": [
+        {
+          "file": "/workspace/inputs/task/materials/e474a80615c085d4.pdf",
+          "quote": "海南大学",
+          "page": 2
+        }
+      ],
+      "argv": [
+        "/opt/eval-venv/bin/python",
+        "/workspace/skills/cv-jd-interview-screening/scripts/evidence_check.py",
+        "/workspace/extra_type_checks/valid_int.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"claims\": [\n    {\n      \"index\": 0,\n      \"file\": \"/workspace/inputs/task/materials/e474a80615c085d4.pdf\",\n      \"ok\": true,\n      \"candidate_id\": \"cv_e474a80615c0\",\n      \"page\": 2\n    }\n  ]\n}\n",
+      "stderr": ""
+    }
+  ],
+  "no_E1_E2_PDF_body_or_answer_or_8PDF_aggregate_report_included": true,
+  "source_of_original_results_sha256": "67a1072b1d8de34e338bb83374b3b1242504258e8880b4398825455fac9deb03",
+  "source_of_type_results_sha256": "5549f0776a2d53cfebf3c14c2f304786fccbfef356049978747e25e80ff69803"
+}

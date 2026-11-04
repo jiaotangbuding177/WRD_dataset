@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""Boundary + behavior tests for the cv-jd-interview-screening skill scripts.
+Run from anywhere; fixtures live in /workspace/tmp/fixtures (outside the skill).
+Prints one PASS/FAIL line per assertion; exits non-zero if any FAIL.
+"""
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+SCRIPTS = "/workspace/outputs/skill/scripts"
+FIX = Path("/workspace/tmp/fixtures")
+REAL = "/workspace/inputs/task/materials/e474a80615c085d4.pdf"
+RENAMED = str(FIX / "renamed_随便什么名字.pdf")
+A = str(FIX / "synthetic_cv_A.pdf")
+B = str(FIX / "synthetic_cv_B.pdf")
+
+failures = 0
+
+def check(name, cond, detail=""):
+    global failures
+    mark = "PASS" if cond else "FAIL"
+    if not cond:
+        failures += 1
+    print(f"{mark} {name}" + (f" | {detail}" if detail and not cond else ""))
+
+def run(*args):
+    r = subprocess.run([sys.executable, *args], capture_output=True, text=True)
+    return r.returncode, r.stdout, r.stderr
+
+# T1 real PDF extraction
+rc, out, _ = run(f"{SCRIPTS}/cv_extract.py", REAL, "--raw")
+r = json.loads(out)
+res = r["results"][0]
+check("T1 real extract exit0, 2 pages", rc == 0 and res["page_count"] == 2)
+check("T1 candidate_id from content hash", res["candidate_id"] == "cv_e474a80615c0")
+check("T1 identity line has name", res["identity_lines"][0] == "付连军")
+check("T1 watermark lines filtered", all("8b35b455" not in p["text"] for p in res["pages"]))
+
+# T2 renamed copy keeps same identity (content-anchored, filename-agnostic)
+rc, out, _ = run(f"{SCRIPTS}/cv_extract.py", RENAMED)
+r2 = json.loads(out)
+check("T2 renamed copy same sha256+candidate_id",
+      r2["results"][0]["sha256"] == res["sha256"] and r2["results"][0]["candidate_id"] == res["candidate_id"])
+
+# T3 batch without cross-candidate mixing
+rc, out, _ = run(f"{SCRIPTS}/cv_extract.py", REAL, A, B)
+r3 = json.loads(out)
+check("T3 batch exit0, 3 results 0 errors", rc == 0 and len(r3["results"]) == 3 and not r3["errors"])
+by_id = {x["candidate_id"]: x for x in r3["results"]}
+texts = {x["candidate_id"]: "".join(p["text"] for p in x["pages"]) for x in r3["results"]}
+real_id = res["candidate_id"]
+a_id = next(x for x in by_id if x.startswith("cv_") and "张三" in texts[x])
+b_id = next(x for x in by_id if x.startswith("cv_") and "李四" in texts[x])
+check("T3 each candidate keeps own identity", "付连军" in texts[real_id] and "张三" in texts[a_id] and "李四" in texts[b_id])
+check("T3 no cross-mixing A", "机器人算法工程师" in texts[a_id] and "机器人算法工程师" not in texts[b_id] and "机器人算法工程师" not in texts[real_id])
+check("T3 no cross-mixing B", "校招经验丰富" in texts[b_id] and "校招经验丰富" not in texts[a_id] and "校招经验丰富" not in texts[real_id])
+check("T3 distinct candidate_ids", len({real_id, a_id, b_id}) == 3)
+
+# T4 evidence_check happy path (incl. quote crossing PDF line breaks)
+claims = [
+    {"file": REAL, "page": 1, "quote": "全球高端人才招聘：目标企业情报收集及分析，亲自挖猎一流企业高阶人才"},
+    {"file": REAL, "page": 2, "quote": "海南大学本科市场营销"},
+]
+Path("/workspace/tmp/claims_ok.json").write_text(json.dumps(claims, ensure_ascii=False), encoding="utf-8")
+rc, out, _ = run(f"{SCRIPTS}/evidence_check.py", "/workspace/tmp/claims_ok.json")
+rep = json.loads(out)
+check("T4 valid quotes pass (exit0)", rc == 0 and rep["ok"] and all(c["ok"] for c in rep["claims"]))
+
+# T5-T7 mismatch / out-of-range / not-found
+bad = [
+    {"file": REAL, "page": 2, "quote": "亲自挖猎一流企业高阶人才"},
+    {"file": REAL, "page": 99, "quote": "海南大学"},
+    {"file": REAL, "page": 1, "quote": "这句引文在简历里不存在"},
+]
+Path("/workspace/tmp/claims_bad.json").write_text(json.dumps(bad, ensure_ascii=False), encoding="utf-8")
+rc, out, _ = run(f"{SCRIPTS}/evidence_check.py", "/workspace/tmp/claims_bad.json")
+rep = json.loads(out)
+c1, c2, c3 = rep["claims"]
+check("T5 wrong-page quote rejected", rc == 2 and not c1["ok"] and c1["found_pages"] == [1])
+check("T6 out-of-range page rejected", not c2["ok"] and "out of range" in c2["reason"])
+check("T7 absent quote rejected", not c3["ok"] and c3["found_pages"] == [])
+
+# T8 bad-file claims give explicit file errors (no fabricated success)
+bad2 = [
+    {"file": str(FIX / "empty.pdf"), "page": 1, "quote": "x"},
+    {"file": str(FIX / "corrupt.pdf"), "page": 1, "quote": "x"},
+    {"file": str(FIX / "missing.pdf"), "page": 1, "quote": "x"},
+]
+Path("/workspace/tmp/claims_bad2.json").write_text(json.dumps(bad2, ensure_ascii=False), encoding="utf-8")
+rc, out, _ = run(f"{SCRIPTS}/evidence_check.py", "/workspace/tmp/claims_bad2.json")
+rep = json.loads(out)
+reasons = [c.get("reason", "") for c in rep["claims"]]
+check("T8 empty file -> explicit error", not rep["ok"] and "empty file (0 bytes)" in reasons[0])
+check("T8 corrupt file -> explicit error", "corrupt/unopenable PDF" in reasons[1])
+check("T8 missing file -> explicit error", "file not found" in reasons[2])
+
+# T9 cv_extract explicit failures
+rc, out, _ = run(f"{SCRIPTS}/cv_extract.py", str(FIX / "empty.pdf"))
+e = json.loads(out)
+check("T9 empty -> exit2 empty-file error", rc == 2 and "empty file (0 bytes)" in e["errors"][0]["error"] and not e["results"])
+rc, out, _ = run(f"{SCRIPTS}/cv_extract.py", str(FIX / "corrupt.pdf"))
+e = json.loads(out)
+check("T9 corrupt -> exit2 explicit error", rc == 2 and "corrupt/unopenable" in e["errors"][0]["error"])
+rc, out, _ = run(f"{SCRIPTS}/cv_extract.py", str(FIX / "missing.pdf"))
+e = json.loads(out)
+check("T9 missing -> exit2 file-not-found", rc == 2 and "file not found" in e["errors"][0]["error"])
+
+# T10 mixed batch: good result survives alongside explicit error, exit 3
+rc, out, _ = run(f"{SCRIPTS}/cv_extract.py", A, str(FIX / "empty.pdf"))
+m = json.loads(out)
+check("T10 mixed batch exit3", rc == 3 and len(m["results"]) == 1 and len(m["errors"]) == 1)
+check("T10 good file still extracted with own identity", m["results"][0]["identity_lines"][0] == "张三")
+
+print(f"\n{'ALL PASS' if failures == 0 else str(failures) + ' FAILURES'}")
+sys.exit(0 if failures == 0 else 1)

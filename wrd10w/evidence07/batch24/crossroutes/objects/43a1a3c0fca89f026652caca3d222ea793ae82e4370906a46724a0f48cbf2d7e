@@ -1,0 +1,31 @@
+---
+name: html-demo-animation
+description: 收到"生成XX演示动画/HTML动画"类请求时使用：从主题说明生成浏览器可直接打开的单文件HTML演示动画
+---
+
+# 主题HTML演示动画生成路线
+
+最短路线：主题说明 -> 演示规格JSON -> 单文件HTML动画。
+
+## 关键判断
+
+- 仅适用演示型主题（周期性运动类，如太阳系）；数据驱动复杂可视化不适用。
+- 动画为演示型呈现，不承诺科学或物理精度。
+- 交付单文件HTML，浏览器直接打开预览，无需服务端。
+- 主题、对象清单等业务值取自用户请求原话；用户未说明的按演示型默认处理
+  （中心天体 + 绕转对象 + 播放控制），不虚构。
+
+## 入口
+
+1. s1 明确主题：按阶段说明把主题落成规格——复制 templates/demo_spec.template.json
+   为 {INPUT}/demo_spec.json 并替换 {{占位符}}。尺寸要点：中心天体发光半径约为
+   size 的 3.5 倍，应明显小于最小绕转 orbit，避免内侧对象标签被光晕遮挡。
+2. s2 生成动画：
+
+    python {SKILL}/scripts/build_animation.py {INPUT}/demo_spec.json --out {OUT}/demo.html
+
+   退出码 0 成功；2 输入无效（原因在 stderr 单行）。
+3. 用无头 Chromium 打开产物核对渲染（canvas 有画面、控制面板可交互），
+   再向用户报告文件位置与打开方式（浏览器直接打开即可）。
+
+阶段细节（规格字段、来源对照、校验方式）按需读取 references/stage_notes.md。
