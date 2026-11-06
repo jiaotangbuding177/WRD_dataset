@@ -1,1 +1,0 @@
-print(open('outputs/candidate/workflow_spec.json', encoding='utf-8').read())

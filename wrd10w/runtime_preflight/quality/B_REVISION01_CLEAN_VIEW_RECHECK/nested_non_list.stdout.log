@@ -1,9 +1,0 @@
-VERDICT: STRUCTURAL_FAIL
-FAILURES: 1
-FAIL evidence_refs_not_list: evidence_refs 必须是列表，实际为 str: 'invalid-ref' [ledger:$.task_switches[0].evidence_refs]
-NEEDS_SEMANTIC_REVIEW: 4 item(s)
-REVIEW NEEDS_SEMANTIC_REVIEW:UNDECLARED_NUMBERS: 成稿文本中出现未在 declared_numbers 声明的数字: 2025,2026；需人工语义复核是否与账本一致
-REVIEW NEEDS_SEMANTIC_REVIEW:FACT_TYPE_AMBIGUOUS: 同一主体/数值/单位存在多种 fact_type 声明: [('F1', 'user_statement', '2025'), ('F2', 'planned_goal', '2026')]；时间/口径差异可能合法共存，程序无法确定是否矛盾，需人工语义复核
-REVIEW NEEDS_SEMANTIC_REVIEW:USER_CLAIM_UNVERIFIED: fact F1 为用户提供陈述，外部真实性未经独立核实；成稿按已实现口径表述需人工复核措辞与归因
-REVIEW NEEDS_SEMANTIC_REVIEW:GOAL_WORDING_CHECK: fact F2 为规划目标；成稿须保持目标/预计口径（未完成语义），需人工复核措辞
-NOTE TEXT_ONLY_NO_WORD_TARGET: 未提供目标Word，本次仅交付文本，未写入Word

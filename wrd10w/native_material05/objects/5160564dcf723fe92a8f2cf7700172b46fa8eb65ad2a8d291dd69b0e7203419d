@@ -1,8 +1,0 @@
-data: {"id":"chatcmpl-1793084051300","object":"chat.completion.chunk","created":1793084051,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-1793084051300","object":"chat.completion.chunk","created":1793084051,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"callf8c79bfadd0c49169d259b2d3467df1b","type":"function","function":{"name":"exec","arguments":"{\"command\":\"python -c \\\"import json; d=json.load(open('/workspace/outputs/decision.json')); f=json.load(open('/workspace/outputs/feedback.json')); print('decision valid; overall:', d['recommendation']['overall']); print('feedback valid; defects:', [x['id'] for x in f['current_version_concrete_defects']])\\\"; ls -la /workspace/outputs/\"}"}}]},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-1793084051300","object":"chat.completion.chunk","created":1793084051,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
-
-data: [DONE]
-

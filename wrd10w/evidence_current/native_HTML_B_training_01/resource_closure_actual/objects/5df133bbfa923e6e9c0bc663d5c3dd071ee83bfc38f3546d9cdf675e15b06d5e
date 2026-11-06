@@ -1,9 +1,0 @@
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-const { chromium } = require('playwright');
-const b = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
-const p = await b.newPage();
-await p.goto('file:///workspace/outputs/fixtures/results/bad_runtime.html', { waitUntil: 'load' });
-const err = await p.$('.wrd-error');
-console.log(JSON.stringify({ errorShown: !!err, text: err ? (await err.textContent()).trim() : null }));
-await b.close();

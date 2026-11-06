@@ -1,1 +1,0 @@
-print(open('work_tc.txt',encoding='utf-8').read()[4000:])

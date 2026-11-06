@@ -1,1 +1,0 @@
-print(open('outputs/candidate/README.md', encoding='utf-8').read())

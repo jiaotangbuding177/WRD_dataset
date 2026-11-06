@@ -1,5 +1,0 @@
-Reports look correct: B1a exactly at limit, E3 catches nested task_switches path. Note: E3 evidence_refs check not in checks_passed (correct — it failed), and the nested path is reported.
-
-Interesting: E3 nested failure is at $.facts[6].task_switches[0].evidence_refs[0] — recursion works.
-
-Now clean dead code in make_fixtures.py (the leftover kept/cut/for loop), then rerun tests.

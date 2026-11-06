@@ -1,0 +1,545 @@
+"""Container-side native OpenClaw execution. Inputs are already task-scoped."""
+from __future__ import annotations
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import secrets
+import signal
+import sqlite3
+import subprocess
+import sys
+import time
+import uuid
+from contextlib import closing
+
+from consumer import (redact, skill_read_evidence, tool_result_summary, write_json,
+                      validate_observation_seconds, OBSERVATION_ARCHIVE_RESERVE_SECONDS)
+from openclaw_config import (build_openclaw_config, build_process_env, build_agent_argv,
+                             build_trajectory_export_argv, build_gateway_argv,
+                             build_gateway_health_argv)
+from runtime_compat import configure_runtime_compat
+from native_lifecycle import is_native_pause, observe_native_resume
+
+
+def file_hashes(root):
+    return {p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in root.rglob('*') if p.is_file() and not p.is_symlink()}
+
+
+def parse_json_output(text):
+    # Some pinned CLI plugins print a startup note before the final JSON object.
+    decoder=json.JSONDecoder()
+    for pos,char in enumerate(text):
+        if char!='{': continue
+        try:
+            value,end=decoder.raw_decode(text[pos:])
+            if isinstance(value,dict) and not text[pos+end:].strip(): return value
+        except ValueError: pass
+    raise RuntimeError('Native OpenClaw stdout did not end in a JSON object')
+
+
+def redact_runtime(value, *secret_values):
+    for secret_value in secret_values: value=redact(value,secret_value)
+    return value
+
+
+def stop_gateway(handle, *, grace_seconds=15):
+    """Stop the single state owner before reading/exporting its SQLite store."""
+    proc=handle['process'];forced=False
+    if proc.poll() is None:
+        proc.terminate()
+        try: proc.wait(timeout=grace_seconds)
+        except subprocess.TimeoutExpired:
+            forced=True
+            if os.name=='posix':
+                try: os.killpg(proc.pid,signal.SIGKILL)
+                except ProcessLookupError: pass
+            else: proc.kill()
+            proc.wait(timeout=5)
+    for stream in handle['streams']: stream.close()
+    return {'returncode':proc.returncode,'forced_kill':forced}
+
+
+def start_gateway(env, *, private_dir=Path('/tmp/openclaw-eval-gateway'),
+                  ready_timeout=90, run_command=subprocess.run, popen=subprocess.Popen):
+    """Foreground Gateway in this container; authenticated native health probe.
+
+    There is no embedded fallback.  Probe and service logs stay in container
+    private_dir until the caller has stopped the process and redacted them.
+    """
+    private_dir=Path(private_dir);private_dir.mkdir(parents=True,exist_ok=False)
+    streams=[(private_dir/(name+'.log')).open('wb') for name in ('stdout','stderr')]
+    try:
+        proc=popen(build_gateway_argv(),env=env,stdout=streams[0],stderr=streams[1],start_new_session=True)
+    except Exception:
+        for stream in streams: stream.close()
+        raise
+    handle={'process':proc,'streams':streams};deadline=time.monotonic()+ready_timeout;attempts=0
+    try:
+        with (private_dir/'health.log').open('wb') as log:
+            while time.monotonic()<deadline:
+                if proc.poll() is not None: raise RuntimeError('Native Gateway exited before readiness')
+                attempts+=1
+                try:
+                    probe=run_command(build_gateway_health_argv(),env=env,capture_output=True,timeout=12)
+                    log.write(probe.stdout+probe.stderr);log.flush()
+                    if probe.returncode==0:
+                        health=parse_json_output(probe.stdout.decode('utf-8',errors='replace'))
+                        if health.get('ok') is True:
+                            handle['readiness']={'attempts':attempts,'health_ok':True}
+                            return handle
+                except (subprocess.TimeoutExpired,RuntimeError,ValueError) as error:
+                    log.write((type(error).__name__+' during readiness\n').encode());log.flush()
+                time.sleep(0.25)
+        raise RuntimeError('Native Gateway readiness deadline exceeded')
+    except Exception:
+        stop_gateway(handle)
+        raise
+
+
+def export_gateway_logs(private_dir, transport, *secret_values):
+    for file in Path(private_dir).glob('*.log'):
+        (transport/('gateway.'+file.name)).write_text(
+            redact_runtime(file.read_text(encoding='utf-8',errors='replace'),*secret_values),encoding='utf-8')
+
+
+def select_session_key(listing, session_id):
+    """Match the requested native id, rather than taking the latest session."""
+    rows=listing.get('sessions')
+    if not isinstance(rows,list): raise RuntimeError('Native sessions list omitted sessions array')
+    keys={row.get('key') for row in rows if isinstance(row,dict)
+          and row.get('sessionId')==session_id and isinstance(row.get('key'),str)}
+    if len(keys)!=1: raise RuntimeError('Native session id did not resolve to exactly one stored key')
+    return next(iter(keys))
+
+
+def export_native_session(session_id, env, transport, secret, *,
+                          export_workspace=Path('/tmp/export-workspace'), run_command=subprocess.run):
+    """Export the native redacted support bundle inside the disposable container.
+
+    The official exporter emits events.jsonl and session-branch.json.  Its
+    events wrap transcript messages in data.message, so the existing read
+    bundle's diagnostic sanitization can alter content and must not replace the
+    complete transcript read from SQLite below.  Raw exporter output is never
+    written to a host bind mount; only native-redacted, additionally key-redacted
+    text is copied after the command completes.
+    """
+    secret_values=(secret,) if isinstance(secret,str) else tuple(secret)
+    export_workspace=Path(export_workspace)
+    export_workspace.mkdir(parents=True,exist_ok=False)
+    listing_proc=run_command(['openclaw','sessions','--agent','eval','--json'],
+                             env=env,capture_output=True,timeout=35)
+    listing_stdout=listing_proc.stdout.decode('utf-8',errors='replace')
+    (transport/'sessions.stdout.log').write_text(redact_runtime(listing_stdout,*secret_values),encoding='utf-8')
+    (transport/'sessions.stderr.log').write_text(redact_runtime(listing_proc.stderr.decode('utf-8',errors='replace'),*secret_values),encoding='utf-8')
+    if listing_proc.returncode: raise RuntimeError('Native OpenClaw sessions listing failed')
+    listing=parse_json_output(listing_stdout)
+    session_key=select_session_key(listing,session_id)
+    argv=build_trajectory_export_argv(session_key,workspace=str(export_workspace),output_name='trajectory')
+    proc=run_command(argv,env=env,capture_output=True,timeout=55)
+    stdout=proc.stdout.decode('utf-8',errors='replace')
+    (transport/'export.stdout.log').write_text(redact_runtime(stdout,*secret_values),encoding='utf-8')
+    (transport/'export.stderr.log').write_text(redact_runtime(proc.stderr.decode('utf-8',errors='replace'),*secret_values),encoding='utf-8')
+    if proc.returncode: raise RuntimeError('Native OpenClaw trajectory export failed')
+    summary=parse_json_output(stdout)
+    if summary.get('sessionId')!=session_id:
+        raise RuntimeError('Native trajectory export returned a different session id')
+    source=export_workspace/'.openclaw'/'trajectory-exports'/'trajectory'
+    if Path(summary.get('outputDir','')).resolve()!=source.resolve():
+        raise RuntimeError('Native trajectory export escaped the private container output directory')
+    branch_path=source/'session-branch.json'
+    events_path=source/'events.jsonl'
+    if not branch_path.is_file() or not events_path.is_file():
+        raise RuntimeError('Native trajectory bundle omitted branch or event evidence')
+    branch=json.loads(branch_path.read_text(encoding='utf-8'))
+    entries=branch.get('entries')
+    if not isinstance(entries,list) or not entries:
+        raise RuntimeError('Native trajectory contains no branch entries')
+    if not any(isinstance(entry,dict) and entry.get('type')=='message' for entry in entries):
+        raise RuntimeError('Native trajectory branch contains no messages')
+    evidence_dir=transport/'evidence';evidence_dir.mkdir(exist_ok=False)
+    copied=[]
+    for file in sorted(source.rglob('*')):
+        if file.is_symlink(): raise RuntimeError('Native trajectory bundle contains a symlink')
+        if not file.is_file(): continue
+        relative=file.relative_to(source)
+        dest=evidence_dir/relative;dest.parent.mkdir(parents=True,exist_ok=True)
+        dest.write_text(redact_runtime(file.read_text(encoding='utf-8'),*secret_values),encoding='utf-8')
+        copied.append(relative.as_posix())
+    return entries, {'session_key':session_key,'event_count':summary.get('eventCount'),
+                     'runtime_event_count':summary.get('runtimeEventCount'),
+                     'transcript_event_count':summary.get('transcriptEventCount'),
+                     'files':copied,'source':'native_sessions_export_trajectory'}
+
+
+def load_native_session_events(state_dir, session_id, *, agent_id='eval'):
+    """Read immutable native transcript events through a read-only connection.
+
+    Official support export always applies diagnostic JSON sanitizers.  Those
+    can replace valid natural language mixed with JSON with a placeholder.  We
+    therefore preserve the runtime's event_json itself, selecting only this
+    attempt's session_id and ordering by its stored sequence.  No role, tool
+    call, reply pairing, deduplication, or active-branch reconstruction is added.
+    The caller applies exact key/token redaction before writing to the host.
+    """
+    state_dir=Path(state_dir).resolve()
+    database=state_dir/'agents'/agent_id/'agent'/'openclaw-agent.sqlite'
+    if database.is_symlink() or not database.is_file():
+        raise RuntimeError('Native agent SQLite transcript database is missing')
+    if not database.resolve().is_relative_to(state_dir):
+        raise RuntimeError('Native SQLite database escaped the attempt state directory')
+    with closing(sqlite3.connect(database.resolve().as_uri()+'?mode=ro',uri=True)) as connection:
+        connection.execute('PRAGMA query_only=ON')
+        columns={row[1] for row in connection.execute('PRAGMA table_info(transcript_events)')}
+        if not {'session_id','seq','event_json'}.issubset(columns):
+            raise RuntimeError('Pinned native transcript_events schema is incompatible')
+        user_version=connection.execute('PRAGMA user_version').fetchone()[0]
+        rows=connection.execute('SELECT seq,event_json FROM transcript_events WHERE session_id=? ORDER BY seq',
+                                (session_id,)).fetchall()
+    if not rows: raise RuntimeError('Native SQLite contains no transcript for the requested session id')
+    entries=[]
+    for sequence,text in rows:
+        event=json.loads(text)
+        if not isinstance(event,dict): raise RuntimeError('Native transcript event_json is not an object')
+        entries.append(event)
+    messages=[event for event in entries if event.get('type')=='message']
+    if not messages: raise RuntimeError('Native SQLite transcript contains no messages')
+    return entries,{'source':'native_sqlite_transcript_events.event_json','read_only':True,
+                    'session_id':session_id,'agent_id':agent_id,'user_version':user_version,
+                    'rows':len(rows),'message_rows':len(messages),'first_seq':rows[0][0],'last_seq':rows[-1][0],
+                    'redaction':'exact_model_key_and_gateway_token_only',
+                    'scope':'all_persisted_native_events_for_this_session_in_seq_order'}
+
+
+
+def record_all_native_sessions(state_dir, transport, secret_values, receipt):
+    """Record all persisted native events in this disposable attempt, read-only."""
+    rows_written=0; databases=[]
+    try:
+        state_dir=Path(state_dir).resolve()
+        target=Path(transport)/'all_session_events.jsonl'
+        with target.open('w',encoding='utf-8',newline='\n') as out:
+            for database in sorted((state_dir/'agents').glob('*/agent/openclaw-agent.sqlite')):
+                if database.is_symlink() or not database.resolve().is_relative_to(state_dir):
+                    raise RuntimeError('Recording database escaped disposable state')
+                agent_id=database.parent.parent.name
+                with closing(sqlite3.connect(database.resolve().as_uri()+'?mode=ro',uri=True)) as connection:
+                    connection.execute('PRAGMA query_only=ON')
+                    columns={r[1] for r in connection.execute('PRAGMA table_info(transcript_events)')}
+                    if not {'session_id','seq','event_json'}.issubset(columns):
+                        raise RuntimeError('Native transcript schema changed')
+                    rows=connection.execute('SELECT session_id,seq,event_json FROM transcript_events ORDER BY session_id,seq').fetchall()
+                sessions={}
+                for session_id,sequence,text in rows:
+                    event=json.loads(text)
+                    if not isinstance(event,dict):raise RuntimeError('Native event is not an object')
+                    row={'agent_id':agent_id,'session_id':session_id,'seq':sequence,'native_event':event}
+                    out.write(json.dumps(redact_runtime(row,*secret_values),ensure_ascii=False)+'\n')
+                    rows_written+=1;sessions[session_id]=sessions.get(session_id,0)+1
+                databases.append({'agent_id':agent_id,'sessions':sessions,'rows':len(rows)})
+        receipt['all_session_transcript_recording']={'status':'recorded','rows':rows_written,
+            'databases':databases,'read_only':True,'native_tool_returns_modified':False,
+            'scope':'all persisted transcripts in fresh disposable attempt state; child completion is not assumed',
+            'redaction':'exact_model_key_and_gateway_token_only'}
+    except Exception as error:
+        receipt['all_session_transcript_recording']={'status':'failed',
+            'error':redact_runtime(str(error),*secret_values),'partial_rows':rows_written}
+
+
+def episode_messages(first_message, followup_inputs):
+    if not isinstance(followup_inputs,list) or any(not isinstance(text,str) or not text.strip() for text in followup_inputs):
+        raise ValueError('followup_inputs must be a list of nonempty user strings')
+    return [first_message,*followup_inputs]
+
+
+def observe_runtime(handle, seconds, env, transport, secret_values, *, deadline,
+                    run_command=subprocess.run, monotonic=time.monotonic, sleep=time.sleep):
+    """Keep this Gateway alive after the last answer, then archive native cron.
+
+    The finite window is part of the same attempt deadline. Evidence reports
+    observations, not success of every scheduled job or service after teardown.
+    Initial job ids survive auto-deletion of one-shot jobs in the final list.
+    """
+    seconds=validate_observation_seconds(seconds)
+    start=monotonic();record={'requested_seconds':seconds,'status':'disabled' if not seconds else 'running',
+                            'job_ids':[],'history_limit_per_job':100,'commands':[],
+                            'scope':'same_container_gateway_after_final_answer_before_teardown'}
+    transport=Path(transport);transport.mkdir(parents=True,exist_ok=True)
+    def alive():
+        if handle['process'].poll() is not None:
+            raise RuntimeError('Native Gateway exited during post-answer observation')
+        if monotonic()>=deadline:
+            raise RuntimeError('Episode deadline exhausted during runtime observation')
+    def cli(label,args):
+        alive();remaining=deadline-monotonic()
+        try:
+            proc=run_command(['openclaw',*args],env=env,capture_output=True,timeout=min(15,remaining))
+        except subprocess.TimeoutExpired as error:
+            for suffix,value in (('stdout',error.stdout),('stderr',error.stderr)):
+                text=value.decode('utf-8',errors='replace') if isinstance(value,bytes) else value or ''
+                (transport/(label+'.'+suffix+'.log')).write_text(redact_runtime(text,*secret_values),encoding='utf-8')
+            record['commands'].append({'label':label,'status':'timeout'})
+            raise RuntimeError('Native cron evidence command exceeded observation deadline') from error
+        for suffix,value in (('stdout',proc.stdout),('stderr',proc.stderr)):
+            (transport/(label+'.'+suffix+'.log')).write_text(redact_runtime(value.decode('utf-8',errors='replace'),*secret_values),encoding='utf-8')
+        record['commands'].append({'label':label,'returncode':proc.returncode})
+        if proc.returncode:raise RuntimeError('Native cron evidence command failed: '+label)
+        alive();value=parse_json_output(proc.stdout.decode('utf-8',errors='replace'))
+        write_json(transport/(label+'.json'),redact_runtime(value,*secret_values))
+        return value
+    def job_ids(value):
+        rows=value.get('jobs')
+        if not isinstance(rows,list):raise RuntimeError('Native cron list omitted jobs array')
+        ids=set()
+        for job in rows:
+            if not isinstance(job,dict) or not isinstance(job.get('id'),str) or not job['id']:
+                raise RuntimeError('Native cron list contains invalid job id')
+            ids.add(job['id'])
+        return ids
+    try:
+        if not seconds:return record
+        alive()
+        if deadline-start < seconds + OBSERVATION_ARCHIVE_RESERVE_SECONDS:
+            raise RuntimeError('Observation window and evidence reserve exceed remaining episode deadline')
+        ids=job_ids(cli('cron_before',['cron','list','--all','--agent','eval','--json']))
+        record['job_ids']=sorted(ids)
+        until=start+seconds
+        while monotonic()<until:
+            alive();sleep(min(0.25,until-monotonic(),deadline-monotonic()))
+        alive();record['observed_seconds']=monotonic()-start
+        ids.update(job_ids(cli('cron_after',['cron','list','--all','--agent','eval','--json'])))
+        record['job_ids']=sorted(ids)
+        record['run_archives']=[]
+        for index,job_id in enumerate(sorted(ids)):
+            label=f'cron_runs_{index:04d}'
+            cli(label,['cron','runs',job_id,'--limit','100','--json'])
+            record['run_archives'].append({'job_id':job_id,'file':label+'.json'})
+        record['status']='completed'
+        return record
+    except Exception as error:
+        record.update(status='failed',error=redact_runtime(str(error),*secret_values))
+        raise
+    finally:
+        record['elapsed_seconds']=monotonic()-start
+        write_json(transport/'runtime_observation.json',redact_runtime(record,*secret_values))
+
+
+def preserve_failure_events(state,session_id,transport,secret_values,receipt):
+    """Keep already-persisted native history on failure, without claiming success."""
+    if (transport/'session_events.jsonl').exists():return
+    try:
+        events,metadata=load_native_session_events(state,session_id)
+        with (transport/'session_events.jsonl').open('w',encoding='utf-8',newline='\n') as out:
+            for event in events:out.write(json.dumps(redact_runtime(event,*secret_values),ensure_ascii=False)+'\n')
+        receipt['full_transcript_export']=metadata
+        receipt['failure_trace_preserved']=True
+    except Exception as error:
+        receipt['failure_transcript_export_error']=redact_runtime(str(error),*secret_values)
+
+
+def deliver_turn_resources(entries, user_index, workspace, transport):
+    delivered=[];workspace=Path(workspace).resolve();transport=Path(transport).resolve()
+    for entry in entries:
+        if entry['user_index']!=user_index: continue
+        for resource in entry['resources']:
+            source=Path(resource['source']).resolve();target=Path(resource['path']).resolve()
+            if not source.is_relative_to(transport/'staged_inputs') or not source.is_file():
+                raise ValueError('Staged source outside the explicit transport')
+            if not target.is_relative_to(workspace/'inputs') and not target.is_relative_to(workspace/'reference_inputs'):
+                raise ValueError('Staged target outside the input directories')
+            actual=hashlib.sha256(source.read_bytes()).hexdigest()
+            if actual!=resource['sha256']: raise ValueError('Staged container input hash mismatch')
+            before=hashlib.sha256(target.read_bytes()).hexdigest() if target.is_file() else None
+            target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,target)
+            delivered.append({'user_index':user_index,'path':str(target),'sha256':actual,'previous_sha256':before})
+    return delivered
+
+
+def render_context(value):
+    if isinstance(value,str): return value
+    if isinstance(value,dict): return json.dumps(value,ensure_ascii=False,indent=2)
+    if isinstance(value,list) and all(isinstance(item,str) for item in value):return '\n\n'.join(value)
+    raise ValueError('Explicit context must be text, text list, or structured object')
+
+
+def run_episode(messages, session_id, env, transport, secret_values, *,
+                workspace=Path('/workspace'), message_dir=Path('/tmp'), deadline,
+                run_command=subprocess.run, monotonic=time.monotonic, turn_resources=None):
+    """Sequential native turns in one session; deadline covers the whole episode."""
+    answers=[];native_results=[];turns=[]
+    for turn_index,message in enumerate(messages,1):
+        delivered=deliver_turn_resources(turn_resources or [],turn_index-1,workspace,transport)
+        if delivered:
+            write_json(transport/f'turn_{turn_index:04d}.input_delivery.json',delivered)
+            message+='\n\n本次用户输入随附的文件已到位：\n'+'\n'.join('- '+r['path'] for r in delivered)
+        remaining=int(deadline-monotonic())
+        if remaining<1: raise RuntimeError('Episode deadline exhausted before next user turn')
+        message_path=Path(message_dir)/f'openclaw-eval-message-{turn_index:04d}.txt'
+        message_path.write_text(message,encoding='utf-8')
+        prefix=f'turn_{turn_index:04d}'
+        try:
+            result=run_command(build_agent_argv(str(message_path),session_id,timeout_seconds=remaining),
+                               cwd=workspace,env=env,capture_output=True,timeout=remaining+5)
+        except subprocess.TimeoutExpired as error:
+            for name,value in (('stdout',error.stdout),('stderr',error.stderr)):
+                text=value.decode('utf-8',errors='replace') if isinstance(value,bytes) else value or ''
+                (transport/(prefix+'.'+name+'.log')).write_text(redact_runtime(text,*secret_values),encoding='utf-8')
+            turns.append({'turn_index':turn_index,'status':'timeout','timeout_seconds':remaining})
+            write_json(transport/'episode_turns.json',turns)
+            raise
+        stdout=result.stdout.decode('utf-8',errors='replace');stderr=result.stderr.decode('utf-8',errors='replace')
+        prefix=f'turn_{turn_index:04d}'
+        (transport/(prefix+'.stdout.log')).write_text(redact_runtime(stdout,*secret_values),encoding='utf-8')
+        (transport/(prefix+'.stderr.log')).write_text(redact_runtime(stderr,*secret_values),encoding='utf-8')
+        turns.append({'turn_index':turn_index,'returncode':result.returncode,'timeout_seconds':remaining})
+        write_json(transport/'episode_turns.json',turns)
+        if result.returncode: raise RuntimeError(f'Native OpenClaw turn {turn_index} exited nonzero')
+        native=parse_json_output(stdout)
+        write_json(transport/(prefix+'.native_result.json'),redact_runtime(native,*secret_values))
+        data=native.get('result',native)
+        payloads=data.get('payloads',[])
+        answer='\n\n'.join(p.get('text','') for p in payloads if isinstance(p,dict) and p.get('text'))
+        if is_native_pause(native):
+            observation = observe_native_resume(native, expected_session_id=session_id,
+                read_events=lambda: load_native_session_events(Path(env['OPENCLAW_STATE_DIR']), session_id)[0],
+                deadline=deadline, monotonic=monotonic,
+                write_observation=lambda value: write_json(transport/(prefix+'.lifecycle_observation.json'),
+                                                            redact_runtime(value,*secret_values)))
+            answer = observation['answer']
+            # Keep original CLI native_result JSON unchanged. This separate outer
+            # field describes the later actual SQLite event observed read-only.
+            native = dict(native, _wrd57_lifecycle_observation=observation)
+        if not answer.strip(): raise RuntimeError(f'Native OpenClaw turn {turn_index} produced no text payload')
+        if data.get('meta',{}).get('aborted'): raise RuntimeError(f'Native OpenClaw turn {turn_index} aborted')
+        answers.append(answer);native_results.append(native)
+    return answers,native_results,turns
+
+
+def main(request_path):
+    transport=Path(request_path).parent; workspace=Path('/workspace')
+    raw=json.loads(Path(request_path).read_text(encoding='utf-8'))
+    model=json.loads(Path('/run/secrets/model.json').read_text(encoding='utf-8-sig'))
+    secret=model['api_key'];gateway_token=secrets.token_urlsafe(32)
+    secret_values=(secret,gateway_token);timeout=int(os.environ.get('OPENCLAW_EVAL_TIMEOUT','900'))
+    observation_seconds=validate_observation_seconds(raw.get('runtime_observation_seconds',0),timeout)
+    state=Path('/tmp/openclaw-eval-state');state.mkdir(exist_ok=False)
+    config_path=Path('/tmp/openclaw-eval-config.json')
+    env=os.environ.copy();env.update(build_process_env(str(state),str(config_path)));env['ECNU_API_KEY']=secret
+    env['OPENCLAW_EVAL_GATEWAY_TOKEN']=gateway_token
+    compat=configure_runtime_compat(workspace)
+    env.update(compat['env'])
+    for key in ('HTTP_PROXY','HTTPS_PROXY','ALL_PROXY','http_proxy','https_proxy','all_proxy'): env.pop(key,None)
+    if model.get('input_modalities') != ['text']:
+        raise ValueError('WRD58 requires the frozen text-only provider')
+    if model['max_tokens'] >= model['context_tokens']:
+        raise ValueError('WRD58 context must leave room for prompt tokens')
+    config=build_openclaw_config(base_url=model['base_url'],model_id=model['model'],provider_id='wrd58-spark',
+                                  timeout_seconds=timeout,max_tokens=model['max_tokens'],
+                                  context_window=model['context_window'],context_tokens=model['context_tokens'],
+                                  input_modalities=model['input_modalities'],
+                                  compatibility={'supportsUsageInStreaming': True,
+                                                 'supportsReasoningEffort': False})
+    write_json(config_path,config)
+    before=file_hashes(workspace); expected_skills={}
+    for skill in raw.get('learned_skills',[]):
+        src=Path(skill['path']);dst=workspace/'skills'/skill['id']
+        if dst.exists(): raise RuntimeError('Learned skill collides with a baseline skill: '+skill['id'])
+        if file_hashes(src)!=skill['files']: raise RuntimeError('Learned skill hash mismatch')
+        shutil.copytree(src,dst)
+        expected_skills[skill['id']]={'path':str(dst/'SKILL.md'),'content':(dst/'SKILL.md').read_text(encoding='utf-8-sig')}
+    checks={name:shutil.which(name) for name in raw.get('required_commands',[])}
+    if any(not path for path in checks.values()): raise RuntimeError('Required container command missing: '+str(checks))
+    guide=(
+      '实验运行环境说明：当前工作目录为 /workspace，输入文件已经放在相应相对路径。'
+      '请实际完成用户任务，必要时调用工具；不要仅描述做法。生成的交付文件放在 /workspace/outputs。'
+      '可以使用 exec 运行 Python、Node、LibreOffice、pandoc、PDF工具、Tesseract、ffmpeg、Chromium/Playwright。'
+      'Python虚拟环境已在PATH，中文字体为Noto Sans CJK SC，可通过fc-match定位实际字体文件。Office公式应通过LibreOffice实际重算。'
+      '填写可编辑PDF文本表单可用 python /opt/eval-adapter/pdf_form.py INPUT.pdf VALUES.json OUTPUT.pdf --receipt RECEIPT.json；'
+      'VALUES.json是实际字段名到文字值的JSON对象，该通用工具生成嵌入中文字体的字段外观并保留可编辑字段；'
+      '完成后需实际渲染检查显示文字，不能仅检查字段值或文件存在。'
+      'local-asr 和 remotion 通过 exec 执行。'
+      '要用原生view_image查看的渲染图请写入/workspace/tmp（先创建目录）或/tmp/openclaw；已有其他/tmp路径的图先复制到/workspace/tmp再查看。'
+      'Playwright Chromium executable_path=/usr/bin/chromium，launch args=["--no-sandbox"]。'
+      '原生browser本地网页请先启动HTTP服务并使用http://127.0.0.1地址；file:页面用Playwright。'
+      'Remotion、React和CLI已安装，可直接 remotion render，指定 --browser-executable=/usr/bin/chromium；无需重复安装同套依赖。'
+      '网络访问可用；用户要求下载的材料和skills请在任务中真实下载。'
+      '本次模型接口接收文本。原生工具可以在工作区处理文件，公开网页可使用 browser 或 HTTP 读取。'
+      '模型服务凭据供运行环境使用，禁止读取或展示密钥。'
+      '本地离线中文语音识别可运行 local-asr "输入音频路径" --language zh '
+      '--output /workspace/outputs/识别结果.json。'
+      '工具执行成功与否以本次实际结果为准。'
+      '不得假装调用未配置的外部服务。未提供的私人文件/企业账号请明确说明。'
+      '已发现的skills按原生skills规则读取后再使用，不能把标题当作已读正文。\n\n')+compat['guide']+'\n\n'
+    resources='\n'.join('- '+r['path'] for r in raw.get('resources',[]))
+    context=render_context(raw.get('context',[]))
+    message=guide+'本题提供的文件：\n'+resources+'\n\n用户提供的上下文：\n'+context+'\n\n用户任务：\n'+raw['input']
+    messages=episode_messages(message,raw.get('followup_inputs',[]))
+    session_id=str(uuid.uuid4());start=time.monotonic();receipt={'session_id':session_id,'requested_model':model['model'],'command_checks':checks}
+    receipt['runtime_path_aliases']=compat['aliases']
+    deadline=start+timeout
+    actor_deadline=deadline-observation_seconds-(OBSERVATION_ARCHIVE_RESERVE_SECONDS if observation_seconds else 0)
+    receipt['runtime_observation_seconds']=observation_seconds
+    (workspace/'outputs').mkdir(exist_ok=True)
+    gateway_handle=None;gateway_log_dir=Path('/tmp/openclaw-eval-gateway')
+    try:
+        valid=subprocess.run(['openclaw','config','validate'],env=env,capture_output=True,timeout=60)
+        receipt['config_validate_returncode']=valid.returncode
+        (transport/'config-validation.log').write_text(redact_runtime((valid.stdout+valid.stderr).decode(errors='replace'),*secret_values),encoding='utf-8')
+        if valid.returncode: raise RuntimeError('Pinned OpenClaw rejected generated config')
+        remaining=deadline-time.monotonic()
+        if remaining<1: raise RuntimeError('Episode deadline exhausted before Gateway startup')
+        gateway_handle=start_gateway(env,private_dir=gateway_log_dir,ready_timeout=min(90,remaining))
+        receipt['gateway_readiness']=gateway_handle['readiness']
+        receipt['runtime_mode']='gateway'
+        try:
+            turn_answers,native_results,turns=run_episode(messages,session_id,env,transport,secret_values,deadline=actor_deadline,
+                                                         turn_resources=raw.get('turn_resources',[]))
+            receipt['turns']=turns
+            receipt['runtime_observation']=observe_runtime(gateway_handle,observation_seconds,env,transport,
+                                                         secret_values,deadline=deadline)
+        finally:
+            active_run_error=sys.exc_info()[0] is not None
+            try:
+                receipt['gateway_shutdown']=stop_gateway(gateway_handle);gateway_handle=None
+            except Exception as error:
+                receipt['gateway_cleanup_error']=redact_runtime(str(error),*secret_values)
+                if not active_run_error: raise
+        events,sqlite_receipt=load_native_session_events(state,session_id)
+        receipt['full_transcript_export']=sqlite_receipt
+        with (transport/'session_events.jsonl').open('w',encoding='utf-8',newline='\n') as out:
+            for event in events: out.write(json.dumps(redact_runtime(event,*secret_values),ensure_ascii=False)+'\n')
+        try:
+            _,export_receipt=export_native_session(session_id,env,transport,secret_values)
+            receipt['native_trajectory_export']=export_receipt
+        except Exception as error:
+            receipt['native_support_export_error']=redact_runtime(str(error),*secret_values)
+        native=native_results[-1];write_json(transport/'native_result.json',redact_runtime(native,*secret_values))
+        data=native.get('result',native)
+        answer=turn_answers[-1]
+        evidence=skill_read_evidence(events,expected_skills);write_json(transport/'skill_reads.json',evidence)
+        after=file_hashes(workspace)
+        artifacts=[rel for rel,sha in after.items() if before.get(rel)!=sha and not rel.startswith(('skills/','learned_skills/'))]
+        tool_summary=tool_result_summary(events)
+        response={'answer':answer,'turn_answers':turn_answers,'artifacts':artifacts,'loaded_skill_ids':evidence['loaded_skill_ids'],
+                  'loading_evidence':evidence,'runtime':{'backend':'openclaw-docker','session_id':session_id,'native_meta':data.get('meta'),
+                  **tool_summary}}
+        write_json(transport/'response.json',redact_runtime(response,*secret_values));receipt['status']='completed'
+    except Exception as exc:
+        receipt.update(status='failed',error=redact_runtime(str(exc),*secret_values));raise
+    finally:
+        if gateway_handle is not None:
+            try:receipt['gateway_shutdown']=stop_gateway(gateway_handle)
+            except Exception as error:receipt['gateway_cleanup_error']=redact_runtime(str(error),*secret_values)
+        if receipt.get('status')=='failed':
+            preserve_failure_events(state,session_id,transport,secret_values,receipt)
+        record_all_native_sessions(state,transport,secret_values,receipt)
+        try:export_gateway_logs(gateway_log_dir,transport,*secret_values)
+        except Exception as error:receipt['gateway_log_export_error']=redact_runtime(str(error),*secret_values)
+        receipt['seconds']=time.monotonic()-start;write_json(transport/'container_receipt.json',receipt)
+        # State and generated model stores stay inside this disposable container.
+        # Only explicit redacted evidence above is exported.
+
+
+if __name__=='__main__': main(sys.argv[1])

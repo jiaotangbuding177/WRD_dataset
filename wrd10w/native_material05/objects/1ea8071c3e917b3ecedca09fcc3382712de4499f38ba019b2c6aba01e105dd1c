@@ -1,8 +1,0 @@
-# 独立缺陷复现（原版 CLI，未修改）
-运行时间基准：2026-10-27；CLI: /workspace/inputs/previous_skill/scripts/validate_pack.py (sha256 6a1e951540750ded9fb1f8b688efe25e065352184f07e28c938081159473433a)
-
-1. temporal 合法跨年 actual/goal 同值 -> 原版 EXIT=1, FAIL fact_type_conflict（与 feedback/temporal_original_report.json 一致）=> 缺陷 OVERSTRONG_TEMPORAL_CONFLICT 复现。
-2. 嵌套 task_switches[0].evidence_refs="字符串" -> 原版 EXIT=0, FAILURES=0（与 nested_refs_not_list_original_report.json 一致）=> 缺陷 MALFORMED_NESTED_REFS_SKIPPED 复现。
-3. 嵌套 evidence_refs=[42] -> 原版 EXIT=0, FAILURES=0（与 nested_refs_non_object_item_original_report.json 一致）=> 同上。
-
-报告文件：repro_temporal_legal_report.json / repro_nested_not_list_report.json / repro_nested_non_object_report.json

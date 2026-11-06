@@ -1,9 +1,0 @@
-The runner expects the skill at `../skill/scripts/validate_pack.py` relative to the test dir. So I should copy `/workspace/inputs/previous_skill/` to `/workspace/outputs/skill/` and `/workspace/inputs/previous_tests/` to `/workspace/outputs/tests/`. Then in the tests dir, the SKILL_CLI path is `../skill/scripts/validate_pack.py` — relative to `/workspace/outputs/tests/`, that resolves to `/workspace/outputs/skill/scripts/validate_pack.py`.Wait, the original test layout: HERE = previous_tests dir, SKILL_CLI = HERE/../skill/scripts/validate_pack.py. Original inputs are at /workspace/inputs/previous_skill and /workspace/inputs/previous_tests — those are sibling names "previous_skill" and "previous_tests", so relative `../skill` from previous_tests wouldn't match. That's fine; when placed in /workspace/outputs/{tests,skill}, the runner will find the skill.
-
-Note that run_tests.py regenerates fixtures via make_fixtures.py — meaning fixtures in inputs dir get regenerated inside the outputs tests dir. That's fine and reproducible. But wait — regenerating fixtures writes to the fixtures dir (outputs/tests/fixtures). That's fine — the fixtures dir in outputs will contain generated fixtures. Note: do not include fixtures in the skill package; the tests dir is outside the skill package. Good.
-
-Also test_run_log.json — the original log. Let me read the original log summary, make_fixtures.py briefly to understand fixture E3 nested (task_switches with bad quote), and check the schemas.
-
-Also need to check: original21 tests: N1,N2 (2), B1a,B1b,B2a,B2b,B3a (5), C1-C5 (5), E1-E8 (8). Total =2+5+5+8 =20. Hmm, that's20, but log says21. Let me check the original log. Actually2+5+5+8=20. Wait: B cases: B1a,B1b,B2a,B2b,B3a =5. C:5. E: E1..E8 =8. N:2. Total20. But the feedback says21/21. Let me check test_run_log.json.
-
-Let me now read make_fixtures.py and test_run_log.json summary.

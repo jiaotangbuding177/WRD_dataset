@@ -1,8 +1,0 @@
-data: {"id":"chatcmpl-1793077925789","object":"chat.completion.chunk","created":1793077925,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-1793077925789","object":"chat.completion.chunk","created":1793077925,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"callb87280d3ac6746e7b0651c520a19c99d","type":"function","function":{"name":"edit","arguments":"{\"edits\":[{\"newText\":\"  const p1 = await page.evaluate(() => window.WRD.frames);\\n  const pc = await shot();\\n  const pt = await hudTime();\\n  await page.waitForTimeout(700);\\n  const p2 = await page.evaluate(() => window.WRD.frames);\\n  const pc2 = await shot();\\n  const pt2 = await hudTime();\\n  // 暂停时循环仍重绘同一静止画面,故用画布像素与HUD时间判定冻结\\n  (pc === pc2 && pt === pt2)\\n    ? pass('暂停后画面/时间冻结', { pt, pt2 })\\n    : fail('暂停后画面/时间冻结');\",\"oldText\":\"  const p1 = await page.evaluate(() => window.WRD.frames);\\n  const pc = await shot();\\n  const pt = await hudTime();\\n  await page.waitForTimeout(700);\\n  const p2 = await page.evaluate(() => window.WRD.frames);\\n  const pc2 = await shot();\\n  const pt2 = await hudTime();\\n  (p1 === p2 && pc === pc2 && pt === pt2)\\n    ? pass('暂停后帧与画面/时间冻结', { p1, p2, pt, pt2 })\\n    : fail('暂停后帧与画面/时间冻结');\"}],\"path\":\"/workspace/outputs/skill/scripts/verify_animation.mjs\"}"}}]},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-1793077925789","object":"chat.completion.chunk","created":1793077925,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
-
-data: [DONE]
-

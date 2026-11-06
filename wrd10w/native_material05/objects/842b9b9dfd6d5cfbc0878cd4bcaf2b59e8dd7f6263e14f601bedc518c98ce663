@@ -1,8 +1,0 @@
-data: {"id":"chatcmpl-1793081108700","object":"chat.completion.chunk","created":1793081108,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-1793081108700","object":"chat.completion.chunk","created":1793081108,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"call53e897a0a9234402b4d4dde0f2fb3f13","type":"function","function":{"name":"exec","arguments":"{\"command\":\"cd /workspace/outputs && O=before_repair && node skill/scripts/verify_animation.mjs $O/maker.html --out $O/maker_fixed_verify.json --screenshot $O/maker_fixed.png > /dev/null 2>&1; echo \\\"maker rc=$? ok=$(python3 -c \\\"import json;print(json.load(open('$O/maker_fixed_verify.json'))['ok'])\\\")\\\" && node skill/scripts/verify_animation.mjs $O/ball_fixed.html --out $O/ball_fixed_verify.json --screenshot $O/ball_fixed.png > /dev/null 2>&1; echo \\\"ball rc=$? ok=$(python3 -c \\\"import json;print(json.load(open('$O/ball_fixed_verify.json'))['ok'])\\\")\\\" && node skill/scripts/verify_animation.mjs $O/resume_disabled_canary.html --out $O/CANARY_FIXED_VERIFY.json --screenshot $O/canary_fixed.png > /dev/null 2>&1; echo \\\"canary rc=$?\\\"; python3 - <<'EOF'\\nimport json\\nd=json.load(open('before_repair/CANARY_FIXED_VERIFY.json'))\\nprint('ok=',d['ok'])\\nfor k,v in d['checks'].items():\\n    if v is False: print('FAIL:',k)\\nEOF\"}"}}]},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-1793081108700","object":"chat.completion.chunk","created":1793081108,"model":"glm-5.3-flash","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
-
-data: [DONE]
-
