@@ -1,11 +1,21 @@
 {
-  "schema": "wrd58-colleague-return-v1",
+  "schema": "wrd58-colleague-producer-return-v2",
+  "scope": "skills_generation_only",
+  "downstream_consumption": "deferred_by_user_2026-11-07",
+  "planned_consumer_runs": 0,
   "handoff_commit": null,
   "host": {"os": null, "architecture": null, "docker": null},
   "openclaw": {"image_id": null, "version": null, "restore_archive_sha256": null},
   "spark": {"serving_image_id": null, "profile": "yarn128", "startup_logs": [], "smoke_receipts": []},
   "native_smoke": {"wrd58-8b-0": null, "wrd58-8b-26": null, "wrd58-14b-0": null, "wrd58-14b-26": null},
-  "dev": {"material_sha256": null, "producer_receipts": [], "consumer_receipts": [], "blind_scores": null},
+  "dev": {
+    "material_sha256": null,
+    "producer_receipts": [],
+    "producer_reviews": [],
+    "review_fields_per_arm": ["arm", "source_id", "status", "skill_files_sha256", "conversation_and_route_evidence", "resource_integrity_evidence", "internal_trial_evidence", "revision_or_first_pass_evidence", "packaging_and_decision_evidence", "autonomy_evidence", "all_attempt_costs"],
+    "cost_fields": ["all_attempts", "input_tokens", "output_tokens", "http_requests", "wall_seconds", "unknown_usage", "producer_accepted_count", "cost_per_producer_accepted_skill"],
+    "review_file": "producer_review.json"
+  },
   "blockers": [],
   "notes": []
 }

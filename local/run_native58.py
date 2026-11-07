@@ -110,9 +110,6 @@ def stage_pilot(materials):
     maker = ready['maker']
     source = pinned_file(materials, maker['source'])
     prompt = pinned_file(materials, maker['prompt']).read_text(encoding='utf-8-sig')
-    consumer_files = [[pinned_file(materials, pin) for pin in case['input_files']] for case in ready['consumer_cases']]
-    for case in ready['consumer_cases']:
-        pinned_file(materials, case['evaluator_only'])
     PILOT.mkdir(parents=True, exist_ok=False)
     producer_pins = {}
     for arm in ARM_IDS:
@@ -127,18 +124,11 @@ def stage_pilot(materials):
         path = attempt / 'request.json'
         save(path, request)
         producer_pins[arm] = {'request_sha256': digest(path), 'source_sha256': digest(staged)}
-    consumer_pins = {}
-    for case, files in zip(ready['consumer_cases'], consumer_files):
-        dest = PILOT / 'consumer_inputs' / case['case_id']
-        dest.mkdir(parents=True)
-        for file in files:
-            shutil.copyfile(file, dest / file.name)
-        consumer_pins[case['case_id']] = {file.name: digest(file) for file in files}
-    receipt = {'status': 'STAGED_AWAITING_SPARK', 'scope': 'one_text_only_development_source',
+    receipt = {'status': 'STAGED_AWAITING_SPARK', 'scope': 'one_text_only_development_source_producer_only',
                'source_id': ready['source_id'], 'frozen_groups': len(groups), 'ready_groups': 1,
-               'maker_arms': producer_pins, 'consumer_briefs': consumer_pins,
-               'shared_consumer_briefs': len(consumer_files),
-               'planned_independent_consumer_runs': len(consumer_files) * (len(ARM_IDS) + 1),
+               'maker_arms': producer_pins, 'consumer_briefs': {},
+               'shared_consumer_briefs': 0, 'planned_independent_consumer_runs': 0,
+               'planned_consumer_runs': 0, 'downstream_consumption': 'deferred_by_user',
                'dev_materials_sha256': DEV_FREEZE_SHA, 'model_calls': 0}
     save(PILOT / 'stage_receipt.json', receipt)
     print(json.dumps(receipt, ensure_ascii=False))
@@ -383,6 +373,9 @@ def main():
     parser.add_argument('--materials', type=Path)
     parser.add_argument('--attempt', type=int, default=1)
     args = parser.parse_args()
+    if args.action in ('freeze-skills', 'consume'):
+        parser.error('deferred_by_user: downstream skill consumption is paused; '
+                     'this handoff evaluates skill generation with producer only')
     env = os.environ.copy()
     try:
         if args.action == 'stage':
