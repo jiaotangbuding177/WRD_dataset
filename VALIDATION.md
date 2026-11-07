@@ -47,10 +47,10 @@
 
 正式 DEV 共冻结四个来源。当前可直接投递 EDU 文本组 `conv_497a2363eddb`，范围限定对外短文技能制作。`LEGAL` 组缺原协议和承诺函，`BIZ` 组缺原招标文件和投标成品，`OFFICE` 组缺原 PNG 序列和大纲。三组记 `HOLD_ORIGINAL_MATERIALS`。本次四臂均从同一完整文本会话开始。补齐缺件核来源与 SHA 后，再按同一制作协议扩展；原 226 来源与正式 TEST 继续隔离。
 
-从授权私有路径取得原冻结 `local_materials/`。本轮只需 `DEV_MATERIALS.json` 及其中 maker 对应的制作源与提示。旧 ZIP 内两道消费简报留档，不校验、不投递、不执行。Git 包提供启动器、配置与合成诊断资源。当前 EDU 原始源为 62,997 字节，SHA256 为 `adf496e34aa109450dcf4c1ebf6b9d38f7e94980664660b36cd8e60e4d8dd09c`。runner 在投递时按冻结清单校验制作源和提示。
+本分支 `materials/` 已直接提供原冻结 `DEV_MATERIALS.json` 及其中 maker 对应的制作源与提示，共3文件74,881字节。旧 ZIP 已无需用于本轮制作，两道消费简报留档，不校验、不投递、不执行。当前 EDU 原始源为 62,997 字节，SHA256 为 `adf496e34aa109450dcf4c1ebf6b9d38f7e94980664660b36cd8e60e4d8dd09c`。runner 在投递时按冻结清单校验制作源和提示。清单中的历史绝对路径属于审计元数据，不是本轮运行依赖。[同事执行单](COLLEAGUE_TASK.md)
 
 ```bash
-python3 local/run_native58.py stage --materials /private/local_materials
+python3 local/run_native58.py stage --materials materials
 # Spark 当前在线 8B 时
 python3 local/run_native58.py producer --arm wrd58-8b-0 --profile yarn128
 python3 local/run_native58.py producer --arm wrd58-8b-26 --profile yarn128
@@ -80,7 +80,7 @@ python3 local/run_native58.py producer --arm wrd58-14b-26 --profile yarn128
 
 ## 同事完成后交回哪些文件
 
-在授权私有交接位置提交一个 `wrd58-dev-return/`，按下列清单留存实物。Git 只归档去标识的汇总和经确认可分享的回执。配置密钥、真实会话、原始模型请求和未审查技能产物留在私有交接目录。
+按下列清单留存实物，使用 `python3 local/package_return58.py --out wrd58-generation-return.zip` 打包，一次交回 ZIP 与同名 `.sha256`。回包保留完整制作证据，配置密钥不加入。当前Git中的制作源会话按用户授权提供。
 
 | 文件或目录 | 必须包含 |
 |---|---|
