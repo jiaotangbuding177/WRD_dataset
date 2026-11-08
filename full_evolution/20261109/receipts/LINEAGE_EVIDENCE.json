@@ -1,0 +1,269 @@
+{
+  "schema": "wrd58-full-evolution-historical-delivery-lineage-v1",
+  "scope": "read-only investigation; no model calls or live-file changes",
+  "source_authority": {
+    "source_count": 1107,
+    "cleaned_message_count": 22070,
+    "mother_file": "benchmark/enterprise_input_closed_v11_20261012/有效轨迹.jsonl",
+    "workflow_conversation_directory": "output/20261021_workflow_skill_library/sources",
+    "workflow_conversation_json_object_equals_mother_rows": 1107,
+    "original_audit_directory": "benchmark/enterprise_input_closed_v11_20261012/sources",
+    "original_audit_messages_differ_from_cleaned_projection": 1107,
+    "example_497_messages_cleaned_vs_original_audit": [
+      26,
+      58
+    ]
+  },
+  "historical_pipeline": {
+    "entry": "pipeline.py",
+    "config": "pipeline.json",
+    "bindings": "output/20261021_workflow_skill_library/source_bindings.json",
+    "stages": [
+      "screen",
+      "make",
+      "prepare",
+      "actor(no-skill/skill)",
+      "review"
+    ],
+    "old_resource_associations": 8058,
+    "old_eligible_real_input_associations": 122,
+    "old_synthetic_associations": 2024,
+    "old_filter": "research/workflow/recall.py::source_materials skips all entries without eligible_real_input=True",
+    "retained_skill_snapshot": {
+      "updated_at": "2026-10-24T22:28:18.013581+08:00",
+      "routes": 121,
+      "library_status_counts": {
+        "candidate": 60,
+        "needs_revision": 13,
+        "retained": 29,
+        "rejected": 19
+      },
+      "retained_route_ids": [
+        "ai-adoption-advisory",
+        "ai-news-digest",
+        "company-research-report",
+        "course-recap-video-script",
+        "deal-structure-legal-risk-analysis",
+        "document-error-review",
+        "document-review-report",
+        "email-reply-drafting",
+        "funding-opportunity-search",
+        "git-contribution-report",
+        "grant-formal-review-checklist",
+        "intro-document-drafting",
+        "jd-drafting",
+        "jd-resume-screening",
+        "memory-profile-compilation",
+        "org-chart-design",
+        "org-role-description-drafting",
+        "overseas-structure-legal-analysis",
+        "patent-annuity-compliance",
+        "poc-report-route",
+        "ppt-deck-generation",
+        "ppt-deck-revision",
+        "project-material-integration",
+        "recruitment-process-design",
+        "review-response-letter",
+        "shareholder-register-compile",
+        "teaching-case-list",
+        "teaching-html-demo",
+        "web-html-prototype"
+      ]
+    }
+  },
+  "recommended_existing_resource_projection": {
+    "case_index": "output\\20261107_official_baselines_1107\\data\\SOURCE_INDEX.json",
+    "base_cases_directory": "output\\20261107_official_baselines_1107\\data\\cases",
+    "overlay": "output\\20261107_official_baselines_1107\\recovery\\input_semantic_overlay_20261108\\PUBLIC_CASE_OVERLAY_v2.json",
+    "overlay_application": "Check base_case_sha256 and overlay sha; replace the full public case object for listed IDs, preserve all non-overlaid cases. Preserve provenance/synthetic/mount/user_index. Do not import all-training role labels into student split policy.",
+    "counts": {
+      "human_turns": 5567,
+      "max_human_turns": 162,
+      "sources_with_resources": 769,
+      "resource_occurrences": 8231,
+      "initial_resource_occurrences": 6915,
+      "synthetic_False": 5018,
+      "synthetic_True": 2087,
+      "later_resource_occurrences": 1316,
+      "synthetic_None": 1126,
+      "source_count": 1107,
+      "overlay_source_count": 6,
+      "unique_resource_paths": 3591,
+      "missing_resource_paths": 0
+    },
+    "categories": {
+      "biz": 191,
+      "edu": 176,
+      "legal": 139,
+      "office": 208,
+      "assist": 36,
+      "comm": 44,
+      "hr": 122,
+      "life": 33,
+      "tech": 43,
+      "know": 43,
+      "news": 41,
+      "data": 31
+    },
+    "missing_resource_paths": [],
+    "overlay_case_pins": [
+      {
+        "source_id": "conv_260e843f12e3",
+        "case_id": "evo_conv_260e843f12e3",
+        "path": "D:\\skillloop\\output\\20261107_official_baselines_1107\\recovery\\input_semantic_overlay_20261108\\cases_v2\\evo_conv_260e843f12e3.json",
+        "sha256": "7335c2d9df7736a26035248b9382a9625723b047a869fc2872095fd9fad3f63e",
+        "base_case_sha256": "7131b8ad117b733c60785f07d16059dab9cc302b27f86972766c8418ff45a943"
+      },
+      {
+        "source_id": "conv_447987002020",
+        "case_id": "evo_conv_447987002020",
+        "path": "D:\\skillloop\\output\\20261107_official_baselines_1107\\recovery\\input_semantic_overlay_20261108\\cases_v2\\evo_conv_447987002020.json",
+        "sha256": "6de5e20d4bdc33138e5cb2301542c412ef8e97e05ba12e7d925a46441a801a30",
+        "base_case_sha256": "5418b3426f30c93c55ec66634bf39b476584bbe07e278f8d32972d78793c9f1d"
+      },
+      {
+        "source_id": "conv_80e86b5805f5",
+        "case_id": "evo_conv_80e86b5805f5",
+        "path": "D:\\skillloop\\output\\20261107_official_baselines_1107\\recovery\\input_semantic_overlay_20261108\\cases_v2\\evo_conv_80e86b5805f5.json",
+        "sha256": "dab7702babe1f55ed613c80c27a5e2d451f0d9cb517fecccbcfee1808c86b3a9",
+        "base_case_sha256": "e13b437ed5363daf421de5128fa71165dc2ed4188cc147785164781d0afa5ea0"
+      },
+      {
+        "source_id": "conv_aac2202c868c",
+        "case_id": "evo_conv_aac2202c868c",
+        "path": "D:\\skillloop\\output\\20261107_official_baselines_1107\\recovery\\input_semantic_overlay_20261108\\cases_v2\\evo_conv_aac2202c868c.json",
+        "sha256": "3b0d193d1ec5c07b2e5e6b632855fb7e92edc6267b0edbea236c6ad6e309d118",
+        "base_case_sha256": "f5f84636191b0163bc1f5b89098424ee8fadadd61f1a127ec99b2ab4c57d0d1c"
+      },
+      {
+        "source_id": "conv_bebf10fc7e18",
+        "case_id": "evo_conv_bebf10fc7e18",
+        "path": "D:\\skillloop\\output\\20261107_official_baselines_1107\\recovery\\input_semantic_overlay_20261108\\cases_v2\\evo_conv_bebf10fc7e18.json",
+        "sha256": "c1eba5c1d84fa118cf878f9445b17363cb84c725261d6249b719c8bed520557c",
+        "base_case_sha256": "431a4fc775342aa4e5ec1ed0ee148787477d1c0e688131a7346c371064a562f2"
+      },
+      {
+        "source_id": "conv_f30a9ea3a925",
+        "case_id": "evo_conv_f30a9ea3a925",
+        "path": "D:\\skillloop\\output\\20261107_official_baselines_1107\\recovery\\input_semantic_overlay_20261108\\cases_v2\\evo_conv_f30a9ea3a925.json",
+        "sha256": "339470e2c2efa52fa1976762dc3cec19485dd3fc855e2455b5c4bbe916b7413e",
+        "base_case_sha256": "fc959a321d4b52cbf44601aa83d36c98048588ddc76f81bc27eb346f9a39b460"
+      }
+    ]
+  },
+  "student_boundary": "Archive all1107 but retain original881/226 roles and student train/dev/test identity. The official baseline-specific all1107 training flags are not authorization to train the student on226.",
+  "known_limitations": [
+    "Physical input coverage is not semantic correctness or original-byte certification.",
+    "Cleaned full conversation and original audit copies are distinct views; neither is replaced by public human-only replay case.",
+    "Legacy trial-source overlap: 4 of49 route-case records/3 of29 retained skills share their actual make input source; cannot claim all29 are independent blinded generalization.",
+    "Old binding filter omitted reconstructed sources even when physical files existed; do not use it unchanged for new complete resource delivery.",
+    "External-account/private-service authentication is not portable inside a public material package; preserve required service declarations without credentials."
+  ],
+  "evidence_file_pins": [
+    {
+      "path": "pipeline.json",
+      "bytes": 887,
+      "sha256": "cb88f15f691cd8fcbbcaf3903ce00d31bd560917e32fe73a6720cfeb263939cd"
+    },
+    {
+      "path": "pipeline.py",
+      "bytes": 94185,
+      "sha256": "0fe6209ca145c447632ff9135c3a5c5a0e92ea41b5652cc15e208a0750c70f7d"
+    },
+    {
+      "path": "PIPELINE.md",
+      "bytes": 5255,
+      "sha256": "a8f76240e3d3c355a8a5bf1af76e077150eb7663fba573bd1471e1afdec90aaa"
+    },
+    {
+      "path": "research/workflow/stages.py",
+      "bytes": 39925,
+      "sha256": "97b1972b87f51ce9f78f6f781e917f911a6dae42e6a5d25f7477036fcac9a9a4"
+    },
+    {
+      "path": "research/workflow/recall.py",
+      "bytes": 17734,
+      "sha256": "db3e478b734b5c587f13b64dfb0291695706f1416589ba0243a3c9b1a403f7f0"
+    },
+    {
+      "path": "research/workflow/native.py",
+      "bytes": 19324,
+      "sha256": "a8ccd2ede7bcd546e1054e8418426e3b2a402411d314768c50593670ab863fca"
+    },
+    {
+      "path": "output/20261021_workflow_skill_library/source_bindings.json",
+      "bytes": 4612178,
+      "sha256": "f4fdba109644bbea43017e91a8730276d692a4203a434392719e1893b48d5dd7"
+    },
+    {
+      "path": "output/20261021_workflow_skill_library/source_freeze.json",
+      "bytes": 700,
+      "sha256": "1b8931cea41501437b13cc23e6c81b0872d4b1daa82cea60be2e1cbc97ff3967"
+    },
+    {
+      "path": "output/20261021_workflow_skill_library/inventory.json",
+      "bytes": 1905608,
+      "sha256": "8035c92c5849355008c52723f0e405ea31d2b313c9d362ee47c43abd75ffc8e2"
+    },
+    {
+      "path": "benchmark/enterprise_input_closed_v11_20261012/有效轨迹.jsonl",
+      "bytes": 55556390,
+      "sha256": "877de9787229069946da0fc58dff2dfbc7af46aaa6f1aeb120accf266ee1e901"
+    },
+    {
+      "path": "benchmark/enterprise_input_closed_v11_20261012/contracts/evolution.jsonl",
+      "bytes": 93982664,
+      "sha256": "902e54a3cbea36ad6b0c3428982539a24af4bf236808d8bf11e2c8f652ce0442"
+    },
+    {
+      "path": "benchmark/enterprise_input_closed_v11_20261012/contracts/evaluation.jsonl",
+      "bytes": 21067469,
+      "sha256": "47d0065bc47cacaa580606e60d1a03762a83e44b8c97b229db9a301a7b45c2f6"
+    },
+    {
+      "path": "output/workflow_library/status.json",
+      "bytes": 4973671,
+      "sha256": "72cbc398a05a231ad40fa59fdcd8800f0bef53f37a7ff64eab618327cf2b84c5"
+    },
+    {
+      "path": "output/workflow_library/actual_pipeline_explanation_20261024/任务来源核对.json",
+      "bytes": 5451,
+      "sha256": "aa0481af9afe49f99d0f1fe318a86f4e1bdd143fa4adc04fcc30b2c5dbd5312a"
+    },
+    {
+      "path": "output/20261107_official_baselines_1107/data/SOURCE_INDEX.json",
+      "bytes": 1508100,
+      "sha256": "6b6ee77e3ff722d9d01e6a323161404e3ba3988bad49fc631768d542760dadfa"
+    },
+    {
+      "path": "output/20261107_official_baselines_1107/data/MANIFEST.json",
+      "bytes": 3375,
+      "sha256": "55d00ec4645593f2946988abb3c62fc7a1c9dcd72942c50aad13b214389edf68"
+    },
+    {
+      "path": "output/20261107_official_baselines_1107/recovery/input_semantic_overlay_20261108/PUBLIC_CASE_OVERLAY_v2.json",
+      "bytes": 2422,
+      "sha256": "9fda28528af684734ec0212ab62dfd5de8fa20a7e337bfc1718fb278fbf53c8e"
+    },
+    {
+      "path": "research/pipelines/official_baselines_20261107/data_runtime.py",
+      "bytes": 40198,
+      "sha256": "2fad1a3091668443317fb61ea91051caa80a8fb5ca04f2db1a970cec2eeaa222"
+    },
+    {
+      "path": "research/memory/2026-10-08_file_input_repair_and_native_operation_validation.md",
+      "bytes": 21600,
+      "sha256": "a97bdb0224ebab2376cb53ea2ae6c8ac63cba4254b0221ee6e7c4026ef2032aa"
+    },
+    {
+      "path": "research/memory/2026-10-09_cleaned_trace_environment_alignment.md",
+      "bytes": 9141,
+      "sha256": "e93bbc98a024087ee4b3c334837b75fb8b222456739d334b3041f0c9288dcc7c"
+    },
+    {
+      "path": "research/memory/2026-10-24_actual_pipeline_task_provenance.md",
+      "bytes": 1282,
+      "sha256": "c824893134cbd7ea534affcb6860335b07c6a1acd25b0644c660b97addf729ca"
+    }
+  ]
+}

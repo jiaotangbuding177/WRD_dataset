@@ -1,0 +1,207 @@
+{
+  "schema": "wrd58-pre-run-independent-maker-semantic-review12-v1",
+  "model_calls": 0,
+  "training_admissions": 0,
+  "scope": "Independent pre-run task-content review, not original-teacher per-source success gold and not a student outcome label. Evaluator-only: do not mount this file, expected decisions, teacher route IDs, or withheld rubric into maker workspace.",
+  "freeze_id": "EFFECT_EVAL_20261108_12",
+  "reviewed_freeze_sha256": "dd1d306eb8538ee11c04f17c36bfe237ac54a0b2f46ba5730509d959ea97293d",
+  "counts": {
+    "source_decision_assessment": 12,
+    "maker_assessable": 10,
+    "stop_insufficient_evidence_controls": 2
+  },
+  "metric_policy": {
+    "A": "Assess route/evidence decision across all12 using actual task evidence; correct STOP controls are positive decisions.",
+    "B": "Report skill creation/delivery on the10 predeclared maker_assessable tasks, not12. Do not count correct STOP controls as generation failures.",
+    "quality": "Missing artifacts remain N/A for quality; use common assessable source pairs.",
+    "overall": "Do not equate valid pipeline STOP with failed reasoning. Withdraw earlier universal10/12 skill-output threshold.",
+    "C": "Original business reconstruction and full WRD efficiency comparison remain NOT_EVALUATED when requisite evidence or trials were not executed."
+  },
+  "selection_recommendation": "Retain frozen12 and add this pre-run semantic stratification. No student scores inspected; no outcome-based replacement. If later changing the set, preserve freezev1 and record input-based reasons before any student execution.",
+  "items": [
+    {
+      "source_id": "conv_1695d8fd2aca",
+      "task_title": "参考图风格/配色适配与标题修改",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "原委托同时引用111.png和222.png，当前资源只有标记合成的222.png；111原布局没有独立输入。",
+        "历史回复声称生成图片及像素比例，不构成原生制作/验证回执。"
+      ],
+      "permitted_test_scope": "允许提炼通用图像配色/标题处理和验证流程，并用另行自制、身份清楚的输入实际试跑；不能声称复现111布局或恢复历史生成成效。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 1,
+      "category": "office"
+    },
+    {
+      "source_id": "conv_315b16c7b8ce",
+      "task_title": "境外控股及持牌机构收购手续讨论",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "无独立法规原文或截至本次日期的法律核验资料。",
+        "历史助手的税率、牌照、控制权及豁免等断言未认证，不能直接作为正确规则。"
+      ],
+      "permitted_test_scope": "允许制作资料收集/条件识别/方案比较/材料清单的流程或参数化模板，以明确给定的新情景事实/规则片段测试；涉及现行法规的结论须标待权威核验，不把历史断言硬编码为已验证法律规则。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 2,
+      "category": "legal"
+    },
+    {
+      "source_id": "conv_25f59d660ad2",
+      "task_title": "化学反应交互演示动画",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "历史HTML成品及真实运行回执未提供，不能仅凭助手成功自述认定旧动画正确。"
+      ],
+      "permitted_test_scope": "可使用完整委托及历史演示功能说明提炼本地HTML动画/交互制作流程，另造简单教学输入并实际运行、检查交互与内容；保留科学表达边界，不复述历史成功作为新结果。",
+      "original_business_replay_status": "NOT_EVALUATED_OLD_ARTIFACT_IDENTITY",
+      "annotation_note": "",
+      "execution_order": 3,
+      "category": "edu"
+    },
+    {
+      "source_id": "conv_2bd200526fe5",
+      "task_title": "知识库整理及招聘拒信反馈",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "现有3份合成KB资料可以支持文档/记录整理，但没有后续拒信所指简历和岗位原件。",
+        "该来源混合KB与招聘反馈，不能将通用知识库材料冒充特定候选人简历。"
+      ],
+      "permitted_test_scope": "可自主选择现有输入支持的知识库整理路线，或将招聘反馈流程设计为显式接受新简历/JD证据的输入契约，用新受控输入试跑；不得编造历史候选人不足。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 4,
+      "category": "hr"
+    },
+    {
+      "source_id": "conv_f9f4cc0a8b38",
+      "task_title": "技术成果商业化价值评估",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "无可独立核验的论文、专利、临床或市场原始材料；只有历史咨询答复。",
+        "历史医疗及投资事实断言不构成正确金标。"
+      ],
+      "permitted_test_scope": "允许提炼证据分级、技术/市场/IP/转化风险框架及资料缺口处理，使用明确合成的新技术简报与给定证据包实际试跑；不得将未经核验的历史临床/论文/融资断言写入正向事实资源。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 5,
+      "category": "biz"
+    },
+    {
+      "source_id": "conv_fbc466c9dfb1",
+      "task_title": "银行日记账与股权调整数据的会计分录整理",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "现有资源有独立实验合成银行流水，但没有被原委托同时要求的股权比例调整表。",
+        "合成流水数字与历史助手分录数字不同；通用KB表不是股权表。"
+      ],
+      "permitted_test_scope": "允许制作显式要求银行流水/股权或成本分摊数据的参数化处理流程，用新受控且齐全的双表、明确记账假设和可校验预期进行真实试跑；不能声称已验证历史主体分录或把缺失股权数据补作真实事实。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 6,
+      "category": "data"
+    },
+    {
+      "source_id": "conv_276e97b595fc",
+      "task_title": "国内外公司Logo合图需求澄清",
+      "expected_decision": "STOP_INSUFFICIENT_EVIDENCE",
+      "maker_assessable": false,
+      "known_historical_input_gaps": [
+        "用户只有一条依赖上文的合图请求，没有公司范围、清单、logo或已执行流程。",
+        "唯一历史助手答复是在追问任务前提，并无成功制作经验。"
+      ],
+      "permitted_test_scope": "评估路线筛选与拒绝凭空沉淀能力：应具体说明证据不足/应补输入；不得仅据例举行业和公司编出已经可靠的正向技能包。",
+      "original_business_replay_status": "NOT_EVALUATED_MISSING_TASK_DEFINITION",
+      "annotation_note": "预运行任务内容审核判断，不是学生结果。正确STOP不作为生成失败，也不进入正向产包分母。",
+      "execution_order": 7,
+      "category": "office"
+    },
+    {
+      "source_id": "conv_63a92ea9ec3c",
+      "task_title": "员工手册公告前的审查及程序判断",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "有标注身份的员工手册输入；原法规原文与当前有效性没有独立证据。",
+        "企业微信历史真实服务状态不能从共享材料包继承；当前禁止外发。"
+      ],
+      "permitted_test_scope": "可制作手册条款/公示前置条件整理、人员规模条件分支或记录模板，使用离线新手册和给定规则自测；不实际发群公告，不把未核验法律结论硬编码为事实。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 8,
+      "category": "legal"
+    },
+    {
+      "source_id": "conv_cc021b31849c",
+      "task_title": "跨次作业对比和提交情况汇总",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "现有297字节合成MD只指向目录/提交记录，不含所指两轮提交表或作业正文。",
+        "历史助手列出的学生、分数和提交状态无独立资料认证。"
+      ],
+      "permitted_test_scope": "允许提炼跨批次目录/提交ID对齐、缺交与证据缺失的汇总工作流，并用另行建立且完整的新合成作业目录/提交表实际试跑；不能重报历史学生分数或宣称已核原作业。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 9,
+      "category": "edu"
+    },
+    {
+      "source_id": "conv_e17409b249a6",
+      "task_title": "双简历共同特质与亮点提炼",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "未投原两份简历PDF；历史包含较长读取/解析排错与后续结构化摘录，摘录仍是历史助手声明。"
+      ],
+      "permitted_test_scope": "允许从历史排错轨迹提炼PDF读取、结构提取、证据对齐和共同项比较流程；用两份新受控简历实际抽取/对比并保留预期，不能以历史姓名/技能自述替代实际文件读取。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 10,
+      "category": "hr"
+    },
+    {
+      "source_id": "conv_34843d227bc0",
+      "task_title": "企业介绍前的对象和资料澄清",
+      "expected_decision": "STOP_INSUFFICIENT_EVIDENCE",
+      "maker_assessable": false,
+      "known_historical_input_gaps": [
+        "用户仅说介绍我们企业，未给企业名称或资料；资源为空。",
+        "历史助手明确说明资料不足并追问，未形成企业介绍制作经验。"
+      ],
+      "permitted_test_scope": "评估证据不足时的筛选/停止：保留具体缺口及所需输入；不能自行选择公司或补造企业资料来刷正向技能交付。",
+      "original_business_replay_status": "NOT_EVALUATED_MISSING_TASK_DEFINITION",
+      "annotation_note": "预运行任务内容审核判断，不是学生结果。正确STOP不作为生成失败，也不进入正向产包分母。",
+      "execution_order": 11,
+      "category": "biz"
+    },
+    {
+      "source_id": "conv_77e95f792ca5",
+      "task_title": "财务分析报告到可编辑PPT的构建与修订",
+      "expected_decision": "MAKE_OR_GROUNDED_SCOPE",
+      "maker_assessable": true,
+      "known_historical_input_gaps": [
+        "无招股书原文、原报告及PPT产物；历史财务/上市断言未独立核验。",
+        "历史叙述提供较明确的报告→PPT构建与文字/负值图/坐标标签修订过程，但不能替代新回归试跑。"
+      ],
+      "permitted_test_scope": "可提炼给定财务简报/表格到可编辑幻灯片的本地生成、渲染及回归流程，用另一份完整受控数据简报实际测试；不得把历史财务数字当真实金标或声称核验原招股书。",
+      "original_business_replay_status": "NOT_EVALUATED_HISTORICAL_INPUT_OR_FACT_GAPS",
+      "annotation_note": "",
+      "execution_order": 12,
+      "category": "data"
+    }
+  ],
+  "historical_teacher_positive_search": {
+    "file": "lineage/TEACHER_POSITIVE_SAFE_SOURCE_REVIEW.json",
+    "safe_sources_in_retained_route_source_lists": 88,
+    "retained_routes_with_at_least_one_safe_source": 13,
+    "qualification": "These are membership candidates from retained route source lists, not evidence that every individual source was a successful standalone teacher maker. Route aggregation can contain sources whose correct action is clarification. Do not use retained route membership as automatic positive source gold."
+  }
+}
