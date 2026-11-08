@@ -13,7 +13,7 @@ import zipfile
 
 ARMS = tuple(f'wrd58-{size}-{step}' for size in ('8b', '14b') for step in (0, 26))
 METADATA_NAMES = ('RUN_SUMMARY.md', 'RETURN_FILLED.json', 'RETURN_RECEIPT.json',
-                  'RETURN_TEMPLATE.filled.json')
+                  'RETURN_TEMPLATE.filled.json', 'CANDIDATE_STATUS.json')
 FIXED_TIME = (1980, 1, 1, 0, 0, 0)
 
 
@@ -67,10 +67,12 @@ def arm_summary(package_root, arm):
     result = read_json(result_path) if result_path.is_file() else {}
     skill = attempt / 'workspace/outputs/skill'
     has_skill = (skill / 'SKILL.md').is_file()
+    candidate_file = package_root / 'CANDIDATE_STATUS.json'
+    candidate = read_json(candidate_file).get('arms', {}).get(arm, {}) if candidate_file.is_file() else {}
     if '_read_error' in result:
         status = 'RESULT_UNREADABLE'
     elif not result_path.is_file():
-        status = 'NOT_REPORTED'
+        status = 'HELD_BY_PROTOCOL' if candidate.get('status') == 'HOLD' else 'NOT_REPORTED'
     elif result.get('returncode') == 0:
         status = 'PROCESS_EXIT_0_UNREVIEWED'
     else:
@@ -81,6 +83,7 @@ def arm_summary(package_root, arm):
         'skill_file_count': len(collect(skill, package_root)) if skill.is_dir() else 0,
         'result_path': result_path.relative_to(package_root).as_posix(),
         'quality_verdict': 'REVIEW_PENDING',
+        'candidate_gate': candidate.get('status'), 'hold_reason': candidate.get('reason'),
     }
 
 
@@ -99,7 +102,7 @@ def build_archive(package_root, out):
 
     # These explicit roots never select global environment, credential or consumer trees.
     roots = ('local/dev_pilot/producers', 'local/dev_pilot/stage_receipt.json',
-             'local/spark_receipts', 'local/runs')
+             'local/spark_receipts', 'local/runs', 'local/diagnostic_evidence')
     optional = list(roots)
     optional.extend(METADATA_NAMES)
     optional.extend('local/' + name for name in METADATA_NAMES)

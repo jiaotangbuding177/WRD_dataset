@@ -1,0 +1,15 @@
+{
+  "schema": "wrd58-candidate-status-v1",
+  "updated_at": "2026-11-08",
+  "scope": "skills_generation_only",
+  "evidence_level": "user_report_pending_raw_artifacts",
+  "arms": {
+    "wrd58-8b-26": {
+      "status": "HOLD",
+      "reason": "reported_long_input_nontermination",
+      "observations": "User reports about 66023 prompt tokens, thinking ON and OFF both exhausted 32768 completion budget; OFF wall time 76.8 minutes. User reports checkpoint-0 passed; raw paired requests and actual settings remain pending review.",
+      "action": "Do not launch producer or repeat the 32768-token padding test. Preserve original requests, responses, actual script and full costs. Re-admission requires explicit evidence review.",
+      "does_not_imply": "Failure on every input length or every skill-generation task. Root cause remains unresolved."
+    }
+  }
+}

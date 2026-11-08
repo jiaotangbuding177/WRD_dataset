@@ -134,38 +134,113 @@ def stage_pilot(materials):
     print(json.dumps(receipt, ensure_ascii=False))
 
 
-def check_business_gate():
-    image_ids = set()
+def check_candidate_status(arm):
+    path = HERE.parent / 'CANDIDATE_STATUS.json'
+    if not path.exists():
+        return
+    status = load(path)
+    if status.get('schema') != 'wrd58-candidate-status-v1' or not isinstance(status.get('arms'), dict):
+        raise ValueError('Candidate status schema differs')
+    selected = status['arms'].get(arm, {})
+    if not isinstance(selected, dict):
+        raise ValueError('Candidate status entry is not an object')
+    if selected.get('status') == 'HOLD':
+        raise ValueError(f"Candidate {arm} is HOLD: {selected.get('reason', 'reason not recorded')}")
+
+
+def balanced_usage(usage, max_tokens=None):
+    return (isinstance(usage, dict)
+            and all(type(usage.get(key)) is int and usage[key] > 0
+                    for key in ('prompt_tokens', 'completion_tokens', 'total_tokens'))
+            and usage['total_tokens'] == usage['prompt_tokens'] + usage['completion_tokens']
+            and (max_tokens is None or (type(max_tokens) is int and max_tokens > 0
+                                        and usage['completion_tokens'] <= max_tokens)))
+
+
+def selected_row(report, key, arm):
+    rows = report.get(key)
+    if not isinstance(rows, list):
+        raise ValueError(f'Missing {key} for {arm}')
+    selected = [row for row in rows if isinstance(row, dict) and row.get('model') == arm]
+    if len(selected) != 1 or selected[0].get('status') == 'fail' or selected[0].get('error'):
+        raise ValueError(f'No unique successful {key} row for {arm}')
+    return selected[0]
+
+
+def check_business_gate(arm):
+    if arm not in ARM_IDS:
+        raise ValueError('Unknown producer arm')
+    size = arm.split('-')[1]
+    folder = HERE / 'spark_receipts'
     manifest = HERE / 'TRAINING_SHA256_v2.txt'
     pins = {name: sha for sha, name in (line.split() for line in manifest.read_text(encoding='utf-8').splitlines()
                                       if line.strip() and not line.startswith('#'))}
-    for size in ('8b', '14b'):
-        folder = HERE / 'spark_receipts'
-        path = folder / f'smoke_{size}_128k.json'
-        report = load(path)
-        rows = report['synthetic_long_input_arms']
-        expected = {f'wrd58-{size}-{step}' for step in (0, 26)}
-        if (report['status'] != 'pass' or report['requested_context'] != 131072
-                or {row['model'] for row in rows} != expected
-                or not all(row['requested_max_tokens'] == 32768
-                           and row['usage']['prompt_tokens'] >= 65806 for row in rows)):
-            raise ValueError(f'Spark long-context receipt differs: {path}')
-        startup = (folder / f'serve_{size}_128k.log').read_text(encoding='utf-8-sig')
-        tokens = dict(token.split('=', 1) for line in startup.splitlines() if line.startswith('spark_service ')
-                      for token in line.split()[1:])
-        if (tokens.get('size') != size or tokens.get('profile') != 'yarn128'
-                or tokens.get('model_length') != '131072' or tokens.get('revision') != BASE_REVISIONS[size]
-                or any(tokens.get(f'adapter_{step}_sha256') != pins[f'out58_{size}_v2/checkpoint-{step}']
-                       for step in (0, 26)) or not tokens.get('image', '').startswith('sha256:')):
-            raise ValueError(f'Spark startup adapter, revision or image evidence differs for {size}')
-        image_ids.add(tokens['image'])
-    if len(image_ids) != 1:
-        raise ValueError('Spark must use one common serving image digest for both sizes')
-    for arm in ARM_IDS:
-        receipts = (HERE / 'runs').glob(f'smoke-yarn128-{arm}-*/smoke_result.json')
-        if not any(all((row['status'] == 'PASS', row['arm'] == arm, row['profile'] == 'yarn128'))
-                   for row in map(load, receipts)):
-            raise ValueError(f'Native yarn128 smoke has no PASS receipt for {arm}')
+    path = folder / f'smoke_{size}_128k.json'
+    report = load(path)
+    if (not isinstance(report, dict) or report.get('requested_context') != 131072 or report.get('size', size) != size
+            or report.get('api_reported_context') not in (None, 131072)):
+        raise ValueError(f'Spark context receipt differs: {path}')
+    transport = selected_row(report, 'synthetic_transport_arms', arm)
+    if (transport.get('finish_reason') != 'tool_calls' or transport.get('tool') != 'wrd58_lookup'
+            or not isinstance(transport.get('reasoning_chars'), int) or transport['reasoning_chars'] <= 0
+            or not balanced_usage(transport.get('usage'), 1024)
+            or transport.get('http_status', 200) != 200):
+        raise ValueError(f'Spark tool transport receipt differs for {arm}')
+    row = selected_row(report, 'synthetic_long_input_arms', arm)
+    output_limit = row.get('requested_max_tokens')
+    if not balanced_usage(row.get('usage'), output_limit) or row['usage']['prompt_tokens'] < 65806:
+        raise ValueError(f'Spark long-prefill usage differs for {arm}')
+    if report.get('schema') == 'wrd58-spark-smoke-v2':
+        finish = row.get('finish_reason')
+        request, response = row.get('request_parameters', {}), row.get('response', {})
+        if not isinstance(request, dict) or not isinstance(response, dict):
+            raise ValueError(f'Bounded capacity raw evidence differs for {arm}')
+        choices = response.get('choices', [])
+        if not isinstance(choices, list) or len(choices) != 1 or not isinstance(choices[0], dict):
+            raise ValueError(f'Bounded capacity response choice differs for {arm}')
+        expected_termination = 'NATURAL_STOP_OBSERVED' if finish == 'stop' else 'OUTPUT_LIMIT_REACHED'
+        if (output_limit not in (64, 128, 256) or row.get('status') != 'pass'
+                or row.get('capacity_status') != 'pass' or row.get('http_status') != 200
+                or finish not in ('stop', 'length') or row.get('termination_status') != expected_termination
+                or row.get('natural_stop_observed') is not (finish == 'stop')
+                or request.get('model') != arm or request.get('max_tokens') != output_limit
+                or request.get('chat_template_kwargs') != {'enable_thinking': True}
+                or request.get('stream') is not False or request.get('ignore_eos') or request.get('stop')
+                or response.get('model') != arm or response.get('usage') != row['usage']
+                or len(choices) != 1 or choices[0].get('finish_reason') != finish):
+            raise ValueError(f'Bounded capacity receipt differs for {arm}')
+    elif (output_limit != 32768
+          or not (row.get('finish_reason') == 'stop'
+                  or (report.get('status') == 'pass' and 'finish_reason' not in row))):
+        # The original successful report omitted finish_reason after checking stop.
+        # A legacy failure without an explicit successful row is never upgraded.
+        raise ValueError(f'Legacy long-context success receipt differs for {arm}')
+    startup = (folder / f'serve_{size}_128k.log').read_text(encoding='utf-8-sig')
+    tokens = dict(token.split('=', 1) for line in startup.splitlines() if line.startswith('spark_service ')
+                  for token in line.split()[1:])
+    if (tokens.get('size') != size or tokens.get('profile') != 'yarn128'
+            or tokens.get('model_length') != '131072' or tokens.get('revision') != BASE_REVISIONS[size]
+            or any(tokens.get(f'adapter_{step}_sha256') != pins[f'out58_{size}_v2/checkpoint-{step}']
+                   for step in (0, 26)) or not tokens.get('image', '').startswith('sha256:')):
+        raise ValueError(f'Spark startup adapter, revision or image evidence differs for {size}')
+    other_size = '14b' if size == '8b' else '8b'
+    other_log = folder / f'serve_{other_size}_128k.log'
+    if other_log.exists():
+        other = dict(token.split('=', 1) for line in other_log.read_text(encoding='utf-8-sig').splitlines()
+                     if line.startswith('spark_service ') for token in line.split()[1:])
+        if other.get('image') != tokens['image']:
+            raise ValueError('Existing sizes must use one common serving image digest')
+    receipts = (HERE / 'runs').glob(f'smoke-yarn128-{arm}-*/smoke_result.json')
+    passed = False
+    for receipt in receipts:
+        try:
+            native = load(receipt)
+            passed |= (native.get('status') == 'PASS' and native.get('arm') == arm
+                       and native.get('profile') == 'yarn128')
+        except (OSError, ValueError, TypeError):
+            continue
+    if not passed:
+        raise ValueError(f'Native yarn128 smoke has no PASS receipt for {arm}')
 
 
 def smoke_request(attempt):
@@ -390,12 +465,14 @@ def main():
             parser.error('--arm is required for this action')
         if args.arm == 'no-skill' and args.action != 'consume':
             parser.error('no-skill is only valid for consume')
+        if args.action == 'producer':
+            check_candidate_status(args.arm)
         if args.action == 'consume':
             if args.case is None or args.profile != 'yarn128':
                 parser.error('consume requires --case and the shared yarn128 profile')
             check_image(env)
             check_runtime()
-            check_business_gate()
+            check_business_gate('wrd58-8b-0')
             return consumer_case(args.case, args.arm, env)
         check_image(env)
         check = check_spark(args.arm, args.profile)
@@ -406,7 +483,7 @@ def main():
         if args.profile != 'yarn128':
             raise ValueError('The pinned native 53-tool request requires the shared yarn128 profile')
         if args.action == 'producer':
-            check_business_gate()
+            check_business_gate(args.arm)
             attempt = PILOT / 'producers' / args.arm
             staged = load(PILOT / 'stage_receipt.json')['maker_arms'][args.arm]
             if (digest(attempt / 'request.json') != staged['request_sha256']
