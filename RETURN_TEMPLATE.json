@@ -6,6 +6,15 @@
   "candidate_status_file": "CANDIDATE_STATUS.json",
   "diagnostic_evidence_directory": "local/diagnostic_evidence",
   "known_hold": ["wrd58-8b-26"],
+  "final241_validation": {
+    "plan": "FINAL241_PLAN.md",
+    "comparison_directory": "local/diagnostic_evidence/final241",
+    "primary_producers": ["wrd58-8b-241", "wrd58-14b-241"],
+    "producer_directory": "local/dev_pilot/producers_mini",
+    "producer_limits_each": {"wall_seconds": 900, "max_requests": 6, "max_reply_tokens": 2048},
+    "comparison_limits_each_size": {"wall_seconds": 600, "max_requests": 6, "max_reply_tokens": 128},
+    "actual_results": null
+  },
   "handoff_commit": null,
   "host": {"os": null, "architecture": null, "docker": null},
   "openclaw": {"image_id": null, "version": null, "restore_archive_sha256": null},

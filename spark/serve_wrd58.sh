@@ -5,21 +5,34 @@ die() { printf '%s\n' "$*" >&2; exit 1; }
 
 size=${1:-}
 profile=${2:-smoke32}
+checkpoint_set=${3:-0,26,241}
+[[ $# -le 3 ]] || die "Usage: bash serve_wrd58.sh {8b|14b} [smoke32|yarn128] [0,26,241]"
 case "$size" in
     8b)
         repo=Qwen3-8B
         revision=b968826d9c46dd6066d109eabc6255188de91218
         sha0=27fb78e716391ef21bb3255fa00846e32e021bc2801f7d3391a73f62d84bbb47
         sha26=2442a2e8f2dad2d5bdd88b0f4e054064548f28023246ea80473e46ddbc7dd786
+        sha241=dc63b9d4646a05bebc2394192ea56ee7bd3009211576a6f0c659c683786b7ccb
         ;;
     14b)
         repo=Qwen3-14B
         revision=40c069824f4251a91eefaf281ebe4c544efd3e18
         sha0=a82c0cd548758be31f603d0f6b156f6ef57178363277bead42581e5df85a7512
         sha26=81d2d09784f6d4239f9dd0fb1fa3b99930966e01d78d5c5f949c123f191d1792
+        sha241=a8e9ba53a6be6d37cc6d86a988225a3da7539d9d4e396666a9ccbeaae62d2e25
         ;;
-    *) die "Usage: bash serve_wrd58.sh {8b|14b} [smoke32|yarn128]" ;;
+    *) die "Usage: bash serve_wrd58.sh {8b|14b} [smoke32|yarn128] [0,26,241]" ;;
 esac
+[[ -n "$checkpoint_set" && "$checkpoint_set" != ,* && "$checkpoint_set" != *,
+   && "$checkpoint_set" != *,,* ]] || die "Checkpoint selection must be a comma-separated subset of 0,26,241."
+IFS=',' read -r -a selected_steps <<< "$checkpoint_set"
+seen_steps=,
+for step in "${selected_steps[@]}"; do
+    case "$step" in 0|26|241) ;; *) die "Unsupported checkpoint: $step" ;; esac
+    case "$seen_steps" in *",$step,"*) die "Duplicate checkpoint: $step" ;; esac
+    seen_steps+="$step,"
+done
 case "$profile" in
     smoke32) context=32768 ;;
     yarn128) context=131072 ;;
@@ -54,8 +67,19 @@ verify_adapter() {
     actual=$(sha256sum "$dir/adapter_model.safetensors")
     [[ ${actual%% *} == "$expected" ]] || die "Adapter SHA256 mismatch: $dir"
 }
-verify_adapter 0 "$sha0"
-verify_adapter 26 "$sha26"
+adapter_sha() {
+    case "$1" in
+        0) printf '%s' "$sha0" ;;
+        26) printf '%s' "$sha26" ;;
+        241) printf '%s' "$sha241" ;;
+        *) die "Unsupported checkpoint: $1" ;;
+    esac
+}
+lora_modules=()
+for step in "${selected_steps[@]}"; do
+    verify_adapter "$step" "$(adapter_sha "$step")"
+    lora_modules+=("wrd58-$size-$step=/wrd-adapters/checkpoint-$step")
+done
 
 image_id=$(docker image inspect --format '{{.Id}}' "$image" 2>/dev/null) || die "Local vLLM image unavailable. See the runbook for an explicit pull command. Image: $image"
 [[ $(docker image inspect --format '{{.Architecture}}' "$image_id") == arm64 ]] || die "A Spark arm64 vLLM image is required."
@@ -80,8 +104,12 @@ if [[ "$profile" == yarn128 ]]; then
     fi
 fi
 
-printf 'spark_service size=%s profile=%s model_length=%s revision=%s image=%s\n' "$size" "$profile" "$context" "$revision" "$image_id"
-printf 'spark_service adapter_0_sha256=%s adapter_26_sha256=%s\n' "$sha0" "$sha26"
+printf 'spark_service size=%s profile=%s model_length=%s revision=%s image=%s checkpoints=%s\n' "$size" "$profile" "$context" "$revision" "$image_id" "$checkpoint_set"
+printf 'spark_service'
+for step in "${selected_steps[@]}"; do
+    printf ' adapter_%s_sha256=%s' "$step" "$(adapter_sha "$step")"
+done
+printf '\n'
 exec docker run --rm --pull never --name "$container" --gpus all --ipc host --network host \
     --mount "type=bind,source=$hf_root,target=/hfcache,readonly" \
     --mount "type=bind,source=$workspace/out58_${size}_v2,target=/wrd-adapters,readonly" \
@@ -90,8 +118,8 @@ exec docker run --rm --pull never --name "$container" --gpus all --ipc host --ne
     --host 127.0.0.1 --port 18758 --dtype bfloat16 --enforce-eager \
     --max-model-len "$context" --max-num-seqs 1 --gpu-memory-utilization 0.75 \
     --served-model-name "wrd58-$size-bare" \
-    --enable-lora --max-lora-rank 32 --max-loras 1 --max-cpu-loras 2 \
-    --lora-modules "wrd58-$size-0=/wrd-adapters/checkpoint-0" "wrd58-$size-26=/wrd-adapters/checkpoint-26" \
+    --enable-lora --max-lora-rank 32 --max-loras 1 --max-cpu-loras "${#selected_steps[@]}" \
+    --lora-modules "${lora_modules[@]}" \
     --reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser hermes \
     --default-chat-template-kwargs '{"enable_thinking":true}' \
     --generation-config vllm --override-generation-config '{"temperature":0.6,"top_p":0.95,"top_k":20,"min_p":0.0}' \

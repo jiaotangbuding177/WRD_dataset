@@ -11,7 +11,7 @@ import sys
 import zipfile
 
 
-ARMS = tuple(f'wrd58-{size}-{step}' for size in ('8b', '14b') for step in (0, 26))
+ARMS = tuple(f'wrd58-{size}-{step}' for size in ('8b', '14b') for step in (0, 26, 241))
 METADATA_NAMES = ('RUN_SUMMARY.md', 'RETURN_FILLED.json', 'RETURN_RECEIPT.json',
                   'RETURN_TEMPLATE.filled.json', 'CANDIDATE_STATUS.json')
 FIXED_TIME = (1980, 1, 1, 0, 0, 0)
@@ -61,8 +61,9 @@ def read_json(path):
         return {'_read_error': type(error).__name__}
 
 
-def arm_summary(package_root, arm):
-    attempt = package_root / 'local/dev_pilot/producers' / arm
+def arm_summary(package_root, arm, budget_profile='standard'):
+    producers = 'producers_mini' if budget_profile == 'mini' else 'producers'
+    attempt = package_root / 'local/dev_pilot' / producers / arm
     result_path = attempt / 'producer_result.json'
     result = read_json(result_path) if result_path.is_file() else {}
     skill = attempt / 'workspace/outputs/skill'
@@ -78,7 +79,8 @@ def arm_summary(package_root, arm):
     else:
         status = 'PROCESS_FAILED'
     return {
-        'arm': arm, 'execution_status': status, 'returncode': result.get('returncode'),
+        'arm': arm, 'budget_profile': budget_profile,
+        'execution_status': status, 'returncode': result.get('returncode'),
         'skill_md_present': has_skill,
         'skill_file_count': len(collect(skill, package_root)) if skill.is_dir() else 0,
         'result_path': result_path.relative_to(package_root).as_posix(),
@@ -101,9 +103,11 @@ def build_archive(package_root, out):
         raise ValueError('Output SHA256 sidecar already exists; choose a new file name')
 
     # These explicit roots never select global environment, credential or consumer trees.
-    roots = ('local/dev_pilot/producers', 'local/dev_pilot/stage_receipt.json',
+    roots = ('local/dev_pilot/producers', 'local/dev_pilot/producers_mini', 'local/dev_pilot/stage_receipt.json',
              'local/spark_receipts', 'local/runs', 'local/diagnostic_evidence')
     optional = list(roots)
+    optional.extend(path.relative_to(package_root).as_posix()
+                    for path in sorted((package_root / 'local/dev_pilot').glob('stage_receipt.before241.*.json')))
     optional.extend(METADATA_NAMES)
     optional.extend('local/' + name for name in METADATA_NAMES)
     selected, missing = [], []
@@ -121,15 +125,19 @@ def build_archive(package_root, out):
         selected.extend(collect(source, package_root))
     selected = sorted(dict(selected).items())
     summaries = [arm_summary(package_root, arm) for arm in ARMS]
-    producer_files = sum(name.startswith('local/dev_pilot/producers/') for name, _ in selected)
+    mini_summaries = [arm_summary(package_root, arm, 'mini') for arm in ARMS
+                      if arm.endswith('-241') or (package_root / 'local/dev_pilot/producers_mini' / arm).exists()]
+    producer_files = sum(name.startswith(('local/dev_pilot/producers/', 'local/dev_pilot/producers_mini/'))
+                         for name, _ in selected)
     manifest = {
         'schema': 'wrd58-producer-return-package-v1',
         'scope': 'skills_generation_only', 'consumer_runs': 0,
-        'arms': summaries, 'missing_optional_paths': missing,
+        'arms': summaries, 'mini_arms': mini_summaries, 'missing_optional_paths': missing,
         'evidence_file_count': len(selected),
         'producer_evidence_file_count': producer_files,
         'package_status': 'PRODUCER_EVIDENCE_PRESENT_REVIEW_PENDING' if producer_files else 'NO_PRODUCER_EVIDENCE',
         'pending_arms': [row['arm'] for row in summaries if row['execution_status'] == 'NOT_REPORTED'],
+        'pending_mini_arms': [row['arm'] for row in mini_summaries if row['execution_status'] == 'NOT_REPORTED'],
         'cost_source': 'Preserved producer_result.json, budget.json and model_http receipts; no estimates added',
         'quality_note': 'A zero process exit code is not a package quality verdict',
     }

@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import hmac
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -20,7 +21,12 @@ import urllib.request
 HERE = Path(__file__).resolve().parent
 RUNTIME = HERE / 'runtime'
 IMAGE = 'sha256:97a0f55bec1ef293c15ddd5a17cc843050387bd2369dcf2fd388b1afd40810a2'
-ARM_IDS = tuple(f'wrd58-{size}-{step}' for size in ('8b', '14b') for step in (0, 26))
+ARM_IDS = tuple(f'wrd58-{size}-{step}' for size in ('8b', '14b') for step in (0, 26, 241))
+BUDGETS = {'standard': {'output_tokens': 32768, 'max_requests': 24, 'wall_seconds': 1800},
+           'mini': {'output_tokens': 2048, 'max_requests': 6, 'wall_seconds': 900}}
+MINI_BUDGET_NOTICE = ('\n\n【本次有界制作预算】本次原生会话最多900秒、最多6次模型请求，'
+                      '每次回复最多2048 tokens。原技能制作目标、资源自测与反馈修订要求保持。'
+                      '请据此自主安排工作，按实际执行结果交付；未完成事项如实记录，不补造试跑或修订。')
 CONTEXT = {'smoke32': 32768, 'yarn128': 131072}
 SPARK = 'http://127.0.0.1:18758/v1'
 LOCAL = 'http://host.docker.internal:18759/v1'
@@ -37,6 +43,11 @@ def load(path):
 
 def save(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+
+def save_new(path, payload):
+    with path.open('x', encoding='utf-8') as handle:
+        handle.write(json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
 
 
 def digest(path):
@@ -72,16 +83,16 @@ def check_spark(arm, profile):
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     with opener.open(SPARK + '/models', timeout=5) as response:
         rows = json.load(response)['data']
-    expected = {f'wrd58-{arm.split("-")[1]}-{step}' for step in (0, 26)}
-    matches = [row for row in rows if row['id'] in expected]
-    if {row['id'] for row in matches} != expected:
-        raise ValueError(f'Spark /v1/models must expose the pinned pair {sorted(expected)}')
+    if arm not in ARM_IDS or not any(row.get('id') == arm for row in rows):
+        raise ValueError(f'Spark /v1/models does not expose selected pinned arm {arm}')
+    expected = {model for model in ARM_IDS if model.split('-')[1] == arm.split('-')[1]}
+    exposed = {row['id'] for row in rows if row.get('id') in expected}
     bare_id = f'wrd58-{arm.split("-")[1]}-bare'
     lengths = {row['max_model_len'] for row in rows if row['id'] in expected | {bare_id}
                and row.get('max_model_len') is not None}
     if lengths != {CONTEXT[profile]}:
         raise ValueError(f'Spark model context differs: expected {CONTEXT[profile]}, saw {lengths}')
-    return {'selected': arm, 'pair': sorted(expected), 'max_model_len': CONTEXT[profile]}
+    return {'selected': arm, 'available_pinned_arms': sorted(exposed), 'max_model_len': CONTEXT[profile]}
 
 
 def check_runtime():
@@ -110,19 +121,41 @@ def stage_pilot(materials):
     maker = ready['maker']
     source = pinned_file(materials, maker['source'])
     prompt = pinned_file(materials, maker['prompt']).read_text(encoding='utf-8-sig')
-    PILOT.mkdir(parents=True, exist_ok=False)
+    stage_path = PILOT / 'stage_receipt.json'
+    old_bytes = stage_path.read_bytes() if stage_path.exists() else None
+    old = load(stage_path) if old_bytes is not None else None
+    if PILOT.exists() and old is None:
+        raise ValueError('Existing pilot has no stage receipt; preserve it instead of overwriting')
     producer_pins = {}
+    if old is not None:
+        if (old.get('dev_materials_sha256') != DEV_FREEZE_SHA or old.get('source_id') != ready['source_id']
+                or not isinstance(old.get('maker_arms'), dict) or not old['maker_arms']
+                or not set(old['maker_arms']).issubset(ARM_IDS)):
+            raise ValueError('Existing stage receipt differs from frozen maker materials')
+        for arm, pin in old['maker_arms'].items():
+            attempt = PILOT / 'producers' / arm
+            request_path = attempt / 'request.json'
+            staged_source = attempt / 'workspace/inputs/source.json'
+            if (digest(request_path) != pin.get('request_sha256')
+                    or digest(staged_source) != pin.get('source_sha256')
+                    or pin.get('source_sha256') != maker['source']['sha256']
+                    or load(request_path) != producer_request(ready['source_id'], prompt, staged_source)):
+                raise ValueError(f'Existing staged maker files differ for {arm}')
+        producer_pins.update(old['maker_arms'])
+    PILOT.mkdir(parents=True, exist_ok=True)
     for arm in ARM_IDS:
+        if arm in producer_pins:
+            continue
         attempt = PILOT / 'producers' / arm
+        if attempt.exists():
+            raise ValueError(f'Unregistered producer workspace exists: {attempt}; preserve it')
         inputs = attempt / 'workspace/inputs'
         inputs.mkdir(parents=True)
         staged = inputs / 'source.json'
         shutil.copyfile(source, staged)
-        request = {'protocol': 'native-openclaw-only-v1', 'stage': 'wrd58_dev_producer',
-                   'task_id': ready['source_id'], 'input': prompt, 'context': [], 'followup_inputs': [],
-                   'resources': [{'path': str(staged), 'mount': 'inputs/source.json'}], 'learned_skills': []}
+        request = producer_request(ready['source_id'], prompt, staged)
         path = attempt / 'request.json'
-        save(path, request)
+        save_new(path, request)
         producer_pins[arm] = {'request_sha256': digest(path), 'source_sha256': digest(staged)}
     receipt = {'status': 'STAGED_AWAITING_SPARK', 'scope': 'one_text_only_development_source_producer_only',
                'source_id': ready['source_id'], 'frozen_groups': len(groups), 'ready_groups': 1,
@@ -130,8 +163,58 @@ def stage_pilot(materials):
                'shared_consumer_briefs': 0, 'planned_independent_consumer_runs': 0,
                'planned_consumer_runs': 0, 'downstream_consumption': 'deferred_by_user',
                'dev_materials_sha256': DEV_FREEZE_SHA, 'model_calls': 0}
-    save(PILOT / 'stage_receipt.json', receipt)
+    receipt['maker_prompt_sha256'] = maker['prompt']['sha256']
+    if old_bytes is None:
+        save_new(stage_path, receipt)
+    elif (old['maker_arms'] != producer_pins or old.get('maker_prompt_sha256') != receipt['maker_prompt_sha256']):
+        if stage_path.read_bytes() != old_bytes:
+            raise ValueError('Stage receipt changed concurrently; preserve new staged files for review')
+        suffix = secrets.token_hex(8)
+        with stage_path.with_name(f'stage_receipt.before241.{suffix}.json').open('xb') as handle:
+            handle.write(old_bytes)
+        temporary = stage_path.with_name(f'stage_receipt.{suffix}.tmp')
+        save_new(temporary, receipt)
+        os.replace(temporary, stage_path)
     print(json.dumps(receipt, ensure_ascii=False))
+
+
+def producer_request(source_id, prompt, staged_source):
+    return {'protocol': 'native-openclaw-only-v1', 'stage': 'wrd58_dev_producer',
+            'task_id': source_id, 'input': prompt, 'context': [], 'followup_inputs': [],
+            'resources': [{'path': str(staged_source), 'mount': 'inputs/source.json'}], 'learned_skills': []}
+
+
+def producer_attempt(arm, budget_name):
+    if budget_name not in BUDGETS:
+        raise ValueError('Unknown producer budget profile')
+    staged = PILOT / 'producers' / arm
+    stage = load(PILOT / 'stage_receipt.json')
+    pins = stage['maker_arms'][arm]
+    if (digest(staged / 'request.json') != pins['request_sha256']
+            or digest(staged / 'workspace/inputs/source.json') != pins['source_sha256']):
+        raise ValueError('Producer staging pins differ')
+    if budget_name == 'standard':
+        return staged
+    original_prompt_sha = stage.get('maker_prompt_sha256')
+    if not isinstance(original_prompt_sha, str) or len(original_prompt_sha) != 64:
+        raise ValueError('Stage lacks frozen prompt SHA; rerun stage to safely extend its metadata')
+    attempt = PILOT / 'producers_mini' / arm
+    if attempt.exists():
+        raise ValueError('Mini producer already prepared or dispatched; preserve its evidence')
+    inputs = attempt / 'workspace/inputs'
+    inputs.mkdir(parents=True)
+    shutil.copyfile(staged / 'workspace/inputs/source.json', inputs / 'source.json')
+    request = load(staged / 'request.json')
+    request['input'] += MINI_BUDGET_NOTICE
+    request['resources'] = [{'path': str(inputs / 'source.json'), 'mount': 'inputs/source.json'}]
+    save_new(attempt / 'request.json', request)
+    save_new(attempt / 'stage_reference.json', {'budget_profile': budget_name,
+             'source_sha256': digest(inputs / 'source.json'), 'request_sha256': digest(attempt / 'request.json'),
+             'mini_request_sha256': digest(attempt / 'request.json'),
+             'original_request_sha256': pins['request_sha256'], 'original_prompt_sha256': original_prompt_sha,
+             'budget_notice': MINI_BUDGET_NOTICE,
+             'standard_staged_request_sha256': pins['request_sha256'], 'model_calls': 0})
+    return attempt
 
 
 def check_candidate_status(arm):
@@ -167,26 +250,31 @@ def selected_row(report, key, arm):
     return selected[0]
 
 
-def check_business_gate(arm):
+def check_business_gate(arm, budget_name='standard'):
     if arm not in ARM_IDS:
         raise ValueError('Unknown producer arm')
     size = arm.split('-')[1]
+    step = arm.rsplit('-', 1)[1]
+    reference_arm = f'wrd58-{size}-0' if step == '241' else arm
     folder = HERE / 'spark_receipts'
-    manifest = HERE / 'TRAINING_SHA256_v2.txt'
-    pins = {name: sha for sha, name in (line.split() for line in manifest.read_text(encoding='utf-8').splitlines()
-                                      if line.strip() and not line.startswith('#'))}
+    startup = check_startup_log(arm)
+    if budget_name == 'mini':
+        return {'admission': 'BOUNDED_NATIVE_TRIAL', 'native_protocol_under_test': True,
+                'capacity_validation': 'See paired checkpoint comparison; not inferred from toy PASS',
+                'spark_capacity_reference_arm': None, 'spark_transport_reference_arm': None,
+                'target_native_smoke_pass': None, 'startup': startup}
     path = folder / f'smoke_{size}_128k.json'
     report = load(path)
     if (not isinstance(report, dict) or report.get('requested_context') != 131072 or report.get('size', size) != size
             or report.get('api_reported_context') not in (None, 131072)):
         raise ValueError(f'Spark context receipt differs: {path}')
-    transport = selected_row(report, 'synthetic_transport_arms', arm)
+    transport = selected_row(report, 'synthetic_transport_arms', reference_arm)
     if (transport.get('finish_reason') != 'tool_calls' or transport.get('tool') != 'wrd58_lookup'
             or not isinstance(transport.get('reasoning_chars'), int) or transport['reasoning_chars'] <= 0
             or not balanced_usage(transport.get('usage'), 1024)
             or transport.get('http_status', 200) != 200):
         raise ValueError(f'Spark tool transport receipt differs for {arm}')
-    row = selected_row(report, 'synthetic_long_input_arms', arm)
+    row = selected_row(report, 'synthetic_long_input_arms', reference_arm)
     output_limit = row.get('requested_max_tokens')
     if not balanced_usage(row.get('usage'), output_limit) or row['usage']['prompt_tokens'] < 65806:
         raise ValueError(f'Spark long-prefill usage differs for {arm}')
@@ -203,10 +291,10 @@ def check_business_gate(arm):
                 or row.get('capacity_status') != 'pass' or row.get('http_status') != 200
                 or finish not in ('stop', 'length') or row.get('termination_status') != expected_termination
                 or row.get('natural_stop_observed') is not (finish == 'stop')
-                or request.get('model') != arm or request.get('max_tokens') != output_limit
+                or request.get('model') != reference_arm or request.get('max_tokens') != output_limit
                 or request.get('chat_template_kwargs') != {'enable_thinking': True}
                 or request.get('stream') is not False or request.get('ignore_eos') or request.get('stop')
-                or response.get('model') != arm or response.get('usage') != row['usage']
+                or response.get('model') != reference_arm or response.get('usage') != row['usage']
                 or len(choices) != 1 or choices[0].get('finish_reason') != finish):
             raise ValueError(f'Bounded capacity receipt differs for {arm}')
     elif (output_limit != 32768
@@ -215,21 +303,6 @@ def check_business_gate(arm):
         # The original successful report omitted finish_reason after checking stop.
         # A legacy failure without an explicit successful row is never upgraded.
         raise ValueError(f'Legacy long-context success receipt differs for {arm}')
-    startup = (folder / f'serve_{size}_128k.log').read_text(encoding='utf-8-sig')
-    tokens = dict(token.split('=', 1) for line in startup.splitlines() if line.startswith('spark_service ')
-                  for token in line.split()[1:])
-    if (tokens.get('size') != size or tokens.get('profile') != 'yarn128'
-            or tokens.get('model_length') != '131072' or tokens.get('revision') != BASE_REVISIONS[size]
-            or any(tokens.get(f'adapter_{step}_sha256') != pins[f'out58_{size}_v2/checkpoint-{step}']
-                   for step in (0, 26)) or not tokens.get('image', '').startswith('sha256:')):
-        raise ValueError(f'Spark startup adapter, revision or image evidence differs for {size}')
-    other_size = '14b' if size == '8b' else '8b'
-    other_log = folder / f'serve_{other_size}_128k.log'
-    if other_log.exists():
-        other = dict(token.split('=', 1) for line in other_log.read_text(encoding='utf-8-sig').splitlines()
-                     if line.startswith('spark_service ') for token in line.split()[1:])
-        if other.get('image') != tokens['image']:
-            raise ValueError('Existing sizes must use one common serving image digest')
     receipts = (HERE / 'runs').glob(f'smoke-yarn128-{arm}-*/smoke_result.json')
     passed = False
     for receipt in receipts:
@@ -241,6 +314,35 @@ def check_business_gate(arm):
             continue
     if not passed:
         raise ValueError(f'Native yarn128 smoke has no PASS receipt for {arm}')
+    return {'spark_capacity_reference_arm': reference_arm,
+            'spark_transport_reference_arm': reference_arm,
+            'reference_is_same_size_base_proxy': reference_arm != arm,
+            'native_protocol_under_test': False, 'target_native_smoke_pass': passed,
+            'startup': startup}
+
+
+def check_startup_log(arm):
+    size, step = arm.split('-')[1], arm.rsplit('-', 1)[1]
+    folder = HERE / 'spark_receipts'
+    manifest = HERE / 'TRAINING_SHA256_v2.txt'
+    pins = {name: sha for sha, name in (line.split() for line in manifest.read_text(encoding='utf-8').splitlines()
+                                      if line.strip() and not line.startswith('#'))}
+    startup = (folder / f'serve_{size}_128k.log').read_text(encoding='utf-8-sig')
+    tokens = dict(token.split('=', 1) for line in startup.splitlines() if line.startswith('spark_service ')
+                  for token in line.split()[1:])
+    if (tokens.get('size') != size or tokens.get('profile') != 'yarn128'
+            or tokens.get('model_length') != '131072' or tokens.get('revision') != BASE_REVISIONS[size]
+            or tokens.get(f'adapter_{step}_sha256') != pins[f'out58_{size}_v2/checkpoint-{step}']
+            or not tokens.get('image', '').startswith('sha256:')):
+        raise ValueError(f'Spark startup adapter, revision or image evidence differs for {size}')
+    other_size = '14b' if size == '8b' else '8b'
+    other_log = folder / f'serve_{other_size}_128k.log'
+    if other_log.exists():
+        other = dict(token.split('=', 1) for line in other_log.read_text(encoding='utf-8-sig').splitlines()
+                     if line.startswith('spark_service ') for token in line.split()[1:])
+        if other.get('image') != tokens['image']:
+            raise ValueError('Existing sizes must use one common serving image digest')
+    return tokens
 
 
 def smoke_request(attempt):
@@ -272,8 +374,8 @@ def smoke_request(attempt):
     save(attempt / 'request.json', request)
 
 
-def run_session(attempt, arm, context, output_tokens, timeout, env):
-    max_requests = 8 if timeout == 300 else 24
+def run_session(attempt, arm, context, output_tokens, timeout, env, *, max_requests=None):
+    max_requests = max_requests if max_requests is not None else (8 if timeout == 300 else 24)
     relay_module = import_file('relay57', HERE / 'lib/audit_relay57.py')
     budgets = import_file('budget57', HERE / 'lib/native_budget.py')
     ledger = budgets.AdmissionLedger(max_requests=max_requests, max_io_tokens=context * max_requests,
@@ -290,7 +392,23 @@ def run_session(attempt, arm, context, output_tokens, timeout, env):
             expected = 'Bearer ' + placeholder
             if not hmac.compare_digest(self.headers.get('Authorization', '').encode(), expected.encode()):
                 return self.reply_error(401, 'This relay serves only the pinned isolated run')
-            super().do_POST()
+            try:
+                length = int(self.headers.get('Content-Length', '0'))
+                if not 0 < length <= 128 * 1024 * 1024:
+                    return self.reply_error(413, 'Missing or excessive body length')
+                body = self.rfile.read(length)
+                if len(body) != length:
+                    return self.reply_error(400, 'Incomplete request body')
+                parsed = json.loads(body)
+                check_reply_budget(parsed, output_tokens)
+            except (ValueError, TypeError) as error:
+                return self.reply_error(400, str(error))
+            original = self.rfile
+            self.rfile = io.BytesIO(body)
+            try:
+                super().do_POST()  # Forward the identical body; admission does not rewrite native messages.
+            finally:
+                self.rfile = original
 
     with tempfile.TemporaryDirectory(prefix='wrd58-credentials-') as temp:
         local_cfg = Path(temp) / 'model_local.json'
@@ -427,11 +545,25 @@ def consumer_case(case, arm, env):
     return run_business(attempt, actor, env, 'consumer')
 
 
-def run_business(attempt, model, env, role):
-    record = {'model': model, 'scope': f'single_dev_{role}_not_quality_judgment'}
+def check_reply_budget(parsed, output_tokens):
+    if not isinstance(parsed, dict):
+        raise ValueError('Expected actual native JSON request')
+    limits = [parsed[key] for key in ('max_tokens', 'max_completion_tokens') if key in parsed]
+    if not limits or any(type(limit) is not int or not 0 < limit <= output_tokens for limit in limits):
+        raise ValueError('Native request exceeds the declared per-reply output budget')
+
+
+def run_business(attempt, model, env, role, budget_name='standard'):
+    limits = BUDGETS[budget_name]
+    record = {'model': model, 'scope': f'single_dev_{role}_not_quality_judgment',
+              'budget_profile': budget_name, 'declared_limits': limits,
+              'max_generated_tokens_from_request_caps': limits['output_tokens'] * limits['max_requests']}
+    if (attempt / 'endpoint.json').is_file():
+        record['admission_evidence'] = load(attempt / 'endpoint.json')
     path = attempt / f'{role}_result.json'
     try:
-        rc, budget = run_session(attempt, model, 131072, 32768, 1800, env)
+        rc, budget = run_session(attempt, model, 131072, limits['output_tokens'], limits['wall_seconds'], env,
+                                 max_requests=limits['max_requests'])
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         save(path, record | {'returncode': 1, 'error': str(error)})
         raise
@@ -447,10 +579,13 @@ def main():
     parser.add_argument('--profile', choices=tuple(CONTEXT), default='yarn128')
     parser.add_argument('--materials', type=Path)
     parser.add_argument('--attempt', type=int, default=1)
+    parser.add_argument('--budget', choices=tuple(BUDGETS), default='standard')
     args = parser.parse_args()
     if args.action in ('freeze-skills', 'consume'):
         parser.error('deferred_by_user: downstream skill consumption is paused; '
                      'this handoff evaluates skill generation with producer only')
+    if args.budget != 'standard' and args.action != 'producer':
+        parser.error('--budget mini applies only to producer')
     env = os.environ.copy()
     try:
         if args.action == 'stage':
@@ -483,16 +618,12 @@ def main():
         if args.profile != 'yarn128':
             raise ValueError('The pinned native 53-tool request requires the shared yarn128 profile')
         if args.action == 'producer':
-            check_business_gate(args.arm)
-            attempt = PILOT / 'producers' / args.arm
-            staged = load(PILOT / 'stage_receipt.json')['maker_arms'][args.arm]
-            if (digest(attempt / 'request.json') != staged['request_sha256']
-                    or digest(attempt / 'workspace/inputs/source.json') != staged['source_sha256']):
-                raise ValueError('Producer staging pins differ')
+            check.update(check_business_gate(args.arm, args.budget))
+            attempt = producer_attempt(args.arm, args.budget)
             if (attempt / 'endpoint.json').exists():
                 raise ValueError('Producer already dispatched; preserve the existing evidence')
             save(attempt / 'endpoint.json', check)
-            return run_business(attempt, args.arm, env, 'producer')
+            return run_business(attempt, args.arm, env, 'producer', args.budget)
         attempt = HERE / 'runs' / f'smoke-{args.profile}-{args.arm}-{args.attempt:02d}'
         attempt.mkdir(parents=True, exist_ok=False)
         save(attempt / 'endpoint.json', check)
