@@ -1,0 +1,5169 @@
+{
+  "schema": "wrd58-reused-routes-v1",
+  "source_count": 1107,
+  "routes": [
+    {
+      "id": "adlaw-compliance-copy",
+      "name": "保健食品宣传合规文案审查改写路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_e785906dc669"
+      ],
+      "steps": [
+        "读宣传文案或图中文字，以及产品已备案功能口径",
+        "按广告法、食品安全法逐句核查功效宣称、医疗用语与绝对化用语，标注风险点与法规依据",
+        "给出合规替代表述（短句、与原排版兼容）和逐句评估结论",
+        "按反馈迭代；图内文字替换的执行复用image-editing"
+      ],
+      "conditions": [
+        "合规判断标注不确定性并提示单独核实，不虚构备案功能与法规结论"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "agent-persona-setup",
+      "name": "智能体身份设定模板复用路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_158e9b7436ea",
+        "conv_56aa032f17a8",
+        "conv_8805f85ed434",
+        "conv_972e0e8aee81",
+        "conv_b6ece15c4c44",
+        "conv_cec9b66e0a45",
+        "conv_d464c520f707"
+      ],
+      "steps": [
+        {
+          "condition": "名称、描述、对话风格与技能清单以用户给定文本为准",
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "persona_setup_text"
+          ],
+          "operation": "collect_persona_spec",
+          "output_types": [
+            "persona_spec"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_b6ece15c4c44:msg_1",
+              "source_id": "conv_b6ece15c4c44"
+            },
+            {
+              "message_id": "conv_cec9b66e0a45:df2dac07",
+              "source_id": "conv_cec9b66e0a45"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "persona_spec"
+          ],
+          "operation": "apply_agent_persona",
+          "output_types": [
+            "agent_configuration"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_b6ece15c4c44:msg_1",
+              "source_id": "conv_b6ece15c4c44"
+            },
+            {
+              "message_id": "conv_cec9b66e0a45:df2dac07",
+              "source_id": "conv_cec9b66e0a45"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "混合会话仅归并身份设定部分，其余任务不覆盖"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "ai-adoption-advisory",
+      "name": "AI工具落地应用建议路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_8487ad8077f4"
+      ],
+      "steps": [
+        "收集公司业务场景与痛点（研究/法务/财务等），未给信息不虚构",
+        "分领域给出AI应用方案与落地建议；资金流动、法规合规类结论标注不确定性并提示单独核实",
+        "按需整理成Word等文档交付，追加议题按同一口径补充"
+      ],
+      "conditions": [],
+      "library_status": "retained"
+    },
+    {
+      "id": "ai-news-digest",
+      "name": "AI新闻检索摘要路线",
+      "category": "NEWS",
+      "source_ids": [
+        "conv_08abf2306e29",
+        "conv_0f76bd2b6805",
+        "conv_1fe545b6b26b",
+        "conv_2354b031ed8c",
+        "conv_2b5c66ef9795",
+        "conv_308db455267f",
+        "conv_3865e13a3e1c",
+        "conv_388ccceeac6a",
+        "conv_3d1ab6fc0480",
+        "conv_42afc8c572f9",
+        "conv_4e1b9507c122",
+        "conv_6b1d5998b0e7",
+        "conv_6e3989c7b1d4",
+        "conv_6f39da151b65",
+        "conv_72306f4646bc",
+        "conv_7df2a2fe5a12",
+        "conv_8a639758269d",
+        "conv_8d3c54ab20bb",
+        "conv_931fbc79d13c",
+        "conv_979687e08e23",
+        "conv_9bfd4928da60",
+        "conv_a01a23912186",
+        "conv_a12f08316927",
+        "conv_ac64a14e656f",
+        "conv_ac76ebbc45cb",
+        "conv_b69071f509d3",
+        "conv_cc5c4da28eca",
+        "conv_cd842db578bb",
+        "conv_f5005161c357",
+        "conv_fa44bab61e43",
+        "conv_fa8adda38d0c"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "news_query_text",
+            "time_range_hint"
+          ],
+          "operation": "retrieve_news_items",
+          "output_types": [
+            "news_item_set"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_b69071f509d3:msg_1",
+              "source_id": "conv_b69071f509d3"
+            },
+            {
+              "message_id": "conv_a12f08316927:b9731f0a",
+              "source_id": "conv_a12f08316927"
+            },
+            {
+              "message_id": "conv_ac64a14e656f:msg_1",
+              "source_id": "conv_ac64a14e656f"
+            }
+          ]
+        },
+        {
+          "condition": "仅汇总检索所得内容，来源不足时明确说明",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "news_item_set"
+          ],
+          "operation": "compose_news_digest",
+          "output_types": [
+            "digest_text"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_b69071f509d3:msg_9",
+              "source_id": "conv_b69071f509d3"
+            },
+            {
+              "message_id": "conv_ac64a14e656f:msg_6",
+              "source_id": "conv_ac64a14e656f"
+            }
+          ]
+        },
+        {
+          "condition": "按用户指定格式导出（md或word）",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "digest_text"
+          ],
+          "operation": "export_digest_document",
+          "output_types": [
+            "digest_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_b69071f509d3:msg_9",
+              "source_id": "conv_b69071f509d3"
+            },
+            {
+              "message_id": "conv_ac64a14e656f:msg_6",
+              "source_id": "conv_ac64a14e656f"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "来源可为订阅推送归档而非实时检索",
+        "核实类简报逐条标注权威信源与时间",
+        "混合会话只归并新闻检索摘要部分；会话内图片生成走theme-image-generation、图片理解、股票问答等一次性请求不覆盖",
+        "md转pdf等格式转换沿用同一摘要产物，不另立路线",
+        "混合会话只归并摘要部分",
+        "仅汇总检索所得内容",
+        "导出格式按用户指定（md等），格式转换沿用同一摘要产物"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "article-rewrite-publishing",
+      "name": "源材料改写公众号文章路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_0465a450028a",
+        "conv_1418c5e1d2f2",
+        "conv_50da7dabddba",
+        "conv_6d96fae27990",
+        "conv_7b0ea502fdac",
+        "conv_93eb149ca6e5",
+        "conv_ca7f9a3dbef3",
+        "conv_dea08980348e",
+        "conv_f4b82e638325"
+      ],
+      "steps": [
+        "读源材料（PPT/论文/既有文章）",
+        "按目标平台风格与篇幅改写成文",
+        "按需配图与篇幅取舍，按反馈修订交付"
+      ],
+      "conditions": [
+        "文章内容仅取自源材料与用户确认内容",
+        "风格与篇幅要求以用户指定为准",
+        "文章观点与素材仅取自检索所得与用户确认内容",
+        "风格与排版以用户指定样式为准",
+        "内容仅取自源材料与用户确认，不虚构",
+        "混合会话仅归并公众号文章风格改写部分（参考目标风格，内容取自用户上传原文）",
+        "图片纠正先澄清问题再只重生成不符项",
+        "选题与角度以用户描述为准，观点不虚构原文内容"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "bank-journal-voucher",
+      "name": "银行日记账编制记账凭证",
+      "category": "DATA",
+      "source_ids": [
+        "conv_948cdaa668ef",
+        "conv_a52e0748557e",
+        "conv_f74f7410ccfd",
+        "conv_fbc466c9dfb1"
+      ],
+      "steps": [
+        "读入银行日记账表格，整理成流水行",
+        "按用户指定起点编制分录：科目方向与金额按流水，给股权比例调整表时按比例拆分",
+        "利息收入统一冲减财务费用—手续费（借：银行存款 x；借：财务费用—手续费 -x）",
+        "按用户指定格式（如word）成文导出；修订后回显变更明细并经用户确认"
+      ],
+      "conditions": [
+        "以可解析的银行日记账表格为输入",
+        "编制起点与科目口径以用户说明为准",
+        "提供股权比例调整表时才进入按比例拆分分支"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "bid-response-drafting",
+      "name": "招标文件应答标书起草路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_298ecdab62b0",
+        "conv_4e162c7672f8",
+        "conv_91d7eae7f753",
+        "conv_e9b349be9fc3",
+        "conv_f9a02361c038"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "tender_document"
+          ],
+          "operation": "parse_tender_requirements",
+          "output_types": [
+            "requirement_list"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_4e162c7672f8:msg_1",
+              "source_id": "conv_4e162c7672f8"
+            },
+            {
+              "message_id": "conv_91d7eae7f753:msg_1",
+              "source_id": "conv_91d7eae7f753"
+            }
+          ]
+        },
+        {
+          "condition": "仅在存在既往标书或参考样例时执行",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "bidder_reference_materials_or_none"
+          ],
+          "operation": "gather_reference_bid_materials",
+          "output_types": [
+            "reusable_bid_content"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_91d7eae7f753:msg_1",
+              "source_id": "conv_91d7eae7f753"
+            },
+            {
+              "message_id": "conv_298ecdab62b0:msg_6",
+              "source_id": "conv_298ecdab62b0"
+            }
+          ]
+        },
+        {
+          "condition": "按指定页数与格式成文；参考样例时须与样例区分，不得照抄",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "requirement_list",
+            "reusable_bid_content"
+          ],
+          "operation": "compose_bid_document",
+          "output_types": [
+            "bid_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_4e162c7672f8:msg_37",
+              "source_id": "conv_4e162c7672f8"
+            },
+            {
+              "message_id": "conv_e9b349be9fc3:msg_139",
+              "source_id": "conv_e9b349be9fc3"
+            },
+            {
+              "message_id": "conv_298ecdab62b0:msg_6",
+              "source_id": "conv_298ecdab62b0"
+            }
+          ]
+        },
+        {
+          "condition": "复用既往投标文件时，统一替换投标方信息后再交付",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "bid_document"
+          ],
+          "operation": "apply_bidder_profile",
+          "output_types": [
+            "bid_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_e9b349be9fc3:msg_175",
+              "source_id": "conv_e9b349be9fc3"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "万字篇幅内容仅取自知识库项目材料，缺项标注待补",
+        "conv_e9b349be9fc3：标书页数下限按用户指定（如40页以上）扩充；投标方信息统一替换后再交付（对应s4）"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "bp-investment-screening",
+      "name": "BP一级市场投资初筛分析",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_0e3d37287c9d"
+      ],
+      "steps": [
+        "读用户提供的BP和业务介绍材料，先提取项目基本盘",
+        "按一级市场固定框架逐维度分析：赛道与市场空间、竞争壁垒、团队、商业模式与财务、估值与退出",
+        "标注亮点与疑点，材料里没有的数据如实说明不估算",
+        "按反馈深化单个维度或整理成分析文档"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "case-application-drafting",
+      "name": "案例申报书按模板撰写迭代路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_230c66505a14",
+        "conv_b4c2962f1747"
+      ],
+      "steps": [
+        "读官方申报模板与要求，提取段落框架和字数上限",
+        "用给定项目材料填充各段，不确定的数字和佐证写待补充",
+        "按反馈只重写指定段落（如创新点、简介、浓缩合并），已确认内容不推翻",
+        "导出word并回报存放位置；本路线只覆盖文本，配图和图片型PPT部分复用theme-image-generation和five-page-image-ppt"
+      ],
+      "conditions": [
+        "内容仅取自申报材料与用户确认的说明，不虚构数据",
+        "字数上限按模板执行，佐证材料缺失处明示待补",
+        "无官方模板时按用户给定章节框架执行",
+        "预算分期数字取自用户给定值，不重算改动"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "cashflow-summary-excel",
+      "name": "银行流水现金流量汇总表路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_52dfe7748f87"
+      ],
+      "steps": [
+        "读用户当次上传的银行流水Excel，不用旧版知识库文件",
+        "按摘要映射分类（备用金入员工报销、补贴入经营收入、代工款等单列项目）",
+        "沿用既有汇总表的公式结构生成新期间汇总，保持公式联动",
+        "需要时做期间合并表、服务费下拉明细展开；改完报数值结果待确认"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "collectible-line-design",
+      "name": "主题收藏品/盲盒系列企划与成图路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_e13d8257bf0f"
+      ],
+      "steps": [
+        "先文字探讨：按题材查资料、定系列结构和每系列数量、隐藏款、定价与概率，确认后存档方案",
+        "按系列批量出图：三视图+细节特写、角色卡片、盒体与外箱设计图，各系列数量可不同",
+        "用户纠错（角色不一致、比例不对、画布太挤）时先澄清问题再只重画对应部分",
+        "每系列图片合并成PDF并配封面，多系列打包压缩包交付",
+        "衍生分支：单款包装展开刀模、按机型分册的漫画分镜稿与逐册生成，沿用同一确认-生成-纠正流程"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "company-research-report",
+      "name": "公司/行业调研结构化报告路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_0286cd54e494",
+        "conv_07d2d9c4266f",
+        "conv_0c737ce414b9",
+        "conv_12afb60bc758",
+        "conv_13ee9e5f9697",
+        "conv_15bf426031fc",
+        "conv_16f5d4a35c7e",
+        "conv_19d90530d45a",
+        "conv_1a8d350c4f22",
+        "conv_1cb56954fbb3",
+        "conv_1f01a66fa85c",
+        "conv_20dd49e27f25",
+        "conv_211006dd61b2",
+        "conv_228ebd613017",
+        "conv_22c169c14c36",
+        "conv_257dffc8682f",
+        "conv_26d4ec4d7c25",
+        "conv_29325dd2d985",
+        "conv_33a026154646",
+        "conv_35cc9bcdb344",
+        "conv_3773c80d4c15",
+        "conv_38cf4e290f26",
+        "conv_3a5014f38553",
+        "conv_3cb39bbfe904",
+        "conv_3ccdb2ea652d",
+        "conv_407defafacbb",
+        "conv_490bd389dffc",
+        "conv_4a1c138b80e0",
+        "conv_4aa44049ecdb",
+        "conv_4be7342d0195",
+        "conv_511db6d42dd6",
+        "conv_52ab93c12a48",
+        "conv_5df4e40db2ac",
+        "conv_5ffcfbd5fb69",
+        "conv_6318c0ad05d5",
+        "conv_6467d83a88d1",
+        "conv_65081b0339d6",
+        "conv_70394b694181",
+        "conv_7182a1210183",
+        "conv_71b145de3304",
+        "conv_71b25ae5e611",
+        "conv_7485225ea7e3",
+        "conv_77e95f792ca5",
+        "conv_78d62a67dca0",
+        "conv_7c90fd36e5bf",
+        "conv_7f7ed36bdd37",
+        "conv_8416abba6493",
+        "conv_84285a261397",
+        "conv_880a615a6c7b",
+        "conv_8877913be879",
+        "conv_89047a8a2890",
+        "conv_8dbc2e14c3fc",
+        "conv_908bedb54ca2",
+        "conv_9b4e2088c6bf",
+        "conv_9dcf4da08633",
+        "conv_9deb486b438b",
+        "conv_9e23d54a01b2",
+        "conv_a54838487747",
+        "conv_b6573abf3f8d",
+        "conv_b7492b0c52cb",
+        "conv_bce9cfd14cfb",
+        "conv_bd36f8dbbbc5",
+        "conv_bdd382a20e7e",
+        "conv_c0f717af53db",
+        "conv_c1ff27acc817",
+        "conv_c41ebd39b457",
+        "conv_c69533844fd2",
+        "conv_c6fc21e35678",
+        "conv_c73551a790c0",
+        "conv_c952411dbdfe",
+        "conv_c9f4db4e5372",
+        "conv_cae4e426653f",
+        "conv_cf795067f125",
+        "conv_d028e3823c37",
+        "conv_d29e1fb0d436",
+        "conv_d47248e6b734",
+        "conv_d53a390f43dd",
+        "conv_d7b76e8bd461",
+        "conv_d973893a0b74",
+        "conv_d9fab7f384b4",
+        "conv_de6607e7ed2f",
+        "conv_e17789e7b661",
+        "conv_e1abd4bbdef6",
+        "conv_e1f6193e48c8",
+        "conv_e2f318f3b6fb",
+        "conv_eb6cdb8d75c3",
+        "conv_ec362ccc37b2",
+        "conv_eed394ac5c09",
+        "conv_efab8f8a2afe",
+        "conv_f033a81b921f",
+        "conv_f075f2e6dfea",
+        "conv_f1466cdd5366",
+        "conv_f3eb9b1e831c",
+        "conv_f95e59fa2a26",
+        "conv_f9f4cc0a8b38",
+        "conv_feb7c0fed490",
+        "conv_ff2af7890f38"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "research_request_text"
+          ],
+          "operation": "clarify_report_scope",
+          "output_types": [
+            "report_outline"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_8877913be879:msg_1",
+              "source_id": "conv_8877913be879"
+            }
+          ]
+        },
+        {
+          "condition": "每条关键数据记录来源与时间",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "provided_materials",
+            "public_web_sources"
+          ],
+          "operation": "gather_evidence",
+          "output_types": [
+            "evidence_set"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_8877913be879:msg_1",
+              "source_id": "conv_8877913be879"
+            },
+            {
+              "message_id": "aea50a77-8764-4a2e-acc5-9dad7b6d8d2f",
+              "source_id": "conv_7485225ea7e3"
+            }
+          ]
+        },
+        {
+          "condition": "无真实可验证财务数据时明确回复缺失，不得估算或虚构",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "evidence_set"
+          ],
+          "operation": "analyze_findings",
+          "output_types": [
+            "analysis_findings"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_15bf426031fc:msg_24",
+              "source_id": "conv_15bf426031fc"
+            },
+            {
+              "message_id": "conv_15bf426031fc:msg_5",
+              "source_id": "conv_15bf426031fc"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "analysis_findings"
+          ],
+          "operation": "compose_structured_report",
+          "output_types": [
+            "structured_research_report"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_8877913be879:msg_12",
+              "source_id": "conv_8877913be879"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "报告结论与关键数据标注来源与时间",
+        "无真实可验证财务数据时明确回复缺失，不得估算或虚构",
+        "依赖外部enterprise-due-diligence技能与cookie凭据，凭据不可用时明示缺失，不虚构数据",
+        "注册证、价格等以实时检索为准，不虚构",
+        "结论标注来源与时间",
+        "上市/政策类结论逐条标注来源与时间，信息过时时按用户纠正重新检索",
+        "产业方向梳理分支：按领域检索市场数据后做多领域结合点分析与优先级分级，数据标注来源与时间",
+        "检索不到的信息明确说明，不拼凑",
+        "信息过时时按最新检索更新后重列",
+        "无真实可验证财务数据时明确回复缺失，不估算",
+        "结论与关键数据标注来源与时间",
+        "无可验证财务数据时明确回复缺失，不得估算或虚构",
+        "时效性结论按最新检索更新后重列",
+        "conv_211006dd61b2 邮箱读取仅作前置输入获取，不构成独立邮件路线",
+        "conv_22c169c14c36 为轻量快查裁剪，步骤可按需缩减",
+        "无可验证财务数据时明确回复缺失，不估算不虚构",
+        "conv_84285a261397 追加的报告结构优化只调整标题层级/段落组织/逻辑顺序，先单独提示不可靠判断与风险，不改事实结论",
+        "检索不到的信息明确说明，不拼凑不虚构",
+        "无真实可验证财务数据时明确回复缺失，不估算不虚构",
+        "结论标注来源与不确定性，缺材料明确说明不虚构",
+        "图片类输入先识别图片内容再取证核实",
+        "conv_e17789e7b661：价格/销量区间等关键数据标注来源可靠性说明，未指定项按通用范围处理，不虚构",
+        "conv_e1f6193e48c8：对标分析后按用户指定格式（word）导出，后续文件沿用同一格式",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录",
+        "材料或检索不足时如实说明，不拼凑",
+        "申报机会检索分支：按企业属地/行业与申报条件筛选当年大赛与政府申报，清单逐条附截止时间与来源；检索不到明确说明"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "concept-design-pitch-pack",
+      "name": "概念方案设计与答辩材料包路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_dd79868b770b"
+      ],
+      "steps": [
+        "收集场景设定与约束（人员、时长、任务、评审要求）",
+        "撰写完整概念方案并导出pdf",
+        "按方案逐点生成配图并合并成图集pdf",
+        "再产出答辩汇报文稿和PPT逐页图片提示词，按反馈微调"
+      ],
+      "conditions": [
+        "设定与约束取自用户任务描述，方案细节不虚构既有事实",
+        "图像生成能力不足时说明，缺图处标注待补"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "contract-position-gap-supplement",
+      "name": "按己方合同立场排查缺口并起草补充条款",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_1d728d0e9634",
+        "conv_3f2f18da4d3f",
+        "conv_60925fa3f733",
+        "conv_613c5c688f09",
+        "conv_6d69c3fec1b7",
+        "conv_70726a26e739",
+        "conv_749baacff5ca",
+        "conv_8ca69d6ae5ea",
+        "conv_9ce276e66b3e",
+        "conv_af9683641117",
+        "conv_f586a09e7356"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "contract_document"
+          ],
+          "operation": "parse_agreement_document",
+          "output_types": [
+            "parsed_clause_tree"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "6eb3f283-7cff-44db-bec9-0eb6ff51d088",
+              "source_id": "conv_3f2f18da4d3f"
+            },
+            {
+              "message_id": "b180e2a0-52f1-48e8-8b99-7946e09d745f",
+              "source_id": "conv_749baacff5ca"
+            }
+          ]
+        },
+        {
+          "condition": "用户明确己方合同立场时执行；与 contract-structured-clause-review 的 parse 步骤共用同一路线前段",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "parsed_clause_tree",
+            "party_position"
+          ],
+          "operation": "identify_gaps_for_party_position",
+          "output_types": [
+            "gap_list"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "6eb3f283-7cff-44db-bec9-0eb6ff51d088",
+              "source_id": "conv_3f2f18da4d3f"
+            },
+            {
+              "message_id": "38041cce-b6c0-4cbe-a283-035841152c82",
+              "source_id": "conv_749baacff5ca"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "gap_list"
+          ],
+          "operation": "draft_supplement_text",
+          "output_types": [
+            "supplement_amendments"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "1131a6b1-4bdf-4740-9236-82f6fc98cfee",
+              "source_id": "conv_3f2f18da4d3f"
+            },
+            {
+              "message_id": "38041cce-b6c0-4cbe-a283-035841152c82",
+              "source_id": "conv_749baacff5ca"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "supplement_amendments"
+          ],
+          "operation": "apply_amendments_to_document",
+          "output_types": [
+            "updated_contract_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "1131a6b1-4bdf-4740-9236-82f6fc98cfee",
+              "source_id": "conv_3f2f18da4d3f"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "用户需明确己方合同立场（如甲方/乙方）",
+        "解析前段可与contract-review-revision共用",
+        "用户需明确己方合同立场（本批为创始股东层面）",
+        "用户需明确己方合同立场（本批为乙方），立场未明先问清",
+        "补充内容仅取自合同原文与用户确认口径，不虚构条款"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "contract-review-revision",
+      "name": "合同审查修订与补充协议起草路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_0097ccc80b2d",
+        "conv_011570125174",
+        "conv_075d1d056ef3",
+        "conv_0908308cfd4f",
+        "conv_09da2b5bffec",
+        "conv_0b258a2d669d",
+        "conv_12303335d17b",
+        "conv_1344d32a1970",
+        "conv_142d76650dda",
+        "conv_1c289044d62b",
+        "conv_201631a6dabf",
+        "conv_24f6efb2a9ba",
+        "conv_2a6e0203ce09",
+        "conv_2cd68de4c686",
+        "conv_3126a0980266",
+        "conv_32570f971950",
+        "conv_37a7fae29001",
+        "conv_381f48864647",
+        "conv_428105be4386",
+        "conv_508d1907b033",
+        "conv_512bed807235",
+        "conv_591e521ac565",
+        "conv_5bf3cadb38c0",
+        "conv_602668379442",
+        "conv_61ba37b1a086",
+        "conv_6205973ae0f0",
+        "conv_622d3811c315",
+        "conv_62c16b4032bf",
+        "conv_69148bb26513",
+        "conv_6d69c3fec1b7",
+        "conv_70e8edb87e06",
+        "conv_75d05fa37605",
+        "conv_849a4af1be2e",
+        "conv_88ba9a7ae1cf",
+        "conv_8b8570891486",
+        "conv_8baf9d893d49",
+        "conv_92c5e909d5ba",
+        "conv_97100bdcb068",
+        "conv_986647175445",
+        "conv_a3372150c827",
+        "conv_a8887dff45c9",
+        "conv_a8d3ad85a09e",
+        "conv_a9555e31ad2d",
+        "conv_a9e6bd1941ea",
+        "conv_b692170f084d",
+        "conv_bba19cc3bca6",
+        "conv_be8d15073865",
+        "conv_c19fda1c10e1",
+        "conv_c32903955c2b",
+        "conv_de1d6b525369",
+        "conv_de8c70890684",
+        "conv_e3d8dd0683ed",
+        "conv_ea7acfe1b937",
+        "conv_f4602fe5ac79",
+        "conv_fafb4f4f16ce",
+        "conv_fbf6d789df0f"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "legal_document_set",
+            "change_request_text"
+          ],
+          "operation": "parse_contract_text",
+          "output_types": [
+            "contract_facts"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_849a4af1be2e:b5352206",
+              "source_id": "conv_849a4af1be2e"
+            },
+            {
+              "message_id": "conv_381f48864647:msg_1",
+              "source_id": "conv_381f48864647"
+            },
+            {
+              "message_id": "conv_69148bb26513:msg_1",
+              "source_id": "conv_69148bb26513"
+            }
+          ]
+        },
+        {
+          "condition": "按用户指定变更点或审查要求识别，不虚构法律结论",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "contract_facts"
+          ],
+          "operation": "identify_change_or_risk_points",
+          "output_types": [
+            "change_or_risk_items"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_849a4af1be2e:b5352206",
+              "source_id": "conv_849a4af1be2e"
+            },
+            {
+              "message_id": "conv_de8c70890684:msg_1",
+              "source_id": "conv_de8c70890684"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "change_or_risk_items"
+          ],
+          "operation": "draft_revised_terms",
+          "output_types": [
+            "revised_clauses"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_849a4af1be2e:b5352206",
+              "source_id": "conv_849a4af1be2e"
+            },
+            {
+              "message_id": "conv_69148bb26513:msg_1",
+              "source_id": "conv_69148bb26513"
+            }
+          ]
+        },
+        {
+          "condition": "使用书面规范法律用语；格式（字体/字号/行距）按用户指定",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "revised_clauses"
+          ],
+          "operation": "compose_formatted_legal_document",
+          "output_types": [
+            "legal_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_69148bb26513:msg_48",
+              "source_id": "conv_69148bb26513"
+            },
+            {
+              "message_id": "conv_381f48864647:msg_1",
+              "source_id": "conv_381f48864647"
+            }
+          ]
+        },
+        {
+          "condition": "仅优化标题层级/段落组织/逻辑顺序/可读性，先单独提示不可靠判断与风险",
+          "depends_on": [
+            "s4"
+          ],
+          "id": "s5",
+          "input_types": [
+            "legal_document"
+          ],
+          "operation": "optimize_document_structure",
+          "output_types": [
+            "legal_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_381f48864647:msg_19",
+              "source_id": "conv_381f48864647"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "法律判断标注不确定性并提示单独核实，不虚构法条或效力结论",
+        "变更范围以用户指定为准，全文一致落实",
+        "字体/行距等格式按用户指定",
+        "OCR结果须核对关键数字后再引用",
+        "只梳理事实与条款，不虚构法律结论",
+        "多家AI分别审阅的输入先逐条比对异同再汇总为统一审阅意见；修订明细按条款顺序与重要程度分别成文导出",
+        "指定条款修改全文一致落实",
+        "法律判断标注不确定性并提示单独核实",
+        "补充协议不在正文提及、附件取舍等口径以用户指定为准",
+        "本批补判：会话内追加的译文整理复用document-translation-route，不另立路线",
+        "审查立场以用户指定为准",
+        "变更范围以用户指定为准，指定条款修改全文一致落实",
+        "补充协议等口径以用户指定为准",
+        "法律判断标注不确定性并提示单独核实，不虚构法律结论",
+        "法律判断标注不确定性并提示单独核实，不虚构法条",
+        "格式（如红色标注）按用户指定",
+        "法律风险结论标注不确定性并提示单独核实",
+        "格式要求以用户指定为准",
+        "conv_e3d8dd0683ed：审查立场为签署人，风险按己方立场评估",
+        "conv_ea7acfe1b937：修改建议以文字注明修改位置和内容，便于用户自行落实"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "course-recap-video-script",
+      "name": "课程回顾视频脚本迭代路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_af2aec99426f"
+      ],
+      "steps": [
+        "收课程日程、实际素材（PPT、照片）和视频用途（宣传或回顾），确认要不要配音字幕",
+        "把日程转成吸引人的分镜脚本，逐句写配音稿，画面只写素材里真实有的内容",
+        "按用户逐条纠正微调对应段落（组数、人物、基调、不拍颁奖流水账），不整篇推翻",
+        "脚本输出成文档存到用户指定位置"
+      ],
+      "conditions": [
+        "画面与情节仅取自用户描述和实际素材，素材缺失处标注待补",
+        "对外宣传用途时基调保持积极，纠正后逐段回显变更"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "credential-safe-hardening",
+      "name": "凭据安全加固与就绪检测路线",
+      "category": "TECH",
+      "source_ids": [
+        "conv_a999f104e767"
+      ],
+      "steps": [
+        "排查代码中凭据传递点：CLI参数、env、日志、异常信息，全部脱敏或删除",
+        "按用途拆分接口实现，不简单复用",
+        "收紧为最小权限，如仅允许创建草稿，代码级禁止发布/群发调用",
+        "凭据只由运行环境注入，agent不读不回显原文，只报告CONFIGURED状态",
+        "生成readiness报告；真实联调前先验证固定出口IP与白名单，不满足即停并明示，不请求凭据"
+      ],
+      "conditions": [
+        "离线脱敏加固可独立执行",
+        "真实API调用需用户完成凭据注入与IP白名单，未配置时明示阻塞，不做真实请求"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "dataset-description-sheet",
+      "name": "结题数据集说明表整理路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_d2c84054d91a"
+      ],
+      "steps": [
+        "读结题/汇交要求、用户数据示例模板和原始数据文件",
+        "按用户模板填入实际数据，配中文解释（如处理组、时间点、指标含义）",
+        "按反馈调整格式（高亮、表名、布局），在用户改过的版本上继续改，不推翻",
+        "导出xlsx并报文件路径"
+      ],
+      "conditions": [
+        "数据仅取自用户提供的文件，编号等不确定项高亮并说明",
+        "表格样式以用户改稿为准"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "dcf-valuation-model",
+      "name": "DCF财务建模估值路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_3ae75a94697f",
+        "conv_68f1d97e36b5"
+      ],
+      "steps": [
+        "收集预测期、收入增长、利润率、折现率、永续增长率等假设参数",
+        "在Excel里搭预测模型：逐年收入/EBITDA/自由现金流，用公式挂接假设",
+        "算折现值和终值得出估值区间，再做敏感性分析表（折现率x永续增长率）",
+        "用LibreOffice重算校验公式结果后交付"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "dd-question-response",
+      "name": "尽调问询逐条回复成文",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_29609478ce7c",
+        "conv_38cf4e290f26",
+        "conv_81cdb6776858"
+      ],
+      "steps": [
+        "读尽调问题清单与公司材料，逐条分析",
+        "按公司实际情况起草回复，缺失处明示待补",
+        "用户给出方向或补充材料时定向重写对应条目",
+        "涉及友商机理/专利等事实时检索公开文章或专利并标注来源"
+      ],
+      "conditions": [
+        "回复仅基于公司材料与公开可查信息，不虚构数据或机理结论",
+        "用户发错材料时先确认正确文件再作答",
+        "管线事实核实可延伸到检索并下载相关文献，题目与来源须回显给用户确认",
+        "回复措辞以用户确认为准，歧义处先问清含义再改，不自行解读"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "deal-structure-legal-risk-analysis",
+      "name": "交易结构法律风险敞口分析路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_80be4b9a6b15"
+      ],
+      "steps": [
+        "梳理交易结构、资金流与股权事实，列明已知与未知事实",
+        "逐项风险敞口按\"事实—法规—结论\"三段论分析（如抽逃出资、资金占用、职务侵占、挪用资金、骗贷）",
+        "事实不明处分情况讨论，不直接假定",
+        "汇总风险敞口与待核实清单；无协议文本时基于口述事实并明示缺失"
+      ],
+      "conditions": [
+        "未明确事实分情况讨论不假定",
+        "法条须核实现行有效，结论标注不确定性并提示单独核实"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "doc-section-supplement",
+      "name": "既有文档指定章节表格补充修订",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_d24eb9cf5172",
+        "conv_d628331d380b"
+      ],
+      "steps": [
+        "读全文和用户逐条修改口径，定位要补充或修订的章节/表格",
+        "结合全文起草补充内容，只改指定部分，不推翻其余正文",
+        "详略程度按用户反馈小步迭代（简化/加详细），已确认内容不反复",
+        "导出word并回报文件位置"
+      ],
+      "conditions": [
+        "补充内容仅取自全文与用户确认口径，不虚构数据",
+        "修订版本与原文格式保持一致"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "document-error-review",
+      "name": "通用文档审查查错路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_16a8192f4cb6",
+        "conv_23812b8e2ac6",
+        "conv_4024be190b45",
+        "conv_4380f019d4cf",
+        "conv_491ff62e803b",
+        "conv_61447b378f5d",
+        "conv_639563c765e9",
+        "conv_6ad7c7eaf079",
+        "conv_8370d5c66053",
+        "conv_8748935e7377",
+        "conv_9af1f51c4560",
+        "conv_9b10d0f86224",
+        "conv_c90bb002011a",
+        "conv_f4efc3b555dc"
+      ],
+      "steps": [
+        "读入待审文件",
+        "按固定维度查错：错别字/数据/逻辑/表述；用户指定立场时按立场审",
+        "汇总问题清单与修改建议，标注原文位置",
+        "按需导出修订稿（docx）"
+      ],
+      "conditions": [
+        "审核维度与立场以用户指定为准",
+        "仅基于给定材料，问题须标注原文位置",
+        "问题须标注原文位置，仅基于给定材料",
+        "经evomind-paper-scan技能调用时同paper-data-review口径：技能不可用明示并退回按维度人工审查",
+        "仅基于给定材料，问题标注原文位置"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "document-review-report",
+      "name": "文档分析并成审查/分析报告",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_047555b8a77f",
+        "conv_1369fc5a95fd",
+        "conv_6dcabb7eaa6c",
+        "conv_859a9d4744f2",
+        "conv_c0ad21ccaf5d",
+        "conv_c7c9955f80d8",
+        "conv_d23bc6d66dd2",
+        "conv_d6b0c7bc236d",
+        "conv_d8448984d033",
+        "conv_f066a0b5ae1d",
+        "conv_f5d7f89883e2"
+      ],
+      "steps": [
+        "读入用户文档并提取分析要点",
+        "仅基于给定材料分析，材料不足时明确说明",
+        "按要求成文并导出为文件"
+      ],
+      "conditions": [
+        "分析对象为用户提供的文档文件",
+        "内容仅取自给定材料",
+        "测算仅基于给定方案条款，不虚构学院政策",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录",
+        "风险结论仅基于给定材料，依据逐条列出，不虚构事实",
+        "结构优化先单独提示不可靠判断与风险，不改事实结论",
+        "PDF导出沿用同一报告产物，不另立路线"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "document-translation-route",
+      "name": "文档文件翻译交付路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_23adf8fd855f",
+        "conv_23cad87cab61",
+        "conv_43f0daa73651",
+        "conv_49b6714ab55b",
+        "conv_9f52e89fe262",
+        "conv_aad48418bf73",
+        "conv_cb9b9338ddf4",
+        "conv_f61a26276c5e"
+      ],
+      "steps": [
+        {
+          "condition": "按文件类型选择提取方式；图片类输入先识别图中文字",
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "source_document"
+          ],
+          "operation": "extract_source_text",
+          "output_types": [
+            "source_text_segments"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_aad48418bf73:3cfd2b3e",
+              "source_id": "conv_aad48418bf73"
+            },
+            {
+              "message_id": "conv_cb9b9338ddf4:f1cf94ce",
+              "source_id": "conv_cb9b9338ddf4"
+            }
+          ]
+        },
+        {
+          "condition": "保持原文分段顺序与术语一致",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "source_text_segments",
+            "translation_request_text"
+          ],
+          "operation": "translate_segments",
+          "output_types": [
+            "translated_text"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_aad48418bf73:3cfd2b3e",
+              "source_id": "conv_aad48418bf73"
+            },
+            {
+              "message_id": "conv_49b6714ab55b:edf9d79d",
+              "source_id": "conv_49b6714ab55b"
+            }
+          ]
+        },
+        {
+          "condition": "长文件翻译整理为可直接使用的译文",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "translated_text"
+          ],
+          "operation": "compose_translation_output",
+          "output_types": [
+            "translation_deliverable"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_49b6714ab55b:edf9d79d",
+              "source_id": "conv_49b6714ab55b"
+            },
+            {
+              "message_id": "b4f78ce7-3093-4fa4-8955-d198799eeb7b",
+              "source_id": "conv_aad48418bf73"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "长文件翻译整理为可直接使用的译文"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "document-watermark",
+      "name": "文档打水印",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_254f8638a685",
+        "conv_2b9e9c0c5202",
+        "conv_470d66397a7d",
+        "conv_5785a8ce4b6a",
+        "conv_765c20cde1f6",
+        "conv_8339875f170d",
+        "conv_885854b82f34",
+        "conv_88a0774cb062",
+        "conv_ab3863a19fb2",
+        "conv_f34d1eb4b810",
+        "conv_f69cc62066f1"
+      ],
+      "steps": [
+        "读入目标文档",
+        "明确水印文字/位置/透明度；未指定项用默认样式并向用户说明",
+        "整页批量加印水印并导出副本，不改正文内容"
+      ],
+      "conditions": [
+        "水印文字与样式由用户给定，未指定用默认",
+        "仅叠加水印不修改正文",
+        "优先触发既有pdf-watermark技能",
+        "逐轮微调仅重生成水印并回显效果后再确认",
+        "中文水印默认微软雅黑，英文数字默认Times New Roman",
+        "水印渲染后须确认不出页面边界",
+        "非A4页面先自动分析页面尺寸，再按比例定水印大小与位置，不沿用A4参数",
+        "中文水印须嵌入字体并实际渲染核验后交付",
+        "会话内技能安装部分归并skill-connector-setup，不覆盖",
+        "中文水印沿用既有渲染核验条件"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "docx-section-backfill",
+      "name": "文档批注空缺章节补写回写",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_8c0bfd90a38e"
+      ],
+      "steps": [
+        "读入docx，定位审核批注和空缺章节",
+        "按上下文和全文文体补写内容，不虚构事实，无法确认的列入待核实清单",
+        "写回原文档并核对排版一致，另附纯文本稿便于用户直接改"
+      ],
+      "conditions": [
+        "补充内容仅基于文档上下文与用户确认信息",
+        "只补写指定空缺，不改其余正文",
+        "补写后格式（缩进/编号层级）须与原文一致"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "docx-standardize-export",
+      "name": "材料整理规范DOCX路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_1ec77749aa65"
+      ],
+      "steps": [
+        "读给定材料（md/docx等）",
+        "按规范整理版式：封面、目录、一二级标题、表格统一、页眉页脚、关键结论加粗，不改事实数据",
+        "导出docx并核验版式完整"
+      ],
+      "conditions": [
+        "不改写事实数据，仅调整版式与层级"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "docx-version-diff",
+      "name": "Word文档版本比对查改路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_170be448a556",
+        "conv_feb705f39f56",
+        "conv_ff6e82c65308"
+      ],
+      "steps": [
+        "拿到两个版本的Word文档，先提取正文段落，同时检查文件里有没有没接受的修订标记和批注",
+        "如果基准版带残留修订，先把这些修订合并成净文本再拿来比，不然差异看着全是噪音",
+        "逐段对比找差异，定位到具体条款编号，排除空行、编号格式这类无意义差别",
+        "再查页眉页脚有没有被动过，汇总改动清单和签署前要注意的问题（错别字、日期、签署方式）",
+        "用户确认要签的话，只改确认过的错漏，出一版干净的签署终稿"
+      ],
+      "conditions": [
+        "对象可为缴款通知书等业务文书，比对金额/日期/抬头等关键字段",
+        "同时导出word与pdf时两版内容一致",
+        "适用可解析的docx/doc文本，扫描件或图片版不适用",
+        "比对结论逐条列出改动位置，供用户确认后再出签署稿"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "email-reply-drafting",
+      "name": "来信阅读与回复起草路线",
+      "category": "COMM",
+      "source_ids": [
+        "conv_4ceaacdfd316"
+      ],
+      "steps": [
+        "读来信全文与相关附件，弄清来意与催办点",
+        "结合用户已有材料按语境起草回复（致歉/说明/附件引用）",
+        "按指定语言成文并保存草稿，报文件位置"
+      ],
+      "conditions": [
+        "回复内容基于来信与用户材料，不虚构承诺"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "email-send-assist",
+      "name": "邮箱授权码配置与邮件发送",
+      "category": "COMM",
+      "source_ids": [
+        "conv_1c5d5d968cf1",
+        "conv_2c2d2c4d0df1",
+        "conv_2d12a63ea24f",
+        "conv_316742f9e7f2",
+        "conv_3a5cf1988000",
+        "conv_3e3096406ea1",
+        "conv_43bdd0d5f779",
+        "conv_46bd7ecbd688",
+        "conv_46f9798a1ef7",
+        "conv_48bad126c8f3",
+        "conv_5200f68f4feb",
+        "conv_57d9f1d61b01",
+        "conv_6e4ea693d7fd",
+        "conv_6fbc715f4b2d",
+        "conv_78444c079e5a",
+        "conv_7bdaa160b3ec",
+        "conv_838dbbd03671",
+        "conv_8d1a58c5b821",
+        "conv_93bc0bdf1c57",
+        "conv_988394fa37c8",
+        "conv_b83dcd4b4762",
+        "conv_bb3f86d4bbce",
+        "conv_bbc7e627eae3",
+        "conv_bc4bb2ab92da",
+        "conv_c2859a4a40a4",
+        "conv_c3df2f18e9c9",
+        "conv_cbc028e87deb",
+        "conv_db4d78062400",
+        "conv_dc141d50dd59",
+        "conv_e153e826314b",
+        "conv_f45181b3b8fb"
+      ],
+      "steps": [
+        "引导用户在服务商处开通邮箱授权码（126/163/QQ等），凭据由用户当场提供，不回显不保存",
+        "按服务商配置SMTP服务器参数并验证登录",
+        "按请求组装主题/正文，附件按需打包zip并按命名规则命名；信息不全先澄清",
+        "发送并回报结果与收件信息；用户指出有误时核对后修正重发"
+      ],
+      "conditions": [
+        "使用用户自有邮箱与授权码，凭据仅当次会话使用，不长期保存",
+        "未提供授权码时引导用户自助获取，不代取凭据",
+        "收件人/附件/命名不明确时先澄清",
+        "仅覆盖发送，不含收取与管理",
+        "个人邮箱授权码当次提供，不长期保存",
+        "被拦截或发送失败时核对后修正重试",
+        "使用用户自有邮箱与授权码，凭据仅当次会话使用",
+        "凭据当次提供，不长期保存",
+        "本批补判：随附的说明图片生成走theme-image-generation，本路线不覆盖",
+        "凭据仅当次会话使用，不回显不长期保存",
+        "未提供授权码时引导用户自助获取，不代取",
+        "授权码由用户自行获取提供，不经手明文密码"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "ev-roadtrip-roadbook",
+      "name": "电动车长途自驾路书规划路线",
+      "category": "LIFE",
+      "source_ids": [
+        "conv_7e58ed8b6d98"
+      ],
+      "steps": [
+        "收集车型续航、出行日期、往返走不同路线等约束",
+        "沿线按续航分段，标出充电服务区和每晚住宿点",
+        "按反馈换路线、调强度，保留历史版本",
+        "导出 docx/pdf 路书"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "evaluation-field-framework",
+      "name": "评估维度体系与字段表整理路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_a8721290b989"
+      ],
+      "steps": [
+        "从用户给的评估表提炼现有维度",
+        "与用户逐层确认一级/二级维度的增删与归并",
+        "按确认口径更新字段体系文档，同一维度的表格合并展示",
+        "按用户要求精简标题与格式，去掉版本字样和分数等指定项",
+        "改坏时按用户指定版本回退，再按需导出word"
+      ],
+      "conditions": [
+        "维度口径以用户逐条确认为准，不自行定稿",
+        "需要用户上传参考评估表作为输入，缺材料时先收集"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "event-speech-drafting",
+      "name": "活动发言稿起草路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_54cea560f23d",
+        "conv_d98e3820c5c0"
+      ],
+      "steps": [
+        "快速调研活动背景、主宾与场合基调",
+        "确认发言人身份与时长后起草发言稿",
+        "身份或口径纠正后只改对应段落"
+      ],
+      "conditions": [
+        "事实性内容以检索与用户确认为准并标注",
+        "时长与身份以用户说明为准"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "excel-data-analysis-report",
+      "name": "数据表统计分析成报告路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_db903c616f0e",
+        "conv_e1394bb92ca8"
+      ],
+      "steps": [
+        "读上传Excel，确认统计维度（总量、分档、规律）与口径",
+        "计算汇总并生成可视化图表（如交互式ECharts）",
+        "按指定载体成文：HTML交互报告、word插图表、图片型PPT（PPT部分复用five-page-image-ppt）",
+        "交付时报文件路径；产物不可见时重出或说明位置"
+      ],
+      "conditions": [
+        "统计口径与分档标准以用户说明为准，不虚构数据"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "excel-photo-cell-alignment",
+      "name": "Excel照片统一尺寸入格对齐",
+      "category": "DATA",
+      "source_ids": [
+        "conv_274ca834bbd0",
+        "conv_fcee61c6481d"
+      ],
+      "steps": [
+        "读入含照片的Excel名单表",
+        "把照片统一成相同大小插入对应行的单元格",
+        "上下左右对齐，并逐行核对照片与人名一一对应",
+        "用户指出错位重叠时按姓名重排后重新出文件"
+      ],
+      "conditions": [
+        "仅处理用户给定表格，不改文字数据",
+        "照片与人名核对一致后才交付",
+        "交付时明确告知成果文件完整路径，并确认用户能找到后再结束"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "feedback-issue-analysis",
+      "name": "用户反馈问题分类分析报告路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_acf82df2f685"
+      ],
+      "steps": [
+        "读用户反馈原始数据（飞书wiki等在线表）",
+        "按问题类型/状态分类汇总，做简明分析（小白可读），不生硬",
+        "生成分析文档（飞书/word/pdf，含状态分布图）",
+        "原始数据状态更新后按同口径重生成，并核查文档与源数据一致性后交付"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "feedback-workitem-analysis",
+      "name": "用户反馈分析与研发工作项关联路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_edc9bbda3d45"
+      ],
+      "steps": [
+        "读用户反馈表，按维度分类统计并出带改进建议的md分析报告",
+        "逐条反馈补根因与建议列，生成反馈分析Excel，报告按需转pdf",
+        "关联研发工作项列表，匹配反馈问题与任务关系，出需求研发分析报告（md+html）",
+        "用户指定深挖维度时带上填写日期、问卷编号、账号等原始字段出新版报告"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "financial-forecast-review",
+      "name": "财务预测表查错与合理性复审路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_9f52e89fe262"
+      ],
+      "steps": [
+        "读用户上传的收支/资金流预测表，弄清收入、成本、人员、费用等关键假设",
+        "核对公式与内部衔接（收入-成本-费用-现金流对得上），列出算错和相互矛盾的数字",
+        "评估假设合理性：人员配置、费用占比随营收规模变化有无依据，没有依据的明说不下结论",
+        "用户改版上传后按同口径复审新一轮，只报新增和未解决问题，不直接改用户文件"
+      ],
+      "conditions": [
+        "仅基于表内数据与用户确认口径，缺依据的假设标注待确认，不估算填数",
+        "用户已明确排除的项（如确认过的毛利假设）不再反复纠缠"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "financial-statement-analysis",
+      "name": "财务三表经营分析报告",
+      "category": "DATA",
+      "source_ids": [
+        "conv_d3cabbe74862"
+      ],
+      "steps": [
+        "读资产负债表、利润表、现金流量表，提取科目数据",
+        "按盈利、偿债、营运等维度算指标，回答经营情况如何",
+        "成文分析报告并按指定格式导出"
+      ],
+      "conditions": [
+        "三表须为可解析文件，数据缺失明示不估算",
+        "平台3-statements技能不可用时按通用财务指标口径分析并说明"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "financial-statement-check",
+      "name": "财务三表勾稽核对路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_b8e9e6e38770"
+      ],
+      "steps": [
+        "读资产负债表、利润表、现金流量表，提取科目数据",
+        "逐项校验勾稽关系（资产=负债+权益、利润与现金流衔接、报表间联动科目）",
+        "汇总异常项、差异金额和可能原因",
+        "按需导出核对报告"
+      ],
+      "conditions": [
+        "仅基于报表数据核对，缺页或数据不可读时明示，不估算填数"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "financial-statement-filling",
+      "name": "财务报表数据填模板与勾稽校验路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_9b78a49bd169"
+      ],
+      "steps": [
+        "读模板填报须知与各期源财务报表",
+        "把源表数据按科目映射填入模板，金额以源文件为准不虚构",
+        "核对三表勾稽关系（资产负债/利润/现金流量），不平先修正再交付",
+        "交付时标明数据来源文件"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "five-page-image-ppt",
+      "name": "主题图片型PPT生成路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_010ad4ece7b3",
+        "conv_05cd858151a0",
+        "conv_0966271ea5c9",
+        "conv_10cf68fbd1f3",
+        "conv_1bce921c6f7b",
+        "conv_2063896bb9c9",
+        "conv_2095a3e454f2",
+        "conv_28683e4a0a38",
+        "conv_2d9833d90ec3",
+        "conv_32c21a54c659",
+        "conv_33b2d5386dd3",
+        "conv_45e57ea5db1e",
+        "conv_45fbe028d43d",
+        "conv_4a400f6ef2c9",
+        "conv_4cd029506eb5",
+        "conv_4de1f8d1c987",
+        "conv_514f6d8693d2",
+        "conv_526530db0103",
+        "conv_5b7c07622ba3",
+        "conv_5c2f401a22a3",
+        "conv_5fb41cd228d3",
+        "conv_61034c4c6675",
+        "conv_639119e2e624",
+        "conv_70cad24899f6",
+        "conv_743a2a4ed77e",
+        "conv_7b0ea502fdac",
+        "conv_7e03d9a4cf85",
+        "conv_80c0ba2c2e7e",
+        "conv_84d107e9e67a",
+        "conv_965cf7b2c858",
+        "conv_98d45aba0065",
+        "conv_9af60347581d",
+        "conv_a49d5bb92bc6",
+        "conv_a5ae34a9eba9",
+        "conv_a6b0659f80fd",
+        "conv_afd6692df4ab",
+        "conv_bff5c75a4fcd",
+        "conv_cf39e97307ba",
+        "conv_d67773c0cac8",
+        "conv_e1913774325a",
+        "conv_f5e696fd661b"
+      ],
+      "steps": [
+        {
+          "condition": "主题与页数取自请求；用户明确免确认时跳过大纲确认",
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "ppt_request_text"
+          ],
+          "operation": "clarify_topic_and_page_plan",
+          "output_types": [
+            "slide_plan"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "a43ada7e-1777-41ff-b373-5980e0a8b99f",
+              "source_id": "conv_70cad24899f6"
+            },
+            {
+              "message_id": "cd55fc0f-1213-4c32-b60a-64e9ca938c4a",
+              "source_id": "conv_80c0ba2c2e7e"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "slide_plan"
+          ],
+          "operation": "compose_per_slide_image_prompts",
+          "output_types": [
+            "slide_image_prompt_set"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "39fd01e5-d375-49ec-b26c-b4abdcf1c470",
+              "source_id": "conv_743a2a4ed77e"
+            },
+            {
+              "message_id": "a43ada7e-1777-41ff-b373-5980e0a8b99f",
+              "source_id": "conv_70cad24899f6"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "slide_image_prompt_set"
+          ],
+          "operation": "generate_slide_images",
+          "output_types": [
+            "slide_image_set"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "b7ef8128-8ba2-470f-a50b-1921476c1ac8",
+              "source_id": "conv_84d107e9e67a"
+            },
+            {
+              "message_id": "39fd01e5-d375-49ec-b26c-b4abdcf1c470",
+              "source_id": "conv_743a2a4ed77e"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "slide_image_set"
+          ],
+          "operation": "assemble_ppt_file",
+          "output_types": [
+            "image_ppt_file"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "cd55fc0f-1213-4c32-b60a-64e9ca938c4a",
+              "source_id": "conv_80c0ba2c2e7e"
+            },
+            {
+              "message_id": "b7ef8128-8ba2-470f-a50b-1921476c1ac8",
+              "source_id": "conv_84d107e9e67a"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "主题、页数与风格约束以用户请求为准，未指定时按授权自拟",
+        "整页以生成图片为主体的图片型PPT，非文字排版型PPT",
+        "产出后核验文件可打开且页数与大纲一致",
+        "主题与页数由用户文本直接给出，未指定大纲/风格时按默认一次成稿，不逐页确认",
+        "仅覆盖图片型（整页配图）PPT生成，不含基于既有模板的改造或文字排版优先的PPT",
+        "主题与页数由用户给定或确认；用户明示免确认时按请求直接执行",
+        "输出为图片型PPT文件；可编辑文本型PPT需求不适用本路线",
+        "页面内容仅取自用户给定材料或既有稿件，不虚构汇报数据",
+        "图像生成使用本环境已配置能力或用户提供的生成接口，按会话实际可用项执行",
+        "页面文字仅取自用户材料与确认内容，不虚构",
+        "单页修正先澄清问题（色差/遮挡/文字）再仅重生成该页",
+        "内容取自既有PPT，逐页转图，页数与原稿一致",
+        "混合的整理知识库任务不覆盖",
+        "先按用户上传图片确认风格再制作",
+        "长任务超时须支持续作并核验成稿完整",
+        "用户明示免确认时直接成稿，不逐页确认",
+        "整页以生成图片为主体的图片型PPT，非文字排版型",
+        "拼接后须核验图片完整不截断、文件可打开",
+        "单页修正只重生成对应页"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "form-fill-from-source-docs",
+      "name": "按源附件填写目标表格表单",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_bf4371170343",
+        "conv_c1ad314b1771"
+      ],
+      "steps": [
+        "读源附件（含补充件）提取可填字段的事实内容",
+        "逐项映射填入目标附件，缺失信息标注待补，不虚构",
+        "填完核对目标与来源一致后导出交付"
+      ],
+      "conditions": [
+        "内容仅取自用户提供的源附件与确认说明",
+        "续填类以既往申请书+任务书为源，延续/批次口径以用户说明为准"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "funding-opportunity-search",
+      "name": "大赛与政府申报机会检索筛选路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_04b9900c5c1d"
+      ],
+      "steps": [
+        "收集企业画像：所在地、行业、规模、主营业务与资质",
+        "按年度检索当地可申报的大赛与政府专项，逐项记录政策依据、主管部门、支持方式、申报时间与条件",
+        "按企业画像筛选匹配项，整理成清单交付，标注来源与截止时间",
+        "检索不到或不确定的信息如实说明，不拼凑"
+      ],
+      "conditions": [
+        "申报时间等时效信息以当次检索为准并标注时间",
+        "不虚构政策条款与资助额度"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "git-contribution-report",
+      "name": "代码提交贡献年报路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_589e599dc77a"
+      ],
+      "steps": [
+        "拉取Gitee活动数据并克隆仓库读提交记录，注意指定分支",
+        "把同一人的多个账号/署名归并到本人名下，不漏项目",
+        "按项目、角色、模块、功能汇总贡献，成个人年终汇报文档",
+        "用户质疑漏项时重新核对并出新版本文件，报文件名和路径"
+      ],
+      "conditions": [],
+      "library_status": "retained"
+    },
+    {
+      "id": "gitee-workitem-mgmt",
+      "name": "Gitee工作项创建与需求拆解",
+      "category": "TECH",
+      "source_ids": [
+        "conv_693d25f8ecb8"
+      ],
+      "steps": [
+        "收集项目名、工作项标题、优先级、跟进人",
+        "在Gitee项目创建或更新工作项并指派",
+        "大需求读飞书等文档，按人日拆解子项（超5人日继续拆）并分配成员",
+        "授权过期时提示用户重新授权后再执行"
+      ],
+      "conditions": [
+        "依赖Gitee/飞书授权凭据，未授权或过期时明示并等待用户处理",
+        "本次会话中“沉淀Gitee技能”的请求属技能制作，不在本路线覆盖"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "grant-formal-review-checklist",
+      "name": "基金申报形式审查可勾选清单",
+      "category": "EDU",
+      "source_ids": [
+        "conv_007d40b3886f"
+      ],
+      "steps": [
+        "按申报类型梳理形式审查要点：申请人资格、申请书格式与附件、签字盖章、经费预算、学科代码等",
+        "把要点整理成按章节分组的可勾选word清单，每项留确认勾选位",
+        "交付并按用户反馈增删条目"
+      ],
+      "conditions": [],
+      "library_status": "retained"
+    },
+    {
+      "id": "homework-mastery-analysis",
+      "name": "学生作业掌握情况分析路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_bdc2eba9ff39",
+        "conv_cc021b31849c",
+        "conv_e09b70c51b19",
+        "conv_f2c7eafcee01"
+      ],
+      "steps": [
+        "读学生作业与题目要求",
+        "按知识点评估掌握程度与错误原因",
+        "输出讲评反馈与改进建议"
+      ],
+      "conditions": [
+        "评价仅基于作业内容，不给出成绩或录用类决定",
+        "输入为提交原始记录（CSV/Excel）时走统计分支，不评估作业内容"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "html-game-iteration",
+      "name": "HTML游戏原型构建与迭代路线",
+      "category": "TECH",
+      "source_ids": [
+        "conv_308db455267f",
+        "conv_34b56ae9c535"
+      ],
+      "steps": [
+        "问清玩法、角色、关卡与背景设定",
+        "写成HTML5 Canvas单文件可玩版本，浏览器直接打开",
+        "实际打开自测，先修黑屏、报错等启动问题再交付",
+        "用户拿原作对比不满时，先查参考再重做美术与手感，只改对应部分",
+        "按反馈修运行bug（如被打飞天不掉、出生点被秒），修完回报根因"
+      ],
+      "conditions": [
+        "玩法/角色/关卡以用户描述为准，不虚构原作素材",
+        "每轮纠正先定位根因小步修改，不整版重写"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "html-to-pdf-document",
+      "name": "HTML内容转PDF文档",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_420fd0fd1158",
+        "conv_69d3e6ed7587",
+        "conv_8c54fb0573e0",
+        "conv_d374a80f6dc6"
+      ],
+      "steps": [
+        "获取HTML内容或草稿",
+        "按用户指定修改点调整版式（断页/封面/提醒样式），不改业务内容",
+        "渲染为中文PDF交付"
+      ],
+      "conditions": [
+        "PDF版式要求与修改点由用户明确给出",
+        "内容仅取自给定HTML或材料，不虚构业务信息",
+        "md/docx等源先转HTML再渲染，版式按用户要求"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "ima-notes-import",
+      "name": "ima笔记批量导入workspace",
+      "category": "KNOW",
+      "source_ids": [
+        "conv_24bc635473a8",
+        "conv_6ee9d2692bf7"
+      ],
+      "steps": [
+        "读用户给的导入方案与ima凭据，确认导入范围（全部笔记本或含未分类）",
+        "调ima接口拉取笔记本和笔记，按笔记本分组存为workspace文件",
+        "汇总导入结果，剩余部分记录断点，下次继续导入"
+      ],
+      "conditions": [
+        "需要用户提供ima API凭据，仅当次使用不保存",
+        "API配额用完或中断时分批续传，记录已导入与剩余数量",
+        "导入后核对笔记本与笔记数量，未分类笔记按用户确认的口径处理"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "image-editing",
+      "name": "用户图片编辑与重绘",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_01c834d89914",
+        "conv_0b0148a0ac67",
+        "conv_0d28a549f675",
+        "conv_126d0b31d3fa",
+        "conv_1695d8fd2aca",
+        "conv_4b79f3a7eed1",
+        "conv_4c5077f34395",
+        "conv_50a11a0fdc5c",
+        "conv_6478b612e4a5",
+        "conv_712bf7f9bb82",
+        "conv_806f49c1eb88",
+        "conv_80ad3cd8347e",
+        "conv_afaa4576fb6d",
+        "conv_bf6e13e97b7e",
+        "conv_d789f17826d1",
+        "conv_d83252ae38aa",
+        "conv_e785906dc669",
+        "conv_f94b7d92bac0"
+      ],
+      "steps": [
+        "读入用户源图或参照图",
+        "明确编辑范围（删除/替换/新增、保留范围、比例、参照风格）；指令含圈选或模糊表述时先澄清",
+        "按编辑规格生成编辑后图片；参照图风格一致的编辑/生成为同一步分支",
+        "用户指出不符时先澄清纠正含义，只重生成对应部分"
+      ],
+      "conditions": [
+        "编辑范围以用户指定为准，不扩大未要求修改的内容",
+        "参照图风格与内容约束仅取自用户提供的图",
+        "使用本环境图像能力，不依赖外部账号",
+        "仅改用户指定范围（如标题/落款），不扩大修改",
+        "尺寸/精度等规格以用户给定为准",
+        "外部图像API凭据不可用时明示缺失",
+        "仅改用户指定范围（如标题），不扩大修改",
+        "只改指定区域，画布尺寸/分辨率/色彩模式按用户要求保持",
+        "输出后实际渲染核对再交付"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "image-to-editable-deck",
+      "name": "图片页面转可编辑PPT",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_c5dcd58f612e",
+        "conv_c618f1f9fb24"
+      ],
+      "steps": [
+        "解析图片页，识别文字与图元版式",
+        "以可编辑文本框与图片元素重建页面并导出pptx，不整页贴图",
+        "与原图逐项核对内容一致后交付"
+      ],
+      "conditions": [
+        "输入为要求内容原样保留的图片页",
+        "输出文字与图片须为可编辑元素",
+        "内容与原图一致，不增删改文字图片",
+        "交付前渲染核对可编辑性与显示效果"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "interview-outline-drafting",
+      "name": "候选人面试大纲编制路线",
+      "category": "HR",
+      "source_ids": [
+        "conv_2e1d20b1fc34",
+        "conv_e497d1970d81"
+      ],
+      "steps": [
+        "从JD和该候选人简历提取重点考察项与存疑点",
+        "按给定面试时长编排提问大纲，分主题和时间分配",
+        "用户给过既往面试提纲时按其格式成文导出docx"
+      ],
+      "conditions": [
+        "无JD/简历时按用户口述考察要求提炼考察项，不虚构候选人信息"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "intro-document-drafting",
+      "name": "主题/机构介绍文稿起草路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_2680d1b5f71e",
+        "conv_2f4c1f78f51d",
+        "conv_31fe5a08f6ee",
+        "conv_34843d227bc0",
+        "conv_366ab6b1766a",
+        "conv_3a27f499e502",
+        "conv_5e827f73061e",
+        "conv_8ea470804bed"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "intro_request_text"
+          ],
+          "operation": "clarify_intro_scope",
+          "output_types": [
+            "intro_requirements"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "3c817c13-b5f2-463c-bea9-ae86497bea32",
+              "source_id": "conv_2f4c1f78f51d"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "intro_requirements"
+          ],
+          "operation": "compose_intro_text",
+          "output_types": [
+            "intro_text"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "3c817c13-b5f2-463c-bea9-ae86497bea32",
+              "source_id": "conv_2f4c1f78f51d"
+            },
+            {
+              "message_id": "conv_366ab6b1766a:6c6e5336",
+              "source_id": "conv_366ab6b1766a"
+            },
+            {
+              "message_id": "conv_31fe5a08f6ee:1e3ede2c",
+              "source_id": "conv_31fe5a08f6ee"
+            },
+            {
+              "message_id": "conv_3a27f499e502:msg_1",
+              "source_id": "conv_3a27f499e502"
+            }
+          ]
+        },
+        {
+          "condition": "按用户反馈调整详略与丰富度，不推翻既定结构",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "intro_text",
+            "feedback_text"
+          ],
+          "operation": "expand_intro_on_feedback",
+          "output_types": [
+            "intro_text"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_366ab6b1766a:43afa4f6",
+              "source_id": "conv_366ab6b1766a"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "介绍重点与篇幅以用户说明为准",
+        "介绍重点与用途以用户说明为准",
+        "人物经历与头衔仅取自给定附件，不虚构"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "jd-drafting",
+      "name": "岗位JD起草润色导出",
+      "category": "HR",
+      "source_ids": [
+        "conv_2d49ad7e7177",
+        "conv_58c06c2fe01d",
+        "conv_5cebb0b81936",
+        "conv_94a2c0df9209",
+        "conv_9d7c7cd16e66",
+        "conv_cd1a2871756a",
+        "conv_d1025b450634",
+        "conv_e8db180459dc"
+      ],
+      "steps": [
+        "从零散岗位材料归纳职责/任职要求要点",
+        "按固定结构润色成文，不改岗位事实内容",
+        "按指定格式导出并返回路径"
+      ],
+      "conditions": [
+        "不虚构公司信息或岗位要求",
+        "导出格式按用户要求",
+        "不虚构公司与岗位事实",
+        "先学习外部机构职责时检索来源须标注",
+        "JD宣传图等衍生产物不覆盖",
+        "conv_e8db180459dc：先对照公司材料指出既有岗位说明书问题点，再输出修正后的完整可用版本"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "jd-resume-screening",
+      "name": "岗位JD-简历批量筛选评审路线",
+      "category": "HR",
+      "source_ids": [
+        "conv_0471e84eb55a",
+        "conv_050cdce318d9",
+        "conv_0581d60474f4",
+        "conv_05a433473107",
+        "conv_06d3b452f1d2",
+        "conv_071f0f0277ac",
+        "conv_0c7af9f7e430",
+        "conv_0df36094b90c",
+        "conv_0f4134832d8a",
+        "conv_104632b01333",
+        "conv_12fc39ca6b57",
+        "conv_13e38f017a30",
+        "conv_15e56f4ac60b",
+        "conv_165f28715224",
+        "conv_194d78b87905",
+        "conv_1c5e6b392159",
+        "conv_207fc3b8f038",
+        "conv_2134ac4116e5",
+        "conv_221003603779",
+        "conv_222c1d76547a",
+        "conv_23c04b59afa6",
+        "conv_279b5eb3a290",
+        "conv_2b8fd8fdd8bc",
+        "conv_2c50af66823f",
+        "conv_2e198f6ce53c",
+        "conv_2e5ebc80c255",
+        "conv_3cf0f7358f02",
+        "conv_45f703ea1ccc",
+        "conv_495ce24cf535",
+        "conv_4a378f051f47",
+        "conv_4dff386a54ac",
+        "conv_60936d7d143e",
+        "conv_61f48b530b7b",
+        "conv_66a8dc558785",
+        "conv_692eb36fe8af",
+        "conv_6f9964f1a35e",
+        "conv_7280f3693c03",
+        "conv_73c2457a4444",
+        "conv_7538f7469cbe",
+        "conv_778bb56fc693",
+        "conv_815933aa43c7",
+        "conv_842792a28ee8",
+        "conv_85e569be9d66",
+        "conv_8c0acf0215b8",
+        "conv_8d9fc90a248a",
+        "conv_946d32d6e89b",
+        "conv_9a4530fee647",
+        "conv_a47df5b9e92d",
+        "conv_a9304334a810",
+        "conv_a96d4e307332",
+        "conv_a9ed333e7694",
+        "conv_b4bfa1b742fd",
+        "conv_b52657b688df",
+        "conv_bb67b3039ec2",
+        "conv_bebf10fc7e18",
+        "conv_c452502dba53",
+        "conv_c4dc1412df06",
+        "conv_c65151b56d23",
+        "conv_c72721b62d56",
+        "conv_cc0954e39572",
+        "conv_cc1fb6784019",
+        "conv_cde87bf0074c",
+        "conv_d85b915effeb",
+        "conv_da1f7d904ff2",
+        "conv_db09358aab86",
+        "conv_de8e5263bc49",
+        "conv_e0cc09d72959",
+        "conv_e1268e2d935d",
+        "conv_e17409b249a6",
+        "conv_e31e2cb7678b",
+        "conv_e410ae458ee3",
+        "conv_e5eadb9c491f",
+        "conv_e71276ba785b",
+        "conv_e97e4ded4556",
+        "conv_ec3c504c57ab",
+        "conv_f01a04f4059d",
+        "conv_f53a77925865",
+        "conv_f71f86e2f9f4",
+        "conv_f7c708bf6afb",
+        "conv_f8a56f4505e3",
+        "conv_fb33437938a8"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "jd_text"
+          ],
+          "operation": "parse_jd_requirements",
+          "output_types": [
+            "requirement_dimensions"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_db09358aab86:msg_1",
+              "source_id": "conv_db09358aab86"
+            },
+            {
+              "message_id": "conv_f8a56f4505e3:5b83abfb",
+              "source_id": "conv_f8a56f4505e3"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "resume_pdf_set"
+          ],
+          "operation": "extract_candidate_profiles",
+          "output_types": [
+            "structured_profiles"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_db09358aab86:msg_5",
+              "source_id": "conv_db09358aab86"
+            },
+            {
+              "message_id": "conv_f8a56f4505e3:878fc456",
+              "source_id": "conv_f8a56f4505e3"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "requirement_dimensions",
+            "structured_profiles"
+          ],
+          "operation": "match_dimensions_and_rank",
+          "output_types": [
+            "match_results"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_f8a56f4505e3:878fc456",
+              "source_id": "conv_f8a56f4505e3"
+            }
+          ]
+        },
+        {
+          "condition": "仅输出面试推荐/不推荐建议，不含录用决定",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "match_results"
+          ],
+          "operation": "compose_screening_recommendation",
+          "output_types": [
+            "screening_recommendation"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_f8a56f4505e3:878fc456",
+              "source_id": "conv_f8a56f4505e3"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "产出限定为面试推荐建议，不含录用决定",
+        "单人报告按用户要求不含其他人选对比",
+        "简历来自知识库选中文件或上传PDF",
+        "无JD时仅做候选人档案提取与要点汇总，不出推荐结论",
+        "无成批简历时仅输出JD-岗位匹配分析与关键词建议，不出推荐结论",
+        "对比表/图按用户指定名单与格式输出，指定移除的人不出现",
+        "无成批简历时仅输出JD-岗位匹配分析",
+        "单人报告按用户要求不含其他人选对比，删除横向比较内容时全表一并清理",
+        "conv_221003603779 输入为知识库注入的简历文本，提取步骤按文本而非PDF解析",
+        "评估与薪酬建议仅取自简历与公开薪酬信息，不确定处标注",
+        "被质疑漏判时回显具体理由（如一线经验）并按需重评",
+        "入职手续类咨询为一次性问答，不在路线覆盖内",
+        "评估仅基于简历与JD给定内容",
+        "产出限定面试推荐建议，不含录用决定",
+        "被质疑漏判时回显具体理由并按需重评",
+        "评估仅基于JD与简历原文，不虚构候选人经历",
+        "推荐标准按JD要求与用户口径",
+        "仅'学习简历'类请求只做候选人画像提取与要点汇总，不出推荐结论",
+        "推荐结论须给出依据，不虚构简历内容",
+        "conv_e410ae458ee3：出具的筛选评估报告以word交付，且只写指定人选、不夹带其他人对比文字",
+        "conv_e31e2cb7678b：先分批学习简历，JD到位后按各维度匹配并只推荐可面试人选",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "jd-search-keywords",
+      "name": "岗位JD提炼招聘搜索关键词路线",
+      "category": "HR",
+      "source_ids": [
+        "conv_f22c3a85ffbb"
+      ],
+      "steps": [
+        "读岗位JD，提炼岗位方向、行业领域与硬性要求",
+        "生成招聘平台定向搜索关键词：职位变体、行业词、技能词组合",
+        "按用户追问补充候选人画像与适配方向说明"
+      ],
+      "conditions": [
+        "关键词只取自JD与用户补充说明，不虚构岗位信息"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "knowledge-base-maintenance",
+      "name": "知识库整理维护路线",
+      "category": "KNOW",
+      "source_ids": [
+        "conv_0503838df11d",
+        "conv_0817b37dc981",
+        "conv_0fe0d1df3dce",
+        "conv_1e8e6e53ac34",
+        "conv_27ed3bb8f04f",
+        "conv_2bd200526fe5",
+        "conv_382275cb15c8",
+        "conv_55752893b837",
+        "conv_57c3d07d05d9",
+        "conv_63914080dfaf",
+        "conv_6cedf31d582f",
+        "conv_7c09ae1a1aad",
+        "conv_83820ac2bbbe",
+        "conv_8a594fd46217",
+        "conv_8d186f951c61",
+        "conv_9e7f8c1f3083",
+        "conv_a0acca374419",
+        "conv_a268096e979d",
+        "conv_a888b4c97f1c",
+        "conv_ab073f3d4049",
+        "conv_b6fdc6fd06f6",
+        "conv_bd7db8dabd3c",
+        "conv_bd88f614a510",
+        "conv_cf90ee4b2907",
+        "conv_d888846b9507",
+        "conv_d9c8b76a2dae",
+        "conv_ec8d4abd9de7",
+        "conv_ecb06a371522",
+        "conv_ece7b3def89c",
+        "conv_fcbd82ba1426"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "kb_file_set"
+          ],
+          "operation": "inventory_kb_contents",
+          "output_types": [
+            "kb_inventory"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_1e8e6e53ac34:msg_1",
+              "source_id": "conv_1e8e6e53ac34"
+            },
+            {
+              "message_id": "conv_6cedf31d582f:msg_1",
+              "source_id": "conv_6cedf31d582f"
+            }
+          ]
+        },
+        {
+          "condition": "整理口径（分类/去重/归档）需先经用户确认后执行",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "kb_inventory",
+            "organizing_rules"
+          ],
+          "operation": "organize_kb_items",
+          "output_types": [
+            "organized_kb_structure"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_1e8e6e53ac34:msg_1",
+              "source_id": "conv_1e8e6e53ac34"
+            },
+            {
+              "message_id": "conv_7c09ae1a1aad:msg_1",
+              "source_id": "conv_7c09ae1a1aad"
+            }
+          ]
+        },
+        {
+          "condition": "报告按需导出（如pdf），生成失败时按用户要求重试",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "organized_kb_structure"
+          ],
+          "operation": "compose_kb_maintenance_report",
+          "output_types": [
+            "maintenance_report_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "da7dd4b4-c922-47fc-95c7-f2391fef8f55",
+              "source_id": "conv_63914080dfaf"
+            },
+            {
+              "message_id": "conv_6cedf31d582f:msg_1",
+              "source_id": "conv_6cedf31d582f"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "整理口径需先经用户确认",
+        "仅整理既有文件不虚构内容，不依赖外部账号",
+        "技能产物归档替换已有文件前先确认",
+        "混合会话仅归并知识库整理部分",
+        "替换/重命名前经用户确认",
+        "混合会话只归并知识库整理部分；身份称呼设定属一次性设定不覆盖",
+        "conv_b6fdc6fd06f6的定时任务创建归scheduled-task-config，模型问好等问答无路线价值",
+        "产物（如pdf报告）生成后须核验文件实际存在再交付，失败按原口径重试",
+        "整理口径需先经用户确认后执行",
+        "整理口径与替换/重命名前先经用户确认",
+        "仅整理既有文件不虚构内容",
+        "整理口径先经用户确认",
+        "混合会话只归并知识库整理部分",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "legal-document-drafting",
+      "name": "法律文书按需起草路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_26369e950fd0",
+        "conv_2a3f403f7fa3",
+        "conv_2d755771f0da",
+        "conv_342c46e71042",
+        "conv_39ee73dad7d3",
+        "conv_492855b149be",
+        "conv_6bbfd6c2fbe3",
+        "conv_802ad1a70b06",
+        "conv_ac19206253a9",
+        "conv_ac6c02f3aca2",
+        "conv_c449dbd85983",
+        "conv_f7ae916abc7a",
+        "conv_f7e2139afd98"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "drafting_request_text"
+          ],
+          "operation": "collect_drafting_requirements",
+          "output_types": [
+            "drafting_requirements"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_f7ae916abc7a:916e8b6b",
+              "source_id": "conv_f7ae916abc7a"
+            },
+            {
+              "message_id": "conv_f7e2139afd98:d6f2f71c",
+              "source_id": "conv_f7e2139afd98"
+            }
+          ]
+        },
+        {
+          "condition": "按给定要素成文，要素缺失处明示待补，不虚构法条与效力结论",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "drafting_requirements"
+          ],
+          "operation": "compose_legal_document",
+          "output_types": [
+            "legal_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_f7ae916abc7a:916e8b6b",
+              "source_id": "conv_f7ae916abc7a"
+            },
+            {
+              "message_id": "conv_f7e2139afd98:d6f2f71c",
+              "source_id": "conv_f7e2139afd98"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "交易要素由用户完整提供，法律结论不得虚构并标注不确定性",
+        "格式（字体/行距等）按用户指定",
+        "按用户既有模板/PRD定制时保留原定条款",
+        "说明函等事务文书要素由用户给定，缺失处明示待补",
+        "制度/通知类事务文书要素由用户给定，缺失处明示待补",
+        "程序性问题（如答辩期限）回答标注依据并提示核实",
+        "事实与备案信息以用户确认和附件为准，不虚构法律结论",
+        "法律判断标注不确定性并提示核实",
+        "事实与备案信息以用户确认为准，不虚构法律结论",
+        "答辩状事实仅取自用户附件与确认说明，法律结论标注不确定性",
+        "证据清单按争议焦点逐项列，缺证处明示待补"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "lesson-plan",
+      "name": "学科教案生成",
+      "category": "EDU",
+      "source_ids": [
+        "conv_21de4e1cd007",
+        "conv_67daacb9eaf3",
+        "conv_77bea0b4dd7a",
+        "conv_8a146adfec32",
+        "conv_9a2a546a25e0",
+        "conv_b593fd6024ec",
+        "conv_d52c86d7ea48",
+        "conv_d6bd4b7b8289"
+      ],
+      "steps": [
+        "收集学科/年级/主题与要求；用户要求直接生成时不追问",
+        "按通用教案结构（目标/重难点/流程/板书与作业）填充成文，可按用户模板调整",
+        "按要求格式导出教案文档"
+      ],
+      "conditions": [
+        "学段/学科/主题以用户说明为准",
+        "涉及课标要求时须核对，不虚构课标条款",
+        "教案内容按用户给定年级与主题，不虚构课程要求"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "material-condense-rewrite",
+      "name": "给定材料凝练改写路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_00416a23f1c6",
+        "conv_15f0f4d89d3f",
+        "conv_22735168dc9c",
+        "conv_27abfa260f9c",
+        "conv_334d1d9c5397",
+        "conv_40f57f44f612",
+        "conv_41874c950938",
+        "conv_618342b677cf",
+        "conv_939654a97123",
+        "conv_ca2369adba0b",
+        "conv_d1ef29d65e7a",
+        "conv_e234f0e0fcf7"
+      ],
+      "steps": [
+        "读给定材料",
+        "按受众与篇幅要求凝练改写，不增虚构内容",
+        "按指定载体交付（word/飞书文档等）并按反馈微调"
+      ],
+      "conditions": [
+        "内容仅取自给定材料",
+        "篇幅与受众口径以用户指定为准",
+        "按新赛事/受众要求修订既有方案时适用；逐字校对类需求走document-error-review",
+        "内容仅取自给定材料与用户确认内容",
+        "按指定载体交付，本批含飞书文档链接",
+        "图片生成失败等执行问题按纠正排查后重试，不改变主路线",
+        "人员头衔与事实仅取自给定材料，不虚构",
+        "成效与示范价值等新增段落内容仅取自用户确认口径，不虚构数据",
+        "事实依据仅取自用户给定内容，不虚构或夸大",
+        "以指定人物口气成文时事实与诉求仅取自给定材料"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "meeting-booking",
+      "name": "腾讯会议预约与提醒路线",
+      "category": "COMM",
+      "source_ids": [
+        "conv_0c4d5e5a33a8"
+      ],
+      "steps": [
+        "收集会议主题、时间、参会人",
+        "通过会议工具创建腾讯会议并回传链接",
+        "按需查询近期会议日程",
+        "按会议安排创建提前提醒"
+      ],
+      "conditions": [
+        "需要用户授权腾讯会议/日历凭据，凭据不可用时明示",
+        "定时提醒部分复用scheduled-task-config"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "meeting-minutes-formatting",
+      "name": "会议纪要整理成文路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_0c737ce414b9",
+        "conv_2ff337f34ddc",
+        "conv_568d6666fd4d",
+        "conv_5e5edf7bdf2a",
+        "conv_9132ec6b4bf0",
+        "conv_a209de7a1934",
+        "conv_cb6138865136",
+        "conv_ce34559870b8",
+        "conv_d640957a9820"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "meeting_audio_transcript_or_summary",
+            "meeting_attachment_documents"
+          ],
+          "operation": "collect_meeting_content",
+          "output_types": [
+            "organized_meeting_content"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_d640957a9820:9ce6408c",
+              "source_id": "conv_d640957a9820"
+            },
+            {
+              "message_id": "conv_2ff337f34ddc:ffb38926",
+              "source_id": "conv_2ff337f34ddc"
+            }
+          ]
+        },
+        {
+          "condition": "沿用既往格式时按既定样式执行，不重设样式参数",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "organized_meeting_content",
+            "format_requirements"
+          ],
+          "operation": "apply_format_and_style",
+          "output_types": [
+            "styled_minutes_body"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_2ff337f34ddc:ffb38926",
+              "source_id": "conv_2ff337f34ddc"
+            },
+            {
+              "message_id": "conv_d640957a9820:9ce6408c",
+              "source_id": "conv_d640957a9820"
+            }
+          ]
+        },
+        {
+          "condition": "按给定模板或样式成文；材料内容不足时明确说明，不虚构会议事实",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "styled_minutes_body"
+          ],
+          "operation": "compose_minutes_document",
+          "output_types": [
+            "minutes_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_d640957a9820:9ce6408c",
+              "source_id": "conv_d640957a9820"
+            },
+            {
+              "message_id": "conv_ce34559870b8:81e5fb29",
+              "source_id": "conv_ce34559870b8"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "无真实会议材料时按主题生成纪要模板与示例（含访谈纪要、电话会纪要模板、会前核查清单），占位信息标明可替换，不当作真实会议事实",
+        "不虚构会议事实",
+        "无真实材料时按主题出模板并标明占位"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "memory-profile-compilation",
+      "name": "记忆与文档个人画像整理路线",
+      "category": "LIFE",
+      "source_ids": [
+        "conv_1d184e5920ae",
+        "conv_2670b00882a9"
+      ],
+      "steps": [
+        "把知识库文档、记忆记录和近期历史聊天全部收集起来",
+        "按身份、项目、工作方式、价值观等固定维度归纳出用户画像",
+        "生成画像文档，再配一张画像卡图片"
+      ],
+      "conditions": [
+        "归纳维度与用途以用户指令为准"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "model-price-compare-page",
+      "name": "AI模型价格对比页检索与更新路线",
+      "category": "TECH",
+      "source_ids": [
+        "conv_f128041d3dc7"
+      ],
+      "steps": [
+        "与用户确认对比字段（价格/上下文/趋势）与检索源组合，覆盖国内外主要厂商",
+        "逐厂商检索最新模型与价格数据，标注来源与时间",
+        "汇总生成单页HTML对比页，便于看懂和比较",
+        "用户指出数据过时或要求更新时按同口径重查，仅替换数据区不改版式"
+      ],
+      "conditions": [
+        "检索不到的厂商或字段明示缺失，不估算",
+        "厂商口径变化按用户纠正以最新检索为准"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "org-chart-design",
+      "name": "组织架构设计与岗位配套路线",
+      "category": "HR",
+      "source_ids": [
+        "conv_538d05aa1ac0"
+      ],
+      "steps": [
+        "收集公司规模、业务方向与转型/扩张目标",
+        "设计部门设置与汇报层级并出组织架构图",
+        "导出word并按反馈调整",
+        "衍生岗位说明书按jd-drafting口径成文"
+      ],
+      "conditions": [
+        "岗位与层级基于用户给定信息，不虚构编制",
+        "导出格式按用户要求"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "org-role-description-drafting",
+      "name": "组织架构部门职能与岗位说明书成套编制",
+      "category": "HR",
+      "source_ids": [
+        "conv_bf54448ce875"
+      ],
+      "steps": [
+        "收集公司组织架构：中心、部门、岗位清单和产品/业务背景",
+        "有用户模板docx时先学习其文体结构，再逐部门生成职能说明书和岗位说明书",
+        "追加岗位、新增子公司或上级公司架构时沿用同一模板和口径成套补齐",
+        "组织调整（中心改名、新增部门、追加岗位）只增量修订对应部分并导出word"
+      ],
+      "conditions": [
+        "职责与任职要求仅取自用户给的架构、模板和确认信息，不虚构",
+        "输出word后须实际打开核验"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "overseas-structure-legal-analysis",
+      "name": "境外架构多方案法律风险分析路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_0f55f4349bf7",
+        "conv_43f0daa73651",
+        "conv_4a6c07710498",
+        "conv_8ed19e4b1550",
+        "conv_add3892808ba"
+      ],
+      "steps": [
+        "收集架构/资金安排与目标约束",
+        "列出可行方案并逐案对比法律风险与合规要点",
+        "出精简法律分析，标注不确定性与待核实项"
+      ],
+      "conditions": [
+        "法律结论标注不确定性并提示单独核实，不虚构法条",
+        "法律结论标注不确定性，不虚构法条",
+        "方案范围按用户指定聚焦，不扩大讨论",
+        "费用/时限以用户提供为准，汇率换算标明口径",
+        "法律结论标注不确定性并提示核实",
+        "法律结论标注不确定性并提示单独核实，不虚构牌照和监管要求",
+        "方案范围按用户指定聚焦"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "paper-data-review",
+      "name": "论文数据智审报告路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_00b903a3ebe9",
+        "conv_1297c74c3e35",
+        "conv_371a64fe50a1",
+        "conv_3e2b7b34534f",
+        "conv_41714c5a51d3",
+        "conv_5a54df807856",
+        "conv_5e32c5929830",
+        "conv_5f36dde87ab8",
+        "conv_62b59deb8bd3",
+        "conv_6927ef7cb83b",
+        "conv_6d96fae27990",
+        "conv_6e05298eec39",
+        "conv_76e4be35112f",
+        "conv_770819efaa18",
+        "conv_e7ba7bb57e7c"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "paper_document_set"
+          ],
+          "operation": "load_paper_document",
+          "output_types": [
+            "paper_content"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_5a54df807856:msg_1",
+              "source_id": "conv_5a54df807856"
+            },
+            {
+              "message_id": "d3d26fcf-3be7-4f4c-813e-143e0745719f",
+              "source_id": "conv_5e32c5929830"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "paper_content"
+          ],
+          "operation": "extract_data_and_tables",
+          "output_types": [
+            "extracted_data_tables"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "3852df9e-7b30-46b8-bacf-d295bd58feeb",
+              "source_id": "conv_3e2b7b34534f"
+            },
+            {
+              "message_id": "conv_5a54df807856:msg_1",
+              "source_id": "conv_5a54df807856"
+            }
+          ]
+        },
+        {
+          "condition": "按用户指定的固定质量维度核对源数据一致性与表格数值，未覆盖项明确说明",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "extracted_data_tables"
+          ],
+          "operation": "check_consistency_and_quality",
+          "output_types": [
+            "review_findings"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "3852df9e-7b30-46b8-bacf-d295bd58feeb",
+              "source_id": "conv_3e2b7b34534f"
+            },
+            {
+              "message_id": "eaaa3040-f176-4b89-8e25-4cc3dd6f1d02",
+              "source_id": "conv_5f36dde87ab8"
+            }
+          ]
+        },
+        {
+          "condition": "输出结构化标准化报告，导出格式按用户要求",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "review_findings"
+          ],
+          "operation": "compose_review_report",
+          "output_types": [
+            "review_report_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "3852df9e-7b30-46b8-bacf-d295bd58feeb",
+              "source_id": "conv_3e2b7b34534f"
+            },
+            {
+              "message_id": "conv_5a54df807856:msg_1",
+              "source_id": "conv_5a54df807856"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "原始数据缺失或无法核验时在报告中说明，不虚构补全",
+        "输出格式按请求模板（word内部审查报告）",
+        "经evomind-paper-scan技能模板化调用，技能不可用时明示并退回人工维度核查",
+        "conv_1297c74c3e35仅归并智审部分；简历讲解无JD，不构成筛选路线",
+        "技能不可用时明示并退回人工维度核查",
+        "核对统计方法声明与源数据配对结构（配对/非配对）的一致性，不符项在报告中单列",
+        "本来源仅归并智审部分，简历讲解不在路线覆盖内",
+        "技能更新后重跑按同一报告口径生成新版本",
+        "依赖evomind-paper-scan技能，技能不可用时明示并按维度人工审查",
+        "问题标注原文位置，仅基于给定材料"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "paper-drafting",
+      "name": "学术论文初稿起草路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_05569cdad92c",
+        "conv_bd5bd7f58c93",
+        "conv_cb1a14b48745"
+      ],
+      "steps": [
+        "确认学科方向与主题，用户未给材料时按主题直接成稿",
+        "按标准论文结构起草（题目/摘要/引言/方法/结果/讨论/结论/参考文献框架）",
+        "按反馈调整详略与丰富度"
+      ],
+      "conditions": [
+        "无真实实验数据时标注待补，不虚构数据与文献",
+        "内容与引用仅取自用户提供的BP/报告/文献和检索所得，不虚构",
+        "项目信息保密：公司名和人名用英文字母代替",
+        "口吻像学生：不用'本文/本研究'，去掉AI味句式（不是而是、不仅而且等），用陈述句，可用'我'",
+        "正文引用用右上角小角标对应文末编号，文献编号和数字空格交付前自查",
+        "字数按用户指定区间压缩配平",
+        "每次更新文件另存新版本（V2/V3/V4...），不覆盖旧版"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "paper-review",
+      "name": "论文多维度审查报告路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_221f18eb70c5",
+        "conv_4f2166e19a21",
+        "conv_9f02159beda5",
+        "conv_aefc8e3134ca",
+        "conv_b50bfc1a5e3e",
+        "conv_b8618dade74b",
+        "conv_c19f3434fa4f"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "manuscript_document"
+          ],
+          "operation": "extract_manuscript_content",
+          "output_types": [
+            "manuscript_extracts"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "8554d421-5488-4c80-aaef-a205bb39c502",
+              "source_id": "conv_b8618dade74b"
+            },
+            {
+              "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0",
+              "source_id": "conv_c19f3434fa4f"
+            }
+          ]
+        },
+        {
+          "condition": "按用户指定维度（如源数据一致性、表格数值、诚信风险）核查，问题标注原文位置与依据",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "manuscript_extracts"
+          ],
+          "operation": "audit_quality_and_consistency",
+          "output_types": [
+            "audit_findings"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "8554d421-5488-4c80-aaef-a205bb39c502",
+              "source_id": "conv_b8618dade74b"
+            },
+            {
+              "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0",
+              "source_id": "conv_c19f3434fa4f"
+            }
+          ]
+        },
+        {
+          "condition": "成文标准化审查报告，格式按用户要求",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "audit_findings"
+          ],
+          "operation": "compose_review_report",
+          "output_types": [
+            "review_report"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "8554d421-5488-4c80-aaef-a205bb39c502",
+              "source_id": "conv_b8618dade74b"
+            },
+            {
+              "message_id": "98e8a048-c7d5-4db8-89a0-84be0d5431e0",
+              "source_id": "conv_c19f3434fa4f"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "审查结论标注维度与原文依据，无把握处标明不确定",
+        "模拟审稿人维度评审；双语PDF导出与字体修复按需执行",
+        "对象为开题报告/学位论文文稿",
+        "重写目标与研究点仅按用户选定方案执行，不推翻评审结论",
+        "本批补判：报告导出注意排版质量（有用户反馈pdf丑），excel等指定产物格式按用户要求输出",
+        "结论标注维度与原文依据，无把握标不确定",
+        "excel等指定产物格式按用户要求输出",
+        "审查意见逐条给依据，不确定处标注"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "patent-annuity-compliance",
+      "name": "专利年费合规核查与操作指引路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_9e9b2c3bd66a",
+        "conv_ed0d158f38e3"
+      ],
+      "steps": [
+        "从协议全文提取目标主题相关条款，结构化列出位置、原文和要素解析（条款解析前段复用contract-review-revision）",
+        "结合转让/持有现状判断缴费义务主体，法律结论标注不确定性",
+        "查官方缴费状态查询与网上缴费流程，给经办人出简明操作清单",
+        "失效后果与恢复程序等解释须引法条依据并提示单独核实"
+      ],
+      "conditions": [
+        "扫描件协议先OCR提取并向用户回显关键条款，识别结果不确定处标注",
+        "追责与恢复权利结论引法条与判例来源，标注不确定性并提示核实"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "phone-price-research",
+      "name": "手机价格查证与购买建议路线",
+      "category": "LIFE",
+      "source_ids": [
+        "conv_4cb425ee30e3",
+        "conv_84a9a48adff2"
+      ],
+      "steps": [
+        "搜官方渠道该机型当前价格和从发售至今的调价记录",
+        "按用户给的预算和用途对比各版本，给购买建议和降价时机判断",
+        "需要时把结论整理成 word 文档交付"
+      ],
+      "conditions": [
+        "价格以官方渠道实时检索为准，不虚构"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "poc-report-route",
+      "name": "概念验证报告生成",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_35fde4c7bfb8",
+        "conv_61a472bf9ac9",
+        "conv_b34d3845b817",
+        "conv_ef03550765dd"
+      ],
+      "steps": [
+        "载入项目/方案材料",
+        "按用户指定角度做可行性分析并对比替代技术路线，结论标注依据",
+        "汇总成概念验证/可行性报告并导出"
+      ],
+      "conditions": [
+        "分析角度由用户指定（如仅技术路线可行性，不含投资视角）",
+        "源材料不足时明确说明，不虚构",
+        "分析角度按用户指定，材料不足明示",
+        "用户明示的分数调整是演示口径，照办但不作为客观评估结论"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "ppt-deck-generation",
+      "name": "主题与材料PPT成稿生成",
+      "category": "EDU",
+      "source_ids": [
+        "conv_049156fe4bfc",
+        "conv_0fd9153df042",
+        "conv_3a4f18d72252",
+        "conv_3fb6b3eb1269",
+        "conv_452be08f0c06",
+        "conv_54133f1be693",
+        "conv_67a9ccb4c303",
+        "conv_8e704f119abe",
+        "conv_bea45da55326",
+        "conv_bff5c75a4fcd",
+        "conv_c121589a4853",
+        "conv_c73acc83eff3",
+        "conv_cb794eecdfcd",
+        "conv_d0f34d1af8da",
+        "conv_dcf0172311e7",
+        "conv_f0d878d4053a",
+        "conv_fa46a4502e37",
+        "conv_fe8e6682fa62"
+      ],
+      "steps": [
+        "收集主题/页数/受众/风格及比例/配色/语言等硬约束",
+        "从给定材料或提示词提炼逐页大纲与要点，不虚构",
+        "按风格约束逐页生成幻灯片并按指定格式（pptx/pdf/HTML）导出",
+        "用户对大纲或成稿提修改时迭代修订"
+      ],
+      "conditions": [
+        "输出形态按用户指定，属业务值差异不改路线",
+        "图片型PPT请求走既有 five-page-image-ppt 路线",
+        "内容仅取自给定材料或常识性表述",
+        "输出格式pptx/pdf/HTML按用户指定",
+        "基于既有模板/课件生成时保留模板版式，仅替换内容",
+        "成品须核验可打开且页数与大纲一致",
+        "成品须核验可打开、页数与大纲一致且观感可用",
+        "图片型PPT请求走five-page-image-ppt",
+        "交付时报实际文件路径",
+        "图片型PPT请求走既有five-page-image-ppt路线",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录",
+        "输出格式与页数按用户指定，属业务值差异不改路线",
+        "图片型PPT请求走five-page-image-ppt路线",
+        "成品须核验可打开且页数与大纲一致，交付报实际路径"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "ppt-deck-revision",
+      "name": "现有PPT稿件内容修订路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_09e225ee61ad",
+        "conv_263f0677a357",
+        "conv_383a91943829",
+        "conv_4dd6bb0ca0a9",
+        "conv_6128c35ae33c",
+        "conv_67e989e61842",
+        "conv_7e7d3c01d5af",
+        "conv_7e86df5149fc",
+        "conv_a08c766fa806",
+        "conv_aaccffcc29ce",
+        "conv_b586102b6372",
+        "conv_b6f82f7b4d96",
+        "conv_b9d192f88ea5",
+        "conv_baa701b59f0a",
+        "conv_becece127443"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "pptx_deck"
+          ],
+          "operation": "load_pptx_deck",
+          "output_types": [
+            "deck_structure"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "aa8effa5-8c90-4577-a947-e49d067d70fb",
+              "source_id": "conv_7e86df5149fc"
+            },
+            {
+              "message_id": "985f8ebb-ce98-4b66-91b0-d047288cda40",
+              "source_id": "conv_aaccffcc29ce"
+            }
+          ]
+        },
+        {
+          "condition": "仅改写或补充现有幻灯片内容，不重新生成全新版式",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "deck_structure",
+            "revision_request_text"
+          ],
+          "operation": "revise_slide_content",
+          "output_types": [
+            "revised_slide_content"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "6fe726ba-0adc-4fd2-84ab-94acc9817ceb",
+              "source_id": "conv_7e86df5149fc"
+            },
+            {
+              "message_id": "3d721337-069d-4575-b3bd-d59407c8737d",
+              "source_id": "conv_aaccffcc29ce"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "revised_slide_content"
+          ],
+          "operation": "export_pptx_deck",
+          "output_types": [
+            "revised_pptx_deck"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "aa8effa5-8c90-4577-a947-e49d067d70fb",
+              "source_id": "conv_7e86df5149fc"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "压缩为一页等属内容修订，不重新生成版式",
+        "嵌入外部材料时先评估材料内容真实性再整合",
+        "命名清理等属内容修订，不重新生成版式",
+        "仅改写或补充现有幻灯片内容，不重新生成全新版式",
+        "嵌入外部材料时先评估内容真实性再整合"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "project-budget-sheet",
+      "name": "项目预算表编制",
+      "category": "DATA",
+      "source_ids": [
+        "conv_5ca3f6271b31",
+        "conv_64e3c6d8bcb3"
+      ],
+      "steps": [
+        "读给定材料（申报书/政策文件/装修方案/参考预算表）",
+        "提炼支出科目，按时间分期或里程碑测算金额，标测算依据与占比",
+        "生成Excel预算表，用户反馈口径或数字不对时重算修正"
+      ],
+      "conditions": [
+        "金额仅取自给定材料或用户确认的假设，不虚构",
+        "科目结构与分期口径按参考表或用户指定"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "project-material-integration",
+      "name": "知识库项目材料亮点汇总路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_0efb58eb1ff1",
+        "conv_1caa4df498cc",
+        "conv_7b7f10cf43b0",
+        "conv_b856a2e1d7d8",
+        "conv_f9a02361c038"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "knowledge_base_document_set"
+          ],
+          "operation": "load_kb_project_documents",
+          "output_types": [
+            "document_extracts"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_f9a02361c038:msg_1",
+              "source_id": "conv_f9a02361c038"
+            },
+            {
+              "message_id": "conv_1caa4df498cc:msg_1",
+              "source_id": "conv_1caa4df498cc"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "document_extracts"
+          ],
+          "operation": "extract_project_highlights",
+          "output_types": [
+            "highlight_items"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_f9a02361c038:msg_27",
+              "source_id": "conv_f9a02361c038"
+            }
+          ]
+        },
+        {
+          "condition": "仅基于给定材料内容汇总，材料不足时明确说明",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "highlight_items"
+          ],
+          "operation": "compose_integrated_summary",
+          "output_types": [
+            "integrated_project_summary"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_1caa4df498cc:msg_1",
+              "source_id": "conv_1caa4df498cc"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "内容仅取自给定材料，不足处明确说明",
+        "整合内容仅取自知识库材料与用户确认，缺项标注待补",
+        "亮点仅取自用户提供的PPT与确认内容，不虚构",
+        "HTML页面二维码等联系方式由用户提供"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "project-review-qa-prep",
+      "name": "项目评审材料分析与提问准备路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_19680ac4434e",
+        "conv_20d5b2c4f5aa",
+        "conv_2800f7d02600",
+        "conv_3267a1dd85aa",
+        "conv_345eab51e00b",
+        "conv_358b89401aa7",
+        "conv_61d7cc938e6d",
+        "conv_67ca44d4a4a1",
+        "conv_769c8e9a7039",
+        "conv_7bab70b2c925",
+        "conv_7f22f382e293",
+        "conv_80a5790617be",
+        "conv_96514de856c0",
+        "conv_db19d985b892",
+        "conv_de780b6ee019"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "project_review_document_set"
+          ],
+          "operation": "load_review_materials",
+          "output_types": [
+            "material_extracts"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_de780b6ee019:msg_1",
+              "source_id": "conv_de780b6ee019"
+            },
+            {
+              "message_id": "conv_358b89401aa7:011796ec",
+              "source_id": "conv_358b89401aa7"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "material_extracts",
+            "review_instructions"
+          ],
+          "operation": "assess_projects_by_criteria",
+          "output_types": [
+            "project_assessments"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_de780b6ee019:msg_1",
+              "source_id": "conv_de780b6ee019"
+            },
+            {
+              "message_id": "conv_358b89401aa7:011796ec",
+              "source_id": "conv_358b89401aa7"
+            }
+          ]
+        },
+        {
+          "condition": "每项目问题数量/点评长度按用户要求",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "project_assessments"
+          ],
+          "operation": "draft_review_questions",
+          "output_types": [
+            "review_question_set"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_de780b6ee019:msg_1",
+              "source_id": "conv_de780b6ee019"
+            },
+            {
+              "message_id": "conv_358b89401aa7:011796ec",
+              "source_id": "conv_358b89401aa7"
+            }
+          ]
+        },
+        {
+          "condition": "按用户指定格式输出（PDF报告/单页版/填入打分表）；用户提供评分表时逐项填写评分",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "project_assessments",
+            "review_question_set"
+          ],
+          "operation": "compose_review_deliverable",
+          "output_types": [
+            "review_report"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_de780b6ee019:msg_27",
+              "source_id": "conv_de780b6ee019"
+            },
+            {
+              "message_id": "conv_358b89401aa7:679f00a0",
+              "source_id": "conv_358b89401aa7"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "无提问清单要求时仅做评估排序部分",
+        "输出可为“问题-公司回复-改进建议”的Excel表，改进建议按用户反馈加深",
+        "评估结论仅基于给定材料，不虚构项目数据"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "promo-video-script-iteration",
+      "name": "宣传视频脚本按反馈迭代路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_d702dce9aea0"
+      ],
+      "steps": [
+        "读产品介绍等源材料，确认视频用途与目标受众",
+        "按页写宣传视频脚本：每页文字+画面内容，不做详细技术方案",
+        "按用户纠正只改对应部分：加产品亮点、补典型场景演示建议、改全数字生成不用实拍场景、删背景音乐等，不整篇推翻",
+        "交付脚本文本并回报修改点"
+      ],
+      "conditions": [
+        "画面与内容仅取自源材料与用户确认，不虚构产品能力",
+        "身份设定（如PR助手）只影响语气，不改变脚本路线"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "questionnaire-clone-html",
+      "name": "外部问卷复刻为可记录提交人的交互问卷",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_bfc446b95374"
+      ],
+      "steps": [
+        "抓取原问卷页面，解析题目结构、题型和数量",
+        "复刻为可直接在浏览器打开的HTML交互问卷，开头加姓名/部门等实名信息并留存提交记录",
+        "做结构自检（标签配对、JS语法）和模拟填写提交的功能冒烟测试后交付"
+      ],
+      "conditions": [
+        "原问卷题目仅作结构参考，文案按用户新场景替换",
+        "外部平台不可访问时明示并请用户提供题目内容"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "quotation-document-drafting",
+      "name": "报价单/报价文档编制路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_0c5f19d450fa",
+        "conv_42d00de6119b",
+        "conv_a8922f4056c9",
+        "conv_e3161ddb4075"
+      ],
+      "steps": [
+        "收集报价要素：项目/数量/单价，区分询价单或报价模式",
+        "按模板生成报价单文档（Excel/word），实际校验金额计算（含人民币大写）",
+        "按反馈修订价格与商务条款后导出交付"
+      ],
+      "conditions": [
+        "价格与商务条款以用户给定为准，不虚构",
+        "金额计算须实际校验后再交付",
+        "用户纠正口径（如单价、费用块拆分）后仅改对应数据"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "recruitment-process-design",
+      "name": "招聘流程设计工具包",
+      "category": "HR",
+      "source_ids": [
+        "conv_49134274a38b",
+        "conv_4da8ee446e3a",
+        "conv_5088c71b9194",
+        "conv_7f2caa83860f",
+        "conv_8aceda2d9422"
+      ],
+      "steps": [
+        "收集岗位背景与面试约束（轮次/时长）",
+        "设计简历筛选标准",
+        "生成结构化面试题库、评分表、背调清单与Offer审批流模板",
+        "按指定格式（如Excel）导出工具包"
+      ],
+      "conditions": [
+        "轮次与时长按用户指定",
+        "输出为流程与模板工具，不替代实际面试与录用决定",
+        "单岗位面试问题准备，复用题库生成步骤，不含全套流程工具"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "remotion-explainer-video",
+      "name": "制作包素材讲解视频渲染与纠正路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_eaf2e429a225"
+      ],
+      "steps": [
+        "读制作包文件夹的素材与脚本，搭建remotion项目渲染讲解视频",
+        "长任务支持中断续作，续作后核验成片完整",
+        "按用户纠正逐项调整（数字人和画中画尺寸、字幕位置、开头文字重叠）后重渲染交付"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "report-dataviz-poster",
+      "name": "报告数据信息图与海报制作路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_206cc3f2c91c"
+      ],
+      "steps": [
+        "读HTML报告或文档，提取核心数据、指标与结论",
+        "用图表库配中文字体绘制信息图，实际渲染核对中文与布局不乱码不挤压",
+        "组版成海报：主视觉带、数据卡、结论卡按用户给定尺寸排版",
+        "按反馈只改不符部分重出，版式方向不明时先澄清",
+        "AI生图配图分支复用theme-image-generation"
+      ],
+      "conditions": [
+        "数据仅取自给定报告，不虚构",
+        "中文渲染须实际渲染核对后再交付"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "resume-highlight-rewrite",
+      "name": "简历亮点重写优化路线",
+      "category": "HR",
+      "source_ids": [
+        "conv_343600b6d59a"
+      ],
+      "steps": [
+        "读原始简历，提炼可量化的亮点与证据点，不虚构经历",
+        "按突出岗位匹配度重写措辞并保留事实，导出docx并按需转PDF",
+        "补充推荐材料按同口径改写融入原文件，按反馈迭代（去表格化、删指定内容）"
+      ],
+      "conditions": [
+        "不虚构经历与数据，亮点须有原文依据",
+        "导出格式与去留内容以用户指定为准"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "review-response-letter",
+      "name": "审稿意见回复信成文路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_83ece9c50c5b",
+        "conv_f3899c95bced"
+      ],
+      "steps": [
+        "读审稿意见与原稿",
+        "逐条起草回复与对应修改说明",
+        "按需补充勘误/图件并成文导出"
+      ],
+      "conditions": [
+        "回复内容须与原稿实际修改一致，不虚构修改",
+        "中文指定微软雅黑，导出须实际渲染核验中英文无乱码"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "rubric-scored-feedback",
+      "name": "按评分细则打分填评语路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_0945c1554661",
+        "conv_6e00ca9901d4",
+        "conv_d296b8df4dfc"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "rubric_document"
+          ],
+          "operation": "parse_rubric_criteria",
+          "output_types": [
+            "scoring_criteria"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "submission_document_set"
+          ],
+          "operation": "extract_submission_content",
+          "output_types": [
+            "structured_submissions"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            }
+          ]
+        },
+        {
+          "condition": "严格按给定细则打分，仅输出评分与意见，不做通过/录用决定",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "scoring_criteria",
+            "structured_submissions"
+          ],
+          "operation": "score_against_criteria",
+          "output_types": [
+            "score_results"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            }
+          ]
+        },
+        {
+          "condition": "意见写入指定反馈表对应位置并按需导出副本",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "score_results",
+            "feedback_form_document"
+          ],
+          "operation": "fill_feedback_form_and_export",
+          "output_types": [
+            "scored_feedback_form"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_d296b8df4dfc:msg_1",
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_id": "conv_d296b8df4dfc:msg_44",
+              "source_id": "conv_d296b8df4dfc"
+            },
+            {
+              "message_id": "conv_0945c1554661:msg_1",
+              "source_id": "conv_0945c1554661"
+            }
+          ]
+        }
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "salary-review-scheme-design",
+      "name": "调薪与绩效考核机制设计路线",
+      "category": "HR",
+      "source_ids": [
+        "conv_10e318e08bdf",
+        "conv_245a7b03a18b"
+      ],
+      "steps": [
+        "收集公司目标与约束：成本控制、激励留人、发放时点等",
+        "设计调薪与考核机制：绩效等级、幅度区间、调薪时间窗按入职时间与满期规则定",
+        "按反馈迭代等级命名与细则，并评审用户自带方案、逐条指出问题",
+        "360问卷类需求逐题核对后按题增删改，不整篇推翻"
+      ],
+      "conditions": [
+        "等级、比例、金额以用户确认为准",
+        "涉及劳动合规的结论标注不确定性并提示单独核实",
+        "conv_245a7b03a18b的组织架构子项复用org-chart-design，工具选型推荐与PDF处理不覆盖"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "scheduled-task-config",
+      "name": "定时任务配置与产物查看路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_0355f1cdd002",
+        "conv_1f70175010f7",
+        "conv_23a12ab71383",
+        "conv_3475f26df3d6",
+        "conv_3ada2d9f53bf",
+        "conv_3c73988f8b3a",
+        "conv_4451b5c4da2e",
+        "conv_450c97147cdd",
+        "conv_526e4b625656",
+        "conv_576b570b2ec8",
+        "conv_578d7210cf5c",
+        "conv_6802694e2036",
+        "conv_68708ebff46f",
+        "conv_69ee59997792",
+        "conv_7526ed3636a0",
+        "conv_75aba8f45e3a",
+        "conv_77ac8a695c37",
+        "conv_7b4456e53d70",
+        "conv_7be8a0b341b5",
+        "conv_8a7834f95138",
+        "conv_a23ce9b33b5b",
+        "conv_a91dfc6d0713",
+        "conv_ab37e83e24c8",
+        "conv_c7115885773a",
+        "conv_cadab6a4bb36",
+        "conv_d6475abe2258",
+        "conv_e3b94df5df53",
+        "conv_ead44b4aebf0",
+        "conv_f4571399ca70",
+        "conv_f4b82e638325"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "task_requirement_text"
+          ],
+          "operation": "clarify_task_payload",
+          "output_types": [
+            "task_spec"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_6802694e2036:msg_1",
+              "source_id": "conv_6802694e2036"
+            },
+            {
+              "message_id": "conv_7be8a0b341b5:msg_1",
+              "source_id": "conv_7be8a0b341b5"
+            }
+          ]
+        },
+        {
+          "condition": "新建或更新既有任务，更新时保留用户未要求变更的字段",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "task_spec",
+            "schedule_spec"
+          ],
+          "operation": "configure_scheduled_task",
+          "output_types": [
+            "scheduled_task_config"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_6802694e2036:msg_1",
+              "source_id": "conv_6802694e2036"
+            },
+            {
+              "message_id": "conv_7be8a0b341b5:msg_13",
+              "source_id": "conv_7be8a0b341b5"
+            },
+            {
+              "message_id": "conv_f4b82e638325:msg_14",
+              "source_id": "conv_f4b82e638325"
+            }
+          ]
+        },
+        {
+          "condition": "用户查看或更新产物时触发",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "scheduled_task_config"
+          ],
+          "operation": "inspect_task_artifacts",
+          "output_types": [
+            "task_run_artifact"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_f4b82e638325:msg_1",
+              "source_id": "conv_f4b82e638325"
+            },
+            {
+              "message_id": "conv_526e4b625656:msg_1",
+              "source_id": "conv_526e4b625656"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "任务执行失败需排查原因后修复重试，不自动覆盖用户已有配置",
+        "混合会话仅归并定时任务编辑部分",
+        "任务目标与产物格式以用户每次说明为准，更新时保留未要求变更的字段",
+        "任务目标与产物格式以用户每次说明为准",
+        "失败先排查原因再修复",
+        "任务时间、内容与产出以用户说明为准，先澄清再配置",
+        "更新既有任务保留未要求变更的字段；超时等参数随载荷需要调整并说明",
+        "混合会话只归并定时任务部分"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "score-sheet-adjustment",
+      "name": "项目打分表按指定排序调整",
+      "category": "DATA",
+      "source_ids": [
+        "conv_fbed0e8da465"
+      ],
+      "steps": [
+        "读入已评分的打分表（docx）和评分底稿（xlsx），确认当前名次与分数",
+        "按用户口头给定的先后顺序调整各项目分数，保持表内分数、排序和底稿一致",
+        "导出更新后的打分表并回报改了哪些项目"
+      ],
+      "conditions": [
+        "调整口径完全以用户给定名次为准，不自行评分",
+        "纯法律/事务问答不设路线"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "shareholder-register-compile",
+      "name": "股东名册资料汇编成表",
+      "category": "DATA",
+      "source_ids": [
+        "conv_96e941b921d4"
+      ],
+      "steps": [
+        "收集公司注册资料、历史对话与共享文件夹里的相关线索",
+        "OCR提取营业执照、身份证等关键字段，联网核对股东信息，无法核实的明确标注",
+        "按法定股东名册模板字段生成xlsx并附填写说明"
+      ],
+      "conditions": [
+        "工商接口不可用时以用户给定资料为准，不虚构股东数据",
+        "OCR关键字段核对后再入表"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "signature-page-backfill",
+      "name": "同类文书签署页识别补齐路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_8f4a217f3e6e"
+      ],
+      "steps": [
+        "对照已签署同类文书（常为扫描件），逐页放大辨认签署页手写签名，红章遮挡处用通道分离后识别",
+        "从工商登记、工作区既有名单等交叉核验签署主体名单，辨认不出处标待核不猜名",
+        "按目标文书原版式只补缺失签署项（如机构名称），不动其余内容与分页",
+        "导出后回显签署对照结果再交付"
+      ],
+      "conditions": [
+        "签署名称仅取自可核验证据（扫描签署页、工商登记、既有名单），无法辨认处标待核",
+        "目标文书只补缺失签署项，保留原版式与分页"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "skill-authoring-iteration",
+      "name": "技能创建与修改迭代路线",
+      "category": "ASSIST",
+      "source_ids": [
+        "conv_6d96fae27990",
+        "conv_6f49be523ffa",
+        "conv_8bf9b42a552b"
+      ],
+      "steps": [
+        "读技能源文件（或用户给的prompt）与修改需求",
+        "按需求改技能：prompt整理成结构、扩展输入格式（md/word/pdf）、补齐报告维度或融合两份报告内容",
+        "用样例输入验证技能可运行且输出符合要求",
+        "交付修改说明与文件位置；验证不过按反馈继续改"
+      ],
+      "conditions": [
+        "只改用户指定的技能与范围，改前读原文件，不推翻未要求部分",
+        "修改既有技能时保留原版本，改后用样例输入实际验证再交付",
+        "方法论沉淀型技能创建沿用本路线，具体方法论内容属输入变化",
+        "会话内PPT演示部分归并ppt-deck-generation，不覆盖"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "skill-connector-setup",
+      "name": "技能安装与查询管理",
+      "category": "ASSIST",
+      "source_ids": [
+        "conv_024067633c4b",
+        "conv_056a7255a9bc",
+        "conv_0862474221d5",
+        "conv_0bd84931683d",
+        "conv_17127f4c363e",
+        "conv_40eb4affb7fd",
+        "conv_4af767266aac",
+        "conv_520cd3813908",
+        "conv_6cccc27c6040",
+        "conv_6ee9d2692bf7",
+        "conv_6f49be523ffa",
+        "conv_76ede267a04a",
+        "conv_7b0f42be7687",
+        "conv_87720849b6d2",
+        "conv_8fa8be214b9b",
+        "conv_993b0303d2fe",
+        "conv_9f975ffa392f",
+        "conv_a16010f04b10",
+        "conv_b82c332f5f54",
+        "conv_bfd9c1c53d28",
+        "conv_c653c0000362",
+        "conv_c7115885773a",
+        "conv_dca388ba673f",
+        "conv_ef55dcd8789d",
+        "conv_f128041d3dc7",
+        "conv_f70fa609d707"
+      ],
+      "steps": [
+        "解析技能来源（URL/仓库名/商店名/安装文档）并确定获取方式",
+        "下载/拉取技能装入技能目录完成安装；需API Key的按用户提供的凭据配置",
+        "安装后校验、定位目录并处理移动/删除等管理请求",
+        "回答技能内容与用法查询"
+      ],
+      "conditions": [
+        "来源为公开可获取的URL/仓库/安装文档且网络可用",
+        "仅覆盖安装/定位/查询/启停删除管理，不含技能内部业务执行",
+        "需企业账号或私有凭据的连接不适用",
+        "API Key等凭据由用户提供当次配置，不长期保存",
+        "仅归并安装/定位/查询部分，会话内调研或成文等其他任务不覆盖",
+        "浏览器演示属安装后验证，业务浏览任务本身不在本路线内",
+        "会话内新闻查询等一次性请求不覆盖",
+        "来源公开可获取且网络可用",
+        "API Key等凭据由用户提供当次使用，不长期保存",
+        "外部CLI依赖用户账号认证，未认证时明示阻塞，不代操作账号",
+        "安装范围以用户指定为准（本批仅CLI）",
+        "以实际安装校验结果为准，不宣称未验证的可用性",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录；外部服务以实际认证结果为准"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "slide-explainer-video",
+      "name": "静态图片配解说动效合成视频",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_6318c0ad05d5"
+      ],
+      "steps": [
+        "收集待讲解的介绍图/页面与用户补充的技术要点",
+        "先写每页解说台词文本，经用户确认或按其讲解要点修订",
+        "逐页做动效并配音，合成视频",
+        "交付并按用户要求存入指定位置"
+      ],
+      "conditions": [
+        "依赖本环境视频合成能力，素材不足时先向用户收集",
+        "台词内容仅取自用户材料与其讲解要点，不虚构技术事实"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "speech-script-bilingual",
+      "name": "演讲稿提取精简与中英对照排版路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_f7228441fff3"
+      ],
+      "steps": [
+        "从图片等附件提取文字（名片/讲稿），先给纯文本",
+        "按演讲时长精简内容，复杂词换简单表述",
+        "按需出中英对照版、纯英文版、朗读版和加停顿标注的v2",
+        "导出word与pdf两种格式；新增段落等修改先文字确认再进文件"
+      ],
+      "conditions": [],
+      "library_status": "rejected"
+    },
+    {
+      "id": "spreadsheet-version-diff",
+      "name": "Excel新老版本差异核对路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_ee979d0d59fb"
+      ],
+      "steps": [
+        "读新老两个版本表格，确认表头对应关系与主键（如项目名/编号）",
+        "按主键对齐两版数据，统计新增项目并列出",
+        "逐项目逐字段比对，标出老表中哪些信息有修改，排除纯格式差异",
+        "输出差异清单待用户确认，不直接改原表"
+      ],
+      "conditions": [
+        "以可解析的Excel表格为输入，扫描件不适用",
+        "主键与口径以用户说明为准，对不上的行如实列出待确认"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "startup-multi-entity-structure-advisory",
+      "name": "创业多主体架构与股权设计咨询路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_b90e515e92ec"
+      ],
+      "steps": [
+        "梳理业务盘子：各主体角色（主办/承办/签约收钱/品牌持有/技术支撑）与发起人全职状态",
+        "拆主体定出场方式：挂名合规边界、公司类型与注册资本口径、禁止交叉持股等硬判断",
+        "设计股权：按全职/主导程度定股比、期权池单独切分、讲清vesting、非全职另设股比",
+        "定资产归属与结算：商标/数据/评价体系放哪一层，平台服务费等结算口径",
+        "成文交付：结构方案、合作框架协议要点清单、整体架构图；架构图绘制后检查标注出界与层间距，出问题重排再交付"
+      ],
+      "conditions": [
+        "法律与政策结论逐条标注依据并提示单独核实，不虚构",
+        "架构图绘制后检查标注出界与层间距，排版问题重排后再交付"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "statute-case-research",
+      "name": "法规案例检索核实整理路线",
+      "category": "LEGAL",
+      "source_ids": [
+        "conv_be78f2b2475f"
+      ],
+      "steps": [
+        "明确法律问题与需要支撑的结论",
+        "检索法规，注明名称、具体条目和规定原文，并核实现行有效",
+        "检索案例并注明信息来源，便于溯源核对",
+        "按用户补充角度（如税务申报差异）延伸分析",
+        "无法核实的条目明示，不虚构"
+      ],
+      "conditions": [
+        "法条现行有效性与案例真实性须核实，核不动时明示",
+        "结论标注不确定性并提示单独核实，不虚构法律结论"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "storyboard-video-clips",
+      "name": "分镜拆段生成视频与动图路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_a196d952691c"
+      ],
+      "steps": [
+        "把用户的分镜/剧本拆成逐段视频提示词（镜头、时长、旁白、音效）",
+        "逐段调用视频生成产出片段，先出小样再批量",
+        "按用户反馈局部重生成：高清化、删改内容、改场景文字，不整段重做",
+        "需要动图时由关键帧或片段合成gif"
+      ],
+      "conditions": [
+        "依赖视频/动图生成能力，不可用时明示并退回关键帧图片方案",
+        "单来源，先小样验证再批量生成"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "survey-questionnaire-design",
+      "name": "调研问卷设计与平台导入格式生成路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_8e2e43b43eb2"
+      ],
+      "steps": [
+        "问清调研目标、目标人群和使用场景，未给信息不虚构",
+        "按主题分块设计问卷：题型（单选/多选/开放）、选项和跳转逻辑，控制填写时长",
+        "按用户指定平台生成导入格式（如问卷星文本格式），并保留结构说明",
+        "按反馈增删题目或调整选项，同口径出新版"
+      ],
+      "conditions": [
+        "题目内容只服务当次调研目标，不虚构调研结论",
+        "平台导入格式以目标平台当次要求为准，无法验证时明示"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "table-regroup-geo-match",
+      "name": "表格数据归并重算与归属补齐路线",
+      "category": "DATA",
+      "source_ids": [
+        "conv_e6fdd2e394f4"
+      ],
+      "steps": [
+        "读入表格与归并口径，按规则重新分组并重算计数",
+        "数量对不上时全量重跑，不漏任何一条记录",
+        "归属不明的条目按名称用搜索补省市区归属，实在定不了归入其他并注明",
+        "导出新表并明确报文件位置；用户质疑数据时核对后出新版本"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "teaching-case-list",
+      "name": "主题案例检索整理讲解清单路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_aac2202c868c"
+      ],
+      "steps": [
+        "按主题与受众检索真实案例、视频链接",
+        "按生活需求等维度分类整理",
+        "列成讲解清单并成文档，按反馈补充调整",
+        "衍生的奖项拟定随本轮成文，海报/logo等图片走theme-image-generation"
+      ],
+      "conditions": [
+        "案例与链接须真实可访问，检索不到时明示不足，不编造",
+        "文档导出格式按用户要求"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "teaching-html-demo",
+      "name": "教学演示交互HTML页面生成路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_25f59d660ad2",
+        "conv_2c64cda62a40",
+        "conv_3c7308af3676",
+        "conv_60a01d8fdce7",
+        "conv_60fd9245d56a",
+        "conv_6347576535a5",
+        "conv_71629b81db24",
+        "conv_8113f92a63c0",
+        "conv_e35903a5c526",
+        "conv_eca9c2676037"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "teaching_request_text"
+          ],
+          "operation": "parse_topic_requirements",
+          "output_types": [
+            "content_requirements"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_e35903a5c526:msg_1",
+              "source_id": "conv_e35903a5c526"
+            },
+            {
+              "message_id": "600aa861-3ead-4606-8ecf-f58dfcc1a72e",
+              "source_id": "conv_eca9c2676037"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "content_requirements"
+          ],
+          "operation": "design_interactive_content",
+          "output_types": [
+            "page_scene_design"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_e35903a5c526:msg_1",
+              "source_id": "conv_e35903a5c526"
+            },
+            {
+              "message_id": "600aa861-3ead-4606-8ecf-f58dfcc1a72e",
+              "source_id": "conv_eca9c2676037"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "page_scene_design"
+          ],
+          "operation": "compose_html_page",
+          "output_types": [
+            "html_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_e35903a5c526:msg_1",
+              "source_id": "conv_e35903a5c526"
+            },
+            {
+              "message_id": "600aa861-3ead-4606-8ecf-f58dfcc1a72e",
+              "source_id": "conv_eca9c2676037"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "页面单文件、可离线在主流浏览器运行",
+        "访问异常时先排查文件路径与托管方式",
+        "公网发布依赖外部托管，不在本路线内",
+        "词汇学习系统的题型和阶段结构以用户描述为准",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "tencent-meeting-booking",
+      "name": "腾讯会议周期会议创建与提醒",
+      "category": "COMM",
+      "source_ids": [
+        "conv_5bff0ded32bc",
+        "conv_bb4071bfb7f1"
+      ],
+      "steps": [
+        "收集会议时间、主题、是否周期性、是否邀请人",
+        "调腾讯会议接口创建会议，有多个可选方案时列出让用户选定",
+        "需要定时提醒时按指定时间配置每周提醒（复用 scheduled-task-config）",
+        "尝试打通企业微信等渠道定期推送会议号，连不上时明示失败原因"
+      ],
+      "conditions": [
+        "依赖腾讯会议接口凭据（如 tencent-meeting.json），缺凭据时明示"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "theme-image-generation",
+      "name": "主题图片批量生成与纠正路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_0066cb5f2347",
+        "conv_006c1e9f8bf0",
+        "conv_010ad4ece7b3",
+        "conv_0166bc150833",
+        "conv_03c85694b87e",
+        "conv_0484aa7e032d",
+        "conv_048674ddbdcd",
+        "conv_08457c6c88dc",
+        "conv_0932fbcb8569",
+        "conv_0cdfdfa63567",
+        "conv_12b4ea8ff451",
+        "conv_13fe75fa739b",
+        "conv_15bf426031fc",
+        "conv_1c0d9eac8df9",
+        "conv_1c5121229313",
+        "conv_2102c00e9b45",
+        "conv_23d922cfbb5d",
+        "conv_260e843f12e3",
+        "conv_276e97b595fc",
+        "conv_299aa1b64659",
+        "conv_30474e7027ac",
+        "conv_30771578f57c",
+        "conv_37f67058e5a6",
+        "conv_3dd6019a60a3",
+        "conv_43344c1d624a",
+        "conv_51ff44422ce5",
+        "conv_59c6e7735b71",
+        "conv_600eff249286",
+        "conv_6176cb2a1bea",
+        "conv_645d720d5986",
+        "conv_6afa471cb8bd",
+        "conv_737c4b010b18",
+        "conv_7ba0e0439045",
+        "conv_7bd66d286bf2",
+        "conv_817857256a11",
+        "conv_8714afcf3204",
+        "conv_8afe28c15daf",
+        "conv_8b3d572e9c17",
+        "conv_941120f650f2",
+        "conv_9c7276cba6b3",
+        "conv_a222b7fe3e39",
+        "conv_a322a78919b3",
+        "conv_a34b4d5a16a2",
+        "conv_a3988f16cc4d",
+        "conv_ab9d3c7b3eb5",
+        "conv_adc77063b575",
+        "conv_b1207ff6818a",
+        "conv_b3580ae8a753",
+        "conv_b9e7fb1a14d1",
+        "conv_c06891110200",
+        "conv_c08aefce64c5",
+        "conv_cba361a0d239",
+        "conv_ccf77916e240",
+        "conv_d2db5a908289",
+        "conv_d4d7037451a5",
+        "conv_d6918e9034d3",
+        "conv_d828d7185e86",
+        "conv_dfdb61deda75",
+        "conv_e2ecbc6378d2",
+        "conv_e785906dc669",
+        "conv_ebd31d802493",
+        "conv_ed7d6b939145",
+        "conv_ef9f47425b00",
+        "conv_f018675b60ff",
+        "conv_f1e547631e03",
+        "conv_f2b900c33421",
+        "conv_f30a9ea3a925",
+        "conv_f3f23594ca10",
+        "conv_f6a5e3b35c32",
+        "conv_f6c22813efab",
+        "conv_fc3a1077aad5",
+        "conv_fd3b83a1061c",
+        "conv_fe3bd84392e1",
+        "conv_ffe83d76198a"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "generation_request_text",
+            "style_reference_images"
+          ],
+          "operation": "clarify_theme_and_style",
+          "output_types": [
+            "image_spec"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_0066cb5f2347:aaaf7b1a",
+              "source_id": "conv_0066cb5f2347"
+            },
+            {
+              "message_id": "conv_e785906dc669:26ca6612",
+              "source_id": "conv_e785906dc669"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "image_spec"
+          ],
+          "operation": "compose_generation_prompt",
+          "output_types": [
+            "generation_prompt"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_e785906dc669:26ca6612",
+              "source_id": "conv_e785906dc669"
+            },
+            {
+              "message_id": "conv_d6918e9034d3:msg_11",
+              "source_id": "conv_d6918e9034d3"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "generation_prompt"
+          ],
+          "operation": "generate_image_batch",
+          "output_types": [
+            "generated_image_set"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_d6918e9034d3:msg_11",
+              "source_id": "conv_d6918e9034d3"
+            },
+            {
+              "message_id": "conv_0066cb5f2347:aaaf7b1a",
+              "source_id": "conv_0066cb5f2347"
+            }
+          ]
+        },
+        {
+          "condition": "仅当用户指出结果与需求不符时触发；先澄清纠正含义，再调整提示词重生成缺失或不符项",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "generated_image_set",
+            "correction_text"
+          ],
+          "operation": "revise_on_correction",
+          "output_types": [
+            "generation_prompt",
+            "generated_image_set"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_0066cb5f2347:6bdc2cf0",
+              "source_id": "conv_0066cb5f2347"
+            },
+            {
+              "message_id": "conv_d6918e9034d3:msg_81",
+              "source_id": "conv_d6918e9034d3"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "仅归并图像生成部分；附加的创意策划与图片内容事实核查不覆盖",
+        "海报尺寸/风格等规格由用户给定，提示词据此编写",
+        "招聘海报要点取自JD文档，不虚构岗位信息",
+        "局部移除文字等编辑类诉求走 image-editing 分支",
+        "混合会话仅归并图片生成部分",
+        "conv_9c7276cba6b3的人格设定部分归 agent-persona-setup，逐字稿与使用说明文档属一次性文本成文，不在路线覆盖内",
+        "conv_9c7276cba6b3的配色/风格对齐参照图、文字改写、阶段增删均走按纠正重生成分支",
+        "风格等规格由用户给定，未指定按默认并说明",
+        "盲盒商业计划书逐页成册部分复用five-page-image-ppt的逐页提示词-生成-合并步骤",
+        "硬件结构对比图须以能看清内部差异为准，按纠正迭代",
+        "专有名词主题（如具体车型）先澄清规格再生成",
+        "品牌色系、logo等素材以用户提供为准，缺失时先要材料不虚构",
+        "尺寸/风格等规格由用户给定，提示词据此编写",
+        "交付时报实际路径并确认用户可见",
+        "海报内容来源为文档摘要时在澄清步骤处理，仅取自给定材料",
+        "规格由用户给定，未指定按默认并说明",
+        "编辑类诉求走image-editing分支",
+        "角色形象与系列数量以用户描述为准，形象不一致先纠正再重出",
+        "混合会话只归并图片生成部分",
+        "规格（比例/色调）由用户给定，提示词据此编写",
+        "纠正时先确认具体不符点再重生成，不整批重做",
+        "来源已并入既有路线 source_ids，沿用其条件与冲突记录",
+        "规格（风格/分辨率/格式/底色）以用户给定为准，未指定按默认并说明",
+        "纠正时先确认不符点再重生成，不整批重做"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "training-course-plan",
+      "name": "培训课程方案设计路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_101152d551df",
+        "conv_497a2363eddb",
+        "conv_59b38f4a538c",
+        "conv_80ce11dd162c",
+        "conv_8e2e43b43eb2",
+        "conv_ae3a1cb9b65f",
+        "conv_c73796a246dc"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "training_brief_text"
+          ],
+          "operation": "collect_training_constraints",
+          "output_types": [
+            "training_requirements"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_8e2e43b43eb2:a126f8a2",
+              "source_id": "conv_8e2e43b43eb2"
+            },
+            {
+              "message_id": "conv_80ce11dd162c:msg_1",
+              "source_id": "conv_80ce11dd162c"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "training_requirements",
+            "reference_material_set"
+          ],
+          "operation": "design_course_structure",
+          "output_types": [
+            "course_outline"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_c73796a246dc:msg_1",
+              "source_id": "conv_c73796a246dc"
+            },
+            {
+              "message_id": "conv_80ce11dd162c:msg_1",
+              "source_id": "conv_80ce11dd162c"
+            }
+          ]
+        },
+        {
+          "condition": "内容仅来自给定材料与用户确认的说明",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "course_outline"
+          ],
+          "operation": "compose_training_document",
+          "output_types": [
+            "course_plan_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_c73796a246dc:msg_1",
+              "source_id": "conv_c73796a246dc"
+            },
+            {
+              "message_id": "conv_80ce11dd162c:msg_1",
+              "source_id": "conv_80ce11dd162c"
+            }
+          ]
+        },
+        {
+          "condition": "同一框架适配新机构/新受众，仅替换业务值不改结构，属于重复路线复用而非新技能",
+          "depends_on": [
+            "s3"
+          ],
+          "id": "s4",
+          "input_types": [
+            "course_plan_document",
+            "training_requirements"
+          ],
+          "operation": "adapt_plan_for_new_audience",
+          "output_types": [
+            "course_plan_document"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_80ce11dd162c:msg_81",
+              "source_id": "conv_80ce11dd162c"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "课程目标短文分支：先检索学校办学定位与培养要求等背景，再按价值/知识/能力维度成文，字数与受众（如拔尖基地必修）按用户指定修订",
+        "课程内容仅取自给定大纲与用户确认说明",
+        "追问的出处疑问按材料与检索核实后回答"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "travel-reimbursement-check",
+      "name": "差旅报销规则查证与费用测算路线",
+      "category": "LIFE",
+      "source_ids": [
+        "conv_e09b70c51b19"
+      ],
+      "steps": [
+        "查用户所属单位的现行差旅费管理办法，注明文件名和版本年份",
+        "按目的地、交通方式、天数查对应住宿和交通费上限",
+        "按出行日期算出可报销额度，引用出处；出处存疑时向用户说明来源"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "trip-itinerary-planning",
+      "name": "出行逐日行程规划路线",
+      "category": "LIFE",
+      "source_ids": [
+        "conv_1484e8af3800",
+        "conv_27a5d2df0f04",
+        "conv_322d1e6346d3",
+        "conv_4e2a5f3f6545",
+        "conv_5d14615979c7",
+        "conv_9bd89c462ef4",
+        "conv_a76fd035bbbc",
+        "conv_b0dc3e81c8dc",
+        "conv_b132854c6589",
+        "conv_d3b35bbaf6ed"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "trip_constraints_text"
+          ],
+          "operation": "collect_trip_constraints",
+          "output_types": [
+            "trip_requirements"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_9bd89c462ef4:f6617a99",
+              "source_id": "conv_9bd89c462ef4"
+            },
+            {
+              "message_id": "conv_a76fd035bbbc:49c64f73",
+              "source_id": "conv_a76fd035bbbc"
+            },
+            {
+              "message_id": "e9d6be7c-76a7-4a9f-a391-31cf85b02fca",
+              "source_id": "conv_4e2a5f3f6545"
+            }
+          ]
+        },
+        {
+          "condition": null,
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "trip_requirements"
+          ],
+          "operation": "arrange_day_by_day_schedule",
+          "output_types": [
+            "itinerary_draft"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_9bd89c462ef4:f6617a99",
+              "source_id": "conv_9bd89c462ef4"
+            },
+            {
+              "message_id": "conv_a76fd035bbbc:956d4e0f",
+              "source_id": "conv_a76fd035bbbc"
+            },
+            {
+              "message_id": "e9d6be7c-76a7-4a9f-a391-31cf85b02fca",
+              "source_id": "conv_4e2a5f3f6545"
+            }
+          ]
+        },
+        {
+          "condition": "依据用户补充约束（如随行宠物、出发时间、餐饮位置）迭代调整",
+          "depends_on": [
+            "s2"
+          ],
+          "id": "s3",
+          "input_types": [
+            "itinerary_draft",
+            "trip_constraints_text"
+          ],
+          "operation": "adjust_itinerary_on_feedback",
+          "output_types": [
+            "itinerary_draft"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_9bd89c462ef4:e3a947ca",
+              "source_id": "conv_9bd89c462ef4"
+            },
+            {
+              "message_id": "conv_a76fd035bbbc:956d4e0f",
+              "source_id": "conv_a76fd035bbbc"
+            }
+          ]
+        },
+        {
+          "condition": "仅当用户已有完整行程文档时评审并给修改建议，不直接替换原排程",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s4",
+          "input_types": [
+            "optional_itinerary_document"
+          ],
+          "operation": "review_existing_itinerary",
+          "output_types": [
+            "review_comments"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_322d1e6346d3:8e5e7fdd",
+              "source_id": "conv_322d1e6346d3"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "已预约餐厅等固定时间锚点先排入对应时段，再安排其余项目",
+        "按反馈扩充对应类别（如每道美食的推荐店铺）清单，不整篇推翻",
+        "交通时长等以实际查询为准，不得凭印象报数",
+        "行程手绘长图等可视化交付属附加产物，按用户指定样式出图，不覆盖既有路线外内容",
+        "多人行程中单人行程调整后须与该人其余日期不重复"
+      ],
+      "library_status": "rejected"
+    },
+    {
+      "id": "usage-recap-report",
+      "name": "平台使用数据总结报告",
+      "category": "DATA",
+      "source_ids": [
+        "conv_2c6000fce9b3",
+        "conv_3dd6155f18fc",
+        "conv_6ebe8e1cb53e",
+        "conv_6ec3c423cb28",
+        "conv_a787eef546c3",
+        "conv_ed15a7e62fc8"
+      ],
+      "steps": [
+        "载入平台导出的原始使用数据",
+        "汇总指标（账号数/token消耗/生图量/费用等），口径与原始数据一致，支持按人下钻",
+        "按用户确认的章节组装总结报告",
+        "按指定格式导出（如PDF）"
+      ],
+      "conditions": [
+        "以平台导出的原始使用数据为输入",
+        "指标口径与原始数据一致，不为观感调整数值",
+        "输入可为使用数据或费用清单，汇总口径先经用户确认",
+        "混合会话仅归并使用情况总结部分",
+        "报告结论仅基于平台使用与问卷数据，不虚构",
+        "汇总口径先经用户确认"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "ux-audit-prototype",
+      "name": "页面UX诊断与高保真原型优化",
+      "category": "TECH",
+      "source_ids": [
+        "conv_1765ca7d99bb"
+      ],
+      "steps": [
+        "看用户设计稿，按UX框架诊断问题（状态不一致、信任缺失、价格不透明、流程摩擦等）并标注位置",
+        "出优化设计方案文档，说明每处改动的理由",
+        "生成优化前后对照的高保真原型图",
+        "用户指出口味不对时先澄清再只重画对应部分"
+      ],
+      "conditions": [
+        "诊断维度与优化目标以用户给出的流失场景为准",
+        "原型图交付前实际检查文字拼写与元素齐全，不合格即重生成"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "video-knowledge-outline",
+      "name": "视频内容转学习型PPT大纲",
+      "category": "EDU",
+      "source_ids": [
+        "conv_c86b3a8429e4"
+      ],
+      "steps": [
+        "获取视频字幕或内容，取得各部分大致时间点",
+        "提炼核心知识点、逻辑脉络与教学价值",
+        "按一级主题、二级模块、每模块3-5条要点组织成带时间区间的PPT大纲"
+      ],
+      "conditions": [
+        "依赖能取到视频字幕或公开内容，取不到时明示阻塞，不凭标题编内容"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "visit-sop-drafting",
+      "name": "口述流程整理标准操作指引路线",
+      "category": "BIZ",
+      "source_ids": [
+        "conv_a4b444ef90b2"
+      ],
+      "steps": [
+        "听用户口述业务流程（如客户拜访）并确认步骤顺序",
+        "按步骤整理成标准操作指引：每步目标、注意事项、常见问题",
+        "成文交付并按反馈修订"
+      ],
+      "conditions": [
+        "内容仅取自用户口述与确认内容，不虚构流程细节"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "web-html-prototype",
+      "name": "主题HTML演示动画生成路线",
+      "category": "EDU",
+      "source_ids": [
+        "conv_2d85bcabcb65",
+        "conv_4a2da8d3a8da",
+        "conv_589813f393e6",
+        "conv_7c038820b32f",
+        "conv_80a93aaff78b",
+        "conv_9bc7947f7ce1",
+        "conv_a3d3ac1b426f",
+        "conv_a67233b76a8f",
+        "conv_bb5fd9d54d25",
+        "conv_bf7c7b128edf",
+        "conv_c1ce48280769",
+        "conv_d44142937e38"
+      ],
+      "steps": [
+        {
+          "condition": null,
+          "depends_on": [],
+          "id": "s1",
+          "input_types": [
+            "demo_request_text"
+          ],
+          "operation": "clarify_demo_theme",
+          "output_types": [
+            "demo_spec"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_bb5fd9d54d25:msg_1",
+              "source_id": "conv_bb5fd9d54d25"
+            },
+            {
+              "message_id": "conv_c1ce48280769:msg_1",
+              "source_id": "conv_c1ce48280769"
+            }
+          ]
+        },
+        {
+          "condition": "单文件HTML含内联样式与脚本，浏览器可直接打开",
+          "depends_on": [
+            "s1"
+          ],
+          "id": "s2",
+          "input_types": [
+            "demo_spec"
+          ],
+          "operation": "build_single_file_html_animation",
+          "output_types": [
+            "html_animation_file"
+          ],
+          "source_evidence": [
+            {
+              "message_id": "conv_bb5fd9d54d25:msg_1",
+              "source_id": "conv_bb5fd9d54d25"
+            },
+            {
+              "message_id": "conv_c1ce48280769:msg_1",
+              "source_id": "conv_c1ce48280769"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        "未指定的模块与样式按通用默认处理并说明",
+        "交付前运行验证（游戏类验证可玩性）",
+        "交互类输出须实际核验浏览器可打开可运行",
+        "汇报总结类页面按静态页处理，不强制动画交互",
+        "页面内容仅取自用户给定汇报材料，删改段落以用户指定原文为准，不虚构",
+        "未指定模块按通用默认处理并说明"
+      ],
+      "library_status": "retained"
+    },
+    {
+      "id": "webpage-doc-batch-download",
+      "name": "网页文档批量下载路线",
+      "category": "OFFICE",
+      "source_ids": [
+        "conv_e09b70c51b19"
+      ],
+      "steps": [
+        "打开用户给的列表页，枚举全部文档链接，翻页找全",
+        "逐个下载文档，按原文件名保存并记录清单",
+        "核对下载数量与页面条数一致，损坏文件重下",
+        "回报下载目录和文件清单"
+      ],
+      "conditions": [],
+      "library_status": "candidate"
+    },
+    {
+      "id": "work-log-date-recap",
+      "name": "按日期汇总个人工作记录成文",
+      "category": "KNOW",
+      "source_ids": [
+        "conv_184c226c5423"
+      ],
+      "steps": [
+        "按用户给的日期范围收集会话、记忆等历史记录",
+        "按日期归纳每天做了什么，归类到项目或事项",
+        "生成word工作记录文档并返回路径"
+      ],
+      "conditions": [
+        "只归纳真实历史记录，无记录的时段如实说明，不编造工作内容"
+      ],
+      "library_status": "needs_revision"
+    },
+    {
+      "id": "workitem-batch-creation",
+      "name": "改动点批量建工作项路线",
+      "category": "TECH",
+      "source_ids": [
+        "conv_143452559f75",
+        "conv_28cc7559789d"
+      ],
+      "steps": [
+        "读用户提交的代码commit或总结文档，提取改动点",
+        "按缺陷/任务/需求分类，不同类分别建单跟进",
+        "定位gitee项目：先自动搜索，搜不到再问用户，不乱指定",
+        "逐项建单，标题用大白话简明描述，未指定负责人默认当前用户，最后回报建单结果"
+      ],
+      "conditions": [
+        "需要gitee凭据，由用户当次提供",
+        "项目不确定时先搜后问，不默认指定"
+      ],
+      "library_status": "candidate"
+    },
+    {
+      "id": "workitem-weekly-report",
+      "name": "工作项周期周报生成路线",
+      "category": "TECH",
+      "source_ids": [
+        "conv_073150ee30be",
+        "conv_d5047f96985d"
+      ],
+      "steps": [
+        "按用户给的时间范围，从工作项系统筛选已完成/已验收的需求、缺陷、任务和PR记录",
+        "按类型汇总合并成周报条目，只统计当前周期，不重复计数",
+        "生成周报文档并按用户要求@指定人分享；数据被质疑时先排查口径再重跑"
+      ],
+      "conditions": [
+        "需要工作项系统（lark-cli等）授权凭据，凭据不可用时明示缺失",
+        "时间范围与统计口径以用户指定为准",
+        "定时刷新复用scheduled-task-config；授权引导复用skill-connector-setup；整理知识库部分归knowledge-base-maintenance",
+        "Gitee数据采集脚本可复用，日期范围为上周一至周日",
+        "飞书文档写入依赖bot身份或用户授权，授权链接过期需重新发起"
+      ],
+      "library_status": "candidate"
+    }
+  ]
+}
