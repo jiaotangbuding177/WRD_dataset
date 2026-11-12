@@ -21,6 +21,8 @@
 
 Spark 启动 v2 `14b yarn128 0,241` 服务，使用已核对的适配器和启动日志。x86 工具主机使用固定 OpenClaw 2026.9.5 镜像，把已授权的 Spark 私有链路映射到本机 `127.0.0.1:18758`。本机 18759 由原生中继独占。模型启动和连通步骤见 [THIN_PIPELINE.md](THIN_PIPELINE.md)，镜像恢复见 [OPENCLAW_RESTORE.md](../../OPENCLAW_RESTORE.md)。模型凭据放在运行目录和回包之外。
 
+遇到 14B-241 在思考段连续复读时，可在 Spark 核验并接入[同一请求内复读修复候选](execution/spark/reasoning_guard/README.md)。该候选已通过 CPU 检查，Spark 预发布镜像兼容性与实际技能交付待验证。
+
 ```bash
 set -eu
 git clone --depth 1 --single-branch --branch codex/wrd58-reused-routes \
